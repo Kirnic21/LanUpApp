@@ -28,20 +28,5 @@ target 'LanUpReactNativeBoilerplate' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  target 'LanUpReactNativeBoilerplateTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  use_native_modules!
-end
-
-target 'LanUpReactNativeBoilerplate-tvOS' do
-  # Pods for LanUpReactNativeBoilerplate-tvOS
-
-  target 'LanUpReactNativeBoilerplate-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
+  # use_native_modules!
 end
