@@ -13,7 +13,14 @@ import {
   TextInput
 } from "react-native";
 
-class LogIntoPage extends Component {
+class LoginEmailPassword extends Component {
+
+  goToLoginNickName = () => this.props.navigation.navigate('LoginNickName') 
+
+  SelectedInput = (event) => {
+    debugger;
+  }
+
   render() {
     return (
       <View style={styles.logoContainer}>
@@ -29,7 +36,7 @@ class LogIntoPage extends Component {
               <Text style={{ color: "white" }}>E-mail</Text>
             </View>
             <View>
-              <TouchableOpacity style={styles.TextInput}>
+              <TouchableOpacity style={styles.TextInput} onPress={(event) => this.SelectedInput(event)}> 
                 <TextInput
                   style={{ height: 50 }}
                   onChangeText={event => setItemText(index, event, card)}
@@ -48,27 +55,12 @@ class LogIntoPage extends Component {
               </TouchableOpacity>
             </View>
             <View style={{alignItems: "center"}}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={this.goToLoginNickName}>  
                     <Text style={{ color: "white" }}>Continuar</Text>
                 </TouchableOpacity>
             </View>
           </View>
 
-          <View
-            style={{ flexDirection: "row", paddingHorizontal: 50, alignItems: "center", margin: 45 }}
-          >
-            <View>
-              <Text style={{ color: "white" }}>Já tem uma conta?</Text>
-            </View>
-            <View>
-              <Text
-                style={{ color: "#6A5ACD" }}
-                onPress={() => Linking.openURL("#")}
-              >
-                Entrar
-              </Text>
-            </View>
-          </View>
         </ImageBackground>
       </View>
     );
@@ -100,6 +92,11 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderRadius: 50
   },
+  TextInputSelected: {
+    borderColor: "white",
+    borderWidth: 1.5,
+    borderRadius: 50
+  },
   button: {
     margin:20,
     justifyContent: "center",
@@ -113,4 +110,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LogIntoPage;
+export default LoginEmailPassword;

@@ -15,7 +15,7 @@ import {
 
 class LoginPage extends Component {
 
-  goToLogInto = () => this.props.navigation.navigate('LogIntoPage')
+  goToLoginEmailPassword = () => this.props.navigation.navigate('LoginEmailPassword') 
 
   render() {
     return (
@@ -36,7 +36,7 @@ class LoginPage extends Component {
             <Text style={{ color: "white" }}>ou</Text>
           </View>
           <View style={styles.buttonContent}>
-            <TouchableOpacity style={styles.buttonEmail} onPress={this.goToLogInto}>
+            <TouchableOpacity style={styles.buttonEmail} onPress={this.goToLoginEmailPassword}>
               <Text style={{ color: "white" }}>Conectar com e-mail </Text>
             </TouchableOpacity>
           </View>
