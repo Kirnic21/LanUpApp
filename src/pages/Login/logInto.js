@@ -8,15 +8,12 @@ import {
   ImageBackground,
   Dimensions,
   Image,
-  Button,
   TouchableOpacity,
-  Text
+  Text,
+  TextInput
 } from "react-native";
 
-class LoginPage extends Component {
-
-  goToLogInto = () => this.props.navigation.navigate('LogIntoPage')
-
+class LogIntoPage extends Component {
   render() {
     return (
       <View style={styles.logoContainer}>
@@ -27,20 +24,39 @@ class LoginPage extends Component {
           <View style={styles.logoImage}>
             <Image source={ImageLogo} style={{ width: 200, height: 100 }} />
           </View>
-          <View style={styles.buttonContent}>
-            <TouchableOpacity style={styles.buttonFacebook}>
-              <Text style={{ color: "white" }}>Conectar com facebook </Text>
-            </TouchableOpacity>
+          <View style={{ paddingHorizontal: 50 }}>
+            <View>
+              <Text style={{ color: "white" }}>E-mail</Text>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.TextInput}>
+                <TextInput
+                  style={{ height: 50 }}
+                  onChangeText={event => setItemText(index, event, card)}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={{ paddingTop: 10 }}>
+              <Text style={{ color: "white" }}>Senha</Text>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.TextInput}>
+                <TextInput
+                  style={{ height: 50 }}
+                  onChangeText={event => setItemText(index, event, card)}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={{alignItems: "center"}}>
+                <TouchableOpacity style={styles.button}>
+                    <Text style={{ color: "white" }}>Continuar</Text>
+                </TouchableOpacity>
+            </View>
           </View>
-          <View style={{ flexDirection: "row", margin: 10 }}>
-            <Text style={{ color: "white" }}>ou</Text>
-          </View>
-          <View style={styles.buttonContent}>
-            <TouchableOpacity style={styles.buttonEmail} onPress={this.goToLogInto}>
-              <Text style={{ color: "white" }}>Conectar com e-mail </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ flexDirection: "row", alignItems: "center", margin: 50 }}>
+
+          <View
+            style={{ flexDirection: "row", paddingHorizontal: 50, alignItems: "center", margin: 45 }}
+          >
             <View>
               <Text style={{ color: "white" }}>Já tem uma conta?</Text>
             </View>
@@ -63,11 +79,11 @@ const { height, width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   ImageBackgroundContainer: {
-    alignItems: "center",
     width: "100%",
     height: "100%"
   },
   logoContainer: {
+    alignItems: "center",
     height: height,
     width: width
   },
@@ -79,25 +95,22 @@ const styles = StyleSheet.create({
     width: 280,
     margin: 20
   },
-  buttonFacebook: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#141364",
+  TextInput: {
     borderColor: "white",
     borderWidth: 1.5,
-    borderRadius: 50,
-    height: 55
+    borderRadius: 50
   },
-  buttonEmail: {
-    flex: 1,
+  button: {
+    margin:20,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: "white",
+    backgroundColor: "#483D8B",
+    borderColor: "#483D8B",
     borderWidth: 1.5,
     borderRadius: 50,
-    height: 55
+    height: 55,
+    width: 150
   }
 });
 
-export default LoginPage;
+export default LogIntoPage;
