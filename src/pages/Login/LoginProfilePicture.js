@@ -13,6 +13,7 @@ import {
   Text,
   TextInput
 } from "react-native";
+import CoreTemplate from "~/shared/components/CoreTemplate";
 
 class LoginProfilePicture extends Component {
   state = {
@@ -25,43 +26,28 @@ class LoginProfilePicture extends Component {
     }
   };
 
-  goToLoginCropProfilePhoto = () => this.props.navigation.navigate('LoginCropProfilePhoto') 
+  goToLoginCropProfilePhoto = () => this.props.navigation.navigate('LoginCropProfilePhoto')
 
   render() {
     return (
-      <View style={styles.logoContainer}>
-        <ImageBackground
-          source={ImageBack}
-          style={styles.ImageBackgroundContainer}
-        >
-          <View style={styles.logoNickName}>
-            <ImageBackground
-              source={ImageNickname}
-              style={styles.ImageBackgroundNickName}
+      <CoreTemplate name="Kaori">
+        <View style={{ paddingHorizontal: 50 }}>
+          <View style={{ alignItems: "center" }}>
+            <Text style={{ color: "white", fontSize: 20 }}>Adicionar foto de perfil</Text>
+          </View>
+          <View style={{ alignItems: "center", margin: 5 }}>
+            <Image source={ImageProfile} style={{ width: 110, height: 110 }} />
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={this.goToLoginCropProfilePhoto}
             >
-              <View style={{margin:30, width:300, marginHorizontal:10}}>
-                <Text style={{ color: "white", fontSize:36 }}>Kaori</Text>
-              </View>
-            </ImageBackground>
+              <Text style={{ color: "white" }}>Tirar foto</Text>
+            </TouchableOpacity>
           </View>
-          <View style={{ paddingHorizontal: 50 }}>
-            <View style={{ alignItems: "center" }}>
-              <Text style={{ color: "white", fontSize: 20}}>Adicionar foto de perfil</Text>
-            </View>
-            <View style={{ alignItems: "center", margin:5}}>
-                <Image source={ImageProfile} style={{ width: 110, height: 110 }} />
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={this.goToLoginCropProfilePhoto} 
-              >
-                <Text style={{ color: "white" }}>Tirar foto</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ImageBackground>
-      </View>
+        </View>
+      </CoreTemplate>
     );
   }
 }

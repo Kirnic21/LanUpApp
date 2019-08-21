@@ -1,7 +1,7 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
 
 import HomePage from "./pages/Home";
-import LoginPage from "./pages/Login/Login";
+import LoginPage from "./pages/Login";
 import LoginEmailPassword from "./pages/Login/LoginEmailPassword";
 import LoginNickName from "./pages/Login/LoginNickName";
 import LoginProfilePicture from "./pages/Login/LoginProfilePicture";

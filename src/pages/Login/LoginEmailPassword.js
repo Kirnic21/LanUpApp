@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import ImageBack from "./../../assets/images/Grupo_518.png";
-import ImageLogo from "./../../assets/images/LanUp_logo2.png";
+import CoreTemplate from "~/shared/components/CoreTemplate";
 
 import {
   StyleSheet,
   View,
   ImageBackground,
-  Dimensions,
   Image,
   TouchableOpacity,
   Text,
@@ -15,7 +13,7 @@ import {
 
 class LoginEmailPassword extends Component {
 
-  goToLoginNickName = () => this.props.navigation.navigate('LoginNickName') 
+  goToLoginNickName = () => this.props.navigation.navigate('LoginNickName')
 
   SelectedInput = (event) => {
     debugger;
@@ -23,65 +21,43 @@ class LoginEmailPassword extends Component {
 
   render() {
     return (
-      <View style={styles.logoContainer}>
-        <ImageBackground
-          source={ImageBack}
-          style={styles.ImageBackgroundContainer}
-        >
-          <View style={styles.logoImage}>
-            <Image source={ImageLogo} style={{ width: 200, height: 100 }} />
-          </View>
-          <View style={{ paddingHorizontal: 50 }}>
-            <View>
-              <Text style={{ color: "white" }}>E-mail</Text>
-            </View>
-            <View>
-              <TouchableOpacity style={styles.TextInput} onPress={(event) => this.SelectedInput(event)}> 
-                <TextInput
-                  style={{ height: 50 }}
-                  onChangeText={event => setItemText(index, event, card)}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={{ paddingTop: 10 }}>
-              <Text style={{ color: "white" }}>Senha</Text>
-            </View>
-            <View>
-              <TouchableOpacity style={styles.TextInput}>
-                <TextInput
-                  style={{ height: 50 }}
-                  onChangeText={event => setItemText(index, event, card)}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={{alignItems: "center"}}>
-                <TouchableOpacity style={styles.button} onPress={this.goToLoginNickName}>  
-                    <Text style={{ color: "white" }}>Continuar</Text>
-                </TouchableOpacity>
-            </View>
-          </View>
 
-        </ImageBackground>
-      </View>
+      <CoreTemplate>
+        <View>
+          <View>
+            <Text style={{ color: "white" }}>E-mail</Text>
+          </View>
+          <View>
+            <TouchableOpacity style={styles.TextInput} onPress={(event) => this.SelectedInput(event)}>
+              <TextInput
+                style={{ height: 50 }}
+              // onChangeText={event => setItemText(index, event, card)}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={{ paddingTop: 10 }}>
+            <Text style={{ color: "white" }}>Senha</Text>
+          </View>
+          <View>
+            <TouchableOpacity style={styles.TextInput}>
+              <TextInput
+                style={{ height: 50 }}
+              // onChangeText={event => setItemText(index, event, card)}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <TouchableOpacity style={styles.button} onPress={this.goToLoginNickName}>
+              <Text style={{ color: "white" }}>Continuar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </CoreTemplate>
     );
   }
 }
 
-const { height, width } = Dimensions.get("window");
-
 const styles = StyleSheet.create({
-  ImageBackgroundContainer: {
-    width: "100%",
-    height: "100%"
-  },
-  logoContainer: {
-    alignItems: "center",
-    height: height,
-    width: width
-  },
-  logoImage: {
-    margin: 60
-  },
   buttonContent: {
     flexDirection: "row",
     width: 280,
@@ -98,7 +74,7 @@ const styles = StyleSheet.create({
     borderRadius: 50
   },
   button: {
-    margin:20,
+    margin: 20,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#483D8B",

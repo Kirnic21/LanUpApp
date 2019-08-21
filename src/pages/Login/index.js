@@ -1,32 +1,21 @@
 import React, { Component } from "react";
-import ImageBack from "./../../assets/images/Grupo_518.png";
-import ImageLogo from "./../../assets/images/LanUp_logo2.png";
+import CoreTemplate from "../../shared/components/CoreTemplate"
 
 import {
   StyleSheet,
   View,
-  ImageBackground,
   Dimensions,
-  Image,
-  Button,
   TouchableOpacity,
   Text
 } from "react-native";
 
 class LoginPage extends Component {
 
-  goToLoginEmailPassword = () => this.props.navigation.navigate('LoginEmailPassword') 
+  goToLoginEmailPassword = () => this.props.navigation.navigate('LoginEmailPassword')
 
   render() {
     return (
-      <View style={styles.logoContainer}>
-        <ImageBackground
-          source={ImageBack}
-          style={styles.ImageBackgroundContainer}
-        >
-          <View style={styles.logoImage}>
-            <Image source={ImageLogo} style={{ width: 200, height: 100 }} />
-          </View>
+        <CoreTemplate>
           <View style={styles.buttonContent}>
             <TouchableOpacity style={styles.buttonFacebook}>
               <Text style={{ color: "white" }}>Conectar com facebook </Text>
@@ -53,27 +42,12 @@ class LoginPage extends Component {
               </Text>
             </View>
           </View>
-        </ImageBackground>
-      </View>
+        </CoreTemplate>
     );
   }
 }
 
-const { height, width } = Dimensions.get("window");
-
 const styles = StyleSheet.create({
-  ImageBackgroundContainer: {
-    alignItems: "center",
-    width: "100%",
-    height: "100%"
-  },
-  logoContainer: {
-    height: height,
-    width: width
-  },
-  logoImage: {
-    margin: 60
-  },
   buttonContent: {
     flexDirection: "row",
     width: 280,
