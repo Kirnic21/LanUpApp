@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ImageBack from "./../../assets/images/Grupo_518.png";
 import ImageNickname from "./../../assets/images/Grupo_529.png";
 import ImageProfile from "./../../assets/images/backgroud.png";
+import ArrowRight from "./../../assets/images/arrowRight.png";
 
 import {
   StyleSheet,
@@ -11,8 +12,9 @@ import {
   Image,
   TouchableOpacity,
   Text,
-  Divider
+  ScrollView
 } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 
 class LoginPerfil extends Component {
   state = {
@@ -25,25 +27,132 @@ class LoginPerfil extends Component {
     }
   };
 
+  renderSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 2,
+          width: "90%",
+          backgroundColor: "#18142F",
+          marginLeft: "5%",
+          marginRight: "10%"
+        }}
+      />
+    );
+  };
+
+  infoProfile = () => this.props.navigation.navigate('InfoProfile')
+
   render() {
     return (
-      <View style={styles.Container}>
+      <ScrollView contentContainerStyle={styles.Container}>
         <View style={{ alignItems: "center", marginTop: '25%' }}>
-          <Image source={ImageProfile} style={styles.TextInput} />
+          <TouchableOpacity onPress={this.infoProfile}>
+            <Image source={ImageProfile}
+              style={styles.TextInput}
+            />
+          </TouchableOpacity>
         </View>
         <Text style={styles.submitText}>Pré-visualizar o perfil</Text>
-        <View style={styles.list}>
-          <View style={styles.item}>
-            <Text style={{ color: 'white', fontSize: 18 }}>
-              Sobre mim
-            </Text>
-            <Text style={{ color: 'gray', fontSize: 15, marginTop: 7 }}>
-              Sua foto de perfil, apresentação e mais
-            </Text>
-            <Divider style={{ backgroundColor: 'white' }} />
-          </View>
-        </View>
-      </View>
+        <FlatList
+          contentContainerStyle={styles.list}
+          data={[
+            {
+              title: 'Sobre mim',
+              subtitle: 'Sua foto de perfil, apresentação e mais'
+            },
+            {
+              title: 'Profissão',
+              subtitle: 'Área de operação e habilidades'
+            },
+            {
+              title: 'Midias',
+              subtitle: 'Fotos e videos de seu trabalho'
+            },
+            {
+              title: 'Extrato',
+              subtitle: 'Pagamentos e recebimento'
+            },
+            {
+              title: 'Cursos',
+              subtitle: 'Tenha nosso certificado profissional'
+            }
+          ]}
+          renderItem={({ item }) => (
+            <View style={{ ...styles.item, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
+              <View>
+                <Text style={{ color: 'white', fontSize: 15, marginBottom: 5 }}>
+                  {item.title}
+                </Text>
+                <Text style={{ color: 'gray', fontSize: 13, borderBottomWidth: 0, borderTopWidth: 0 }}>
+                  {item.subtitle}
+                </Text>
+              </View>
+              <Image source={ArrowRight} style={{ width: 20, height: 20 }} />
+            </View>
+          )}
+          ItemSeparatorComponent={this.renderSeparator}
+        />
+        <Text style={styles.agency}>Sou uma Agência</Text>
+        <FlatList
+          contentContainerStyle={styles.list}
+          data={[
+            {
+              title: 'Configurações',
+              subtitle: 'Notificações, senha e mais'
+            },
+            {
+              title: 'Dados bancários',
+              subtitle: 'Visualize e mude seus dados bancários'
+            }
+          ]}
+          renderItem={({ item }) => (
+            <View style={styles.item}>
+              <Text style={{ color: 'white', fontSize: 15, marginBottom: 5 }}>
+                {item.title}
+              </Text>
+              <Text style={{ color: 'gray', fontSize: 13, borderBottomWidth: 0, borderTopWidth: 0 }}>
+                {item.subtitle}
+              </Text>
+            </View>
+
+          )}
+          ItemSeparatorComponent={this.renderSeparator}
+        />
+        <FlatList
+          contentContainerStyle={styles.list}
+          data={[
+            {
+              title: 'Avaliar aplicativo'
+            },
+            {
+              title: 'FAQ'
+            },
+            {
+              title: 'Principios da Comunidade'
+            },
+            {
+              title: 'Enviar feedback'
+            },
+            {
+              title: 'Sobre o LanUp'
+            },
+            {
+              title: 'Termos de serviço'
+            }
+          ]}
+          renderItem={({ item }) => (
+            <View style={styles.item}>
+              <Text style={{ color: 'white', fontSize: 15 }}>
+                {item.title}
+              </Text>
+            </View>
+
+          )}
+          ItemSeparatorComponent={this.renderSeparator}
+        />
+        <Text style={{ ...styles.submitText, color: 'white', marginBottom: 30 }}>Terminar sessão</Text>
+      </ScrollView>
     );
   }
 }
@@ -61,7 +170,6 @@ const styles = StyleSheet.create({
   },
   Container: {
     alignItems: "center",
-    height: height,
     width: width,
     backgroundColor: "#18142F"
   },
@@ -76,7 +184,7 @@ const styles = StyleSheet.create({
   TextInput: {
     borderColor: "white",
     borderWidth: 1.8,
-    borderRadius: 50,
+    borderRadius: 55,
     width: 110,
     height: 110
   },
@@ -105,20 +213,29 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     backgroundColor: '#24203B',
     borderRadius: 20,
-    fontSize: 18,
+    fontSize: 15,
     width: '70%'
+  },
+  agency: {
+    marginTop: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+    color: '#46C5F3',
+    padding: 20,
+    backgroundColor: '#24203B',
+    borderRadius: 10,
+    fontSize: 15,
+    width: 340
   },
   list: {
     marginTop: 20,
     backgroundColor: '#24203B',
-    height: '50%',
-    width: '90%',
-    borderRadius: 20,
+    width: 340,
+    borderRadius: 20
   },
   item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44
+    padding: 20,
+    fontSize: 18
   }
 });
 
