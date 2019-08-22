@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ImageBack from "./../../assets/images/Grupo_518.png";
 import ImageNickname from "./../../assets/images/Grupo_529.png";
-import ImageProfile from "./../../assets/images/Grupo_528.png";
+import ImageProfile from "./../../assets/images/backgroud.png";
 
 import {
   StyleSheet,
@@ -10,10 +10,11 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  Text
+  Text,
+  Divider
 } from "react-native";
 
-class LoginCropProfilePhoto extends Component {
+class LoginPerfil extends Component {
   state = {
     selected: false
   };
@@ -27,7 +28,21 @@ class LoginCropProfilePhoto extends Component {
   render() {
     return (
       <View style={styles.Container}>
-        
+        <View style={{ alignItems: "center", marginTop: '25%' }}>
+          <Image source={ImageProfile} style={styles.TextInput} />
+        </View>
+        <Text style={styles.submitText}>Pré-visualizar o perfil</Text>
+        <View style={styles.list}>
+          <View style={styles.item}>
+            <Text style={{ color: 'white', fontSize: 18 }}>
+              Sobre mim
+            </Text>
+            <Text style={{ color: 'gray', fontSize: 15, marginTop: 7 }}>
+              Sua foto de perfil, apresentação e mais
+            </Text>
+            <Divider style={{ backgroundColor: 'white' }} />
+          </View>
+        </View>
       </View>
     );
   }
@@ -48,7 +63,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: height,
     width: width,
-    backgroundColor: "#2B274D" 
+    backgroundColor: "#18142F"
   },
   logoNickName: {
     margin: 60
@@ -61,13 +76,15 @@ const styles = StyleSheet.create({
   TextInput: {
     borderColor: "white",
     borderWidth: 1.8,
-    borderRadius: 50
+    borderRadius: 50,
+    width: 110,
+    height: 110
   },
   TextInputSelected: {
     borderColor: "#F13567",
     borderWidth: 1.8,
     borderRadius: 50,
-    height: 56
+    height: 60
   },
   button: {
     margin: 20,
@@ -79,7 +96,30 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 55,
     width: 150
+  },
+  submitText: {
+    marginTop: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    color: '#46C5F3',
+    textAlign: 'center',
+    backgroundColor: '#24203B',
+    borderRadius: 20,
+    fontSize: 18,
+    width: '70%'
+  },
+  list: {
+    marginTop: 20,
+    backgroundColor: '#24203B',
+    height: '50%',
+    width: '90%',
+    borderRadius: 20,
+  },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44
   }
 });
 
-export default LoginCropProfilePhoto;
+export default LoginPerfil;

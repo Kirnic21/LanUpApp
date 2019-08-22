@@ -31,4 +31,8 @@ target 'LanUpReactNativeBoilerplate' do
   # use_native_modules!
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
+
 end

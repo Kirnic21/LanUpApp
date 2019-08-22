@@ -14,6 +14,8 @@ import {
   TextInput
 } from "react-native";
 import CoreTemplate from "~/shared/components/CoreTemplate";
+import { loadFromCamera, loadFromGallery } from "~/shared/service/imagepicker/ImagePickerService";
+import ImagePicker from 'react-native-image-crop-picker'
 
 class LoginProfilePicture extends Component {
   state = {
@@ -26,7 +28,15 @@ class LoginProfilePicture extends Component {
     }
   };
 
-  goToLoginCropProfilePhoto = () => this.props.navigation.navigate('LoginCropProfilePhoto')
+  goToLoginCropProfilePhoto = () => {
+    ImagePicker.openPicker({ 
+      width: 30,
+      height: 40,
+      cropperCircleOverlay: true,
+      cropping: true
+    })
+      .then(result => this.props.navigation.navigate('LoginPerfil'))
+  }
 
   render() {
     return (
@@ -43,7 +53,7 @@ class LoginProfilePicture extends Component {
               style={styles.button}
               onPress={this.goToLoginCropProfilePhoto}
             >
-              <Text style={{ color: "white" }}>Tirar foto</Text>
+              <Text style={{ color: "white" }}>Adicionar Foto</Text>
             </TouchableOpacity>
           </View>
         </View>

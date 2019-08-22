@@ -5,7 +5,7 @@ import LoginPage from "./pages/Login";
 import LoginEmailPassword from "./pages/Login/LoginEmailPassword";
 import LoginNickName from "./pages/Login/LoginNickName";
 import LoginProfilePicture from "./pages/Login/LoginProfilePicture";
-import LoginCropProfilePhoto from "./pages/Login/LoginCropProfilePhoto"; 
+import LoginPerfil from "./pages/Login/LoginPerfil"; 
 
 const StackNavigator = createStackNavigator({
   LoginPage: { screen: LoginPage, navigationOptions: { header: null } },
@@ -30,12 +30,12 @@ const StackNavigator = createStackNavigator({
         headerTintColor: 'white'
     }
   },
-  LoginCropProfilePhoto: {
-    screen: LoginCropProfilePhoto,
+  LoginPerfil: {
+    screen: LoginPerfil,
     navigationOptions: {
         headerTransparent: true,
         headerTintColor: 'white',
-        headerTitle: 'Cortar a foto do perfil'
+        headerTitle: 'Perfil'
     }
   },
   HomePage,
