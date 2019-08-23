@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import ImageBack from "./../../assets/images/Grupo_518.png";
-import ImageNickname from "./../../assets/images/Grupo_529.png";
 import ImageProfile from "./../../assets/images/backgroud.png";
 import ArrowRight from "./../../assets/images/arrowRight.png";
 
@@ -41,13 +39,13 @@ class LoginPerfil extends Component {
     );
   };
 
-  infoProfile = () => this.props.navigation.navigate('InfoProfile')
+  aboutMe = () => this.props.navigation.navigate('AboutMe')
 
   render() {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
         <View style={{ alignItems: "center", marginTop: '25%' }}>
-          <TouchableOpacity onPress={this.infoProfile}>
+          <TouchableOpacity onPress={this.aboutMe}>
             <Image source={ImageProfile}
               style={styles.TextInput}
             />
@@ -70,12 +68,8 @@ class LoginPerfil extends Component {
               subtitle: 'Fotos e videos de seu trabalho'
             },
             {
-              title: 'Extrato',
-              subtitle: 'Pagamentos e recebimento'
-            },
-            {
-              title: 'Cursos',
-              subtitle: 'Tenha nosso certificado profissional'
+              title: 'Histórico de trabalho',
+              subtitle: 'Trabalho, avaliações e recomendações'
             }
           ]}
           renderItem={({ item }) => (
@@ -99,11 +93,7 @@ class LoginPerfil extends Component {
           data={[
             {
               title: 'Configurações',
-              subtitle: 'Notificações, senha e mais'
-            },
-            {
-              title: 'Dados bancários',
-              subtitle: 'Visualize e mude seus dados bancários'
+              subtitle: 'Senha e mais'
             }
           ]}
           renderItem={({ item }) => (
@@ -119,7 +109,7 @@ class LoginPerfil extends Component {
           )}
           ItemSeparatorComponent={this.renderSeparator}
         />
-        <FlatList
+        {/* <FlatList
           contentContainerStyle={styles.list}
           data={[
             {
@@ -150,7 +140,7 @@ class LoginPerfil extends Component {
 
           )}
           ItemSeparatorComponent={this.renderSeparator}
-        />
+        /> */}
         <Text style={{ ...styles.submitText, color: 'white', marginBottom: 30 }}>Terminar sessão</Text>
       </ScrollView>
     );

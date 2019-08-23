@@ -7,6 +7,7 @@ import LoginNickName from "./pages/Login/LoginNickName";
 import LoginProfilePicture from "./pages/Login/LoginProfilePicture";
 import LoginPerfil from "./pages/Login/LoginPerfil";
 import InfoProfile from "./pages/Login/InfoProfile";
+import AboutMe from "./pages/Login/AboutMe";
 
 const StackNavigator = createStackNavigator({
   LoginPage: { screen: LoginPage, navigationOptions: { header: null } },
@@ -47,6 +48,17 @@ const StackNavigator = createStackNavigator({
       headerTransparent: true,
       headerTintColor: 'white',
       headerTitle: 'Perfil'
+    }
+  },
+  AboutMe: {
+    screen: AboutMe,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+      headerTransparent: true,
+      headerTintColor: 'white',
+      headerTitle: 'Sobre mim'
     }
   },
   HomePage,
