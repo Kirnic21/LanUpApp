@@ -290,12 +290,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#24203B',
     borderRadius: 10,
     fontSize: 15,
-    width: 340
+    width: width - 50
   },
   list: {
     marginTop: 20,
     backgroundColor: '#24203B',
-    width: 340,
+    width: width - 50,
     borderRadius: 20
   },
   item: {

@@ -37,13 +37,16 @@ class LoginPerfil extends Component {
     );
   };
 
-  aboutMe = () => this.props.navigation.navigate('AboutMe')
+  aboutMe = () => {
+    debugger
+    this.props.navigation.navigate('AboutMe')
+  }
 
   render() {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
         <View style={{ alignItems: "center", marginTop: '25%' }}>
-          <TouchableOpacity onPress={this.aboutMe}>
+          <TouchableOpacity style={styles.TextInput} onPress={this.aboutMe}>
             <Image source={ImageProfile}
               style={styles.TextInput}
             />
@@ -95,7 +98,7 @@ class LoginPerfil extends Component {
             }
           ]}
           renderItem={({ item }) => (
-            <View style={styles.item}>
+            <View style={styles.item} onTouchStart={e => this.aboutMe()}>
               <Text style={{ color: 'white', fontSize: 15, marginBottom: 5 }}>
                 {item.title}
               </Text>
