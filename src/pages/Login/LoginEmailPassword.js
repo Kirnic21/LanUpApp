@@ -30,7 +30,7 @@ class LoginEmailPassword extends Component {
           <View>
             <TouchableOpacity style={styles.TextInput} onPress={(event) => this.SelectedInput(event)}>
               <TextInput
-                style={{ height: 50 }}
+                style={{ height: 50, width: 333 }}
               // onChangeText={event => setItemText(index, event, card)}
               />
             </TouchableOpacity>

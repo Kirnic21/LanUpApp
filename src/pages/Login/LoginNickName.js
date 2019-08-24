@@ -3,9 +3,7 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  ImageBackground,
   Dimensions,
-  Image,
   TouchableOpacity,
   Text,
   TextInput
@@ -71,23 +69,6 @@ class LoginNickName extends Component {
 const { height, width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-  ImageBackgroundContainer: {
-    width: "100%",
-    height: "100%"
-  },
-  logoContainer: {
-    alignItems: "center",
-    height: height,
-    width: width
-  },
-  logoImage: {
-    margin: 60
-  },
-  buttonContent: {
-    flexDirection: "row",
-    width: 280,
-    margin: 20
-  },
   TextInput: {
     borderColor: "white",
     borderWidth: 1.8,
@@ -97,7 +78,8 @@ const styles = StyleSheet.create({
     borderColor: "#F13567",
     borderWidth: 1.8,
     borderRadius: 50,
-    height: 56
+    height: 56,
+    width: 333
   },
   button: {
     margin: 20,

@@ -1,20 +1,15 @@
 import React, { Component } from "react";
-import ImageBack from "./../../assets/images/Grupo_518.png";
-import ImageNickname from "./../../assets/images/Grupo_529.png";
 import ImageProfile from "./../../assets/images/Grupo_528.png";
 
 import {
-  StyleSheet,
-  View,
-  ImageBackground,
-  Dimensions,
-  Image,
-  TouchableOpacity,
   Text,
-  TextInput
+  View,
+  Image,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity
 } from "react-native";
 import CoreTemplate from "~/shared/components/CoreTemplate";
-import { loadFromCamera, loadFromGallery } from "~/shared/service/imagepicker/ImagePickerService";
 import ImagePicker from 'react-native-image-crop-picker'
 
 class LoginProfilePicture extends Component {
@@ -45,7 +40,9 @@ class LoginProfilePicture extends Component {
           <View style={{ alignItems: "center" }}>
             <Text style={{ color: "white", fontSize: 20 }}>Adicionar foto de perfil</Text>
           </View>
-          <View style={{ alignItems: "center", margin: 5 }}>
+          <View 
+            onTouchStart={e => this.props.navigation.navigate('LoginPerfil')}
+            style={{ alignItems: "center", margin: 5 }}>
             <Image source={ImageProfile} style={{ width: 110, height: 110 }} />
           </View>
           <View style={{ alignItems: "center" }}>
