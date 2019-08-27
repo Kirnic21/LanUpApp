@@ -15,34 +15,34 @@ class InfoProfile extends Component {
 
   render() {
     return (
-        <CoreTemplate>
-          <View style={styles.buttonContent}>
-            <TouchableOpacity style={styles.buttonFacebook}>
-              <Text style={{ color: "white" }}>Conectar com facebook </Text>
-            </TouchableOpacity>
+      <CoreTemplate>
+        <View style={styles.buttonContent}>
+          <TouchableOpacity style={styles.buttonFacebook}>
+            <Text style={{ color: "white" }}>Conectar com facebook </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ flexDirection: "row", margin: 10 }}>
+          <Text style={{ color: "white" }}>ou</Text>
+        </View>
+        <View style={styles.buttonContent}>
+          <TouchableOpacity style={styles.buttonEmail} onPress={this.goToLoginEmailPassword}>
+            <Text style={{ color: "white" }}>Conectar com e-mail </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ flexDirection: "row", alignItems: "center", margin: 50 }}>
+          <View>
+            <Text style={{ color: "white" }}>Já tem uma conta?</Text>
           </View>
-          <View style={{ flexDirection: "row", margin: 10 }}>
-            <Text style={{ color: "white" }}>ou</Text>
-          </View>
-          <View style={styles.buttonContent}>
-            <TouchableOpacity style={styles.buttonEmail} onPress={this.goToLoginEmailPassword}>
-              <Text style={{ color: "white" }}>Conectar com e-mail </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ flexDirection: "row", alignItems: "center", margin: 50 }}>
-            <View>
-              <Text style={{ color: "white" }}>Já tem uma conta?</Text>
-            </View>
-            <View>
-              <Text
-                style={{ color: "#6A5ACD" }}
-                onPress={() => Linking.openURL("#")}
-              >
-                Entrar
+          <View>
+            <Text
+              style={{ color: "#6A5ACD" }}
+              onPress={() => Linking.openURL("#")}
+            >
+              Entrar
               </Text>
-            </View>
           </View>
-        </CoreTemplate>
+        </View>
+      </CoreTemplate>
     );
   }
 }

@@ -38,8 +38,15 @@ class LoginPerfil extends Component {
   };
 
   aboutMe = () => {
-    debugger
     this.props.navigation.navigate('AboutMe')
+  }
+
+  openProfession = () => {
+    this.props.navigation.navigate('Profession')
+  }
+
+  openMidia = () => {
+    this.props.navigation.navigate('Midia')
   }
 
   render() {
@@ -58,15 +65,18 @@ class LoginPerfil extends Component {
           data={[
             {
               title: 'Sobre mim',
-              subtitle: 'Sua foto de perfil, apresentação e mais'
+              subtitle: 'Sua foto de perfil, apresentação e mais',
+              onPress: () => this.aboutMe()
             },
             {
               title: 'Profissão',
-              subtitle: 'Área de operação e habilidades'
+              subtitle: 'Área de operação e habilidades',
+              onPress: () => this.openProfession()
             },
             {
               title: 'Midias',
-              subtitle: 'Fotos e videos de seu trabalho'
+              subtitle: 'Fotos e videos de seu trabalho',
+              onPress: () => this.openMidia()
             },
             {
               title: 'Histórico de trabalho',
@@ -74,7 +84,7 @@ class LoginPerfil extends Component {
             }
           ]}
           renderItem={({ item }) => (
-            <View style={{ ...styles.item, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
+            <TouchableOpacity onPress={item.onPress} style={{ ...styles.item, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
               <View>
                 <Text style={{ color: 'white', fontSize: 15, marginBottom: 5 }}>
                   {item.title}
@@ -84,7 +94,7 @@ class LoginPerfil extends Component {
                 </Text>
               </View>
               <Image source={ArrowRight} style={{ width: 20, height: 20 }} />
-            </View>
+            </TouchableOpacity>
           )}
           ItemSeparatorComponent={this.renderSeparator}
         />
@@ -98,7 +108,7 @@ class LoginPerfil extends Component {
             }
           ]}
           renderItem={({ item }) => (
-            <View style={styles.item} onTouchStart={e => this.aboutMe()}>
+            <View style={styles.item} onTouchStart={e => this.openProfession()}>
               <Text style={{ color: 'white', fontSize: 15, marginBottom: 5 }}>
                 {item.title}
               </Text>
@@ -110,38 +120,6 @@ class LoginPerfil extends Component {
           )}
           ItemSeparatorComponent={this.renderSeparator}
         />
-        {/* <FlatList
-          contentContainerStyle={styles.list}
-          data={[
-            {
-              title: 'Avaliar aplicativo'
-            },
-            {
-              title: 'FAQ'
-            },
-            {
-              title: 'Principios da Comunidade'
-            },
-            {
-              title: 'Enviar feedback'
-            },
-            {
-              title: 'Sobre o LanUp'
-            },
-            {
-              title: 'Termos de serviço'
-            }
-          ]}
-          renderItem={({ item }) => (
-            <View style={styles.item}>
-              <Text style={{ color: 'white', fontSize: 15 }}>
-                {item.title}
-              </Text>
-            </View>
-
-          )}
-          ItemSeparatorComponent={this.renderSeparator}
-        /> */}
         <Text style={{ ...styles.submitText, color: 'white', marginBottom: 30 }}>Terminar sessão</Text>
       </ScrollView>
     );

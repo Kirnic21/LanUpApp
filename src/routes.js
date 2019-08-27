@@ -8,6 +8,8 @@ import LoginProfilePicture from "./pages/Login/LoginProfilePicture";
 import LoginPerfil from "./pages/Login/LoginPerfil";
 import InfoProfile from "./pages/Login/InfoProfile";
 import AboutMe from "./pages/Login/AboutMe";
+import Profession from "./pages/Login/Profession";
+import Midia from "./pages/Login/Midia";
 
 const StackNavigator = createStackNavigator({
   LoginPage: { screen: LoginPage, navigationOptions: { header: null } },
@@ -37,6 +39,28 @@ const StackNavigator = createStackNavigator({
     navigationOptions: {
       headerTransparent: true,
       headerTintColor: 'white'
+    }
+  },
+  Profession: {
+    screen: Profession,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+      headerTransparent: true,
+      headerTintColor: 'white',
+      headerTitle: 'Profissão'
+    }
+  },
+  Midia: {
+    screen: Midia,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+      headerTransparent: true,
+      headerTintColor: 'white',
+      headerTitle: 'Midia'
     }
   },
   LoginPerfil: {
