@@ -10,6 +10,7 @@ import InfoProfile from "./pages/Login/InfoProfile";
 import AboutMe from "./pages/Login/AboutMe";
 import Profession from "./pages/Login/Profession";
 import Midia from "./pages/Login/Midia";
+import Agency from "./pages/Login/Agency";
 
 const StackNavigator = createStackNavigator({
   LoginPage: { screen: LoginPage, navigationOptions: { header: null } },
@@ -54,6 +55,17 @@ const StackNavigator = createStackNavigator({
   },
   Midia: {
     screen: Midia,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+      headerTransparent: true,
+      headerTintColor: 'white',
+      headerTitle: 'Midia'
+    }
+  },
+  Agency: {
+    screen: Agency,
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#18142F',

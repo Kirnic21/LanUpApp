@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ImageProfile from "./../../assets/images/backgroud.png";
 import ArrowRight from "./../../assets/images/arrowRight.png";
+import { FlatList } from "react-native-gesture-handler";
 
 import {
   StyleSheet,
@@ -11,7 +12,6 @@ import {
   Text,
   ScrollView
 } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 
 class LoginPerfil extends Component {
   state = {
@@ -47,6 +47,10 @@ class LoginPerfil extends Component {
 
   openMidia = () => {
     this.props.navigation.navigate('Midia')
+  }
+
+  openAgency = () => {
+    this.props.navigation.navigate('Agency')
   }
 
   render() {
@@ -98,7 +102,9 @@ class LoginPerfil extends Component {
           )}
           ItemSeparatorComponent={this.renderSeparator}
         />
-        <Text style={styles.agency}>Sou uma Agência</Text>
+        <TouchableOpacity onPress={this.openAgency}>
+          <Text style={styles.agency}>Sou uma Agência</Text>
+        </TouchableOpacity>
         <FlatList
           contentContainerStyle={styles.list}
           data={[
