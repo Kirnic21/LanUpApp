@@ -53,6 +53,10 @@ class LoginPerfil extends Component {
     this.props.navigation.navigate('Agency')
   }
 
+  openPreviewProfile = () => {
+    this.props.navigation.navigate('PreviewProfile')
+  }
+
   render() {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
@@ -63,7 +67,9 @@ class LoginPerfil extends Component {
             />
           </TouchableOpacity>
         </View>
-        <Text style={styles.submitText}>Pré-visualizar o perfil</Text>
+        <TouchableOpacity onPress={this.openPreviewProfile} style={{ width: 300, alignItems: "center" }}>
+          <Text style={styles.submitText}>Pré-visualizar o perfil</Text>
+        </TouchableOpacity>
         <FlatList
           contentContainerStyle={styles.list}
           data={[

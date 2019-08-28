@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ImageProfile from "./../../assets/images/backgroud.png";
-import ArrowRight from "./../../assets/images/arrowRight.png";
 import Box from '../../shared/components/Box';
 import ImageBody from './../../assets/images/icon_addbody.png';
 import ImageSelf from './../../assets/images/icon_addselfie.png';
@@ -17,10 +16,15 @@ import {
   TextArea
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import ToggleSwitch from "toggle-switch-react-native";
 
 class AboutMe extends Component {
   state = {
-    selected: false
+    selected: false,
+    filhos: false,
+    fumo: false,
+    bebo: false,
+    tatuagem: false
   };
 
   SelectedInput = () => {
@@ -28,6 +32,11 @@ class AboutMe extends Component {
     if (event.selected) {
     }
   };
+
+  onToggle(isOn) {
+    console.log("Changed to " + isOn);
+  }
+
 
   renderSeparator = () => {
     return (
@@ -151,7 +160,7 @@ class AboutMe extends Component {
           )}
         />
         <FlatList
-          contentContainerStyle={{...styles.list, marginBottom: 30}}
+          contentContainerStyle={{ ...styles.list, marginBottom: 30 }}
           data={[
             {
               title: 'Informações Privadas'
@@ -176,23 +185,23 @@ class AboutMe extends Component {
                 <Text style={{ color: "white", marginBottom: 5 }}>Telefone</Text>
               </View>
               <View>
-                <TouchableOpacity style={{...styles.TextInput, marginBottom: 10}}>
+                <TouchableOpacity style={{ ...styles.TextInput, marginBottom: 10 }}>
                   <TextInput
                     style={styles.ValueInput}
                   />
                 </TouchableOpacity>
               </View>
-              <View style={{ flex: 1, flexDirection: 'row', justifyContent: "flex-start"}}>
+              <View style={{ flex: 1, flexDirection: 'row', justifyContent: "flex-start" }}>
                 <Text style={{ color: "white", marginBottom: 5 }}>Nascimento</Text>
-                  <Text style={{ color: "white", marginBottom: 5, marginLeft: 80}}>Genero</Text>
-                </View>
+                <Text style={{ color: "white", marginBottom: 5, marginLeft: 80 }}>Genero</Text>
+              </View>
               <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
-                <TouchableOpacity style={{ ...styles.TextInput, width: 140 }}>
+                <TouchableOpacity style={{ ...styles.TextInput, width: 130 }}>
                   <TextInput
                     style={styles.ValueInput}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity style={{ ...styles.TextInput, width: 140 }}>
+                <TouchableOpacity style={{ ...styles.TextInput, width: 130 }}>
                   <TextInput
                     style={styles.ValueInput}
                   />
@@ -200,19 +209,79 @@ class AboutMe extends Component {
               </View>
               <View style={{ flex: 1, flexDirection: 'row', justifyContent: "flex-start" }}>
                 <Text style={{ color: "white", marginBottom: 5 }}>Altura</Text>
-                  <Text style={{ color: "white", marginBottom: 5, marginLeft: 120}}>Peso</Text>
-                </View>
+                <Text style={{ color: "white", marginBottom: 5, marginLeft: 120 }}>Peso</Text>
+              </View>
               <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-                <TouchableOpacity style={{ ...styles.TextInput, width: 140 }}>
+                <TouchableOpacity style={{ ...styles.TextInput, width: 130 }}>
                   <TextInput
                     style={styles.ValueInput}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity style={{ ...styles.TextInput, width: 140 }}>
+                <TouchableOpacity style={{ ...styles.TextInput, width: 130 }}>
                   <TextInput
                     style={styles.ValueInput}
                   />
                 </TouchableOpacity>
+              </View>
+              <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
+                <Text style={{ color: "white", marginRight: 60 }}>Tenho filhos</Text>
+                <View>
+                  <ToggleSwitch
+                    size="small"
+                    onColor="#483D8B"
+                    offColor="#18142F"
+                    isOn={this.state.filhos}
+                    onToggle={filhos => {
+                      this.setState({ filhos });
+                      this.onToggle(filhos);
+                    }}
+                  />
+                </View>
+              </View>
+              <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
+                <Text style={{ color: "white", marginRight: 85 }}>Eu fumo</Text>
+                <View>
+                  <ToggleSwitch
+                    size="small"
+                    onColor="#483D8B"
+                    offColor="#18142F"
+                    isOn={this.state.fumo}
+                    onToggle={fumo => {
+                      this.setState({ fumo });
+                      this.onToggle(fumo);
+                    }}
+                  />
+                </View>
+              </View>
+              <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
+                <Text style={{ color: "white", marginRight: 85 }}>Eu bebo</Text>
+                <View>
+                  <ToggleSwitch
+                    size="small"
+                    onColor="#483D8B"
+                    offColor="#18142F"
+                    isOn={this.state.bebo}
+                    onToggle={bebo => {
+                      this.setState({ bebo });
+                      this.onToggle(bebo);
+                    }}
+                  />
+                </View>
+              </View>
+              <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
+                <Text style={{ color: "white", marginRight: 35 }}>Tenho tatuagem</Text>
+                <View>
+                  <ToggleSwitch
+                    size="small"
+                    onColor="#483D8B"
+                    offColor="#18142F"
+                    isOn={this.state.tatuagem}
+                    onToggle={tatuagem => {
+                      this.setState({ tatuagem });
+                      this.onToggle(tatuagem);
+                    }}
+                  />
+                </View>
               </View>
             </View>
           )}
@@ -312,6 +381,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 15,
     paddingHorizontal: 20
+  },
+  toggle: {
+    height: 50,
+    width: 50
   }
 });
 
