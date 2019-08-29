@@ -11,6 +11,7 @@ import AboutMe from "./pages/Login/AboutMe";
 import Profession from "./pages/Login/Profession";
 import Midia from "./pages/Login/Midia";
 import Agency from "./pages/Login/Agency";
+import PreviewProfile from "./pages/Login/PreviewProfile";
 
 const StackNavigator = createStackNavigator({
   LoginPage: { screen: LoginPage, navigationOptions: { header: null } },
@@ -42,6 +43,13 @@ const StackNavigator = createStackNavigator({
       headerTintColor: 'white'
     }
   },
+  PreviewProfile: {
+    screen: PreviewProfile,
+    navigationOptions: {
+      headerTransparent: true,
+      headerTintColor: 'white'
+    }
+  },
   Profession: {
     screen: Profession,
     navigationOptions: {
@@ -61,7 +69,7 @@ const StackNavigator = createStackNavigator({
       },
       headerTransparent: true,
       headerTintColor: 'white',
-      headerTitle: 'Midia'
+      headerTitle: 'Midias'
     }
   },
   Agency: {

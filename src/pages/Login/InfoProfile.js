@@ -33,7 +33,7 @@ class InfoProfile extends Component {
           <View>
             <Text style={{ color: "white" }}>Já tem uma conta?</Text>
           </View>
-          <View>
+          <View style={{ marginLeft: 20 }}>
             <Text
               style={{ color: "#6A5ACD" }}
               onPress={() => Linking.openURL("#")}
