@@ -28,7 +28,6 @@ class AboutMe extends Component {
   };
 
   SelectedInput = () => {
-    debugger;
     if (event.selected) {
     }
   };
