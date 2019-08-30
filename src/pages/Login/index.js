@@ -31,11 +31,11 @@ class LoginPage extends Component {
         </View>
         <View style={{ flexDirection: "row", alignItems: "center", margin: 50 }}>
           <View>
-            <Text style={{ color: "white" }}>Já tem uma conta?</Text>
+            <Text style={{ color: "white", marginRight: 10, marginTop: 50 }}>Já tem uma conta?</Text>
           </View>
           <View>
             <Text
-              style={{ color: "#6A5ACD" }}
+              style={{ color: "#6A5ACD", marginTop: 50 }}
               onPress={() => Linking.openURL("#")}
             >
               Entrar

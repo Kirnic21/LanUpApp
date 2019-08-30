@@ -35,7 +35,7 @@ class LoginNickName extends Component {
           <View>
             <TouchableOpacity style={this.state.selected == false ? styles.TextInput : styles.TextInputSelected} onPress={this.SelectedInput}>
               <TextInput
-                style={{ height: 56, color: 'white', fontSize: 18, paddingHorizontal: 20 }}
+                style={{ height: 50, color: 'white', fontSize: 18, paddingHorizontal: 20 }}
               // onChangeText={event => setItemText(index, event, card)}
               />
             </TouchableOpacity>

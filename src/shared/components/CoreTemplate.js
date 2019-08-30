@@ -5,7 +5,8 @@ import {
   Image,
   Dimensions,
   StyleSheet,
-  ImageBackground
+  ImageBackground,
+  StatusBar
 } from 'react-native';
 import ImageBack from "./../../assets/images/Grupo_518.png";
 import ImageNickname from "./../../assets/images/Grupo_529.png";
@@ -13,6 +14,7 @@ import ImageLogo from "./../../assets/images/LanUp_logo2.png";
 
 export default CoreTemplate = props => (
   <View style={styles.logoContainer}>
+    <StatusBar backgroundColor='#18142F' barStyle="light-content" />
     <ImageBackground
       source={ImageBack}
       style={styles.ImageBackgroundContainer}
