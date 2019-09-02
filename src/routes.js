@@ -1,4 +1,4 @@
-import { createAppContainer, createStackNavigator } from "react-navigation";
+import { createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator } from "react-navigation";
 
 import HomePage from "./pages/Home";
 import LoginPage from "./pages/Login";
@@ -12,6 +12,20 @@ import Profession from "./pages/Login/Profession";
 import Midia from "./pages/Login/Midia";
 import Agency from "./pages/Login/Agency";
 import PreviewProfile from "./pages/Login/PreviewProfile";
+import Drawer from './shared/components/Drawer';
+
+const DrawerStack = createDrawerNavigator({
+  Drawer: {
+    screen: Drawer,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+      headerTransparent: true,
+      headerTintColor: 'red'
+    }
+  }
+})
 
 const StackNavigator = createStackNavigator({
   LoginPage: { screen: LoginPage, navigationOptions: { header: null } },
@@ -109,6 +123,16 @@ const StackNavigator = createStackNavigator({
   initialRouteName: "LoginPage"
 });
 
-const Routes = createAppContainer(StackNavigator);
+const MainStack = createSwitchNavigator(
+  {
+    Home: StackNavigator,
+    Drawer: DrawerStack
+  },
+  {
+    initialRouteName: 'Home'
+  }
+);
+
+const Routes = createAppContainer(MainStack);
 
 export default Routes;

@@ -57,6 +57,10 @@ class LoginPerfil extends Component {
     this.props.navigation.navigate('PreviewProfile')
   }
 
+  openDrawer = () => {
+    this.props.navigation.navigate('Drawer')
+  }
+
   render() {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
@@ -79,8 +83,8 @@ class LoginPerfil extends Component {
               onPress: () => this.aboutMe()
             },
             {
-              title: 'Profissão',
-              subtitle: 'Área de operação e habilidades',
+              title: 'Meu Job',
+              subtitle: 'Área de operação, disponibilidade e mais',
               onPress: () => this.openProfession()
             },
             {
@@ -89,8 +93,9 @@ class LoginPerfil extends Component {
               onPress: () => this.openMidia()
             },
             {
-              title: 'Histórico de trabalho',
-              subtitle: 'Trabalho, avaliações e recomendações'
+              title: 'Histórico de trabalho(DRAWER)',
+              subtitle: 'Trabalho, avaliações e recomendações',
+              onPress: () => this.openDrawer()
             }
           ]}
           renderItem={({ item }) => (
