@@ -65,10 +65,14 @@ export default class LoginPerfil extends Component {
     this.props.navigation.toggleDrawer();
   }
 
+  openAvaliability = () => {
+    this.props.navigation.navigate('Availability');
+  }
+
   render() {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
-        <View style={{ alignItems: "center", marginTop: '25%' }}>
+        <View style={{ alignItems: "center", marginTop: '20%' }}>
           <TouchableOpacity style={styles.TextInput} onPress={this.aboutMe}>
             <Image source={ImageProfile}
               style={styles.TextInput}
@@ -97,6 +101,11 @@ export default class LoginPerfil extends Component {
               onPress: () => this.openMidia()
             },
             {
+              title: 'Disponibilidade',
+              subtitle: 'Dias, horários e feriados',
+              onPress: () => this.openAvaliability()
+            },
+            {
               title: 'Histórico de trabalho(DRAWER)',
               subtitle: 'Trabalho, avaliações e recomendações',
               onPress: () => this.openDrawer()
@@ -105,14 +114,14 @@ export default class LoginPerfil extends Component {
           renderItem={({ item }) => (
             <TouchableOpacity onPress={item.onPress} style={{ ...styles.item, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
               <View>
-                <Text style={{ color: 'white', fontSize: 15, marginBottom: 5 }}>
+                <Text style={{ color: 'white', fontSize: 13, marginBottom: 5 }}>
                   {item.title}
                 </Text>
-                <Text style={{ color: 'gray', fontSize: 13, borderBottomWidth: 0, borderTopWidth: 0 }}>
+                <Text style={{ color: 'gray', fontSize: 10, borderBottomWidth: 0, borderTopWidth: 0 }}>
                   {item.subtitle}
                 </Text>
               </View>
-              <Image source={ArrowRight} style={{ width: 20, height: 20 }} />
+              <Image source={ArrowRight} style={{ width: 15, height: 15 }} />
             </TouchableOpacity>
           )}
           ItemSeparatorComponent={this.renderSeparator}
@@ -125,15 +134,15 @@ export default class LoginPerfil extends Component {
           data={[
             {
               title: 'Configurações',
-              subtitle: 'Senha e mais'
+              subtitle: 'Notificações, senha e mais'
             }
           ]}
           renderItem={({ item }) => (
             <View style={styles.item} onTouchStart={e => this.openProfession()}>
-              <Text style={{ color: 'white', fontSize: 15, marginBottom: 5 }}>
+              <Text style={{ color: 'white', fontSize: 13, marginBottom: 5 }}>
                 {item.title}
               </Text>
-              <Text style={{ color: 'gray', fontSize: 13, borderBottomWidth: 0, borderTopWidth: 0 }}>
+              <Text style={{ color: 'gray', fontSize: 10, borderBottomWidth: 0, borderTopWidth: 0 }}>
                 {item.subtitle}
               </Text>
             </View>
@@ -203,7 +212,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     backgroundColor: '#24203B',
     borderRadius: 20,
-    fontSize: 15,
+    fontSize: 13,
     width: '70%'
   },
   agency: {
@@ -214,7 +223,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#24203B',
     borderRadius: 10,
-    fontSize: 15,
+    fontSize: 13,
     width: width - 50
   },
   list: {

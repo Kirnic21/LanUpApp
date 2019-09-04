@@ -1,7 +1,6 @@
 import * as React from "react";
 import { createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator, DrawerItems } from "react-navigation";
-import { SafeAreaView, ScrollView, Image, Dimensions } from "react-native";
-import CoreTemplate from "./shared/components/CoreTemplate"
+import { SafeAreaView, ScrollView, ImageBackground, Image, TouchableOpacity } from "react-native";
 import HomePage from "./pages/Home";
 import LoginPage from "./pages/Login";
 import LoginEmailPassword from "./pages/Login/LoginEmailPassword";
@@ -10,10 +9,13 @@ import LoginProfilePicture from "./pages/Login/LoginProfilePicture";
 import LoginPerfil from "./pages/Login/LoginPerfil";
 import InfoProfile from "./pages/Login/InfoProfile";
 import AboutMe from "./pages/Login/AboutMe";
+import Availability from './pages/Login/Availability';
 import Profession from "./pages/Login/Profession";
 import Midia from "./pages/Login/Midia";
 import Agency from "./pages/Login/Agency";
 import PreviewProfile from "./pages/Login/PreviewProfile";
+import ImageBack from "./assets/images/Grupo_518.png";
+import IconMenu from "./assets/images/icon_menu.png";
 
 const CustomDrawerContentComponent = props => (
   <ScrollView>
@@ -21,9 +23,12 @@ const CustomDrawerContentComponent = props => (
       // style={styles.container}
       forceInset={{ top: 'always', horizontal: 'never' }}
     >
-      <CoreTemplate>
+      <ImageBackground
+        source={ImageBack}
+        style={{ width: '100%', height: 800 }}
+      >
         <DrawerItems {...props} />
-      </CoreTemplate>
+      </ImageBackground>
     </SafeAreaView>
   </ScrollView>
 );
@@ -36,7 +41,25 @@ const DrawerNavigator = createDrawerNavigator(
   {
     drawerType: 'slide',
     drawerWidth: 200,
-    contentComponent: CustomDrawerContentComponent,
+    contentComponent: CustomDrawerContentComponent
+  }
+);
+
+openDrawer = () => {
+  this.props.navigation.toggleDrawer();
+}
+
+const DrawerContainer = createStackNavigator(
+  {
+    DrawerNavigator
+  },
+  {
+    defaultNavigationOptions: {
+      headerTitle: <TouchableOpacity onPress={this.openDrawer}><Image style={{ height: 40, width: 40 }} source={IconMenu} /></TouchableOpacity>,
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+    },
   }
 );
 
@@ -88,6 +111,17 @@ const StackNavigator = createStackNavigator({
       headerTitle: 'Profissão'
     }
   },
+  Availability: {
+    screen: Availability,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+      headerTransparent: true,
+      headerTintColor: 'white',
+      headerTitle: 'Disponibilidade'
+    }
+  },
   Midia: {
     screen: Midia,
     navigationOptions: {
@@ -110,17 +144,17 @@ const StackNavigator = createStackNavigator({
       headerTitle: 'Midia'
     }
   },
-  // LoginPerfil: {
-  //   screen: LoginPerfil,
-  //   navigationOptions: {
-  //     headerStyle: {
-  //       backgroundColor: '#18142F',
-  //     },
-  //     headerTransparent: true,
-  //     headerTintColor: 'white',
-  //     headerTitle: 'Perfil'
-  //   }
-  // },
+  LoginPerfil: {
+    screen: LoginPerfil,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+      headerTransparent: true,
+      headerTintColor: 'white',
+      headerTitle: 'Perfil'
+    }
+  },
   AboutMe: {
     screen: AboutMe,
     navigationOptions: {
@@ -139,10 +173,10 @@ const StackNavigator = createStackNavigator({
 const MainStack = createSwitchNavigator(
   {
     Home: StackNavigator,
-    Drawer: DrawerNavigator
+    Drawer: DrawerContainer
   },
   {
-    initialRouteName: 'Home'
+    initialRouteName: 'Drawer'
   }
 );
 
