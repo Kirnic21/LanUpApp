@@ -13,7 +13,11 @@ import {
   ScrollView
 } from "react-native";
 
-class LoginPerfil extends Component {
+export default class LoginPerfil extends Component {
+  static navigationOptions = {
+    title: 'Perfil'
+  };
+
   state = {
     selected: false
   };
@@ -58,7 +62,7 @@ class LoginPerfil extends Component {
   }
 
   openDrawer = () => {
-    this.props.navigation.navigate('Drawer')
+    this.props.navigation.toggleDrawer();
   }
 
   render() {
@@ -224,5 +228,3 @@ const styles = StyleSheet.create({
     fontSize: 18
   }
 });
-
-export default LoginPerfil;

@@ -4,10 +4,11 @@ import {
   DrawerItems,
   SafeAreaView,
 } from 'react-navigation';
+import { createAppContainer, createDrawerNavigator } from "react-navigation";
 
 class Home extends React.Component {
   static navigationOptions = {
-    title: 'Home',
+    title: 'Proximo Evento',
     // drawerIcon: ({ focused }) => (
     //   <Ionicons name="md-home" size={24} color={focused ? 'blue' : 'black'} />
     // ),
@@ -16,14 +17,6 @@ class Home extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text
-          style={styles.paragraph}
-          onPress={() => {
-            this.props.navigation.navigate('Profile');
-          }}>
-          Exit
-        </Text>
-
         <Text
           style={styles.paragraph}
           onPress={() => {
@@ -38,7 +31,7 @@ class Home extends React.Component {
 
 class Profile extends React.Component {
   static navigationOptions = {
-    title: 'Profile',
+    title: 'Perfil',
     // drawerIcon: ({ focused }) => (
     //   <Ionicons name="md-person" size={24} color={focused ? 'blue' : 'black'} />
     // ),
@@ -50,7 +43,7 @@ class Profile extends React.Component {
         <Text
           style={styles.paragraph}
           onPress={() => {
-            this.props.navigation.navigate('Home');
+            this.props.navigation.navigate('Profile');
           }}>
           Go back home
         </Text>
@@ -59,21 +52,21 @@ class Profile extends React.Component {
   }
 }
 
-const CustomDrawerContentComponent = props => (
-  <ScrollView>
-    <SafeAreaView
-      style={styles.container}
-      forceInset={{ top: 'always', horizontal: 'never' }}>
-      <DrawerItems {...props} />
-      <Image
-        style={styles.image}
-        source={{
-          uri: 'https://appjs.co/wp-content/uploads/2015/09/brent3-458x458.png',
-        }}
-      />
-    </SafeAreaView>
-  </ScrollView>
+const navigator = createDrawerNavigator(
+  {
+    Home,
+    Profile
+  },
+  {
+    drawerType: 'slide',
+    // drawerPosition: 'right',
+    drawerWidth: 200,
+    drawerBackgroundColor: 'gray',
+    // contentComponent: CustomDrawerContentComponent
+  }
 );
+
+export default createAppContainer(navigator);
 
 const styles = StyleSheet.create({
   container: {

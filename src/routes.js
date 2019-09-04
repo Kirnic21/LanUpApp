@@ -1,5 +1,7 @@
-import { createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator } from "react-navigation";
-
+import * as React from "react";
+import { createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator, DrawerItems } from "react-navigation";
+import { SafeAreaView, ScrollView, Image, Dimensions } from "react-native";
+import CoreTemplate from "./shared/components/CoreTemplate"
 import HomePage from "./pages/Home";
 import LoginPage from "./pages/Login";
 import LoginEmailPassword from "./pages/Login/LoginEmailPassword";
@@ -12,20 +14,31 @@ import Profession from "./pages/Login/Profession";
 import Midia from "./pages/Login/Midia";
 import Agency from "./pages/Login/Agency";
 import PreviewProfile from "./pages/Login/PreviewProfile";
-import Drawer from './shared/components/Drawer';
 
-const DrawerStack = createDrawerNavigator({
-  Drawer: {
-    screen: Drawer,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#18142F',
-      },
-      headerTransparent: true,
-      headerTintColor: 'red'
-    }
+const CustomDrawerContentComponent = props => (
+  <ScrollView>
+    <SafeAreaView
+      // style={styles.container}
+      forceInset={{ top: 'always', horizontal: 'never' }}
+    >
+      <CoreTemplate>
+        <DrawerItems {...props} />
+      </CoreTemplate>
+    </SafeAreaView>
+  </ScrollView>
+);
+
+const DrawerNavigator = createDrawerNavigator(
+  {
+    LoginPerfil,
+    Profession
+  },
+  {
+    drawerType: 'slide',
+    drawerWidth: 200,
+    contentComponent: CustomDrawerContentComponent,
   }
-})
+);
 
 const StackNavigator = createStackNavigator({
   LoginPage: { screen: LoginPage, navigationOptions: { header: null } },
@@ -97,17 +110,17 @@ const StackNavigator = createStackNavigator({
       headerTitle: 'Midia'
     }
   },
-  LoginPerfil: {
-    screen: LoginPerfil,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#18142F',
-      },
-      headerTransparent: true,
-      headerTintColor: 'white',
-      headerTitle: 'Perfil'
-    }
-  },
+  // LoginPerfil: {
+  //   screen: LoginPerfil,
+  //   navigationOptions: {
+  //     headerStyle: {
+  //       backgroundColor: '#18142F',
+  //     },
+  //     headerTransparent: true,
+  //     headerTintColor: 'white',
+  //     headerTitle: 'Perfil'
+  //   }
+  // },
   AboutMe: {
     screen: AboutMe,
     navigationOptions: {
@@ -126,7 +139,7 @@ const StackNavigator = createStackNavigator({
 const MainStack = createSwitchNavigator(
   {
     Home: StackNavigator,
-    Drawer: DrawerStack
+    Drawer: DrawerNavigator
   },
   {
     initialRouteName: 'Home'

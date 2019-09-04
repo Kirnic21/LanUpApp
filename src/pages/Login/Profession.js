@@ -13,6 +13,10 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 
 class Profession extends Component {
+  static navigationOptions = {
+    title: 'Profissão'
+  };
+
   state = {
     selected: false
   };
