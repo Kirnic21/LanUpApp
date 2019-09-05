@@ -74,7 +74,7 @@ class AboutMe extends Component {
                 {item.title}
               </Text>
               <View>
-                <Text style={{ color: "white", marginBottom: 5 }}>Nome Completo</Text>
+                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Nome Completo</Text>
               </View>
               <View>
                 <TouchableOpacity style={this.state.selected == false ? styles.TextInput : styles.TextInputSelected} onPress={this.SelectedInput}>
@@ -84,7 +84,7 @@ class AboutMe extends Component {
                 </TouchableOpacity>
               </View>
               <View style={{ paddingTop: 10 }}>
-                <Text style={{ color: "white", marginBottom: 5 }}>Apelido</Text>
+                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Apelido</Text>
               </View>
               <View>
                 <TouchableOpacity style={styles.TextInput}>
@@ -93,7 +93,7 @@ class AboutMe extends Component {
                   />
                 </TouchableOpacity>
                 <View style={{ paddingTop: 10 }}>
-                  <Text style={{ color: "white", marginBottom: 5 }}>Descrição</Text>
+                  <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Descrição</Text>
                 </View>
                 <View>
                   <TouchableOpacity style={{ ...styles.TextInput, height: 100, borderRadius: 30 }}>
@@ -116,7 +116,7 @@ class AboutMe extends Component {
           ]}
           renderItem={({ item }) => (
             <View style={styles.item}>
-              <Text style={{ color: 'white', fontSize: 15, marginBottom: 15 }}>
+              <Text style={{ color: 'white', fontSize: 13, marginBottom: 15 }}>
                 {item.title}
               </Text>
               <View>
@@ -139,10 +139,10 @@ class AboutMe extends Component {
           ]}
           renderItem={({ item }) => (
             <View style={styles.item}>
-              <Text style={{ color: 'white', fontSize: 15, marginBottom: 5 }}>
+              <Text style={{ color: 'white', fontSize: 13, marginBottom: 5 }}>
                 {item.title}
               </Text>
-              <Text style={{ color: 'gray', fontSize: 13, marginBottom: 20 }}>
+              <Text style={{ color: 'gray', fontSize: 10, marginBottom: 20 }}>
                 {item.subtitle}
               </Text>
               <TouchableOpacity
@@ -171,7 +171,7 @@ class AboutMe extends Component {
                 {item.title}
               </Text>
               <View>
-                <Text style={{ color: "white", marginBottom: 5 }}>E-mail</Text>
+                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>E-mail</Text>
               </View>
               <View>
                 <TouchableOpacity style={this.state.selected == false ? styles.TextInput : styles.TextInputSelected} onPress={this.SelectedInput}>
@@ -181,7 +181,7 @@ class AboutMe extends Component {
                 </TouchableOpacity>
               </View>
               <View style={{ paddingTop: 10 }}>
-                <Text style={{ color: "white", marginBottom: 5 }}>Telefone</Text>
+                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Telefone</Text>
               </View>
               <View>
                 <TouchableOpacity style={{ ...styles.TextInput, marginBottom: 10 }}>
@@ -191,8 +191,8 @@ class AboutMe extends Component {
                 </TouchableOpacity>
               </View>
               <View style={{ flex: 1, flexDirection: 'row', justifyContent: "flex-start" }}>
-                <Text style={{ color: "white", marginBottom: 5 }}>Nascimento</Text>
-                <Text style={{ color: "white", marginBottom: 5, marginLeft: 80 }}>Genero</Text>
+                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Nascimento</Text>
+                <Text style={{ color: "white", marginBottom: 5, marginLeft: 60, fontSize: 13 }}>Genero</Text>
               </View>
               <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
                 <TouchableOpacity style={{ ...styles.TextInput, width: 130 }}>
@@ -207,8 +207,8 @@ class AboutMe extends Component {
                 </TouchableOpacity>
               </View>
               <View style={{ flex: 1, flexDirection: 'row', justifyContent: "flex-start" }}>
-                <Text style={{ color: "white", marginBottom: 5 }}>Altura</Text>
-                <Text style={{ color: "white", marginBottom: 5, marginLeft: 120 }}>Peso</Text>
+                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Altura</Text>
+                <Text style={{ color: "white", marginBottom: 5, marginLeft: 100, fontSize: 13 }}>Peso</Text>
               </View>
               <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                 <TouchableOpacity style={{ ...styles.TextInput, width: 130 }}>
@@ -223,7 +223,7 @@ class AboutMe extends Component {
                 </TouchableOpacity>
               </View>
               <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
-                <Text style={{ color: "white", marginRight: 60 }}>Tenho filhos</Text>
+                <Text style={{ color: "white", marginRight: 60, fontSize: 13 }}>Tenho filhos</Text>
                 <View>
                   <ToggleSwitch
                     size="small"
@@ -238,7 +238,7 @@ class AboutMe extends Component {
                 </View>
               </View>
               <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
-                <Text style={{ color: "white", marginRight: 85 }}>Eu fumo</Text>
+                <Text style={{ color: "white", marginRight: 85, fontSize: 13 }}>Eu fumo</Text>
                 <View>
                   <ToggleSwitch
                     size="small"
@@ -253,7 +253,7 @@ class AboutMe extends Component {
                 </View>
               </View>
               <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
-                <Text style={{ color: "white", marginRight: 85 }}>Eu bebo</Text>
+                <Text style={{ color: "white", marginRight: 85, fontSize: 13 }}>Eu bebo</Text>
                 <View>
                   <ToggleSwitch
                     size="small"
@@ -268,7 +268,7 @@ class AboutMe extends Component {
                 </View>
               </View>
               <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
-                <Text style={{ color: "white", marginRight: 35 }}>Tenho tatuagem</Text>
+                <Text style={{ color: "white", marginRight: 35, fontSize: 13 }}>Tenho tatuagem</Text>
                 <View>
                   <ToggleSwitch
                     size="small"

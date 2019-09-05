@@ -24,7 +24,7 @@ class LoginProfilePicture extends Component {
   };
 
   goToLoginCropProfilePhoto = () => {
-    ImagePicker.openPicker({ 
+    ImagePicker.openPicker({
       width: 30,
       height: 40,
       cropperCircleOverlay: true,
@@ -38,9 +38,9 @@ class LoginProfilePicture extends Component {
       <CoreTemplate name="Kaori">
         <View style={{ paddingHorizontal: 50 }}>
           <View style={{ alignItems: "center" }}>
-            <Text style={{ color: "white", fontSize: 20 }}>Adicionar foto de perfil</Text>
+            <Text style={{ color: "white", fontSize: 15 }}>Adicionar foto de perfil</Text>
           </View>
-          <View 
+          <View
             onTouchStart={e => this.props.navigation.navigate('LoginPerfil')}
             style={{ alignItems: "center", margin: 5 }}>
             <Image source={ImageProfile} style={{ width: 110, height: 110 }} />
@@ -50,7 +50,7 @@ class LoginProfilePicture extends Component {
               style={styles.button}
               onPress={this.goToLoginCropProfilePhoto}
             >
-              <Text style={{ color: "white" }}>Adicionar Foto</Text>
+              <Text style={{ color: "white", fontSize: 13 }}>Adicionar Foto</Text>
             </TouchableOpacity>
           </View>
         </View>

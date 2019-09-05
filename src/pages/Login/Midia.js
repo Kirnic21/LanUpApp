@@ -42,20 +42,20 @@ class Midia extends Component {
         <View style={{ marginTop: '25%', margin: 20 }}>
           <Box icon={ImagePicture} />
         </View>
-        <Text style={{ color: 'white', fontSize: 20, textAlign: "center", marginTop: 20 }}>
+        <Text style={{ color: 'white', fontSize: 15, textAlign: "center", marginTop: 20 }}>
           Não temos nenhuma
         </Text>
-        <Text style={{ color: 'white', fontSize: 20, textAlign: "center" }}>
+        <Text style={{ color: 'white', fontSize: 15, textAlign: "center" }}>
           mídia para mostrar
         </Text>
-        <View style={{ marginHorizontal: 90, marginTop: 20 }}>
-          <Image source={ImageOutline} style={{ height: 180, width: 180 }} />
+        <View style={{ marginHorizontal: 105, marginTop: 20 }}>
+          <Image source={ImageOutline} style={{ height: 150, width: 150 }} />
         </View>
         <View>
-          <Text style={{ color: 'gray', fontSize: 15, textAlign: "center", marginTop: 20 }}>
+          <Text style={{ color: 'gray', fontSize: 13, textAlign: "center", marginTop: 20 }}>
             Adicione as suas fotos
         </Text>
-          <Text style={{ color: 'gray', fontSize: 15, textAlign: "center", marginTop: 5 }}>
+          <Text style={{ color: 'gray', fontSize: 13, textAlign: "center", marginTop: 5 }}>
             e divulgue seu trabalho
         </Text>
         </View>

@@ -20,7 +20,6 @@ import IconMenu from "./assets/images/icon_menu.png";
 const CustomDrawerContentComponent = props => (
   <ScrollView>
     <SafeAreaView
-      // style={styles.container}
       forceInset={{ top: 'always', horizontal: 'never' }}
     >
       <ImageBackground
@@ -45,17 +44,13 @@ const DrawerNavigator = createDrawerNavigator(
   }
 );
 
-openDrawer = () => {
-  this.props.navigation.toggleDrawer();
-}
-
 const DrawerContainer = createStackNavigator(
   {
     DrawerNavigator
   },
   {
     defaultNavigationOptions: {
-      headerTitle: <TouchableOpacity onPress={this.openDrawer}><Image style={{ height: 40, width: 40 }} source={IconMenu} /></TouchableOpacity>,
+      headerTitle: <TouchableOpacity><Image style={{ height: 40, width: 40 }} source={IconMenu} /></TouchableOpacity>,
       headerStyle: {
         backgroundColor: '#18142F',
       },
@@ -141,7 +136,7 @@ const StackNavigator = createStackNavigator({
       },
       headerTransparent: true,
       headerTintColor: 'white',
-      headerTitle: 'Midia'
+      headerTitle: 'Sou Agência'
     }
   },
   LoginPerfil: {
@@ -176,7 +171,7 @@ const MainStack = createSwitchNavigator(
     Drawer: DrawerContainer
   },
   {
-    initialRouteName: 'Drawer'
+    initialRouteName: 'Home'
   }
 );
 

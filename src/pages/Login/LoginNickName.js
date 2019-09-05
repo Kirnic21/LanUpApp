@@ -30,7 +30,7 @@ class LoginNickName extends Component {
       <CoreTemplate>
         <View style={{ paddingHorizontal: 50 }}>
           <View>
-            <Text style={{ color: "white" }}>Nome Completo</Text>
+            <Text style={{ color: "white", fontSize: 13 }}>Nome Completo</Text>
           </View>
           <View>
             <TouchableOpacity style={this.state.selected == false ? styles.TextInput : styles.TextInputSelected} onPress={this.SelectedInput}>
@@ -41,7 +41,7 @@ class LoginNickName extends Component {
             </TouchableOpacity>
           </View>
           <View style={{ paddingTop: 10 }}>
-            <Text style={{ color: "white" }}>Apelido</Text>
+            <Text style={{ color: "white", fontSize: 13 }}>Apelido</Text>
           </View>
           <View>
             <TouchableOpacity style={styles.TextInputSelected}>
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     borderColor: "#483D8B",
     borderWidth: 1.5,
     borderRadius: 50,
-    height: 55,
+    height: 50,
     width: 150
   }
 });

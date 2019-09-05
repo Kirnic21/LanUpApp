@@ -18,7 +18,7 @@ class LoginPage extends Component {
       <CoreTemplate>
         <View style={styles.buttonContent}>
           <TouchableOpacity style={styles.buttonFacebook}>
-            <Text style={{ color: "white" }}>Conectar com facebook </Text>
+            <Text style={{ color: "white", fontSize: 13 }}>Conectar com facebook </Text>
           </TouchableOpacity>
         </View>
         <View style={{ flexDirection: "row", margin: 10 }}>
@@ -26,12 +26,12 @@ class LoginPage extends Component {
         </View>
         <View style={styles.buttonContent}>
           <TouchableOpacity style={styles.buttonEmail} onPress={this.goToLoginEmailPassword}>
-            <Text style={{ color: "white" }}>Conectar com e-mail </Text>
+            <Text style={{ color: "white", fontSize: 13 }}>Conectar com e-mail </Text>
           </TouchableOpacity>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center", margin: 50 }}>
           <View>
-            <Text style={{ color: "white", marginRight: 10, marginTop: 50 }}>Já tem uma conta?</Text>
+            <Text style={{ color: "white", marginRight: 10, marginTop: 50, fontSize: 13 }}>Já tem uma conta?</Text>
           </View>
           <View>
             <Text

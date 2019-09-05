@@ -43,7 +43,7 @@ class Agency extends Component {
                 {item.title}
               </Text>
               <View>
-                <Text style={{ color: "white", marginBottom: 5 }}>CNPJ</Text>
+                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>CNPJ</Text>
               </View>
               <View>
                 <TouchableOpacity style={this.state.selected == false ? styles.TextInput : styles.TextInputSelected} onPress={this.SelectedInput}>
@@ -53,7 +53,7 @@ class Agency extends Component {
                 </TouchableOpacity>
               </View>
               <View style={{ paddingTop: 10 }}>
-                <Text style={{ color: "white", marginBottom: 5 }}>CEP</Text>
+                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>CEP</Text>
               </View>
               <View>
                 <TouchableOpacity style={styles.TextInput}>
@@ -85,28 +85,28 @@ class Agency extends Component {
               </View>
               <View style={{ flexDirection: "row", maxWidth: 400, margin: 0, flexWrap: "wrap" }}>
                 <View>
-                  <Text style={{ ...styles.TextBorder, backgroundColor: '#FFB72B', width: 90 }}>Bartender</Text>
+                  <Text style={{ ...styles.TextBorder, backgroundColor: '#FFB72B', width: 90, fontSize: 13 }}>Bartender</Text>
                 </View>
                 <View>
-                  <Text style={{ ...styles.TextBorder, backgroundColor: '#737082', width: 80 }}>Cozinha</Text>
+                  <Text style={{ ...styles.TextBorder, backgroundColor: '#737082', width: 80, fontSize: 13 }}>Cozinha</Text>
                 </View>
                 <View>
-                  <Text style={{ ...styles.TextBorder, backgroundColor: '#737082', width: 80 }}>Recepção</Text>
+                  <Text style={{ ...styles.TextBorder, backgroundColor: '#737082', width: 80, fontSize: 13 }}>Recepção</Text>
                 </View>
                 <View>
-                  <Text style={{ ...styles.TextBorder, backgroundColor: '#737082', width: 50 }}>Caixa</Text>
+                  <Text style={{ ...styles.TextBorder, backgroundColor: '#737082', width: 50, fontSize: 13 }}>Caixa</Text>
                 </View>
                 <View>
-                  <Text style={{ ...styles.TextBorder, backgroundColor: '#737082', width: 60 }}>Garçom</Text>
+                  <Text style={{ ...styles.TextBorder, backgroundColor: '#737082', width: 60, fontSize: 13 }}>Garçom</Text>
                 </View>
                 <View>
-                  <Text style={{ ...styles.TextBorder, backgroundColor: '#737082', width: 130 }}>Serviços Gerais</Text>
+                  <Text style={{ ...styles.TextBorder, backgroundColor: '#737082', width: 130, fontSize: 13 }}>Serviços Gerais</Text>
                 </View>
                 <View>
-                  <Text style={{ ...styles.TextBorder, backgroundColor: '#46C5F3', width: 40 }}>DJ</Text>
+                  <Text style={{ ...styles.TextBorder, backgroundColor: '#46C5F3', width: 40, fontSize: 13 }}>DJ</Text>
                 </View>
                 <View>
-                  <Text style={{ ...styles.TextBorder, backgroundColor: '#865FC0', width: 150 }}>Animador de Festa</Text>
+                  <Text style={{ ...styles.TextBorder, backgroundColor: '#865FC0', width: 150, fontSize: 13 }}>Animador de Festa</Text>
                 </View>
                 <View>
                 </View>
@@ -126,7 +126,7 @@ class Agency extends Component {
             <TouchableOpacity>
               <View style={{ ...styles.Add, flexDirection: "row" }}>
                 <Image source={ImageAdd} style={{ height: 20, width: 20, marginRight: 10, marginTop: 5 }} />
-                <Text style={{ color: '#865FC0', fontSize: 15, marginBottom: 15, marginTop: 5 }}>
+                <Text style={{ color: '#865FC0', fontSize: 13, marginBottom: 15, marginTop: 5 }}>
                   {item.title}
                 </Text>
               </View>
@@ -134,7 +134,7 @@ class Agency extends Component {
           )
           }
         />
-        <Text style={{ ...styles.submitText, color: 'white', marginBottom: 30, backgroundColor: '#865FC0' }}>Concluir</Text>
+        <Text style={{ ...styles.submitText, color: 'white', marginBottom: 30, backgroundColor: '#865FC0', fontSize: 13 }}>Concluir</Text>
       </ScrollView>
     );
   }

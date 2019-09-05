@@ -25,7 +25,7 @@ class LoginEmailPassword extends Component {
       <CoreTemplate>
         <View>
           <View>
-            <Text style={{ color: "white" }}>E-mail</Text>
+            <Text style={{ color: "white", fontSize: 13 }}>E-mail</Text>
           </View>
           <View>
             <TouchableOpacity style={styles.TextInput} onPress={(event) => this.SelectedInput(event)}>
@@ -36,7 +36,7 @@ class LoginEmailPassword extends Component {
             </TouchableOpacity>
           </View>
           <View style={{ paddingTop: 10 }}>
-            <Text style={{ color: "white" }}>Senha</Text>
+            <Text style={{ color: "white", fontSize: 13 }}>Senha</Text>
           </View>
           <View>
             <TouchableOpacity style={styles.TextInput}>
@@ -48,7 +48,7 @@ class LoginEmailPassword extends Component {
           </View>
           <View style={{ alignItems: "center" }}>
             <TouchableOpacity style={styles.button} onPress={this.goToLoginNickName}>
-              <Text style={{ color: "white" }}>Continuar</Text>
+              <Text style={{ color: "white", fontSize: 13 }}>Continuar</Text>
             </TouchableOpacity>
           </View>
         </View>

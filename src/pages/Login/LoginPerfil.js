@@ -138,7 +138,7 @@ export default class LoginPerfil extends Component {
             }
           ]}
           renderItem={({ item }) => (
-            <View style={styles.item} onTouchStart={e => this.openProfession()}>
+            <View style={styles.item}>
               <Text style={{ color: 'white', fontSize: 13, marginBottom: 5 }}>
                 {item.title}
               </Text>
