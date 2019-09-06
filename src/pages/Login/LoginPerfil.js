@@ -78,7 +78,7 @@ export default class LoginPerfil extends Component {
   render() {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
-        <View style={{ alignItems: "center", marginTop: '20%' }}>
+        <View style={{ alignItems: "center", marginTop: '5%' }}>
           <TouchableOpacity style={styles.TextInput} onPress={this.aboutMe}>
             <Image source={ImageProfile}
               style={styles.TextInput}

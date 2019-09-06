@@ -18,6 +18,7 @@ import PreviewProfile from "./pages/Login/PreviewProfile";
 import ImageBack from "./assets/images/Grupo_518.png";
 import IconMenu from "./assets/images/icon_menu.png";
 import NextEvent from "./pages/Login/NextEvent";
+import IAnAgency from "./pages/Login/IAnAgency";
 
 const CustomDrawerContentComponent = props => (
   <ScrollView>
@@ -36,6 +37,7 @@ const CustomDrawerContentComponent = props => (
 
 const DrawerNavigator = createDrawerNavigator(
   {
+    IAnAgency,
     LoginPerfil: {
       screen: LoginPerfil,
       // navigationOptions: ({ navigation }) => ({

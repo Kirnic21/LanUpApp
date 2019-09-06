@@ -4,8 +4,6 @@ import CoreTemplate from "../../shared/components/CoreTemplate"
 import {
   StyleSheet,
   View,
-  Dimensions,
-  TouchableOpacity,
   Text
 } from "react-native";
 

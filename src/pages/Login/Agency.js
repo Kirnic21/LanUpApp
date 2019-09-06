@@ -23,6 +23,10 @@ class Agency extends Component {
     }
   };
 
+  openIAnAgency = () => {
+    this.props.navigation.navigate('IAnAgency');
+  }
+
   render() {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
@@ -134,7 +138,9 @@ class Agency extends Component {
           )
           }
         />
-        <Text style={{ ...styles.submitText, color: 'white', marginBottom: 30, backgroundColor: '#865FC0', fontSize: 13 }}>Concluir</Text>
+        <TouchableOpacity onPress={this.openIAnAgency}>
+          <Text style={{ ...styles.submitText, color: 'white', marginBottom: 30, backgroundColor: '#865FC0', fontSize: 13, width: 200 }}>Concluir</Text>
+        </TouchableOpacity>
       </ScrollView>
     );
   }
