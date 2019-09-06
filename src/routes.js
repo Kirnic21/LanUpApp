@@ -17,6 +17,7 @@ import Agency from "./pages/Login/Agency";
 import PreviewProfile from "./pages/Login/PreviewProfile";
 import ImageBack from "./assets/images/Grupo_518.png";
 import IconMenu from "./assets/images/icon_menu.png";
+import NextEvent from "./pages/Login/NextEvent";
 
 const CustomDrawerContentComponent = props => (
   <ScrollView>
@@ -45,7 +46,8 @@ const DrawerNavigator = createDrawerNavigator(
       //     </TouchableOpacity>
       //   )
       // })
-    }
+    },
+    NextEvent
   },
   {
     drawerType: 'slide',

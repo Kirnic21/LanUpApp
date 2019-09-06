@@ -17,12 +17,12 @@ import {
 
 export default class LoginPerfil extends Component {
   static navigationOptions = (props) => ({
-    title: 'Perfilzera',
-    headerLeft: <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}><Image style={{ height: 40, width: 40 }} source={IconMenu} /></TouchableOpacity>
+    title: 'Perfil',
+    navigationOptions: {
+      headerTintColor: 'white'
+    }
+    // headerLeft: <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}><Image style={{ height: 40, width: 40 }} source={IconMenu} /></TouchableOpacity>
   });
-  // static navigationOptions = {
-  //   title: 'Perfil'
-  // };
 
   state = {
     selected: false
