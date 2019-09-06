@@ -10,6 +10,7 @@ import LoginPerfil from "./pages/Login/LoginPerfil";
 import InfoProfile from "./pages/Login/InfoProfile";
 import AboutMe from "./pages/Login/AboutMe";
 import Availability from './pages/Login/Availability';
+import AvailabilityDays from './pages/Login/AvailabilityDays'
 import Profession from "./pages/Login/Profession";
 import Midia from "./pages/Login/Midia";
 import Agency from "./pages/Login/Agency";
@@ -34,8 +35,17 @@ const CustomDrawerContentComponent = props => (
 
 const DrawerNavigator = createDrawerNavigator(
   {
-    LoginPerfil,
-    Profession
+    LoginPerfil: {
+      screen: LoginPerfil,
+      // navigationOptions: ({ navigation }) => ({
+      //   title: 'Perfil',
+      //   headerLeft: (
+      //     <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+      //       <Image style={{ height: 40, width: 40 }} source={IconMenu} />
+      //     </TouchableOpacity>
+      //   )
+      // })
+    }
   },
   {
     drawerType: 'slide',
@@ -117,6 +127,17 @@ const StackNavigator = createStackNavigator({
       headerTitle: 'Disponibilidade'
     }
   },
+  AvailabilityDays: {
+    screen: AvailabilityDays,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+      headerTransparent: true,
+      headerTintColor: 'white',
+      headerTitle: 'Disponibilidade'
+    }
+  },
   Midia: {
     screen: Midia,
     navigationOptions: {
@@ -137,17 +158,6 @@ const StackNavigator = createStackNavigator({
       headerTransparent: true,
       headerTintColor: 'white',
       headerTitle: 'Sou Agência'
-    }
-  },
-  LoginPerfil: {
-    screen: LoginPerfil,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#18142F',
-      },
-      headerTransparent: true,
-      headerTintColor: 'white',
-      headerTitle: 'Perfil'
     }
   },
   AboutMe: {

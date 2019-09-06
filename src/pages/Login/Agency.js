@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderRadius: 50,
     width: 90,
-    height: 30,
+    height: 32,
     paddingTop: 5,
     textAlign: 'center',
     flexWrap: 'wrap',

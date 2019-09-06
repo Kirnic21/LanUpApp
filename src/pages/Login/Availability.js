@@ -29,6 +29,10 @@ export default class Availability extends Component {
     console.log("Changed to " + isOn);
   }
 
+  openAvailabilityDays = () => {
+    this.props.navigation.navigate('AvailabilityDays')
+  }
+
   renderSeparator = () => {
     return (
       <View
@@ -85,44 +89,52 @@ export default class Availability extends Component {
             {
               header: 'Horários',
               title: 'Segunda',
-              date: '18:00 até 21:00'
+              date: '18:00 até 21:00',
+              onPress: () => this.openAvailabilityDays()
             },
             {
               title: 'Terça',
-              date: 'Não aceito job'
+              date: 'Não aceito job',
+              onPress: () => this.openAvailabilityDays()
             },
             {
               title: 'Quarta',
-              date: 'Não aceito job'
+              date: 'Não aceito job',
+              onPress: () => this.openAvailabilityDays()
             },
             {
               title: 'Quinta',
-              date: '18:00 até 21:00'
+              date: '18:00 até 21:00',
+              onPress: () => this.openAvailabilityDays()
             },
             {
               title: 'Sexta',
-              date: '18:00 até 21:00'
+              date: '18:00 até 21:00',
+              onPress: () => this.openAvailabilityDays()
             },
             {
               title: 'Sabado',
-              date: 'Não aceito job'
+              date: 'Não aceito job',
+              onPress: () => this.openAvailabilityDays()
             },
             {
               title: 'Domingo',
-              date: '18:00 até 21:00'
+              date: '18:00 até 21:00',
+              onPress: () => this.openAvailabilityDays()
             }
           ]}
           renderItem={({ item }) => (
-            <View style={{ ...styles.item, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
-              <Text style={{ color: 'white', fontSize: 13 }}>
-                {item.title}
-              </Text>
-              <Text style={{ color: 'white', fontSize: 10, marginLeft: 90 }}>
-                {item.date}
-              </Text>
-              <Image source={ArrowRight} style={{ width: 15, height: 15 }} />
-            </View>
-
+            <TouchableOpacity onPress={item.onPress}>
+              <View style={{ ...styles.item, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
+                <Text style={{ color: 'white', fontSize: 13 }}>
+                  {item.title}
+                </Text>
+                <Text style={{ color: 'white', fontSize: 10, marginLeft: 90 }}>
+                  {item.date}
+                </Text>
+                <Image source={ArrowRight} style={{ width: 15, height: 15 }} />
+              </View>
+            </TouchableOpacity>
           )}
           ItemSeparatorComponent={this.renderSeparator}
         />

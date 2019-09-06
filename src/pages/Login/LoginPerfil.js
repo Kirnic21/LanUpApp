@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import ImageProfile from "./../../assets/images/backgroud.png";
 import ArrowRight from "./../../assets/images/arrowRight.png";
+import IconMenu from "./../../assets/images/icon_menu.png";
+
 import { FlatList } from "react-native-gesture-handler";
 
 import {
@@ -14,9 +16,13 @@ import {
 } from "react-native";
 
 export default class LoginPerfil extends Component {
-  static navigationOptions = {
-    title: 'Perfil'
-  };
+  static navigationOptions = (props) => ({
+    title: 'Perfilzera',
+    headerLeft: <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}><Image style={{ height: 40, width: 40 }} source={IconMenu} /></TouchableOpacity>
+  });
+  // static navigationOptions = {
+  //   title: 'Perfil'
+  // };
 
   state = {
     selected: false
