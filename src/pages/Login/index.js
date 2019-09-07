@@ -50,7 +50,7 @@ class LoginPage extends Component {
 const styles = StyleSheet.create({
   buttonContent: {
     flexDirection: "row",
-    width: 280,
+    width: 250,
     margin: 20
   },
   buttonFacebook: {

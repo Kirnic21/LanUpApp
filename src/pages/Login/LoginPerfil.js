@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ImageProfile from "./../../assets/images/backgroud.png";
 import ArrowRight from "./../../assets/images/arrowRight.png";
-import IconMenu from "./../../assets/images/icon_menu.png";
+// import IconPe from "./../../assets/images/icon_pe.png";
 
 import { FlatList } from "react-native-gesture-handler";
 
@@ -12,16 +12,17 @@ import {
   Image,
   TouchableOpacity,
   Text,
-  ScrollView
+  ScrollView,
+  StatusBar
 } from "react-native";
 
 export default class LoginPerfil extends Component {
   static navigationOptions = (props) => ({
+    // headerTitle: <Image style={{ height: 40, width: 40 }} source={IconPe} />,
     title: 'Perfil',
     navigationOptions: {
       headerTintColor: 'white'
     }
-    // headerLeft: <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}><Image style={{ height: 40, width: 40 }} source={IconMenu} /></TouchableOpacity>
   });
 
   state = {
@@ -78,6 +79,7 @@ export default class LoginPerfil extends Component {
   render() {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
+        <StatusBar backgroundColor='#18142F' barStyle="light-content" />
         <View style={{ alignItems: "center", marginTop: '5%' }}>
           <TouchableOpacity style={styles.TextInput} onPress={this.aboutMe}>
             <Image source={ImageProfile}

@@ -35,7 +35,7 @@ class LoginNickName extends Component {
           <View>
             <TouchableOpacity style={this.state.selected == false ? styles.TextInput : styles.TextInputSelected} onPress={this.SelectedInput}>
               <TextInput
-                style={{ height: 50, color: 'white', fontSize: 18, paddingHorizontal: 20 }}
+                style={{ height: 45, color: 'white', fontSize: 18, paddingHorizontal: 20 }}
               // onChangeText={event => setItemText(index, event, card)}
               />
             </TouchableOpacity>
@@ -46,8 +46,7 @@ class LoginNickName extends Component {
           <View>
             <TouchableOpacity style={styles.TextInputSelected}>
               <TextInput
-                style={{ height: 56, color: 'white', fontSize: 18, paddingHorizontal: 20 }}
-                // onChangeText={event => setItemText(index, event, card)}
+                style={{ height: 45, color: 'white', fontSize: 18, paddingHorizontal: 20 }}
                 value={'Millor'}
               />
             </TouchableOpacity>
@@ -78,8 +77,8 @@ const styles = StyleSheet.create({
     borderColor: "#F13567",
     borderWidth: 1.8,
     borderRadius: 50,
-    height: 56,
-    width: 333
+    height: 45,
+    width: 250
   },
   button: {
     margin: 20,

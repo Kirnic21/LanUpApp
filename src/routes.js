@@ -37,7 +37,6 @@ const CustomDrawerContentComponent = props => (
 
 const DrawerNavigator = createDrawerNavigator(
   {
-    IAnAgency,
     LoginPerfil: {
       screen: LoginPerfil,
       // navigationOptions: ({ navigation }) => ({

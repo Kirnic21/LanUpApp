@@ -27,15 +27,11 @@ export default CoreTemplate = props => (
           <Text style={{ color: "white", fontSize: 36 }}>Kaori</Text>
         </View>
       </ImageBackground>}
-
-
       {!props.name && <View style={styles.logoImage}>
         <Image source={props.logo || ImageLogo} style={{ width: 200, height: 100 }} />
       </View>}
       {props.children}
     </ImageBackground>
-
-
   </View>
 )
 
