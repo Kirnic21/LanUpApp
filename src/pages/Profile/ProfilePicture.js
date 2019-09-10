@@ -45,6 +45,7 @@ class LoginProfilePicture extends Component {
             style={{ alignItems: "center", margin: 5 }}>
             <Image source={ImageProfile} style={{ width: 110, height: 110 }} />
           </View>
+          {/* TODO: componentizar botão - todos botões tem botão arredondada */}
           <View style={{ alignItems: "center" }}>
             <TouchableOpacity
               style={styles.button}

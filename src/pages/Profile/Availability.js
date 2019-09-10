@@ -83,6 +83,8 @@ export default class Availability extends Component {
             </View>
           )}
         />
+        {/* TODO: fazer um service fake retornando esses dados dos horarios */}
+        {/* TODO: header não é pra estar dentro do data= */}
         <FlatList
           contentContainerStyle={{ ...styles.list }}
           data={[
@@ -164,6 +166,7 @@ export default class Availability extends Component {
             </View>
           )}
         />
+        {/* TODO: componentizar esse botão igual do Profession */}
         <FlatList
           contentContainerStyle={{ ...styles.list, marginBottom: 30 }}
           data={

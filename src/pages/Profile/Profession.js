@@ -63,6 +63,8 @@ class Profession extends Component {
                 </Text>
               </View>
               <View style={{ flexDirection: "row", maxWidth: 400, margin: 0, flexWrap: "wrap" }}>
+                {/* TODO: fazer um service fake pra trabalharmos com json! */}
+                {/* TODO: fazer laço dessas View de baixo! */}
                 <View>
                   <Text style={{ ...styles.TextBorder, backgroundColor: '#FFB72B', width: 90, fontSize: 13 }}>Bartender</Text>
                 </View>
@@ -95,6 +97,7 @@ class Profession extends Component {
           }
         />
 
+        {/* TODO: em vez de flatlist, mostrar em um botão componentizado */}
         <FlatList
           contentContainerStyle={styles.list}
           data={[
@@ -132,6 +135,8 @@ class Profession extends Component {
                 </Text>
               </Text>
               <View style={{ flexDirection: "row", maxWidth: 400, margin: 0, flexWrap: "wrap" }}>
+                {/* TODO: fazer laço dessas View de baixo! */}
+                {/* TODO: fazer um service fake pra trabalharmos com json! */}
                 <View>
                   <Text style={{ ...styles.TextBorder, backgroundColor: '#737082', color: '#FFB72B', width: 120, fontSize: 13 }}>Musica Eletrônica</Text>
                 </View>
@@ -155,6 +160,7 @@ class Profession extends Component {
           }
         />
 
+        {/* TODO: em vez de flatlist, mostrar em um botão componentizado */}
         <FlatList
           contentContainerStyle={{ ...styles.list, marginBottom: 30 }}
           data={
@@ -199,37 +205,72 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   TextBorder: {
+
     color: 'white',
+
     paddingBottom: 10,
+
     borderRadius: 50,
+
     width: 90,
+
     height: 32,
+
     paddingTop: 5,
+
     textAlign: 'center',
+
     flexWrap: 'wrap',
+
     margin: 3
+
   },
+
   Add: {
+
     paddingTop: 10,
+
     paddingBottom: 10,
+
     color: '#46C5F3',
+
     padding: 20,
+
     backgroundColor: '#24203B',
+
     borderRadius: 10,
+
     fontSize: 15,
+
     width: width - 50
+
   },
+
   submitText: {
+
     marginTop: 20,
+
     paddingTop: 10,
+
     paddingBottom: 10,
+
     color: '#46C5F3',
+
     textAlign: 'center',
+
     backgroundColor: '#24203B',
+
     borderRadius: 20,
+
     fontSize: 15,
+
     width: '70%'
+
   }
+
 });
 
+
+
 export default Profession;
+

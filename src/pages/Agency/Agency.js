@@ -69,6 +69,9 @@ class Agency extends Component {
             </View>
           )}
         />
+
+        {/* TODO: fazer um service fake retornando esses dados dos serviços */}
+        {/* TODO: o titulo e subtitulo tem que ser renderizado fora do data = */}
         <FlatList
           contentContainerStyle={styles.list}
           data={[

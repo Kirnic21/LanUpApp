@@ -24,6 +24,7 @@ class LoginEmailPassword extends Component {
 
       <CoreTemplate>
         <View>
+          {/* TODO: componentizar input com label!  */} 
           <View>
             <Text style={{ color: "white", fontSize: 13 }}>E-mail</Text>
           </View>
@@ -31,10 +32,13 @@ class LoginEmailPassword extends Component {
             <TouchableOpacity style={styles.TextInput} onPress={(event) => this.SelectedInput(event)}>
               <TextInput
                 style={{ height: 45, width: 250 }}
+              // TODO: tirar codigo comentado que não vai ser usado
               // onChangeText={event => setItemText(index, event, card)}
               />
             </TouchableOpacity>
           </View>
+
+          {/* TODO: componentizar input com label!  */} 
           <View style={{ paddingTop: 10 }}>
             <Text style={{ color: "white", fontSize: 13 }}>Senha</Text>
           </View>
@@ -42,11 +46,13 @@ class LoginEmailPassword extends Component {
             <TouchableOpacity style={styles.TextInput}>
               <TextInput
                 style={{ height: 45 }}
+              // TODO: tirar codigo comentado que não vai ser usado
               // onChangeText={event => setItemText(index, event, card)}
               />
             </TouchableOpacity>
           </View>
           <View style={{ alignItems: "center" }}>
+            {/* TODO: componentizar botão - todos botões tem botão arredondada */}
             <TouchableOpacity style={styles.button} onPress={this.goToLoginNickName}>
               <Text style={{ color: "white", fontSize: 13 }}>Continuar</Text>
             </TouchableOpacity>
