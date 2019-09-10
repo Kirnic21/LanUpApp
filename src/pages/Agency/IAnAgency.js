@@ -15,15 +15,7 @@ import {
   ScrollView
 } from "react-native";
 
-export default class LoginPerfil extends Component {
-  static navigationOptions = (props) => ({
-    title: 'Perfil',
-    navigationOptions: {
-      headerTintColor: 'white'
-    }
-    // headerLeft: <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}><Image style={{ height: 40, width: 40 }} source={IconMenu} /></TouchableOpacity>
-  });
-
+export default class IAnAgency extends Component {
   state = {
     selected: false
   };
@@ -79,7 +71,7 @@ export default class LoginPerfil extends Component {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
         <View style={{ alignItems: "center", marginTop: '5%' }}>
-          <TouchableOpacity style={styles.TextInput} onPress={this.aboutMe}>
+          <TouchableOpacity style={styles.TextInput}>
             <Image source={Girl}
               style={styles.TextInput}
             />
