@@ -12,13 +12,14 @@ import AboutMe from "./pages/Login/AboutMe";
 import Availability from './pages/Login/Availability';
 import AvailabilityDays from './pages/Login/AvailabilityDays'
 import Profession from "./pages/Login/Profession";
-import Midia from "./pages/Login/Midia";
+import Midia from "./pages/Midia/Midia";
 import Agency from "./pages/Login/Agency";
 import PreviewProfile from "./pages/Login/PreviewProfile";
 import ImageBack from "./assets/images/Grupo_518.png";
 import IconMenu from "./assets/images/icon_menu.png";
 import NextEvent from "./pages/Login/NextEvent";
 import IAnAgency from "./pages/Login/IAnAgency";
+import ToExplore from "./pages/Login/ToExplore";
 
 const CustomDrawerContentComponent = props => (
   <ScrollView>
@@ -37,18 +38,9 @@ const CustomDrawerContentComponent = props => (
 
 const DrawerNavigator = createDrawerNavigator(
   {
-    LoginPerfil: {
-      screen: LoginPerfil,
-      // navigationOptions: ({ navigation }) => ({
-      //   title: 'Perfil',
-      //   headerLeft: (
-      //     <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-      //       <Image style={{ height: 40, width: 40 }} source={IconMenu} />
-      //     </TouchableOpacity>
-      //   )
-      // })
-    },
-    NextEvent
+    LoginPerfil,
+    NextEvent,
+    ToExplore
   },
   {
     drawerType: 'slide',
@@ -65,7 +57,7 @@ const DrawerContainer = createStackNavigator(
     defaultNavigationOptions: {
       headerTitle: <TouchableOpacity><Image style={{ height: 40, width: 40 }} source={IconMenu} /></TouchableOpacity>,
       headerStyle: {
-        backgroundColor: '#18142F',
+        backgroundColor: '#18142F'
       },
     },
   }
@@ -172,6 +164,13 @@ const StackNavigator = createStackNavigator({
       headerTransparent: true,
       headerTintColor: 'white',
       headerTitle: 'Sobre mim'
+    }
+  },
+  IAnAgency: {
+    screen: IAnAgency,
+    navigationOptions: {
+      headerTransparent: true,
+      headerTintColor: 'white'
     }
   },
   HomePage,
