@@ -1,25 +1,29 @@
-import * as React from "react";
-import { createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator, DrawerItems } from "react-navigation";
-import { SafeAreaView, ScrollView, ImageBackground, Image, TouchableOpacity } from "react-native";
-import HomePage from "./pages/Home";
-import LoginPage from "./pages/Login";
-import LoginEmailPassword from "./pages/Login/LoginEmailPassword";
-import LoginNickName from "./pages/Login/LoginNickName";
-import LoginProfilePicture from "./pages/Login/LoginProfilePicture";
-import LoginPerfil from "./pages/Login/LoginPerfil";
-import InfoProfile from "./pages/Login/InfoProfile";
-import AboutMe from "./pages/Login/AboutMe";
-import Availability from './pages/Login/Availability';
-import AvailabilityDays from './pages/Login/AvailabilityDays'
-import Profession from "./pages/Login/Profession";
-import Midia from "./pages/Midia/Midia";
-import Agency from "./pages/Login/Agency";
-import PreviewProfile from "./pages/Login/PreviewProfile";
-import ImageBack from "./assets/images/Grupo_518.png";
-import IconMenu from "./assets/images/icon_menu.png";
-import NextEvent from "./pages/Login/NextEvent";
-import IAnAgency from "./pages/Login/IAnAgency";
-import ToExplore from "./pages/Login/ToExplore";
+import * as React from 'react';
+import {
+  createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator, DrawerItems,
+} from 'react-navigation';
+import {
+  SafeAreaView, ScrollView, ImageBackground, Image, TouchableOpacity,
+} from 'react-native';
+import HomePage from './pages/Home';
+import LoginPage from './pages/Login';
+import LoginEmailPassword from './pages/Login/LoginEmailPassword';
+import LoginNickName from './pages/Login/LoginNickName';
+import LoginProfilePicture from './pages/Profile/ProfilePicture';
+import LoginPerfil from './pages/Login/LoginPerfil';
+import InfoProfile from './pages/Login/InfoProfile';
+import AboutMe from './pages/Profile/AboutMe';
+import Availability from './pages/Profile/Availability';
+import AvailabilityDays from './pages/Profile/AvailabilityDays';
+import Profession from './pages/Profile/Profession';
+import Midia from './pages/Profile/Midia';
+import Agency from './pages/Agency/Agency';
+import PreviewProfile from './pages/Login/PreviewProfile';
+import ImageBack from './assets/images/Grupo_518.png';
+import IconMenu from './assets/images/icon_menu.png';
+import NextEvent from './pages/NextEvent/NextEvent';
+import IAnAgency from './pages/Agency/IAnAgency';
+// import ToExplore from "./pages/Login/ToExplore";
 
 const CustomDrawerContentComponent = props => (
   <ScrollView>
@@ -40,27 +44,27 @@ const DrawerNavigator = createDrawerNavigator(
   {
     LoginPerfil,
     NextEvent,
-    ToExplore
+    // ToExplore
   },
   {
     drawerType: 'slide',
     drawerWidth: 200,
-    contentComponent: CustomDrawerContentComponent
-  }
+    contentComponent: CustomDrawerContentComponent,
+  },
 );
 
 const DrawerContainer = createStackNavigator(
   {
-    DrawerNavigator
+    DrawerNavigator,
   },
   {
     defaultNavigationOptions: {
       headerTitle: <TouchableOpacity><Image style={{ height: 40, width: 40 }} source={IconMenu} /></TouchableOpacity>,
       headerStyle: {
-        backgroundColor: '#18142F'
+        backgroundColor: '#18142F',
       },
     },
-  }
+  },
 );
 
 const StackNavigator = createStackNavigator({
@@ -69,36 +73,36 @@ const StackNavigator = createStackNavigator({
     screen: LoginEmailPassword,
     navigationOptions: {
       headerTransparent: true,
-      headerTintColor: 'white'
-    }
+      headerTintColor: 'white',
+    },
   },
   LoginNickName: {
     screen: LoginNickName,
     navigationOptions: {
       headerTransparent: true,
-      headerTintColor: 'white'
-    }
+      headerTintColor: 'white',
+    },
   },
   LoginProfilePicture: {
     screen: LoginProfilePicture,
     navigationOptions: {
       headerTransparent: true,
-      headerTintColor: 'white'
-    }
+      headerTintColor: 'white',
+    },
   },
   InfoProfile: {
     screen: InfoProfile,
     navigationOptions: {
       headerTransparent: true,
-      headerTintColor: 'white'
-    }
+      headerTintColor: 'white',
+    },
   },
   PreviewProfile: {
     screen: PreviewProfile,
     navigationOptions: {
       headerTransparent: true,
-      headerTintColor: 'white'
-    }
+      headerTintColor: 'white',
+    },
   },
   Profession: {
     screen: Profession,
@@ -108,8 +112,8 @@ const StackNavigator = createStackNavigator({
       },
       headerTransparent: true,
       headerTintColor: 'white',
-      headerTitle: 'Profissão'
-    }
+      headerTitle: 'Profissão',
+    },
   },
   Availability: {
     screen: Availability,
@@ -119,8 +123,8 @@ const StackNavigator = createStackNavigator({
       },
       headerTransparent: true,
       headerTintColor: 'white',
-      headerTitle: 'Disponibilidade'
-    }
+      headerTitle: 'Disponibilidade',
+    },
   },
   AvailabilityDays: {
     screen: AvailabilityDays,
@@ -130,8 +134,8 @@ const StackNavigator = createStackNavigator({
       },
       headerTransparent: true,
       headerTintColor: 'white',
-      headerTitle: 'Disponibilidade'
-    }
+      headerTitle: 'Disponibilidade',
+    },
   },
   Midia: {
     screen: Midia,
@@ -141,8 +145,8 @@ const StackNavigator = createStackNavigator({
       },
       headerTransparent: true,
       headerTintColor: 'white',
-      headerTitle: 'Midias'
-    }
+      headerTitle: 'Midias',
+    },
   },
   Agency: {
     screen: Agency,
@@ -152,8 +156,8 @@ const StackNavigator = createStackNavigator({
       },
       headerTransparent: true,
       headerTintColor: 'white',
-      headerTitle: 'Sou Agência'
-    }
+      headerTitle: 'Sou Agência',
+    },
   },
   AboutMe: {
     screen: AboutMe,
@@ -163,28 +167,28 @@ const StackNavigator = createStackNavigator({
       },
       headerTransparent: true,
       headerTintColor: 'white',
-      headerTitle: 'Sobre mim'
-    }
+      headerTitle: 'Sobre mim',
+    },
   },
   IAnAgency: {
     screen: IAnAgency,
     navigationOptions: {
       headerTransparent: true,
-      headerTintColor: 'white'
-    }
+      headerTintColor: 'white',
+    },
   },
   HomePage,
-  initialRouteName: "LoginPage"
+  initialRouteName: 'LoginPage',
 });
 
 const MainStack = createSwitchNavigator(
   {
     Home: StackNavigator,
-    Drawer: DrawerContainer
+    Drawer: DrawerContainer,
   },
   {
-    initialRouteName: 'Home'
-  }
+    initialRouteName: 'Home',
+  },
 );
 
 const Routes = createAppContainer(MainStack);
