@@ -20,33 +20,13 @@ class NextEvent extends Component {
     }
   };
 
-  state = {
-    selected: false
-  };
-
-  SelectedInput = () => {
-    debugger;
-    if (event.selected) {
-    }
-  };
-
-  goToLoginCropProfilePhoto = () => {
-    ImagePicker.openPicker({
-      width: 30,
-      height: 40,
-      cropperCircleOverlay: true,
-      cropping: true
-    })
-      .then(result => this.props.navigation.navigate('LoginPerfil'))
-  }
-
   render() {
     return (
       <CoreTemplate name="Kaori">
-        <View style={{ paddingHorizontal: 50 }}>
+        <View style={styles.border}>
           <View
             style={{ alignItems: "center", margin: 5 }}>
-            <Text style={{ width: 110, height: 110, fontSize: 20, color: "white" }}>Fazer Check-in</Text>
+            <Text style={styles.circle}>1min para fazer Check-in</Text>
           </View>
         </View>
       </CoreTemplate >
@@ -57,48 +37,25 @@ class NextEvent extends Component {
 const { height, width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-  ImageBackgroundContainer: {
-    width: "100%",
-    height: "100%"
+  circle: {
+    borderWidth: 8,
+    borderColor: '#352F4D',
+    borderRadius: 80,
+    width: 150,
+    height: 150,
+    backgroundColor: '#656565',
+    color: 'white',
+    padding: 40,
   },
-  ImageBackgroundNickName: {
-    width: 100,
-    height: 95
-  },
-  logoContainer: {
-    alignItems: "center",
-    height: height,
-    width: width
-  },
-  logoNickName: {
-    margin: 60
-  },
-  buttonContent: {
-    flexDirection: "row",
+  border: {
+    borderWidth: 25,
+    borderRadius: 150,
     width: 280,
-    margin: 20
-  },
-  TextInput: {
-    borderColor: "white",
-    borderWidth: 1.8,
-    borderRadius: 50
-  },
-  TextInputSelected: {
-    borderColor: "#F13567",
-    borderWidth: 1.8,
-    borderRadius: 50,
-    height: 56
-  },
-  button: {
-    margin: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#483D8B",
-    borderColor: "#483D8B",
-    borderWidth: 1.5,
-    borderRadius: 50,
-    height: 55,
-    width: 150
+    height: 280,
+    backgroundColor: 'transparent',
+    padding: 32,
+    paddingHorizontal: 50,
+    borderColor: '#352F4D'
   }
 });
 
