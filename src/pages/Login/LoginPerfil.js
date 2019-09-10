@@ -90,6 +90,10 @@ export default class LoginPerfil extends Component {
         <TouchableOpacity onPress={this.openPreviewProfile} style={{ width: 300, alignItems: "center" }}>
           <Text style={styles.submitText}>Pré-visualizar o perfil</Text>
         </TouchableOpacity>
+        {/* TODO: essas funções do onPress não precissa fazer um método pra cada!
+          faz uma função que recebe a rota que precisa ir on onPress (ex: navegar('AboutMe'))
+          daí pra cada onPress passa uma rota especifica para essa função (ex: navegar('batata'), navegar('abacaxi')) 
+        */}
         <FlatList
           contentContainerStyle={styles.list}
           data={[

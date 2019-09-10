@@ -29,6 +29,7 @@ class LoginNickName extends Component {
     return (
       <CoreTemplate>
         <View style={{ paddingHorizontal: 50 }}>
+          {/* TODO: componentizar input com label!  */} 
           <View>
             <Text style={{ color: "white", fontSize: 13 }}>Nome Completo</Text>
           </View>
@@ -40,6 +41,8 @@ class LoginNickName extends Component {
               />
             </TouchableOpacity>
           </View>
+
+          {/* TODO: componentizar input com label!  */} 
           <View style={{ paddingTop: 10 }}>
             <Text style={{ color: "white", fontSize: 13 }}>Apelido</Text>
           </View>
@@ -51,6 +54,8 @@ class LoginNickName extends Component {
               />
             </TouchableOpacity>
           </View>
+
+          {/* TODO: mostrar essa mensagem dentro do componente de input  */} 
           <View style={{ paddingHorizontal: 20 }}>
             <Text style={{ color: "#F13567", fontSize: 10, margin: 5 }}>Este Apelido já existe</Text>
           </View>
