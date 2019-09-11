@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  Dimensions,
   TouchableOpacity,
-  Text
+  Text,
 } from "react-native";
 import CoreTemplate from "../../shared/components/CoreTemplate"
 

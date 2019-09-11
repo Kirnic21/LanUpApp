@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { FlatList } from "react-native-gesture-handler";
-import ImageAdd from '../../assets/images/icon_add.png'
-
+import ButtonAdd from "../../shared/components/ButtonAdd";
 import {
   StyleSheet,
   Dimensions,
@@ -9,8 +8,7 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
-  TextInput,
-  Image
+  TextInput
 } from "react-native";
 
 class Agency extends Component {
@@ -119,25 +117,7 @@ class Agency extends Component {
           )
           }
         />
-        <FlatList
-          contentContainerStyle={styles.list}
-          data={[
-            {
-              title: 'Adicionar Profissão'
-            }
-          ]}
-          renderItem={({ item }) => (
-            <TouchableOpacity>
-              <View style={{ ...styles.Add, flexDirection: "row" }}>
-                <Image source={ImageAdd} style={{ height: 20, width: 20, marginRight: 10, marginTop: 5 }} />
-                <Text style={{ color: '#865FC0', fontSize: 13, marginBottom: 15, marginTop: 5 }}>
-                  {item.title}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )
-          }
-        />
+        <ButtonAdd value={"Adicionar Profissão"} />
         <TouchableOpacity onPress={this.openIAnAgency}>
           <Text style={{ ...styles.submitText, color: 'white', marginBottom: 30, backgroundColor: '#865FC0', fontSize: 13, width: 200 }}>Concluir</Text>
         </TouchableOpacity>
@@ -204,16 +184,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     fontSize: 15,
     width: '70%'
-  },
-  Add: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    color: '#46C5F3',
-    padding: 20,
-    backgroundColor: '#24203B',
-    borderRadius: 10,
-    fontSize: 15,
-    width: width - 50
   },
   agency: {
     marginTop: 20,

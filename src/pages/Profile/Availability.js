@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ArrowRight from "./../../assets/images/arrowRight.png";
 import { FlatList } from "react-native-gesture-handler";
 import ToggleSwitch from "toggle-switch-react-native";
-import ImageAdd from './../../assets/images/icon_add.png';
+import ButtonAdd from "../../shared/components/ButtonAdd";
 
 import {
   StyleSheet,
@@ -164,25 +164,7 @@ export default class Availability extends Component {
             </View>
           )}
         />
-        <FlatList
-          contentContainerStyle={{ ...styles.list, marginBottom: 30 }}
-          data={
-            [
-              {
-                title: 'Adicionar Horários especiais'
-              }
-            ]}
-          renderItem={({ item }) => (
-            <TouchableOpacity>
-              <View style={{ ...styles.Add, flexDirection: "row" }}>
-                <Image source={ImageAdd} style={{ height: 20, width: 20, marginRight: 10, marginTop: 5 }} />
-                <Text style={{ color: '#865FC0', fontSize: 15, marginBottom: 15, marginTop: 5 }}>
-                  {item.title}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
+        <ButtonAdd value={"Adicionar horários especiais"} />
       </ScrollView>
     );
   }
@@ -219,16 +201,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#24203B',
     width: width - 50,
     borderRadius: 20
-  },
-  Add: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    color: '#46C5F3',
-    padding: 20,
-    backgroundColor: '#24203B',
-    borderRadius: 10,
-    fontSize: 15,
-    width: width - 50
   },
   item: {
     padding: 15

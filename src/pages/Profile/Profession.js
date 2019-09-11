@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ImageAdd from '../../assets/images/icon_add.png'
+import ButtonAdd from "../../shared/components/ButtonAdd";
 
 import {
   StyleSheet,
@@ -94,27 +94,7 @@ class Profession extends Component {
           )
           }
         />
-
-        <FlatList
-          contentContainerStyle={styles.list}
-          data={[
-            {
-              title: 'Adicionar Profissão'
-            }
-          ]}
-          renderItem={({ item }) => (
-            <TouchableOpacity>
-              <View style={{ ...styles.Add, flexDirection: "row" }}>
-                <Image source={ImageAdd} style={{ height: 20, width: 20, marginRight: 10, marginTop: 5 }} />
-                <Text style={{ color: '#865FC0', fontSize: 13, marginBottom: 15, marginTop: 5 }}>
-                  {item.title}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )
-          }
-        />
-
+        <ButtonAdd value={"Adicionar Profissão"} />
         < FlatList
           contentContainerStyle={styles.list}
           data={
@@ -154,26 +134,7 @@ class Profession extends Component {
           )
           }
         />
-
-        <FlatList
-          contentContainerStyle={{ ...styles.list, marginBottom: 30 }}
-          data={
-            [
-              {
-                title: 'Adicionar Habilidades'
-              }
-            ]}
-          renderItem={({ item }) => (
-            <TouchableOpacity>
-              <View style={{ ...styles.Add, flexDirection: "row" }}>
-                <Image source={ImageAdd} style={{ height: 20, width: 20, marginRight: 10, marginTop: 5 }} />
-                <Text style={{ color: '#865FC0', fontSize: 13, marginBottom: 15, marginTop: 5 }}>
-                  {item.title}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
+        <ButtonAdd value={"Adicionar Habilidades"} />
       </ScrollView >
     );
   }
@@ -208,16 +169,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flexWrap: 'wrap',
     margin: 3
-  },
-  Add: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    color: '#46C5F3',
-    padding: 20,
-    backgroundColor: '#24203B',
-    borderRadius: 10,
-    fontSize: 15,
-    width: width - 50
   },
   submitText: {
     marginTop: 20,
