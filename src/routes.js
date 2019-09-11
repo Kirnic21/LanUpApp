@@ -23,7 +23,7 @@ import ImageBack from './assets/images/Grupo_518.png';
 import IconMenu from './assets/images/icon_menu.png';
 import NextEvent from './pages/NextEvent/NextEvent';
 import IAnAgency from './pages/Agency/IAnAgency';
-// import ToExplore from "./pages/Login/ToExplore";
+import ToExplore from "./pages/Explore/ToExplore";
 
 const CustomDrawerContentComponent = props => (
   <ScrollView>
@@ -44,7 +44,7 @@ const DrawerNavigator = createDrawerNavigator(
   {
     LoginPerfil,
     NextEvent,
-    // ToExplore
+    ToExplore,
   },
   {
     drawerType: 'slide',
