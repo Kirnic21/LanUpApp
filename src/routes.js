@@ -24,6 +24,7 @@ import IconMenu from './assets/images/icon_menu.png';
 import NextEvent from './pages/NextEvent/NextEvent';
 import IAnAgency from './pages/Agency/IAnAgency';
 import ToExplore from "./pages/Explore/ToExplore";
+import SpecialHours from "./pages/Profile/SpecialHours";
 
 const CustomDrawerContentComponent = props => (
   <ScrollView>
@@ -146,6 +147,17 @@ const StackNavigator = createStackNavigator({
       headerTransparent: true,
       headerTintColor: 'white',
       headerTitle: 'Midias',
+    },
+  },
+  SpecialHours: {
+    screen: SpecialHours,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+      headerTransparent: true,
+      headerTintColor: 'white',
+      headerTitle: 'Disponibilidade',
     },
   },
   Agency: {

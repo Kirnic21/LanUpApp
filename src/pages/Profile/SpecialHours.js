@@ -14,10 +14,9 @@ import {
   TextInput
 } from "react-native";
 
-export default class Availability extends Component {
+export default class SpecialHours extends Component {
   state = {
-    selected: false,
-    now: true
+    selected: false
   };
 
   SelectedInput = () => {
@@ -25,43 +24,13 @@ export default class Availability extends Component {
     }
   };
 
-  onToggle(isOn) {
-    console.log("Changed to " + isOn);
-  }
-
-  renderSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 2,
-          width: "90%",
-          backgroundColor: "#18142F",
-          marginLeft: "5%",
-          marginRight: "10%"
-        }}
-      />
-    );
-  };
-
   render() {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
-        <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", marginTop: '20%', marginLeft: '20%' }}>
+        <View style={{ marginTop: '20%', marginRight: '40%' }}>
           <Text style={{ fontSize: 20, color: 'white' }}>
-            Segunda
+            16 de Dez, 2019
           </Text>
-          <View style={{ marginLeft: '60%' }}>
-            <ToggleSwitch
-              size="small"
-              onColor="#483D8B"
-              offColor="#18142F"
-              isOn={this.state.now}
-              onToggle={now => {
-                this.setState({ now });
-                this.onToggle(now);
-              }}
-            />
-          </View>
         </View>
         <FlatList
           contentContainerStyle={{ ...styles.list }}

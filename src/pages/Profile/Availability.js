@@ -33,6 +33,10 @@ export default class Availability extends Component {
     this.props.navigation.navigate('AvailabilityDays')
   }
 
+  openSpecialHours = () => {
+    this.props.navigation.navigate('SpecialHours')
+  }
+
   renderSeparator = () => {
     return (
       <View
@@ -144,7 +148,8 @@ export default class Availability extends Component {
             {
               title: 'Horários especiais',
               subtitle: '16 de Dez, 2019',
-              date: '18:00 até 21:00'
+              date: '18:00 até 21:00',
+              onPress: () => this.openSpecialHours()
             }
           ]}
           renderItem={({ item }) => (
@@ -152,15 +157,17 @@ export default class Availability extends Component {
               <Text style={{ color: 'white', fontSize: 15, marginBottom: 5 }}>
                 {item.title}
               </Text>
-              <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", marginTop: 10 }}>
-                <Text style={{ color: 'white', fontSize: 13 }}>
-                  {item.subtitle}
-                </Text>
-                <Text style={{ color: 'white', fontSize: 10, marginLeft: 50 }}>
-                  {item.date}
-                </Text>
-                <Image source={ArrowRight} style={{ width: 15, height: 15 }} />
-              </View>
+              <TouchableOpacity onPress={item.onPress}>
+                <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", marginTop: 10 }}>
+                  <Text style={{ color: 'white', fontSize: 13 }}>
+                    {item.subtitle}
+                  </Text>
+                  <Text style={{ color: 'white', fontSize: 10, marginLeft: 50 }}>
+                    {item.date}
+                  </Text>
+                  <Image source={ArrowRight} style={{ width: 15, height: 15 }} />
+                </View>
+              </TouchableOpacity>
             </View>
           )}
         />
