@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import InputLabel from "../../shared/components/InputLabel";
 import {
   StyleSheet,
   View,
@@ -29,17 +29,8 @@ class LoginNickName extends Component {
     return (
       <CoreTemplate>
         <View style={{ paddingHorizontal: 50 }}>
-          <View>
-            <Text style={{ color: "white", fontSize: 13 }}>Nome Completo</Text>
-          </View>
-          <View>
-            <TouchableOpacity style={this.state.selected == false ? styles.TextInput : styles.TextInputSelected} onPress={this.SelectedInput}>
-              <TextInput
-                style={{ height: 45, color: 'white', fontSize: 18, paddingHorizontal: 20 }}
-              // onChangeText={event => setItemText(index, event, card)}
-              />
-            </TouchableOpacity>
-          </View>
+          <InputLabel title={'Nome Completo'} />
+          {/* <InputLabel title={'Apelido'} /> */}
           <View style={{ paddingTop: 10 }}>
             <Text style={{ color: "white", fontSize: 13 }}>Apelido</Text>
           </View>
@@ -51,6 +42,8 @@ class LoginNickName extends Component {
               />
             </TouchableOpacity>
           </View>
+
+          {/* TODO: mostrar essa mensagem dentro do componente de input  */}
           <View style={{ paddingHorizontal: 20 }}>
             <Text style={{ color: "#F13567", fontSize: 10, margin: 5 }}>Este Apelido já existe</Text>
           </View>

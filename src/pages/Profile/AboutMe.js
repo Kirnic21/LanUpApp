@@ -73,6 +73,7 @@ class AboutMe extends Component {
               <Text style={{ color: 'white', fontSize: 15, marginBottom: 20 }}>
                 {item.title}
               </Text>
+              {/* TODO: componentizar input com label!  */} 
               <View>
                 <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Nome Completo</Text>
               </View>
@@ -83,6 +84,7 @@ class AboutMe extends Component {
                   />
                 </TouchableOpacity>
               </View>
+              {/* TODO: componentizar input com label!  */} 
               <View style={{ paddingTop: 10 }}>
                 <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Apelido</Text>
               </View>
@@ -92,6 +94,7 @@ class AboutMe extends Component {
                     style={styles.ValueInput}
                   />
                 </TouchableOpacity>
+                {/* TODO: componentizar input com label!  */} 
                 <View style={{ paddingTop: 10 }}>
                   <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Descrição</Text>
                 </View>
@@ -147,6 +150,7 @@ class AboutMe extends Component {
               </Text>
               <TouchableOpacity
                 style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                {/* TODO: fazer laço pra esses Box */}
                 <Box
                   icon={ImageSelf}
                   onClick={this.SelectedInput}
@@ -190,6 +194,8 @@ class AboutMe extends Component {
                   />
                 </TouchableOpacity>
               </View>
+
+              {/* TODO: fazer um laço pra mostrar esses 4 inputs (nascimento, genero, altura, peso) */}
               <View style={{ flex: 1, flexDirection: 'row', justifyContent: "flex-start" }}>
                 <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Nascimento</Text>
                 <Text style={{ color: "white", marginBottom: 5, marginLeft: 60, fontSize: 13 }}>Genero</Text>
@@ -222,6 +228,8 @@ class AboutMe extends Component {
                   />
                 </TouchableOpacity>
               </View>
+
+              {/* TODO: fazer um laço pra mostrar esses 4 inputs (nascimento, genero, altura, peso) */}
               <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
                 <Text style={{ color: "white", marginRight: 60, fontSize: 13 }}>Tenho filhos</Text>
                 <View>

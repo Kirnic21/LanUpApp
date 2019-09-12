@@ -16,6 +16,7 @@ class LoginPage extends Component {
     return (
       <CoreTemplate>
         <View style={styles.buttonContent}>
+          {/* TODO: componentizar botão - todos botões tem botão arredondada */}
           <TouchableOpacity style={styles.buttonFacebook}>
             <Text style={{ color: 'white', fontSize: 13 }}>Conectar com facebook </Text>
           </TouchableOpacity>
@@ -24,6 +25,7 @@ class LoginPage extends Component {
           <Text style={{ color: 'white' }}>ou</Text>
         </View>
         <View style={styles.buttonContent}>
+          {/* TODO: componentizar botão - todos botões tem botão arredondada */}
           <TouchableOpacity style={styles.buttonEmail} onPress={this.goToLoginEmailPassword}>
             <Text style={{ color: 'white', fontSize: 13 }}>Conectar com e-mail </Text>
           </TouchableOpacity>

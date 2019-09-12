@@ -1,16 +1,11 @@
 import React, { Component } from "react";
-import ImageProfile from "./../../assets/images/Grupo_528.png";
-
 import {
   Text,
   View,
-  Image,
-  Dimensions,
   StyleSheet,
-  TouchableOpacity
+
 } from "react-native";
 import CoreTemplate from "~/shared/components/CoreTemplate";
-import ImagePicker from 'react-native-image-crop-picker'
 
 class NextEvent extends Component {
   static navigationOptions = {
@@ -33,8 +28,6 @@ class NextEvent extends Component {
     );
   }
 }
-
-const { height, width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   circle: {

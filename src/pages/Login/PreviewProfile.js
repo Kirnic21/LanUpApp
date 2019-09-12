@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Circle from "../../assets/images/circulo.png";
 import Girl from "../../assets/images/girlFest.jpg";
 import { FlatList } from "react-native-gesture-handler";
-// import Down from "../../assets/images/icon_down.png"
 
 import {
   StyleSheet,
@@ -45,9 +44,6 @@ class PreviewProfile extends Component {
                 </View>
               </ImageBackground>
             </View>
-            {/* <View style={{ marginLeft: 100 }}>
-            <Image source={Down} />
-          </View> */}
           </ImageBackground>
           <FlatList
             contentContainerStyle={styles.list}

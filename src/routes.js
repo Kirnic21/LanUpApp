@@ -11,7 +11,6 @@ import LoginEmailPassword from './pages/Login/LoginEmailPassword';
 import LoginNickName from './pages/Login/LoginNickName';
 import LoginProfilePicture from './pages/Profile/ProfilePicture';
 import LoginPerfil from './pages/Login/LoginPerfil';
-import InfoProfile from './pages/Login/InfoProfile';
 import AboutMe from './pages/Profile/AboutMe';
 import Availability from './pages/Profile/Availability';
 import AvailabilityDays from './pages/Profile/AvailabilityDays';
@@ -86,13 +85,6 @@ const StackNavigator = createStackNavigator({
   },
   LoginProfilePicture: {
     screen: LoginProfilePicture,
-    navigationOptions: {
-      headerTransparent: true,
-      headerTintColor: 'white',
-    },
-  },
-  InfoProfile: {
-    screen: InfoProfile,
     navigationOptions: {
       headerTransparent: true,
       headerTintColor: 'white',
