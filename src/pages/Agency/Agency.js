@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { FlatList } from "react-native-gesture-handler";
 import ButtonAdd from "../../shared/components/ButtonAdd";
+import InputLabel from "../../shared/components/InputLabel";
 import {
   StyleSheet,
   Dimensions,
@@ -44,26 +45,8 @@ class Agency extends Component {
               <Text style={{ color: 'white', fontSize: 15, marginBottom: 20 }}>
                 {item.title}
               </Text>
-              <View>
-                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>CNPJ</Text>
-              </View>
-              <View>
-                <TouchableOpacity style={this.state.selected == false ? styles.TextInput : styles.TextInputSelected} onPress={this.SelectedInput}>
-                  <TextInput
-                    style={styles.ValueInput}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View style={{ paddingTop: 10 }}>
-                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>CEP</Text>
-              </View>
-              <View>
-                <TouchableOpacity style={styles.TextInput}>
-                  <TextInput
-                    style={styles.ValueInput}
-                  />
-                </TouchableOpacity>
-              </View>
+              <InputLabel title={"CNPJ"} />
+              <InputLabel title={"CEP"} />
             </View>
           )}
         />

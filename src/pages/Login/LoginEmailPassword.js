@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CoreTemplate from "~/shared/components/CoreTemplate";
 import InputLabel from "../../shared/components/InputLabel";
+// import Button from "../../shared/components/Button";
 import {
   View,
   TouchableOpacity,

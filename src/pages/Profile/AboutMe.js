@@ -3,6 +3,7 @@ import ImageProfile from "./../../assets/images/backgroud.png";
 import Box from '../../shared/components/Box';
 import ImageBody from './../../assets/images/icon_addbody.png';
 import ImageSelf from './../../assets/images/icon_addselfie.png';
+import InputLabel from "../../shared/components/InputLabel";
 
 import {
   StyleSheet,
@@ -18,6 +19,25 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import ToggleSwitch from "toggle-switch-react-native";
 
+BoxItem = [
+  {
+    icon: ImageSelf,
+    onPress: this.SelectedInput
+  },
+  {
+    icon: ImageSelf,
+    onPress: this.SelectedInput
+  },
+  {
+    icon: ImageBody,
+    onPress: this.SelectedInput
+  },
+  {
+    icon: ImageBody,
+    onPress: this.SelectedInput
+  }
+]
+
 class AboutMe extends Component {
   state = {
     selected: false,
@@ -28,6 +48,7 @@ class AboutMe extends Component {
   };
 
   SelectedInput = () => {
+    debugger
     if (event.selected) {
     }
   };
@@ -73,40 +94,9 @@ class AboutMe extends Component {
               <Text style={{ color: 'white', fontSize: 15, marginBottom: 20 }}>
                 {item.title}
               </Text>
-              {/* TODO: componentizar input com label!  */} 
-              <View>
-                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Nome Completo</Text>
-              </View>
-              <View>
-                <TouchableOpacity style={this.state.selected == false ? styles.TextInput : styles.TextInputSelected} onPress={this.SelectedInput}>
-                  <TextInput
-                    style={styles.ValueInput}
-                  />
-                </TouchableOpacity>
-              </View>
-              {/* TODO: componentizar input com label!  */} 
-              <View style={{ paddingTop: 10 }}>
-                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Apelido</Text>
-              </View>
-              <View>
-                <TouchableOpacity style={styles.TextInput}>
-                  <TextInput
-                    style={styles.ValueInput}
-                  />
-                </TouchableOpacity>
-                {/* TODO: componentizar input com label!  */} 
-                <View style={{ paddingTop: 10 }}>
-                  <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Descrição</Text>
-                </View>
-                <View>
-                  <TouchableOpacity style={{ ...styles.TextInput, height: 100, borderRadius: 30 }}>
-                    <TextInput
-                      numberOfLines={10}
-                      style={styles.ValueInput}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
+              <InputLabel title={"Nome Completo"} />
+              <InputLabel title={"Apelido"} />
+              <InputLabel title={"Descrição"} />
             </View>
           )}
         />
@@ -150,14 +140,7 @@ class AboutMe extends Component {
               </Text>
               <TouchableOpacity
                 style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-                {/* TODO: fazer laço pra esses Box */}
-                <Box
-                  icon={ImageSelf}
-                  onClick={this.SelectedInput}
-                />
-                <Box icon={ImageSelf} />
-                <Box icon={ImageBody} />
-                <Box icon={ImageBody} />
+                {BoxItem.map(item => <Box icon={item.icon} onPress={item.onPress} />)}
               </TouchableOpacity>
             </View>
           )}
@@ -171,30 +154,8 @@ class AboutMe extends Component {
           ]}
           renderItem={({ item }) => (
             <View style={styles.item}>
-              <Text style={{ color: 'white', fontSize: 15, marginBottom: 20 }}>
-                {item.title}
-              </Text>
-              <View>
-                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>E-mail</Text>
-              </View>
-              <View>
-                <TouchableOpacity style={this.state.selected == false ? styles.TextInput : styles.TextInputSelected} onPress={this.SelectedInput}>
-                  <TextInput
-                    style={styles.ValueInput}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View style={{ paddingTop: 10 }}>
-                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Telefone</Text>
-              </View>
-              <View>
-                <TouchableOpacity style={{ ...styles.TextInput, marginBottom: 10 }}>
-                  <TextInput
-                    style={styles.ValueInput}
-                  />
-                </TouchableOpacity>
-              </View>
-
+              <InputLabel title={"E-mail"} />
+              <InputLabel title={"Telefone"} />
               {/* TODO: fazer um laço pra mostrar esses 4 inputs (nascimento, genero, altura, peso) */}
               <View style={{ flex: 1, flexDirection: 'row', justifyContent: "flex-start" }}>
                 <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Nascimento</Text>

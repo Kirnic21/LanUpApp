@@ -6,9 +6,9 @@ import {
   Text,
 } from 'react-native'
 
-export default Button = ({ name }) => (
+export default Button = ({ name, click }) => (
   <View style={{ alignItems: "center" }}>
-    <TouchableOpacity style={styles.button} onPress={this.goToLoginNickName}>
+    <TouchableOpacity style={styles.button} onPress={e => click && click(e)}>
       <Text style={{ color: "white", fontSize: 13 }}>{name}</Text>
     </TouchableOpacity>
   </View>
