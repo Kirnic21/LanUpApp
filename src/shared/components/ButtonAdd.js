@@ -11,7 +11,7 @@ import ImageAdd from '../../assets/images/icon_add.png'
 
 export default ButtonAdd = ({ value }) => (
   <TouchableOpacity>
-    <View style={{ ...styles.Add, flexDirection: "row", marginTop: 10 }}>
+    <View style={{ ...styles.Add, flexDirection: "row" }}>
       <Image source={ImageAdd} style={{ height: 20, width: 20, marginRight: 10, marginTop: 5 }} />
       <Text style={{ color: '#865FC0', fontSize: 13, marginBottom: 15, marginTop: 5 }}>
         {value}

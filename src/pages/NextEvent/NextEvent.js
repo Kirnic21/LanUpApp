@@ -3,7 +3,7 @@ import {
   Text,
   View,
   StyleSheet,
-
+  TouchableOpacity
 } from "react-native";
 import CoreTemplate from "~/shared/components/CoreTemplate";
 
@@ -15,14 +15,18 @@ class NextEvent extends Component {
     }
   };
 
+  openCheckList = () => {
+    this.props.navigation.navigate('CheckList')
+  }
+
   render() {
     return (
       <CoreTemplate name="Kaori">
         <View style={styles.border}>
-          <View
+          <TouchableOpacity onPress={this.openCheckList}
             style={{ alignItems: "center", margin: 5 }}>
             <Text style={styles.circle}>1min para fazer Check-in</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </CoreTemplate >
     );

@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
   Container: {
     alignItems: "center",
     width: width,
+    height: height,
     backgroundColor: "#18142F"
   },
   TextInput: {

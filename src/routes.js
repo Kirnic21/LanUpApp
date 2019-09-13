@@ -21,9 +21,11 @@ import PreviewProfile from './pages/Login/PreviewProfile';
 import ImageBack from './assets/images/Grupo_518.png';
 import IconMenu from './assets/images/icon_menu.png';
 import NextEvent from './pages/NextEvent/NextEvent';
+import DetailNextEvent from './pages/NextEvent/DetailNextEvent';
 import IAnAgency from './pages/Agency/IAnAgency';
 import ToExplore from "./pages/Explore/ToExplore";
 import SpecialHours from "./pages/Profile/SpecialHours";
+import CheckList from "./pages/NextEvent/CheckList";
 
 const CustomDrawerContentComponent = props => (
   <ScrollView>
@@ -44,7 +46,7 @@ const DrawerNavigator = createDrawerNavigator(
   {
     LoginPerfil,
     NextEvent,
-    ToExplore,
+    ToExplore
   },
   {
     drawerType: 'slide',
@@ -172,6 +174,24 @@ const StackNavigator = createStackNavigator({
       headerTransparent: true,
       headerTintColor: 'white',
       headerTitle: 'Sobre mim',
+    },
+  },
+  CheckList: {
+    screen: CheckList,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+      headerTransparent: true,
+      headerTintColor: 'white',
+      headerTitle: 'Check List',
+    },
+  },
+  DetailNextEvent: {
+    screen: DetailNextEvent,
+    navigationOptions: {
+      headerTransparent: true,
+      headerTintColor: 'white',
     },
   },
   IAnAgency: {
