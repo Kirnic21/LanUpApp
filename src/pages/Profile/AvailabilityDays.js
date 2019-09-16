@@ -94,7 +94,9 @@ export default class Availability extends Component {
             </View>
           )}
         />
-        <ButtonAdd value={"Adicionar Horários"} />
+        <View style={{ marginTop: 10 }}>
+          <ButtonAdd value={"Adicionar Horários"} />
+        </View>
       </ScrollView>
     );
   }

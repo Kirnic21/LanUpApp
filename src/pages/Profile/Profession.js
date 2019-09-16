@@ -96,7 +96,9 @@ class Profession extends Component {
           )
           }
         />
-        <ButtonAdd value={"Adicionar Profissão"} />
+        <View style={{ marginTop: 10 }}>
+          <ButtonAdd value={"Adicionar Profissão"} />
+        </View>
         < FlatList
           contentContainerStyle={styles.list}
           data={
@@ -138,7 +140,9 @@ class Profession extends Component {
           )
           }
         />
-        <ButtonAdd value={"Adicionar Habilidades"} />
+        <View style={{ marginTop: 10 }}>
+          <ButtonAdd value={"Adicionar Habilidades"} />
+        </View>
       </ScrollView >
     );
   }
