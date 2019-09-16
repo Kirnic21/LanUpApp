@@ -103,7 +103,9 @@ class Agency extends Component {
           )
           }
         />
-        <ButtonAdd value={"Adicionar Profissão"} />
+        <View style={{ marginTop: 10 }}>
+          <ButtonAdd value={"Adicionar Profissão"} />
+        </View>
         <TouchableOpacity onPress={this.openIAnAgency}>
           <Text style={{ ...styles.submitText, color: 'white', marginBottom: 30, backgroundColor: '#865FC0', fontSize: 13, width: 200 }}>Concluir</Text>
         </TouchableOpacity>
@@ -183,7 +185,7 @@ const styles = StyleSheet.create({
     width: width - 50
   },
   list: {
-    marginTop: 20,
+    marginTop: 10,
     backgroundColor: '#24203B',
     width: width - 50,
     borderRadius: 20

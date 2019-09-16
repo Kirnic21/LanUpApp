@@ -28,7 +28,7 @@ class DetailNextEvent extends Component {
             <Text style={styles.circle}>Ocorrência</Text>
           </TouchableOpacity>
         </View>
-        <View style={{ height: 20, width: 30 }}>
+        <View>
           <Modal
             animationType="slide"
             transparent={false}
@@ -37,14 +37,12 @@ class DetailNextEvent extends Component {
               Alert.alert('Modal has been closed.');
             }}>
             <View style={{ marginTop: 22 }}>
-              <View>
-                <Text>Hello World!</Text>
-
+              <View style={styles.modalView}>
                 <TouchableHighlight
                   onPress={() => {
                     this.setModalVisible(!this.state.modalVisible);
                   }}>
-                  <Text>Hide Modal</Text>
+                  <Text style={{ color: 'white' }}>Fechar</Text>
                 </TouchableHighlight>
               </View>
             </View>
@@ -75,6 +73,12 @@ const styles = StyleSheet.create({
     padding: 32,
     paddingHorizontal: 50,
     borderColor: '#352F4D'
+  },
+  modalView: {
+    backgroundColor: "#000",
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 

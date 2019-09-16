@@ -6,6 +6,7 @@ import {
   Text,
 } from "react-native";
 import CoreTemplate from "../../shared/components/CoreTemplate"
+import RoundButton from '~/shared/components/RoundButton';
 
 
 class LoginPage extends Component {
@@ -15,21 +16,15 @@ class LoginPage extends Component {
   render() {
     return (
       <CoreTemplate>
-        <View style={styles.buttonContent}>
-          {/* TODO: componentizar botão - todos botões tem botão arredondada */}
-          <TouchableOpacity style={styles.buttonFacebook}>
-            <Text style={{ color: 'white', fontSize: 13 }}>Conectar com facebook </Text>
-          </TouchableOpacity>
-        </View>
+        <RoundButton style={styles.buttonFacebook}
+          name={'Conectar Com Facebook'}
+          onPress={this.goToLoginEmailPassword} />
         <View style={{ flexDirection: 'row', margin: 10 }}>
           <Text style={{ color: 'white' }}>ou</Text>
         </View>
-        <View style={styles.buttonContent}>
-          {/* TODO: componentizar botão - todos botões tem botão arredondada */}
-          <TouchableOpacity style={styles.buttonEmail} onPress={this.goToLoginEmailPassword}>
-            <Text style={{ color: 'white', fontSize: 13 }}>Conectar com e-mail </Text>
-          </TouchableOpacity>
-        </View>
+        <RoundButton style={styles.buttonEmail}
+          name={'Concetar Com E-mail'}
+          onPress={this.goToLoginEmailPassword} />
         <View style={{ flexDirection: 'row', alignItems: 'center', margin: 50 }}>
           <View>
             <Text style={{
