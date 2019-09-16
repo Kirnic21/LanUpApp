@@ -88,12 +88,10 @@ export default class Availability extends Component {
           )}
         />
         {/* TODO: fazer um service fake retornando esses dados dos horarios */}
-        {/* TODO: header não é pra estar dentro do data= */}
         <FlatList
           contentContainerStyle={{ ...styles.list }}
           data={[
             {
-              header: 'Horários',
               title: 'Segunda',
               date: '18:00 até 21:00',
               onPress: () => this.openAvailabilityDays()
@@ -173,7 +171,9 @@ export default class Availability extends Component {
             </View>
           )}
         />
-        <ButtonAdd value={"Adicionar horários especiais"} />
+        <View style={{ marginTop: 10 }}>
+          <ButtonAdd value={"Adicionar horários especiais"} />
+        </View>
       </ScrollView>
     );
   }
@@ -185,7 +185,6 @@ const styles = StyleSheet.create({
   Container: {
     alignItems: "center",
     width: width,
-    height: height,
     backgroundColor: "#18142F"
   },
   TextInput: {
@@ -207,7 +206,7 @@ const styles = StyleSheet.create({
     width: 150
   },
   list: {
-    marginTop: 20,
+    marginTop: 10,
     backgroundColor: '#24203B',
     width: width - 50,
     borderRadius: 20
