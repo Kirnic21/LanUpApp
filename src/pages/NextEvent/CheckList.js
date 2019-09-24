@@ -1,6 +1,8 @@
-import React, { Component } from "react";
-import Button from "../../shared/components/Button"
-import { FlatList } from "react-native-gesture-handler";
+import React, { Component } from 'react';
+// import Button from "../../shared/components/Button"
+import { FlatList } from 'react-native-gesture-handler';
+import { CheckBox } from 'react-native-elements';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import {
   StyleSheet,
@@ -8,42 +10,73 @@ import {
   Dimensions,
   TouchableOpacity,
   Text,
-  ScrollView
-} from "react-native";
+  ScrollView,
+} from 'react-native';
 
 export default class CheckList extends Component {
-  renderSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 2,
-          width: "90%",
-          backgroundColor: "#18142F",
-          marginLeft: "5%",
-          marginRight: "10%"
-        }}
-      />
-    );
+  state = {
+    checked: false,
   };
 
+  buildConversa = async (prop, value) => {
+    debugger;
+    await this.setState({ [prop]: value });
+  }
+
+  renderSeparator = () => (
+    <View
+      style={{
+        height: 2,
+        width: '90%',
+        backgroundColor: '#18142F',
+        marginLeft: '5%',
+        marginRight: '10%',
+      }}
+    />
+  );
+
   openDetailNextEvent = () => {
-    this.props.navigation.navigate('DetailNextEvent')
+    this.props.navigation.navigate('DetailNextEvent');
   }
 
   render() {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
-        <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", marginTop: '20%', marginRight: '40%' }}>
+        <View style={{
+          flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: '20%', marginRight: '40%',
+        }}
+        >
           <Text style={{ fontSize: 20, color: 'white' }}>
             Balada TheWeek
           </Text>
         </View>
-        <TouchableOpacity style={{ ...styles.list, flexDirection: 'row', alignItems: "center", marginTop: 5 }}>
-          <View style={{ padding: 15, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
-            <Text style={{ color: 'white', fontSize: 13, marginBottom: 5 }}>
+        <TouchableOpacity
+          style={{
+            ...styles.list, flexDirection: 'row', alignItems: 'center', marginTop: 5,
+          }}
+          onPress={() => this.setState({ checked: !this.state.checked })}
+        >
+          <View style={{
+            padding: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+          }}
+          >
+            <CheckBox
+              checked={this.state.checked}
+              uncheckedIcon="circle"
+              checkedIcon="circle"
+              checkedColor="#46C5F3"
+              size={15}
+            />
+            <Text style={{
+              color: 'white', fontSize: 15, marginBottom: 1, marginLeft: -15,
+            }}
+            >
               {'Check in'}
             </Text>
-            <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5, marginLeft: 30 }}>
+            <Text style={{
+              color: 'gray', fontSize: 14, marginBottom: 1, marginLeft: 30, marginRight: -10,
+            }}
+            >
               {'10/08 as 21:30'}
             </Text>
           </View>
@@ -52,23 +85,40 @@ export default class CheckList extends Component {
           contentContainerStyle={styles.list}
           data={[
             {
-              title: 'Conferir Fichas'
+              title: 'Conferir Fichas',
             },
             {
-              title: 'Conferir Cervejas'
+              title: 'Conferir Cervejas',
             },
             {
-              title: 'Verificar Freezer'
-            }
+              title: 'Verificar Freezer',
+            },
           ]}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={item.onPress} style={{ ...styles.item, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
-              <View>
-                <Text style={{ color: 'white', fontSize: 13, marginBottom: 5 }}>
+            <View
+
+              style={{
+                ...styles.item, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+              }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <CheckBox
+                  onPress={event => this.buildConversa(item.title, event)}
+                  // onPress={() => this.setState({ checked: !this.state.checked })}
+                  checked={this.state.checked}
+                  uncheckedIcon="circle"
+                  checkedIcon="circle"
+                  checkedColor="#46C5F3"
+                  size={15}
+                />
+                <Text style={{
+                  color: 'white', fontSize: 15, marginBottom: 1, marginRight: -500,
+                }}
+                >
                   {item.title}
                 </Text>
               </View>
-            </TouchableOpacity>
+            </View>
           )}
           ItemSeparatorComponent={this.renderSeparator}
         />
@@ -82,14 +132,15 @@ export default class CheckList extends Component {
   }
 }
 
-const { height, width } = Dimensions.get("window");
+const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   Container: {
-    alignItems: "center",
-    width: width,
-    height: height,
-    backgroundColor: "#18142F"
+    flex: 1,
+    alignItems: 'center',
+    width: wp('100%'),
+    height: hp('100%'),
+    backgroundColor: '#18142F',
   },
   submitText: {
     marginTop: 20,
@@ -100,16 +151,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#24203B',
     borderRadius: 20,
     fontSize: 13,
-    width: '70%'
+    width: '70%',
   },
   list: {
     marginTop: '5%',
     backgroundColor: '#403A60',
     width: width - 50,
-    borderRadius: 20
+    borderRadius: 20,
   },
   item: {
-    padding: 15
+    padding: 15,
   },
   buttonEmail: {
     flex: 1,
@@ -118,11 +169,12 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 1.5,
     borderRadius: 50,
-    height: 40,
+    height: 50,
+    top: -230,
   },
   buttonContent: {
     flexDirection: 'row',
-    width: 250,
+    width: 230,
     margin: 20,
-  }
+  },
 });
