@@ -23,9 +23,12 @@ import IconMenu from './assets/images/icon_menu.png';
 import NextEvent from './pages/NextEvent/NextEvent';
 import DetailNextEvent from './pages/NextEvent/DetailNextEvent';
 import IAnAgency from './pages/Agency/IAnAgency';
-import ToExplore from "./pages/Explore/ToExplore";
-import SpecialHours from "./pages/Profile/SpecialHours";
-import CheckList from "./pages/NextEvent/CheckList";
+import ToExplore from './pages/Explore/ToExplore';
+import SpecialHours from './pages/Profile/SpecialHours';
+import CheckList from './pages/NextEvent/CheckList';
+import CheckOut from './pages/NextEvent/CheckOut';
+import RatingsAgency from './pages/NextEvent/RatingsAgency';
+import RatingsContractor from './pages/NextEvent/RatingsContractor';
 
 const CustomDrawerContentComponent = props => (
   <ScrollView>
@@ -46,7 +49,7 @@ const DrawerNavigator = createDrawerNavigator(
   {
     LoginPerfil,
     NextEvent,
-    ToExplore
+    ToExplore,
   },
   {
     drawerType: 'slide',
@@ -178,20 +181,56 @@ const StackNavigator = createStackNavigator({
   },
   CheckList: {
     screen: CheckList,
+    mode: 'modal',
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#18142F',
       },
       headerTransparent: true,
       headerTintColor: 'white',
+      headerTitleStyle: {
+        textAlign: 'center',
+      },
       headerTitle: 'Check List',
     },
   },
   DetailNextEvent: {
+    statusBarStyle: 'light-content',
     screen: DetailNextEvent,
     navigationOptions: {
       headerTransparent: true,
       headerTintColor: 'white',
+    },
+  },
+  CheckOut: {
+    screen: CheckOut,
+    navigationOptions: {
+      headerTransparent: true,
+      headerTintColor: 'white',
+    },
+  },
+  RatingsAgency: {
+    headerLayoutPreset: 'center',
+    screen: RatingsAgency,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+      headerTransparent: false,
+      headerTintColor: '#FFF',
+      title: 'Avalie',
+    },
+  },
+  RatingsContractor: {
+    headerLayoutPreset: 'center',
+    screen: RatingsContractor,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#18142F',
+      },
+      headerTransparent: false,
+      headerTintColor: '#FFF',
+      title: 'Avalie',
     },
   },
   IAnAgency: {

@@ -19,7 +19,6 @@ export default class CheckList extends Component {
   };
 
   buildConversa = async (prop, value) => {
-    debugger;
     await this.setState({ [prop]: value });
   }
 

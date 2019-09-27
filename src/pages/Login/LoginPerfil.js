@@ -1,10 +1,5 @@
-import React, { Component } from "react";
-import ImageProfile from "./../../assets/images/backgroud.png";
-import ArrowRight from "./../../assets/images/arrowRight.png";
-// import IconPe from "./../../assets/images/icon_pe.png";
-
-import { FlatList } from "react-native-gesture-handler";
-
+import React, { Component } from 'react';
+import { FlatList } from 'react-native-gesture-handler';
 import {
   StyleSheet,
   View,
@@ -13,20 +8,25 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
-  StatusBar
-} from "react-native";
+  StatusBar,
+  TextInput,
+} from 'react-native';
+import ImageProfile from '../../assets/images/backgroud.png';
+import ArrowRight from '../../assets/images/arrowRight.png';
+// import IconPe from "./../../assets/images/icon_pe.png";
+
 
 export default class LoginPerfil extends Component {
-  static navigationOptions = (props) => ({
+  static navigationOptions = props => ({
     // headerTitle: <Image style={{ height: 40, width: 40 }} source={IconPe} />,
     title: 'Perfil',
     navigationOptions: {
-      headerTintColor: 'white'
-    }
+      headerTintColor: 'white',
+    },
   });
 
   state = {
-    selected: false
+    selected: false,
   };
 
   SelectedInput = () => {
@@ -34,38 +34,36 @@ export default class LoginPerfil extends Component {
     }
   };
 
-  renderSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 2,
-          width: "90%",
-          backgroundColor: "#18142F",
-          marginLeft: "5%",
-          marginRight: "10%"
-        }}
-      />
-    );
-  };
+  renderSeparator = () => (
+    <View
+      style={{
+        height: 2,
+        width: '90%',
+        backgroundColor: '#18142F',
+        marginLeft: '5%',
+        marginRight: '10%',
+      }}
+    />
+  );
 
   aboutMe = () => {
-    this.props.navigation.navigate('AboutMe')
+    this.props.navigation.navigate('AboutMe');
   }
 
   openProfession = () => {
-    this.props.navigation.navigate('Profession')
+    this.props.navigation.navigate('Profession');
   }
 
   openMidia = () => {
-    this.props.navigation.navigate('Midia')
+    this.props.navigation.navigate('Midia');
   }
 
   openAgency = () => {
-    this.props.navigation.navigate('Agency')
+    this.props.navigation.navigate('Agency');
   }
 
   openPreviewProfile = () => {
-    this.props.navigation.navigate('PreviewProfile')
+    this.props.navigation.navigate('PreviewProfile');
   }
 
   openDrawer = () => {
@@ -79,20 +77,21 @@ export default class LoginPerfil extends Component {
   render() {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
-        <StatusBar backgroundColor='#18142F' barStyle="light-content" />
-        <View style={{ alignItems: "center", marginTop: '5%' }}>
+        <StatusBar backgroundColor="#18142F" barStyle="light-content" />
+        <View style={{ alignItems: 'center', marginTop: '5%' }}>
           <TouchableOpacity style={styles.TextInput} onPress={this.aboutMe}>
-            <Image source={ImageProfile}
+            <Image
+              source={ImageProfile}
               style={styles.TextInput}
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={this.openPreviewProfile} style={{ width: 300, alignItems: "center" }}>
+        <TouchableOpacity onPress={this.openPreviewProfile} style={{ width: 300, alignItems: 'center' }}>
           <Text style={styles.submitText}>Pré-visualizar o perfil</Text>
         </TouchableOpacity>
         {/* TODO: essas funções do onPress não precissa fazer um método pra cada!
           faz uma função que recebe a rota que precisa ir on onPress (ex: navegar('AboutMe'))
-          daí pra cada onPress passa uma rota especifica para essa função (ex: navegar('batata'), navegar('abacaxi')) 
+          daí pra cada onPress passa uma rota especifica para essa função (ex: navegar('batata'), navegar('abacaxi'))
         */}
         <FlatList
           contentContainerStyle={styles.list}
@@ -100,36 +99,44 @@ export default class LoginPerfil extends Component {
             {
               title: 'Sobre mim',
               subtitle: 'Sua foto de perfil, apresentação e mais',
-              onPress: () => this.aboutMe()
+              onPress: () => this.aboutMe(),
             },
             {
               title: 'Meu Job',
               subtitle: 'Área de operação, disponibilidade e mais',
-              onPress: () => this.openProfession()
+              onPress: () => this.openProfession(),
             },
             {
               title: 'Midias',
               subtitle: 'Fotos e videos de seu trabalho',
-              onPress: () => this.openMidia()
+              onPress: () => this.openMidia(),
             },
             {
               title: 'Disponibilidade',
               subtitle: 'Dias, horários e feriados',
-              onPress: () => this.openAvaliability()
+              onPress: () => this.openAvaliability(),
             },
             {
               title: 'Histórico de trabalho(DRAWER)',
               subtitle: 'Trabalho, avaliações e recomendações',
-              onPress: () => this.openDrawer()
-            }
+              onPress: () => this.openDrawer(),
+            },
           ]}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={item.onPress} style={{ ...styles.item, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
+            <TouchableOpacity
+              onPress={item.onPress}
+              style={{
+                ...styles.item, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+              }}
+            >
               <View>
                 <Text style={{ color: 'white', fontSize: 13, marginBottom: 5 }}>
                   {item.title}
                 </Text>
-                <Text style={{ color: 'gray', fontSize: 10, borderBottomWidth: 0, borderTopWidth: 0 }}>
+                <Text style={{
+                  color: 'gray', fontSize: 10, borderBottomWidth: 0, borderTopWidth: 0,
+                }}
+                >
                   {item.subtitle}
                 </Text>
               </View>
@@ -146,15 +153,18 @@ export default class LoginPerfil extends Component {
           data={[
             {
               title: 'Configurações',
-              subtitle: 'Notificações, senha e mais'
-            }
+              subtitle: 'Notificações, senha e mais',
+            },
           ]}
           renderItem={({ item }) => (
             <View style={styles.item}>
               <Text style={{ color: 'white', fontSize: 13, marginBottom: 5 }}>
                 {item.title}
               </Text>
-              <Text style={{ color: 'gray', fontSize: 10, borderBottomWidth: 0, borderTopWidth: 0 }}>
+              <Text style={{
+                color: 'gray', fontSize: 10, borderBottomWidth: 0, borderTopWidth: 0,
+              }}
+              >
                 {item.subtitle}
               </Text>
             </View>
@@ -162,59 +172,60 @@ export default class LoginPerfil extends Component {
           )}
           ItemSeparatorComponent={this.renderSeparator}
         />
+
         <Text style={{ ...styles.submitText, color: 'white', marginBottom: 30 }}>Terminar sessão</Text>
       </ScrollView>
     );
   }
 }
 
-const { height, width } = Dimensions.get("window");
+const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   ImageBackgroundContainer: {
-    width: "100%",
-    height: "100%"
+    width: '100%',
+    height: '100%',
   },
   ImageBackgroundNickName: {
     width: 100,
-    height: 95
+    height: 95,
   },
   Container: {
-    alignItems: "center",
-    width: width,
-    backgroundColor: "#18142F"
+    alignItems: 'center',
+    width,
+    backgroundColor: '#18142F',
   },
   logoNickName: {
-    margin: 60
+    margin: 60,
   },
   buttonContent: {
-    flexDirection: "row",
+    flexDirection: 'row',
     width: 280,
-    margin: 20
+    margin: 20,
   },
   TextInput: {
-    borderColor: "white",
+    borderColor: 'white',
     borderWidth: 1.8,
     borderRadius: 55,
     width: 110,
-    height: 110
+    height: 110,
   },
   TextInputSelected: {
-    borderColor: "#F13567",
+    borderColor: '#F13567',
     borderWidth: 1.8,
     borderRadius: 50,
-    height: 60
+    height: 60,
   },
   button: {
     margin: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#483D8B",
-    borderColor: "#483D8B",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#483D8B',
+    borderColor: '#483D8B',
     borderWidth: 1.5,
     borderRadius: 50,
     height: 55,
-    width: 150
+    width: 150,
   },
   submitText: {
     marginTop: 20,
@@ -225,7 +236,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#24203B',
     borderRadius: 20,
     fontSize: 13,
-    width: '70%'
+    width: '70%',
   },
   agency: {
     marginTop: 20,
@@ -236,16 +247,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#24203B',
     borderRadius: 10,
     fontSize: 13,
-    width: width - 50
+    width: width - 50,
   },
   list: {
     marginTop: 20,
     backgroundColor: '#24203B',
     width: width - 50,
-    borderRadius: 20
+    borderRadius: 20,
   },
   item: {
     padding: 20,
-    fontSize: 18
-  }
+    fontSize: 18,
+  },
 });

@@ -22,7 +22,7 @@ const initialPhase = { scale: 1, opacity: 1 };
 const constructAnimations = () => [...Array(COUNT).keys()].map(() => (initialPhase));
 
 
-class DetailNextEvent extends Component {
+class CheckOut extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -63,10 +63,9 @@ class DetailNextEvent extends Component {
     }));
   }
 
-  openCheckOut = () => {
-    this.props.navigation.navigate('CheckOut');
+  openRatings = () => {
+    this.props.navigation.navigate('RatingsAgency');
   }
-
 
   render() {
     return (
@@ -82,21 +81,9 @@ class DetailNextEvent extends Component {
             />
           ))}
 
-          <View style={styles.ContainerOcorre}>
-            <TouchableOpacity
-              style={styles.btnOcorre}
-
-              onPress={() => {
-                this.setState({ visible: true });
-              }}
-            >
-              <Icon
-                name="error"
-                size={60}
-                color="#fff"
-                style={{ left: 45, top: 35 }}
-              />
-              <Text style={styles.textOcorre}>Ocorrência</Text>
+          <View style={styles.ContainerCheckOut}>
+            <TouchableOpacity style={styles.btnCheckOut} onPress={this.openRatings}>
+              <Text style={styles.textCheckOut}> Fazer Check-out </Text>
             </TouchableOpacity>
           </View>
 
@@ -140,10 +127,27 @@ class DetailNextEvent extends Component {
               <Text style={styles.textPause}>{this.state.text}</Text>
             </TouchableOpacity>
           </View>
+
+          <View style={styles.ContainerOcorre}>
+            <TouchableOpacity
+              style={styles.btnOcorre}
+              onPress={() => {
+                this.setState({ visible: true });
+              }}
+            >
+              <Icon
+                name="error"
+                size={36}
+                color="#fff"
+                style={{ left: 23.2, top: 11 }}
+              />
+              <Text style={styles.textOcorre}>Ocorrência</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.btn} onPress={this.openCheckOut}>
+          <TouchableOpacity style={styles.btn}>
             <Text style={styles.btnText}>Histórico do evento</Text>
           </TouchableOpacity>
         </View>
@@ -293,7 +297,7 @@ class DetailNextEvent extends Component {
 
 const styles = StyleSheet.create({
   Container: {
-    top: -45,
+    top: -50,
     borderColor: '#373361',
     borderWidth: 35,
     width: 350,
@@ -303,19 +307,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   circle: {
-    backgroundColor: '#ffb82b34',
+    backgroundColor: '#865fc069',
     height: 170,
     width: 170,
     borderRadius: 200,
     position: 'absolute',
   },
 
-  ContainerOcorre: { top: 90 },
-  btnOcorre: {
+  ContainerCheckOut: {
+    top: 140,
+    left: 0.5,
+  },
+
+  btnCheckOut: {
     borderRadius: 75,
     width: 150,
     height: 150,
-    backgroundColor: '#FFB72B',
+    backgroundColor: '#865FC0',
+  },
+
+  textCheckOut: {
+    color: '#FFF',
+    fontSize: 25,
+    textAlign: 'center',
+    top: 35,
   },
 
   containerCheck: {
@@ -323,8 +338,8 @@ const styles = StyleSheet.create({
     width: 90,
     backgroundColor: '#46C5F3',
     borderRadius: 45,
-    top: 75,
-    right: 126,
+    top: 118,
+    right: 119,
     borderColor: '#46c5f33f',
     borderWidth: 3,
   },
@@ -344,11 +359,10 @@ const styles = StyleSheet.create({
   containerPause: {
     height: 90,
     width: 90,
-    // backgroundColor:{state.color},
     borderWidth: 3,
     borderRadius: 45,
-    top: -15,
-    left: 120,
+    top: 25.5,
+    left: 120.5,
   },
   btnPause: {
     height: 90,
@@ -362,6 +376,28 @@ const styles = StyleSheet.create({
     top: 10,
   },
 
+  ContainerOcorre: {
+    width: 100,
+    height: 100,
+    backgroundColor: '#FFB72B',
+    borderRadius: 50,
+    borderColor: '#ffb82b34',
+    borderWidth: 9,
+    top: -10,
+    left: 2,
+  },
+  btnOcorre: {
+    width: 100,
+    height: 100,
+  },
+
+  textOcorre: {
+    color: '#fff',
+    fontSize: 13,
+    left: 8,
+    top: 9,
+    fontWeight: 'bold',
+  },
 
   btnContainer: {
     flexDirection: 'row',
@@ -376,18 +412,11 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderRadius: 50,
     height: 50,
-    top: -10,
+    top: 15,
   },
   btnText: {
     color: 'white',
     fontSize: 14,
-  },
-  textOcorre: {
-    color: '#fff',
-    fontSize: 17,
-    letterSpacing: 1.5,
-    left: 26,
-    top: 30,
   },
   ModalContent: {
     backgroundColor: '#49358C',
@@ -421,4 +450,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default DetailNextEvent;
+export default CheckOut;

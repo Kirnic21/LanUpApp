@@ -4,32 +4,37 @@ import {
   View,
   TouchableOpacity,
   Text,
-} from "react-native";
-import CoreTemplate from "../../shared/components/CoreTemplate"
+} from 'react-native';
+import CoreTemplate from '../../shared/components/CoreTemplate';
 import RoundButton from '~/shared/components/RoundButton';
 
 
 class LoginPage extends Component {
-
   goToLoginEmailPassword = () => this.props.navigation.navigate('LoginEmailPassword')
 
   render() {
     return (
       <CoreTemplate>
-        <RoundButton style={styles.buttonFacebook}
-          name={'Conectar Com Facebook'}
-          onPress={this.goToLoginEmailPassword} />
+        <RoundButton
+          style={styles.buttonFacebook}
+          name="Conectar Com Facebook"
+          onPress={this.goToLoginEmailPassword}
+        />
         <View style={{ flexDirection: 'row', margin: 10 }}>
           <Text style={{ color: 'white' }}>ou</Text>
         </View>
-        <RoundButton style={styles.buttonEmail}
-          name={'Concetar Com E-mail'}
-          onPress={this.goToLoginEmailPassword} />
+        <RoundButton
+          style={styles.buttonEmail}
+          name="Concetar Com E-mail"
+          onPress={this.goToLoginEmailPassword}
+        />
         <View style={{ flexDirection: 'row', alignItems: 'center', margin: 50 }}>
           <View>
             <Text style={{
-              color: 'white', marginRight: 10, marginTop: 50, fontSize: 13
-            }}>Já tem uma conta?</Text>
+              color: 'white', marginRight: 10, marginTop: 50, fontSize: 13,
+            }}
+            >Já tem uma conta?
+            </Text>
           </View>
           <View>
             <Text
