@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  TouchableOpacity,
   Text,
 } from 'react-native';
 import CoreTemplate from '../../shared/components/CoreTemplate';
@@ -39,7 +38,6 @@ class LoginPage extends Component {
           <View>
             <Text
               style={{ color: '#6A5ACD', marginTop: 50 }}
-              onPress={() => Linking.openURL('#')}
             >
               Entrar
             </Text>
@@ -51,11 +49,6 @@ class LoginPage extends Component {
 }
 
 const styles = StyleSheet.create({
-  buttonContent: {
-    flexDirection: 'row',
-    width: 250,
-    margin: 20,
-  },
   buttonFacebook: {
     flex: 1,
     justifyContent: 'center',

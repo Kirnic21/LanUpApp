@@ -9,30 +9,18 @@ import {
   Text,
   ScrollView,
   StatusBar,
-  TextInput,
+
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import ImageProfile from '../../assets/images/backgroud.png';
 import ArrowRight from '../../assets/images/arrowRight.png';
-// import IconPe from "./../../assets/images/icon_pe.png";
 
 
 export default class LoginPerfil extends Component {
-  static navigationOptions = props => ({
-    // headerTitle: <Image style={{ height: 40, width: 40 }} source={IconPe} />,
-    title: 'Perfil',
-    navigationOptions: {
-      headerTintColor: 'white',
-    },
-  });
-
   state = {
     selected: false,
   };
 
-  SelectedInput = () => {
-    if (event.selected) {
-    }
-  };
 
   renderSeparator = () => (
     <View
@@ -66,10 +54,6 @@ export default class LoginPerfil extends Component {
     this.props.navigation.navigate('PreviewProfile');
   }
 
-  openDrawer = () => {
-    this.props.navigation.toggleDrawer();
-  }
-
   openAvaliability = () => {
     this.props.navigation.navigate('Availability');
   }
@@ -79,10 +63,25 @@ export default class LoginPerfil extends Component {
       <ScrollView contentContainerStyle={styles.Container}>
         <StatusBar backgroundColor="#18142F" barStyle="light-content" />
         <View style={{ alignItems: 'center', marginTop: '5%' }}>
-          <TouchableOpacity style={styles.TextInput} onPress={this.aboutMe}>
+          <TouchableOpacity style={{ width: 100, height: 100 }} onPress={this.aboutMe}>
             <Image
               source={ImageProfile}
-              style={styles.TextInput}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 50,
+                borderColor: '#FFF',
+                borderWidth: 2,
+              }}
+            />
+            <Icon
+              name="circle"
+              size={25}
+              color="#86D7CA"
+              style={{
+                left: 75,
+                top: -25,
+              }}
             />
           </TouchableOpacity>
         </View>
@@ -90,8 +89,10 @@ export default class LoginPerfil extends Component {
           <Text style={styles.submitText}>Pré-visualizar o perfil</Text>
         </TouchableOpacity>
         {/* TODO: essas funções do onPress não precissa fazer um método pra cada!
-          faz uma função que recebe a rota que precisa ir on onPress (ex: navegar('AboutMe'))
-          daí pra cada onPress passa uma rota especifica para essa função (ex: navegar('batata'), navegar('abacaxi'))
+          faz uma função que recebe a rota que precisa ir on onPress
+           (ex: navegar('AboutMe'))
+          daí pra cada onPress passa uma rota especifica para essa função
+           (ex: navegar('batata'), navegar('abacaxi'))
         */}
         <FlatList
           contentContainerStyle={styles.list}
@@ -117,9 +118,8 @@ export default class LoginPerfil extends Component {
               onPress: () => this.openAvaliability(),
             },
             {
-              title: 'Histórico de trabalho(DRAWER)',
+              title: 'Histórico de trabalho',
               subtitle: 'Trabalho, avaliações e recomendações',
-              onPress: () => this.openDrawer(),
             },
           ]}
           renderItem={({ item }) => (
@@ -130,11 +130,11 @@ export default class LoginPerfil extends Component {
               }}
             >
               <View>
-                <Text style={{ color: 'white', fontSize: 13, marginBottom: 5 }}>
+                <Text style={{ color: 'white', fontSize: 14, marginBottom: 5 }}>
                   {item.title}
                 </Text>
                 <Text style={{
-                  color: 'gray', fontSize: 10, borderBottomWidth: 0, borderTopWidth: 0,
+                  color: 'gray', fontSize: 13, borderBottomWidth: 0, borderTopWidth: 0,
                 }}
                 >
                   {item.subtitle}
@@ -158,11 +158,11 @@ export default class LoginPerfil extends Component {
           ]}
           renderItem={({ item }) => (
             <View style={styles.item}>
-              <Text style={{ color: 'white', fontSize: 13, marginBottom: 5 }}>
+              <Text style={{ color: 'white', fontSize: 14, marginBottom: 5 }}>
                 {item.title}
               </Text>
               <Text style={{
-                color: 'gray', fontSize: 10, borderBottomWidth: 0, borderTopWidth: 0,
+                color: 'gray', fontSize: 12, borderBottomWidth: 0, borderTopWidth: 0,
               }}
               >
                 {item.subtitle}
@@ -179,54 +179,15 @@ export default class LoginPerfil extends Component {
   }
 }
 
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  ImageBackgroundContainer: {
-    width: '100%',
-    height: '100%',
-  },
-  ImageBackgroundNickName: {
-    width: 100,
-    height: 95,
-  },
   Container: {
     alignItems: 'center',
     width,
     backgroundColor: '#18142F',
   },
-  logoNickName: {
-    margin: 60,
-  },
-  buttonContent: {
-    flexDirection: 'row',
-    width: 280,
-    margin: 20,
-  },
-  TextInput: {
-    borderColor: 'white',
-    borderWidth: 1.8,
-    borderRadius: 55,
-    width: 110,
-    height: 110,
-  },
-  TextInputSelected: {
-    borderColor: '#F13567',
-    borderWidth: 1.8,
-    borderRadius: 50,
-    height: 60,
-  },
-  button: {
-    margin: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#483D8B',
-    borderColor: '#483D8B',
-    borderWidth: 1.5,
-    borderRadius: 50,
-    height: 55,
-    width: 150,
-  },
+
   submitText: {
     marginTop: 20,
     paddingTop: 10,
@@ -246,7 +207,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#24203B',
     borderRadius: 10,
-    fontSize: 13,
+    fontSize: 14,
     width: width - 50,
   },
   list: {

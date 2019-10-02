@@ -1,11 +1,14 @@
 import * as React from 'react';
 import {
-  createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator, DrawerItems,
+  createAppContainer,
+  createStackNavigator,
+  createDrawerNavigator,
+  createSwitchNavigator,
+  DrawerActions,
 } from 'react-navigation';
 import {
-  SafeAreaView, ScrollView, ImageBackground, Image, TouchableOpacity,
+  Image, TouchableOpacity, View, Text,
 } from 'react-native';
-import HomePage from './pages/Home';
 import LoginPage from './pages/Login';
 import LoginEmailPassword from './pages/Login/LoginEmailPassword';
 import LoginNickName from './pages/Login/LoginNickName';
@@ -29,228 +32,126 @@ import CheckList from './pages/NextEvent/CheckList';
 import CheckOut from './pages/NextEvent/CheckOut';
 import RatingsAgency from './pages/NextEvent/RatingsAgency';
 import RatingsContractor from './pages/NextEvent/RatingsContractor';
+import drawerContentComponents from './shared/components/drawerContentComponents';
 
-const CustomDrawerContentComponent = props => (
-  <ScrollView>
-    <SafeAreaView
-      forceInset={{ top: 'always', horizontal: 'never' }}
-    >
-      <ImageBackground
-        source={ImageBack}
-        style={{ width: '100%', height: 800 }}
-      >
-        <DrawerItems {...props} />
-      </ImageBackground>
-    </SafeAreaView>
-  </ScrollView>
+const DrawerButton = props => (
+  <View>
+    <TouchableOpacity onPress={() => { props.navigation.dispatch(DrawerActions.openDrawer()); }}>
+      <Image style={{ height: 40, width: 40 }} source={IconMenu} />
+    </TouchableOpacity>
+  </View>
 );
 
-const DrawerNavigator = createDrawerNavigator(
+const DrawerNavigator = createStackNavigator(
   {
-    LoginPerfil,
+    LoginPerfil: {
+      screen: LoginPerfil,
+      navigationOptions: () => ({
+        headerTitle: 'Perfil',
+        headerTitleStyle: {
+          marginLeft: '34%',
+          color: '#FFF',
+        },
+      }),
+    },
     NextEvent,
-    ToExplore,
+    ToExplore: {
+      screen: ToExplore,
+      navigationOptions: () => ({
+        headerTitle: 'Explorar',
+        headerTitleStyle: {
+          fontSize: 20,
+          marginLeft: '31.5%',
+          color: '#FFF',
+        },
+      }),
+    },
   },
   {
-    drawerType: 'slide',
-    drawerWidth: 200,
-    contentComponent: CustomDrawerContentComponent,
-  },
-);
-
-const DrawerContainer = createStackNavigator(
-  {
-    DrawerNavigator,
-  },
-  {
-    defaultNavigationOptions: {
-      headerTitle: <TouchableOpacity><Image style={{ height: 40, width: 40 }} source={IconMenu} /></TouchableOpacity>,
+    defaultNavigationOptions: ({ navigation }) => ({
+      headerLeft: <DrawerButton navigation={navigation} />,
       headerStyle: {
         backgroundColor: '#18142F',
+        borderColor: '#FFF',
       },
-    },
+    }),
   },
 );
 
-const StackNavigator = createStackNavigator({
-  LoginPage: { screen: LoginPage, navigationOptions: { header: null } },
+const AuthNavigator = createStackNavigator({
+  LoginPage: {
+    screen: LoginPage,
+    navigationOptions: () => ({
+      headerTransparent: true,
+    }),
+  },
   LoginEmailPassword: {
     screen: LoginEmailPassword,
-    navigationOptions: {
+    navigationOptions: () => ({
+      headerTintColor: '#FFF',
       headerTransparent: true,
-      headerTintColor: 'white',
-    },
+    }),
   },
   LoginNickName: {
     screen: LoginNickName,
-    navigationOptions: {
+    navigationOptions: () => ({
+      headerTintColor: '#FFF',
       headerTransparent: true,
-      headerTintColor: 'white',
-    },
+    }),
   },
   LoginProfilePicture: {
     screen: LoginProfilePicture,
-    navigationOptions: {
+    navigationOptions: () => ({
+      headerTintColor: '#FFF',
       headerTransparent: true,
-      headerTintColor: 'white',
-    },
-  },
-  PreviewProfile: {
-    screen: PreviewProfile,
-    navigationOptions: {
-      headerTransparent: true,
-      headerTintColor: 'white',
-    },
-  },
-  Profession: {
-    screen: Profession,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#18142F',
-      },
-      headerTransparent: true,
-      headerTintColor: 'white',
-      headerTitle: 'Profissão',
-    },
-  },
-  Availability: {
-    screen: Availability,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#18142F',
-      },
-      headerTransparent: true,
-      headerTintColor: 'white',
-      headerTitle: 'Disponibilidade',
-    },
-  },
-  AvailabilityDays: {
-    screen: AvailabilityDays,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#18142F',
-      },
-      headerTransparent: true,
-      headerTintColor: 'white',
-      headerTitle: 'Disponibilidade',
-    },
-  },
-  Midia: {
-    screen: Midia,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#18142F',
-      },
-      headerTransparent: true,
-      headerTintColor: 'white',
-      headerTitle: 'Midias',
-    },
-  },
-  SpecialHours: {
-    screen: SpecialHours,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#18142F',
-      },
-      headerTransparent: true,
-      headerTintColor: 'white',
-      headerTitle: 'Disponibilidade',
-    },
-  },
-  Agency: {
-    screen: Agency,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#18142F',
-      },
-      headerTransparent: true,
-      headerTintColor: 'white',
-      headerTitle: 'Sou Agência',
-    },
+    }),
   },
   AboutMe: {
     screen: AboutMe,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#18142F',
-      },
-      headerTransparent: true,
-      headerTintColor: 'white',
+    navigationOptions: () => ({
+      headerTintColor: '#FFF',
+      headerRight: <TouchableOpacity style={{ right: 14 }}><Text style={{ fontSize: 14, color: '#FFF' }}>Salvar</Text></TouchableOpacity>,
       headerTitle: 'Sobre mim',
-    },
-  },
-  CheckList: {
-    screen: CheckList,
-    mode: 'modal',
-    navigationOptions: {
       headerStyle: {
         backgroundColor: '#18142F',
+        borderColor: '#FFF',
       },
-      headerTransparent: true,
-      headerTintColor: 'white',
       headerTitleStyle: {
-        textAlign: 'center',
+        fontSize: 23,
+        marginLeft: '30%',
+        color: '#FFF',
       },
-      headerTitle: 'Check List',
-    },
+    }),
   },
-  DetailNextEvent: {
-    statusBarStyle: 'light-content',
-    screen: DetailNextEvent,
-    navigationOptions: {
-      headerTransparent: true,
-      headerTintColor: 'white',
-    },
-  },
-  CheckOut: {
-    screen: CheckOut,
-    navigationOptions: {
-      headerTransparent: true,
-      headerTintColor: 'white',
-    },
-  },
-  RatingsAgency: {
-    headerLayoutPreset: 'center',
-    screen: RatingsAgency,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#18142F',
-      },
-      headerTransparent: false,
-      headerTintColor: '#FFF',
-      title: 'Avalie',
-    },
-  },
-  RatingsContractor: {
-    headerLayoutPreset: 'center',
-    screen: RatingsContractor,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#18142F',
-      },
-      headerTransparent: false,
-      headerTintColor: '#FFF',
-      title: 'Avalie',
-    },
-  },
-  IAnAgency: {
-    screen: IAnAgency,
-    navigationOptions: {
-      headerTransparent: true,
-      headerTintColor: 'white',
-    },
-  },
-  HomePage,
-  initialRouteName: 'LoginPage',
 });
+
+const DrawerNav = createDrawerNavigator(
+  {
+    DrawerNavigator: {
+      screen: DrawerNavigator,
+      navigationOptions: {
+        drawerLabel: () => null,
+      },
+    },
+    LoginPerfil: { screen: LoginPerfil },
+    NextEvent: { screen: NextEvent },
+    ToExplore: { screen: ToExplore },
+
+  },
+  {
+    contentComponent: drawerContentComponents,
+    drawerWidth: 165,
+    overlayColor: ' rgba(0, 0, 0, 0.1)',
+  },
+);
 
 const MainStack = createSwitchNavigator(
   {
-    Home: StackNavigator,
-    Drawer: DrawerContainer,
+    Auth: AuthNavigator,
+    Drawer: DrawerNav,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Auth',
   },
 );
 

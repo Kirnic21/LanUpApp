@@ -29,7 +29,15 @@
     "react-native/no-color-literals": "off",
     "react-native/sort-styles": "off",
     "global-require": "off",
-    "react-native/no-raw-text": "off"
+    "react-native/no-raw-text": "off",
+    "react-native/no-inline-styles": "off",
+    "react/destructuring-assignment": "off",
+    "react/prop-types": "off",
+    "no-use-before-define": "off",
+    "react/no-access-state-in-setstate": "off",
+    "react/no-array-index-key": "off",
+    "react/no-unused-state": "off",
+    "import/no-cycle": "off"
   },
   "settings": {
     "import/resolver": {

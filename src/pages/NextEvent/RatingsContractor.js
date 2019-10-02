@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View } from 'native-base';
 import {
   StyleSheet,
-  Dimensions,
   Image,
   Text,
   ScrollView,
@@ -73,7 +72,6 @@ class RatingsContractor extends Component {
                   animation="pulse"
                   disabled={false}
                   emptyStar="star"
-                  rating={0}
                   emptyStarColor="#C5B9EE"
                   fullStarColor="#FFCC00"
                   maxStars={5}
@@ -95,7 +93,6 @@ class RatingsContractor extends Component {
                   animation="pulse"
                   disabled={false}
                   emptyStar="star"
-                  rating={0}
                   emptyStarColor="#C5B9EE"
                   fullStarColor="#FFCC00"
                   maxStars={5}
@@ -112,7 +109,6 @@ class RatingsContractor extends Component {
                   animation="pulse"
                   disabled={false}
                   emptyStar="star"
-                  rating={0}
                   emptyStarColor="#C5B9EE"
                   fullStarColor="#FFCC00"
                   maxStars={5}
@@ -169,8 +165,6 @@ class RatingsContractor extends Component {
     );
   }
 }
-
-const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   Container: {

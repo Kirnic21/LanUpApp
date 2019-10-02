@@ -29,7 +29,7 @@ export default CoreTemplate = props => (
 
         <View style={{ top: -60, marginLeft: 7 }}>
           <Text style={{
-            color: 'white', fontSize: 29, letterSpacing: 2, fontWeight: 'bold',
+            color: 'white', fontSize: props.fontSize, letterSpacing: 2, fontWeight: 'bold',
           }}
           >{props.name}
           </Text>

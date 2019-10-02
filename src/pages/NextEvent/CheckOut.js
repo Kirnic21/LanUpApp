@@ -57,12 +57,6 @@ class CheckOut extends Component {
     });
   }
 
-  changeIcon() {
-    this.state(() => ({
-      icon: 'visibility' ? 'visibility-off' : 'visibility',
-    }));
-  }
-
   openRatings = () => {
     this.props.navigation.navigate('RatingsAgency');
   }
