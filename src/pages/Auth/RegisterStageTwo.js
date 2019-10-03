@@ -9,7 +9,7 @@ import {
 import InputLabel from '../../shared/components/InputLabel';
 import CoreTemplate from '../../shared/components/CoreTemplate';
 
-class LoginNickName extends Component {
+class RegisterStageTwo extends Component {
   state = {
     selected: false,
   }
@@ -79,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginNickName;
+export default RegisterStageTwo;

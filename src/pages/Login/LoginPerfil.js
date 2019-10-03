@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
+import { NavigationActions } from 'react-navigation';
 import {
   StyleSheet,
   View,
@@ -21,7 +22,6 @@ export default class LoginPerfil extends Component {
     selected: false,
   };
 
-
   renderSeparator = () => (
     <View
       style={{
@@ -36,6 +36,10 @@ export default class LoginPerfil extends Component {
 
   aboutMe = () => {
     this.props.navigation.navigate('AboutMe');
+  }
+
+  PageLogin = () => {
+    this.props.navigation.navigate('LoginPage');
   }
 
   openProfession = () => {
@@ -173,7 +177,12 @@ export default class LoginPerfil extends Component {
           ItemSeparatorComponent={this.renderSeparator}
         />
 
-        <Text style={{ ...styles.submitText, color: 'white', marginBottom: 30 }}>Terminar sessão</Text>
+        <Text
+          onPress={() => this.PageLogin()}
+          style={{ ...styles.submitText, color: 'white', marginBottom: 30 }}
+        >
+        Terminar sessão
+        </Text>
       </ScrollView>
     );
   }

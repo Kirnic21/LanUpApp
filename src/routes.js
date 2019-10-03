@@ -5,14 +5,18 @@ import {
   createDrawerNavigator,
   createSwitchNavigator,
   DrawerActions,
+  HeaderBackButton,
 } from 'react-navigation';
 import {
-  Image, TouchableOpacity, View, Text,
+  Image, TouchableOpacity, View, Text, Button,
 } from 'react-native';
-import LoginPage from './pages/Login';
-import LoginEmailPassword from './pages/Login/LoginEmailPassword';
-import LoginNickName from './pages/Login/LoginNickName';
-import LoginProfilePicture from './pages/Profile/ProfilePicture';
+import { tsConstructorType } from '@babel/types';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import LoginPage from './pages/Auth/index';
+import LoginEmail from './pages/Auth/LoginEmail';
+import RegisterStageOne from './pages/Auth/LoginNickName';
+import RegisterStageTwo from './pages/Auth/RegisterStageTwo';
+import LoginProfilePicture from './pages/Auth/ProfilePicture';
 import LoginPerfil from './pages/Login/LoginPerfil';
 import AboutMe from './pages/Profile/AboutMe';
 import Availability from './pages/Profile/Availability';
@@ -34,12 +38,84 @@ import RatingsAgency from './pages/NextEvent/RatingsAgency';
 import RatingsContractor from './pages/NextEvent/RatingsContractor';
 import drawerContentComponents from './shared/components/drawerContentComponents';
 
+
 const DrawerButton = props => (
   <View>
     <TouchableOpacity onPress={() => { props.navigation.dispatch(DrawerActions.openDrawer()); }}>
       <Image style={{ height: 40, width: 40 }} source={IconMenu} />
     </TouchableOpacity>
   </View>
+);
+
+const ArrowBtn = props => (
+  <TouchableOpacity onPress={props}>
+    <Text>
+      <Icon
+        name="arrow-left"
+        size={60}
+      />
+    </Text>
+  </TouchableOpacity>
+);
+
+const AuthNavigator = createStackNavigator(
+  {
+    LoginPage: {
+      screen: LoginPage,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerLeft: null,
+      }),
+    },
+    LoginEmail: {
+      screen: LoginEmail,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerTintColor: '#FFF',
+        headerStyle: {
+          marginTop: 20,
+          marginLeft: 10,
+        },
+
+      }),
+    },
+    RegisterStageOne: {
+      screen: RegisterStageOne,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerTintColor: '#FFF',
+        headerStyle: {
+          marginTop: 20,
+          marginLeft: 10,
+        },
+
+      }),
+    },
+    RegisterStageTwo: {
+      screen: RegisterStageTwo,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerTintColor: '#FFF',
+        headerStyle: {
+          marginTop: 20,
+          marginLeft: 10,
+        },
+
+      }),
+    },
+    LoginProfilePicture: {
+      screen: LoginProfilePicture,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerTintColor: '#FFF',
+        headerStyle: {
+          marginTop: 20,
+          marginLeft: 10,
+        },
+
+      }),
+    },
+  },
 );
 
 const DrawerNavigator = createStackNavigator(
@@ -78,38 +154,95 @@ const DrawerNavigator = createStackNavigator(
   },
 );
 
-const AuthNavigator = createStackNavigator({
-  LoginPage: {
-    screen: LoginPage,
-    navigationOptions: () => ({
+const pageNavigator = createStackNavigator({
+  DrawerNavigator,
+  Midia: {
+    screen: Midia,
+    navigationOptions: ({ navigation }) => ({
       headerTransparent: true,
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('LoginPerfil')}
+        />
+      ),
     }),
   },
-  LoginEmailPassword: {
-    screen: LoginEmailPassword,
-    navigationOptions: () => ({
-      headerTintColor: '#FFF',
+  Availability: {
+    screen: Availability,
+    navigationOptions: ({ navigation }) => ({
       headerTransparent: true,
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('LoginPerfil')}
+        />
+      ),
     }),
   },
-  LoginNickName: {
-    screen: LoginNickName,
-    navigationOptions: () => ({
-      headerTintColor: '#FFF',
+  Agency: {
+    screen: Agency,
+    navigationOptions: ({ navigation }) => ({
       headerTransparent: true,
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('LoginPerfil')}
+        />
+      ),
     }),
   },
-  LoginProfilePicture: {
-    screen: LoginProfilePicture,
-    navigationOptions: () => ({
-      headerTintColor: '#FFF',
+  Profession: {
+    screen: Profession,
+    navigationOptions: ({ navigation }) => ({
       headerTransparent: true,
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('LoginPerfil')}
+        />
+      ),
+    }),
+  },
+  CheckList: {
+    screen: CheckList,
+    navigationOptions: ({ navigation }) => ({
+      headerTransparent: true,
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('NextEvent')}
+        />
+      ),
+    }),
+  },
+  DetailNextEvent: {
+    screen: DetailNextEvent,
+    navigationOptions: () => ({
+      headerTransparent: true,
+      headerTintColor: '#FFF',
+      headerStyle: {
+        marginTop: 20,
+        marginLeft: 10,
+      },
+
+    }),
+  },
+  Checkout: {
+    screen: CheckOut,
+    navigationOptions: () => ({
+      headerTransparent: true,
+      headerTintColor: '#FFF',
+      headerStyle: {
+        marginTop: 20,
+        marginLeft: 10,
+      },
+
     }),
   },
   AboutMe: {
     screen: AboutMe,
-    navigationOptions: () => ({
-      headerTintColor: '#FFF',
+    navigationOptions: ({ navigation }) => ({
       headerRight: <TouchableOpacity style={{ right: 14 }}><Text style={{ fontSize: 14, color: '#FFF' }}>Salvar</Text></TouchableOpacity>,
       headerTitle: 'Sobre mim',
       headerStyle: {
@@ -121,6 +254,12 @@ const AuthNavigator = createStackNavigator({
         marginLeft: '30%',
         color: '#FFF',
       },
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('LoginPerfil')}
+        />
+      ),
     }),
   },
 });
@@ -149,6 +288,7 @@ const MainStack = createSwitchNavigator(
   {
     Auth: AuthNavigator,
     Drawer: DrawerNav,
+    page: pageNavigator,
   },
   {
     initialRouteName: 'Auth',
