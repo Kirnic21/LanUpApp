@@ -11,7 +11,7 @@ import {
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImageBack from '../../assets/images/Grupo_518.png';
-import Logo from '../../assets/images/logo_lanup.png';
+import Logo from '../../assets/images/logoLanUp.png';
 
 
 class LoginEmail extends Component {

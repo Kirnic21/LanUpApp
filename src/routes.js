@@ -8,10 +8,8 @@ import {
   HeaderBackButton,
 } from 'react-navigation';
 import {
-  Image, TouchableOpacity, View, Text, Button,
+  Image, TouchableOpacity, View, Text,
 } from 'react-native';
-import { tsConstructorType } from '@babel/types';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import LoginPage from './pages/Auth/index';
 import LoginEmail from './pages/Auth/LoginEmail';
 import RegisterStageOne from './pages/Auth/LoginNickName';
@@ -25,7 +23,6 @@ import Profession from './pages/Profile/Profession';
 import Midia from './pages/Profile/Midia';
 import Agency from './pages/Agency/Agency';
 import PreviewProfile from './pages/Login/PreviewProfile';
-import ImageBack from './assets/images/Grupo_518.png';
 import IconMenu from './assets/images/icon_menu.png';
 import NextEvent from './pages/NextEvent/NextEvent';
 import DetailNextEvent from './pages/NextEvent/DetailNextEvent';
@@ -45,17 +42,6 @@ const DrawerButton = props => (
       <Image style={{ height: 40, width: 40 }} source={IconMenu} />
     </TouchableOpacity>
   </View>
-);
-
-const ArrowBtn = props => (
-  <TouchableOpacity onPress={props}>
-    <Text>
-      <Icon
-        name="arrow-left"
-        size={60}
-      />
-    </Text>
-  </TouchableOpacity>
 );
 
 const AuthNavigator = createStackNavigator(
@@ -130,7 +116,17 @@ const DrawerNavigator = createStackNavigator(
         },
       }),
     },
-    NextEvent,
+    NextEvent: {
+      screen: NextEvent,
+      navigationOptions: () => ({
+        headerTitle: 'Proximo Evento',
+        headerTitleStyle: {
+          fontSize: 20,
+          marginLeft: '31.5%',
+          color: '#FFF',
+        },
+      }),
+    },
     ToExplore: {
       screen: ToExplore,
       navigationOptions: () => ({
@@ -218,26 +214,50 @@ const pageNavigator = createStackNavigator({
   },
   DetailNextEvent: {
     screen: DetailNextEvent,
-    navigationOptions: () => ({
+    navigationOptions: ({ navigation }) => ({
       headerTransparent: true,
-      headerTintColor: '#FFF',
-      headerStyle: {
-        marginTop: 20,
-        marginLeft: 10,
-      },
-
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('CheckList')}
+        />
+      ),
     }),
   },
-  Checkout: {
+  CheckOut: {
     screen: CheckOut,
-    navigationOptions: () => ({
+    navigationOptions: ({ navigation }) => ({
       headerTransparent: true,
-      headerTintColor: '#FFF',
-      headerStyle: {
-        marginTop: 20,
-        marginLeft: 10,
-      },
-
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('DetailNextEvent')}
+        />
+      ),
+    }),
+  },
+  RatingsAgency: {
+    screen: RatingsAgency,
+    navigationOptions: ({ navigation }) => ({
+      headerTransparent: true,
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('CheckOut')}
+        />
+      ),
+    }),
+  },
+  RatingsContractor: {
+    screen: RatingsContractor,
+    navigationOptions: ({ navigation }) => ({
+      headerTransparent: true,
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('RatingsAgency')}
+        />
+      ),
     }),
   },
   AboutMe: {

@@ -57,12 +57,6 @@ class DetailNextEvent extends Component {
     });
   }
 
-  changeIcon() {
-    this.state(() => ({
-      icon: 'visibility' ? 'visibility-off' : 'visibility',
-    }));
-  }
-
   openCheckOut = () => {
     this.props.navigation.navigate('CheckOut');
   }

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import RoundButton from '~/shared/components/RoundButton';
 import ImageBack from '../../assets/images/Grupo_518.png';
-import Logo from '../../assets/images/logo_lanup.png';
+import Logo from '../../assets/images/logoLanUp.png';
 
 
 class LoginPage extends Component {
