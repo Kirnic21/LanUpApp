@@ -7,10 +7,14 @@ import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.geolocation.GeolocationPackage;
+import com.ocetnik.timer.BackgroundTimerPackage;
+import com.jamesisaac.rnbackgroundtask.BackgroundTaskPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.reactnativecommunity.geolocation.GeolocationPackage;
 
 import java.util.List;
 
@@ -46,5 +50,6 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    BackgroundTaskPackage.useContext(this);
   }
 }

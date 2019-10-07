@@ -11,9 +11,20 @@ import {
 import RoundButton from '~/shared/components/RoundButton';
 import ImageBack from '../../assets/images/Grupo_518.png';
 import Logo from '../../assets/images/logoLanUp.png';
+import BackgroundTimer from 'react-native-background-timer';
+import Geolocation from '@react-native-community/geolocation';
+
+BackgroundTimer.runBackgroundTimer(() => {
+  Geolocation.getCurrentPosition(position => {
+    console.log(new Date(), position);
+  });
+}, 30000);
 
 
 class LoginPage extends Component {
+  componentDidMount() {
+  }
+
   goToLoginEmail = () => this.props.navigation.navigate('LoginEmail')
 
   goRegister = () => this.props.navigation.navigate('RegisterStageOne')
@@ -100,7 +111,7 @@ class LoginPage extends Component {
           }}
           >
             <Text style={{ color: '#FFF', textAlign: 'center', fontSize: 16 }}>
-            Já tem uma conta?  <Text onPress={this.goToLoginEmail} style={{ color: '#483D8B', textDecorationLine: 'underline' }}>Entrar</Text>
+              Já tem uma conta?  <Text onPress={this.goToLoginEmail} style={{ color: '#483D8B', textDecorationLine: 'underline' }}>Entrar</Text>
             </Text>
           </View>
         </View>

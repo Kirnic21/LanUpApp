@@ -37,4 +37,10 @@ target 'LanUpReactNativeBoilerplate' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'RNBackgroundFetch', :path => '../node_modules/react-native-background-fetch'
+
+  pod 'react-native-background-timer', :path => '../node_modules/react-native-background-timer'
+
+  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
+
 end
