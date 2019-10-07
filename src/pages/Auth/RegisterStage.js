@@ -6,34 +6,14 @@ import {
   ImageBackground,
   Dimensions,
   StatusBar,
-  TextInput,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import RoundButton from '~/shared/components/RoundButton';
 import ImageBack from '../../assets/images/Grupo_518.png';
 import InputLabel from '../../shared/components/InputLabel';
 
 
-class RegisterStageTwo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      icon: 'visibility-off',
-      password: true,
-    };
-
-    this.changeIcon = this.changeIcon.bind(this);
-  }
-
-
-  goLoginPicture = () => this.props.navigation.navigate('LoginProfilePicture')
-
-  changeIcon() {
-    this.setState(prevState => ({
-      icon: prevState.icon === 'visibility' ? 'visibility-off' : 'visibility',
-      password: !prevState.password,
-    }));
-  }
+class RegisterStage extends Component {
+  goRegister = () => this.props.navigation.navigate('RegisterStageTwo')
 
   render() {
     return (
@@ -67,7 +47,7 @@ class RegisterStageTwo extends Component {
               Bem-vindo!
               </Text>
               <Text style={styles.textTitle}>Insira seus dados</Text>
-              <Text style={styles.textSubtitle}>Etapa 2/2
+              <Text style={styles.textSubtitle}>Etapa 1/2
               </Text>
             </View>
 
@@ -80,32 +60,32 @@ class RegisterStageTwo extends Component {
           >
             <View style={{ top: '-1%' }}>
               <InputLabel
-                style={{ width: 290, height: 50 }}
-                title="E-mail"
-                keyboardType="email-address"
+                style={styles.TextInput}
+                title="Nome Completo"
               />
               <InputLabel
-                style={{ width: 290, height: 50 }}
-                title="Senha"
-                secureTextEntry={this.state.password}
+                style={[styles.TextInput, { borderColor: '#F13567' }]}
+                title="Apelido"
               />
-              <Icon
-                style={styles.icon}
-                name={this.state.icon}
-                size={25}
-                color="#fff"
-                onPress={() => this.changeIcon()}
-              />
+              <Text style={{
+                color: '#F13567',
+                fontSize: 12,
+                left: '10%',
+                top: '-5%',
+                marginBottom: '-3%',
+              }}
+              >
+                  Este apelido já existe
+              </Text>
               <InputLabel
-                style={{ width: 290, height: 50 }}
-                title="Confirmar senha"
-                secureTextEntry={this.state.password}
+                style={styles.TextInput}
+                title="CPF"
               />
             </View>
             <RoundButton
               style={[styles.Btn, styles.btnRegister]}
               name="Continuar"
-              onPress={this.goLoginPicture}
+              onPress={this.goRegister}
             />
 
           </View>
@@ -125,7 +105,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 50,
     height: 55,
-    top: '5%',
   },
   textTitle: {
     color: '#FFF',
@@ -141,11 +120,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     top: '10%',
   },
-  icon: {
-    left: '85%',
-    top: '-20.5%',
-    marginBottom: '-9%',
+  TextInput: {
+    width: Dimensions.get('window').width - 100,
+    height: 51,
   },
 });
 
-export default RegisterStageTwo;
+export default RegisterStage;

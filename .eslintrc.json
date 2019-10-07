@@ -37,7 +37,9 @@
     "react/no-access-state-in-setstate": "off",
     "react/no-array-index-key": "off",
     "react/no-unused-state": "off",
-    "import/no-cycle": "off"
+    "import/no-cycle": "off",
+    "class-methods-use-this": "off",
+    "no-undef": "off"
   },
   "settings": {
     "import/resolver": {

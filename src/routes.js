@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import LoginPage from './pages/Auth/index';
 import LoginEmail from './pages/Auth/LoginEmail';
-import RegisterStageOne from './pages/Auth/LoginNickName';
+import RegisterStageOne from './pages/Auth/RegisterStage';
 import RegisterStageTwo from './pages/Auth/RegisterStageTwo';
 import LoginProfilePicture from './pages/Auth/ProfilePicture';
 import LoginPerfil from './pages/Login/LoginPerfil';
@@ -151,7 +151,13 @@ const DrawerNavigator = createStackNavigator(
 );
 
 const pageNavigator = createStackNavigator({
-  DrawerNavigator,
+  DrawerNavigator: {
+    screen: DrawerNavigator,
+    navigationOptions: () => ({
+      headerTransparent: true,
+      headerLeft: null,
+    }),
+  },
   Midia: {
     screen: Midia,
     navigationOptions: ({ navigation }) => ({

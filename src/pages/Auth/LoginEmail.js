@@ -8,10 +8,11 @@ import {
   Image,
   KeyboardAvoidingView,
 } from 'react-native';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImageBack from '../../assets/images/Grupo_518.png';
 import Logo from '../../assets/images/logoLanUp.png';
+import InputLabel from '../../shared/components/InputLabel';
 
 
 class LoginEmail extends Component {
@@ -26,7 +27,7 @@ class LoginEmail extends Component {
   }
 
 
-  goToLoginEmailPassword = () => this.props.navigation.navigate('LoginPerfil')
+  goToLoginPerfil = () => this.props.navigation.navigate('LoginPerfil')
 
   changeIcon() {
     this.setState(prevState => ({
@@ -55,31 +56,35 @@ class LoginEmail extends Component {
 
             <View style={styles.ContainerForm}>
 
-              <View style={{ paddingVertical: 50 }}>
+              <View style={{ paddingVertical: 100, alignItems: 'center' }}>
 
-                <Text style={styles.labelInput}>E-mail</Text>
-                <TextInput style={styles.TextInput} keyboardType="email-address" />
+                <InputLabel
+                  style={{ width: 290, height: 50 }}
+                  title="E-mail"
+                  keyboardType="email-address"
+                />
 
-                <View>
-                  <Text style={styles.labelInput}>Senha</Text>
-                  <TextInput
-                    style={styles.TextInput}
-                    secureTextEntry={this.state.password}
-                  />
-                  <Icon
-                    style={styles.icon}
-                    name={this.state.icon}
-                    size={25}
-                    color="#fff"
-                    onPress={() => this.changeIcon()}
-                  />
-                </View>
 
+                <InputLabel
+                  style={{ width: 290, height: 50 }}
+                  title="Senha"
+                  secureTextEntry={this.state.password}
+                />
+
+                <Icon
+                  style={styles.icon}
+                  name={this.state.icon}
+                  size={25}
+                  color="#fff"
+                  onPress={() => this.changeIcon()}
+                />
+                <TouchableOpacity
+                  style={styles.Btn}
+                  onPress={this.goToLoginPerfil}
+                >
+                  <Text style={styles.textBtn}>Entrar</Text>
+                </TouchableOpacity>
               </View>
-
-              <TouchableOpacity style={styles.Btn}>
-                <Text style={styles.textBtn}>Continuar</Text>
-              </TouchableOpacity>
 
             </View>
             <View style={{ width: width - 100, height: 50 }}>
@@ -123,20 +128,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center',
   },
-  TextInput: {
-    borderColor: '#FFF',
-    borderWidth: 2,
-    borderRadius: 30,
-    paddingLeft: 30,
-    color: '#FFF',
-    marginTop: 30,
-    width: Dimensions.get('window').width - 100,
-  },
-  labelInput: {
-    color: '#FFF',
-    top: '10%',
-    fontSize: 16,
-  },
   textForgot: {
     color: '#483D8B',
     textDecorationLine: 'underline',
@@ -145,8 +136,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   icon: {
-    left: '85%',
-    top: '-30%',
+    left: '40%',
+    top: '-21%',
   },
 });
 

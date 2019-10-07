@@ -8,14 +8,14 @@ import {
   Image,
   StatusBar,
 } from 'react-native';
+import BackgroundTimer from 'react-native-background-timer';
+import Geolocation from '@react-native-community/geolocation';
 import RoundButton from '~/shared/components/RoundButton';
 import ImageBack from '../../assets/images/Grupo_518.png';
 import Logo from '../../assets/images/logoLanUp.png';
-import BackgroundTimer from 'react-native-background-timer';
-import Geolocation from '@react-native-community/geolocation';
 
 BackgroundTimer.runBackgroundTimer(() => {
-  Geolocation.getCurrentPosition(position => {
+  Geolocation.getCurrentPosition((position) => {
     console.log(new Date(), position);
   });
 }, 30000);

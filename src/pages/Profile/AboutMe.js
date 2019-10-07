@@ -8,6 +8,7 @@ import {
   Text,
   ScrollView,
   TextInput,
+  Picker,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import ToggleSwitch from 'toggle-switch-react-native';
@@ -44,16 +45,13 @@ class AboutMe extends Component {
     fumo: false,
     bebo: false,
     tatuagem: false,
+    isOnDefaultToggleSwitch: true,
+    genero: 'Genero',
   };
 
-  // SelectedInput = () => {
-  //   if (event.selected) {
-  //   }
-  // };
-
-  // onToggle(isOn) {
-  //   console.log(`Changed to ${isOn}`);
-  // }
+  onToggle(isOn) {
+    console.log(`Changed to ${isOn}`);
+  }
 
 
   renderSeparator = () => (
@@ -72,19 +70,14 @@ class AboutMe extends Component {
     return (
       <ScrollView>
         <View style={styles.Container}>
-          <View style={{ alignItems: 'center', marginTop: '25%' }}>
-            <TouchableOpacity onPress={this.aboutMe}>
-              <Image
-                source={ImageProfile}
-                style={styles.Image}
-              />
-            </TouchableOpacity>
-          </View>
+
+          <Image source={ImageProfile} style={styles.Image} />
+
           <FlatList
             contentContainerStyle={styles.list}
             data={[
               {
-                title: 'Informações do Perfil',
+                key: '1', title: 'Informações do Perfil',
               },
             ]}
             renderItem={({ item }) => (
@@ -92,9 +85,94 @@ class AboutMe extends Component {
                 <Text style={{ color: 'white', fontSize: 15, marginBottom: 20 }}>
                   {item.title}
                 </Text>
-                <InputLabel title="Nome Completo" />
-                <InputLabel title="Apelido" />
-                <InputLabel title="Descrição" />
+                <InputLabel
+                  style={{ width: 300, height: 55 }}
+                  title="Nome Completo"
+                />
+                <InputLabel
+                  style={{ width: 300, height: 55 }}
+                  title="Apelido"
+                />
+                <InputLabel
+                  style={{
+                    width: 300,
+                    height: 140,
+                    borderRadius: 30,
+                    textAlignVertical: 'top',
+                  }}
+                  title="Descrição"
+                  numberOfLines={10}
+                  multiline
+                />
+                <InputLabel
+                  style={{ width: 145, height: 55 }}
+                  title="Altura"
+                />
+                <View style={{ left: '53%', top: '-12.5%' }}>
+                  <InputLabel
+                    style={{ width: 145, height: 55 }}
+                    title="Peso"
+                  />
+                </View>
+                <View style={{ top: '-10%', marginBottom: '-15%' }}>
+                  <View style={{ marginBottom: '10%' }}>
+                    <ToggleSwitch
+                      onColor="#483D8B"
+                      offColor="#18142F"
+                      isOn={this.state.filhos}
+                      label="Tenho filhos"
+                      labelStyle={{ color: '#FFF', marginRight: '50%', fontSize: 16 }}
+                      size="small"
+                      onToggle={(filhos) => {
+                        this.setState({ filhos });
+                        this.onToggle(filhos);
+                      }}
+                    />
+                  </View>
+                  <View style={{ marginBottom: '10%' }}>
+                    <ToggleSwitch
+                      onColor="#483D8B"
+                      offColor="#18142F"
+                      label="Eu fumo"
+                      isOn={this.state.fumo}
+                      labelStyle={{ color: '#FFF', marginRight: '59%', fontSize: 16 }}
+                      size="small"
+                      onToggle={(fumo) => {
+                        this.setState({ fumo });
+                        this.onToggle(fumo);
+                      }}
+                    />
+                  </View>
+                  <View style={{ marginBottom: '10%' }}>
+                    <ToggleSwitch
+                      isOn={this.state.bebo}
+                      onColor="#483D8B"
+                      offColor="#18142F"
+                      label="Eu bebo"
+                      labelStyle={{ color: '#FFF', marginRight: '59%', fontSize: 16 }}
+                      size="small"
+                      onToggle={(bebo) => {
+                        this.setState({ bebo });
+                        this.onToggle(bebo);
+                      }}
+                    />
+                  </View>
+                  <View>
+                    <ToggleSwitch
+                      isOn={this.state.tatuagem}
+                      onColor="#483D8B"
+                      offColor="#18142F"
+                      label="Tenho tatuagem"
+                      labelStyle={{ color: '#FFF', marginRight: '40%', fontSize: 16 }}
+                      size="small"
+                      onToggle={(tatuagem) => {
+                        this.setState({ tatuagem });
+                        this.onToggle(tatuagem);
+                      }}
+                    />
+                  </View>
+
+                </View>
               </View>
             )}
           />
@@ -107,7 +185,7 @@ class AboutMe extends Component {
             ]}
             renderItem={({ item }) => (
               <View style={styles.item}>
-                <Text style={{ color: 'white', fontSize: 13, marginBottom: 15 }}>
+                <Text style={{ color: 'white', fontSize: 15, marginBottom: 15 }}>
                   {item.title}
                 </Text>
                 <View>
@@ -136,10 +214,10 @@ class AboutMe extends Component {
             ]}
             renderItem={({ item }) => (
               <View style={styles.item}>
-                <Text style={{ color: 'white', fontSize: 13, marginBottom: 5 }}>
+                <Text style={{ color: 'white', fontSize: 15, marginBottom: 5 }}>
                   {item.title}
                 </Text>
-                <Text style={{ color: 'gray', fontSize: 10, marginBottom: 20 }}>
+                <Text style={{ color: 'gray', fontSize: 12, marginBottom: 20 }}>
                   {item.subtitle}
                 </Text>
                 <TouchableOpacity
@@ -159,113 +237,50 @@ class AboutMe extends Component {
             ]}
             renderItem={({ item }) => (
               <View style={styles.item}>
-                <InputLabel title="E-mail" />
-                <InputLabel title="Telefone" />
-                {/* TODO: fazer um laço pra mostrar esses 4 inputs (nascimento, genero, altura, peso) */}
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start' }}>
-                  <Text style={{ color: 'white', marginBottom: 5, fontSize: 13 }}>Nascimento</Text>
-                  <Text style={{
-                    color: 'white', marginBottom: 5, marginLeft: 60, fontSize: 13,
-                  }}
-                  >Genero
-                  </Text>
-                </View>
+                <Text style={{ color: 'white', fontSize: 15, marginBottom: '5%' }}>
+                  {item.title}
+                </Text>
+                <InputLabel
+                  style={{ width: 300 }}
+                  title="E-mail"
+                  keyboardType="email-address"
+                />
+                <InputLabel
+                  style={{ width: 300 }}
+                  title="Telefone"
+                  keyboardType="numeric"
+                />
+                <InputLabel
+                  style={{ width: 300 }}
+                  title="CPF"
+                  keyboardType="numbers-and-punctuation"
+                />
+                <InputLabel
+                  style={{ width: 150 }}
+                  title="Nascimento"
+                  keyboardType="numbers-and-punctuation"
+                />
                 <View style={{
-                  flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5,
+                  borderColor: '#FFF',
+                  borderWidth: 2,
+                  width: 150,
+                  borderRadius: 300,
+                  height: 48,
+                  left: '51%',
+                  top: '-15%',
                 }}
                 >
-                  <TouchableOpacity style={{ ...styles.TextInput, width: 130 }}>
-                    <TextInput
-                      style={styles.ValueInput}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{ ...styles.TextInput, width: 130 }}>
-                    <TextInput
-                      style={styles.ValueInput}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start' }}>
-                  <Text style={{ color: 'white', marginBottom: 5, fontSize: 13 }}>Altura</Text>
-                  <Text style={{
-                    color: 'white', marginBottom: 5, marginLeft: 100, fontSize: 13,
-                  }}
-                  >Peso
-                  </Text>
-                </View>
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <TouchableOpacity style={{ ...styles.TextInput, width: 130 }}>
-                    <TextInput
-                      style={styles.ValueInput}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{ ...styles.TextInput, width: 130 }}>
-                    <TextInput
-                      style={styles.ValueInput}
-                    />
-                  </TouchableOpacity>
-                </View>
-
-                {/* TODO: fazer um laço pra mostrar esses 4 inputs (nascimento, genero, altura, peso) */}
-                <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
-                  <Text style={{ color: 'white', marginRight: 60, fontSize: 13 }}>Tenho filhos</Text>
-                  <View>
-                    <ToggleSwitch
-                      size="small"
-                      onColor="#483D8B"
-                      offColor="#18142F"
-                      isOn={this.state.filhos}
-                      onToggle={(filhos) => {
-                        this.setState({ filhos });
-                        this.onToggle(filhos);
-                      }}
-                    />
-                  </View>
-                </View>
-                <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
-                  <Text style={{ color: 'white', marginRight: 85, fontSize: 13 }}>Eu fumo</Text>
-                  <View>
-                    <ToggleSwitch
-                      size="small"
-                      onColor="#483D8B"
-                      offColor="#18142F"
-                      isOn={this.state.fumo}
-                      onToggle={(fumo) => {
-                        this.setState({ fumo });
-                        this.onToggle(fumo);
-                      }}
-                    />
-                  </View>
-                </View>
-                <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
-                  <Text style={{ color: 'white', marginRight: 85, fontSize: 13 }}>Eu bebo</Text>
-                  <View>
-                    <ToggleSwitch
-                      size="small"
-                      onColor="#483D8B"
-                      offColor="#18142F"
-                      isOn={this.state.bebo}
-                      onToggle={(bebo) => {
-                        this.setState({ bebo });
-                        this.onToggle(bebo);
-                      }}
-                    />
-                  </View>
-                </View>
-                <View style={{ flex: 1, flexDirection: 'row', marginTop: 40 }}>
-                  <Text style={{ color: 'white', marginRight: 35, fontSize: 13 }}>Tenho tatuagem</Text>
-                  <View>
-                    <ToggleSwitch
-                      size="small"
-                      onColor="#483D8B"
-                      offColor="#18142F"
-                      isOn={this.state.tatuagem}
-                      onToggle={(tatuagem) => {
-                        this.setState({ tatuagem });
-                        this.onToggle(tatuagem);
-                      }}
-                    />
-                  </View>
+                  <Text style={{ color: '#FFF', fontSize: 15, top: '-50%' }}>Genero</Text>
+                  <Picker
+                    mode="dropdown"
+                    supportedOrientations={['portrait', 'landscape']}
+                    style={{ width: 150, color: '#fff', top: '-55%' }}
+                    selectedValue={this.state.genero}
+                    onValueChange={gen => this.setState({ genero: gen })}
+                  >
+                    <Picker.Item label="Masculino" value="M" />
+                    <Picker.Item label="Feminino" value="F" />
+                  </Picker>
                 </View>
               </View>
             )}
@@ -279,17 +294,11 @@ class AboutMe extends Component {
 const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  ImageBackgroundContainer: {
-    width: '100%',
-    height: '100%',
-  },
-  ImageBackgroundNickName: {
-    width: 100,
-    height: 95,
-  },
+
   Container: {
     alignItems: 'center',
     width,
+    flex: 1,
     backgroundColor: '#18142F',
   },
   logoNickName: {

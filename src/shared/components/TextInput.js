@@ -1,39 +1,26 @@
-import React from 'react'
+import React from 'react';
 import {
   StyleSheet,
   View,
-  Image
-} from 'react-native'
+  TouchableOpacity,
+  Text,
+} from 'react-native';
+import { progressPercentage } from 'style-value-types';
 
-export default TextInput = ({ icon, click }) => (
-  <View style={styles.item}>
-    <Text style={{ color: 'white', fontSize: 15, marginBottom: 20 }}>
-      {item.title}
-    </Text>
-    <View>
-      <TouchableOpacity style={this.state.selected == false ? styles.TextInput : styles.TextInputSelected} onPress={this.SelectedInput}>
-        <TextInput
-          style={styles.ValueInput}
-        />
-      </TouchableOpacity>
-    </View>
+
+export default Input = ({
+  name, style, onPress, props,
+}) => (
+  <View style={styles.buttonContent}>
+    <TouchableOpacity style={style} onPress={onPress} />
   </View>
-)
+);
 
 const styles = StyleSheet.create({
-  item: {
-    padding: 20,
-    fontSize: 18
+  buttonContent: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    // width: 250,
+    margin: 20,
   },
-  TextInput: {
-    borderColor: "white",
-    borderWidth: 1.5,
-    borderRadius: 50
-  },
-  TextInputSelected: {
-    borderColor: "#F13567",
-    borderWidth: 1.8,
-    borderRadius: 50,
-    height: 60
-  }
 });

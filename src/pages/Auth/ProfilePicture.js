@@ -3,10 +3,13 @@ import {
   Text,
   View,
   Image,
+  Dimensions,
   StyleSheet,
   TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import ImageBack from '../../assets/images/Grupo_518.png';
 
 import ImageProfile from '../../assets/images/Grupo_528.png';
 
@@ -16,12 +19,6 @@ class LoginProfilePicture extends Component {
   state = {
     selected: false,
   };
-
-  // SelectedInput = () => {
-  //   debugger;
-  //   if (event.selected) {
-  //   }
-  // };
 
   goToLoginCropProfilePhoto = () => {
     ImagePicker.openPicker({
@@ -35,47 +32,85 @@ class LoginProfilePicture extends Component {
 
   render() {
     return (
-      <CoreTemplate name="MillorLanUp" fontSize={40}>
-        <View style={styles.Container}>
-          <Text style={styles.title}>Adicionar foto de perfil</Text>
-          <View
-            onTouchStart={() => this.props.navigation.navigate('LoginPerfil')}
-            style={{ margin: 5, alignItems: 'center' }}
+      <ImageBackground
+        source={ImageBack}
+        style={{
+          width: Dimensions.get('window').width,
+          // height: Dimensions.get('window').height,
+          flex: 1,
+        }}
+      >
+        <View style={{
+          flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+        }}
+        >
+          <View style={{
+            flex: 0.7,
+            width: Dimensions.get('window').width - 100,
+            justifyContent: 'flex-end',
+          }}
           >
-            <Image source={ImageProfile} style={{ width: 110, height: 110 }} />
+            <Text style={{
+              color: '#FFF',
+              fontSize: 52,
+              fontFamily: 'Helvetica Now Micro',
+              fontWeight: '600',
+              textAlign: 'center',
+              top: '-12%',
+            }}
+            >MillorLanUp
+            </Text>
+            <Text style={{
+              fontSize: 25,
+              color: '#FFF',
+              letterSpacing: 0.6,
+              textAlign: 'center',
+            }}
+            >Adicionar foto de perfil
+            </Text>
           </View>
-          {/* TODO: componentizar botão - todos botões tem botão arredondada */}
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this.goToLoginCropProfilePhoto}
+          <View style={{
+            width: '15%',
+            height: 1,
+            borderBottomColor: '#F2D74C',
+            borderBottomWidth: 3,
+            top: '-10%',
+            left: '-27%',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          />
+          <View style={{
+            flex: 1,
+            width: Dimensions.get('window').width - 100,
+            alignItems: 'center',
+            top: '5%',
+          }}
           >
-            <Text style={{ color: 'white', fontSize: 13 }}>Adicionar Foto</Text>
-          </TouchableOpacity>
+            <Image source={ImageProfile} style={{ height: 130, width: 130 }} />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={this.goToLoginCropProfilePhoto}
+            >
+              <Text style={{ color: 'white', fontSize: 14 }}>Tirar Foto</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </CoreTemplate>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  Container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  title: {
-    color: 'white',
-    fontSize: 20,
-    letterSpacing: 1,
-    top: -10,
-  },
   button: {
-    margin: 20,
+    width: 150,
+    height: 50,
+    backgroundColor: '#46C5F3',
+    borderRadius: 50,
+    top: '8%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#7541BF',
-    borderRadius: 50,
-    height: 45,
-    width: 155,
   },
 });
 
