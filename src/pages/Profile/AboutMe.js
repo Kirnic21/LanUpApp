@@ -291,7 +291,7 @@ class AboutMe extends Component {
   }
 }
 
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
 
@@ -300,14 +300,6 @@ const styles = StyleSheet.create({
     width,
     flex: 1,
     backgroundColor: '#18142F',
-  },
-  logoNickName: {
-    margin: 60,
-  },
-  buttonContent: {
-    flexDirection: 'row',
-    width: 280,
-    margin: 20,
   },
   Image: {
     borderColor: 'white',
@@ -321,39 +313,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.8,
     borderRadius: 50,
     height: 60,
-  },
-  button: {
-    margin: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#483D8B',
-    borderColor: '#483D8B',
-    borderWidth: 1.5,
-    borderRadius: 50,
-    height: 55,
-    width: 150,
-  },
-  submitText: {
-    marginTop: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    color: '#46C5F3',
-    textAlign: 'center',
-    backgroundColor: '#24203B',
-    borderRadius: 20,
-    fontSize: 15,
-    width: '70%',
-  },
-  agency: {
-    marginTop: 20,
-    paddingTop: 20,
-    paddingBottom: 20,
-    color: '#46C5F3',
-    padding: 20,
-    backgroundColor: '#24203B',
-    borderRadius: 10,
-    fontSize: 15,
-    width: width - 50,
   },
   list: {
     marginTop: 20,
@@ -375,10 +334,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 15,
     paddingHorizontal: 20,
-  },
-  toggle: {
-    height: 50,
-    width: 50,
   },
 });
 

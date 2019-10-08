@@ -182,6 +182,30 @@ const pageNavigator = createStackNavigator({
       ),
     }),
   },
+  AvailabilityDays: {
+    screen: AvailabilityDays,
+    navigationOptions: ({ navigation }) => ({
+      headerTransparent: true,
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('Availability')}
+        />
+      ),
+    }),
+  },
+  SpecialHours: {
+    screen: SpecialHours,
+    navigationOptions: ({ navigation }) => ({
+      headerTransparent: true,
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('Availability')}
+        />
+      ),
+    }),
+  },
   Agency: {
     screen: Agency,
     navigationOptions: ({ navigation }) => ({

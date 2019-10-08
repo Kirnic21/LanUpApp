@@ -1,107 +1,147 @@
-import React, { Component } from "react";
-import { FlatList } from "react-native-gesture-handler";
-import ToggleSwitch from "toggle-switch-react-native";
-import ButtonAdd from "../../shared/components/ButtonAdd";
-
+import React, { Component } from 'react';
+import { FlatList } from 'react-native-gesture-handler';
+import ToggleSwitch from 'toggle-switch-react-native';
 import {
   StyleSheet,
   View,
   Dimensions,
-  Image,
   TouchableOpacity,
   Text,
   ScrollView,
-  TextInput
-} from "react-native";
+  TextInput,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+} from 'react-native';
+import ProfileHeaderMenu from '../../shared/components/ProfileHeaderMenu';
+import InputLabel from '../../shared/components/InputLabel';
+
 
 export default class SpecialHours extends Component {
-  state = {
-    selected: false
-  };
+  constructor() {
+    super();
 
-  SelectedInput = () => {
-    if (event.selected) {
+    this.state = {
+      expanded: false,
+      now: false,
+    };
+
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
     }
-  };
+  }
+
+
+  onToggle(isOn) {
+    console.log(`Changed to ${isOn}`);
+  }
+
+        changeLayout = () => {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+          this.setState({ expanded: !this.state.expanded });
+        }
+
+
+  renderSeparator = () => (
+    <View
+      style={{
+        height: 2,
+        width: '90%',
+        backgroundColor: '#18142F',
+        marginLeft: '5%',
+        marginRight: '10%',
+      }}
+    />
+  );
+
+  onLogout = () => {
+    this.props.logout().then(() => this.props.navigation.navigate('LoginPerfil'));
+  }
 
   render() {
     return (
-      <ScrollView contentContainerStyle={styles.Container}>
-        <View style={{ marginTop: '20%', marginRight: '40%' }}>
-          <Text style={{ fontSize: 20, color: 'white' }}>
-            16 de Dez, 2019
-          </Text>
-        </View>
-        <FlatList
-          contentContainerStyle={{ ...styles.list }}
-          data={[
-            {
-              title: 'Horas'
-            }
-          ]}
-          renderItem={({ item }) => (
-            <View style={styles.item}>
-              <Text style={{ color: 'white', fontSize: 15, marginBottom: 5 }}>
-                {item.title}
-              </Text>
-              <View style={{ flex: 1, flexDirection: 'row', justifyContent: "flex-start" }}>
-                <Text style={{ color: "white", marginBottom: 5, fontSize: 13 }}>Das</Text>
-                <Text style={{ color: "white", marginBottom: 5, marginLeft: '45%', fontSize: 13 }}>Até</Text>
-              </View>
-              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
-                <TouchableOpacity style={{ ...styles.TextInput, width: 130, height: 40 }}>
-                  <TextInput
-                    style={styles.ValueInput}
+      <ScrollView>
+        <View style={styles.Container}>
+
+          <FlatList
+            contentContainerStyle={{ ...styles.list }}
+            data={[
+              {
+                key: '1', title: 'Horas',
+              },
+              {
+                key: '2', title: 'Horas',
+              },
+            ]}
+            renderItem={({ item }) => (
+              <View style={styles.container}>
+                <View style={styles.btnTextHolder}>
+                  <ToggleSwitch
+                    size="small"
+                    onColor="#483D8B"
+                    offColor="#18142F"
+                    label="Estou Disponível"
+                    labelStyle={{ color: '#FFF', marginRight: '44%', fontSize: 17 }}
+                    isOn={this.state.now}
+                    onToggle={(now) => {
+                      this.setState({ now });
+                      this.onToggle(now);
+                      this.changeLayout();
+                    }}
                   />
-                </TouchableOpacity>
-                <TouchableOpacity style={{ ...styles.TextInput, width: 130, height: 40 }}>
-                  <TextInput
-                    style={styles.ValueInput}
-                  />
-                </TouchableOpacity>
+                  <View style={[
+                    { height: this.state.expanded ? null : 0, overflow: 'hidden' },
+                    styles.item,
+                  ]}
+                  >
+                    <Text style={styles.text}>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+              when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+              It has survived not only five centuries, but also the leap into electronic typesetting,
+              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+              containing Lorem Ipsum passages, and more recently with desktop publishing software
+              like Aldus PageMaker including versions of Lorem Ipsum.
+                    </Text>
+                  </View>
+                </View>
               </View>
-            </View>
-          )}
-        />
-        <View style={{ marginTop: 10 }}>
-          <ButtonAdd value={"Adicionar Horários"} />
+            )}
+            keyExtractor={item => item.key}
+          />
         </View>
+
       </ScrollView>
     );
   }
 }
 
-const { height, width } = Dimensions.get("window");
+const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  Container: {
-    alignItems: "center",
-    width: width,
-    height: height,
-    backgroundColor: "#18142F"
+  container: {
+    // flex: 1,
+    paddingHorizontal: 10,
+    height: Dimensions.get('window').height - 300,
+    justifyContent: 'center',
+    paddingTop: (Platform.OS === 'ios') ? 20 : 0,
+    backgroundColor: '#18142F',
   },
-  list: {
-    marginTop: 20,
-    backgroundColor: '#24203B',
-    width: width - 50,
-    borderRadius: 20
+
+  text: {
+    fontSize: 17,
+    color: 'black',
+    padding: 10,
   },
-  Add: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    color: '#46C5F3',
-    padding: 20,
-    backgroundColor: '#24203B',
-    borderRadius: 10,
-    fontSize: 15,
-    width: width - 50
+
+  btnText: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 20,
   },
-  item: {
-    padding: 15
+
+  Btn: {
+    padding: 10,
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
-  TextInput: {
-    borderColor: "white",
-    borderWidth: 1.5,
-    borderRadius: 50
-  }
 });
