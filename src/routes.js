@@ -12,8 +12,8 @@ import {
 } from 'react-native';
 import LoginPage from './pages/Auth/index';
 import LoginEmail from './pages/Auth/LoginEmail';
-import RegisterStageOne from './pages/Auth/RegisterStage';
-import RegisterStageTwo from './pages/Auth/RegisterStageTwo';
+import RegisterStageOne from './pages/Auth/Register/RegisterStage';
+import RegisterStageTwo from './pages/Auth/Register/RegisterStageTwo';
 import LoginProfilePicture from './pages/Auth/ProfilePicture';
 import LoginPerfil from './pages/Login/LoginPerfil';
 import AboutMe from './pages/Profile/AboutMe';

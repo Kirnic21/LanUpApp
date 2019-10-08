@@ -189,13 +189,6 @@ android {
 }
 
 dependencies {
-    implementation project(':@react-native-community_geolocation')
-    implementation project(':react-native-background-timer')
-    implementation project(':react-native-background-task')
-    implementation project(':react-native-linear-gradient')
-    implementation project(':react-native-image-crop-picker')
-    implementation project(':react-native-image-picker')
-    implementation project(':react-native-gesture-handler')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
