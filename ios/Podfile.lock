@@ -90,8 +90,6 @@ PODS:
   - React-RCTWebSocket (0.60.4):
     - React-Core (= 0.60.4)
     - React-fishhook (= 0.60.4)
-  - RNBackgroundFetch (2.0.8):
-    - React
   - RNGestureHandler (1.4.1):
     - React
   - RNImageCropPicker (0.25.0):
@@ -99,6 +97,10 @@ PODS:
     - React-Core
     - React-RCTImage
     - RSKImageCropper
+  - RNReanimated (1.2.0):
+    - React
+  - RNVectorIcons (6.6.0):
+    - React
   - RSKImageCropper (2.2.3)
   - yoga (0.60.4.React)
 
@@ -128,13 +130,14 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
-  - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - boost-for-react-native
     - QBImagePickerController
     - RSKImageCropper
@@ -190,12 +193,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   React-RCTWebSocket:
     :path: "../node_modules/react-native/Libraries/WebSocket"
-  RNBackgroundFetch:
-    :path: "../node_modules/react-native-background-fetch"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -227,12 +232,13 @@ SPEC CHECKSUMS:
   React-RCTText: e0f224898b13af9aa036ea7cb3d438daa68c1044
   React-RCTVibration: 0bea40cd51bd089bd591a8f74c86e91fdf2666c5
   React-RCTWebSocket: 163873f4cdd5f1058a9483443404fc3801581cb6
-  RNBackgroundFetch: 71dd37d69a0f0a173b4aafd65e7169e7dd96946a
   RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
+  RNReanimated: 1b52415c4302f198cb581282a0166690bad62c43
+  RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
-PODFILE CHECKSUM: ac129d1c4bbb47a9a24872d7c1a069d7c331cb23
+PODFILE CHECKSUM: 2111a2bb2dd3311e7be92168cd0dbe8d9722f02c
 
 COCOAPODS: 1.8.1

@@ -72,6 +72,8 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 		<string>Fontisto.ttf</string>
+		<string>HelveticaNowMicro-Light.ttf</string>
+		<string>HelveticaNowMicro-Regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
