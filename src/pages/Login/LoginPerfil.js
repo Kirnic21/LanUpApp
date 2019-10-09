@@ -102,26 +102,37 @@ export default class LoginPerfil extends Component {
           contentContainerStyle={styles.list}
           data={[
             {
+              key: '1',
               title: 'Sobre mim',
               subtitle: 'Sua foto de perfil, apresentação e mais',
               onPress: () => this.aboutMe(),
             },
             {
+              key: '2',
               title: 'Meu Job',
               subtitle: 'Área de operação, disponibilidade e mais',
               onPress: () => this.openProfession(),
             },
             {
-              title: 'Midias',
+              key: '3',
+              title: 'Agências',
+              subtitle: 'Entre na equipe de sua agência',
+              onPress: () => this.openProfession(),
+            },
+            {
+              key: '4',
+              title: 'Galeria',
               subtitle: 'Fotos e videos de seu trabalho',
               onPress: () => this.openMidia(),
             },
             {
+              key: '5',
               title: 'Disponibilidade',
               subtitle: 'Dias, horários e feriados',
               onPress: () => this.openAvaliability(),
             },
             {
+              key: '6',
               title: 'Histórico de trabalho',
               subtitle: 'Trabalho, avaliações e recomendações',
             },
@@ -148,6 +159,7 @@ export default class LoginPerfil extends Component {
             </TouchableOpacity>
           )}
           ItemSeparatorComponent={this.renderSeparator}
+          keyExtractor={item => item.key}
         />
         <TouchableOpacity onPress={this.openAgency}>
           <Text style={styles.agency}>Sou uma Agência</Text>
@@ -156,6 +168,7 @@ export default class LoginPerfil extends Component {
           contentContainerStyle={styles.list}
           data={[
             {
+              key: '1',
               title: 'Configurações',
               subtitle: 'Notificações, senha e mais',
             },
@@ -175,6 +188,7 @@ export default class LoginPerfil extends Component {
 
           )}
           ItemSeparatorComponent={this.renderSeparator}
+          keyExtractor={item => item.key}
         />
 
         <Text
