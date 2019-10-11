@@ -21,7 +21,7 @@ export default ActionButton = ({ name, style, onPress }) => (
     >
       <Icon
         name="add"
-        size={30}
+        size={35}
         color="#FFF"
         style={{ }}
       />

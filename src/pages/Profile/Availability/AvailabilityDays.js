@@ -10,7 +10,7 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import ProfileHeaderMenu from '../../shared/components/ProfileHeaderMenu';
+import ProfileHeaderMenu from '../../../shared/components/ProfileHeaderMenu';
 
 export default class Availability extends Component {
   state = {
@@ -122,7 +122,7 @@ export default class Availability extends Component {
   }
 }
 
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   Container: {
@@ -136,16 +136,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#24203B',
     width: width - 50,
     borderRadius: 20,
-  },
-  Add: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    color: '#46C5F3',
-    padding: 20,
-    backgroundColor: '#24203B',
-    borderRadius: 10,
-    fontSize: 15,
-    width: width - 50,
   },
   item: {
     padding: 15,

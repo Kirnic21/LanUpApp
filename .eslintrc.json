@@ -39,7 +39,8 @@
     "react/no-unused-state": "off",
     "import/no-cycle": "off",
     "class-methods-use-this": "off",
-    "no-undef": "off"
+    "no-undef": "off",
+    "no-underscore-dangle": "off"
   },
   "settings": {
     "import/resolver": {

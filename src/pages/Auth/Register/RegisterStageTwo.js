@@ -10,16 +10,16 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import RoundButton from '~/shared/components/RoundButton';
 import ImageBack from '~/assets/images/Grupo_518.png';
 import InputLabel from '~/shared/components/InputLabel';
-import styles from './register.style'
+import styles from './register.style';
 
 const stylePage = {
   ...styles,
   icon: {
     left: '62%',
     top: '-18.2%',
-    position: 'relative'
-  }
-}
+    position: 'relative',
+  },
+};
 
 class RegisterStageTwo extends Component {
   constructor(props) {
@@ -32,7 +32,27 @@ class RegisterStageTwo extends Component {
     this.changeIcon = this.changeIcon.bind(this);
   }
 
-  goLoginPicture = () => this.props.navigation.navigate('LoginProfilePicture')
+  componentDidMount() {
+    const { fullName, nickname, cpf } = this.props.navigation.state.params;
+    this.setState({ fullName });
+    this.setState({ nickname });
+    this.setState({ cpf });
+  }
+
+  getInput = (event, nomedocampo) => {
+    this.setState({ [nomedocampo]: event });
+  };
+
+  goLoginPicture = () => {
+    this.props.navigation.push('LoginProfilePicture', {
+      fullName: this.state.fullName,
+      nickname: this.state.nickname,
+      cpf: this.state.cpf,
+      email: this.state.email,
+      password: this.state.password,
+      confirmPassword: this.state.confirmPassword,
+    });
+  };
 
   changeIcon() {
     this.setState(prevState => ({
@@ -52,11 +72,12 @@ class RegisterStageTwo extends Component {
         }}
       >
         <StatusBar translucent backgroundColor="transparent" />
-        <View style={{
-          flex: 1,
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
         >
           <View style={styles.registerContainer}>
             <View>
@@ -65,20 +86,21 @@ class RegisterStageTwo extends Component {
                 Insira seus dados
               </Text>
 
-              <Text style={stylePage.textSubtitle}>Etapa 2/2
-              </Text>
+              <Text style={stylePage.textSubtitle}>Etapa 2/2</Text>
             </View>
 
             <View>
               <InputLabel
+                onChangeText={event => this.getInput(event, 'email')}
                 style={styles.TextInput}
                 title="E-mail"
                 keyboardType="email-address"
               />
               <InputLabel
+                onChangeText={event => this.getInput(event, 'password')}
                 style={styles.TextInput}
                 title="Senha"
-                secureTextEntry={this.state.password}
+                secureTextEntry
               />
               <Icon
                 style={stylePage.icon}
@@ -88,9 +110,10 @@ class RegisterStageTwo extends Component {
                 onPress={() => this.changeIcon()}
               />
               <InputLabel
+                onChangeText={event => this.getInput(event, 'confirmPassword')}
                 style={styles.TextInput}
                 title="Confirmar senha"
-                secureTextEntry={this.state.password}
+                secureTextEntry
               />
               <Icon
                 style={stylePage.icon}
@@ -106,7 +129,6 @@ class RegisterStageTwo extends Component {
               name="Continuar"
               onPress={this.goLoginPicture}
             />
-
           </View>
         </View>
       </ImageBackground>

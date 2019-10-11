@@ -8,12 +8,13 @@ import {
   Image,
   KeyboardAvoidingView,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import login from '../../shared/services/auth.http';
 import ImageBack from '../../assets/images/Grupo_518.png';
 import Logo from '../../assets/images/logoLanUp.png';
 import InputLabel from '../../shared/components/InputLabel';
-
 
 class LoginEmail extends Component {
   constructor(props) {
@@ -26,8 +27,21 @@ class LoginEmail extends Component {
     this.changeIcon = this.changeIcon.bind(this);
   }
 
-
-  goToLoginPerfil = () => this.props.navigation.navigate('LoginPerfil')
+  goToLoginPerfil = () => {
+    login({
+      login: 'sauron@test.com',
+      password: '1234567',
+    })
+      .then(async ({ data }) => {
+        if (data.isSuccess) {
+          await AsyncStorage.setItem('API_TOKEN', data.result.token);
+          this.props.navigation.navigate('LoginPerfil');
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
 
   changeIcon() {
     this.setState(prevState => ({
@@ -35,7 +49,6 @@ class LoginEmail extends Component {
       password: !prevState.password,
     }));
   }
-
 
   render() {
     const { width, height } = Dimensions.get('window');
@@ -46,7 +59,6 @@ class LoginEmail extends Component {
           style={{ width, height: height + 80, flex: 1 }}
         >
           <View style={styles.Container}>
-
             <View style={styles.ContainerLogo}>
               <Image
                 source={Logo}
@@ -55,15 +67,12 @@ class LoginEmail extends Component {
             </View>
 
             <View style={styles.ContainerForm}>
-
               <View style={{ paddingVertical: 100, alignItems: 'center' }}>
-
                 <InputLabel
                   style={{ width: 290, height: 50 }}
                   title="E-mail"
                   keyboardType="email-address"
                 />
-
 
                 <InputLabel
                   style={{ width: 290, height: 50 }}
@@ -85,11 +94,9 @@ class LoginEmail extends Component {
                   <Text style={styles.textBtn}>Entrar</Text>
                 </TouchableOpacity>
               </View>
-
             </View>
             <View style={{ width: width - 100, height: 50 }}>
-              <Text style={styles.textForgot}>Esqueci minha senha
-              </Text>
+              <Text style={styles.textForgot}>Esqueci minha senha</Text>
             </View>
           </View>
         </ImageBackground>

@@ -11,7 +11,7 @@ import {
   ScrollView,
 } from 'react-native';
 
-import ArrowRight from '../../assets/images/arrowRight.png';
+import ArrowRight from '../../../assets/images/arrowRight.png';
 
 export default class Availability extends Component {
   state = {
@@ -281,6 +281,7 @@ const styles = StyleSheet.create({
   Container: {
     alignItems: 'center',
     width,
+    justifyContent: 'flex-start',
     height: Dimensions.get('window').height + 50,
     backgroundColor: '#18142F',
     paddingTop: '10%',

@@ -14,21 +14,24 @@ import LoginPage from './pages/Auth/index';
 import LoginEmail from './pages/Auth/LoginEmail';
 import RegisterStageOne from './pages/Auth/Register/RegisterStage';
 import RegisterStageTwo from './pages/Auth/Register/RegisterStageTwo';
+import ForgotPassword from './pages/Auth/Register/ForgotPassword';
 import LoginProfilePicture from './pages/Auth/ProfilePicture';
 import LoginPerfil from './pages/Login/LoginPerfil';
 import AboutMe from './pages/Profile/AboutMe';
-import Availability from './pages/Profile/Availability';
-import AvailabilityDays from './pages/Profile/AvailabilityDays';
-import Profession from './pages/Profile/Profession';
+import Availability from './pages/Profile/Availability/Availability';
+import AvailabilityDays from './pages/Profile/Availability/AvailabilityDays';
+import Profession from './pages/Profile/Profession/Profession';
+import AddProfession from './pages/Profile/Profession/AddProfession';
+import AddAbiliity from './pages/Profile/Profession/AddAbiliity';
 import Midia from './pages/Profile/Midia';
 import Agency from './pages/Agency/Agency';
-import PreviewProfile from './pages/Login/PreviewProfile';
+// import PreviewProfile from './pages/Login/PreviewProfile';
 import IconMenu from './assets/images/icon_menu.png';
 import NextEvent from './pages/NextEvent/NextEvent';
 import DetailNextEvent from './pages/NextEvent/DetailNextEvent';
-import IAnAgency from './pages/Agency/IAnAgency';
+// import IAnAgency from './pages/Agency/IAnAgency';
 import ToExplore from './pages/Explore/ToExplore';
-import SpecialHours from './pages/Profile/SpecialHours';
+import SpecialHours from './pages/Profile/Availability/SpecialHours';
 import CheckList from './pages/NextEvent/CheckList';
 import CheckOut from './pages/NextEvent/CheckOut';
 import RatingsAgency from './pages/NextEvent/RatingsAgency';
@@ -86,7 +89,17 @@ const AuthNavigator = createStackNavigator(
           marginTop: 20,
           marginLeft: 10,
         },
-
+      }),
+    },
+    ForgotPassword: {
+      screen: ForgotPassword,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerTintColor: '#FFF',
+        headerStyle: {
+          marginTop: 20,
+          marginLeft: 10,
+        },
       }),
     },
     LoginProfilePicture: {
@@ -222,10 +235,55 @@ const pageNavigator = createStackNavigator({
     screen: Profession,
     navigationOptions: ({ navigation }) => ({
       headerTransparent: true,
+      headerTitle: 'Meu Job',
+      headerTitleStyle: {
+        fontSize: 20,
+        marginLeft: '30%',
+        textAlign: 'center',
+        color: '#FFF',
+      },
       headerLeft: (
         <HeaderBackButton
           tintColor="#FFf"
           onPress={() => navigation.push('LoginPerfil')}
+        />
+      ),
+    }),
+  },
+  AddProfession: {
+    screen: AddProfession,
+    navigationOptions: ({ navigation }) => ({
+      headerTransparent: true,
+      headerTitle: 'Meu Job',
+      headerTitleStyle: {
+        fontSize: 20,
+        marginLeft: '30%',
+        textAlign: 'center',
+        color: '#FFF',
+      },
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('Profession')}
+        />
+      ),
+    }),
+  },
+  AddAbiliity: {
+    screen: AddAbiliity,
+    navigationOptions: ({ navigation }) => ({
+      headerTransparent: true,
+      headerTitle: 'Meu Job',
+      headerTitleStyle: {
+        fontSize: 20,
+        marginLeft: '30%',
+        textAlign: 'center',
+        color: '#FFF',
+      },
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push('Profession')}
         />
       ),
     }),

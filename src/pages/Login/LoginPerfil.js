@@ -62,6 +62,10 @@ export default class LoginPerfil extends Component {
     this.props.navigation.navigate('Availability');
   }
 
+  openForgotPassword = () => {
+    this.props.navigation.navigate('ForgotPassword');
+  }
+
   render() {
     return (
       <ScrollView contentContainerStyle={styles.Container}>
@@ -117,7 +121,7 @@ export default class LoginPerfil extends Component {
               key: '3',
               title: 'Agências',
               subtitle: 'Entre na equipe de sua agência',
-              onPress: () => this.openProfession(),
+              onPress: () => this.openAgency(),
             },
             {
               key: '4',
@@ -165,27 +169,22 @@ export default class LoginPerfil extends Component {
           <Text style={styles.agency}>Sou uma Agência</Text>
         </TouchableOpacity>
         <FlatList
-          contentContainerStyle={styles.list}
+          contentContainerStyle={[styles.list, { borderRadius: 10 }]}
           data={[
             {
               key: '1',
-              title: 'Configurações',
-              subtitle: 'Notificações, senha e mais',
+              title: 'Alterar Senha',
+              onPress: () => this.openForgotPassword(),
             },
           ]}
           renderItem={({ item }) => (
-            <View style={styles.item}>
-              <Text style={{ color: 'white', fontSize: 14, marginBottom: 5 }}>
-                {item.title}
-              </Text>
-              <Text style={{
-                color: 'gray', fontSize: 12, borderBottomWidth: 0, borderTopWidth: 0,
-              }}
-              >
-                {item.subtitle}
-              </Text>
+            <View style={[styles.item]}>
+              <TouchableOpacity onPress={item.onPress}>
+                <Text style={{ color: 'white', fontSize: 14, marginBottom: 5 }}>
+                  {item.title}
+                </Text>
+              </TouchableOpacity>
             </View>
-
           )}
           ItemSeparatorComponent={this.renderSeparator}
           keyExtractor={item => item.key}

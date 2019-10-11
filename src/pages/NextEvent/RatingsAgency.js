@@ -55,6 +55,7 @@ class RatingsAgency extends Component {
           contentContainerStyle={styles.ContainerStar}
           data={[
             {
+              key: '1',
               titleOne: 'Gestão',
               titleTwo: 'Suporte',
             },
@@ -137,6 +138,7 @@ class RatingsAgency extends Component {
               </View>
             </View>
           )}
+          keyExtractor={item => item.key}
         />
         <View style={[styles.ContainerBtnNext, { opacity: this.state.op }]}>
           <TouchableOpacity

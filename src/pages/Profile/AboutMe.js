@@ -175,11 +175,13 @@ class AboutMe extends Component {
                 </View>
               </View>
             )}
+            keyExtractor={item => item.key}
           />
           <FlatList
             contentContainerStyle={styles.list}
             data={[
               {
+                key: '1',
                 title: 'Localização',
               },
             ]}
@@ -203,11 +205,13 @@ class AboutMe extends Component {
                 </View>
               </View>
             )}
+            keyExtractor={item => item.key}
           />
           <FlatList
             contentContainerStyle={styles.list}
             data={[
               {
+                key: '1',
                 title: 'Fotos de apresentação',
                 subtitle: '2 de perfil(sozinho) e 2 de corpo inteiro',
               },
@@ -227,11 +231,13 @@ class AboutMe extends Component {
                 </TouchableOpacity>
               </View>
             )}
+            keyExtractor={item => item.key}
           />
           <FlatList
             contentContainerStyle={{ ...styles.list, marginBottom: 40 }}
             data={[
               {
+                key: '1',
                 title: 'Informações Privadas',
               },
             ]}
@@ -284,6 +290,7 @@ class AboutMe extends Component {
                 </View>
               </View>
             )}
+            keyExtractor={item => item.key}
           />
         </View>
       </ScrollView>

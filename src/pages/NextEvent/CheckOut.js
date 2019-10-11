@@ -11,18 +11,23 @@ import {
   StyleSheet,
 } from 'react-native';
 import Modal, {
-  ModalContent, SlideAnimation, ModalTitle, ModalFooter,
+  ModalContent,
+  SlideAnimation,
+  ModalTitle,
+  ModalFooter,
 } from 'react-native-modals';
+import { ProgressBar, Colors } from 'react-native-paper';
 import CoreTemplate from '~/shared/components/CoreTemplate';
 import ListModal from '~/shared/components/ListModal';
 
 const COUNT = 1;
 const DURATION = 1100;
 const initialPhase = { scale: 1, opacity: 1 };
-const constructAnimations = () => [...Array(COUNT).keys()].map(() => (initialPhase));
-
+const constructAnimations = () => [...Array(COUNT).keys()].map(() => initialPhase);
 
 class CheckOut extends Component {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -35,17 +40,20 @@ class CheckOut extends Component {
   }
 
   componentDidMount() {
-    this.animateCircles();
+    this._isMounted = true;
+    if (this._isMounted) {
+      this.animateCircles();
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   animateCircles = () => {
     const actions = Array(COUNT).fill(
       keyframes({
-        values: [
-          initialPhase,
-          { scale: 1.1, opacity: 1 },
-          { scale: 1 },
-        ],
+        values: [initialPhase, { scale: 1.1, opacity: 1 }, { scale: 1 }],
         duration: DURATION,
         loop: Infinity,
         yoyo: Infinity,
@@ -55,28 +63,37 @@ class CheckOut extends Component {
     stagger(actions, DURATION / COUNT).start((animations) => {
       this.setState({ animations });
     });
-  }
+  };
 
   openRatings = () => {
     this.props.navigation.navigate('RatingsAgency');
-  }
+  };
 
   render() {
     return (
-      <CoreTemplate name="Balada TheWeek" subtitle="Bartender">
+      <CoreTemplate name="Balada TheWeek" subtitle="Bartender" fontSize={30}>
+        <View style={{}}>
+          <ProgressBar progress={1} color={Colors.red800} />
+        </View>
         <View style={styles.Container}>
           {this.state.animations.map(({ opacity, scale }, index) => (
             <Animated.View
               key={index}
-              style={[styles.circle, {
-                transform: [{ scale }],
-                opacity,
-              }]}
+              style={[
+                styles.circle,
+                {
+                  transform: [{ scale }],
+                  opacity,
+                },
+              ]}
             />
           ))}
 
           <View style={styles.ContainerCheckOut}>
-            <TouchableOpacity style={styles.btnCheckOut} onPress={this.openRatings}>
+            <TouchableOpacity
+              style={styles.btnCheckOut}
+              onPress={this.openRatings}
+            >
               <Text style={styles.textCheckOut}> Fazer Check-out </Text>
             </TouchableOpacity>
           </View>
@@ -87,18 +104,20 @@ class CheckOut extends Component {
                 name="done"
                 size={45}
                 color="#fff"
-                style={{ left: 20, top: 10 }}
+                style={{ left: '20%', top: '10%' }}
               />
               <Text style={styles.textCheck}>Check-in</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={[
-            styles.containerPause,
-            {
-              backgroundColor: this.state.color,
-              borderColor: this.state.BC,
-            }]}
+          <View
+            style={[
+              styles.containerPause,
+              {
+                backgroundColor: this.state.color,
+                borderColor: this.state.BC,
+              },
+            ]}
           >
             <TouchableOpacity
               onPress={() => {
@@ -116,7 +135,7 @@ class CheckOut extends Component {
                 name={this.state.icon}
                 size={35}
                 color="#fff"
-                style={{ left: 26, top: 15 }}
+                style={{ left: '25%', top: 15 }}
               />
               <Text style={styles.textPause}>{this.state.text}</Text>
             </TouchableOpacity>
@@ -133,7 +152,7 @@ class CheckOut extends Component {
                 name="error"
                 size={36}
                 color="#fff"
-                style={{ left: 23.2, top: 11 }}
+                style={{ left: '20%', top: 11 }}
               />
               <Text style={styles.textOcorre}>Ocorrência</Text>
             </TouchableOpacity>
@@ -158,32 +177,33 @@ class CheckOut extends Component {
             modalAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
             modalStyle={{ backgroundColor: '#49358C', borderRadius: 20 }}
             modalTitle={(
-              <ModalTitle
+<ModalTitle
                 title="Ocorrência"
                 style={{
-                  backgroundColor: '#49358C',
-                  borderBottomColor: 'transparent',
+                  backgroundColor: "#49358C",
+                  borderBottomColor: "transparent"
                 }}
                 textStyle={styles.modalTitle}
               />
-          )}
+)}
             footer={(
-              <ModalFooter style={{ top: -30, borderTopColor: 'transparent' }}>
+<ModalFooter style={{ top: -30, borderTopColor: "transparent" }}>
                 <View style={{ top: -15, left: 20 }}>
                   <TextInput
                     style={styles.inputModal}
                     placeholder="Digite aqui..."
                     placeholderTextColor="#828282"
                   />
-                  <View style={{
-                    left: 225,
-                    width: 100,
-                    height: 48.5,
-                    top: -48.4,
-                    borderTopRightRadius: 40,
-                    borderBottomRightRadius: 40,
-                    backgroundColor: '#b6aed1',
-                  }}
+                  <View
+                    style={{
+                      left: 225,
+                      width: 100,
+                      height: 48.5,
+                      top: -48.4,
+                      borderTopRightRadius: 40,
+                      borderBottomRightRadius: 40,
+                      backgroundColor: "#b6aed1"
+                    }}
                   >
                     <TouchableOpacity style={{ width: 30, top: 10, left: -1 }}>
                       <Icons name="paperclip" size={30} color="#18142F" />
@@ -199,12 +219,10 @@ class CheckOut extends Component {
                   </View>
                 </View>
               </ModalFooter>
-            )}
+)}
           >
             <ModalContent style={styles.ModalContent}>
-              <Text style={styles.textModal}>
-                O que aconteceu?
-              </Text>
+              <Text style={styles.textModal}>O que aconteceu?</Text>
             </ModalContent>
           </Modal>
         </View>
@@ -220,40 +238,47 @@ class CheckOut extends Component {
             swipeDirection={['down', 'up']}
             modalAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
             modalStyle={{
-              top: -50, width: 350, backgroundColor: '#49358C', borderRadius: 20,
+              top: -50,
+              width: 350,
+              backgroundColor: '#49358C',
+              borderRadius: 20,
             }}
             modalTitle={(
-              <ModalTitle
+<ModalTitle
                 title="Pausa"
                 style={{
-                  backgroundColor: '#49358C',
-                  borderBottomColor: 'transparent',
+                  backgroundColor: "#49358C",
+                  borderBottomColor: "transparent"
                 }}
                 textStyle={styles.modalTitle}
               />
-          )}
+)}
             footer={(
-              <ModalFooter style={{ width: '90%', left: '4%', borderTopColor: 'transparent' }}>
+<ModalFooter
+                style={{
+                  width: "90%",
+                  left: "4%",
+                  borderTopColor: "transparent"
+                }}
+              >
                 <ListModal
                   title="Fumar"
                   icon="smoking-rooms"
                   onPress={() => {
                     this.setState({
                       isVisible: false,
-                      icon: 'play-arrow',
-                      text: 'voltar',
-                      BC: '#86d7c96c',
-                      color: '#86D7CA',
+                      icon: "play-arrow",
+                      text: "voltar",
+                      BC: "#86d7c96c",
+                      color: "#86D7CA"
                     });
                   }}
                 />
               </ModalFooter>
-            )}
+)}
           >
             <ModalContent style={styles.ModalContent}>
-              <Text style={styles.textModal}>
-                Para:
-              </Text>
+              <Text style={styles.textModal}>Para:</Text>
 
               <ListModal
                 title="Comer"
@@ -291,105 +316,103 @@ class CheckOut extends Component {
 
 const styles = StyleSheet.create({
   Container: {
-    top: -50,
     borderColor: '#373361',
     borderWidth: 35,
-    width: 350,
-    height: 350,
+    width: 320,
+    height: 320,
     borderRadius: 175,
     alignItems: 'center',
     justifyContent: 'center',
   },
   circle: {
     backgroundColor: '#865fc069',
-    height: 170,
-    width: 170,
+    height: 160,
+    width: 160,
     borderRadius: 200,
     position: 'absolute',
   },
 
   ContainerCheckOut: {
-    top: 140,
+    top: '50%',
     left: 0.5,
   },
 
   btnCheckOut: {
     borderRadius: 75,
-    width: 150,
-    height: 150,
+    width: 140,
+    height: 140,
     backgroundColor: '#865FC0',
   },
 
   textCheckOut: {
     color: '#FFF',
-    fontSize: 25,
+    fontSize: 24,
     textAlign: 'center',
     top: 35,
   },
 
   containerCheck: {
-    height: 90,
-    width: 90,
+    height: 80,
+    width: 80,
     backgroundColor: '#46C5F3',
     borderRadius: 45,
-    top: 118,
+    top: '40%',
     right: 119,
     borderColor: '#46c5f33f',
     borderWidth: 3,
   },
 
   btnCheck: {
-    height: 90,
-    width: 90,
+    height: 80,
+    width: 80,
   },
   textCheck: {
     color: '#FFF',
-    top: 1,
+    top: '-2%',
     left: 9,
-    fontSize: 14,
+    fontSize: 12,
     letterSpacing: 1,
   },
 
   containerPause: {
-    height: 90,
-    width: 90,
+    height: 80,
+    width: 80,
     borderWidth: 3,
     borderRadius: 45,
-    top: 25.5,
-    left: 120.5,
+    top: '10%',
+    left: 115,
   },
   btnPause: {
-    height: 90,
-    width: 90,
+    height: 80,
+    width: 80,
   },
   textPause: {
     color: '#FFF',
-    fontSize: 15,
+    fontSize: 12,
     letterSpacing: 1,
     left: 18,
     top: 10,
   },
 
   ContainerOcorre: {
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
     backgroundColor: '#FFB72B',
     borderRadius: 50,
     borderColor: '#ffb82b34',
     borderWidth: 9,
     top: -10,
-    left: 2,
   },
   btnOcorre: {
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
   },
 
   textOcorre: {
     color: '#fff',
-    fontSize: 13,
+    fontSize: 11,
     left: 8,
-    top: 9,
+    top: '8%',
     fontWeight: 'bold',
   },
 
@@ -397,6 +420,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: 230,
     margin: 20,
+    top: '10%',
   },
   btn: {
     flex: 1,
@@ -442,6 +466,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
 
 export default CheckOut;
