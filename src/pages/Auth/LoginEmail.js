@@ -29,11 +29,13 @@ class LoginEmail extends Component {
 
   goToLoginPerfil = () => {
     login({
-      login: 'sauron@test.com',
-      password: '1234567',
+      login: 'brunomk12@hotmail.com',
+      password: 'bruno123',
     })
       .then(async ({ data }) => {
+        debugger;
         if (data.isSuccess) {
+          debugger;
           await AsyncStorage.setItem('API_TOKEN', data.result.token);
           this.props.navigation.navigate('LoginPerfil');
         }
@@ -41,6 +43,7 @@ class LoginEmail extends Component {
       .catch((error) => {
         console.log(error.response.data);
       });
+    debugger;
   };
 
   changeIcon() {

@@ -1,38 +1,54 @@
-import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Dimensions
+} from "react-native";
 import Modal, {
-  ModalContent, SlideAnimation, ModalTitle, ModalFooter,
-} from 'react-native-modals';
+  ModalContent,
+  SlideAnimation,
+  ModalTitle,
+  ModalFooter
+} from "react-native-modals";
+import Icons from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome";
 
-export default class ModalComponent extends Component {
-  state = {
-    isModalVisible: false,
-  };
+export default ModalComponent = ({
+  onTouchOutside,
+  style,
+  visible,
+  children
+}) => (
+  <View>
+    <Modal
+      height={350}
+      width={400}
+      style={{
+        justifyContent: "flex-end"
+        // width: Dimensions.get("window").width + 100
+      }}
+      modalStyle={{ backgroundColor: "#49358C", borderLeftTopRadius: 70 }}
+      modalAnimation={
+        new SlideAnimation({
+          slideFrom: "bottom"
+        })
+      }
+      visible={visible}
+      onTouchOutside={onTouchOutside}
+    >
+      <ModalContent>{children}</ModalContent>
+    </Modal>
+  </View>
+);
 
-  toggleModal = () => {
-    this.setState({ isModalVisible: !this.state.isModalVisible });
-  };
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Button
-          title="Show Modal"
-          onPress={() => {
-            this.setState({ visible: true });
-          }}
-        />
-        <Modal
-          visible={this.state.visible}
-          onTouchOutside={() => {
-            this.setState({ visible: false });
-          }}
-        >
-          <ModalContent>
-            {this.props}
-          </ModalContent>
-        </Modal>
-      </View>
-    );
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   }
-}
+});

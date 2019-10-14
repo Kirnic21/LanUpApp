@@ -14,20 +14,18 @@ import RoundButton from '~/shared/components/RoundButton';
 import ImageBack from '../../assets/images/Grupo_518.png';
 import Logo from '../../assets/images/logoLanUp.png';
 
-BackgroundTimer.runBackgroundTimer(() => {
-  Geolocation.getCurrentPosition((position) => {
-    console.log(new Date(), position);
-  });
-}, 30000);
-
+// BackgroundTimer.runBackgroundTimer(() => {
+//   Geolocation.getCurrentPosition((position) => {
+//     console.log(new Date(), position);
+//   });
+// }, 30000);
 
 class LoginPage extends Component {
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
-  goToLoginEmail = () => this.props.navigation.navigate('LoginEmail')
+  goToLoginEmail = () => this.props.navigation.navigate('LoginEmail');
 
-  goRegister = () => this.props.navigation.navigate('RegisterStageOne')
+  goRegister = () => this.props.navigation.navigate('RegisterStageOne');
 
   render() {
     return (
@@ -40,21 +38,22 @@ class LoginPage extends Component {
         }}
       >
         <StatusBar translucent backgroundColor="transparent" />
-        <View style={{
-          flex: 1,
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-        >
-          <View style={{
-            width: Dimensions.get('window').width - 90,
-            height: Dimensions.get('window').height - 410,
-            justifyContent: 'flex-end',
-            // alignItems: 'center',
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
+        >
+          <View
+            style={{
+              width: Dimensions.get('window').width - 90,
+              height: Dimensions.get('window').height - 410,
+              justifyContent: 'flex-end',
+              // alignItems: 'center',
+            }}
           >
-
             <View style={{ alignItems: 'center', top: '-10%' }}>
               <Image
                 source={Logo}
@@ -65,37 +64,45 @@ class LoginPage extends Component {
               />
             </View>
 
-            <Text style={{
-              // textAlign: 'center',
-              color: '#FFF',
-              fontSize: 28,
-              fontWeight: '700',
-            }}
-            >Sua primeira vez aqui?
+            <Text
+              style={{
+                // textAlign: 'center',
+                color: '#FFF',
+                fontSize: 28,
+                fontWeight: '700',
+              }}
+            >
+              Sua primeira vez aqui?
             </Text>
-            <Text style={{
-              // textAlign: 'center',s
-              color: '#FFF',
-              fontSize: 20,
-              letterSpacing: 0.6,
-              fontWeight: '700',
-            }}
-            >Cadastre-se com o seu e-mail
+            <Text
+              style={{
+                // textAlign: 'center',s
+                color: '#FFF',
+                fontSize: 20,
+                letterSpacing: 0.6,
+                fontWeight: '700',
+              }}
+            >
+              Cadastre-se com o seu e-mail
             </Text>
           </View>
-          <View style={{
-            width: Dimensions.get('window').width - 100,
-            height: Dimensions.get('window').height - 470,
-          }}
+          <View
+            style={{
+              width: Dimensions.get('window').width - 100,
+              height: Dimensions.get('window').height - 470,
+            }}
           >
             <RoundButton
               style={[styles.Btn, styles.btnRegister]}
               name="Cadastrar"
               onPress={this.goRegister}
             />
-            <Text style={{
-              color: '#FFF', textAlign: 'center', fontSize: 15,
-            }}
+            <Text
+              style={{
+                color: '#FFF',
+                textAlign: 'center',
+                fontSize: 15,
+              }}
             >
               ou
             </Text>
@@ -105,13 +112,20 @@ class LoginPage extends Component {
               onPress={this.goToLoginEmailPassword}
             />
           </View>
-          <View style={{
-            width: Dimensions.get('window').width - 100,
-            height: 50,
-          }}
+          <View
+            style={{
+              width: Dimensions.get('window').width - 100,
+              height: 50,
+            }}
           >
             <Text style={{ color: '#FFF', textAlign: 'center', fontSize: 16 }}>
-              Já tem uma conta?  <Text onPress={this.goToLoginEmail} style={{ color: '#483D8B', textDecorationLine: 'underline' }}>Entrar</Text>
+              Já tem uma conta?{' '}
+              <Text
+                onPress={this.goToLoginEmail}
+                style={{ color: '#483D8B', textDecorationLine: 'underline' }}
+              >
+                Entrar
+              </Text>
             </Text>
           </View>
         </View>

@@ -37,6 +37,7 @@ class RegisterStageTwo extends Component {
     this.setState({ fullName });
     this.setState({ nickname });
     this.setState({ cpf });
+    debugger;
   }
 
   getInput = (event, nomedocampo) => {
@@ -52,6 +53,7 @@ class RegisterStageTwo extends Component {
       password: this.state.password,
       confirmPassword: this.state.confirmPassword,
     });
+    debugger;
   };
 
   changeIcon() {
