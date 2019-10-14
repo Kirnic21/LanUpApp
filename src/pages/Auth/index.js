@@ -13,7 +13,11 @@ import Geolocation from '@react-native-community/geolocation';
 import RoundButton from '~/shared/components/RoundButton';
 import ImageBack from '../../assets/images/Grupo_518.png';
 import Logo from '../../assets/images/logoLanUp.png';
+import FBSDK from 'react-native-fbsdk'
 
+import { login, loginWithFacebook } from '~/shared/services/auth.http';
+
+const { LoginManager, AccessToken } = FBSDK;
 // BackgroundTimer.runBackgroundTimer(() => {
 //   Geolocation.getCurrentPosition((position) => {
 //     console.log(new Date(), position);
@@ -26,6 +30,19 @@ class LoginPage extends Component {
   goToLoginEmail = () => this.props.navigation.navigate('LoginEmail');
 
   goRegister = () => this.props.navigation.navigate('RegisterStageOne');
+
+  goToLoginFacebook = () => {
+    LoginManager.logOut();
+    LoginManager.logInWithPermissions(['public_profile', 'user_birthday', 'email'])
+        .then(async (result) => {
+          console.log(result)
+          if (result.isCancelled) return;
+          const data = await AccessToken.getCurrentAccessToken();
+          await loginWithFacebook(data);
+          this.props.navigation.navigate('RegisterStageOne');
+        });
+
+  }
 
   render() {
     return (
@@ -109,7 +126,7 @@ class LoginPage extends Component {
             <RoundButton
               style={[styles.Btn, styles.btnFacebook]}
               name="Entrar com Facebook"
-              onPress={this.goToLoginEmailPassword}
+              onPress={this.goToLoginFacebook}
             />
           </View>
           <View

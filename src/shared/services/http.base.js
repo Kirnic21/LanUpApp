@@ -12,7 +12,6 @@ const HTTP = axios.create({
 HTTP.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem('API_TOKEN');
-    debugger;
 
     if (!config.url.endsWith('Auth') && token) {
       config.headers.Authorization = `Bearer ${token}`;
