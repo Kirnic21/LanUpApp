@@ -1,0 +1,3 @@
+export const REGISTER_STEP_ONE = 'REGISTER_STEP_ONE'
+export const REGISTER_STEP_TWO = 'REGISTER_STEP_TWO'
+export const LOAD_USER = 'LOAD_USER'
