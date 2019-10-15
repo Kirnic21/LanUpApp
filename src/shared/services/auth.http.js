@@ -1,17 +1,17 @@
 import HTTP from './http.base';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const login = data => HTTP.post('auth', data);
 
-
 const loginWithFacebook = async  token => {
   try {
-    const result = await HTTP.post('auth/facebook', { facebookToken: token.accessToken });
-    const tokenTask = AsyncStorage.setItem("token", result.token);
-    const userTask = AsyncStorage.setItem("user", JSON.stringify(result.user));
+    const { data } = await HTTP.post('auth/facebook', { facebookToken: token.accessToken });
+    const tokenTask = AsyncStorage.setItem("token", data.accessToken.token);
+    const userTask = AsyncStorage.setItem("user", JSON.stringify(data.authenticateUser));
     await Promise.all(tokenTask, userTask);
-    return result;
+    return data;
   } catch (error) {
-    throw error
+    return undefined;
   }
 }
 

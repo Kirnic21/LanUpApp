@@ -25,7 +25,7 @@ const { LoginManager, AccessToken } = FBSDK;
 // }, 30000);
 
 class LoginPage extends Component {
-  componentDidMount() {}
+  componentDidMount() { }
 
   goToLoginEmail = () => this.props.navigation.navigate('LoginEmail');
 
@@ -34,14 +34,15 @@ class LoginPage extends Component {
   goToLoginFacebook = () => {
     LoginManager.logOut();
     LoginManager.logInWithPermissions(['public_profile', 'user_birthday', 'email'])
-        .then(async (result) => {
-          console.log(result)
-          if (result.isCancelled) return;
-          const data = await AccessToken.getCurrentAccessToken();
-          await loginWithFacebook(data);
-          this.props.navigation.navigate('RegisterStageOne');
-        });
-
+      .then(async (result) => {
+        if (result.isCancelled) return;
+        const data = await AccessToken.getCurrentAccessToken();
+        const user = await loginWithFacebook(data);
+        if (user) {
+          user.isFacebook = true;
+          this.props.navigation.navigate('RegisterStageOne', { user });
+        }
+      });
   }
 
   render() {
