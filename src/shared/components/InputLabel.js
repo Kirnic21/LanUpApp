@@ -1,7 +1,5 @@
-import React from 'react';
-import {
- StyleSheet, View, Text, TextInput 
-} from 'react-native';
+import React from "react";
+import { StyleSheet, View, Text, TextInput } from "react-native";
 
 export default InputLabel = ({
   title,
@@ -11,30 +9,32 @@ export default InputLabel = ({
   autoFocus,
   numberOfLines,
   onChangeText,
+  multiline
 }) => (
   <View>
     <View>
-      <Text style={{ color: 'white', fontSize: 15, top: '-10%' }}>{title}</Text>
+      <Text style={{ color: "white", fontSize: 15, top: "-10%" }}>{title}</Text>
     </View>
     <View>
-      <View style={{ marginBottom: '5%' }}>
+      <View style={{ marginBottom: "5%" }}>
         <TextInput
           style={[
             {
               height: 45,
               width: 250,
-              borderColor: 'white',
-              borderRadius: 50,
+              borderColor: "white",
+              borderRadius: 50
             },
             style,
-            styles.TextInput,
+            styles.TextInput
           ]}
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           autoFocus={autoFocus}
           numberOfLines={numberOfLines}
-          multiline
+          multiline={multiline}
           onChangeText={onChangeText}
+          enablesReturnKeyAutomatically={true}
         />
       </View>
     </View>
@@ -44,7 +44,7 @@ export default InputLabel = ({
 const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
-    color: '#FFF',
-    paddingLeft: '10%',
-  },
+    color: "#FFF",
+    paddingLeft: "10%"
+  }
 });

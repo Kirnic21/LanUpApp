@@ -1,47 +1,28 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Dimensions
-} from "react-native";
-import Modal, {
-  ModalContent,
-  SlideAnimation,
-  ModalTitle,
-  ModalFooter
-} from "react-native-modals";
-import Icons from "react-native-vector-icons/FontAwesome";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { View, StyleSheet } from "react-native";
+import Modal, { ModalContent } from "react-native-modals";
 
-export default ModalComponent = ({
-  onTouchOutside,
-  style,
-  visible,
-  children
-}) => (
+export default ModalComponent = ({ onTouchOutside, visible, children }) => (
   <View>
-    <Modal
-      height={350}
-      width={400}
-      style={{
-        justifyContent: "flex-end"
-        // width: Dimensions.get("window").width + 100
-      }}
-      modalStyle={{ backgroundColor: "#49358C", borderLeftTopRadius: 70 }}
-      modalAnimation={
-        new SlideAnimation({
-          slideFrom: "bottom"
-        })
-      }
+    <Modal.BottomModal
       visible={visible}
       onTouchOutside={onTouchOutside}
+      height={0.5}
+      width={1}
+      modalStyle={{ backgroundColor: "transparent" }}
+      onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
     >
-      <ModalContent>{children}</ModalContent>
-    </Modal>
+      <ModalContent
+        style={{
+          flex: 1,
+          backgroundColor: "#23203F",
+          borderTopLeftRadius: 60,
+          borderTopRightRadius: 60
+        }}
+      >
+        {children}
+      </ModalContent>
+    </Modal.BottomModal>
   </View>
 );
 

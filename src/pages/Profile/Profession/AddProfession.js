@@ -6,6 +6,8 @@ import add from "../../../assets/images/icon_add.png";
 import ActionButton from "../../../shared/components/ActionButton";
 import styles from "./styles";
 import Modal from "../../../shared/components/ModalComponent";
+import InputLabel from "~/shared/components/InputLabel";
+import RoundButton from "~/shared/components/RoundButton";
 
 class AddProfession extends Component {
   constructor(props) {
@@ -101,7 +103,35 @@ class AddProfession extends Component {
           }}
           visible={this.state.visible}
         >
-          <ActionButton />
+          <Text style={{ color: "#FFF", padding: "5%", fontSize: 30 }}>
+            Adicionar
+          </Text>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "flex-start",
+              left: "5%",
+              top: "10%"
+            }}
+          >
+            <InputLabel
+              title="Profissão"
+              style={{ width: 325, height: 50, borderColor: "#865FC0" }}
+            />
+          </View>
+          <View style={{ alignItems: "center", top: "10%" }}>
+            <RoundButton
+              style={{
+                backgroundColor: "#7541BF",
+                width: "50%",
+                height: 50,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 50
+              }}
+              name="Adicionar"
+            />
+          </View>
         </Modal>
       </View>
     );

@@ -16,9 +16,9 @@ import Modal, {
   ModalTitle,
   ModalFooter
 } from "react-native-modals";
-import { ProgressBar, Colors } from "react-native-paper";
 import CoreTemplate from "~/shared/components/CoreTemplate";
 import ListModal from "~/shared/components/ListModal";
+import * as Progress from "react-native-progress";
 
 const COUNT = 1;
 const DURATION = 1100;
@@ -72,9 +72,27 @@ class CheckOut extends Component {
 
   render() {
     return (
-      <CoreTemplate name="Balada TheWeek" subtitle="Bartender" fontSize={30}>
-        <View style={{}}>
-          <ProgressBar progress={1} color={Colors.red800} />
+      <CoreTemplate name="Balada TheWeek" subtitle="Bartender" fontSize={35}>
+        <View style={{ top: "-6%" }}>
+          <Progress.Bar
+            progress={1}
+            width={300}
+            height={5}
+            color="#46C5F3"
+            style={{
+              backgroundColor: "#FFF",
+              borderColor: "transparent"
+            }}
+          />
+          <Text
+            style={{
+              color: "#FFF",
+              textAlign: "right",
+              top: "20%"
+            }}
+          >
+            Horas trabalhadas: <Text style={{ color: "#46C5F3" }}>8h10min</Text>
+          </Text>
         </View>
         <View style={styles.Container}>
           {this.state.animations.map(({ opacity, scale }, index) => (
@@ -162,7 +180,7 @@ class CheckOut extends Component {
 
         <View style={styles.btnContainer}>
           <TouchableOpacity style={styles.btn}>
-            <Text style={styles.btnText}>Histórico do evento</Text>
+            <Text style={styles.btnText}>Minhas Atividades</Text>
           </TouchableOpacity>
         </View>
 
