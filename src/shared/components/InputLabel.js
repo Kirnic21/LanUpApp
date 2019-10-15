@@ -9,7 +9,8 @@ export default InputLabel = ({
   autoFocus,
   numberOfLines,
   onChangeText,
-  multiline
+  multiline,
+  value
 }) => (
   <View>
     <View>
@@ -28,6 +29,7 @@ export default InputLabel = ({
             style,
             styles.TextInput
           ]}
+          value={value}
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           autoFocus={autoFocus}

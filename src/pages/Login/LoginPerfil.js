@@ -13,14 +13,19 @@ import {
 
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ImageProfile from '../../assets/images/backgroud.png';
 import ArrowRight from '../../assets/images/arrowRight.png';
 
 
 export default class LoginPerfil extends Component {
-  state = {
-    selected: false,
-  };
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      selected: false,
+      user: this.state.user || props.navigation.getParam('user')
+    }
+  }
 
   renderSeparator = () => (
     <View
@@ -67,13 +72,15 @@ export default class LoginPerfil extends Component {
   }
 
   render() {
+    const { user } = this.state;
+    debugger
     return (
       <ScrollView contentContainerStyle={styles.Container}>
         <StatusBar backgroundColor="#18142F" barStyle="light-content" />
         <View style={{ alignItems: 'center', marginTop: '5%' }}>
           <TouchableOpacity style={{ width: 100, height: 100 }} onPress={this.aboutMe}>
             <Image
-              source={ImageProfile}
+              source={{uri: user.authenticateUser.avatar.url}}
               style={{
                 width: 100,
                 height: 100,
@@ -194,7 +201,7 @@ export default class LoginPerfil extends Component {
           onPress={() => this.PageLogin()}
           style={{ ...styles.submitText, color: 'white', marginBottom: 30 }}
         >
-        Terminar sessão
+          Terminar sessão
         </Text>
       </ScrollView>
     );
