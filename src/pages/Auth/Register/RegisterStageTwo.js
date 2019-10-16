@@ -12,6 +12,10 @@ import ImageBack from '~/assets/images/Grupo_518.png';
 import InputLabel from '~/shared/components/InputLabel';
 import styles from './register.style';
 
+import { connect } from "react-redux";
+import { Field, reduxForm, formValueSelector } from "redux-form";
+import FormValidator from "~/shared/services/validator";
+
 const stylePage = {
   ...styles,
   icon: {
@@ -20,6 +24,15 @@ const stylePage = {
     position: 'relative',
   },
 };
+
+const formRules = FormValidator.make(
+  {
+    email: "required",
+    password: "required",
+    confirmPassword: "required"
+  },
+  {}
+);
 
 class RegisterStageTwo extends Component {
   constructor(props) {
@@ -44,17 +57,27 @@ class RegisterStageTwo extends Component {
     this.setState({ [nomedocampo]: event });
   };
 
-  goLoginPicture = () => {
-    this.props.navigation.push('LoginProfilePicture', {
-      fullName: this.state.fullName,
-      nickname: this.state.nickname,
-      cpf: this.state.cpf,
-      email: this.state.email,
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword,
-    });
-    debugger;
-  };
+  // // goLoginPicture = () => {
+  // //   this.props.navigation.push('LoginProfilePicture', {
+  // //     fullName: this.state.fullName,
+  // //     nickname: this.state.nickname,
+  // //     cpf: this.state.cpf,
+  // //     email: this.state.email,
+  // //     password: this.state.password,
+  // //     confirmPassword: this.state.confirmPassword,
+  // //   });
+  // //   debugger;
+  // };
+
+  goLoginPicture = form =>{
+    const {email, password, confirmPassword}
+
+    this.props.navigation.navigate('ProfilePicture', {
+      email,
+      password,
+      confirmPassword
+    })
+  }
 
   changeIcon() {
     this.setState(prevState => ({
@@ -64,6 +87,8 @@ class RegisterStageTwo extends Component {
   }
 
   render() {
+    const { handleSubmit } = this.props;
+    
     return (
       <ImageBackground
         source={ImageBack}
@@ -92,17 +117,19 @@ class RegisterStageTwo extends Component {
             </View>
 
             <View>
-              <InputLabel
-                onChangeText={event => this.getInput(event, 'email')}
-                style={styles.TextInput}
+              <Field
+                name={'email'}
+                inputStyle={styles.TextInput}
                 title="E-mail"
                 keyboardType="email-address"
+                component={inputLabel}
               />
-              <InputLabel
-                onChangeText={event => this.getInput(event, 'password')}
-                style={styles.TextInput}
+              <Field
+                name={'password'}
+                inputStyle={styles.TextInput}
                 title="Senha"
                 secureTextEntry
+                component={inputLabel}
               />
               <Icon
                 style={stylePage.icon}
@@ -111,9 +138,9 @@ class RegisterStageTwo extends Component {
                 color="#fff"
                 onPress={() => this.changeIcon()}
               />
-              <InputLabel
-                onChangeText={event => this.getInput(event, 'confirmPassword')}
-                style={styles.TextInput}
+              <Field
+                name={'confirmPassword'}
+                inputStyle={styles.TextInput}
                 title="Confirmar senha"
                 secureTextEntry
               />
@@ -129,7 +156,7 @@ class RegisterStageTwo extends Component {
             <RoundButton
               style={[stylePage.Btn, stylePage.btnRegister]}
               name="Continuar"
-              onPress={this.goLoginPicture}
+              onPress={handleSubmit(data => this.goLoginPicture(data))}
             />
           </View>
         </View>
@@ -138,4 +165,8 @@ class RegisterStageTwo extends Component {
   }
 }
 
-export default RegisterStageTwo;
+export default RegisterStageTwo= reduxForm({
+  form: "RegisterStageTwo",
+  validate: formRules,
+  enableReinitialize: true
+})(RegisterStageTwo);
