@@ -1,28 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   View,
   Text,
   ImageBackground,
   Dimensions,
-  StatusBar,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import RoundButton from '~/shared/components/RoundButton';
-import ImageBack from '~/assets/images/Grupo_518.png';
-import InputLabel from '~/shared/components/InputLabel';
-import styles from './register.style';
+  StatusBar
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import RoundButton from "~/shared/components/RoundButton";
+import ImageBack from "~/assets/images/Grupo_518.png";
+import InputField from "~/shared/components/InputField";
+import styles from "./register.style";
 
-import { connect } from "react-redux";
-import { Field, reduxForm, formValueSelector } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
 
 const stylePage = {
   ...styles,
   icon: {
-    left: '62%',
-    top: '-18.2%',
-    position: 'relative',
-  },
+    left: "55%",
+    top: "-25%",
+    position: "relative"
+  }
 };
 
 const formRules = FormValidator.make(
@@ -38,111 +37,88 @@ class RegisterStageTwo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      icon: 'visibility-off',
-      password: true,
+      icon: "visibility-off",
+      password: true
     };
 
     this.changeIcon = this.changeIcon.bind(this);
   }
 
-  componentDidMount() {
-    const { fullName, nickname, cpf } = this.props.navigation.state.params;
-    this.setState({ fullName });
-    this.setState({ nickname });
-    this.setState({ cpf });
-    debugger;
-  }
+  goLoginPicture = form => {
+    const { email, password, confirmPassword } = form;
 
-  getInput = (event, nomedocampo) => {
-    this.setState({ [nomedocampo]: event });
-  };
-
-  // // goLoginPicture = () => {
-  // //   this.props.navigation.push('LoginProfilePicture', {
-  // //     fullName: this.state.fullName,
-  // //     nickname: this.state.nickname,
-  // //     cpf: this.state.cpf,
-  // //     email: this.state.email,
-  // //     password: this.state.password,
-  // //     confirmPassword: this.state.confirmPassword,
-  // //   });
-  // //   debugger;
-  // };
-
-  goLoginPicture = form =>{
-    const {email, password, confirmPassword}
-
-    this.props.navigation.navigate('ProfilePicture', {
+    this.props.navigation.push("LoginProfilePicture", {
       email,
       password,
       confirmPassword
-    })
-  }
+    });
+  };
 
   changeIcon() {
     this.setState(prevState => ({
-      icon: prevState.icon === 'visibility' ? 'visibility-off' : 'visibility',
-      password: !prevState.password,
+      icon: prevState.icon === "visibility" ? "visibility-off" : "visibility",
+      password: !prevState.password
     }));
   }
 
   render() {
     const { handleSubmit } = this.props;
-    
     return (
       <ImageBackground
         source={ImageBack}
         style={{
-          width: Dimensions.get('window').width,
+          width: Dimensions.get("window").width,
           // height: Dimensions.get('window').height,
-          flex: 1,
+          flex: 1
         }}
       >
         <StatusBar translucent backgroundColor="transparent" />
         <View
           style={{
             flex: 1,
-            flexDirection: 'column',
-            alignItems: 'center',
+            flexDirection: "column",
+            alignItems: "center",
+            top: "1%"
           }}
         >
           <View style={styles.registerContainer}>
-            <View>
+            <View style={{ top: "2%" }}>
               <Text style={styles.textTitle}>
-                Bem-vindo!{'\n'}
+                Bem-vindo!{"\n"}
                 Insira seus dados
               </Text>
 
               <Text style={stylePage.textSubtitle}>Etapa 2/2</Text>
             </View>
-
-            <View>
+            <View style={{ top: "5%" }}>
               <Field
-                name={'email'}
-                inputStyle={styles.TextInput}
+                name={"email"}
+                style={styles.TextInput}
                 title="E-mail"
                 keyboardType="email-address"
-                component={inputLabel}
+                component={InputField}
               />
               <Field
-                name={'password'}
-                inputStyle={styles.TextInput}
+                name={"password"}
+                style={styles.TextInput}
                 title="Senha"
-                secureTextEntry
-                component={inputLabel}
+                secureTextEntry={this.state.password}
+                component={InputField}
+              />
+              <Field
+                name={"confirmPassword"}
+                style={styles.TextInput}
+                title="Confirmar senha"
+                secureTextEntry={this.state.password}
+                fullWidth
+                component={InputField}
               />
               <Icon
-                style={stylePage.icon}
+                style={[stylePage.icon, { top: "-46%" }]}
                 name={this.state.icon}
                 size={25}
                 color="#fff"
                 onPress={() => this.changeIcon()}
-              />
-              <Field
-                name={'confirmPassword'}
-                inputStyle={styles.TextInput}
-                title="Confirmar senha"
-                secureTextEntry
               />
               <Icon
                 style={stylePage.icon}
@@ -152,7 +128,6 @@ class RegisterStageTwo extends Component {
                 onPress={() => this.changeIcon()}
               />
             </View>
-
             <RoundButton
               style={[stylePage.Btn, stylePage.btnRegister]}
               name="Continuar"
@@ -165,7 +140,13 @@ class RegisterStageTwo extends Component {
   }
 }
 
-export default RegisterStageTwo= reduxForm({
+// const mapStateToProps = (state, ownProps) => ({
+//   fullName: state.form.RegisterStage.values.fullName
+// });
+// const mapActionToProps = dispatch =>
+//   bindActionCreators({ select: select }, dispatch);
+
+export default RegisterStageTwo = reduxForm({
   form: "RegisterStageTwo",
   validate: formRules,
   enableReinitialize: true

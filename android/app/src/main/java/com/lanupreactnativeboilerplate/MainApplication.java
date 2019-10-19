@@ -15,7 +15,7 @@ import com.reactnativecommunity.geolocation.GeolocationPackage;
 import android.location.LocationManager;
 import android.location.LocationListener;
 import android.location.Location;
-import com.lanupreactnativeboilerplate.LocationService;
+import com.lanupreactnativeboilerplate.service.LocationService;
 import android.content.Context;
 import android.os.Bundle;
 import android.content.Intent;
@@ -45,7 +45,6 @@ public class MainApplication extends Application implements ReactApplication {
     }
   };
 
-
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
@@ -56,7 +55,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       @SuppressWarnings("UnnecessaryLocalVariable")
       List<ReactPackage> packages = new PackageList(this).getPackages();
-      // Packages that cannot be autolinked yet can be added manually here, for example:
+      // Packages that cannot be autolinked yet can be added manually here, for
+      // example:
       // packages.add(new MyReactNativePackage());
       return packages;
     }
@@ -75,9 +75,11 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    // LocationManager locationManager = (LocationManager)
+    // getSystemService(Context.LOCATION_SERVICE);
     // Start requesting for location
-    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, listener);
+    // locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1,
+    // listener);
 
     SoLoader.init(this, /* native exopackage */ false);
   }

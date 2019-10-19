@@ -11,11 +11,22 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import login from "../../shared/services/auth.http";
+import { login } from "../../shared/services/auth.http";
 import ImageBack from "../../assets/images/Grupo_518.png";
 import Logo from "../../assets/images/logoLanUp.png";
-import InputLabel from "../../shared/components/InputLabel";
+import InputField from "../../shared/components/InputField";
 import Modal from "../../shared/components/ModalComponent";
+
+import { Field, reduxForm } from "redux-form";
+import FormValidator from "~/shared/services/validator";
+
+const formRules = FormValidator.make(
+  {
+    email: "required",
+    password: "required"
+  },
+  {}
+);
 
 class LoginEmail extends Component {
   constructor(props) {
@@ -29,23 +40,22 @@ class LoginEmail extends Component {
     this.changeIcon = this.changeIcon.bind(this);
   }
 
-  goToLoginPerfil = () => {
+  goToLoginPerfil = form => {
+    const { email, password } = form;
     login({
-      login: "brunomk12@hotmail.com",
-      password: "bruno123"
+      login: email,
+      password: password
     })
       .then(async ({ data }) => {
-        debugger;
         if (data.isSuccess) {
-          debugger;
           await AsyncStorage.setItem("API_TOKEN", data.result.token);
+
           this.props.navigation.navigate("LoginPerfil");
         }
       })
       .catch(error => {
         console.log(error.response.data);
       });
-    debugger;
   };
 
   changeIcon() {
@@ -57,6 +67,7 @@ class LoginEmail extends Component {
 
   render() {
     const { width, height } = Dimensions.get("window");
+    const { handleSubmit } = this.props;
     return (
       <KeyboardAvoidingView style={{ flex: 1 }} enabled behavior="height">
         <ImageBackground
@@ -73,16 +84,20 @@ class LoginEmail extends Component {
 
             <View style={styles.ContainerForm}>
               <View style={{ paddingVertical: 100, alignItems: "center" }}>
-                <InputLabel
+                <Field
                   style={{ width: 290, height: 50 }}
                   title="E-mail"
                   keyboardType="email-address"
+                  component={InputField}
+                  name={"email"}
                 />
 
-                <InputLabel
+                <Field
                   style={{ width: 290, height: 50 }}
                   title="Senha"
                   secureTextEntry={this.state.password}
+                  component={InputField}
+                  name={"password"}
                 />
 
                 <Icon
@@ -94,7 +109,7 @@ class LoginEmail extends Component {
                 />
                 <TouchableOpacity
                   style={styles.Btn}
-                  onPress={this.goToLoginPerfil}
+                  onPress={handleSubmit(data => this.goToLoginPerfil(data))}
                 >
                   <Text style={styles.textBtn}>Entrar</Text>
                 </TouchableOpacity>
@@ -208,4 +223,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginEmail;
+export default LoginEmail = reduxForm({
+  form: "LoginEmail",
+  validate: formRules,
+  enableReinitialize: true
+})(LoginEmail);

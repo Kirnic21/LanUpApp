@@ -11,7 +11,7 @@ import { Field, reduxForm, formValueSelector } from "redux-form";
 
 import RoundButton from "~/shared/components/RoundButton";
 import ImageBack from "~/assets/images/Grupo_518.png";
-import InputLabel from "~/shared/components/InputLabel";
+import InputField from "~/shared/components/InputField";
 
 import styles from "./register.style";
 import FormValidator from "~/shared/services/validator";
@@ -24,7 +24,6 @@ const formRules = FormValidator.make(
   },
   {}
 );
-
 class RegisterStage extends Component {
   state = {
     user: {
@@ -33,21 +32,20 @@ class RegisterStage extends Component {
     }
   };
 
-  // static getDerivedStateFromProps(props, state) {
-  //   const user = props.navigation.getParam("user");
+  static getDerivedStateFromProps(props, state) {
+    const user = props.navigation.getParam("user");
 
-  //   if (user) {
-  //     return {
-  //       ...state,
-  //       user
-  //     };
-  //   }
+    if (user) {
+      return {
+        ...state,
+        user
+      };
+    }
 
-  //   return null;
-  // }
+    return null;
+  }
 
-  goRegister = form => {
-    const { fullName, nickname, cpf } = form;
+  goRegister = () => {
     const { user } = this.state;
 
     if (user.isFacebook) {
@@ -55,18 +53,12 @@ class RegisterStage extends Component {
       return;
     }
 
-    this.props.navigation.push("RegisterStageTwo", {
-      fullName,
-      nickname,
-      cpf
-    });
+    this.props.navigation.push("RegisterStageTwo");
   };
 
   render() {
     const { user } = this.state;
     const { handleSubmit } = this.props;
-
-    debugger;
 
     return (
       <ImageBackground
@@ -88,20 +80,20 @@ class RegisterStage extends Component {
             )}
           </View>
 
-          <View>
+          <View style={{ top: "5%" }}>
             <Field
               name={"fullName"}
-              inputStyle={styles.TextInput}
+              style={styles.TextInput}
               title="Nome Completo"
-              component={InputLabel}
+              component={InputField}
             />
             <Field
-              inputStyle={[styles.TextInput, { borderColor: "#F13567" }]}
+              style={[styles.TextInput, { borderColor: "#F13567" }]}
               name={"nickname"}
               title="Apelido"
-              component={InputLabel}
+              component={InputField}
             />
-            <Text
+            {/* <Text
               style={{
                 color: "#F13567",
                 fontSize: 12,
@@ -111,17 +103,17 @@ class RegisterStage extends Component {
               }}
             >
               Este apelido já existe
-            </Text>
+            </Text> */}
             <Field
-              component={InputLabel}
-              inputStyle={styles.TextInput}
+              component={InputField}
+              style={styles.TextInput}
               title="CPF"
               name={"cpf"}
             />
           </View>
 
           <RoundButton
-            style={[styles.Btn, styles.btnRegister]}
+            style={[styles.Btn, styles.btnRegister, { top: "15%" }]}
             name="Continuar"
             onPress={handleSubmit(data => this.goRegister(data))}
           />
