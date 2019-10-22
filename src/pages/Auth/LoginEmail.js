@@ -44,7 +44,7 @@ class LoginEmail extends Component {
     const { email, password } = form;
     login({
       login: email,
-      password: password
+      password
     })
       .then(async ({ data }) => {
         if (data.isSuccess) {

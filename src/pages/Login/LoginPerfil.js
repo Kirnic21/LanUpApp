@@ -14,6 +14,8 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import ArrowRight from "../../assets/images/arrowRight.png";
 
+import AsyncStorage from "@react-native-community/async-storage";
+
 export default class LoginPerfil extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +42,8 @@ export default class LoginPerfil extends Component {
     this.props.navigation.navigate("AboutMe");
   };
 
-  PageLogin = () => {
+  PageLogin = async () => {
+    await AsyncStorage.clear();
     this.props.navigation.navigate("LoginPage");
   };
 
