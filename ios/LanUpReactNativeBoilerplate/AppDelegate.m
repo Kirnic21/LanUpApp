@@ -16,7 +16,7 @@
 #import <AppCenterReactNativeAnalytics.h>
 #import <AppCenterReactNativeCrashes.h>
 
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
+// #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @implementation AppDelegate
 
@@ -27,8 +27,8 @@
                                                    moduleName:@"LanUpReactNativeBoilerplate"
                                             initialProperties:nil];
 
-  [[FBSDKApplicationDelegate sharedInstance] application:application
-              didFinishLaunchingWithOptions:launchOptions];
+  // [[FBSDKApplicationDelegate sharedInstance] application:application
+  //             didFinishLaunchingWithOptions:launchOptions];
 
   [AppCenterReactNative register];
   [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
@@ -53,19 +53,19 @@
 #endif
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-  [FBSDKAppEvents activateApp];
-}
+// - (void)applicationDidBecomeActive:(UIApplication *)application {
+//   [FBSDKAppEvents activateApp];
+// }
 
-- (BOOL)application:(UIApplication *)application
-    openURL:(NSURL *)url
-    sourceApplication:(NSString *)sourceApplication
-    annotation:(id)annotation {
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
-    openURL:url
-    sourceApplication:sourceApplication
-    annotation:annotation];
-}
+// - (BOOL)application:(UIApplication *)application
+//     openURL:(NSURL *)url
+//     sourceApplication:(NSString *)sourceApplication
+//     annotation:(id)annotation {
+//   return [[FBSDKApplicationDelegate sharedInstance] application:application
+//     openURL:url
+//     sourceApplication:sourceApplication
+//     annotation:annotation];
+// }
 
 
 
