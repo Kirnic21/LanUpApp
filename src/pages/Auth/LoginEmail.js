@@ -25,7 +25,10 @@ const formRules = FormValidator.make(
     email: "required",
     password: "required"
   },
-  {}
+  {
+    email: 'E-mail é obrigatório',
+    password: 'Senha é obrigatória',
+  }
 );
 
 class LoginEmail extends Component {
@@ -68,7 +71,7 @@ class LoginEmail extends Component {
 
   render() {
     const { width, height } = Dimensions.get("window");
-    const { handleSubmit } = this.props;
+    const { handleSubmit, invalid } = this.props;
     return (
       <KeyboardAvoidingView style={{ flex: 1 }} enabled behavior="height">
         <ImageBackground
@@ -109,7 +112,8 @@ class LoginEmail extends Component {
                   onPress={() => this.changeIcon()}
                 />
                 <TouchableOpacity
-                  style={styles.Btn}
+                  disabled={invalid}
+                  style={invalid ? {...styles.Btn, ...styles.BtnDisabled} : styles.Btn}
                   onPress={handleSubmit(data => this.goToLoginPerfil(data))}
                 >
                   <Text style={styles.textBtn}>Entrar</Text>
@@ -205,6 +209,9 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height - 720,
     borderRadius: 60,
     justifyContent: "center"
+  },
+  BtnDisabled: {
+    backgroundColor: "#6C757D",
   },
   textBtn: {
     color: "#FFF",
