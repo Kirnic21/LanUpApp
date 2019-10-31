@@ -54,6 +54,7 @@ class LoginEmail extends Component {
         }
       })
       .catch(error => {
+        alert("Usuário ou senha inválidos");
         console.log(error.response.data);
       });
   };
