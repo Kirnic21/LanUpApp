@@ -30,7 +30,11 @@ const formRules = FormValidator.make(
     password: "required",
     confirmPassword: "required"
   },
-  {}
+  {
+    email: "E-mail é obrigatório",
+    password: "Senha é obrigatória",
+    confirmPassword: "Confirmação da Senha é obrigatória"
+  }
 );
 
 class RegisterStageTwo extends Component {
@@ -62,7 +66,7 @@ class RegisterStageTwo extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, invalid } = this.props;
     return (
       <ImageBackground
         source={ImageBack}
@@ -129,6 +133,7 @@ class RegisterStageTwo extends Component {
               />
             </View>
             <RoundButton
+              disabled={invalid}
               style={[stylePage.Btn, stylePage.btnRegister]}
               name="Continuar"
               onPress={handleSubmit(data => this.goLoginPicture(data))}
