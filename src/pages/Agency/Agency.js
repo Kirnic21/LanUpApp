@@ -39,7 +39,7 @@ class Agency extends Component {
   };
 
   openIAnAgency = () => {
-    this.props.navigation.navigate("LoginPerfil");
+    this.props.navigation.navigate("UserProfile");
   };
 
   SaveAgency = async form => {

@@ -24,6 +24,9 @@ import {
 
 import { galery, galeries } from "../../shared/services/freela.http";
 import Carousel from "./Profession/Carousel";
+import Icon from "react-native-vector-icons/FontAwesome";
+import Carousel from "../../shared/components/Carousel";
+// import GallerySwiper from "react-native-gallery-swiper";
 
 export default class Midia extends Component {
   constructor(props) {

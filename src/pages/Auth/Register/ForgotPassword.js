@@ -54,7 +54,7 @@ class ForgotPassword extends Component {
       .then(({ data }) => {
         if (data.isSuccess) {
           AsyncStorage.setItem(JSON.stringify(data));
-          this.props.navigation.navigate("LoginPerfil");
+          this.props.navigation.navigate("UserProfile");
           alert("Senha Alterada com sucesso!!!");
         }
       })

@@ -16,7 +16,7 @@ import RegisterStageOne from './pages/Auth/Register/RegisterStage';
 import RegisterStageTwo from './pages/Auth/Register/RegisterStageTwo';
 import ForgotPassword from './pages/Auth/Register/ForgotPassword';
 import LoginProfilePicture from './pages/Auth/ProfilePicture';
-import LoginPerfil from './pages/Login/LoginPerfil';
+import UserProfile from './pages/Login/UserProfile';
 import AboutMe from './pages/Profile/AboutMe';
 import Availability from './pages/Profile/Availability/Availability';
 import AvailabilityDays from './pages/Profile/Availability/AvailabilityDays';
@@ -37,7 +37,7 @@ import CheckOut from './pages/NextEvent/CheckOut';
 import RatingsAgency from './pages/NextEvent/RatingsAgency';
 import RatingsContractor from './pages/NextEvent/RatingsContractor';
 import drawerContentComponents from './shared/components/drawerContentComponents';
-
+import PhotoGallery from '~/shared/components/PhotoGallery';
 
 const DrawerButton = props => (
   <View>
@@ -119,8 +119,8 @@ const AuthNavigator = createStackNavigator(
 
 const DrawerNavigator = createStackNavigator(
   {
-    LoginPerfil: {
-      screen: LoginPerfil,
+    UserProfile: {
+      screen: UserProfile,
       navigationOptions: () => ({
         headerTitle: 'Perfil',
         headerTitleStyle: {
@@ -171,18 +171,7 @@ const pageNavigator = createStackNavigator({
       headerLeft: null,
     }),
   },
-  Midia: {
-    screen: Midia,
-    navigationOptions: ({ navigation }) => ({
-      headerTransparent: true,
-      headerLeft: (
-        <HeaderBackButton
-          tintColor="#FFf"
-          onPress={() => navigation.push('LoginPerfil')}
-        />
-      ),
-    }),
-  },
+  PhotoGallery,
   Availability: {
     screen: Availability,
     navigationOptions: ({ navigation }) => ({
@@ -190,7 +179,7 @@ const pageNavigator = createStackNavigator({
       headerLeft: (
         <HeaderBackButton
           tintColor="#FFf"
-          onPress={() => navigation.push('LoginPerfil')}
+          onPress={() => navigation.push('UserProfile')}
         />
       ),
     }),
@@ -226,7 +215,7 @@ const pageNavigator = createStackNavigator({
       headerLeft: (
         <HeaderBackButton
           tintColor="#FFf"
-          onPress={() => navigation.push('LoginPerfil')}
+          onPress={() => navigation.push('UserProfile')}
         />
       ),
     }),
@@ -245,7 +234,7 @@ const pageNavigator = createStackNavigator({
       headerLeft: (
         <HeaderBackButton
           tintColor="#FFf"
-          onPress={() => navigation.push('LoginPerfil')}
+          onPress={() => navigation.push('UserProfile')}
         />
       ),
     }),
@@ -365,7 +354,7 @@ const pageNavigator = createStackNavigator({
       headerLeft: (
         <HeaderBackButton
           tintColor="#FFf"
-          onPress={() => navigation.push('LoginPerfil')}
+          onPress={() => navigation.push('UserProfile')}
         />
       ),
     }),
@@ -380,7 +369,7 @@ const DrawerNav = createDrawerNavigator(
         drawerLabel: () => null,
       },
     },
-    LoginPerfil: { screen: LoginPerfil },
+    UserProfile: { screen: UserProfile },
     NextEvent: { screen: NextEvent },
     ToExplore: { screen: ToExplore },
 
