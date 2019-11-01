@@ -22,7 +22,11 @@ const formRules = FormValidator.make(
     nickname: "required",
     cpf: "required"
   },
-  {}
+  {
+    fullName: "Nome Completo é obrigatório",
+    nickname: "Apelido é obrigatório",
+    cpf: "CPF é obrigatório"
+  }
 );
 class RegisterStage extends Component {
   state = {
@@ -58,7 +62,7 @@ class RegisterStage extends Component {
 
   render() {
     const { user } = this.state;
-    const { handleSubmit } = this.props;
+    const { handleSubmit, invalid } = this.props;
 
     return (
       <ImageBackground
@@ -88,7 +92,7 @@ class RegisterStage extends Component {
               component={InputField}
             />
             <Field
-              style={[styles.TextInput, { borderColor: "#F13567" }]}
+              style={styles.TextInput}
               name={"nickname"}
               title="Apelido"
               component={InputField}
@@ -113,6 +117,7 @@ class RegisterStage extends Component {
           </View>
 
           <RoundButton
+            disabled={invalid}
             style={[styles.Btn, styles.btnRegister, { top: "15%" }]}
             name="Continuar"
             onPress={handleSubmit(data => this.goRegister(data))}
