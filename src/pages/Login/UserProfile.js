@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { FlatList } from "react-native-gesture-handler";
+import { updateGalleryImage, uploadGalleryImage, deleteGalleryImage } from '~/store/ducks/gallery/gallery.actions'
 // import { NavigationActions } from 'react-navigation';
 import {
   StyleSheet,
@@ -16,7 +19,7 @@ import ArrowRight from "../../assets/images/arrowRight.png";
 
 import AsyncStorage from "@react-native-community/async-storage";
 
-export default class LoginPerfil extends Component {
+class UserProfile extends Component {
   constructor(props) {
     super(props);
 
@@ -51,8 +54,28 @@ export default class LoginPerfil extends Component {
     this.props.navigation.navigate("Profession");
   };
 
-  openMidia = () => {
-    this.props.navigation.navigate("Midia");
+  openMidia = async () => {
+
+    await this.props.updateGalleryImage(
+      [
+        { uri: 'http://thefoxoakland.com/wp-content/uploads/2017/06/2Chainz_1024-1024x576.jpg' },
+        { uri: 'https://ichef.bbci.co.uk/images/ic/960x540/p01br7n4.jpg' },
+        { uri: 'https://images.sk-static.com/images/media/profile_images/artists/370337/huge_avatar' },
+      ])
+
+    const handlePictureAdd = picture => {
+      //mandar pra api
+      // const form = new FormData();
+      // form.append("file", picture)
+      this.props.uploadGalleryImage(picture);
+    }
+
+    const handlePictureRemove = pictureIds => {
+      //mandar pra api
+      this.props.deleteGalleryImage(pictureIds);
+    }
+
+    this.props.navigation.navigate("PhotoGallery", { handlePictureAdd, handlePictureRemove });
   };
 
   openAgency = () => {
@@ -262,3 +285,6 @@ const styles = StyleSheet.create({
     fontSize: 18
   }
 });
+
+const mapActionToProps = dispatch => bindActionCreators({ updateGalleryImage, uploadGalleryImage, deleteGalleryImage }, dispatch);
+export default connect(null, mapActionToProps)(UserProfile)

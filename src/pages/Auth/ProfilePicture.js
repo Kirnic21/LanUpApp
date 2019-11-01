@@ -54,7 +54,7 @@ class LoginProfilePicture extends Component {
         .then(({ data }) => {
           if (data.isSuccess) {
             alert("Freela criado com sucesso!");
-            this.props.navigation.navigate("LoginPerfil");
+            this.props.navigation.navigate("UserProfile");
           } else alert(data.result.errorMessage);
         })
         .catch(error => console.log(error.response.data.errorMessage));

@@ -3,5 +3,6 @@ export default {
         authenticateUser: {},
         isFacebook: false
     },
+    gallery: [],
     loading: false
 }

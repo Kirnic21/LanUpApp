@@ -17,7 +17,7 @@ import ImageOutline from "../../assets/images/outline.png";
 import ActionButton from "../../shared/components/ActionButton";
 import ImagePicker from "react-native-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Carousel from "./Profession/Carousel";
+import Carousel from "../../shared/components/Carousel";
 // import GallerySwiper from "react-native-gallery-swiper";
 
 export default class Midia extends Component {

@@ -53,7 +53,7 @@ class RegisterStage extends Component {
     const { user } = this.state;
 
     if (user.isFacebook) {
-      this.props.navigation.navigate("LoginPerfil", { user });
+      this.props.navigation.navigate("UserProfile", { user });
       return;
     }
 

@@ -53,7 +53,7 @@ class LoginEmail extends Component {
         if (data.isSuccess) {
           await AsyncStorage.setItem("API_TOKEN", data.result.token);
 
-          this.props.navigation.navigate("LoginPerfil");
+          this.props.navigation.navigate("UserProfile");
         }
       })
       .catch(error => {
