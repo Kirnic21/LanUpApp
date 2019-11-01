@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Gallery from "react-native-image-gallery";
 
-const Carousel = ({ isOpen, handleOpen, pictures, caption }) => {
+const Carousel = ({ isOpen, galleryIndex, handleOpen, pictures, caption }) => {
   return (
     <Modal
       animationType="slide"
@@ -28,6 +28,7 @@ const Carousel = ({ isOpen, handleOpen, pictures, caption }) => {
         <Text style={styles.caption}>{caption}</Text>
       </View>
       <Gallery
+        initialPage={galleryIndex}
         style={styles.gallery}
         images={pictures.map(picture => ({ source: { uri: picture.uri } }))}
       />

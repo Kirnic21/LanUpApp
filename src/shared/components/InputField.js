@@ -2,14 +2,15 @@ import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
 
 export default InputLabel = ({
-  input: { onChange },
+  input: { onChange, onBlur },
   title,
   keyboardType,
   style,
   secureTextEntry,
   autoFocus,
   numberOfLines,
-  multiline
+  multiline,
+  meta: { touched, error }
 }) => (
   <View>
     <View>
@@ -25,7 +26,8 @@ export default InputLabel = ({
             borderRadius: 50
           },
           style,
-          styles.TextInput
+          styles.TextInput,
+          touched && error && { borderColor: "#F13567" }
         ]}
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
@@ -33,8 +35,10 @@ export default InputLabel = ({
         numberOfLines={numberOfLines}
         multiline={multiline}
         onChangeText={onChange}
+        onBlur={onBlur}
         enablesReturnKeyAutomatically={true}
       />
+      {touched && (error && <Text style={{ color: '#F13567' }}>{error}</Text>)}
     </View>
   </View>
 );

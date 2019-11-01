@@ -16,8 +16,6 @@ import FastImage from "react-native-fast-image";
 import ImageOutline from "../../assets/images/outline.png";
 import ActionButton from "../../shared/components/ActionButton";
 import ImagePicker from "react-native-image-picker";
-import Icon from "react-native-vector-icons/FontAwesome";
-import GallerySwiper from "react-native-gallery-swiper";
 import AsyncStorage from "@react-native-community/async-storage";
 import {
   registerAgencies,
@@ -25,15 +23,16 @@ import {
 } from "../../shared/services/freela.http";
 
 import { galery, galeries } from "../../shared/services/freela.http";
+import Carousel from "./Profession/Carousel";
 
 export default class Midia extends Component {
   constructor(props) {
     super(props);
     this.state = {
       imageuri: "",
-      galleryIndex: 0,
+      images: [],
+      isGalleryOpen: false,
       ModalVisibleStatus: false,
-      filePath: [],
       imageURL: []
     };
   }
@@ -79,7 +78,7 @@ export default class Midia extends Component {
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
         this.setState({
-          filePath: [source]
+          images: [...this.state.images, source]
         });
       }
 
@@ -104,136 +103,82 @@ export default class Midia extends Component {
     });
   };
 
-  ShowModalFunction(visible) {
-    //handler to handle the click on image of Grid
-    //and close button on modal
-    this.setState({
-      ModalVisibleStatus: visible
-      // imageuri: imageURL
-    });
-  }
+  handleGalleryOpen = (isGalleryOpen, galleryIndex) => {
+    this.setState({ isGalleryOpen, galleryIndex });
+  };
 
   render() {
-    const { galleryIndex, ModalVisibleStatus } = this.state;
+    const { images, isGalleryOpen, galleryIndex } = this.state;
 
-    if (ModalVisibleStatus) {
-      return (
-        <Modal
-          transparent={false}
-          animationType={"fade"}
-          visible={ModalVisibleStatus}
-          onRequestClose={() => {
-            this.ShowModalFunction(!ModalVisibleStatus, "");
-          }}
-        >
-          <View style={styles.modelStyle}>
-            <GallerySwiper
-              initialPage={galleryIndex}
-              images={this.state.filePath}
-              onPageSelected={index => {
-                debugger;
-                this.setState({ galleryIndex: index });
-              }}
+    return (
+      <ScrollView>
+        {images.length != 0 ? (
+          <View style={styles.Container}>
+            <FlatList
+              data={images}
+              renderItem={({ item, index }) => (
+                <View style={{ flex: 1, flexDirection: "column", margin: 1 }}>
+                  <TouchableOpacity
+                    key={item}
+                    style={{ flex: 1 }}
+                    onPress={() => {
+                      this.handleGalleryOpen(true, index);
+                    }}
+                  >
+                    <FastImage style={styles.image} source={item} />
+                  </TouchableOpacity>
+                </View>
+              )}
+              //Setting the number of column
+              numColumns={3}
+              keyExtractor={(item, index) => index.toString()}
             />
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={styles.closeButtonStyle}
-              onPress={() => {
-                this.ShowModalFunction(!this.state.ModalVisibleStatus, "");
+            <ActionButton onPress={this.chooseFile.bind(this)} />
+            <Carousel
+              galleryIndex={galleryIndex}
+              handleOpen={this.handleGalleryOpen}
+              pictures={images}
+              isOpen={isGalleryOpen}
+            />
+          </View>
+        ) : (
+          <View
+            style={[
+              styles.Container,
+              {
+                alignItems: "center",
+                height: Dimensions.get("window").height + 48
+              }
+            ]}
+          >
+            <View style={styles.ContainerTitle}>
+              <Text style={styles.title}>Não temos nenhuma</Text>
+              <Text style={styles.title}>midia para mostrar</Text>
+            </View>
+            <View style={styles.ContainerImg}>
+              <Image
+                source={ImageOutline}
+                style={{ height: "70%", width: "70%" }}
+              />
+            </View>
+            <View style={styles.ContainerSubtitle}>
+              <Text style={styles.subtitle}>Adicione as suas fotos</Text>
+              <Text style={styles.subtitle}>e divulgue o seu trabalho</Text>
+            </View>
+            <View
+              style={{
+                alignItems: "flex-end",
+                height: 50,
+                width: Dimensions.get("window").width - 100,
+                flex: 0.5
               }}
             >
-              <Icon
-                name="close"
-                size={20}
-                color="#fff"
-                style={{ width: 35, height: 35, marginTop: 16 }}
-              />
-            </TouchableOpacity>
-          </View>
-        </Modal>
-      );
-    } else {
-      return (
-        <ScrollView>
-          {this.state.filePath.length != 0 ? (
-            <View style={styles.Container}>
-              <FlatList
-                data={this.state.filePath}
-                renderItem={({ item }) => (
-                  <View style={{ flex: 1, flexDirection: "column", margin: 1 }}>
-                    <TouchableOpacity
-                      key={item}
-                      style={{ flex: 1 }}
-                      onPress={() => {
-                        this.ShowModalFunction(true, item);
-                      }}
-                    >
-                      <FastImage
-                        style={styles.image}
-                        source={{
-                          uri: item.url
-                        }}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                )}
-                //Setting the number of column
-                numColumns={3}
-                keyExtractor={(item, index) => index.toString()}
-              />
-              {/* <View
-                style={{
-                  alignItems: "flex-end",
-                  height: 50,
-                  width: Dimensions.get("window").width - 100,
-                  flex: 0.5,
-                  top: "-16%",
-                  left: "15%"
-                }}
-              >
-                
-              </View> */}
               <ActionButton onPress={this.chooseFile.bind(this)} />
             </View>
-          ) : (
-            <View
-              style={[
-                styles.Container,
-                {
-                  alignItems: "center",
-                  height: Dimensions.get("window").height + 48
-                }
-              ]}
-            >
-              <View style={styles.ContainerTitle}>
-                <Text style={styles.title}>Não temos nenhuma</Text>
-                <Text style={styles.title}>midia para mostrar</Text>
-              </View>
-              <View style={styles.ContainerImg}>
-                <Image
-                  source={ImageOutline}
-                  style={{ height: "70%", width: "70%" }}
-                />
-              </View>
-              <View style={styles.ContainerSubtitle}>
-                <Text style={styles.subtitle}>Adicione as suas fotos</Text>
-                <Text style={styles.subtitle}>e divulgue o seu trabalho</Text>
-              </View>
-              <View
-                style={{
-                  alignItems: "flex-end",
-                  height: 50,
-                  width: Dimensions.get("window").width - 100,
-                  flex: 0.5
-                }}
-              >
-                <ActionButton onPress={this.chooseFile.bind(this)} />
-              </View>
-            </View>
-          )}
-        </ScrollView>
-      );
-    }
+          </View>
+        )}
+      </ScrollView>
+    );
   }
 }
 const { width } = Dimensions.get("window");
