@@ -9,6 +9,14 @@ const HTTP = axios.create({
   }
 });
 
+const HTTPFORM = axios.create({
+  baseURL: "http://lanup-api-dev.azurewebsites.net/api/",
+  timeout: 10000,
+  headers: {
+    "Content-Type": "multipart/form-data"
+  }
+});
+
 HTTP.interceptors.request.use(
   async config => {
     const token = await AsyncStorage.getItem("API_TOKEN");
@@ -22,4 +30,16 @@ HTTP.interceptors.request.use(
   error => Promise.reject(error)
 );
 
-export default HTTP;
+HTTPFORM.interceptors.request.use(
+  async config => {
+    const token = await AsyncStorage.getItem("API_TOKEN");
+
+    if (!config.url.endsWith("Auth") && token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  error => Promise.reject(error)
+);
+export { HTTPFORM, HTTP };

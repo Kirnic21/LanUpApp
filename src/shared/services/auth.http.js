@@ -1,4 +1,4 @@
-import HTTP from "./http.base";
+import { HTTP } from "./http.base";
 import AsyncStorage from "@react-native-community/async-storage";
 
 const login = data => HTTP.post("auth", data);

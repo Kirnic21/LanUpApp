@@ -18,6 +18,13 @@ import ActionButton from "../../shared/components/ActionButton";
 import ImagePicker from "react-native-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome";
 import GallerySwiper from "react-native-gallery-swiper";
+import AsyncStorage from "@react-native-community/async-storage";
+import {
+  registerAgencies,
+  decodeToken
+} from "../../shared/services/freela.http";
+
+import { galery, galeries } from "../../shared/services/freela.http";
 
 export default class Midia extends Component {
   constructor(props) {
@@ -31,7 +38,17 @@ export default class Midia extends Component {
     };
   }
 
-  chooseFile = () => {
+  async componentDidMount() {
+    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    galeries(token.id).then(({ data }) => {
+      this.setState({
+        filePath: data.result
+      });
+    });
+  }
+
+  chooseFile = async () => {
+    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     var options = {
       title: "Select Image",
       storageOptions: {
@@ -39,6 +56,8 @@ export default class Midia extends Component {
         path: "images"
       }
     };
+    const imageData = new FormData();
+
     ImagePicker.showImagePicker(options, response => {
       console.log("Response = ", response);
 
@@ -50,14 +69,38 @@ export default class Midia extends Component {
         console.log("User tapped custom button: ", response.customButton);
         alert(response.customButton);
       } else {
+        imageData.append("formFile", {
+          uri: response.uri,
+          type: response.type,
+          name: response.fileName,
+          data: response.data
+        });
         let source = { uri: response.uri };
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
         this.setState({
-          filePath: [...this.state.filePath, source]
+          filePath: [source]
         });
-        debugger;
       }
+
+      galery({
+        id: token.id,
+        url: imageData
+      })
+        .then(async ({ data }) => {
+          if (data.isSuccess) {
+            galeries(token.id).then(({ data }) => {
+              this.setState({
+                filePath: data.result
+              });
+            });
+          }
+        })
+        .catch(error => {
+          debugger;
+          console.log(error.response.data);
+        });
+      debugger;
     });
   };
 
@@ -69,16 +112,6 @@ export default class Midia extends Component {
       // imageuri: imageURL
     });
   }
-
-  // componentDidMount() {
-  //   var that = this;
-  //   let items = Array.apply(null, Array(120)).map((v, i) => {
-  //     return { id: i, src: "https://unsplash.it/400/400?image=" + (i + 1) };
-  //   });
-  //   that.setState({
-  //     dataSource: items
-  //   });
-  // }
 
   render() {
     const { galleryIndex, ModalVisibleStatus } = this.state;
@@ -135,7 +168,12 @@ export default class Midia extends Component {
                         this.ShowModalFunction(true, item);
                       }}
                     >
-                      <FastImage style={styles.image} source={item} />
+                      <FastImage
+                        style={styles.image}
+                        source={{
+                          uri: item.url
+                        }}
+                      />
                     </TouchableOpacity>
                   </View>
                 )}
@@ -207,7 +245,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 120,
-    width: "100%"
+    width: 120
   },
   fullImageStyle: {
     justifyContent: "center",

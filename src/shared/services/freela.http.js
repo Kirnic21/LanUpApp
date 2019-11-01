@@ -1,10 +1,11 @@
-import HTTP from "./http.base";
+import { HTTP, HTTPFORM } from "./http.base";
 import { decode } from "base-64";
 
 const create = data => HTTP.post("freelas", data);
 const updateSkills = data => HTTP.put("skills", data);
 const registerAgencies = data => HTTP.post(`freelas/${data.id}/agencies`, data);
-const galery = data => HTTP.post(`freelas/${data.id}/galery`, data);
+const galery = data => HTTPFORM.post(`freelas/${data.id}/galery`, data.url);
+const galeries = id => HTTP.get(`freelas/${id}/galery`);
 const emergencyAvailability = data =>
   HTTP.put(`freelas/${data.id}/EmergencyAvailability`, data);
 
@@ -24,5 +25,6 @@ export {
   registerAgencies,
   decodeToken,
   emergencyAvailability,
-  galery
+  galery,
+  galeries
 };
