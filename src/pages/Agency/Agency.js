@@ -5,13 +5,12 @@ import {
   Dimensions,
   Text,
   View,
-  ScrollView,
   TouchableOpacity,
   Image
 } from "react-native";
-import InputLabel from "../../shared/components/InputLabel";
+
 import Icon from "../../assets/images/icon_add.png";
-import FieldButton from "~/shared/components/Button";
+
 import InputField from "~/shared/components/InputField";
 
 import AsyncStorage from "@react-native-community/async-storage";
@@ -29,7 +28,10 @@ const formRules = FormValidator.make(
     cnpj: "required",
     jobs: "required"
   },
-  {}
+  {
+    cep: "cep é obrigatório",
+    cnpj: "cnpj é obrigatório"
+  }
 );
 
 class Agency extends Component {
@@ -71,7 +73,7 @@ class Agency extends Component {
   };
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, invalid } = this.props;
     return (
       <View style={styles.Container}>
         <View
@@ -215,14 +217,12 @@ class Agency extends Component {
         </View>
         <View style={{ top: "15%" }}>
           <TouchableOpacity
-            style={{
-              backgroundColor: "#865FC0",
-              width: 250,
-              height: 50,
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 50
-            }}
+            disabled={invalid}
+            style={
+              invalid
+                ? { ...styles.BtnConcluir, ...styles.BtnDisabled }
+                : styles.Btn
+            }
             onPress={handleSubmit(data => this.SaveAgency(data))}
           >
             <Text>Concluir</Text>
@@ -262,6 +262,17 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height - 700,
     justifyContent: "center",
     padding: 20
+  },
+  BtnDisabled: {
+    backgroundColor: "#6C757D"
+  },
+  BtnConcluir: {
+    backgroundColor: "#865FC0",
+    width: 250,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 50
   },
   item: {
     padding: 20,

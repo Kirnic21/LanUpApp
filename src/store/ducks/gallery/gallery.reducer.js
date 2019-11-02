@@ -1,15 +1,20 @@
-import { UPLOAD_GALLERY, DELETE_GALLERY, UPDATE_GALLERY } from '../action.types'
-import initialState from '../initial.state';
+import {
+  UPLOAD_GALLERY,
+  DELETE_GALLERY,
+  UPDATE_GALLERY
+} from "../action.types";
+import initialState from "../initial.state";
 
 export default (state = initialState.gallery, action) => {
   switch (action.type) {
     case UPLOAD_GALLERY:
-      return [...state, action.data]
+      return [...state, action.data];
     case DELETE_GALLERY:
-      return [...state.filter(c => !action.data.includes(c.id))]
+      return [...state.filter(c => !action.data.includes(c.name))];
     case UPDATE_GALLERY:
-      return [...action.data]
+      debugger;
+      return [...action.data];
     default:
       return state;
   }
-}
+};
