@@ -17,6 +17,7 @@ import { changePassword } from "~/shared/services/auth.http";
 import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
 import AsyncStorage from "@react-native-community/async-storage";
+import DropdownAlert from "react-native-dropdownalert";
 
 const stylePage = {
   ...styles,
@@ -33,7 +34,11 @@ const formRules = FormValidator.make(
     confirmPassword: "required",
     password: "required"
   },
-  {}
+  {
+    newPassword: "Nova senha é obrigatória",
+    confirmPassword: "Confirmação de senha é obrigatória",
+    password: "Senha atual é obrigatória"
+  }
 );
 
 class ForgotPassword extends Component {
@@ -54,11 +59,36 @@ class ForgotPassword extends Component {
       .then(({ data }) => {
         if (data.isSuccess) {
           AsyncStorage.setItem(JSON.stringify(data));
-          this.props.navigation.navigate("UserProfile");
-          alert("Senha Alterada com sucesso!!!");
+          if (password === newPassword) {
+            this.dropDownAlertRef.alertWithType(
+              "error",
+              "Erro",
+              "Nova senha é igual a atual!"
+            );
+          } else {
+            this.props.navigation.navigate("UserProfile");
+            this.dropDownAlertRef.alertWithType(
+              "success",
+              "Sucesso",
+              "Senha alterada com sucesso."
+            );
+          }
         }
       })
       .catch(error => {
+        if (newPassword !== confirmPassword) {
+          this.dropDownAlertRef.alertWithType(
+            "error",
+            "Erro",
+            "Nova senha não confere!"
+          );
+        }
+
+        this.dropDownAlertRef.alertWithType(
+          "error",
+          "Erro",
+          "Senha atual não confere!"
+        );
         console.log(error.response.data);
       });
   };
@@ -74,6 +104,15 @@ class ForgotPassword extends Component {
         }}
       >
         <StatusBar translucent backgroundColor="transparent" />
+        <View
+          style={{
+            width: "100%",
+            top: "-1%",
+            alignItems: "center"
+          }}
+        >
+          <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
+        </View>
         <View
           style={{
             flex: 1,

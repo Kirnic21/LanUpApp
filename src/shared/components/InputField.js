@@ -10,6 +10,9 @@ export default InputLabel = ({
   autoFocus,
   numberOfLines,
   multiline,
+  onFocus,
+  autoCompleteType,
+
   meta: { touched, error }
 }) => (
   <View>
@@ -31,14 +34,17 @@ export default InputLabel = ({
         ]}
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
-        // autoFocus={autoFocus}
+        autoFocus={autoFocus}
         numberOfLines={numberOfLines}
         multiline={multiline}
         onChangeText={onChange}
         onBlur={onBlur}
         enablesReturnKeyAutomatically={true}
+        autoCapitalize="none"
+        onFocus={onFocus}
+        autoCompleteType={autoCompleteType}
       />
-      {touched && (error && <Text style={{ color: '#F13567' }}>{error}</Text>)}
+      {touched && (error && <Text style={{ color: "#F13567" }}>{error}</Text>)}
     </View>
   </View>
 );

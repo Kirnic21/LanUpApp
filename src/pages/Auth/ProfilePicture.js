@@ -13,12 +13,11 @@ import ImageBack from "../../assets/images/Grupo_518.png";
 
 import ImageProfile from "../../assets/images/Grupo_528.png";
 
-import CoreTemplate from "~/shared/components/CoreTemplate";
-
 import { create } from "../../shared/services/freela.http";
 
 import { connect } from "react-redux";
 import { formValueSelector } from "redux-form";
+import DropdownAlert from "react-native-dropdownalert";
 
 class LoginProfilePicture extends Component {
   state = {
@@ -27,8 +26,8 @@ class LoginProfilePicture extends Component {
 
   goToLoginCropProfilePhoto = () => {
     ImagePicker.openPicker({
-      width: 30,
-      height: 40,
+      width: 1000,
+      height: 1000,
       cropperCircleOverlay: true,
       cropping: true,
       includeBase64: true
@@ -53,11 +52,22 @@ class LoginProfilePicture extends Component {
       create(newFreela)
         .then(({ data }) => {
           if (data.isSuccess) {
-            alert("Freela criado com sucesso!");
+            this.dropDownAlertRef.alertWithType(
+              "success",
+              "Sucesso",
+              "Freela criado com sucesso!"
+            );
             this.props.navigation.navigate("UserProfile");
           } else alert(data.result.errorMessage);
         })
-        .catch(error => console.log(error.response.data.errorMessage));
+        .catch(error => {
+          this.dropDownAlertRef.alertWithType(
+            "error",
+            "Erro",
+            "Esse email não existe"
+          );
+          console.log(error.response.data);
+        });
     });
   };
 
@@ -71,6 +81,16 @@ class LoginProfilePicture extends Component {
           flex: 1
         }}
       >
+        <View
+          style={{
+            width: "100%",
+            top: "-1%",
+            alignItems: "center",
+            position: "absolute"
+          }}
+        >
+          <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
+        </View>
         <View
           style={{
             flex: 1,

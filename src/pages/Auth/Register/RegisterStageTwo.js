@@ -14,24 +14,24 @@ import styles from "./register.style";
 
 import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
+import DropdownAlert from "react-native-dropdownalert";
 
 const stylePage = {
   ...styles,
   icon: {
-    left: "55%",
-    top: "-25%",
-    position: "relative"
+    left: "-55%",
+    top: "12%"
   }
 };
 
 const formRules = FormValidator.make(
   {
-    email: "required",
+    email: ("required", "email"),
     password: "required",
     confirmPassword: "required"
   },
   {
-    email: "E-mail é obrigatório",
+    email: ("E-mail é obrigatório", "Digite um email válido."),
     password: "Senha é obrigatória",
     confirmPassword: "Confirmação da Senha é obrigatória"
   }
@@ -51,11 +51,19 @@ class RegisterStageTwo extends Component {
   goLoginPicture = form => {
     const { email, password, confirmPassword } = form;
 
-    this.props.navigation.push("LoginProfilePicture", {
-      email,
-      password,
-      confirmPassword
-    });
+    if (password === confirmPassword) {
+      this.props.navigation.push("LoginProfilePicture", {
+        email,
+        password,
+        confirmPassword
+      });
+    } else {
+      this.dropDownAlertRef.alertWithType(
+        "error",
+        "Erro",
+        "As senhas não podem ser diferentes!"
+      );
+    }
   };
 
   changeIcon() {
@@ -71,22 +79,31 @@ class RegisterStageTwo extends Component {
       <ImageBackground
         source={ImageBack}
         style={{
-          width: Dimensions.get("window").width,
-          // height: Dimensions.get('window').height,
+          width: "100%",
           flex: 1
         }}
       >
         <StatusBar translucent backgroundColor="transparent" />
         <View
           style={{
+            width: "100%",
+            top: "-1%",
+            alignItems: "center",
+            position: "absolute"
+          }}
+        >
+          <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
+        </View>
+        <View
+          style={{
             flex: 1,
             flexDirection: "column",
             alignItems: "center",
-            top: "1%"
+            width: "100%"
           }}
         >
-          <View style={styles.registerContainer}>
-            <View style={{ top: "2%" }}>
+          <View style={[styles.registerContainer, { width: "100%" }]}>
+            <View style={{ top: "-6%" }}>
               <Text style={styles.textTitle}>
                 Bem-vindo!{"\n"}
                 Insira seus dados
@@ -94,47 +111,56 @@ class RegisterStageTwo extends Component {
 
               <Text style={stylePage.textSubtitle}>Etapa 2/2</Text>
             </View>
-            <View style={{ top: "5%" }}>
+            <View
+              style={{
+                top: "-2%",
+                width: "70%"
+              }}
+            >
               <Field
                 name={"email"}
-                style={styles.TextInput}
+                style={[styles.TextInput, { paddingLeft: "10%" }]}
                 title="E-mail"
                 keyboardType="email-address"
                 component={InputField}
               />
-              <Field
-                name={"password"}
-                style={styles.TextInput}
-                title="Senha"
-                secureTextEntry={this.state.password}
-                component={InputField}
-              />
+              <View
+                style={{
+                  flexDirection: "row"
+                }}
+              >
+                <Field
+                  name={"password"}
+                  style={[styles.TextInput, { width: 273, paddingLeft: "10%" }]}
+                  title="Senha"
+                  secureTextEntry={this.state.password}
+                  component={InputField}
+                />
+                <Icon
+                  style={stylePage.icon}
+                  name={this.state.icon}
+                  size={25}
+                  color="#fff"
+                  onPress={() => this.changeIcon()}
+                />
+              </View>
+
               <Field
                 name={"confirmPassword"}
-                style={styles.TextInput}
+                style={[styles.TextInput, { width: 273 }]}
                 title="Confirmar senha"
                 secureTextEntry={this.state.password}
                 fullWidth
                 component={InputField}
               />
-              <Icon
-                style={[stylePage.icon, { top: "-46%" }]}
-                name={this.state.icon}
-                size={25}
-                color="#fff"
-                onPress={() => this.changeIcon()}
-              />
-              <Icon
-                style={stylePage.icon}
-                name={this.state.icon}
-                size={25}
-                color="#fff"
-                onPress={() => this.changeIcon()}
-              />
             </View>
             <RoundButton
               disabled={invalid}
-              style={[stylePage.Btn, stylePage.btnRegister]}
+              style={[
+                stylePage.Btn,
+                stylePage.btnRegister,
+                { marginTop: "-1%" }
+              ]}
               name="Continuar"
               onPress={handleSubmit(data => this.goLoginPicture(data))}
             />

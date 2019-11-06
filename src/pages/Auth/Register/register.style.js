@@ -11,29 +11,31 @@ const styles = StyleSheet.create({
     alignContent: "space-around"
   },
   Btn: {
-    width: "40%",
+    width: "45%",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,
-    height: 55
+    height: 50
   },
   textTitle: {
     color: "#FFF",
     fontSize: 38,
     fontFamily: "Helvetica Now Micro",
-    fontWeight: "600"
+    fontWeight: "600",
+    top: "5%"
   },
   textSubtitle: {
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: "5%",
+    marginBottom: "5%",
     color: "#FFF",
     fontSize: 22,
     fontFamily: "Helvetica Now Micro",
-    fontWeight: "700"
+    fontWeight: "500"
   },
   TextInput: {
-    width: Dimensions.get("window").width - 130,
-    height: 51
+    width: "100%",
+    height: 51,
+    paddingLeft: "10%"
   }
 });
 

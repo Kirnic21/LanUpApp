@@ -19,19 +19,22 @@ import Modal from "../../shared/components/ModalComponent";
 
 import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
+import Spinner from "react-native-loading-spinner-overlay";
+import DropdownAlert from "react-native-dropdownalert";
 
 const formRules = FormValidator.make(
   {
-    email: "required",
+    email: ("required", "email"),
     password: "required"
   },
   {
-    email: 'E-mail é obrigatório',
-    password: 'Senha é obrigatória',
+    email: ("E-mail é obrigatório", "Digite um endereço de email válido!"),
+    password: "Senha é obrigatória"
   }
 );
 
 class LoginEmail extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -42,6 +45,33 @@ class LoginEmail extends Component {
 
     this.changeIcon = this.changeIcon.bind(this);
   }
+  componentDidMount() {
+    this._isMounted = true;
+    if (this._isMounted) {
+      setInterval(() => {
+        this.hideLoader();
+      }, 3000);
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  showLoader = () => {
+    if (this._isMounted) {
+      this.setState({ spinner: true });
+    }
+  };
+  hideLoader = () => {
+    if (this._isMounted) {
+      this.setState({ spinner: false });
+    }
+  };
+
+  doSignup = () => {
+    this.showLoader();
+  };
 
   goToLoginPerfil = form => {
     const { email, password } = form;
@@ -57,7 +87,11 @@ class LoginEmail extends Component {
         }
       })
       .catch(error => {
-        alert("Usuário ou senha inválidos");
+        this.dropDownAlertRef.alertWithType(
+          "error",
+          "Erro",
+          "Usuário ou senha inválidos"
+        );
         console.log(error.response.data);
       });
   };
@@ -73,54 +107,83 @@ class LoginEmail extends Component {
     const { width, height } = Dimensions.get("window");
     const { handleSubmit, invalid } = this.props;
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }} enabled behavior="height">
-        <ImageBackground
-          source={ImageBack}
-          style={{ width, height: height + 80, flex: 1 }}
+      <ImageBackground
+        source={ImageBack}
+        style={{ width, height: "100%", flex: 1 }}
+      >
+        <KeyboardAvoidingView
+          style={{ flex: 1, height: "100%" }}
+          enabled
+          behavior="height"
         >
+          <View
+            style={{
+              width: "100%",
+              alignItems: "center",
+              position: "absolute"
+            }}
+          >
+            <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
+          </View>
+          <Spinner
+            visible={this.state.spinner}
+            size="large"
+            animation="fade"
+            overlayColor="rgba(0, 0, 0, 0.50)"
+          />
           <View style={styles.Container}>
             <View style={styles.ContainerLogo}>
-              <Image
-                source={Logo}
-                style={{ width: width - 120, height: height - 700 }}
-              />
+              <Image source={Logo} style={{ width: "70%", height: "40%" }} />
             </View>
 
             <View style={styles.ContainerForm}>
-              <View style={{ paddingVertical: 100, alignItems: "center" }}>
+              <View
+                style={{
+                  alignItems: "center",
+                  marginVertical: "10%",
+                  width: "100%"
+                }}
+              >
                 <Field
-                  style={{ width: 290, height: 50 }}
+                  style={{ width: 280, height: 55 }}
                   title="E-mail"
                   keyboardType="email-address"
                   component={InputField}
                   name={"email"}
                 />
+                <View style={{ flexDirection: "row", left: "2.5%" }}>
+                  <Field
+                    style={{ width: 280, height: 55 }}
+                    title="Senha"
+                    secureTextEntry={this.state.password}
+                    component={InputField}
+                    name={"password"}
+                  />
+                  <Icon
+                    style={styles.icon}
+                    name={this.state.icon}
+                    size={25}
+                    color="#fff"
+                    onPress={() => this.changeIcon()}
+                  />
+                </View>
 
-                <Field
-                  style={{ width: 290, height: 50 }}
-                  title="Senha"
-                  secureTextEntry={this.state.password}
-                  component={InputField}
-                  name={"password"}
-                />
-
-                <Icon
-                  style={styles.icon}
-                  name={this.state.icon}
-                  size={25}
-                  color="#fff"
-                  onPress={() => this.changeIcon()}
-                />
-                <TouchableOpacity
-                  disabled={invalid}
-                  style={invalid ? {...styles.Btn, ...styles.BtnDisabled} : styles.Btn}
-                  onPress={handleSubmit(data => this.goToLoginPerfil(data))}
-                >
-                  <Text style={styles.textBtn}>Entrar</Text>
+                <TouchableOpacity disabled={invalid} onPress={this.doSignup}>
+                  <TouchableOpacity
+                    disabled={invalid}
+                    style={
+                      invalid
+                        ? { ...styles.Btn, ...styles.BtnDisabled }
+                        : styles.Btn
+                    }
+                    onPress={handleSubmit(data => this.goToLoginPerfil(data))}
+                  >
+                    <Text style={styles.textBtn}>Entrar</Text>
+                  </TouchableOpacity>
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={{ width: width - 100, height: 50, top: "-1%" }}>
+            <View style={{ top: "-40%" }}>
               <TouchableOpacity
                 onPress={() => {
                   this.setState({ visible: true });
@@ -179,12 +242,12 @@ class LoginEmail extends Component {
               </View>
             </Modal>
           </View>
-        </ImageBackground>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     );
   }
 }
-
+const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
@@ -193,30 +256,32 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   ContainerLogo: {
-    width: Dimensions.get("window").width - 90,
-    height: Dimensions.get("window").height - 500,
+    width,
     justifyContent: "flex-end",
-    alignItems: "center"
+    alignItems: "center",
+    top: "-2%"
   },
   ContainerForm: {
-    width: Dimensions.get("window").width - 100,
-    height: Dimensions.get("window").height - 250,
+    width: "100%",
+    height,
     alignItems: "center"
   },
   Btn: {
     backgroundColor: "#7541bf",
-    width: Dimensions.get("window").width - 200,
-    height: Dimensions.get("window").height - 720,
+    width: "100%",
+    height: "58%",
     borderRadius: 60,
-    justifyContent: "center"
+    justifyContent: "center",
+    top: "25%"
   },
   BtnDisabled: {
-    backgroundColor: "#6C757D",
+    backgroundColor: "#6C757D"
   },
   textBtn: {
     color: "#FFF",
     fontSize: 15,
-    textAlign: "center"
+    textAlign: "center",
+    padding: "15%"
   },
   textForgot: {
     color: "#483D8B",
@@ -226,8 +291,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5
   },
   icon: {
-    left: "40%",
-    top: "-21%"
+    left: "-50%",
+    top: "9.5%"
   }
 });
 

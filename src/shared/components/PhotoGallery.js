@@ -163,7 +163,7 @@ class PhotoGallery extends React.Component {
               onPress={this.handleOnPictureAdd}
               style={styles.addPictureContainer}
             >
-              <MaterialCommunityIcons name="camera" size={38} color="#707070" />
+              <MaterialCommunityIcons name="camera" size={38} color="#FFF" />
             </TouchableOpacity>
             {pictures.map((picture, index) => (
               <Picture
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     height: 81,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#EFEFEF",
+    backgroundColor: "#7541BF",
     borderRadius: 4,
     marginVertical: 10,
     marginLeft: 10
