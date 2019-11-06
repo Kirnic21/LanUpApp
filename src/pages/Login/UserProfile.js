@@ -30,6 +30,7 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 
 class UserProfile extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -37,6 +38,20 @@ class UserProfile extends Component {
       selected: false
       // user: this.state.user || props.navigation.getParam("user")
     };
+  }
+
+  async componentDidMount() {
+    this._isMounted = true;
+    if (this._isMounted) {
+      const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+      const avatar = token.avatarUrl;
+      this.setState({ avatar });
+      debugger;
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   renderSeparator = () => (
@@ -67,20 +82,16 @@ class UserProfile extends Component {
   openMidia = async () => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     galeries(token.id).then(({ data }) => {
-      // const img = data.result.map(x => ({ uri: x.url }));
-      // console.log(img);
       this.props.updateGalleryImage(data.result);
     });
 
     const handlePictureAdd = async picture => {
-      //mandar pra api
       const form = new FormData();
       form.append("formFile", {
         uri: picture.uri,
         type: picture.type,
         name: picture.name
       });
-      // const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
       galery({
         id: token.id,
         url: form
@@ -96,12 +107,20 @@ class UserProfile extends Component {
     };
 
     const handlePictureRemove = pictures => {
-      galleryDelete(token.id, pictures).then(({ data }) => {
+      let queryParams;
+      queryParams = pictures.reduce((accumulator, currentValue, index) => {
         debugger;
-        this.props.deleteGalleryImage(pictures);
-      });
+        if (index === 0) {
+          return `names=${currentValue}`;
+        } else {
+          return `${accumulator}&names=${currentValue}`;
+        }
+      }, "");
 
       debugger;
+      galleryDelete(token.id, queryParams).then(({ data }) => {
+        this.props.deleteGalleryImage(pictures);
+      });
     };
 
     this.props.navigation.navigate("PhotoGallery", {
@@ -127,7 +146,6 @@ class UserProfile extends Component {
   };
 
   render() {
-    // const { user } = this.state;
     return (
       <ScrollView contentContainerStyle={styles.Container}>
         <StatusBar backgroundColor="#18142F" barStyle="light-content" />
@@ -137,12 +155,12 @@ class UserProfile extends Component {
             onPress={this.aboutMe}
           >
             <Image
-              source={ArrowRight}
+              source={{ uri: this.state.avatar }}
               style={{
                 width: 100,
                 height: 100,
                 borderRadius: 50,
-                borderColor: "#FFF",
+                borderColor: "#FFB72B",
                 borderWidth: 2
               }}
             />
@@ -151,8 +169,8 @@ class UserProfile extends Component {
               size={25}
               color="#86D7CA"
               style={{
-                left: 75,
-                top: -25
+                left: 73,
+                top: -27
               }}
             />
           </TouchableOpacity>
@@ -187,8 +205,7 @@ class UserProfile extends Component {
             {
               key: "3",
               title: "Agências",
-              subtitle: "Entre na equipe de sua agência",
-              onPress: () => this.openAgency()
+              subtitle: "Entre na equipe de sua agência"
             },
             {
               key: "4",
@@ -280,7 +297,7 @@ const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   Container: {
     alignItems: "center",
-    width,
+    width: "100%",
     backgroundColor: "#18142F"
   },
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   View,
@@ -6,16 +6,16 @@ import {
   ImageBackground,
   Dimensions,
   Image,
-  StatusBar,
-} from 'react-native';
-import BackgroundTimer from 'react-native-background-timer';
+  StatusBar
+} from "react-native";
+import BackgroundTimer from "react-native-background-timer";
 // import Geolocation from '@react-native-community/geolocation';
-import RoundButton from '~/shared/components/RoundButton';
-import ImageBack from '../../assets/images/Grupo_518.png';
-import Logo from '../../assets/images/logoLanUp.png';
-import FBSDK from 'react-native-fbsdk'
-
-import { login, loginWithFacebook } from '~/shared/services/auth.http';
+import RoundButton from "~/shared/components/RoundButton";
+import ImageBack from "../../assets/images/Grupo_518.png";
+import Logo from "../../assets/images/logoLanUp.png";
+import FBSDK from "react-native-fbsdk";
+import AsyncStorage from "@react-native-community/async-storage";
+import { login, loginWithFacebook } from "~/shared/services/auth.http";
 
 const { LoginManager, AccessToken } = FBSDK;
 // BackgroundTimer.runBackgroundTimer(() => {
@@ -25,89 +25,97 @@ const { LoginManager, AccessToken } = FBSDK;
 // }, 30000);
 
 class LoginPage extends Component {
-  componentDidMount() { }
+  async componentDidMount() {
+    const token = await AsyncStorage.getItem("API_TOKEN");
+    if (token !== null) {
+      this.props.navigation.navigate("UserProfile");
+    }
+  }
 
-  goToLoginEmail = () => this.props.navigation.navigate('LoginEmail');
+  goToLoginEmail = () => this.props.navigation.navigate("LoginEmail");
 
-  goRegister = () => this.props.navigation.navigate('RegisterStageOne');
+  goRegister = () => this.props.navigation.navigate("RegisterStageOne");
 
   goToLoginFacebook = () => {
     LoginManager.logOut();
-    LoginManager.logInWithPermissions(['public_profile', 'user_birthday', 'email'])
-      .then(async (result) => {
-        if (result.isCancelled) return;
-        const data = await AccessToken.getCurrentAccessToken();
-        const user = await loginWithFacebook(data);
-        if (user) {
-          user.isFacebook = true;
-          this.props.navigation.navigate('RegisterStageOne', { user });
-        }
-      });
-  }
+    LoginManager.logInWithPermissions([
+      "public_profile",
+      "user_birthday",
+      "email"
+    ]).then(async result => {
+      if (result.isCancelled) return;
+      const data = await AccessToken.getCurrentAccessToken();
+      const user = await loginWithFacebook(data);
+      if (user) {
+        user.isFacebook = true;
+        this.props.navigation.navigate("RegisterStageOne", { user });
+      }
+    });
+  };
 
   render() {
+    const { width } = Dimensions.get("window");
     return (
       <ImageBackground
         source={ImageBack}
         style={{
-          width: Dimensions.get('window').width,
-          // height: Dimensions.get('window').height,
-          flex: 1,
+          width: "100%",
+          height: "100%",
+          flex: 1
         }}
       >
         <StatusBar translucent backgroundColor="transparent" />
         <View
           style={{
             flex: 1,
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between"
           }}
         >
           <View
             style={{
-              width: Dimensions.get('window').width - 90,
-              height: Dimensions.get('window').height - 410,
-              justifyContent: 'flex-end',
-              // alignItems: 'center',
+              width: "80%",
+              height: "50%",
+              justifyContent: "flex-end"
             }}
           >
-            <View style={{ alignItems: 'center', top: '-10%' }}>
+            <View style={{ alignItems: "center", top: "10%" }}>
               <Image
                 source={Logo}
                 style={{
-                  width: Dimensions.get('window').width - 145,
-                  height: Dimensions.get('window').height - 700,
+                  width: "90%",
+                  height: "50%"
                 }}
               />
             </View>
 
-            <Text
-              style={{
-                // textAlign: 'center',
-                color: '#FFF',
-                fontSize: 28,
-                fontWeight: '700',
-              }}
-            >
-              Sua primeira vez aqui?
-            </Text>
-            <Text
-              style={{
-                // textAlign: 'center',s
-                color: '#FFF',
-                fontSize: 20,
-                letterSpacing: 0.6,
-                fontWeight: '700',
-              }}
-            >
-              Cadastre-se com o seu e-mail
-            </Text>
+            <View style={{ alignItems: "center", top: "-7%" }}>
+              <Text
+                style={{
+                  color: "#FFF",
+                  fontSize: 27,
+                  fontWeight: "700"
+                }}
+              >
+                Sua primeira vez aqui?
+              </Text>
+              <Text
+                style={{
+                  color: "#FFF",
+                  fontSize: 18.9,
+                  letterSpacing: 0.6,
+                  fontWeight: "700"
+                }}
+              >
+                Cadastre-se com o seu e-mail
+              </Text>
+            </View>
           </View>
           <View
             style={{
-              width: Dimensions.get('window').width - 100,
-              height: Dimensions.get('window').height - 470,
+              width,
+              height: "45%"
             }}
           >
             <RoundButton
@@ -117,9 +125,9 @@ class LoginPage extends Component {
             />
             <Text
               style={{
-                color: '#FFF',
-                textAlign: 'center',
-                fontSize: 15,
+                color: "#FFF",
+                textAlign: "center",
+                fontSize: 15
               }}
             >
               ou
@@ -132,15 +140,15 @@ class LoginPage extends Component {
           </View>
           <View
             style={{
-              width: Dimensions.get('window').width - 100,
-              height: 50,
+              width: Dimensions.get("window").width - 100,
+              height: 50
             }}
           >
-            <Text style={{ color: '#FFF', textAlign: 'center', fontSize: 16 }}>
-              Já tem uma conta?{' '}
+            <Text style={{ color: "#FFF", textAlign: "center", fontSize: 16 }}>
+              Já tem uma conta?{" "}
               <Text
                 onPress={this.goToLoginEmail}
-                style={{ color: '#483D8B', textDecorationLine: 'underline' }}
+                style={{ color: "#483D8B", textDecorationLine: "underline" }}
               >
                 Entrar
               </Text>
@@ -154,20 +162,20 @@ class LoginPage extends Component {
 
 const styles = StyleSheet.create({
   btnFacebook: {
-    backgroundColor: '#141364',
+    backgroundColor: "#141364"
   },
   btnRegister: {
-    backgroundColor: '#06a2cd',
+    backgroundColor: "#06a2cd"
   },
   Btn: {
-    width: Dimensions.get('window').width - 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: 'white',
+    width: "80%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "white",
     borderWidth: 1.5,
     borderRadius: 50,
-    height: 55,
-  },
+    height: 55
+  }
 });
 
 export default LoginPage;

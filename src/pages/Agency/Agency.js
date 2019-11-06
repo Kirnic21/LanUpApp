@@ -221,7 +221,7 @@ class Agency extends Component {
             style={
               invalid
                 ? { ...styles.BtnConcluir, ...styles.BtnDisabled }
-                : styles.Btn
+                : styles.BtnConcluir
             }
             onPress={handleSubmit(data => this.SaveAgency(data))}
           >

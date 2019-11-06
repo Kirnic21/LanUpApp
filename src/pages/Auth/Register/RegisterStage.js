@@ -20,12 +20,12 @@ const formRules = FormValidator.make(
   {
     fullName: "required",
     nickname: "required",
-    cpf: "required"
+    cpf: ("required", "cpf")
   },
   {
     fullName: "Nome Completo é obrigatório",
     nickname: "Apelido é obrigatório",
-    cpf: "CPF é obrigatório"
+    cpf: ("CPF é obrigatório", "Digite um CPF válido.")
   }
 );
 class RegisterStage extends Component {
@@ -84,7 +84,12 @@ class RegisterStage extends Component {
             )}
           </View>
 
-          <View style={{ top: "5%" }}>
+          <View
+            style={{
+              top: "5%",
+              width: "70%"
+            }}
+          >
             <Field
               name={"fullName"}
               style={styles.TextInput}
@@ -113,6 +118,7 @@ class RegisterStage extends Component {
               style={styles.TextInput}
               title="CPF"
               name={"cpf"}
+              keyboardType="numeric"
             />
           </View>
 
