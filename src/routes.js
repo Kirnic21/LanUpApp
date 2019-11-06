@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import LoginPage from './pages/Auth/index';
 import LoginEmail from './pages/Auth/LoginEmail';
-import RegisterStageOne from './pages/Auth/Register/RegisterStage';
+import RegisterStageOne from './pages/Auth/Register/RegisterStageOne';
 import RegisterStageTwo from './pages/Auth/Register/RegisterStageTwo';
 import ForgotPassword from './pages/Auth/Register/ForgotPassword';
 import LoginProfilePicture from './pages/Auth/ProfilePicture';

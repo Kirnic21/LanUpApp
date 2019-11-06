@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LanUpReactNativeBoilerplate</string>
+    <string name="app_name">LanUp App</string>
     <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
     <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
     <string name="facebook_app_id">855414154854078</string> 

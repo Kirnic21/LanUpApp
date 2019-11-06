@@ -8,7 +8,11 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Field, reduxForm, formValueSelector } from "redux-form";
+import {
+  setUser
+} from "~/store/ducks/user/user.actions";
 
+import { bindActionCreators } from "redux";
 import RoundButton from "~/shared/components/RoundButton";
 import ImageBack from "~/assets/images/Grupo_518.png";
 import InputField from "~/shared/components/InputField";
@@ -28,7 +32,7 @@ const formRules = FormValidator.make(
     cpf: "CPF é obrigatório"
   }
 );
-class RegisterStage extends Component {
+class RegisterStageOne extends Component {
   state = {
     user: {
       isFacebook: false,
@@ -36,17 +40,13 @@ class RegisterStage extends Component {
     }
   };
 
-  static getDerivedStateFromProps(props, state) {
-    const user = props.navigation.getParam("user");
-
-    if (user) {
-      return {
-        ...state,
-        user
-      };
-    }
-
-    return null;
+  componentDidMount() {
+    const user = this.props.navigation.getParam("user");
+    debugger
+    this.props.setUser({
+      nickname: user.authenticateUser.name,
+      fullName: user.authenticateUser.name
+    });
   }
 
   goRegister = () => {
@@ -63,7 +63,7 @@ class RegisterStage extends Component {
   render() {
     const { user } = this.state;
     const { handleSubmit, invalid } = this.props;
-
+    debugger
     return (
       <ImageBackground
         source={ImageBack}
@@ -84,7 +84,7 @@ class RegisterStage extends Component {
             )}
           </View>
 
-          <View style={{ top: "5%" }}>
+          <View style={{ top: "5%" }} initialValues={{ fullName: 'brunin' }}>
             <Field
               name={"fullName"}
               style={styles.TextInput}
@@ -128,8 +128,47 @@ class RegisterStage extends Component {
   }
 }
 
-export default RegisterStage = reduxForm({
-  form: "RegisterStage",
-  validate: formRules,
-  enableReinitialize: true
-})(RegisterStage);
+// const mapStateToProps = (state, ownProps) => {
+//   const user = ownProps.navigation.getParam("user");
+
+//   debugger
+//   return {
+//     initialValues: {
+//       nickname: user.authenticateUser.name,
+//       fullName: user.authenticateUser.name
+//     }
+//   }
+// }
+
+
+const mapStateToProps = (state, props) => {
+  debugger
+  return {
+    initialValues: {
+      nickname: 'brunin'
+    }, // retrieve name from redux store 
+  }
+}
+
+RegisterStageOne = reduxForm({
+  form: 'RegisterStageOne', // a unique identifier for this form
+})(RegisterStageOne);
+
+RegisterStageOne = connect(
+  state => {
+    debugger
+    return ({
+      initialValues: state.user
+    })
+  },
+  { setUser: setUser }, // bind account loading action creator
+)(RegisterStageOne);
+
+export default RegisterStageOne;
+
+
+// export default RegisterStageOne = reduxForm({
+//   form: "RegisterStageOne",
+//   validate: formRules,
+//   enableReinitialize: true
+// }, {})(RegisterStageOne);
