@@ -40,11 +40,11 @@ class RegisterStageOne extends Component {
 
   componentDidMount() {
     const user = this.props.navigation.getParam("user");
-    debugger;
-    this.props.setUser({
+
+    this.props.initialize({
       nickname: user.authenticateUser.name,
       fullName: user.authenticateUser.name
-    });
+    })
   }
 
   goRegister = () => {
@@ -61,7 +61,6 @@ class RegisterStageOne extends Component {
   render() {
     const { user } = this.state;
     const { handleSubmit, invalid } = this.props;
-    debugger;
     return (
       <ImageBackground
         source={ImageBack}
@@ -72,45 +71,32 @@ class RegisterStageOne extends Component {
       >
         <StatusBar translucent backgroundColor="transparent" />
         <View style={styles.registerContainer}>
-          <View>
-            <Text style={styles.textTitle}>
-              Bem-vindo!{"\n"}
-              Insira seus dados
-            </Text>
-            {!user.isFacebook && (
-              <Text style={styles.textSubtitle}>Etapa 1/2</Text>
-            )}
-          </View>
+          <Text style={styles.textTitle}>
+            Bem-vindo!{"\n"}
+            Insira seus dados
+          </Text>
+          {!user.isFacebook && (
+            <Text style={styles.textSubtitle}>Etapa 1/2</Text>
+          )}
 
           <View style={{ top: "5%" }} initialValues={{ fullName: "brunin" }}>
             <Field
-              name={"fullName"}
+              name="fullName"
               style={styles.TextInput}
               title="Nome Completo"
               component={InputField}
             />
             <Field
+              name="nickname"
               style={styles.TextInput}
-              name={"nickname"}
               title="Apelido"
               component={InputField}
             />
-            {/* <Text
-              style={{
-                color: "#F13567",
-                fontSize: 12,
-                left: "10%",
-                top: "-5%",
-                marginBottom: "-3%"
-              }}
-            >
-              Este apelido já existe
-            </Text> */}
             <Field
-              component={InputField}
+              name="cpf"
               style={styles.TextInput}
               title="CPF"
-              name={"cpf"}
+              component={InputField}
               keyboardType="numeric"
             />
           </View>
@@ -127,45 +113,11 @@ class RegisterStageOne extends Component {
   }
 }
 
-// const mapStateToProps = (state, ownProps) => {
-//   const user = ownProps.navigation.getParam("user");
+mapDispatchToProps = dispatch => bindActionCreators({
+  setUser
+}, dispatch)
 
-//   debugger
-//   return {
-//     initialValues: {
-//       nickname: user.authenticateUser.name,
-//       fullName: user.authenticateUser.name
-//     }
-//   }
-// }
-
-const mapStateToProps = (state, props) => {
-  debugger;
-  return {
-    initialValues: {
-      nickname: "brunin"
-    } // retrieve name from redux store
-  };
-};
-
-RegisterStageOne = reduxForm({
-  form: "RegisterStageOne" // a unique identifier for this form
-})(RegisterStageOne);
-
-RegisterStageOne = connect(
-  state => {
-    debugger;
-    return {
-      initialValues: state.user
-    };
-  },
-  { setUser: setUser } // bind account loading action creator
-)(RegisterStageOne);
-
-export default RegisterStageOne;
-
-// export default RegisterStageOne = reduxForm({
-//   form: "RegisterStageOne",
-//   validate: formRules,
-//   enableReinitialize: true
-// }, {})(RegisterStageOne);
+export default connect(null, mapDispatchToProps)(reduxForm({
+  form: 'RegisterStageOne',
+  enableReinitialize: true
+})(RegisterStageOne))

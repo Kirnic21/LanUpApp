@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   textTitle: {
     color: "#FFF",
-    fontSize: 38,
+    fontSize: 36,
     fontFamily: "Helvetica Now Micro",
     fontWeight: "600",
     top: "5%"

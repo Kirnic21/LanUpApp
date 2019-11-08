@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
 
 export default InputLabel = ({
-  input: { onChange, onBlur },
+  input: { onChange, onBlur, ...restInput },
   title,
   keyboardType,
   style,
@@ -12,7 +12,6 @@ export default InputLabel = ({
   multiline,
   onFocus,
   autoCompleteType,
-
   meta: { touched, error }
 }) => (
   <View>
@@ -40,6 +39,7 @@ export default InputLabel = ({
         onChangeText={onChange}
         onBlur={onBlur}
         enablesReturnKeyAutomatically={true}
+        {...restInput}
         autoCapitalize="none"
         onFocus={onFocus}
         autoCompleteType={autoCompleteType}

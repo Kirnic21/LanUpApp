@@ -5,9 +5,9 @@ import userReducer from "./user/user.reducer";
 import galleryReducer from "./gallery/gallery.reducer";
 
 const reducers = combineReducers({
-  form: formReducer,
   user: userReducer,
-  gallery: galleryReducer
+  gallery: galleryReducer,
+  form: formReducer
 });
 
 export default reducers;

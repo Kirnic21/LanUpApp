@@ -1,7 +1,7 @@
 export default {
     user: {
-        authenticateUser: {},
-        isFacebook: false
+        nickname: 'brunin',
+        fullName: 'brunin chainz'
     },
     gallery: [],
     loading: false
