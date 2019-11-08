@@ -43,7 +43,6 @@ class ImageSelector extends React.Component {
 
   onImageSelected = image => {
     const { width, height } = this.props;
-    debugger;
     ImageResizer.createResizedImage(image.path, width, height, "JPEG", 20)
       .then(response => {
         const file = {

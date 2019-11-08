@@ -18,8 +18,9 @@ import { create } from "../../shared/services/freela.http";
 import { connect } from "react-redux";
 import { formValueSelector } from "redux-form";
 import DropdownAlert from "react-native-dropdownalert";
+import AsyncStorage from "@react-native-community/async-storage";
 
-class LoginProfilePicture extends Component {
+class SelectAvatar extends Component {
   state = {
     selected: false
   };
@@ -50,24 +51,28 @@ class LoginProfilePicture extends Component {
         avatar: image.data
       };
       create(newFreela)
-        .then(({ data }) => {
+        .then(async ({ data }) => {
+          debugger;
           if (data.isSuccess) {
             this.dropDownAlertRef.alertWithType(
               "success",
               "Sucesso",
               "Freela criado com sucesso!"
             );
+            await AsyncStorage.setItem("API_TOKEN", data.result.token);
             this.props.navigation.navigate("UserProfile");
           } else alert(data.result.errorMessage);
         })
         .catch(error => {
+          debugger;
           this.dropDownAlertRef.alertWithType(
             "error",
             "Erro",
-            "Esse email não existe"
+            error.response.data.errorMessage
           );
           console.log(error.response.data);
         });
+      debugger;
     });
   };
 
@@ -77,7 +82,6 @@ class LoginProfilePicture extends Component {
         source={ImageBack}
         style={{
           width: Dimensions.get("window").width,
-          // height: Dimensions.get('window').height,
           flex: 1
         }}
       >
@@ -176,10 +180,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const selectorStapOne = formValueSelector("RegisterStage");
+const selectorStapOne = formValueSelector("RegisterStageOne");
 const selectorStapTwo = formValueSelector("RegisterStageTwo");
 
-export default LoginProfilePicture = connect(state => {
+export default SelectAvatar = connect(state => {
   const { fullName, nickname, cpf } = selectorStapOne(
     state,
     "fullName",
@@ -202,4 +206,4 @@ export default LoginProfilePicture = connect(state => {
     password,
     confirmPassword
   };
-})(LoginProfilePicture);
+})(SelectAvatar);

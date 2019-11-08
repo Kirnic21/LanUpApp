@@ -95,12 +95,10 @@ class PhotoGallery extends React.Component {
   };
 
   onPictureAdd = async picture => {
-    debugger;
     await this.props.navigation.getParam("handlePictureAdd")(picture);
   };
 
   handleImageLongPress = picture => {
-    debugger;
     const images = this.props.navigation.getParam("images", []);
     this.props.navigation.setParams({
       isEditing: true,
@@ -111,7 +109,6 @@ class PhotoGallery extends React.Component {
   };
 
   finishDelete = async () => {
-    debugger;
     const { navigation } = this.props;
     const imagesToRemove = navigation.getParam("images", []);
     await navigation.getParam("handlePictureRemove")(imagesToRemove);
@@ -245,7 +242,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state, ownProps) => {
-  debugger;
   return {
     pictures: state.gallery
   };

@@ -52,7 +52,7 @@ class RegisterStageTwo extends Component {
     const { email, password, confirmPassword } = form;
 
     if (password === confirmPassword) {
-      this.props.navigation.push("LoginProfilePicture", {
+      this.props.navigation.push("SelectAvatar", {
         email,
         password,
         confirmPassword

@@ -24,7 +24,7 @@ const { LoginManager, AccessToken } = FBSDK;
 //   });
 // }, 30000);
 
-class LoginPage extends Component {
+class HomePage extends Component {
   async componentDidMount() {
     const token = await AsyncStorage.getItem("API_TOKEN");
     if (token !== null) {
@@ -178,4 +178,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginPage;
+export default HomePage;

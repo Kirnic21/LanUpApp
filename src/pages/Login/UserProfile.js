@@ -46,7 +46,6 @@ class UserProfile extends Component {
       const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
       const avatar = token.avatarUrl;
       this.setState({ avatar });
-      debugger;
     }
   }
 
@@ -72,7 +71,7 @@ class UserProfile extends Component {
 
   PageLogin = async () => {
     await AsyncStorage.clear();
-    this.props.navigation.navigate("LoginPage");
+    this.props.navigation.navigate("HomePage");
   };
 
   openProfession = () => {
@@ -109,7 +108,6 @@ class UserProfile extends Component {
     const handlePictureRemove = pictures => {
       let queryParams;
       queryParams = pictures.reduce((accumulator, currentValue, index) => {
-        debugger;
         if (index === 0) {
           return `names=${currentValue}`;
         } else {
@@ -117,7 +115,6 @@ class UserProfile extends Component {
         }
       }, "");
 
-      debugger;
       galleryDelete(token.id, queryParams).then(({ data }) => {
         this.props.deleteGalleryImage(pictures);
       });
@@ -141,8 +138,8 @@ class UserProfile extends Component {
     this.props.navigation.navigate("Availability");
   };
 
-  openForgotPassword = () => {
-    this.props.navigation.navigate("ForgotPassword");
+  openChangePassword = () => {
+    this.props.navigation.navigate("ChangePassword");
   };
 
   render() {
@@ -265,7 +262,7 @@ class UserProfile extends Component {
             {
               key: "1",
               title: "Alterar Senha",
-              onPress: () => this.openForgotPassword()
+              onPress: () => this.openChangePassword()
             }
           ]}
           renderItem={({ item }) => (

@@ -1,8 +1,9 @@
 import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
+import TextInputMask from "react-native-text-input-mask";
 
 export default InputLabel = ({
-  input: { onChange, onBlur, ...restInput },
+  input: { onChange, onBlur },
   title,
   keyboardType,
   style,
@@ -12,12 +13,10 @@ export default InputLabel = ({
   multiline,
   onFocus,
   autoCompleteType,
-<<<<<<< HEAD
-=======
   placeholder,
   placeholderTextColor,
+  mask,
 
->>>>>>> c4ccd3c71c7f3c38fcf8391b21df73e7bda25523
   meta: { touched, error }
 }) => (
   <View>
@@ -25,7 +24,7 @@ export default InputLabel = ({
       <Text style={{ color: "white", fontSize: 15, top: "-10%" }}>{title}</Text>
     </View>
     <View style={{ marginBottom: "5%" }}>
-      <TextInput
+      <TextInputMask
         style={[
           {
             height: 45,
@@ -37,6 +36,9 @@ export default InputLabel = ({
           styles.TextInput,
           touched && error && { borderColor: "#F13567" }
         ]}
+        refInput={ref => {
+          this.input = ref;
+        }}
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
         autoFocus={autoFocus}
@@ -45,12 +47,12 @@ export default InputLabel = ({
         onChangeText={onChange}
         onBlur={onBlur}
         enablesReturnKeyAutomatically={true}
-        {...restInput}
         autoCapitalize="none"
         onFocus={onFocus}
         autoCompleteType={autoCompleteType}
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor}
+        mask={mask}
       />
       {touched && (error && <Text style={{ color: "#F13567" }}>{error}</Text>)}
     </View>

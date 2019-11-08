@@ -41,7 +41,7 @@ const formRules = FormValidator.make(
   }
 );
 
-class ForgotPassword extends Component {
+class ChangePassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -120,7 +120,7 @@ class ForgotPassword extends Component {
             alignItems: "center"
           }}
         >
-          <View style={styles.registerContainer}>
+          <View style={[styles.registerContainer, { width: "100%" }]}>
             <View
               style={{
                 flex: 0.8,
@@ -155,7 +155,12 @@ class ForgotPassword extends Component {
               </View>
             </View>
 
-            <View style={{ flex: 1.2 }}>
+            <View
+              style={{
+                flex: 1.2,
+                width: "70%"
+              }}
+            >
               <Field
                 style={styles.TextInput}
                 title="Senha Atual"
@@ -178,7 +183,7 @@ class ForgotPassword extends Component {
                 component={InputField}
               />
               <RoundButton
-                style={[stylePage.Btn, stylePage.btnRegister, { width: 200 }]}
+                style={[stylePage.Btn, stylePage.btnRegister, { width: "70%" }]}
                 name="Salvar"
                 onPress={handleSubmit(data => this.goToLoginPerfil(data))}
               />
@@ -190,8 +195,8 @@ class ForgotPassword extends Component {
   }
 }
 
-export default ForgotPassword = reduxForm({
-  form: "ForgotPassword",
+export default ChangePassword = reduxForm({
+  form: "ChangePassword",
   validate: formRules,
   enableReinitialize: true
-})(ForgotPassword);
+})(ChangePassword);

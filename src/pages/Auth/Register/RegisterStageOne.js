@@ -17,6 +17,8 @@ import InputField from "~/shared/components/InputField";
 
 import styles from "./register.style";
 import FormValidator from "~/shared/services/validator";
+// import TextInputMask from "react-native-text-input-mask";
+import InputMask from "~/shared/components/InputMask";
 
 const formRules = FormValidator.make(
   {
@@ -79,7 +81,12 @@ class RegisterStageOne extends Component {
             <Text style={styles.textSubtitle}>Etapa 1/2</Text>
           )}
 
-          <View style={{ top: "5%" }} initialValues={{ fullName: "brunin" }}>
+          <View
+            style={{
+              top: "5%",
+              width: "70%"
+            }}
+          >
             <Field
               name="fullName"
               style={styles.TextInput}
@@ -98,7 +105,16 @@ class RegisterStageOne extends Component {
               title="CPF"
               component={InputField}
               keyboardType="numeric"
+              mask={"[000].[000].[000]-[00]"}
             />
+            {/* 
+            <TextInputMask
+              // onChangeText={(formatted, extracted) => {
+              //   console.log(formatted); // +1 (123) 456-78-90
+              //   console.log(extracted); // 1234567890
+              // }}
+              mask={"+1 ([000]) [000] [00] [00]"}
+            /> */}
           </View>
 
           <RoundButton
