@@ -25,17 +25,14 @@ export default class Availability extends Component {
   };
 
   onToggle = async isOn => {
-    debugger;
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     emergencyAvailability({
       id: token.id,
       hasEmergencyAvailability: isOn
     })
       .then(({ data }) => {
-        debugger;
         console.log("passou");
         if (data.isSuccess) {
-          debugger;
           AsyncStorage.setItem(JSON.stringify(data));
           console.log(`Changed to ${isOn}`);
           console.log(data);
@@ -46,7 +43,6 @@ export default class Availability extends Component {
         console.log(error.response.data);
         alert(isOn);
       });
-    debugger;
   };
 
   openAvailabilityDays = () => {

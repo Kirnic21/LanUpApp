@@ -17,6 +17,8 @@ import InputField from "~/shared/components/InputField";
 
 import styles from "./register.style";
 import FormValidator from "~/shared/services/validator";
+// import TextInputMask from "react-native-text-input-mask";
+import InputMask from "~/shared/components/InputMask";
 
 const formRules = FormValidator.make(
   {
@@ -38,14 +40,14 @@ class RegisterStageOne extends Component {
     }
   };
 
-  componentDidMount() {
-    const user = this.props.navigation.getParam("user");
-    debugger;
-    this.props.setUser({
-      nickname: user.authenticateUser.name,
-      fullName: user.authenticateUser.name
-    });
-  }
+  // componentDidMount() {
+  //   const user = this.props.navigation.getParam("user");
+  //   debugger;
+  //   this.props.setUser({
+  //     nickname: user.authenticateUser.name,
+  //     fullName: user.authenticateUser.name
+  //   });
+  // }
 
   goRegister = () => {
     const { user } = this.state;
@@ -82,10 +84,15 @@ class RegisterStageOne extends Component {
             )}
           </View>
 
-          <View style={{ top: "5%" }} initialValues={{ fullName: "brunin" }}>
+          <View
+            style={{
+              top: "5%",
+              width: "70%"
+            }}
+          >
             <Field
               name={"fullName"}
-              style={styles.TextInput}
+              style={[styles.TextInput]}
               title="Nome Completo"
               component={InputField}
             />
@@ -107,12 +114,21 @@ class RegisterStageOne extends Component {
               Este apelido já existe
             </Text> */}
             <Field
-              component={InputField}
+              component={InputMask}
               style={styles.TextInput}
               title="CPF"
               name={"cpf"}
               keyboardType="numeric"
+              mask={"[000].[000].[000]-[00]"}
             />
+            {/* 
+            <TextInputMask
+              // onChangeText={(formatted, extracted) => {
+              //   console.log(formatted); // +1 (123) 456-78-90
+              //   console.log(extracted); // 1234567890
+              // }}
+              mask={"+1 ([000]) [000] [00] [00]"}
+            /> */}
           </View>
 
           <RoundButton
@@ -149,7 +165,8 @@ const mapStateToProps = (state, props) => {
 };
 
 RegisterStageOne = reduxForm({
-  form: "RegisterStageOne" // a unique identifier for this form
+  form: "RegisterStageOne",
+  validate: formRules // a unique identifier for this form
 })(RegisterStageOne);
 
 RegisterStageOne = connect(
