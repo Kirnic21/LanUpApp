@@ -12,7 +12,6 @@ export default (state = initialState.gallery, action) => {
     case DELETE_GALLERY:
       return [...state.filter(c => !action.data.includes(c.name))];
     case UPDATE_GALLERY:
-      debugger;
       return [...action.data];
     default:
       return state;

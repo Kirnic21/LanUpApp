@@ -8,26 +8,25 @@ import {
   HeaderBackButton
 } from "react-navigation";
 import { Image, TouchableOpacity, View, Text } from "react-native";
-import LoginPage from "./pages/Auth/index";
+import IconMenu from "./assets/images/icon_menu.png";
+
+import HomePage from "./pages/Auth/index";
 import LoginEmail from "./pages/Auth/LoginEmail";
 import RegisterStageOne from "./pages/Auth/Register/RegisterStageOne";
 import RegisterStageTwo from "./pages/Auth/Register/RegisterStageTwo";
-import ForgotPassword from "./pages/Auth/Register/ForgotPassword";
-import LoginProfilePicture from "./pages/Auth/ProfilePicture";
+import ChangePassword from "./pages/Auth/Register/ChangePassword";
+import SelectAvatar from "./pages/Auth/ProfilePicture";
 import UserProfile from "./pages/Login/UserProfile";
+
 import AboutMe from "./pages/Profile/AboutMe";
 import Availability from "./pages/Profile/Availability/Availability";
 import AvailabilityDays from "./pages/Profile/Availability/AvailabilityDays";
 import Profession from "./pages/Profile/Profession/Profession";
 import AddProfession from "./pages/Profile/Profession/AddProfession";
 import AddAbiliity from "./pages/Profile/Profession/AddAbiliity";
-import Midia from "./pages/Profile/Midia";
 import Agency from "./pages/Agency/Agency";
-// import PreviewProfile from './pages/Login/PreviewProfile';
-import IconMenu from "./assets/images/icon_menu.png";
 import NextEvent from "./pages/NextEvent/NextEvent";
 import DetailNextEvent from "./pages/NextEvent/DetailNextEvent";
-// import IAnAgency from './pages/Agency/IAnAgency';
 import ToExplore from "./pages/Explore/ToExplore";
 import SpecialHours from "./pages/Profile/Availability/SpecialHours";
 import CheckList from "./pages/NextEvent/CheckList";
@@ -50,8 +49,8 @@ const DrawerButton = props => (
 );
 
 const AuthNavigator = createStackNavigator({
-  LoginPage: {
-    screen: LoginPage,
+  HomePage: {
+    screen: HomePage,
     navigationOptions: () => ({
       headerTransparent: true,
       headerLeft: null
@@ -91,8 +90,8 @@ const AuthNavigator = createStackNavigator({
     })
   },
 
-  LoginProfilePicture: {
-    screen: LoginProfilePicture,
+  SelectAvatar: {
+    screen: SelectAvatar,
     navigationOptions: () => ({
       headerTransparent: true,
       headerTintColor: "#FFF",
@@ -198,7 +197,21 @@ const pageNavigator = createStackNavigator({
   Agency: {
     screen: Agency,
     navigationOptions: ({ navigation }) => ({
-      headerTransparent: true,
+      title: "Sou Agência",
+      headerStyle: {
+        backgroundColor: "#18142F",
+        height: 70,
+        elevation: 0,
+        alignContent: "center"
+      },
+      headerTitleStyle: {
+        textAlign: "center",
+        alignSelf: "center",
+        width: "75%",
+        fontFamily: "Montserrat-Bold",
+        color: "#FFFFFF",
+        fontSize: 20
+      },
       headerLeft: (
         <HeaderBackButton
           tintColor="#FFf"
@@ -207,8 +220,8 @@ const pageNavigator = createStackNavigator({
       )
     })
   },
-  ForgotPassword: {
-    screen: ForgotPassword,
+  ChangePassword: {
+    screen: ChangePassword,
     navigationOptions: ({ navigation }) => ({
       headerTransparent: true,
       headerTintColor: "#FFF",
