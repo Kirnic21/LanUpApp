@@ -1,20 +1,25 @@
 import React, { Component } from "react";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  StatusBar
+} from "react-native";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import { Field, reduxForm } from "redux-form";
 import { Chip } from "react-native-paper";
-import Icon from "../../assets/images/icon_add.png";
+// import Icon from "../../assets/images/icon_add.png";
 
-import {
-  registerAgencies,
-  decodeToken
-} from "../../shared/services/freela.http";
+import { registerAgencies, decodeToken } from "~/shared/services/freela.http";
 import FormValidator from "~/shared/services/validator";
 import InputMask from "~/shared/components/InputMask";
-import Modal from "~shared/components/ModalComponent";
+// import Modal from "~shared/components/ModalComponent";
 import Service from "./services";
+import DropdownAlert from "react-native-dropdownalert";
 
 const formRules = FormValidator.make(
   {
@@ -31,7 +36,6 @@ const formRules = FormValidator.make(
 class Agency extends Component {
   state = {
     jobs: [],
-    bg: "#737082",
     visible: false
   };
 
@@ -65,22 +69,39 @@ class Agency extends Component {
         );
         console.log(error.response.data);
       });
-    debugger;
   };
 
   click = (e, index) => {
     const buttons = Service;
     const buttonSelected = buttons[index - 1];
-    const name = buttonSelected.name;
-    this.setState({ jobs: [...this.state.jobs, name] });
     buttonSelected.isSelected = !buttonSelected.isSelected;
     this.setState(prev => ({ ...prev, buttons }));
+
+    const name = buttons.filter(c => c.isSelected === true).map(c => c.name);
+    this.setState({ jobs: name });
   };
 
   render() {
     const { handleSubmit, invalid } = this.props;
     return (
       <View style={styles.container}>
+        <View
+          style={{
+            width: "100%",
+            alignItems: "center",
+            position: "absolute",
+            marginTop: "-20%"
+          }}
+        >
+          <DropdownAlert
+            ref={ref => (this.dropDownAlertRef = ref)}
+            defaultContainer={{
+              padding: 8,
+              paddingTop: StatusBar.currentHeight,
+              flexDirection: "row"
+            }}
+          />
+        </View>
         <ScrollView style={styles.ScrollView}>
           <View style={styles.Formcontainer}>
             <Text style={{ color: "#FFF", fontSize: 17, marginBottom: "5%" }}>
@@ -147,7 +168,7 @@ class Agency extends Component {
               keyExtractor={(item, index) => index.toString()}
             />
           </View>
-          <View style={styles.AddService}>
+          {/* <View style={styles.AddService}>
             <TouchableOpacity
               onPress={() => {
                 this.setState({ visible: true });
@@ -202,7 +223,7 @@ class Agency extends Component {
                 />
               </View>
             </Modal>
-          </View>
+          </View> */}
           <View style={{ marginTop: "10%", alignItems: "center" }}>
             <TouchableOpacity
               disabled={invalid}

@@ -2,10 +2,10 @@ import React, { Component } from "react";
 
 import { View, Text, Image, TextInput } from "react-native";
 import { Chip } from "react-native-paper";
-import add from "../../../assets/images/icon_add.png";
-import ActionButton from "../../../shared/components/ActionButton";
+import add from "~/assets/images/icon_add.png";
+import ActionButton from "~/shared/components/ActionButton";
 import styles from "./styles";
-import Modal from "../../../shared/components/ModalComponent";
+import Modal from "~/shared/components/ModalComponent";
 import InputLabel from "~/shared/components/InputLabel";
 import RoundButton from "~/shared/components/RoundButton";
 

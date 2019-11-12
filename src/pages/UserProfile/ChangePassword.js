@@ -10,8 +10,8 @@ import {
 import RoundButton from "~/shared/components/RoundButton";
 import ImageBack from "~/assets/images/Grupo_518.png";
 import InputField from "~/shared/components/InputField";
-import styles from "./register.style";
-import Logo from "../../../assets/images/logoLanUp.png";
+import styles from "~/pages/Auth/Register/register.style";
+import Logo from "~/assets/images/logoLanUp.png";
 import { changePassword } from "~/shared/services/auth.http";
 
 import { Field, reduxForm } from "redux-form";

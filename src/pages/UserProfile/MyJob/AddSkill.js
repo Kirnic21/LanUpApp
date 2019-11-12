@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
 import { View, Text, Image, Dimensions } from "react-native";
-import add from "../../../assets/images/icon_add.png";
-import ActionButton from "../../../shared/components/ActionButton";
+import add from "~/assets/images/icon_add.png";
+import ActionButton from "~/shared/components/ActionButton";
 import styles from "./styles";
-import Modal from "../../../shared/components/ModalComponent";
+import Modal from "~/shared/components/ModalComponent";
 // import { updateSkills } from "../../shared/services/freela.http";
 
-class AddAbiliity extends Component {
+class AddSkill extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -104,4 +104,4 @@ class AddAbiliity extends Component {
   }
 }
 
-export default AddAbiliity;
+export default AddSkill;

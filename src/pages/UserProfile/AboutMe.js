@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   View,
@@ -8,34 +8,33 @@ import {
   Text,
   ScrollView,
   TextInput,
-  Picker,
-} from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import ToggleSwitch from 'toggle-switch-react-native';
-import ImageProfile from '../../assets/images/backgroud.png';
-import Box from '../../shared/components/Box';
-import ImageBody from '../../assets/images/icon_addbody.png';
-import ImageSelf from '../../assets/images/icon_addselfie.png';
-import InputLabel from '../../shared/components/InputLabel';
-
+  Picker
+} from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import ToggleSwitch from "toggle-switch-react-native";
+import ImageProfile from "../../assets/images/backgroud.png";
+import Box from "~/shared/components/Box";
+import ImageBody from "~/assets/images/icon_addbody.png";
+import ImageSelf from "~/assets/images/icon_addselfie.png";
+import InputLabel from "~/shared/components/InputLabel";
 
 const BoxItem = [
   {
     icon: ImageSelf,
-    onPress: this.SelectedInput,
+    onPress: this.SelectedInput
   },
   {
     icon: ImageSelf,
-    onPress: this.SelectedInput,
+    onPress: this.SelectedInput
   },
   {
     icon: ImageBody,
-    onPress: this.SelectedInput,
+    onPress: this.SelectedInput
   },
   {
     icon: ImageBody,
-    onPress: this.SelectedInput,
-  },
+    onPress: this.SelectedInput
+  }
 ];
 
 class AboutMe extends Component {
@@ -46,22 +45,21 @@ class AboutMe extends Component {
     bebo: false,
     tatuagem: false,
     isOnDefaultToggleSwitch: true,
-    genero: 'Genero',
+    genero: "Genero"
   };
 
   onToggle(isOn) {
     console.log(`Changed to ${isOn}`);
   }
 
-
   renderSeparator = () => (
     <View
       style={{
         height: 2,
-        width: '90%',
-        backgroundColor: '#18142F',
-        marginLeft: '5%',
-        marginRight: '10%',
+        width: "90%",
+        backgroundColor: "#18142F",
+        marginLeft: "5%",
+        marginRight: "10%"
       }}
     />
   );
@@ -70,19 +68,21 @@ class AboutMe extends Component {
     return (
       <ScrollView>
         <View style={styles.Container}>
-
           <Image source={ImageProfile} style={styles.Image} />
 
           <FlatList
             contentContainerStyle={styles.list}
             data={[
               {
-                key: '1', title: 'Informações do Perfil',
-              },
+                key: "1",
+                title: "Informações do Perfil"
+              }
             ]}
             renderItem={({ item }) => (
               <View style={styles.item}>
-                <Text style={{ color: 'white', fontSize: 15, marginBottom: 20 }}>
+                <Text
+                  style={{ color: "white", fontSize: 15, marginBottom: 20 }}
+                >
                   {item.title}
                 </Text>
                 <InputLabel
@@ -98,60 +98,66 @@ class AboutMe extends Component {
                     width: 300,
                     height: 140,
                     borderRadius: 30,
-                    textAlignVertical: 'top',
+                    textAlignVertical: "top"
                   }}
                   title="Descrição"
                   numberOfLines={10}
                   multiline
                 />
-                <InputLabel
-                  style={{ width: 145, height: 55 }}
-                  title="Altura"
-                />
-                <View style={{ left: '53%', top: '-12.5%' }}>
-                  <InputLabel
-                    style={{ width: 145, height: 55 }}
-                    title="Peso"
-                  />
+                <InputLabel style={{ width: 145, height: 55 }} title="Altura" />
+                <View style={{ left: "53%", top: "-12.5%" }}>
+                  <InputLabel style={{ width: 145, height: 55 }} title="Peso" />
                 </View>
-                <View style={{ top: '-10%', marginBottom: '-15%' }}>
-                  <View style={{ marginBottom: '10%' }}>
+                <View style={{ top: "-10%", marginBottom: "-15%" }}>
+                  <View style={{ marginBottom: "10%" }}>
                     <ToggleSwitch
                       onColor="#483D8B"
                       offColor="#18142F"
                       isOn={this.state.filhos}
                       label="Tenho filhos"
-                      labelStyle={{ color: '#FFF', marginRight: '50%', fontSize: 16 }}
+                      labelStyle={{
+                        color: "#FFF",
+                        marginRight: "50%",
+                        fontSize: 16
+                      }}
                       size="small"
-                      onToggle={(filhos) => {
+                      onToggle={filhos => {
                         this.setState({ filhos });
                         this.onToggle(filhos);
                       }}
                     />
                   </View>
-                  <View style={{ marginBottom: '10%' }}>
+                  <View style={{ marginBottom: "10%" }}>
                     <ToggleSwitch
                       onColor="#483D8B"
                       offColor="#18142F"
                       label="Eu fumo"
                       isOn={this.state.fumo}
-                      labelStyle={{ color: '#FFF', marginRight: '59%', fontSize: 16 }}
+                      labelStyle={{
+                        color: "#FFF",
+                        marginRight: "59%",
+                        fontSize: 16
+                      }}
                       size="small"
-                      onToggle={(fumo) => {
+                      onToggle={fumo => {
                         this.setState({ fumo });
                         this.onToggle(fumo);
                       }}
                     />
                   </View>
-                  <View style={{ marginBottom: '10%' }}>
+                  <View style={{ marginBottom: "10%" }}>
                     <ToggleSwitch
                       isOn={this.state.bebo}
                       onColor="#483D8B"
                       offColor="#18142F"
                       label="Eu bebo"
-                      labelStyle={{ color: '#FFF', marginRight: '59%', fontSize: 16 }}
+                      labelStyle={{
+                        color: "#FFF",
+                        marginRight: "59%",
+                        fontSize: 16
+                      }}
                       size="small"
-                      onToggle={(bebo) => {
+                      onToggle={bebo => {
                         this.setState({ bebo });
                         this.onToggle(bebo);
                       }}
@@ -163,15 +169,18 @@ class AboutMe extends Component {
                       onColor="#483D8B"
                       offColor="#18142F"
                       label="Tenho tatuagem"
-                      labelStyle={{ color: '#FFF', marginRight: '40%', fontSize: 16 }}
+                      labelStyle={{
+                        color: "#FFF",
+                        marginRight: "40%",
+                        fontSize: 16
+                      }}
                       size="small"
-                      onToggle={(tatuagem) => {
+                      onToggle={tatuagem => {
                         this.setState({ tatuagem });
                         this.onToggle(tatuagem);
                       }}
                     />
                   </View>
-
                 </View>
               </View>
             )}
@@ -181,26 +190,27 @@ class AboutMe extends Component {
             contentContainerStyle={styles.list}
             data={[
               {
-                key: '1',
-                title: 'Localização',
-              },
+                key: "1",
+                title: "Localização"
+              }
             ]}
             renderItem={({ item }) => (
               <View style={styles.item}>
-                <Text style={{ color: 'white', fontSize: 15, marginBottom: 15 }}>
+                <Text
+                  style={{ color: "white", fontSize: 15, marginBottom: 15 }}
+                >
                   {item.title}
                 </Text>
                 <View>
                   <TouchableOpacity
                     style={
-                     this.state.selected === false
-                       ? styles.TextInput : styles.TextInputSelected
-                     }
+                      this.state.selected === false
+                        ? styles.TextInput
+                        : styles.TextInputSelected
+                    }
                     onPress={this.SelectedInput}
                   >
-                    <TextInput
-                      style={styles.ValueInput}
-                    />
+                    <TextInput style={styles.ValueInput} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -211,23 +221,29 @@ class AboutMe extends Component {
             contentContainerStyle={styles.list}
             data={[
               {
-                key: '1',
-                title: 'Fotos de apresentação',
-                subtitle: '2 de perfil(sozinho) e 2 de corpo inteiro',
-              },
+                key: "1",
+                title: "Fotos de apresentação",
+                subtitle: "2 de perfil(sozinho) e 2 de corpo inteiro"
+              }
             ]}
             renderItem={({ item }) => (
               <View style={styles.item}>
-                <Text style={{ color: 'white', fontSize: 15, marginBottom: 5 }}>
+                <Text style={{ color: "white", fontSize: 15, marginBottom: 5 }}>
                   {item.title}
                 </Text>
-                <Text style={{ color: 'gray', fontSize: 12, marginBottom: 20 }}>
+                <Text style={{ color: "gray", fontSize: 12, marginBottom: 20 }}>
                   {item.subtitle}
                 </Text>
                 <TouchableOpacity
-                  style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "space-between"
+                  }}
                 >
-                  {BoxItem.map(item => <Box icon={item.icon} onPress={item.onPress} />)}
+                  {BoxItem.map(item => (
+                    <Box icon={item.icon} onPress={item.onPress} />
+                  ))}
                 </TouchableOpacity>
               </View>
             )}
@@ -237,13 +253,15 @@ class AboutMe extends Component {
             contentContainerStyle={{ ...styles.list, marginBottom: 40 }}
             data={[
               {
-                key: '1',
-                title: 'Informações Privadas',
-              },
+                key: "1",
+                title: "Informações Privadas"
+              }
             ]}
             renderItem={({ item }) => (
               <View style={styles.item}>
-                <Text style={{ color: 'white', fontSize: 15, marginBottom: '5%' }}>
+                <Text
+                  style={{ color: "white", fontSize: 15, marginBottom: "5%" }}
+                >
                   {item.title}
                 </Text>
                 <InputLabel
@@ -266,21 +284,24 @@ class AboutMe extends Component {
                   title="Nascimento"
                   keyboardType="numbers-and-punctuation"
                 />
-                <View style={{
-                  borderColor: '#FFF',
-                  borderWidth: 2,
-                  width: 150,
-                  borderRadius: 300,
-                  height: 48,
-                  left: '51%',
-                  top: '-15%',
-                }}
+                <View
+                  style={{
+                    borderColor: "#FFF",
+                    borderWidth: 2,
+                    width: 150,
+                    borderRadius: 300,
+                    height: 48,
+                    left: "51%",
+                    top: "-15%"
+                  }}
                 >
-                  <Text style={{ color: '#FFF', fontSize: 15, top: '-50%' }}>Genero</Text>
+                  <Text style={{ color: "#FFF", fontSize: 15, top: "-50%" }}>
+                    Genero
+                  </Text>
                   <Picker
                     mode="dropdown"
-                    supportedOrientations={['portrait', 'landscape']}
-                    style={{ width: 150, color: '#fff', top: '-55%' }}
+                    supportedOrientations={["portrait", "landscape"]}
+                    style={{ width: 150, color: "#fff", top: "-55%" }}
                     selectedValue={this.state.genero}
                     onValueChange={gen => this.setState({ genero: gen })}
                   >
@@ -298,50 +319,49 @@ class AboutMe extends Component {
   }
 }
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-
   Container: {
-    alignItems: 'center',
+    alignItems: "center",
     width,
     flex: 1,
-    backgroundColor: '#18142F',
+    backgroundColor: "#18142F"
   },
   Image: {
-    borderColor: 'white',
+    borderColor: "white",
     borderWidth: 1.8,
     borderRadius: 55,
     width: 110,
-    height: 110,
+    height: 110
   },
   TextInputSelected: {
-    borderColor: '#F13567',
+    borderColor: "#F13567",
     borderWidth: 1.8,
     borderRadius: 50,
-    height: 60,
+    height: 60
   },
   list: {
     marginTop: 20,
-    backgroundColor: '#24203B',
+    backgroundColor: "#24203B",
     width: width - 50,
-    borderRadius: 20,
+    borderRadius: 20
   },
   item: {
     padding: 20,
-    fontSize: 18,
+    fontSize: 18
   },
   TextInput: {
-    borderColor: 'white',
+    borderColor: "white",
     borderWidth: 1.5,
-    borderRadius: 50,
+    borderRadius: 50
   },
   ValueInput: {
     height: 45,
-    color: 'white',
+    color: "white",
     fontSize: 15,
-    paddingHorizontal: 20,
-  },
+    paddingHorizontal: 20
+  }
 });
 
 export default AboutMe;

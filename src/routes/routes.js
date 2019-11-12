@@ -2,152 +2,30 @@ import * as React from "react";
 import {
   createAppContainer,
   createStackNavigator,
-  createDrawerNavigator,
   createSwitchNavigator,
-  DrawerActions,
   HeaderBackButton
 } from "react-navigation";
-import { Image, TouchableOpacity, View, Text } from "react-native";
-import IconMenu from "./assets/images/icon_menu.png";
+import { TouchableOpacity, Text } from "react-native";
 
-import HomePage from "./pages/Auth/index";
-import LoginEmail from "./pages/Auth/LoginEmail";
-import RegisterStageOne from "./pages/Auth/Register/RegisterStageOne";
-import RegisterStageTwo from "./pages/Auth/Register/RegisterStageTwo";
-import ChangePassword from "./pages/Auth/Register/ChangePassword";
-import SelectAvatar from "./pages/Auth/ProfilePicture";
-import UserProfile from "./pages/Login/UserProfile";
+import AuthNavigator from "~/routes/AuthNavigator";
+import { DrawerNav, DrawerNavigator } from "~/routes/DrawerNavigator";
 
-import AboutMe from "./pages/Profile/AboutMe";
-import Availability from "./pages/Profile/Availability/Availability";
-import AvailabilityDays from "./pages/Profile/Availability/AvailabilityDays";
-import Profession from "./pages/Profile/Profession/Profession";
-import AddProfession from "./pages/Profile/Profession/AddProfession";
-import AddAbiliity from "./pages/Profile/Profession/AddAbiliity";
-import Agency from "./pages/Agency/Agency";
-import NextEvent from "./pages/NextEvent/NextEvent";
-import DetailNextEvent from "./pages/NextEvent/DetailNextEvent";
-import ToExplore from "./pages/Explore/ToExplore";
-import SpecialHours from "./pages/Profile/Availability/SpecialHours";
-import CheckList from "./pages/NextEvent/CheckList";
-import CheckOut from "./pages/NextEvent/CheckOut";
-import RatingsAgency from "./pages/NextEvent/RatingsAgency";
-import RatingsContractor from "./pages/NextEvent/RatingsContractor";
-import drawerContentComponents from "./shared/components/drawerContentComponents";
+import ChangePassword from "~/pages/UserProfile/ChangePassword";
+import AboutMe from "~/pages/UserProfile/AboutMe";
+import Profession from "~/pages/UserProfile/MyJob/Profession";
+import AddProfession from "~/pages/UserProfile/MyJob/AddProfession";
+import AddSkill from "~/pages/UserProfile/MyJob/AddSkill";
+import Availability from "~/pages/UserProfile/Availability/Availability";
+import AvailabilityDays from "~/pages/UserProfile/Availability/AvailabilityDays";
+import SpecialHours from "~/pages/UserProfile/Availability/SpecialHours";
+import Agency from "~/pages/UserProfile/Agency/Agency";
+
+import DetailNextEvent from "~/pages/NextEvent/DetailNextEvent";
+import CheckList from "~/pages/NextEvent/CheckList";
+import CheckOut from "~/pages/NextEvent/CheckOut";
+import RatingsAgency from "~/pages/NextEvent/RatingsAgency";
+import RatingsContractor from "~/pages/NextEvent/RatingsContractor";
 import PhotoGallery from "~/shared/components/PhotoGallery";
-
-const DrawerButton = props => (
-  <View>
-    <TouchableOpacity
-      onPress={() => {
-        props.navigation.dispatch(DrawerActions.openDrawer());
-      }}
-    >
-      <Image style={{ height: 40, width: 40 }} source={IconMenu} />
-    </TouchableOpacity>
-  </View>
-);
-
-const AuthNavigator = createStackNavigator({
-  HomePage: {
-    screen: HomePage,
-    navigationOptions: () => ({
-      headerTransparent: true,
-      headerLeft: null
-    })
-  },
-  LoginEmail: {
-    screen: LoginEmail,
-    navigationOptions: () => ({
-      headerTransparent: true,
-      headerTintColor: "#FFF",
-      headerStyle: {
-        marginTop: 20,
-        marginLeft: 10
-      }
-    })
-  },
-  RegisterStageOne: {
-    screen: RegisterStageOne,
-    navigationOptions: () => ({
-      headerTransparent: true,
-      headerTintColor: "#FFF",
-      headerStyle: {
-        marginTop: 20,
-        marginLeft: 10
-      }
-    })
-  },
-  RegisterStageTwo: {
-    screen: RegisterStageTwo,
-    navigationOptions: () => ({
-      headerTransparent: true,
-      headerTintColor: "#FFF",
-      headerStyle: {
-        marginTop: 20,
-        marginLeft: 10
-      }
-    })
-  },
-
-  SelectAvatar: {
-    screen: SelectAvatar,
-    navigationOptions: () => ({
-      headerTransparent: true,
-      headerTintColor: "#FFF",
-      headerStyle: {
-        marginTop: 20,
-        marginLeft: 10
-      }
-    })
-  }
-});
-
-const DrawerNavigator = createStackNavigator(
-  {
-    UserProfile: {
-      screen: UserProfile,
-      navigationOptions: () => ({
-        headerTitle: "Perfil",
-        headerTitleStyle: {
-          marginLeft: "34%",
-          color: "#FFF"
-        }
-      })
-    },
-    NextEvent: {
-      screen: NextEvent,
-      navigationOptions: () => ({
-        headerTitle: "Proximo Evento",
-        headerTitleStyle: {
-          fontSize: 20,
-          marginLeft: "31.5%",
-          color: "#FFF"
-        }
-      })
-    },
-    ToExplore: {
-      screen: ToExplore,
-      navigationOptions: () => ({
-        headerTitle: "Explorar",
-        headerTitleStyle: {
-          fontSize: 20,
-          marginLeft: "31.5%",
-          color: "#FFF"
-        }
-      })
-    }
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => ({
-      headerLeft: <DrawerButton navigation={navigation} />,
-      headerStyle: {
-        backgroundColor: "#18142F",
-        borderColor: "#FFF"
-      }
-    })
-  }
-);
 
 const pageNavigator = createStackNavigator({
   DrawerNavigator: {
@@ -157,7 +35,18 @@ const pageNavigator = createStackNavigator({
       headerLeft: null
     })
   },
-  PhotoGallery,
+  PhotoGallery: {
+    screen: PhotoGallery,
+    navigationOptions: ({ navigation }) => ({
+      // headerTransparent: true,
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push("UserProfile")}
+        />
+      )
+    })
+  },
   Availability: {
     screen: Availability,
     navigationOptions: ({ navigation }) => ({
@@ -201,8 +90,7 @@ const pageNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: "#18142F",
         height: 70,
-        elevation: 0,
-        alignContent: "center"
+        elevation: -2
       },
       headerTitleStyle: {
         textAlign: "center",
@@ -275,8 +163,8 @@ const pageNavigator = createStackNavigator({
       )
     })
   },
-  AddAbiliity: {
-    screen: AddAbiliity,
+  AddSkill: {
+    screen: AddSkill,
     navigationOptions: ({ navigation }) => ({
       headerTransparent: true,
       headerTitle: "Meu Job",
@@ -381,25 +269,6 @@ const pageNavigator = createStackNavigator({
     })
   }
 });
-
-const DrawerNav = createDrawerNavigator(
-  {
-    DrawerNavigator: {
-      screen: DrawerNavigator,
-      navigationOptions: {
-        drawerLabel: () => null
-      }
-    },
-    UserProfile: { screen: UserProfile },
-    NextEvent: { screen: NextEvent },
-    ToExplore: { screen: ToExplore }
-  },
-  {
-    contentComponent: drawerContentComponents,
-    drawerWidth: 165,
-    overlayColor: " rgba(0, 0, 0, 0.1)"
-  }
-);
 
 const MainStack = createSwitchNavigator(
   {

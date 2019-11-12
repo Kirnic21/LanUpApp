@@ -13,8 +13,8 @@ import {
 import {
   emergencyAvailability,
   decodeToken
-} from "../../../shared/services/freela.http";
-import ArrowRight from "../../../assets/images/arrowRight.png";
+} from "~/shared/services/freela.http";
+import ArrowRight from "~/assets/images/arrowRight.png";
 
 import AsyncStorage from "@react-native-community/async-storage";
 

@@ -19,61 +19,57 @@ import { connect } from "react-redux";
 import { formValueSelector } from "redux-form";
 import DropdownAlert from "react-native-dropdownalert";
 import AsyncStorage from "@react-native-community/async-storage";
+import ImageSelector from "~/shared/components/ImageSelector";
 
 class SelectAvatar extends Component {
   state = {
     selected: false
   };
 
-  goToLoginCropProfilePhoto = () => {
-    ImagePicker.openPicker({
-      width: 1000,
-      height: 1000,
-      cropperCircleOverlay: true,
-      cropping: true,
-      includeBase64: true
-    }).then(image => {
-      const {
-        fullName,
-        nickname,
-        cpf,
-        email,
-        password,
-        confirmPassword
-      } = this.props;
-      const newFreela = {
-        name: fullName,
-        nickname,
-        cpf,
-        email,
-        password,
-        confirmPassword,
-        avatar: image.data
-      };
-      create(newFreela)
-        .then(async ({ data }) => {
-          debugger;
-          if (data.isSuccess) {
-            this.dropDownAlertRef.alertWithType(
-              "success",
-              "Sucesso",
-              "Freela criado com sucesso!"
-            );
-            await AsyncStorage.setItem("API_TOKEN", data.result.token);
-            this.props.navigation.navigate("UserProfile");
-          } else alert(data.result.errorMessage);
-        })
-        .catch(error => {
-          debugger;
+  onPictureAdd = picture => {
+    const {
+      fullName,
+      nickname,
+      cpf,
+      email,
+      password,
+      confirmPassword
+    } = this.props;
+    const newFreela = {
+      name: fullName,
+      nickname,
+      cpf,
+      email,
+      password,
+      confirmPassword,
+      avatar: picture.data
+    };
+    create(newFreela)
+      .then(async ({ data }) => {
+        if (data.isSuccess) {
           this.dropDownAlertRef.alertWithType(
-            "error",
-            "Erro",
-            error.response.data.errorMessage
+            "success",
+            "Sucesso",
+            "Freela criado com sucesso!"
           );
-          console.log(error.response.data);
-        });
-      debugger;
-    });
+          await AsyncStorage.setItem("API_TOKEN", data.result.token);
+          this.props.navigation.navigate("UserProfile");
+        } else alert(data.result.errorMessage);
+      })
+      .catch(error => {
+        debugger;
+        this.dropDownAlertRef.alertWithType(
+          "error",
+          "Erro",
+          error.response.data.errorMessage
+        );
+        console.log(error.response.data);
+      });
+    debugger;
+  };
+
+  handleOnPictureAdd = () => {
+    this.ImageSelector.ActionSheet.show();
   };
 
   render() {
@@ -157,12 +153,19 @@ class SelectAvatar extends Component {
             <Image source={ImageProfile} style={{ height: 130, width: 130 }} />
             <TouchableOpacity
               style={styles.button}
-              onPress={this.goToLoginCropProfilePhoto}
+              onPress={this.handleOnPictureAdd}
             >
               <Text style={{ color: "white", fontSize: 14 }}>Tirar Foto</Text>
             </TouchableOpacity>
           </View>
         </View>
+
+        <ImageSelector
+          onImageSelected={this.onPictureAdd}
+          width={1280}
+          height={720}
+          ref={o => (this.ImageSelector = o)}
+        />
       </ImageBackground>
     );
   }
