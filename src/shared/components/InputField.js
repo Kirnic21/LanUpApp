@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
 
-export default InputLabel = ({
+export default InputField = ({
   input: { onChange, onBlur, ...restInput },
   title,
   keyboardType,
@@ -12,12 +12,9 @@ export default InputLabel = ({
   multiline,
   onFocus,
   autoCompleteType,
-<<<<<<< HEAD
-=======
   placeholder,
   placeholderTextColor,
 
->>>>>>> c4ccd3c71c7f3c38fcf8391b21df73e7bda25523
   meta: { touched, error }
 }) => (
   <View>

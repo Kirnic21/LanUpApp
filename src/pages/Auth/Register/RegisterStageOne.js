@@ -46,7 +46,7 @@ class RegisterStageOne extends Component {
     this.props.initialize({
       nickname: user.authenticateUser.name,
       fullName: user.authenticateUser.name
-    })
+    });
   }
 
   goRegister = () => {
@@ -73,12 +73,14 @@ class RegisterStageOne extends Component {
       >
         <StatusBar translucent backgroundColor="transparent" />
         <View style={styles.registerContainer}>
-          <Text style={styles.textTitle}>
+          <Text style={[styles.textTitle, { marginTop: "-25%", top: "1%" }]}>
             Bem-vindo!{"\n"}
             Insira seus dados
           </Text>
           {!user.isFacebook && (
-            <Text style={styles.textSubtitle}>Etapa 1/2</Text>
+            <Text style={[styles.textSubtitle, { left: "-23.1%" }]}>
+              Etapa 1/2
+            </Text>
           )}
 
           <View
@@ -103,7 +105,7 @@ class RegisterStageOne extends Component {
               name="cpf"
               style={styles.TextInput}
               title="CPF"
-              component={InputField}
+              component={InputMask}
               keyboardType="numeric"
               mask={"[000].[000].[000]-[00]"}
             />
@@ -129,11 +131,21 @@ class RegisterStageOne extends Component {
   }
 }
 
-mapDispatchToProps = dispatch => bindActionCreators({
-  setUser
-}, dispatch)
+mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      setUser
+    },
+    dispatch
+  );
 
-export default connect(null, mapDispatchToProps)(reduxForm({
-  form: 'RegisterStageOne',
-  enableReinitialize: true
-})(RegisterStageOne))
+export default connect(
+  null,
+  mapDispatchToProps
+)(
+  reduxForm({
+    form: "RegisterStageOne",
+    enableReinitialize: true,
+    validate: formRules
+  })(RegisterStageOne)
+);

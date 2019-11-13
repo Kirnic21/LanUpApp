@@ -37,7 +37,8 @@ class ImageSelector extends React.Component {
       cropping: true,
       compressImageMaxWidth: 1000,
       compressImageMaxHeight: 1000,
-      compressImageQuality: 1
+      compressImageQuality: 1,
+      includeBase64: true
     }).then(this.onImageSelected);
   };
 
@@ -48,7 +49,8 @@ class ImageSelector extends React.Component {
         const file = {
           type: image.mime,
           uri: response.uri,
-          name: response.name
+          name: response.name,
+          data: image.data
         };
         this.props.onImageSelected(file);
       })
