@@ -1,11 +1,14 @@
-import { createStore, compose, applyMiddleware } from 'redux';
+import { createStore, compose, applyMiddleware } from "redux";
 
-import reducers from './ducks';
+import reducers from "./ducks";
 
 const middlewares = [];
 
-const composer = compose(applyMiddleware(...middlewares));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(reducers, composer);
+const store = createStore(
+  reducers,
+  composeEnhancers(applyMiddleware(...middlewares))
+);
 
 export default store;
