@@ -41,12 +41,13 @@ class UserProfile extends Component {
   }
 
   async componentDidMount() {
+    const { user } = this.props;
+    debugger
+    const apiToken = await AsyncStorage.getItem("API_TOKEN");
+    const token = apiToken ? decodeToken(apiToken) : undefined;
+    const avatar = token ? token.avatarUrl : user.authenticateUser.avatar.url;
+    this.setState({ avatar });
     this._isMounted = true;
-    if (this._isMounted) {
-      const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-      const avatar = token.avatarUrl;
-      this.setState({ avatar });
-    }
   }
 
   componentWillUnmount() {
@@ -332,12 +333,19 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  debugger
+  return ({
+    user: state.user
+  });
+}
+
 const mapActionToProps = dispatch =>
   bindActionCreators(
     { updateGalleryImage, uploadGalleryImage, deleteGalleryImage },
     dispatch
   );
 export default connect(
-  null,
+  mapStateToProps,
   mapActionToProps
 )(UserProfile);

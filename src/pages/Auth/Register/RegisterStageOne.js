@@ -19,6 +19,7 @@ import styles from "./register.style";
 import FormValidator from "~/shared/services/validator";
 // import TextInputMask from "react-native-text-input-mask";
 import InputMask from "~/shared/components/InputMask";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const formRules = FormValidator.make(
   {
@@ -43,17 +44,22 @@ class RegisterStageOne extends Component {
   async componentDidMount() {
     const user = this.props.navigation.getParam("user");
 
-    await this.props.initialize({
-      nickname: user.authenticateUser.name,
-      fullName: user.authenticateUser.name
-    });
+    if (user) {
+      this.setState({ user: { ...user, isFacebook: true } });
+      await this.props.initialize({
+        nickname: user.authenticateUser.name,
+        fullName: user.authenticateUser.name
+      });
+    }
   }
 
-  goRegister = () => {
+  goRegister = async () => {
     const { user } = this.state;
-
+    debugger
+    await this.props.setUser(user);
+    await AsyncStorage.setItem("token", user.accessToken.token);
     if (user.isFacebook) {
-      this.props.navigation.navigate("UserProfile", { user });
+      this.props.navigation.navigate("UserProfile");
       return;
     }
 

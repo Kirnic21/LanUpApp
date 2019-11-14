@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
 
 export default InputField = ({
-  input: { onChange, onBlur, ...restInput },
+  input,
   title,
   keyboardType,
   style,
@@ -39,10 +39,11 @@ export default InputField = ({
         autoFocus={autoFocus}
         numberOfLines={numberOfLines}
         multiline={multiline}
-        onChangeText={onChange}
-        onBlur={onBlur}
+        onChangeText={input.onChange}
+        onBlur={input.onBlur}
+        onFocus={input.onFocus}
+        value={input.value}
         enablesReturnKeyAutomatically={true}
-        {...restInput}
         autoCapitalize="none"
         onFocus={onFocus}
         autoCompleteType={autoCompleteType}

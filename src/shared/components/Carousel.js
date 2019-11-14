@@ -31,7 +31,7 @@ const Carousel = ({ isOpen, galleryIndex, handleOpen, pictures, caption }) => {
         initialPage={galleryIndex}
         style={styles.gallery}
         images={pictures.map(picture => ({
-          source: { uri: picture.uri },
+          source: { uri: picture.url },
           dimensions: { width: 150, height: 150 }
         }))}
       />
