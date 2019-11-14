@@ -17,351 +17,441 @@ import Box from "~/shared/components/Box";
 import ImageBody from "~/assets/images/icon_addbody.png";
 import ImageSelf from "~/assets/images/icon_addselfie.png";
 import InputLabel from "~/shared/components/InputLabel";
+import { Field, reduxForm } from "redux-form";
+import InputField from "~/shared/components/InputField";
+import FormValidator from "~/shared/services/validator";
+
+import AddIcon from "~/assets/images/icon_add.png";
+import { Switch } from "react-native-paper";
 
 const BoxItem = [
   {
+    id: 1,
     icon: ImageSelf,
     onPress: this.SelectedInput
   },
   {
+    id: 2,
     icon: ImageSelf,
     onPress: this.SelectedInput
   },
   {
+    id: 3,
     icon: ImageBody,
     onPress: this.SelectedInput
   },
   {
+    id: 4,
     icon: ImageBody,
     onPress: this.SelectedInput
   }
 ];
 
+const formRules = FormValidator.make({
+  FullName: "required"
+});
+
 class AboutMe extends Component {
   state = {
-    selected: false,
-    filhos: false,
-    fumo: false,
-    bebo: false,
-    tatuagem: false,
-    isOnDefaultToggleSwitch: true,
-    genero: "Genero"
+    isSwitchOn: false
   };
 
-  onToggle(isOn) {
-    console.log(`Changed to ${isOn}`);
-  }
-
-  renderSeparator = () => (
-    <View
-      style={{
-        height: 2,
-        width: "90%",
-        backgroundColor: "#18142F",
-        marginLeft: "5%",
-        marginRight: "10%"
-      }}
-    />
-  );
-
   render() {
+    const { isSwitchOn } = this.state;
     return (
-      <ScrollView>
-        <View style={styles.Container}>
-          <Image source={ImageProfile} style={styles.Image} />
+      <View style={styles.container}>
+        <ScrollView style={styles.ScrollView}>
+          <View style={styles.containerAvatar}>
+            <TouchableOpacity style={{ width: 100 }}>
+              <Image
+                source={ImageProfile}
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 50,
+                  borderColor: "#FFB72B",
+                  borderWidth: 2
+                }}
+              />
+              <Image
+                source={AddIcon}
+                style={{ width: 25, height: 25, top: "-18%", left: "70%" }}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.informationProfile}>
+            <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "7%" }}>
+              Informações do Perfil
+            </Text>
+            <Field
+              style={{ width: "100%" }}
+              title="Nome Completo"
+              component={InputField}
+              name={"fullName"}
+            />
+            <Field
+              style={{ width: "100%" }}
+              title="Apelido"
+              component={InputField}
+              name={"nickname"}
+            />
+            <Field
+              style={{
+                width: "100%",
+                height: 140,
+                borderRadius: 30,
+                textAlignVertical: "top",
+                paddingVertical: "5%"
+              }}
+              title="Descrição"
+              component={InputField}
+              name={"description"}
+              multiline={true}
+              numberOfLines={10}
+            />
+            <View
+              style={{
+                alignContent: "stretch",
+                width: "100%"
+              }}
+            >
+              <Field
+                style={{
+                  width: "32%"
+                }}
+                title="Altura"
+                component={InputField}
+                name={"height"}
+              />
+              <View
+                style={{
+                  position: "absolute",
+                  left: "34%",
 
-          <FlatList
-            contentContainerStyle={styles.list}
-            data={[
-              {
-                key: "1",
-                title: "Informações do Perfil"
-              }
-            ]}
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Text
-                  style={{ color: "white", fontSize: 15, marginBottom: 20 }}
-                >
-                  {item.title}
-                </Text>
-                <InputLabel
-                  style={{ width: 300, height: 55 }}
-                  title="Nome Completo"
-                />
-                <InputLabel
-                  style={{ width: 300, height: 55 }}
-                  title="Apelido"
-                />
-                <InputLabel
+                  width: "32%"
+                }}
+              >
+                <Field
                   style={{
-                    width: 300,
-                    height: 140,
-                    borderRadius: 30,
-                    textAlignVertical: "top"
+                    width: "100%"
                   }}
-                  title="Descrição"
-                  numberOfLines={10}
-                  multiline
+                  title="Peso"
+                  component={InputField}
+                  name={"weight"}
                 />
-                <InputLabel style={{ width: 145, height: 55 }} title="Altura" />
-                <View style={{ left: "53%", top: "-12.5%" }}>
-                  <InputLabel style={{ width: 145, height: 55 }} title="Peso" />
-                </View>
-                <View style={{ top: "-10%", marginBottom: "-15%" }}>
-                  <View style={{ marginBottom: "10%" }}>
-                    <ToggleSwitch
-                      onColor="#483D8B"
-                      offColor="#18142F"
-                      isOn={this.state.filhos}
-                      label="Tenho filhos"
-                      labelStyle={{
-                        color: "#FFF",
-                        marginRight: "50%",
-                        fontSize: 16
-                      }}
-                      size="small"
-                      onToggle={filhos => {
-                        this.setState({ filhos });
-                        this.onToggle(filhos);
-                      }}
-                    />
-                  </View>
-                  <View style={{ marginBottom: "10%" }}>
-                    <ToggleSwitch
-                      onColor="#483D8B"
-                      offColor="#18142F"
-                      label="Eu fumo"
-                      isOn={this.state.fumo}
-                      labelStyle={{
-                        color: "#FFF",
-                        marginRight: "59%",
-                        fontSize: 16
-                      }}
-                      size="small"
-                      onToggle={fumo => {
-                        this.setState({ fumo });
-                        this.onToggle(fumo);
-                      }}
-                    />
-                  </View>
-                  <View style={{ marginBottom: "10%" }}>
-                    <ToggleSwitch
-                      isOn={this.state.bebo}
-                      onColor="#483D8B"
-                      offColor="#18142F"
-                      label="Eu bebo"
-                      labelStyle={{
-                        color: "#FFF",
-                        marginRight: "59%",
-                        fontSize: 16
-                      }}
-                      size="small"
-                      onToggle={bebo => {
-                        this.setState({ bebo });
-                        this.onToggle(bebo);
-                      }}
-                    />
-                  </View>
-                  <View>
-                    <ToggleSwitch
-                      isOn={this.state.tatuagem}
-                      onColor="#483D8B"
-                      offColor="#18142F"
-                      label="Tenho tatuagem"
-                      labelStyle={{
-                        color: "#FFF",
-                        marginRight: "40%",
-                        fontSize: 16
-                      }}
-                      size="small"
-                      onToggle={tatuagem => {
-                        this.setState({ tatuagem });
-                        this.onToggle(tatuagem);
-                      }}
-                    />
-                  </View>
-                </View>
               </View>
-            )}
-            keyExtractor={item => item.key}
-          />
-          <FlatList
-            contentContainerStyle={styles.list}
-            data={[
-              {
-                key: "1",
-                title: "Localização"
-              }
-            ]}
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Text
-                  style={{ color: "white", fontSize: 15, marginBottom: 15 }}
+              <View
+                style={{
+                  borderColor: "#FFF",
+                  borderWidth: 2,
+                  width: "32%",
+                  borderRadius: 25,
+                  position: "absolute",
+                  left: "68%",
+                  height: 46,
+                  top: 20
+                }}
+              >
+                <Text style={{ top: -23, color: "#FFF" }}>Manequim</Text>
+                <Picker
+                  selectedValue={this.state.language}
+                  style={{
+                    width: "100%",
+                    color: "#fff",
+                    top: "-55%"
+                  }}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({ language: itemValue })
+                  }
                 >
-                  {item.title}
-                </Text>
-                <View>
-                  <TouchableOpacity
-                    style={
-                      this.state.selected === false
-                        ? styles.TextInput
-                        : styles.TextInputSelected
-                    }
-                    onPress={this.SelectedInput}
-                  >
-                    <TextInput style={styles.ValueInput} />
-                  </TouchableOpacity>
-                </View>
+                  <Picker.Item label="P" value="P" />
+                  <Picker.Item label="M" value="M" />
+                  <Picker.Item label="G" value="G" />
+                  <Picker.Item label="GG" value="GG" />
+                </Picker>
               </View>
-            )}
-            keyExtractor={item => item.key}
-          />
-          <FlatList
-            contentContainerStyle={styles.list}
-            data={[
-              {
-                key: "1",
-                title: "Fotos de apresentação",
-                subtitle: "2 de perfil(sozinho) e 2 de corpo inteiro"
-              }
-            ]}
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Text style={{ color: "white", fontSize: 15, marginBottom: 5 }}>
-                  {item.title}
-                </Text>
-                <Text style={{ color: "gray", fontSize: 12, marginBottom: 20 }}>
-                  {item.subtitle}
-                </Text>
+            </View>
+            <Text style={{ marginBottom: "5%", color: "#FFF", fontSize: 15 }}>
+              Tenho:
+            </Text>
+            <View style={styles.containerSwitch}>
+              <Text style={{ color: "#FFF", fontSize: 15 }}>
+                Vestimenta profissional
+              </Text>
+              <Switch
+                style={{ marginLeft: 103.9 }}
+                value={isSwitchOn}
+                color="#483D8B"
+                onValueChange={() => {
+                  this.setState({ isSwitchOn: !isSwitchOn });
+                }}
+              />
+            </View>
+            <View style={[styles.containerSwitch, { top: "5%" }]}>
+              <Text style={{ color: "#FFF", fontSize: 15 }}>
+                Transporte próprio
+              </Text>
+              <Switch
+                style={{
+                  marginLeft: 138
+                }}
+                value={isSwitchOn}
+                color="#483D8B"
+                onValueChange={() => {
+                  this.setState({ isSwitchOn: !isSwitchOn });
+                }}
+              />
+            </View>
+            <View style={[styles.containerSwitch, { top: "10%" }]}>
+              <Text style={{ color: "#FFF", fontSize: 15 }}>
+                Problema de saúde
+              </Text>
+              <Switch
+                style={{
+                  marginLeft: 133
+                }}
+                value={isSwitchOn}
+                color="#483D8B"
+                onValueChange={() => {
+                  this.setState({ isSwitchOn: !isSwitchOn });
+                }}
+              />
+            </View>
+            <View style={[styles.containerSwitch, { top: "15%" }]}>
+              <Text style={{ color: "#FFF", fontSize: 15 }}>
+                Costume de fumar
+              </Text>
+              <Switch
+                style={{
+                  marginLeft: 137.5
+                }}
+                value={isSwitchOn}
+                color="#483D8B"
+                onValueChange={() => {
+                  this.setState({ isSwitchOn: !isSwitchOn });
+                }}
+              />
+            </View>
+          </View>
+          <View style={styles.containerLocation}>
+            <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "7%" }}>
+              Localização
+            </Text>
+            <Field
+              style={{ width: "100%" }}
+              component={InputField}
+              name={"location"}
+            />
+          </View>
+          <View style={styles.containerPresentationPhoto}>
+            <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "3%" }}>
+              Fotos de apresentação
+            </Text>
+            <Text style={{ color: "#ffffffad", paddingBottom: "6%" }}>
+              2 de perfil (sozinho) e 2 de corpo inteiro
+            </Text>
+            <View style={{ flexDirection: "row" }}>
+              {BoxItem.map(({ icon, id, onPress }) => (
                 <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "space-between"
-                  }}
+                  key={id}
+                  onPress={onPress}
+                  style={styles.thumbnail}
                 >
-                  {BoxItem.map(item => (
-                    <Box icon={item.icon} onPress={item.onPress} />
-                  ))}
+                  <Image source={icon} style={styles.photo} />
                 </TouchableOpacity>
-              </View>
-            )}
-            keyExtractor={item => item.key}
-          />
-          <FlatList
-            contentContainerStyle={{ ...styles.list, marginBottom: 40 }}
-            data={[
-              {
-                key: "1",
-                title: "Informações Privadas"
-              }
-            ]}
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Text
-                  style={{ color: "white", fontSize: 15, marginBottom: "5%" }}
-                >
-                  {item.title}
-                </Text>
-                <InputLabel
-                  style={{ width: 300 }}
-                  title="E-mail"
-                  keyboardType="email-address"
-                />
-                <InputLabel
-                  style={{ width: 300 }}
-                  title="Telefone"
-                  keyboardType="numeric"
-                />
-                <InputLabel
-                  style={{ width: 300 }}
-                  title="CPF"
-                  keyboardType="numbers-and-punctuation"
-                />
-                <InputLabel
-                  style={{ width: 150 }}
-                  title="Nascimento"
-                  keyboardType="numbers-and-punctuation"
-                />
-                <View
+              ))}
+            </View>
+          </View>
+          <View style={styles.containerInformationPrivade}>
+            <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "7%" }}>
+              Informações Privadas
+            </Text>
+            <Field
+              style={{ width: "100%" }}
+              title="E-mail"
+              component={InputField}
+              name={"email"}
+            />
+            <Field
+              style={{ width: "100%" }}
+              title="Telefone"
+              component={InputField}
+              name={"phone"}
+            />
+
+            <View
+              style={{
+                alignContent: "stretch"
+              }}
+            >
+              <Field
+                style={{ width: "47%" }}
+                title="Nascimento"
+                component={InputField}
+                name={"birthday"}
+              />
+              <View
+                style={{
+                  borderColor: "#FFF",
+                  borderWidth: 2,
+                  width: "47%",
+                  position: "absolute",
+                  borderRadius: 25,
+                  height: 45,
+                  top: 20,
+                  left: "53%"
+                }}
+              >
+                <Text style={{ top: -23, color: "#FFF" }}>Gênero</Text>
+                <Picker
+                  selectedValue={this.state.language}
                   style={{
-                    borderColor: "#FFF",
-                    borderWidth: 2,
-                    width: 150,
-                    borderRadius: 300,
-                    height: 48,
-                    left: "51%",
-                    top: "-15%"
+                    width: "100%",
+                    color: "#fff",
+                    top: "-55%"
                   }}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({ language: itemValue })
+                  }
                 >
-                  <Text style={{ color: "#FFF", fontSize: 15, top: "-50%" }}>
-                    Genero
-                  </Text>
-                  <Picker
-                    mode="dropdown"
-                    supportedOrientations={["portrait", "landscape"]}
-                    style={{ width: 150, color: "#fff", top: "-55%" }}
-                    selectedValue={this.state.genero}
-                    onValueChange={gen => this.setState({ genero: gen })}
-                  >
-                    <Picker.Item label="Masculino" value="M" />
-                    <Picker.Item label="Feminino" value="F" />
-                  </Picker>
-                </View>
+                  <Picker.Item label="Masculino" value="Masculino" />
+                  <Picker.Item label="Feminino" value="Feminino" />
+                </Picker>
               </View>
-            )}
-            keyExtractor={item => item.key}
-          />
-        </View>
-      </ScrollView>
+            </View>
+          </View>
+          <View style={styles.containerInformationBank}>
+            <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "7%" }}>
+              Informações Bancárias
+            </Text>
+            <View style={{ alignContent: "stretch" }}>
+              <Field
+                style={{ width: "47%" }}
+                title="Banco"
+                component={InputField}
+                name={"bank"}
+              />
+              <View
+                style={{ position: "absolute", width: "100%", left: "53%" }}
+              >
+                <Field
+                  style={{ width: "47%" }}
+                  title="Agência"
+                  component={InputField}
+                  name={"agency"}
+                />
+              </View>
+            </View>
+            <Field
+              style={{ width: "100%" }}
+              title="Conta Corrente"
+              component={InputField}
+              name={"checkingAccount"}
+            />
+            <Field
+              style={{ width: "100%" }}
+              title="CPF/CNPJ"
+              component={InputField}
+              name={"cpfCnpj"}
+            />
+            <Field
+              style={{ width: "100%" }}
+              title="Nome"
+              component={InputField}
+              name={"name"}
+            />
+          </View>
+          <View style={styles.containerBtn}>
+            <TouchableOpacity
+              style={{
+                borderColor: "#FFF",
+                borderWidth: 2,
+                padding: 24,
+                width: "70%",
+                alignItems: "center",
+                borderRadius: 25
+              }}
+            >
+              <Text style={{ color: "#FFF", top: -10 }}>Salvar</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
 
-const { width } = Dimensions.get("window");
-
 const styles = StyleSheet.create({
-  Container: {
-    alignItems: "center",
-    width,
+  container: {
     flex: 1,
-    backgroundColor: "#18142F"
+    backgroundColor: "#18142F",
+    width: "100%",
+    alignItems: "center"
   },
-  Image: {
-    borderColor: "white",
-    borderWidth: 1.8,
-    borderRadius: 55,
-    width: 110,
-    height: 110
+  ScrollView: {
+    width: "100%",
+    paddingHorizontal: "5%"
   },
-  TextInputSelected: {
-    borderColor: "#F13567",
-    borderWidth: 1.8,
-    borderRadius: 50,
-    height: 60
+  containerAvatar: {
+    alignItems: "center"
   },
-  list: {
-    marginTop: 20,
+  informationProfile: {
     backgroundColor: "#24203B",
-    width: width - 50,
-    borderRadius: 20
+    padding: "5%",
+    borderRadius: 15,
+    paddingBottom: "18%"
   },
-  item: {
-    padding: 20,
-    fontSize: 18
+  containerSwitch: {
+    flexDirection: "row",
+    width: "92%"
   },
-  TextInput: {
-    borderColor: "white",
-    borderWidth: 1.5,
-    borderRadius: 50
+  containerLocation: {
+    backgroundColor: "#24203B",
+    marginTop: "3%",
+    padding: "5%",
+    borderRadius: 15
   },
-  ValueInput: {
-    height: 45,
-    color: "white",
-    fontSize: 15,
-    paddingHorizontal: 20
+  containerPresentationPhoto: {
+    backgroundColor: "#24203B",
+    marginTop: "3%",
+    padding: "7%",
+    borderRadius: 15
+  },
+  thumbnail: {
+    width: "22%",
+    height: 65,
+    paddingVertical: "1%",
+    marginRight: "4%"
+  },
+  photo: {
+    width: "100%",
+    height: "100%",
+    borderColor: "#FFF",
+    borderWidth: 2,
+    borderRadius: 5
+  },
+  containerInformationPrivade: {
+    backgroundColor: "#24203B",
+    marginTop: "3%",
+    padding: "5%",
+    borderRadius: 15
+  },
+  containerInformationBank: {
+    backgroundColor: "#24203B",
+    marginTop: "3%",
+    padding: "5%",
+    borderRadius: 15
+  },
+  containerBtn: {
+    width: "100%",
+    alignItems: "center",
+    marginTop: "3%",
+    padding: "5%"
   }
 });
 
-export default AboutMe;
+export default AboutMe = reduxForm({
+  form: "AboutMe",
+  validate: formRules,
+  enableReinitialize: true
+})(AboutMe);

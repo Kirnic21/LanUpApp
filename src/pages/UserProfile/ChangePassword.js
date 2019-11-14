@@ -123,8 +123,8 @@ class ChangePassword extends Component {
           <View style={[styles.registerContainer, { width: "100%" }]}>
             <View
               style={{
-                flex: 0.8,
-                width: Dimensions.get("window").width - 100,
+                flex: 1,
+                width: "100%",
                 justifyContent: "flex-end",
                 alignItems: "center"
               }}
@@ -133,8 +133,8 @@ class ChangePassword extends Component {
                 <Image
                   source={Logo}
                   style={{
-                    width: Dimensions.get("window").width - 120,
-                    height: Dimensions.get("window").height - 710
+                    width: 280,
+                    height: 140
                   }}
                 />
               </View>

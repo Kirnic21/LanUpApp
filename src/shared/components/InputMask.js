@@ -51,7 +51,7 @@ export default InputMask = ({
         placeholderTextColor={placeholderTextColor}
         mask={mask}
       />
-      {touched && (error && <Text style={{ color: "#F13567" }}>{error}</Text>)}
+      {touched && error && <Text style={{ color: "#F13567" }}>{error}</Text>}
     </View>
   </View>
 );

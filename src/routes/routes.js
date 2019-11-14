@@ -245,20 +245,19 @@ const pageNavigator = createStackNavigator({
   AboutMe: {
     screen: AboutMe,
     navigationOptions: ({ navigation }) => ({
-      headerRight: (
-        <TouchableOpacity style={{ right: 14 }}>
-          <Text style={{ fontSize: 14, color: "#FFF" }}>Salvar</Text>
-        </TouchableOpacity>
-      ),
       headerTitle: "Sobre mim",
       headerStyle: {
         backgroundColor: "#18142F",
-        borderColor: "#FFF"
+        height: 50,
+        elevation: -2
       },
       headerTitleStyle: {
-        fontSize: 23,
-        marginLeft: "30%",
-        color: "#FFF"
+        textAlign: "center",
+        alignSelf: "center",
+        width: "75%",
+        fontFamily: "Montserrat-Bold",
+        color: "#FFFFFF",
+        fontSize: 20
       },
       headerLeft: (
         <HeaderBackButton

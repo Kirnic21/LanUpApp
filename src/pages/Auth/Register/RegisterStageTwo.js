@@ -19,20 +19,21 @@ import DropdownAlert from "react-native-dropdownalert";
 const stylePage = {
   ...styles,
   icon: {
-    left: "-55%",
-    top: "12%"
+    left: "80%",
+    top: 35,
+    position: "absolute"
   }
 };
 
 const formRules = FormValidator.make(
   {
-    email: ("required", "email"),
-    password: "required",
-    confirmPassword: "required"
+    email: "required|email",
+    password: "required|min:6",
+    confirmPassword: "required|min:6"
   },
   {
-    email: ("E-mail é obrigatório", "Digite um email válido."),
-    password: "Senha é obrigatória",
+    email: "Digite um email válido.",
+    password: "A senha deve conter no mínimo 6 caracteres",
     confirmPassword: "Confirmação da Senha é obrigatória"
   }
 );
@@ -119,19 +120,20 @@ class RegisterStageTwo extends Component {
             >
               <Field
                 name={"email"}
-                style={[styles.TextInput, { paddingLeft: "10%" }]}
+                style={[styles.TextInput]}
                 title="E-mail"
                 keyboardType="email-address"
                 component={InputField}
               />
               <View
                 style={{
-                  flexDirection: "row"
+                  alignContent: "stretch",
+                  width: "100%"
                 }}
               >
                 <Field
                   name={"password"}
-                  style={[styles.TextInput, { width: 273, paddingLeft: "10%" }]}
+                  style={[{ width: "100%", height: 51, paddingLeft: "10%" }]}
                   title="Senha"
                   secureTextEntry={this.state.password}
                   component={InputField}
@@ -147,7 +149,7 @@ class RegisterStageTwo extends Component {
 
               <Field
                 name={"confirmPassword"}
-                style={[styles.TextInput, { width: 273 }]}
+                style={[{ width: "100%", height: 51, paddingLeft: "10%" }]}
                 title="Confirmar senha"
                 secureTextEntry={this.state.password}
                 fullWidth

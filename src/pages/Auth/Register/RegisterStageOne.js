@@ -24,12 +24,12 @@ const formRules = FormValidator.make(
   {
     fullName: "required",
     nickname: "required",
-    cpf: ("required", "cpf")
+    cpf: "required|cpf"
   },
   {
     fullName: "Nome Completo é obrigatório",
     nickname: "Apelido é obrigatório",
-    cpf: ("CPF é obrigatório", "Digite um CPF válido.")
+    cpf: "Digite um CPF válido."
   }
 );
 class RegisterStageOne extends Component {
@@ -40,10 +40,10 @@ class RegisterStageOne extends Component {
     }
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const user = this.props.navigation.getParam("user");
 
-    this.props.initialize({
+    await this.props.initialize({
       nickname: user.authenticateUser.name,
       fullName: user.authenticateUser.name
     });
@@ -109,14 +109,6 @@ class RegisterStageOne extends Component {
               keyboardType="numeric"
               mask={"[000].[000].[000]-[00]"}
             />
-            {/* 
-            <TextInputMask
-              // onChangeText={(formatted, extracted) => {
-              //   console.log(formatted); // +1 (123) 456-78-90
-              //   console.log(extracted); // 1234567890
-              // }}
-              mask={"+1 ([000]) [000] [00] [00]"}
-            /> */}
           </View>
 
           <RoundButton
@@ -145,7 +137,6 @@ export default connect(
 )(
   reduxForm({
     form: "RegisterStageOne",
-    enableReinitialize: true,
     validate: formRules
   })(RegisterStageOne)
 );
