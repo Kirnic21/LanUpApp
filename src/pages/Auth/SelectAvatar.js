@@ -57,7 +57,6 @@ class SelectAvatar extends Component {
         } else alert(data.result.errorMessage);
       })
       .catch(error => {
-        debugger;
         this.dropDownAlertRef.alertWithType(
           "error",
           "Erro",
@@ -65,7 +64,6 @@ class SelectAvatar extends Component {
         );
         console.log(error.response.data);
       });
-    debugger;
   };
 
   handleOnPictureAdd = () => {

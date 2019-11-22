@@ -11,162 +11,163 @@ import {
   TextInput
 } from "react-native";
 import ProfileHeaderMenu from "~/shared/components/ProfileHeaderMenu";
+import InputField from "~/shared/components/InputField";
+import { Field, reduxForm } from "redux-form";
+import { Menu } from "react-native-paper";
+import AsyncStorage from "@react-native-community/async-storage";
+import { availability, decodeToken } from "~/shared/services/freela.http";
+import Input from "~/shared/components/InputLabel";
 
-export default class AvailabilityDays extends Component {
-  state = {
-    selected: false,
-    now: true
-  };
+import { useState } from "react";
 
-  onToggle(isOn) {
-    console.log(`Changed to ${isOn}`);
-  }
+import DateTimePicker from "@react-native-community/datetimepicker";
+const getFormmatedHour = time =>
+  `${new Date(time).getHours()}:${new Date(time).getMinutes()}`;
+const AvailabilityDays = props => {
+  const [showIniTime, setIniTime] = useState(false);
+  const [showEndTime, setEndTime] = useState(false);
 
-  renderSeparator = () => (
-    <View
-      style={{
-        height: 2,
-        width: "90%",
-        backgroundColor: "#18142F",
-        marginLeft: "5%",
-        marginRight: "10%"
-      }}
-    />
-  );
+  const day = props.navigation.state.params.day;
+  const updateTime = props.navigation.state.params.updateTime;
+  const { title, iniTime, endTime, isAvailable } = day;
+  debugger;
+  const [iniTimeState, updateIniTime] = useState(iniTime);
+  const [endTimeState, updateEndTime] = useState(endTime);
 
-  onLogout = () => {
-    this.props
-      .logout()
-      .then(() => this.props.navigation.navigate("LoginPerfil"));
-  };
+  const [now, updateNow] = useState(false);
 
-  render() {
-    return (
+  return (
+    <View style={styles.Container}>
       <ScrollView>
-        <View style={styles.Container}>
-          <View
+        <View style={{ marginHorizontal: "6%" }}>
+          <Text
             style={{
-              flexDirection: "column",
-              alignItems: "flex-start",
-              top: "10%"
+              color: "#FFF",
+              fontSize: 23,
+              paddingBottom: "6%"
             }}
           >
+            {title}
+          </Text>
+          <View style={{ flexDirection: "row" }}>
             <Text
               style={{
-                fontSize: 22,
                 color: "#FFF",
-                left: "-20%"
+                fontSize: 15,
+                marginRight: "55%"
               }}
             >
-              Segunda
+              Estou disponível
             </Text>
-            <View style={{ top: "30%", left: "19%" }}>
-              <ToggleSwitch
-                size="small"
-                onColor="#483D8B"
-                offColor="#18142F"
-                label="Estou Disponível"
-                labelStyle={{ color: "#FFF", left: -161, fontSize: 17 }}
-                isOn={this.state.now}
-                onToggle={now => {
-                  this.setState({ now });
-                  this.onToggle(now);
+            <ToggleSwitch
+              size="small"
+              onColor="#483D8B"
+              offColor="#483D8B"
+              isOn={now}
+              onToggle={now => {
+                this.setState({ now });
+                updateNow(now);
+              }}
+            />
+          </View>
+          <View style={[styles.containerAvailabilityDays]}>
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  color: "#FFF",
+                  fontSize: 15,
+                  paddingBottom: "5%",
+                  marginRight: "75%"
                 }}
-              />
+              >
+                Horas
+              </Text>
+              <ProfileHeaderMenu>
+                <Menu.Item onPress={{}} title="Salvar" />
+              </ProfileHeaderMenu>
+            </View>
+            <View
+              style={{
+                alignContent: "stretch"
+              }}
+            >
+              <View style={{}}>
+                <Text onPress={() => setIniTime(true)}>
+                  {getFormmatedHour(iniTimeState)}
+                </Text>
+              </View>
+
+              {showIniTime && (
+                <DateTimePicker
+                  value={iniTimeState}
+                  mode={"time"}
+                  is24Hour={true}
+                  display="spinner"
+                  onChange={e => {
+                    if (e.type === "set") {
+                      setIniTime(false);
+                      day.iniTime = e.nativeEvent.timestamp;
+                      updateIniTime(day.iniTime);
+                      updateTime(true, day);
+                    }
+                  }}
+                />
+              )}
+              {showEndTime && (
+                <DateTimePicker
+                  value={endTimeState}
+                  mode={"time"}
+                  is24Hour={true}
+                  display="spinner"
+                  onChange={e => {
+                    if (e.type === "set") {
+                      setEndTime(false);
+                      day.endTime = e.nativeEvent.timestamp;
+                      updateEndTime(day.endTime);
+                      updateTime(false, day);
+                    }
+                  }}
+                />
+              )}
+              {/* <Field
+                style={{ width: "48%" }}
+                title="Das"
+                component={InputField}
+                name={"start"}
+              /> */}
+              <View
+                style={{
+                  position: "absolute",
+                  width: "50%",
+                  left: "52%",
+                  borderColor: "#FFF",
+                  borderWidth: 2
+                }}
+              >
+                <Text onPress={() => setEndTime(true)}>
+                  {getFormmatedHour(endTimeState)}
+                </Text>
+              </View>
             </View>
           </View>
-          <FlatList
-            contentContainerStyle={{ ...styles.list }}
-            data={[
-              {
-                key: "1",
-                title: "Horas"
-              }
-            ]}
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                <ProfileHeaderMenu
-                  style={{ marginBottom: "-25%" }}
-                  handleOnLogout={this.onLogout}
-                />
-                <Text
-                  style={{ color: "white", fontSize: 15, marginBottom: "3%" }}
-                >
-                  {item.title}
-                </Text>
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "flex-start"
-                  }}
-                >
-                  <Text
-                    style={{ color: "white", marginBottom: "3%", fontSize: 13 }}
-                  >
-                    Das
-                  </Text>
-                  <Text
-                    style={{
-                      color: "white",
-                      marginBottom: 5,
-                      marginLeft: "45%",
-                      fontSize: 13
-                    }}
-                  >
-                    Até
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    marginBottom: 5
-                  }}
-                >
-                  <TouchableOpacity
-                    style={{ ...styles.TextInput, width: 130, height: 40 }}
-                  >
-                    <TextInput style={styles.ValueInput} />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{ ...styles.TextInput, width: 130, height: 40 }}
-                  >
-                    <TextInput style={styles.ValueInput} />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            )}
-            keyExtractor={item => item.key}
-          />
         </View>
       </ScrollView>
-    );
-  }
-}
-
-const { width } = Dimensions.get("window");
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   Container: {
-    alignItems: "center",
-    width,
-    height: Dimensions.get("window").height + 50,
+    flex: 1,
+    width: "100%",
     backgroundColor: "#18142F"
   },
-  list: {
-    top: "15%",
+  containerAvailabilityDays: {
     backgroundColor: "#24203B",
-    width: width - 50,
-    borderRadius: 20
-  },
-  item: {
-    padding: 15
-  },
-  TextInput: {
-    borderColor: "white",
-    borderWidth: 1.5,
-    borderRadius: 50
+    marginTop: "5%",
+    padding: "5%",
+    borderRadius: 15
   }
 });
+
+export default AvailabilityDays;

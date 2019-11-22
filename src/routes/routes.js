@@ -19,6 +19,7 @@ import Availability from "~/pages/UserProfile/Availability/Availability";
 import AvailabilityDays from "~/pages/UserProfile/Availability/AvailabilityDays";
 import SpecialHours from "~/pages/UserProfile/Availability/SpecialHours";
 import Agency from "~/pages/UserProfile/Agency/Agency";
+import Agencies from "~/pages/UserProfile/Agencies";
 
 import DetailNextEvent from "~/pages/NextEvent/DetailNextEvent";
 import CheckList from "~/pages/NextEvent/CheckList";
@@ -50,7 +51,20 @@ const pageNavigator = createStackNavigator({
   Availability: {
     screen: Availability,
     navigationOptions: ({ navigation }) => ({
-      headerTransparent: true,
+      headerTitle: "Disponibilidade",
+      headerStyle: {
+        backgroundColor: "#18142F",
+        height: 70,
+        elevation: -2
+      },
+      headerTitleStyle: {
+        textAlign: "center",
+        alignSelf: "center",
+        width: "75%",
+        fontFamily: "Montserrat-Bold",
+        color: "#FFFFFF",
+        fontSize: 20
+      },
       headerLeft: (
         <HeaderBackButton
           tintColor="#FFf"
@@ -62,11 +76,24 @@ const pageNavigator = createStackNavigator({
   AvailabilityDays: {
     screen: AvailabilityDays,
     navigationOptions: ({ navigation }) => ({
-      headerTransparent: true,
+      headerTitle: "Disponibilidade",
+      headerStyle: {
+        backgroundColor: "#18142F",
+        height: 70,
+        elevation: -2
+      },
+      headerTitleStyle: {
+        textAlign: "center",
+        alignSelf: "center",
+        width: "75%",
+        fontFamily: "Montserrat-Bold",
+        color: "#FFFFFF",
+        fontSize: 20
+      },
       headerLeft: (
         <HeaderBackButton
           tintColor="#FFf"
-          onPress={() => navigation.push("Availability")}
+          onPress={() => navigation.goBack()}
         />
       )
     })
@@ -74,7 +101,20 @@ const pageNavigator = createStackNavigator({
   SpecialHours: {
     screen: SpecialHours,
     navigationOptions: ({ navigation }) => ({
-      headerTransparent: true,
+      headerTitle: "Horários Especiais",
+      headerStyle: {
+        backgroundColor: "#18142F",
+        height: 70,
+        elevation: -2
+      },
+      headerTitleStyle: {
+        textAlign: "center",
+        alignSelf: "center",
+        width: "75%",
+        fontFamily: "Montserrat-Bold",
+        color: "#FFFFFF",
+        fontSize: 20
+      },
       headerLeft: (
         <HeaderBackButton
           tintColor="#FFf"
@@ -87,6 +127,31 @@ const pageNavigator = createStackNavigator({
     screen: Agency,
     navigationOptions: ({ navigation }) => ({
       title: "Sou Agência",
+      headerStyle: {
+        backgroundColor: "#18142F",
+        height: 70,
+        elevation: -2
+      },
+      headerTitleStyle: {
+        textAlign: "center",
+        alignSelf: "center",
+        width: "75%",
+        fontFamily: "Montserrat-Bold",
+        color: "#FFFFFF",
+        fontSize: 20
+      },
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push("UserProfile")}
+        />
+      )
+    })
+  },
+  Agencies: {
+    screen: Agencies,
+    navigationOptions: ({ navigation }) => ({
+      title: "Agência",
       headerStyle: {
         backgroundColor: "#18142F",
         height: 70,
@@ -128,13 +193,19 @@ const pageNavigator = createStackNavigator({
   Profession: {
     screen: Profession,
     navigationOptions: ({ navigation }) => ({
-      headerTransparent: true,
       headerTitle: "Meu Job",
+      headerStyle: {
+        backgroundColor: "#18142F",
+        height: 70,
+        elevation: -2
+      },
       headerTitleStyle: {
-        fontSize: 20,
-        marginLeft: "30%",
         textAlign: "center",
-        color: "#FFF"
+        alignSelf: "center",
+        width: "75%",
+        fontFamily: "Montserrat-Bold",
+        color: "#FFFFFF",
+        fontSize: 20
       },
       headerLeft: (
         <HeaderBackButton
@@ -147,13 +218,19 @@ const pageNavigator = createStackNavigator({
   AddProfession: {
     screen: AddProfession,
     navigationOptions: ({ navigation }) => ({
-      headerTransparent: true,
       headerTitle: "Meu Job",
+      headerStyle: {
+        backgroundColor: "#18142F",
+        height: 70,
+        elevation: -2
+      },
       headerTitleStyle: {
-        fontSize: 20,
-        marginLeft: "30%",
         textAlign: "center",
-        color: "#FFF"
+        alignSelf: "center",
+        width: "75%",
+        fontFamily: "Montserrat-Bold",
+        color: "#FFFFFF",
+        fontSize: 20
       },
       headerLeft: (
         <HeaderBackButton
@@ -166,13 +243,19 @@ const pageNavigator = createStackNavigator({
   AddSkill: {
     screen: AddSkill,
     navigationOptions: ({ navigation }) => ({
-      headerTransparent: true,
       headerTitle: "Meu Job",
+      headerStyle: {
+        backgroundColor: "#18142F",
+        height: 70,
+        elevation: -2
+      },
       headerTitleStyle: {
-        fontSize: 20,
-        marginLeft: "30%",
         textAlign: "center",
-        color: "#FFF"
+        alignSelf: "center",
+        width: "75%",
+        fontFamily: "Montserrat-Bold",
+        color: "#FFFFFF",
+        fontSize: 20
       },
       headerLeft: (
         <HeaderBackButton

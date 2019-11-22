@@ -42,7 +42,6 @@ class UserProfile extends Component {
 
   async componentDidMount() {
     const { user } = this.props;
-    debugger
     const apiToken = await AsyncStorage.getItem("API_TOKEN");
     const token = apiToken ? decodeToken(apiToken) : undefined;
     const avatar = token ? token.avatarUrl : user.authenticateUser.avatar.url;
@@ -131,6 +130,10 @@ class UserProfile extends Component {
     this.props.navigation.navigate("Agency");
   };
 
+  openAgencies = () => {
+    this.props.navigation.navigate("Agencies");
+  };
+
   openPreviewProfile = () => {
     this.props.navigation.navigate("PreviewProfile");
   };
@@ -203,7 +206,8 @@ class UserProfile extends Component {
             {
               key: "3",
               title: "Agências",
-              subtitle: "Entre na equipe de sua agência"
+              subtitle: "Entre na equipe de sua agência",
+              onPress: () => this.openAgencies()
             },
             {
               key: "4",
@@ -334,18 +338,14 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  debugger
-  return ({
+  return {
     user: state.user
-  });
-}
+  };
+};
 
 const mapActionToProps = dispatch =>
   bindActionCreators(
     { updateGalleryImage, uploadGalleryImage, deleteGalleryImage },
     dispatch
   );
-export default connect(
-  mapStateToProps,
-  mapActionToProps
-)(UserProfile);
+export default connect(mapStateToProps, mapActionToProps)(UserProfile);

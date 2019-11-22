@@ -8,18 +8,25 @@ export default InputLabel = ({
   secureTextEntry,
   autoFocus,
   numberOfLines,
-  multiline
+  multiline,
+  onChange,
+  value
 }) => (
-  <View>
+  <View style={{ width: "100%" }}>
     <View>
       <Text style={{ color: "white", fontSize: 15, top: "-10%" }}>{title}</Text>
     </View>
-    <View style={{ marginBottom: "5%" }}>
+    <View
+      style={{
+        marginBottom: "5%",
+        width: "100%"
+      }}
+    >
       <TextInput
         style={[
           {
             height: 45,
-            width: 250,
+            width: "100%",
             borderColor: "white",
             borderRadius: 50
           },
@@ -32,6 +39,8 @@ export default InputLabel = ({
         numberOfLines={numberOfLines}
         multiline={multiline}
         enablesReturnKeyAutomatically={true}
+        onChange={onChange}
+        value={value}
       />
     </View>
   </View>

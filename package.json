@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.2",
+    "@react-native-community/datetimepicker": "^2.1.0",
     "@react-native-community/geolocation": "^2.0.2",
     "appcenter": "^2.4.0",
     "appcenter-analytics": "^2.4.0",

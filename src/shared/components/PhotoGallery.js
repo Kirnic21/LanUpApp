@@ -242,13 +242,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state, ownProps) => {
-  debugger
   return {
     pictures: state.gallery
   };
 };
 
-export default connect(
-  mapStateToProps,
-  () => ({})
-)(PhotoGallery);
+export default connect(mapStateToProps, () => ({}))(PhotoGallery);

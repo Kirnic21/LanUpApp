@@ -1,28 +1,46 @@
-import React from 'react';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import * as React from "react";
+import { View } from "react-native";
+import { Button, Paragraph, Menu, Divider, Provider } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
-import { View, Text } from 'react-native';
-import {
-  Menu, MenuOption, MenuOptions, MenuTrigger, MenuProvider,
-} from 'react-native-popup-menu';
+export default class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false
+    };
+  }
 
-const ProfileHeaderMenu = ({ handleOnLogout, handleChangePassword, style }) => (
-  <View style={style}>
-    <MenuProvider style={{ left: 45, height: 90 }}>
-      <Menu>
-        <MenuTrigger
-          style={{ left: '75%' }}
-          children={<Icon name="more-vert" size={25} color="#FFF" />}
-        />
-        <MenuOptions>
-          <MenuOption onSelect={() => alert('Save')} text="Save" />
-          <MenuOption onSelect={() => alert('Delete')}>
-            <Text style={{ color: 'red' }}>Delete</Text>
-          </MenuOption>
-          <MenuOption onSelect={() => alert('Not called')} disabled text="Disabled" />
-        </MenuOptions>
-      </Menu>
-    </MenuProvider>
-  </View>
-);
-export default ProfileHeaderMenu;
+  _openMenu = () => this.setState({ visible: true });
+
+  _closeMenu = () => this.setState({ visible: false });
+
+  render() {
+    return (
+      <Provider>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center"
+          }}
+        >
+          <Menu
+            style={{ position: "absolute", left: "48%", top: "-40%" }}
+            visible={this.state.visible}
+            onDismiss={this._closeMenu}
+            anchor={
+              <Icon
+                name="more-vert"
+                size={25}
+                color="#FFF"
+                onPress={this._openMenu}
+              />
+            }
+          >
+            {this.props.children}
+          </Menu>
+        </View>
+      </Provider>
+    );
+  }
+}

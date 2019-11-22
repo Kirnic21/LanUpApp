@@ -21,6 +21,9 @@ import { Field, reduxForm } from "redux-form";
 import InputField from "~/shared/components/InputField";
 import FormValidator from "~/shared/services/validator";
 
+import AsyncStorage from "@react-native-community/async-storage";
+import { getAbout, decodeToken } from "~/shared/services/freela.http";
+
 import AddIcon from "~/assets/images/icon_add.png";
 import { Switch } from "react-native-paper";
 
@@ -55,6 +58,19 @@ class AboutMe extends Component {
   state = {
     isSwitchOn: false
   };
+
+  // async componentDidMount() {
+  //   const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+  //   getAbout(token.id)
+  //     .then(({ data }) => {
+  //       console.log(data);
+  //     })
+  //     .catch(error => {
+  //       debugger;
+  //       console.log(error.response.data);
+  //     });
+  //   debugger;
+  // }
 
   render() {
     const { isSwitchOn } = this.state;

@@ -5,21 +5,18 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   StatusBar
 } from "react-native";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import { Field, reduxForm } from "redux-form";
 import { Chip } from "react-native-paper";
-// import Icon from "../../assets/images/icon_add.png";
 
 import { registerAgencies, decodeToken } from "~/shared/services/freela.http";
 import FormValidator from "~/shared/services/validator";
 import InputMask from "~/shared/components/InputMask";
-// import Modal from "~shared/components/ModalComponent";
-import Service from "./services";
 import DropdownAlert from "react-native-dropdownalert";
+import Service from "./services";
 
 const formRules = FormValidator.make(
   {
@@ -168,62 +165,6 @@ class Agency extends Component {
               keyExtractor={(item, index) => index.toString()}
             />
           </View>
-          {/* <View style={styles.AddService}>
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({ visible: true });
-              }}
-            >
-              <Image
-                source={Icon}
-                style={{
-                  width: 25,
-                  height: 25,
-                  top: "50%",
-                  marginHorizontal: "5%"
-                }}
-              />
-              <Text style={styles.AddServiceText}>Adicionar Serviços</Text>
-            </TouchableOpacity>
-            <Modal
-              onTouchOutside={() => {
-                this.setState({ visible: false });
-              }}
-              visible={this.state.visible}
-            >
-              <Text style={{ color: "#FFF", padding: "5%", fontSize: 30 }}>
-                Adicionar
-              </Text>
-              <View
-                style={{
-                  justifyContent: "center",
-                  alignItems: "flex-start",
-                  left: "5%",
-                  top: "10%"
-                }}
-              >
-                <InputLabel
-                  onChangeText={event => this.getInput(event, "skill")}
-                  title="Serviço"
-                  style={{ width: 325, height: 50, borderColor: "#865FC0" }}
-                />
-              </View>
-              <View style={{ alignItems: "center", top: "-10%" }}>
-                <RoundButton
-                  style={{
-                    backgroundColor: "#865FC0",
-                    width: "50%",
-                    height: 50,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 50
-                  }}
-                  name="Adicionar"
-                  onPress={this.state.teste}
-                />
-              </View>
-            </Modal>
-          </View> */}
           <View style={{ marginTop: "10%", alignItems: "center" }}>
             <TouchableOpacity
               disabled={invalid}

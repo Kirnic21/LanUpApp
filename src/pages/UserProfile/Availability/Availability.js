@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { FlatList } from "react-native-gesture-handler";
 import ToggleSwitch from "toggle-switch-react-native";
 import {
   StyleSheet,
   View,
-  Dimensions,
   Image,
   TouchableOpacity,
   Text,
@@ -12,16 +10,79 @@ import {
 } from "react-native";
 import {
   emergencyAvailability,
+  getAvailability,
   decodeToken
 } from "~/shared/services/freela.http";
 import ArrowRight from "~/assets/images/arrowRight.png";
+import { Field, reduxForm } from "redux-form";
+
+import Schedules from "./Schedules";
 
 import AsyncStorage from "@react-native-community/async-storage";
 
-export default class Availability extends Component {
+class Availability extends Component {
   state = {
     selected: false,
-    now: false
+    now: false,
+    test: "teste",
+    schedules: [
+      {
+        id: "1",
+        title: "Segunda",
+        date: "18:00 até 21:00",
+        iniTime: new Date().getTime(),
+        endTime: new Date().getTime(),
+        isAvailable: false
+      },
+      {
+        id: "2",
+        title: "Terça",
+        date: "Não aceito job",
+        iniTime: new Date().getTime(),
+        endTime: new Date().getTime(),
+        isAvailable: false
+      },
+      {
+        id: "3",
+        title: "Quarta",
+        date: "Não aceito job",
+        iniTime: new Date().getTime(),
+        endTime: new Date().getTime(),
+        isAvailable: false
+      },
+      {
+        id: "4",
+        title: "Quinta",
+        date: "18:00 até 21:00",
+        iniTime: new Date().getTime(),
+        endTime: new Date().getTime(),
+        isAvailable: false
+      },
+      {
+        id: "5",
+        title: "Sexta",
+        date: "18:00 até 21:00",
+        iniTime: new Date().getTime(),
+        endTime: new Date().getTime(),
+        isAvailable: false
+      },
+      {
+        id: "6",
+        title: "Sabado",
+        date: "Não aceito job",
+        iniTime: new Date().getTime(),
+        endTime: new Date().getTime(),
+        isAvailable: false
+      },
+      {
+        id: "7",
+        title: "Domingo",
+        date: "18:00 até 21:00",
+        iniTime: new Date().getTime(),
+        endTime: new Date().getTime(),
+        isAvailable: false
+      }
+    ]
   };
 
   onToggle = async isOn => {
@@ -34,7 +95,6 @@ export default class Availability extends Component {
         console.log("passou");
         if (data.isSuccess) {
           AsyncStorage.setItem(JSON.stringify(data));
-          console.log(`Changed to ${isOn}`);
           console.log(data);
           alert(isOn);
         }
@@ -45,291 +105,159 @@ export default class Availability extends Component {
       });
   };
 
-  openAvailabilityDays = () => {
-    this.props.navigation.navigate("AvailabilityDays");
+  async componentDidMount() {
+    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    getAvailability(token.id).then(({ data }) => {
+      console.log(data.result);
+      const availability = data.result.value.emergencyAvailability;
+      this.setState({ availability });
+    });
+  }
+
+  openAvailabilityDays = day => {
+    const getFormmatedHour = time =>
+      `${new Date(time).getHours()}:${new Date(time).getMinutes()}`;
+
+    updateTime = (isIni, dayUpdated) => {
+      const { schedules } = this.state;
+      const curDay = schedules.find(c => c.id === dayUpdated.id);
+      if (isIni) curDay.iniTime = dayUpdated.iniTime;
+      else curDay.endTime = dayUpdated.endTime;
+
+      curDay.date = `${getFormmatedHour(curDay.iniTime)} até ${getFormmatedHour(
+        curDay.endTime
+      )}`;
+      this.setState({ schedules });
+    };
+    this.props.navigation.push("AvailabilityDays", {
+      day,
+      updateTime: updateTime
+    });
   };
 
   openSpecialHours = () => {
     this.props.navigation.navigate("SpecialHours");
   };
 
-  renderSeparator = () => (
-    <View
-      style={{
-        height: 2,
-        width: "90%",
-        backgroundColor: "#18142F",
-        marginLeft: "5%",
-        marginRight: "10%"
-      }}
-    />
-  );
-
   render() {
+    const { schedules } = this.state;
     return (
-      <ScrollView>
-        <View style={styles.Container}>
-          <FlatList
-            contentContainerStyle={[styles.list, { top: "20%" }]}
-            data={[
-              {
-                key: "1",
-                title: "Emergência",
-                subtitle: "Estou disponivel agora"
-              }
-            ]}
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Text style={{ color: "white", fontSize: 15, marginBottom: 5 }}>
-                  {item.title}
-                </Text>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginTop: 5
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 13,
-                      borderBottomWidth: 0,
-                      borderTopWidth: 0
-                    }}
-                  >
-                    {item.subtitle}
-                  </Text>
-                  <View>
-                    <ToggleSwitch
-                      size="small"
-                      onColor="#483D8B"
-                      offColor="#18142F"
-                      isOn={this.state.now}
-                      onToggle={now => {
-                        this.setState({ now });
-                        this.onToggle(now);
-                      }}
-                    />
-                  </View>
-                </View>
-              </View>
-            )}
-            keyExtractor={item => item.key}
-          />
-          {/* TODO: fazer um service fake retornando esses dados dos horarios */}
-          <View
-            style={[
-              styles.list,
-              {
-                borderBottomLeftRadius: 0,
-                borderBottomRightRadius: 0,
-                height: "6%"
-              }
-            ]}
-          >
+      <View style={styles.Container}>
+        <ScrollView>
+          <View style={styles.containerAvailability}>
             <Text
               style={{
                 color: "#FFF",
                 fontSize: 15,
-                left: "5%",
-                top: "45%"
+                paddingBottom: "5%"
               }}
             >
-              Horários
+              Para vagas urgentes
             </Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  color: "#FFF",
+                  fontSize: 16,
+                  marginRight: "35%"
+                }}
+              >
+                Estou disponível agora
+              </Text>
+              <ToggleSwitch
+                size="medium"
+                onColor="#483D8B"
+                offColor="#18142F"
+                isOn={this.state.availability}
+                onToggle={availability => {
+                  this.setState({ availability });
+                  this.onToggle(availability);
+                }}
+              />
+            </View>
           </View>
-          <FlatList
-            contentContainerStyle={[
-              styles.list,
-              {
-                borderTopLeftRadius: 0,
-                borderTopRightRadius: 0,
-                paddingBottom: "4%",
-                marginBottom: "-6%"
-              }
-            ]}
-            data={[
-              {
-                key: "1",
-                hrs: "Horarios",
-                title: "Segunda",
-                date: "18:00 até 21:00",
-                onPress: () => this.openAvailabilityDays()
-              },
-              {
-                key: "2",
-                title: "Terça",
-                d: "Não aceito job",
-                onPress: () => this.openAvailabilityDays()
-              },
-              {
-                key: "3",
-                title: "Quarta",
-                d: "Não aceito job",
-                onPress: () => this.openAvailabilityDays()
-              },
-              {
-                key: "4",
-                title: "Quinta",
-                date: "18:00 até 21:00",
-                onPress: () => this.openAvailabilityDays()
-              },
-              {
-                key: "5",
-                title: "Sexta",
-                date: "18:00 até 21:00",
-                onPress: () => this.openAvailabilityDays()
-              },
-              {
-                key: "6",
-                title: "Sabado",
-                d: "Não aceito job",
-                onPress: () => this.openAvailabilityDays()
-              },
-              {
-                key: "7",
-                title: "Domingo",
-                date: "18:00 até 21:00",
-                onPress: () => this.openAvailabilityDays()
-              }
-            ]}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={item.onPress}>
-                <View
+          <Schedules
+            schedules={schedules}
+            onPress={day => {
+              debugger;
+              this.openAvailabilityDays(day);
+            }}
+          />
+          <View style={styles.containerSpecialTimes}>
+            <TouchableOpacity onPress={() => this.openSpecialHours()}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  paddingBottom: "10%"
+                }}
+              >
+                <Text
+                  style={{ color: "#FFF", fontSize: 15, marginRight: "51%" }}
+                >
+                  Horários especiais
+                </Text>
+                <Image
+                  source={ArrowRight}
                   style={{
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    height: Dimensions.get("window").height - 720
+                    width: "6%",
+                    height: 15,
+                    top: "2%"
+                  }}
+                />
+              </View>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text
+                  style={{ color: "#FFF", fontSize: 15, marginRight: "15.5%" }}
+                >
+                  16 de Dez,2019
+                </Text>
+                <Text
+                  style={{
+                    color: "#46C5F3",
+                    fontSize: 12
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "#fff",
-                      fontSize: 14,
-                      left: "5%",
-                      top: "40%"
-                    }}
-                  >
-                    {item.title}
-                  </Text>
-                  <Text
-                    style={{
-                      color: "#46C5F3",
-                      fontSize: 10,
-                      left: "60%",
-                      top: "20%"
-                    }}
-                  >
-                    {item.date}
-                  </Text>
-                  <Text
-                    style={{
-                      color: "#EB4886",
-                      fontSize: 10,
-                      left: "60%",
-                      top: "-5%"
-                    }}
-                  >
-                    {item.d}
-                  </Text>
-                  <Image
-                    source={ArrowRight}
-                    style={{
-                      width: 15,
-                      height: 15,
-                      left: "90%",
-                      top: "-29%"
-                    }}
-                  />
-                </View>
-              </TouchableOpacity>
-            )}
-            ItemSeparatorComponent={this.renderSeparator}
-            keyExtractor={item => item.key}
-          />
-          <FlatList
-            contentContainerStyle={styles.list}
-            data={[
-              {
-                key: "1",
-                title: "Horários especiais",
-                subtitle: "16 de Dez, 2019",
-                date: "18:00 até 21:00",
-                onPress: () => this.openSpecialHours()
-              }
-            ]}
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Text style={{ color: "#FFF", fontSize: 15, marginBottom: 5 }}>
-                  {item.title}
+                  18:00 até 21:00
                 </Text>
-                <TouchableOpacity onPress={item.onPress}>
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "flex-start"
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: "#FFF",
-                        fontSize: 15,
-                        top: "50%"
-                      }}
-                    >
-                      {item.subtitle}
-                    </Text>
-                    <Text
-                      style={{
-                        color: "#46C5F3",
-                        fontSize: 12,
-                        left: "50%",
-                        top: "16%"
-                      }}
-                    >
-                      {item.date}
-                    </Text>
-                    <Image
-                      source={ArrowRight}
-                      style={{
-                        width: 15,
-                        height: 15,
-                        left: "95%",
-                        top: "-95%"
-                      }}
-                    />
-                  </View>
-                </TouchableOpacity>
               </View>
-            )}
-            keyExtractor={item => item.key}
-          />
-        </View>
-      </ScrollView>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
 
-const { width } = Dimensions.get("window");
-
 const styles = StyleSheet.create({
   Container: {
-    alignItems: "center",
-    width,
-    justifyContent: "flex-start",
-    height: Dimensions.get("window").height + 50,
-    backgroundColor: "#18142F",
-    paddingTop: "10%"
+    flex: 1,
+    width: "100%",
+    backgroundColor: "#18142F"
   },
-  list: {
+  containerAvailability: {
     backgroundColor: "#24203B",
-    width: width - 50,
-    borderRadius: 20
+    marginHorizontal: "5%",
+    padding: "5%",
+    borderRadius: 15
   },
-  item: {
-    padding: 15
+  containerSchedules: {
+    backgroundColor: "#24203B",
+    marginHorizontal: "5%",
+    padding: "5%",
+    borderRadius: 15,
+    marginTop: "3%"
+  },
+  containerSpecialTimes: {
+    backgroundColor: "#24203B",
+    marginHorizontal: "5%",
+    padding: "5%",
+    borderRadius: 15,
+    marginTop: "3%"
   }
 });
+
+export default Availability = reduxForm({
+  form: "Availability",
+  // validate: formRules,
+  enableReinitialize: true
+})(Availability);

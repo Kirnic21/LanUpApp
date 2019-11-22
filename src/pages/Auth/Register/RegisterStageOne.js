@@ -55,10 +55,9 @@ class RegisterStageOne extends Component {
 
   goRegister = async () => {
     const { user } = this.state;
-    debugger
     await this.props.setUser(user);
-    await AsyncStorage.setItem("token", user.accessToken.token);
     if (user.isFacebook) {
+      await AsyncStorage.setItem("token", user.accessToken.token);
       this.props.navigation.navigate("UserProfile");
       return;
     }
