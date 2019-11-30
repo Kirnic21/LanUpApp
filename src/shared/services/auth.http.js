@@ -5,6 +5,8 @@ const login = data => HTTP.post("auth", data);
 
 const changePassword = data => HTTP.put("auth/change", data);
 
+const resetPassword = data => HTTP.post(`auth/reset?email=${data}`);
+
 const loginWithFacebook = async token => {
   try {
     const { data } = await HTTP.post("auth/facebook", {
@@ -22,4 +24,4 @@ const loginWithFacebook = async token => {
   }
 };
 
-export { login, loginWithFacebook, changePassword };
+export { login, loginWithFacebook, changePassword, resetPassword };

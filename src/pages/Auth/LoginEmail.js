@@ -11,7 +11,7 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { login } from "../../shared/services/auth.http";
+import { login, resetPassword } from "../../shared/services/auth.http";
 import ImageBack from "../../assets/images/Grupo_518.png";
 import Logo from "../../assets/images/logoLanUp.png";
 import InputField from "../../shared/components/InputField";
@@ -40,7 +40,8 @@ class LoginEmail extends Component {
     this.state = {
       icon: "visibility-off",
       password: true,
-      visible: false
+      visible: false,
+      email: ""
     };
 
     this.changeIcon = this.changeIcon.bind(this);
@@ -102,6 +103,32 @@ class LoginEmail extends Component {
       password: !prevState.password
     }));
   }
+
+  handleEmail = text => {
+    this.setState({ email: text });
+  };
+
+  reset = email => {
+    resetPassword(email)
+      .then(({ data }) => {
+        if (data.isSuccess) {
+          console.log(data);
+          this.dropDownAlertRef.alertWithType(
+            "success",
+            "Sucesso",
+            "Email enviado com sucesso!"
+          );
+        }
+      })
+      .catch(error => {
+        this.dropDownAlertRef.alertWithType(
+          "error",
+          "Erro",
+          error.response.data
+        );
+        console.log(error.response.data);
+      });
+  };
 
   render() {
     const { width, height } = Dimensions.get("window");
@@ -221,7 +248,7 @@ class LoginEmail extends Component {
                 }}
               >
                 <InputLabel
-                  onChangeText={event => this.getInput(event, "skill")}
+                  onChangeText={this.handleEmail}
                   title="E-mail"
                   style={{ width: 325, height: 50, borderColor: "#865FC0" }}
                 />
@@ -237,7 +264,12 @@ class LoginEmail extends Component {
                     borderRadius: 50
                   }}
                   name="Mandar"
-                  onPress={this.state.teste}
+                  onPress={() =>
+                    this.reset(
+                      this.state.email,
+                      this.setState({ visible: false })
+                    )
+                  }
                 />
               </View>
             </Modal>

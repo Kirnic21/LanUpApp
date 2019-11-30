@@ -10,7 +10,9 @@ export default InputLabel = ({
   numberOfLines,
   multiline,
   onChange,
-  value
+  value,
+  editable,
+  onChangeText
 }) => (
   <View style={{ width: "100%" }}>
     <View>
@@ -28,7 +30,8 @@ export default InputLabel = ({
             height: 45,
             width: "100%",
             borderColor: "white",
-            borderRadius: 50
+            borderRadius: 50,
+            color: "#FFF"
           },
           style,
           styles.TextInput
@@ -41,6 +44,8 @@ export default InputLabel = ({
         enablesReturnKeyAutomatically={true}
         onChange={onChange}
         value={value}
+        editable={editable}
+        onChangeText={onChangeText}
       />
     </View>
   </View>
@@ -49,7 +54,6 @@ export default InputLabel = ({
 const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
-    color: "#FFF",
     paddingLeft: "10%"
   }
 });
