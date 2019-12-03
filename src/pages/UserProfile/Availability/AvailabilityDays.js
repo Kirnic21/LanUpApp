@@ -1,21 +1,14 @@
-import React, { Component } from "react";
-import { FlatList } from "react-native-gesture-handler";
+import React from "react";
 import ToggleSwitch from "toggle-switch-react-native";
 import {
   StyleSheet,
   View,
-  Dimensions,
   TouchableOpacity,
   Text,
-  ScrollView,
-  TextInput
+  ScrollView
 } from "react-native";
 import ProfileHeaderMenu from "~/shared/components/ProfileHeaderMenu";
-import InputField from "~/shared/components/InputField";
-import { Field, reduxForm } from "redux-form";
 import { Menu } from "react-native-paper";
-import AsyncStorage from "@react-native-community/async-storage";
-import { availability, decodeToken } from "~/shared/services/freela.http";
 import Input from "~/shared/components/InputLabel";
 
 import { useState } from "react";
@@ -29,10 +22,10 @@ const AvailabilityDays = props => {
 
   const day = props.navigation.state.params.day;
   const updateTime = props.navigation.state.params.updateTime;
-  const { title, iniTime, endTime, isAvailable } = day;
+  const { title, start, end, available } = day;
   debugger;
-  const [iniTimeState, updateIniTime] = useState(iniTime);
-  const [endTimeState, updateEndTime] = useState(endTime);
+  const [iniTimeState, updateIniTime] = useState(start);
+  const [endTimeState, updateEndTime] = useState(end);
 
   const [now, updateNow] = useState(false);
 
@@ -65,38 +58,27 @@ const AvailabilityDays = props => {
               offColor="#483D8B"
               isOn={now}
               onToggle={now => {
-                this.setState({ now });
                 updateNow(now);
+                console.log(now);
               }}
             />
           </View>
           <View style={[styles.containerAvailabilityDays]}>
             <View style={{ flexDirection: "row" }}>
-              <Text
-                style={{
-                  color: "#FFF",
-                  fontSize: 15,
-                  paddingBottom: "5%",
-                  marginRight: "75%"
-                }}
-              >
-                Horas
-              </Text>
+              <Text style={styles.Title}>Horas</Text>
               <ProfileHeaderMenu>
                 <Menu.Item onPress={{}} title="Salvar" />
               </ProfileHeaderMenu>
             </View>
-            <View
-              style={{
-                alignContent: "stretch"
-              }}
-            >
-              <View style={{}}>
-                <Text onPress={() => setIniTime(true)}>
-                  {getFormmatedHour(iniTimeState)}
-                </Text>
-              </View>
-
+            <View style={{ alignContent: "stretch" }}>
+              <TouchableOpacity onPress={() => setIniTime(true)}>
+                <Input
+                  style={{ width: "50%", color: "#46C5F3" }}
+                  title="Das"
+                  editable={false}
+                  value={getFormmatedHour(iniTimeState)}
+                />
+              </TouchableOpacity>
               {showIniTime && (
                 <DateTimePicker
                   value={iniTimeState}
@@ -106,8 +88,8 @@ const AvailabilityDays = props => {
                   onChange={e => {
                     if (e.type === "set") {
                       setIniTime(false);
-                      day.iniTime = e.nativeEvent.timestamp;
-                      updateIniTime(day.iniTime);
+                      day.start = e.nativeEvent.timestamp;
+                      updateIniTime(day.start);
                       updateTime(true, day);
                     }
                   }}
@@ -122,31 +104,28 @@ const AvailabilityDays = props => {
                   onChange={e => {
                     if (e.type === "set") {
                       setEndTime(false);
-                      day.endTime = e.nativeEvent.timestamp;
-                      updateEndTime(day.endTime);
+                      day.end = e.nativeEvent.timestamp;
+                      updateEndTime(day.end);
                       updateTime(false, day);
                     }
                   }}
                 />
               )}
-              {/* <Field
-                style={{ width: "48%" }}
-                title="Das"
-                component={InputField}
-                name={"start"}
-              /> */}
               <View
                 style={{
                   position: "absolute",
-                  width: "50%",
-                  left: "52%",
-                  borderColor: "#FFF",
-                  borderWidth: 2
+                  width: "100%",
+                  left: "52%"
                 }}
               >
-                <Text onPress={() => setEndTime(true)}>
-                  {getFormmatedHour(endTimeState)}
-                </Text>
+                <TouchableOpacity onPress={() => setEndTime(true)}>
+                  <Input
+                    style={{ width: "50%", color: "#46C5F3" }}
+                    title="Até"
+                    editable={false}
+                    value={getFormmatedHour(endTimeState)}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -166,7 +145,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#24203B",
     marginTop: "5%",
     padding: "5%",
+    paddingBottom: "-1%",
     borderRadius: 15
+  },
+  Title: {
+    color: "#FFF",
+    fontSize: 15,
+    paddingBottom: "5%",
+    marginRight: "75%"
   }
 });
 

@@ -3,125 +3,133 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  Dimensions,
   TouchableOpacity,
   Text,
   ScrollView,
   Image
 } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 import arrow from "~/assets/images/arrowRight.png";
-
-import { Field, reduxForm } from "redux-form";
 import { Chip } from "react-native-paper";
-import InputField from "~/shared/components/InputField";
-import profession from "./Jobs";
+import InputLabel from "~/shared/components/InputLabel";
+import { decodeToken, getSkills, getJobs } from "~/shared/services/freela.http";
+import AsyncStorage from "@react-native-community/async-storage";
 
 class Profession extends Component {
+  state = {
+    GetSkill: [],
+    GetJobs: [],
+    JobsSelected: []
+  };
+
+  async componentDidMount() {
+    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    getSkills(token.id).then(({ data }) => {
+      const GetSkill = data.result.value;
+      GetSkill === null
+        ? this.setState({ GetSkill: [] })
+        : this.setState({ GetSkill });
+    });
+    getJobs(token.id).then(({ data }) => {
+      const GetJobs = data;
+      debugger;
+      GetJobs === null
+        ? this.setState({ GetJobs: [] })
+        : this.setState({ GetJobs });
+      const name = GetJobs.filter(c => c.isSelected === true).map(c => c.name);
+      this.setState({ JobsSelected: name });
+    });
+
+    debugger;
+  }
+
   openAddProfession = () => {
-    this.props.navigation.navigate("AddProfession");
+    const { GetJobs, JobsSelected } = this.state;
+    this.props.navigation.navigate("AddProfession", { GetJobs, JobsSelected });
   };
 
   openAddAbiliity = () => {
-    this.props.navigation.navigate("AddSkill");
+    const { GetSkill } = this.state;
+    this.props.navigation.navigate("AddSkill", { GetSkill });
   };
 
   render() {
+    const { GetSkill, JobsSelected } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.containerReceive}>
-            <Text style={{ color: "#FFF", fontSize: 15 }}>
+            <Text style={{ color: "#FFF", fontSize: 15 }} x>
               Recebo no mínimo até:
             </Text>
-            <Field
+            <InputLabel
               style={{ width: "100%" }}
               component={InputField}
-              name="receive"
               keyboardType="numeric"
             />
           </View>
           <View style={styles.containerProfessionAndSkill}>
             <View style={{ flexDirection: "row", marginBottom: "2%" }}>
               <Text style={{ color: "#FFF", fontSize: 15 }}>Profissão</Text>
-              <Text
+              <Text style={styles.jobNumber}>{JobsSelected.length}/3</Text>
+            </View>
+            {JobsSelected.length ? (
+              <View
                 style={{
-                  color: "rgba(255, 255, 255, 0.7)",
-                  fontSize: 12,
-                  marginTop: "1.1%",
-                  marginLeft: "2%"
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  width: "100%"
                 }}
               >
-                0/3
-              </Text>
-            </View>
-            <View
-              style={{
-                flexWrap: "wrap",
-                flexDirection: "row",
-                width: "100%"
-              }}
-            >
-              {profession.map(({ name, id }) => (
-                <Chip
-                  key={id}
-                  style={styles.chip}
-                  textStyle={{ color: "#FFF", paddingRight: "3%" }}
-                >
-                  {name}
-                </Chip>
-              ))}
-            </View>
+                {JobsSelected.map((name, id) => (
+                  <Chip
+                    key={id}
+                    style={styles.chip}
+                    textStyle={{ color: "#FFFFFF", paddingRight: "3%" }}
+                  >
+                    {name}
+                  </Chip>
+                ))}
+              </View>
+            ) : (
+              <Text style={styles.notJobsText}>Não há nenhuma profissão</Text>
+            )}
             <TouchableOpacity
               onPress={this.openAddProfession}
-              style={{
-                width: "50%",
-                height: "100%",
-                position: "absolute",
-                left: "100%",
-                top: "85%"
-              }}
+              style={styles.btnArrow}
             >
-              <Image
-                source={arrow}
-                style={{
-                  width: "12%",
-                  height: "25%"
-                }}
-              />
+              <Image source={arrow} style={{ width: 20, height: 20 }} />
             </TouchableOpacity>
           </View>
           <View style={styles.containerProfessionAndSkill}>
-            <Text style={{ color: "#FFF", fontSize: 15 }}>Habilidades</Text>
-            <Text
-              style={{
-                color: "#FFF",
-                fontSize: 15,
-                textAlignVertical: "center",
-                padding: "10%",
-                paddingLeft: "15%",
-                top: "-3%"
-              }}
-            >
-              Não há nenhuma habilidade
+            <Text style={{ color: "#FFF", fontSize: 15, paddingBottom: "3%" }}>
+              Habilidades
             </Text>
+            {GetSkill.length ? (
+              <View
+                style={{
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  width: "95%"
+                }}
+              >
+                {GetSkill.map((c, id) => (
+                  <Chip
+                    key={id}
+                    style={[styles.chip, { backgroundColor: "#46C5F3" }]}
+                    textStyle={{ color: "#18142F" }}
+                  >
+                    {c}
+                  </Chip>
+                ))}
+              </View>
+            ) : (
+              <Text style={styles.notJobsText}>Não há nenhuma habilidade</Text>
+            )}
             <TouchableOpacity
               onPress={this.openAddAbiliity}
-              style={{
-                width: "50%",
-                height: "100%",
-                position: "absolute",
-                left: "100%",
-                top: "85%"
-              }}
+              style={styles.btnArrow}
             >
-              <Image
-                source={arrow}
-                style={{
-                  width: "10%",
-                  height: "28%"
-                }}
-              />
+              <Image source={arrow} style={{ width: 20, height: 20 }} />
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -151,12 +159,30 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15
   },
   chip: {
-    backgroundColor: "#6C757D",
-    margin: "1.5%"
+    backgroundColor: "#865FC0",
+    margin: "1.0%"
+  },
+  jobNumber: {
+    color: "rgba(255, 255, 255, 0.7)",
+    fontSize: 13,
+    marginTop: "1.1%",
+    marginLeft: "2%"
+  },
+  notJobsText: {
+    color: "#FFF",
+    fontSize: 15,
+    textAlignVertical: "center",
+    padding: "10%",
+    paddingLeft: "15%",
+    top: "-3%"
+  },
+  btnArrow: {
+    width: "50%",
+    height: "100%",
+    position: "absolute",
+    left: "100%",
+    top: "85%"
   }
 });
 
-export default Profession = reduxForm({
-  form: "Profession",
-  enableReinitialize: true
-})(Profession);
+export default Profession;

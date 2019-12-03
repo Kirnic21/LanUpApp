@@ -11,6 +11,7 @@ import {
 import {
   emergencyAvailability,
   getAvailability,
+  availability,
   decodeToken
 } from "~/shared/services/freela.http";
 import ArrowRight from "~/assets/images/arrowRight.png";
@@ -23,64 +24,62 @@ import AsyncStorage from "@react-native-community/async-storage";
 class Availability extends Component {
   state = {
     selected: false,
-    now: false,
-    test: "teste",
     schedules: [
       {
         id: "1",
         title: "Segunda",
         date: "18:00 até 21:00",
-        iniTime: new Date().getTime(),
-        endTime: new Date().getTime(),
-        isAvailable: false
+        start: new Date().getTime(),
+        end: new Date().getTime(),
+        available: true
       },
       {
         id: "2",
         title: "Terça",
         date: "Não aceito job",
-        iniTime: new Date().getTime(),
-        endTime: new Date().getTime(),
-        isAvailable: false
+        start: new Date().getTime(),
+        end: new Date().getTime(),
+        available: true
       },
       {
         id: "3",
         title: "Quarta",
         date: "Não aceito job",
-        iniTime: new Date().getTime(),
-        endTime: new Date().getTime(),
-        isAvailable: false
+        start: new Date().getTime(),
+        end: new Date().getTime(),
+        available: true
       },
       {
         id: "4",
         title: "Quinta",
         date: "18:00 até 21:00",
-        iniTime: new Date().getTime(),
-        endTime: new Date().getTime(),
-        isAvailable: false
+        start: new Date().getTime(),
+        end: new Date().getTime(),
+        available: true
       },
       {
         id: "5",
         title: "Sexta",
         date: "18:00 até 21:00",
-        iniTime: new Date().getTime(),
-        endTime: new Date().getTime(),
-        isAvailable: false
+        start: new Date().getTime(),
+        end: new Date().getTime(),
+        available: true
       },
       {
         id: "6",
         title: "Sabado",
         date: "Não aceito job",
-        iniTime: new Date().getTime(),
-        endTime: new Date().getTime(),
-        isAvailable: false
+        start: new Date().getTime(),
+        end: new Date().getTime(),
+        available: true
       },
       {
         id: "7",
         title: "Domingo",
         date: "18:00 até 21:00",
-        iniTime: new Date().getTime(),
-        endTime: new Date().getTime(),
-        isAvailable: false
+        start: new Date().getTime(),
+        end: new Date().getTime(),
+        available: true
       }
     ]
   };
@@ -107,10 +106,13 @@ class Availability extends Component {
 
   async componentDidMount() {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    getAvailability(token.id).then(({ data }) => {
+    await getAvailability(token.id).then(({ data }) => {
       console.log(data.result);
-      const availability = data.result.value.emergencyAvailability;
-      this.setState({ availability });
+      debugger;
+      // const days = data.result.value.days;
+      // this.setState({ days });
+      // const availability = data.result.value.emergencyAvailability;
+      // this.setState({ availability });
     });
   }
 
@@ -118,16 +120,40 @@ class Availability extends Component {
     const getFormmatedHour = time =>
       `${new Date(time).getHours()}:${new Date(time).getMinutes()}`;
 
-    updateTime = (isIni, dayUpdated) => {
+    updateTime = async (isIni, dayUpdated) => {
       const { schedules } = this.state;
       const curDay = schedules.find(c => c.id === dayUpdated.id);
-      if (isIni) curDay.iniTime = dayUpdated.iniTime;
-      else curDay.endTime = dayUpdated.endTime;
+      if (isIni) curDay.start = dayUpdated.start;
+      else curDay.end = dayUpdated.end;
 
-      curDay.date = `${getFormmatedHour(curDay.iniTime)} até ${getFormmatedHour(
-        curDay.endTime
+      curDay.date = `${getFormmatedHour(curDay.start)} até ${getFormmatedHour(
+        curDay.end
       )}`;
       this.setState({ schedules });
+      const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+      const schedule = this.state.days;
+      availability({
+        freelaId: token.id,
+        dayAvailabilities: [
+          ...schedule,
+          {
+            dayOfWeek: "Sunday",
+            start: getFormmatedHour(curDay.start),
+            end: getFormmatedHour(curDay.end),
+            available: true
+          }
+        ]
+      })
+        .then(async ({ data }) => {
+          if (data.isSuccess) {
+            debugger;
+            console.log(data);
+          }
+        })
+        .catch(error => {
+          debugger;
+          console.log(error.response.data);
+        });
     };
     this.props.navigation.push("AvailabilityDays", {
       day,

@@ -14,6 +14,7 @@ export default InputField = ({
   autoCompleteType,
   placeholder,
   placeholderTextColor,
+  editable,
 
   meta: { touched, error }
 }) => (
@@ -49,8 +50,9 @@ export default InputField = ({
         autoCompleteType={autoCompleteType}
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor}
+        editable={editable}
       />
-      {touched && (error && <Text style={{ color: "#F13567" }}>{error}</Text>)}
+      {touched && error && <Text style={{ color: "#F13567" }}>{error}</Text>}
     </View>
   </View>
 );

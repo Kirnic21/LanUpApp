@@ -2,8 +2,14 @@ import { HTTP, HTTPFORM } from "./http.base";
 import { decode } from "base-64";
 
 const create = data => HTTP.post("freelas", data);
-const updateSkills = data => HTTP.put("skills", data);
+const updateSkills = data => HTTP.put(`freelas/${data.id}/skills`, data);
+const getSkills = id => HTTP.get(`freelas/${id}/skills`);
 const registerAgencies = data => HTTP.post(`freelas/${data.id}/agencies`, data);
+
+const service = () => HTTP.get(`services`);
+
+const updateJobs = data => HTTP.put(`freelas/${data.id}/jobs`, data);
+const getJobs = id => HTTP.get(`freelas/${id}/jobs`);
 
 const galery = data => HTTPFORM.post(`freelas/${data.id}/galery`, data.url);
 const galeries = id => HTTP.get(`freelas/${id}/galery`);
@@ -16,9 +22,11 @@ const availability = data =>
   HTTP.post(`freelas/${data.id}/availabilities`, data);
 const getAvailability = id => HTTP.get(`freelas/${id}/availabilities`);
 
-const jobsExists = id => HTTP.get(`freelas/${id}/jobs/exists`);
-
+const aboutMe = data => HTTP.put(`freelas/${data.id}/about`, data);
 const getAbout = id => HTTP.get(`freelas/${id}/about`);
+
+const specialDay = data =>
+  HTTP.post(`freelas/${data.id}/availabilities/specialdays`, data);
 
 const decodeToken = token =>
   JSON.parse(
@@ -41,6 +49,11 @@ export {
   galleryDelete,
   availability,
   getAvailability,
-  jobsExists,
-  getAbout
+  getAbout,
+  aboutMe,
+  getSkills,
+  service,
+  updateJobs,
+  getJobs,
+  specialDay
 };

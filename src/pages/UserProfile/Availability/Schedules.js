@@ -1,9 +1,24 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import ArrowRight from "~/assets/images/arrowRight.png";
+import { useState, useEffect } from "react";
+import { getAvailability, decodeToken } from "~/shared/services/freela.http";
+import AsyncStorage from "@react-native-community/async-storage";
 
-const Schedules = ({ onPress, schedules }) => {
-  debugger;
+const Schedules = ({ onPress, schedules, days }) => {
+  // GetDay = async () => {
+  //   const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+  //   getAvailability(token.id).then(({ data }) => {
+  //     debugger;
+  //     console.log(data.result);
+  //     const days = data.result.value.days;
+  //   });
+  // };
+  // useEffect(() => {
+  //   GetDay();
+  //   debugger;
+  // }, []);
+  // console.log(days);
   return (
     <View style={styles.containerSchedules}>
       <Text

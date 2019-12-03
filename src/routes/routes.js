@@ -11,7 +11,7 @@ import AuthNavigator from "~/routes/AuthNavigator";
 import { DrawerNav, DrawerNavigator } from "~/routes/DrawerNavigator";
 
 import ChangePassword from "~/pages/UserProfile/ChangePassword";
-import AboutMe from "~/pages/UserProfile/AboutMe";
+import AboutMe from "~/pages/UserProfile/About/AboutMe";
 import Profession from "~/pages/UserProfile/MyJob/Profession";
 import AddProfession from "~/pages/UserProfile/MyJob/AddProfession";
 import AddSkill from "~/pages/UserProfile/MyJob/AddSkill";
@@ -218,6 +218,7 @@ const pageNavigator = createStackNavigator({
   AddProfession: {
     screen: AddProfession,
     navigationOptions: ({ navigation }) => ({
+      // headerTransparent: true,
       headerTitle: "Meu Job",
       headerStyle: {
         backgroundColor: "#18142F",
@@ -243,16 +244,17 @@ const pageNavigator = createStackNavigator({
   AddSkill: {
     screen: AddSkill,
     navigationOptions: ({ navigation }) => ({
+      headerTransparent: true,
       headerTitle: "Meu Job",
-      headerStyle: {
-        backgroundColor: "#18142F",
-        height: 70,
-        elevation: -2
-      },
+      // headerStyle: {
+      //   backgroundColor: "#18142F",
+      //   height: 70,
+      //   elevation: -2
+      // },
       headerTitleStyle: {
         textAlign: "center",
         alignSelf: "center",
-        width: "75%",
+        width: "70%",
         fontFamily: "Montserrat-Bold",
         color: "#FFFFFF",
         fontSize: 20
