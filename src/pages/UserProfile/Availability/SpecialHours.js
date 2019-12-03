@@ -25,6 +25,9 @@ import {
   getAvailability
 } from "~/shared/services/freela.http";
 
+import DateInputField from "~/shared/components/DateInputField";
+import Toggle from "~/shared/components/SwitchComponent";
+
 specialHours = [
   {
     id: "1",
@@ -46,7 +49,8 @@ class SpecialHours extends Component {
       date: new Date(),
       mode: "date",
       show: false,
-      SpecialDay: []
+      SpecialDays: [],
+      teste: []
     };
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -85,29 +89,33 @@ class SpecialHours extends Component {
 
   async componentDidMount() {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    await getAvailability(token.id).then(({ data }) => {
-      console.log(data.result);
+    getAvailability(token.id).then(({ data }) => {
       debugger;
-      const SpecialDay = data.result.value.specialDays;
-      this.setState({ SpecialDay });
+      const SpecialDays = data.result.value.specialDays;
+
+      SpecialDays === null
+        ? this.setState({ SpecialDays: [] })
+        : this.setState({ SpecialDays });
     });
   }
 
   AddHour = async () => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    const { date, SpecialDay } = this.state;
-    specialDay({
+    const { date, SpecialDays } = this.state;
+    const request = {
       freelaId: token.id,
       specialDayAvailabilities: [
-        ...SpecialDay,
+        ...SpecialDays,
         {
-          date: date,
+          date: date.toISOString(),
           start: "7:00",
           end: "15:00",
-          available: true
+          available: false
         }
       ]
-    })
+    };
+    debugger;
+    specialDay(request)
       .then(({ data }) => {
         if (data.isSuccess) {
           debugger;
@@ -122,11 +130,13 @@ class SpecialHours extends Component {
   };
 
   render() {
-    const { show, date, mode, SpecialDay } = this.state;
+    const { show, date, mode, SpecialDays, teste } = this.state;
+    console.log(SpecialDays);
+    debugger;
     return (
       <View style={styles.Container}>
         <ScrollView>
-          {SpecialDay.map(({ day }, id) => (
+          {SpecialDays.map(({ date }, id) => (
             <View key={id} style={styles.containerSpecialHours}>
               <View style={{ flexDirection: "row", paddingBottom: "5%" }}>
                 <Text
@@ -136,7 +146,7 @@ class SpecialHours extends Component {
                     marginRight: "50%"
                   }}
                 >
-                  {day}
+                  {moment(date).format("DD [de] MMM, YYYY")}
                 </Text>
                 <ProfileHeaderMenu>
                   <Menu.Item onPress={() => {}} title="Salvar" />
@@ -156,18 +166,11 @@ class SpecialHours extends Component {
                 >
                   Estou disponível
                 </Text>
-                <ToggleSwitch
-                  key={id}
-                  size="small"
-                  onColor="#483D8B"
-                  offColor="#18142F"
-                  isOn={true}
-                  // onToggle={expanded => {
-                  //   this.clickToggle(expanded, id);
-                  //   this.onToggle(expanded);
-                  //   this.changeLayout();
-                  // }}
-                />
+                <Field
+
+        component={Toggle}
+        name={"available"}
+      />
               </View>
               <View
                 style={{
@@ -192,8 +195,9 @@ class SpecialHours extends Component {
                   <Field
                     style={{ width: "48%" }}
                     title="Das"
-                    component={InputField}
-                    name={"das"}
+                    mode="time"
+                    component={DateInputField}
+                    name={"start"}
                   />
                   <View
                     style={{
@@ -205,8 +209,9 @@ class SpecialHours extends Component {
                     <Field
                       style={{ width: "48%" }}
                       title="Até"
-                      component={InputField}
-                      name={"birthday"}
+                      mode="time"
+                      component={DateInputField}
+                      name={""}
                     />
                   </View>
                 </View>
@@ -253,6 +258,7 @@ class SpecialHours extends Component {
                 name="adicionar"
                 onPress={() => {
                   this.AddHour();
+                  this.setState({ visible: false });
                 }}
               />
             </View>

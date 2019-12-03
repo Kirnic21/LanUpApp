@@ -147,11 +147,7 @@ class AboutMe extends Component {
     debugger;
   }
 
-  bankCode = item => {
-    this.setState({ code: item });
-    console.log(this.state.code);
-    debugger;
-  };
+ 
 
   UpdateAboutMe = async form => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));

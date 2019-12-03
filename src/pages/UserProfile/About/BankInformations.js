@@ -29,7 +29,6 @@ const BankInformation = ({}) => {
               style={{ width: "47%" }}
               title="Banco"
               editable={false}
-              value={this.state.code}
             />
           </TouchableOpacity>
           <View style={{ position: "absolute", width: "100%", left: "53%" }}>

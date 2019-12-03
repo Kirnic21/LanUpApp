@@ -3,6 +3,10 @@ import App from './src';
 import { name as appName } from './app.json';
 import Geolocation from '@react-native-community/geolocation';
 
+if(__DEV__) {
+    import('./ReactotronConfig').then(() => console.log('Reactotron Configured'))
+}
+
 AppRegistry.registerComponent(appName, () => App);
 
 // const LogLocation = async (data) => {

@@ -6,10 +6,24 @@ import moment from "moment";
 
 export default class DateInputField extends Component {
   constructor(props) {
+    debugger
     super(props);
     this.state = { isDateTimePickerVisible: false };
     this.handleChange = this.handleChange.bind(this);
   }
+
+  getFormatByMode = (value, mode = 'date') => {
+    const dateTime = value
+      ? new Date(value)
+      : new Date 
+    
+    const format = mode === 'time'
+      ? 'hh:mm'
+      : 'DD/MM/YYYY'
+  
+    return moment(dateTime).format(format)
+  };
+  
   showDateTimePicker = () => {
     debugger;
     this.setState({ isDateTimePickerVisible: true });
@@ -18,18 +32,21 @@ export default class DateInputField extends Component {
     this.setState({ isDateTimePickerVisible: false });
   };
   handleChange = date => {
+    debugger
     this.setState({ isDateTimePickerVisible: false });
     this.props.input.onChange(date);
   };
   render() {
     const { input, meta, ...inputProps } = this.props;
+    debugger
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={this.showDateTimePicker}>
           <DateTimePicker
             style={styles.label}
-            date={new Date()} //date is transformed from input
+            date={input.value || new Date()} //date is transformed from input
             onDateChange={this.handleChange}
+            mode={inputProps.mode || "date"}
             cancelTextIOS="Annulla"
             confirmTextIOS="Conferma"
             isVisible={this.state.isDateTimePickerVisible}
@@ -43,11 +60,7 @@ export default class DateInputField extends Component {
             style={this.props.style}
             title={this.props.title}
             placeholder={this.props.placeholder}
-            value={
-              input.value !== ""
-                ? moment(new Date(input.value)).format("DD/MM/YYYY")
-                : moment(new Date()).format("DD/MM/YYYY")
-            }
+            value={this.getFormatByMode(input.value, inputProps.mode)}
           />
         </TouchableOpacity>
       </View>
