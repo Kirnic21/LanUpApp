@@ -1,6 +1,6 @@
 import * as React from "react";
-import { View } from "react-native";
-import { Button, Paragraph, Menu, Divider, Provider } from "react-native-paper";
+import { View, Text } from "react-native";
+import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 export default class MyComponent extends React.Component {
@@ -11,36 +11,30 @@ export default class MyComponent extends React.Component {
     };
   }
 
-  _openMenu = () => this.setState({ visible: true });
+  _menu = null;
 
-  _closeMenu = () => this.setState({ visible: false });
+  setMenuRef = ref => {
+    this._menu = ref;
+  };
+
+  hideMenu = () => {
+    this._menu.hide();
+  };
+
+  showMenu = () => {
+    this._menu.show();
+  };
 
   render() {
     return (
-      <Provider>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center"
-          }}
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Menu
+          ref={this.setMenuRef}
+          button={<Icon onPress={this.showMenu} name="more-vert" size={25} style={{color:'#FFF'}}/>}
         >
-          <Menu
-            style={{ position: "absolute", left: "48%", top: "-40%" }}
-            visible={this.state.visible}
-            onDismiss={this._closeMenu}
-            anchor={
-              <Icon
-                name="more-vert"
-                size={25}
-                color="#FFF"
-                onPress={this._openMenu}
-              />
-            }
-          >
-            {this.props.children}
-          </Menu>
-        </View>
-      </Provider>
+          {this.props.children}
+        </Menu>
+      </View>
     );
   }
 }

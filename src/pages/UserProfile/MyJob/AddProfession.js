@@ -38,7 +38,6 @@ class AddProfession extends Component {
     this.setState(prev => ({ ...prev, buttons }));
     const name = buttons.filter(c => c.isSelected === true);
     this.setState({ jobs: name });
-    debugger;
   };
 
   SaveJob = async () => {
@@ -59,16 +58,13 @@ class AddProfession extends Component {
       updateJobs({ id: token.id, jobs })
         .then(({ data }) => {
           if (data.isSuccess) {
-            debugger;
             console.log(data);
             // this.props.navigation.navigate("Profession");
           }
         })
         .catch(error => {
-          debugger;
           console.log(error.response.data);
         });
-      debugger;
     }
   };
 
@@ -89,7 +85,6 @@ class AddProfession extends Component {
   render() {
     const { GetJobs, jobs, JobsSelected } = this.state;
     console.log(this.props.navigation.state.params);
-    debugger;
     return (
       <View style={styles.container}>
         <View

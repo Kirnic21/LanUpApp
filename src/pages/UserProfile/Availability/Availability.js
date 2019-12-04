@@ -24,6 +24,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 class Availability extends Component {
   state = {
     selected: false,
+    SpecialDays:[],
     schedules: [
       {
         id: "1",
@@ -114,6 +115,16 @@ class Availability extends Component {
       // const availability = data.result.value.emergencyAvailability;
       // this.setState({ availability });
     });
+  
+  
+      getAvailability(token.id).then(({ data }) => {
+        debugger;
+        const SpecialDays = data.result.value.specialDays;
+  
+        SpecialDays === null
+          ? this.setState({ SpecialDays: [] })
+          : this.setState({ SpecialDays });
+      });
   }
 
   openAvailabilityDays = day => {
@@ -162,7 +173,8 @@ class Availability extends Component {
   };
 
   openSpecialHours = () => {
-    this.props.navigation.navigate("SpecialHours");
+    const {SpecialDays} = this.state
+    this.props.navigation.navigate("SpecialHours", {SpecialDays});
   };
 
   render() {

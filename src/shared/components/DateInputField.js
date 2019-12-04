@@ -6,39 +6,31 @@ import moment from "moment";
 
 export default class DateInputField extends Component {
   constructor(props) {
-    debugger
     super(props);
     this.state = { isDateTimePickerVisible: false };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  getFormatByMode = (value, mode = 'date') => {
-    const dateTime = value
-      ? new Date(value)
-      : new Date 
-    
-    const format = mode === 'time'
-      ? 'hh:mm'
-      : 'DD/MM/YYYY'
-  
-    return moment(dateTime).format(format)
+  getFormatByMode = (value, mode = "date") => {
+    const dateTime = value ? new Date(value) : new Date();
+
+    const format = mode === "time" ? "hh:mm" : "DD/MM/YYYY";
+
+    return moment(dateTime).format(format);
   };
-  
+
   showDateTimePicker = () => {
-    debugger;
     this.setState({ isDateTimePickerVisible: true });
   };
   hideDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: false });
   };
   handleChange = date => {
-    debugger
     this.setState({ isDateTimePickerVisible: false });
     this.props.input.onChange(date);
   };
   render() {
     const { input, meta, ...inputProps } = this.props;
-    debugger
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={this.showDateTimePicker}>
@@ -56,7 +48,7 @@ export default class DateInputField extends Component {
           <Input
             editable={false}
             enabled={false}
-            label={this.props.label}
+            label={this.props.label}t
             style={this.props.style}
             title={this.props.title}
             placeholder={this.props.placeholder}

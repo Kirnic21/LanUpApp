@@ -31,7 +31,6 @@ class Profession extends Component {
     });
     getJobs(token.id).then(({ data }) => {
       const GetJobs = data;
-      debugger;
       GetJobs === null
         ? this.setState({ GetJobs: [] })
         : this.setState({ GetJobs });
@@ -39,7 +38,6 @@ class Profession extends Component {
       this.setState({ JobsSelected: name });
     });
 
-    debugger;
   }
 
   openAddProfession = () => {

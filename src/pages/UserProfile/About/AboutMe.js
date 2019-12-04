@@ -283,7 +283,19 @@ class AboutMe extends Component {
             </View>
           </View>
           <AdditionalInformation />
-          <BankInformations />
+          <BankInformations>
+          <TouchableOpacity
+            onPress={() => {
+              setVisible(true);
+            }}
+          >
+            <Input
+              style={{ width: "47%" }}
+              title="Banco"
+              editable={false}
+            />
+          </TouchableOpacity>
+          </BankInformations>
         </ScrollView>
         <ImageSelector
           onImageSelected={this.onPictureAdd}

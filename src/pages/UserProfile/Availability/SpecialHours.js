@@ -27,6 +27,7 @@ import {
 
 import DateInputField from "~/shared/components/DateInputField";
 import Toggle from "~/shared/components/SwitchComponent";
+import { MenuItem, MenuDivider } from "react-native-material-menu";
 
 specialHours = [
   {
@@ -42,14 +43,14 @@ specialHours = [
 ];
 
 class SpecialHours extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       visible: false,
       date: new Date(),
       mode: "date",
       show: false,
-      SpecialDays: [],
+      SpecialDays: this.props.navigation.state.params.SpecialDays,
       teste: []
     };
     if (Platform.OS === "android") {
@@ -100,6 +101,8 @@ class SpecialHours extends Component {
   }
 
   AddHour = async () => {
+    debugger;
+   
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const { date, SpecialDays } = this.state;
     const request = {
@@ -107,14 +110,23 @@ class SpecialHours extends Component {
       specialDayAvailabilities: [
         ...SpecialDays,
         {
-          date: date.toISOString(),
-          start: "7:00",
-          end: "15:00",
-          available: false
+          date,
         }
       ]
     };
     debugger;
+
+    request.specialDayAvailabilities = request.specialDayAvailabilities.map(
+      ({ day, date, start, end, available = true }) => {
+        return {
+          date: day ? day : date,
+          start,
+          end,
+          available
+        };
+      }
+    );
+
     specialDay(request)
       .then(({ data }) => {
         if (data.isSuccess) {
@@ -129,14 +141,55 @@ class SpecialHours extends Component {
     debugger;
   };
 
+  async saveDates(datesToSave) {
+    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+
+    specialDay({
+      freelaId: token.id,
+      specialDayAvailabilities: [...datesToSave]
+    })
+      .then(({ data }) => {
+        if (data.isSuccess) {
+          debugger;
+          console.log(data);
+        }
+      })
+      .catch(error => {
+        debugger;
+        console.log(error.response.data);
+      });
+  }
+
+  removeDate(dateToRemove) {
+    const { SpecialDays } = this.state;
+
+    debugger;
+
+    const removeEqualDate = ({ day }) => !(day === dateToRemove);
+
+    const dates = SpecialDays.filter(removeEqualDate);
+
+    const datesToSave = dates.map(({ day, date, start, end, available }) => {
+      return {
+        date: day ? day : date,
+        start,
+        end,
+        available
+      };
+    });
+
+    this.setState({ SpecialDays: datesToSave });
+    this.saveDates(datesToSave);
+  }
+
   render() {
-    const { show, date, mode, SpecialDays, teste } = this.state;
-    console.log(SpecialDays);
+    const { show, date, mode, SpecialDays } = this.state;
+    const { handleSubmit, invalid } = this.props;
     debugger;
     return (
       <View style={styles.Container}>
         <ScrollView>
-          {SpecialDays.map(({ date }, id) => (
+          {SpecialDays.map(({ day }, id) => (
             <View key={id} style={styles.containerSpecialHours}>
               <View style={{ flexDirection: "row", paddingBottom: "5%" }}>
                 <Text
@@ -146,14 +199,22 @@ class SpecialHours extends Component {
                     marginRight: "50%"
                   }}
                 >
-                  {moment(date).format("DD [de] MMM, YYYY")}
+                  {moment(day).format("DD [de] MMM, YYYY")}
                 </Text>
                 <ProfileHeaderMenu>
-                  <Menu.Item onPress={() => {}} title="Salvar" />
-                  <Menu.Item
-                    onPress={() => {}}
-                    title={<Text style={{ color: "#f00" }}>Deletar</Text>}
-                  />
+                  <MenuItem onPress={handleSubmit(this.AddHour)}>
+                    Salvar
+                  </MenuItem>
+                  <MenuItem
+                    onPress={() => {
+                      alert("teste");
+                    }}
+                    onPress={() => {
+                      this.removeDate(day);
+                    }}
+                  >
+                    Deletar
+                  </MenuItem>
                 </ProfileHeaderMenu>
               </View>
               <View style={{ flexDirection: "row", paddingBottom: "5%" }}>
@@ -166,11 +227,7 @@ class SpecialHours extends Component {
                 >
                   Estou disponível
                 </Text>
-                <Field
-
-        component={Toggle}
-        name={"available"}
-      />
+                <Field key={id} component={Toggle} name={"available"} />
               </View>
               <View
                 style={{
@@ -211,7 +268,7 @@ class SpecialHours extends Component {
                       title="Até"
                       mode="time"
                       component={DateInputField}
-                      name={""}
+                      name={"end"}
                     />
                   </View>
                 </View>

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Children } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 
 import InputField from "~/shared/components/InputField";
@@ -10,7 +10,7 @@ import Modal from "./modalFilter";
 import styles from "./styles";
 import { useState } from "react";
 
-const BankInformation = ({}) => {
+const BankInformation = ({children}) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -20,17 +20,7 @@ const BankInformation = ({}) => {
           Informações Bancárias
         </Text>
         <View style={{ alignContent: "stretch" }}>
-          <TouchableOpacity
-            onPress={() => {
-              setVisible(true);
-            }}
-          >
-            <Input
-              style={{ width: "47%" }}
-              title="Banco"
-              editable={false}
-            />
-          </TouchableOpacity>
+          {children}
           <View style={{ position: "absolute", width: "100%", left: "53%" }}>
             <Field
               style={{ width: "47%" }}
