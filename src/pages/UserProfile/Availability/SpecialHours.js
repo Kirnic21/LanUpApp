@@ -18,7 +18,7 @@ import ActionButton from "~/shared/components/ActionButton";
 import Modal from "~/shared/components/ModalComponent";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setAbout } from "~/store/ducks/aboutMe/about.actions";
+
 import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -63,11 +63,18 @@ class SpecialHours extends Component {
 
   async componentDidMount() {
     const { SpecialDays } = this.state
-    const opa = 'start'
+    const objNormalize = SpecialDays.reduce((prev, cur, index) => {
+      prev[`start${index}`] = cur.start;
+      prev[`end${index}`] = end.start;
+      return prev;
+    }, {});
+
     debugger
-    await this.props.initialize({
-      [opa]: moment().subtract('2h')
-    });
+    await this.props.initialize(objNormalize);
+    // await this.props.initialize({
+    //   [`start${id}`]: "2018-03-13T17:09:07.713",
+    //   [`end${id}`]: "2018-03-13T17:09:07.713"
+    // });
   }
 
   onToggle(isOn) {}
@@ -84,13 +91,13 @@ class SpecialHours extends Component {
     // this.setState(prev => ({ ...prev, toggle }));
     // const select = toggle.filter(c => c.expanded === true).map(c => c.expanded);
     // this.setState({ expanded: select });
-    // debugger;
+    // ;
   };
 
   setDate = (event, date) => {
     date = date || this.state.date;
     this.setState({ show: Platform.OS === "ios" ? true : false, date });
-    debugger;
+    ;
   };
 
   show = mode => {
@@ -113,7 +120,7 @@ class SpecialHours extends Component {
 
   changeHour = async (form) => {
     const { start, end } = form
-    debugger
+    
   }
 
   justSave = async () => {
@@ -137,20 +144,20 @@ class SpecialHours extends Component {
         }
       ]
     };
-    debugger;
+    ;
 
     specialDay(request)
       .then(({ data }) => {
         if (data.isSuccess) {
-          debugger;
+          ;
           console.log(data);
         }
       })
       .catch(error => {
-        debugger;
+        ;
         console.log(error.response.data);
       });
-    debugger;
+    ;
   };
 
   async saveDates(datesToSave) {
@@ -162,12 +169,12 @@ class SpecialHours extends Component {
     })
       .then(({ data }) => {
         if (data.isSuccess) {
-          debugger;
+          ;
           console.log(data);
         }
       })
       .catch(error => {
-        debugger;
+        ;
         console.log(error.response.data);
       });
   }
@@ -175,7 +182,7 @@ class SpecialHours extends Component {
   removeDate(dateToRemove) {
     const { SpecialDays } = this.state;
 
-    debugger;
+    ;
 
     const removeEqualDate = ({ date }) => !(date === dateToRemove);
 
@@ -190,14 +197,14 @@ class SpecialHours extends Component {
     SpecialDays[id].start = moment(data).format('hh:mm:[00]')
 
     this.setState({ SpecialDays })
-    debugger
+    
   }
 
 
   render() {
     const { show, date, mode, expanded, SpecialDays } = this.state;
     const { handleSubmit, invalid } = this.props;
-    debugger;
+    ;
     return (
       <View style={styles.Container}>
         <ScrollView>
@@ -278,7 +285,7 @@ class SpecialHours extends Component {
                     mode="time"
                     component={DateInputField}
                     onChange={(data) => this.onFieldChange(data, id)}
-                    name={`start`}
+                    name={`start${id}`}
                   />
                   <View
                     style={{
@@ -388,26 +395,9 @@ const styles = StyleSheet.create({
   }
 });
 
-// export default SpecialHours = reduxForm({
-//   form: "SpecialHours",
-//   // validate: formRules,
-//   enableReinitialize: true
-// })(SpecialHours);
+export default SpecialHours = reduxForm({
+  form: "SpecialHours",
+  // validate: formRules,
+  enableReinitialize: true
+})(SpecialHours);
 
-mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      setAbout
-    },
-    dispatch
-  );
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(
-  reduxForm({
-    form: "SpecialHours"
-    // validate: formRules
-  })(SpecialHours)
-);

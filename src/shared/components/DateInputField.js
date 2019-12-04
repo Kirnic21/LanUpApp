@@ -35,6 +35,7 @@ export default class DateInputField extends Component {
   };
   render() {
     const { input, meta, ...inputProps } = this.props;
+    debugger
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={this.showDateTimePicker}>
