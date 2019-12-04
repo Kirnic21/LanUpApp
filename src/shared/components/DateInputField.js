@@ -11,12 +11,16 @@ export default class DateInputField extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  getFormatByMode = (value, mode = "date") => {
-    const dateTime = value ? new Date(value) : new Date();
+  getFormatByMode = (value, mode = 'date') => {
+    const dateTime = value
+      ? new Date(value)
+      : new Date
 
-    const format = mode === "time" ? "hh:mm" : "DD/MM/YYYY";
+    const format = mode === 'time'
+      ? 'hh:mm'
+      : 'DD/MM/YYYY'
 
-    return moment(dateTime).format(format);
+    return moment(dateTime).format(format)
   };
 
   showDateTimePicker = () => {
@@ -48,7 +52,7 @@ export default class DateInputField extends Component {
           <Input
             editable={false}
             enabled={false}
-            label={this.props.label}t
+            label={this.props.label}
             style={this.props.style}
             title={this.props.title}
             placeholder={this.props.placeholder}

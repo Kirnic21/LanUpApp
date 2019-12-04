@@ -16,6 +16,9 @@ import { Field, reduxForm } from "redux-form";
 import { Menu } from "react-native-paper";
 import ActionButton from "~/shared/components/ActionButton";
 import Modal from "~/shared/components/ModalComponent";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { setAbout } from "~/store/ducks/aboutMe/about.actions";
 import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -57,6 +60,16 @@ class SpecialHours extends Component {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
   }
+
+  async componentDidMount() {
+    const { SpecialDays } = this.state
+    const opa = 'start'
+    debugger
+    await this.props.initialize({
+      [opa]: moment().subtract('2h')
+    });
+  }
+
   onToggle(isOn) {}
 
   changeLayout = () => {
@@ -180,6 +193,7 @@ class SpecialHours extends Component {
     debugger
   }
 
+
   render() {
     const { show, date, mode, expanded, SpecialDays } = this.state;
     const { handleSubmit, invalid } = this.props;
@@ -264,7 +278,7 @@ class SpecialHours extends Component {
                     mode="time"
                     component={DateInputField}
                     onChange={(data) => this.onFieldChange(data, id)}
-                    name={`start${id}`}
+                    name={`start`}
                   />
                   <View
                     style={{
@@ -374,8 +388,26 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SpecialHours = reduxForm({
-  form: "SpecialHours",
-  // validate: formRules,
-  enableReinitialize: true
-})(SpecialHours);
+// export default SpecialHours = reduxForm({
+//   form: "SpecialHours",
+//   // validate: formRules,
+//   enableReinitialize: true
+// })(SpecialHours);
+
+mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      setAbout
+    },
+    dispatch
+  );
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(
+  reduxForm({
+    form: "SpecialHours"
+    // validate: formRules
+  })(SpecialHours)
+);
