@@ -187,7 +187,7 @@ class SpecialHours extends Component {
     return (
       <View style={styles.Container}>
         <ScrollView>
-          {SpecialDays.map(({ date }, id) => (
+          {SpecialDays.map(({ date, start }, id) => (
             <View key={id} style={styles.containerSpecialHours}>
               <View style={{ flexDirection: "row", paddingBottom: "5%" }}>
                 <Text
@@ -264,7 +264,7 @@ class SpecialHours extends Component {
                     mode="time"
                     component={DateInputField}
                     onChange={(data) => this.onFieldChange(data, id)}
-                    name={"start"}
+                    name={`start${id}`}
                   />
                   <View
                     style={{
@@ -278,7 +278,7 @@ class SpecialHours extends Component {
                       title="Até"
                       mode="time"
                       component={DateInputField}
-                      name={"end"}
+                      name={`end${id}`}
                     />
                   </View>
                 </View>
