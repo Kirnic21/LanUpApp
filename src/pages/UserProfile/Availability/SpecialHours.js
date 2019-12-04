@@ -51,7 +51,7 @@ class SpecialHours extends Component {
       mode: "date",
       show: false,
       SpecialDays: this.props.navigation.state.params.SpecialDays,
-      teste: []
+      expanded: false
     };
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -65,13 +65,13 @@ class SpecialHours extends Component {
   };
 
   clickToggle = (id, index) => {
-    const toggle = specialHours;
-    const toggleSelected = toggle[index - 1];
-    toggleSelected.expanded = !toggleSelected.expanded;
-    this.setState(prev => ({ ...prev, toggle }));
-    const select = toggle.filter(c => c.expanded === true).map(c => c.expanded);
-    this.setState({ expanded: select });
-    debugger;
+    // const toggle = specialHours;
+    // const toggleSelected = toggle[index - 1];
+    // toggleSelected.expanded = !toggleSelected.expanded;
+    // this.setState(prev => ({ ...prev, toggle }));
+    // const select = toggle.filter(c => c.expanded === true).map(c => c.expanded);
+    // this.setState({ expanded: select });
+    // debugger;
   };
 
   setDate = (event, date) => {
@@ -88,21 +88,28 @@ class SpecialHours extends Component {
     this.show("date");
   };
 
-  async componentDidMount() {
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    getAvailability(token.id).then(({ data }) => {
-      debugger;
-      const SpecialDays = data.result.value.specialDays;
+  newDate = async () => {
+    const { SpecialDays, date } = this.state
 
-      SpecialDays === null
-        ? this.setState({ SpecialDays: [] })
-        : this.setState({ SpecialDays });
-    });
+    const datesToSave = [ ...SpecialDays, { date } ]
+
+    this.setState({ SpecialDays: datesToSave, visible: false })
+
+    await this.saveDates(datesToSave)
   }
 
-  AddHour = async () => {
-    debugger;
-   
+  changeHour = async (form) => {
+    const { start, end } = form
+    debugger
+  }
+
+  justSave = async () => {
+    const { SpecialDays } = this.state
+    this.saveDates(SpecialDays)
+  }
+
+  AddHour = async (form) => {
+    const { start, end, available } = form
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const { date, SpecialDays } = this.state;
     const request = {
@@ -111,21 +118,13 @@ class SpecialHours extends Component {
         ...SpecialDays,
         {
           date,
+          start: moment(start).format('hh:mm[:00]'),
+          end: moment(end).format('hh:mm[:00]'),
+          available
         }
       ]
     };
     debugger;
-
-    request.specialDayAvailabilities = request.specialDayAvailabilities.map(
-      ({ day, date, start, end, available = true }) => {
-        return {
-          date: day ? day : date,
-          start,
-          end,
-          available
-        };
-      }
-    );
 
     specialDay(request)
       .then(({ data }) => {
@@ -165,31 +164,30 @@ class SpecialHours extends Component {
 
     debugger;
 
-    const removeEqualDate = ({ day }) => !(day === dateToRemove);
+    const removeEqualDate = ({ date }) => !(date === dateToRemove);
 
-    const dates = SpecialDays.filter(removeEqualDate);
-
-    const datesToSave = dates.map(({ day, date, start, end, available }) => {
-      return {
-        date: day ? day : date,
-        start,
-        end,
-        available
-      };
-    });
+    const datesToSave = SpecialDays.filter(removeEqualDate);
 
     this.setState({ SpecialDays: datesToSave });
     this.saveDates(datesToSave);
   }
 
+  onFieldChange(data, id) {
+    const { SpecialDays } = this.state
+    SpecialDays[id].start = moment(data).format('hh:mm:[00]')
+
+    this.setState({ SpecialDays })
+    debugger
+  }
+
   render() {
-    const { show, date, mode, SpecialDays } = this.state;
+    const { show, date, mode, expanded, SpecialDays } = this.state;
     const { handleSubmit, invalid } = this.props;
     debugger;
     return (
       <View style={styles.Container}>
         <ScrollView>
-          {SpecialDays.map(({ day }, id) => (
+          {SpecialDays.map(({ date }, id) => (
             <View key={id} style={styles.containerSpecialHours}>
               <View style={{ flexDirection: "row", paddingBottom: "5%" }}>
                 <Text
@@ -199,10 +197,10 @@ class SpecialHours extends Component {
                     marginRight: "50%"
                   }}
                 >
-                  {moment(day).format("DD [de] MMM, YYYY")}
+                  {moment(date).format("DD [de] MMM, YYYY")}
                 </Text>
                 <ProfileHeaderMenu>
-                  <MenuItem onPress={handleSubmit(this.AddHour)}>
+                  <MenuItem onPress={handleSubmit(this.justSave)}>
                     Salvar
                   </MenuItem>
                   <MenuItem
@@ -210,7 +208,7 @@ class SpecialHours extends Component {
                       alert("teste");
                     }}
                     onPress={() => {
-                      this.removeDate(day);
+                      this.removeDate(date);
                     }}
                   >
                     Deletar
@@ -227,7 +225,18 @@ class SpecialHours extends Component {
                 >
                   Estou disponível
                 </Text>
-                <Field key={id} component={Toggle} name={"available"} />
+                <ToggleSwitch
+                  key={id}
+                  size="small"
+                  onColor="#483D8B"
+                  offColor="#18142F"
+                  isOn={expanded}
+                  onToggle={expanded => {
+                    this.clickToggle(expanded, id);
+                    this.onToggle(expanded);
+                    this.changeLayout();
+                  }}
+                />
               </View>
               <View
                 style={{
@@ -254,6 +263,7 @@ class SpecialHours extends Component {
                     title="Das"
                     mode="time"
                     component={DateInputField}
+                    onChange={(data) => this.onFieldChange(data, id)}
                     name={"start"}
                   />
                   <View
@@ -313,10 +323,7 @@ class SpecialHours extends Component {
               <RoundButton
                 style={styles.btnModal}
                 name="adicionar"
-                onPress={() => {
-                  this.AddHour();
-                  this.setState({ visible: false });
-                }}
+                onPress={this.newDate}
               />
             </View>
           </Modal>

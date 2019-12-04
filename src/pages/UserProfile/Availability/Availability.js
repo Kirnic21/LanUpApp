@@ -107,23 +107,22 @@ class Availability extends Component {
 
   async componentDidMount() {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    await getAvailability(token.id).then(({ data }) => {
-      console.log(data.result);
-      debugger;
-      // const days = data.result.value.days;
-      // this.setState({ days });
-      // const availability = data.result.value.emergencyAvailability;
-      // this.setState({ availability });
-    });
-  
-  
+
+    const normalizeSpecialDate = ({ day, date, start, end, available }) => ({
+      date: day ? day : date,
+      start,
+      end,
+      available
+    })
+
+    const convertItems = (days) => days.map(normalizeSpecialDate)
+
       getAvailability(token.id).then(({ data }) => {
-        debugger;
         const SpecialDays = data.result.value.specialDays;
-  
+
         SpecialDays === null
           ? this.setState({ SpecialDays: [] })
-          : this.setState({ SpecialDays });
+          : this.setState({ SpecialDays: convertItems(SpecialDays) });
       });
   }
 
