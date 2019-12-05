@@ -4,16 +4,25 @@ import ArrowRight from "~/assets/images/arrowRight.png";
 import { useState, useEffect } from "react";
 import { getAvailability, decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
+import moment from 'moment';
+
+const getDisplayDate = day => {
+  if (!day.available) return "Não aceito job";
+  const start = new Date(day.start);
+  const end = new Date(day.end);
+  const format = 'hh:mm';
+
+  return `${moment(start).format(format)} até ${moment(end).format(format)}`
+}
+
 
 const Schedules = ({ onPress, schedules, days }) => {
   // GetDay = async () => {
-  //   const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-  //   getAvailability(token.id).then(({ data }) => {
-  //     debugger;
-  //     console.log(data.result);
-  //     const days = data.result.value.days;
-  //   });
-  // };
+  // const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+  // getAvailability(token.id).then(({ data }) => {
+  // console.log(data.result);
+  // const days = data.result.value.days;
+  // });
   // useEffect(() => {
   //   GetDay();
   //   debugger;
@@ -64,10 +73,10 @@ const Schedules = ({ onPress, schedules, days }) => {
               <Text
                 style={{
                   fontSize: 12,
-                  color: day.date === "Não aceito job" ? "#EB4886" : "#46C5F3"
+                  color: !day.available ? "#EB4886" : "#46C5F3"
                 }}
               >
-                {day.date}
+                {getDisplayDate(day)}
               </Text>
             </View>
             <View
