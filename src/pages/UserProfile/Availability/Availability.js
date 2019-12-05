@@ -40,7 +40,7 @@ class Availability extends Component {
         date: "Não aceito job",
         start: new Date().getTime(),
         end: new Date().getTime(),
-        available: true
+        available: false 
       },
       {
         id: "3",
@@ -48,7 +48,7 @@ class Availability extends Component {
         date: "Não aceito job",
         start: new Date().getTime(),
         end: new Date().getTime(),
-        available: true
+        available: false
       },
       {
         id: "4",
@@ -72,7 +72,7 @@ class Availability extends Component {
         date: "Não aceito job",
         start: new Date().getTime(),
         end: new Date().getTime(),
-        available: true
+        available: false
       },
       {
         id: "7",
@@ -80,7 +80,7 @@ class Availability extends Component {
         date: "18:00 até 21:00",
         start: new Date().getTime(),
         end: new Date().getTime(),
-        available: true
+        available: false
       }
     ]
   };
