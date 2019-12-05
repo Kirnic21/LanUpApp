@@ -5,45 +5,35 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
-  Platform
+  TouchableHighlightComponent
 } from "react-native";
-import ImageProfile from "~/assets/images/backgroud.png";
+
 import ImageBody from "~/assets/images/icon_addbody.png";
 import ImageSelf from "~/assets/images/icon_addselfie.png";
-import InputField from "~/shared/components/InputField";
-import InputMask from "~/shared/components/InputMask";
-import Input from "~/shared/components/InputLabel";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import AddIcon from "~/assets/images/icon_add.png";
-import { bindActionCreators } from "redux";
-import { Field, reduxForm } from "redux-form";
-import FormValidator from "~/shared/services/validator";
-import AsyncStorage from "@react-native-community/async-storage";
-import { getAbout, decodeToken, aboutMe } from "~/shared/services/freela.http";
-import Modal from "./modalFilter";
-import moment from "moment";
-import styles from "./styles";
 import ImageSelector from "~/shared/components/ImageSelector";
-import { connect } from "react-redux";
+
+import InputField from "~/shared/components/InputField";
+import Input from "~/shared/components/InputLabel";
+
+import Modal from "./modalFilter";
+import styles from "./styles";
+
 import ProfileInformation from "./ProfileInformation";
 import AdditionalInformation from "./AdditionalInformation";
 import BankInformations from "./BankInformations";
-import PickerComponent from "~/shared/components/PickerComponent";
-import DateInputField from "~/shared/components/DateInputField";
 
+import { Field, reduxForm } from "redux-form";
+import AsyncStorage from "@react-native-community/async-storage";
+import { getAbout, decodeToken, aboutMe } from "~/shared/services/freela.http";
+import moment from "moment";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { setAbout } from "~/store/ducks/aboutMe/about.actions";
-
-const formRules = FormValidator.make({
-  FullName: "required"
-});
 
 class AboutMe extends Component {
   state = {
-    date: new Date(),
-    mode: "date",
-    show: false,
     visible: false,
-    gender: 0,
     BoxItem: [
       {
         id: 1,
@@ -65,73 +55,39 @@ class AboutMe extends Component {
         icon: ImageBody,
         onPress: this.SelectedInput
       }
-    ]
-  };
-
-  static navigationOptions = ({ navigation }) => {
-    const { state } = navigation;
-    debugger;
-    return {
-      headerRight: (
-        <TouchableOpacity
-          onPress={() => state.params.handleSave()}
-          style={{
-            paddingHorizontal: 29,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <Text style={styles.counter}>Salvar</Text>
-        </TouchableOpacity>
-      )
-    };
+    ],
+    avatar: null
   };
 
   async componentDidMount() {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     getAbout(token.id)
       .then(({ data }) => {
-        const email = token.email;
-        const {
-          bankAccount,
-          bankBranch,
-          birthday,
-          clothingsSizes,
-          cnpj,
-          cpf,
-          description,
-          drink,
-          gender,
-          hasChildren,
-          hasTattoo,
-          height,
-          latitude,
-          longitude,
-          name,
-          nickName,
-          ownTransport,
-          owner,
-          phone,
-          photos,
-          professionalClothing,
-          smoke,
-          weight
-        } = data.result.value;
+        const { email, avatarUrl } = token;
+        // photos: null,
+        // latitude: null
+        // longitude: null
+        this.setState({ avatar: avatarUrl, email });
+        const get = data.result.value;
         this.props.initialize({
-          fullName: name,
-          nickName,
-          description,
-          height,
-          weight,
+          fullName: get.name,
+          nickName: get.nickName,
+          description: get.description,
+          height: get.height,
+          weight: get.weight,
+          clothingsSizes: get.clothingsSizes,
+          professionalClothing: get.professionalClothing,
+          ownTransport: get.ownTransport,
+          healthProblem: get.healthProblem,
+          smoke: get.smoke,
           email,
-          phone,
-          bankBranch,
-          bankAccount,
-          cpfCnpj: cpf,
-          owner,
-          smoke,
-          clothingsSizes
+          phone: get.phone,
+          birthday: new Date(get.birthday),
+          gender: get.gender,
+          bankBranch: get.bankBranch,
+          bankAccount: get.bankAccount,
+          cpfCnpj: get.cnpj || get.cpf,
+          owner: get.owner
         });
         debugger;
         console.log(data);
@@ -147,7 +103,24 @@ class AboutMe extends Component {
     debugger;
   }
 
- 
+  static navigationOptions = ({ navigation }) => {
+    const { state } = navigation;
+    return {
+      headerRight: (
+        <TouchableOpacity
+          onPress={() => state.params.handleSave()}
+          style={{
+            paddingHorizontal: 29,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <Text style={{ color: "#FFF" }}>Salvar</Text>
+        </TouchableOpacity>
+      )
+    };
+  };
 
   UpdateAboutMe = async form => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
@@ -157,43 +130,38 @@ class AboutMe extends Component {
       description,
       height,
       weight,
-      phone,
-      cpfCnpj,
-      bankBranch,
-      bankAccount,
-      owner,
-      smoke,
       clothingsSizes,
-      consignment_date
+      professionalClothing,
+      ownTransport,
+      healthProblem,
+      smoke,
+      phone,
+      birthday,
+      email,
+      gender
     } = form;
     debugger;
-    const { date, size, code, avatar, gender } = this.state;
-    const birthday = date;
+    const { avatarUrl } = this.state;
     aboutMe({
       freelaId: token.id,
-      avatar: avatar.data,
+      avatar: avatarUrl,
       fullName,
       nickName,
       description,
-      height: 0,
-      weight: 0,
-      clothingsSizes: size,
-      professionalClothing: true,
-      ownTransport: true,
-      healthProblem: true,
-      smoke: true,
-      // lat:,
-      // long:,
-      // photos:
+      height,
+      weight,
+      clothingsSizes,
+      professionalClothing,
+      ownTransport,
+      healthProblem,
+      smoke,
+      // lat,
+      // long,
+      // photos,
+      email,
       phone,
-      birthday: birthday,
-      gender,
-      bankCode: code,
-      bankBranch,
-      bankAccount,
-      cpf: cpfCnpj,
-      cnpj: cpfCnpj,
-      owner
+      birthday: birthday.toString(),
+      gender
     })
       .then(({ data }) => {
         debugger;
@@ -216,7 +184,7 @@ class AboutMe extends Component {
   };
 
   onPictureAdd = picture => {
-    this.setState({ avatar: picture });
+    this.setState({ avatar: picture.uri, avatarUrl: picture.data });
     debugger;
   };
 
@@ -225,18 +193,14 @@ class AboutMe extends Component {
     debugger;
   };
 
+  bankCode = item => {
+    this.setState({ code: item });
+    console.log(this.state.code);
+    debugger;
+  };
+
   render() {
-    const {
-      show,
-      date,
-      mode,
-      professionalClothing,
-      ownTransport,
-      healthProblem,
-      smoke,
-      avatar,
-      BoxItem
-    } = this.state;
+    const { avatar, BoxItem, visible } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView style={styles.ScrollView}>
@@ -245,11 +209,8 @@ class AboutMe extends Component {
               style={{ width: 100 }}
               onPress={this.handleOnPictureAdd}
             >
-              <Image source={ImageProfile} style={styles.Avatar} />
-              <Image
-                source={AddIcon}
-                style={{ width: 25, height: 25, top: "-18%", left: "70%" }}
-              />
+              <Image source={{ uri: avatar }} style={styles.Avatar} />
+              <Image source={AddIcon} style={styles.iconAvatar} />
             </TouchableOpacity>
           </View>
           <ProfileInformation />
@@ -282,19 +243,36 @@ class AboutMe extends Component {
               ))}
             </View>
           </View>
+          <TouchableOpacity>
+            <Text>a</Text>
+          </TouchableOpacity>
           <AdditionalInformation />
           <BankInformations>
-          <TouchableOpacity
-            onPress={() => {
-              setVisible(true);
-            }}
-          >
-            <Input
-              style={{ width: "47%" }}
-              title="Banco"
-              editable={false}
+            <TouchableOpacity
+              style={{ borderColor: "#FFF", borderWidth: 2 }}
+              onPress={() => {
+                this.setState({ visible: true });
+              }}
+            >
+              {/* <Input
+                  style={{ width: "47%" }}
+                  title="Banco"
+                  editable={false}
+                  value={this.state.code}
+                /> */}
+              <Text>aaaaa</Text>
+            </TouchableOpacity>
+            <Modal
+              onPress={item => {
+                this.bankCode(item);
+
+                this.setState({ visible: false });
+              }}
+              onTouchOutside={() => {
+                this.setState({ visible: false });
+              }}
+              visible={visible}
             />
-          </TouchableOpacity>
           </BankInformations>
         </ScrollView>
         <ImageSelector
@@ -313,20 +291,10 @@ class AboutMe extends Component {
     );
   }
 }
-mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      setAbout
-    },
-    dispatch
-  );
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(
-  reduxForm({
-    form: "AboutMe"
-    // validate: formRules
-  })(AboutMe)
-);
+(mapDispatchToProps = dispatch => bindActionCreators({ setAbout }, dispatch)),
+  connect(null, mapDispatchToProps)(AboutMe);
+
+AboutMe = reduxForm({ form: "AboutMe" })(AboutMe);
+
+export default AboutMe;

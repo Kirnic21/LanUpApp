@@ -108,6 +108,12 @@ const styles = StyleSheet.create({
     width: "70%",
     alignItems: "center",
     borderRadius: 25
+  },
+  iconAvatar: {
+    width: 25,
+    height: 25,
+    top: "-18%",
+    left: "70%"
   }
 });
 

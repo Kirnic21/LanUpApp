@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Picker } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
@@ -6,6 +6,7 @@ import Toggle from "~/shared/components/SwitchComponent";
 import PickerComponent from "~/shared/components/PickerComponent";
 
 const ProfileInformation = ({}) => {
+  reduxForm({ form: "ProfileInformation" });
   return (
     <View style={styles.informationProfile}>
       <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "7%" }}>
@@ -27,7 +28,7 @@ const ProfileInformation = ({}) => {
         style={styles.textArea}
         title="Descrição"
         component={InputField}
-        name={"description"}
+        name="description"
         multiline={true}
         numberOfLines={10}
       />
@@ -94,6 +95,4 @@ const ProfileInformation = ({}) => {
   );
 };
 
-export default reduxForm({
-  form: "ProfileInformation"
-})(ProfileInformation);
+export default ProfileInformation;

@@ -1,4 +1,4 @@
-import React, { Component, Children } from "react";
+import React, { Component } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 
 import InputField from "~/shared/components/InputField";
@@ -10,8 +10,8 @@ import Modal from "./modalFilter";
 import styles from "./styles";
 import { useState } from "react";
 
-const BankInformation = ({children}) => {
-  const [visible, setVisible] = useState(false);
+const BankInformation = ({ children }) => {
+  reduxForm({ form: "BankInformation" });
 
   return (
     <View>
@@ -54,21 +54,8 @@ const BankInformation = ({children}) => {
           <Text style={{ color: "#FFF", top: -10 }}>Salvar</Text>
         </TouchableOpacity>
       </View>
-      <Modal
-        onPress={item => {
-          this.bankCode(item);
-
-          setVisible(false);
-        }}
-        onTouchOutside={() => {
-          setVisible(false);
-        }}
-        visible={visible}
-      />
     </View>
   );
 };
 
-export default reduxForm({
-  form: "BankInformation"
-})(BankInformation);
+export default BankInformation;
