@@ -1,22 +1,22 @@
 PODS:
-  - appcenter (2.4.0):
+  - appcenter (2.6.0):
     - AppCenterReactNativeShared
     - React
-  - appcenter-analytics (2.4.0):
+  - appcenter-analytics (2.6.0):
     - AppCenter/Analytics
     - AppCenterReactNativeShared
     - React
-  - appcenter-crashes (2.4.0):
+  - appcenter-crashes (2.6.0):
     - AppCenter/Crashes
     - AppCenterReactNativeShared
     - React
-  - AppCenter/Analytics (2.4.0):
+  - AppCenter/Analytics (2.5.1):
     - AppCenter/Core
-  - AppCenter/Core (2.4.0)
-  - AppCenter/Crashes (2.4.0):
+  - AppCenter/Core (2.5.1)
+  - AppCenter/Crashes (2.5.1):
     - AppCenter/Core
-  - AppCenterReactNativeShared (2.4.0):
-    - AppCenter/Core (= 2.4.0)
+  - AppCenterReactNativeShared (2.6.0):
+    - AppCenter/Core (= 2.5.1)
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.6):
     - React
@@ -103,23 +103,25 @@ PODS:
   - React-jsinspector (0.60.4)
   - react-native-background-timer (2.1.1):
     - React
-  - react-native-fbsdk (1.0.4):
+  - react-native-fbsdk (1.1.1):
     - React
-    - react-native-fbsdk/Core (= 1.0.4)
-    - react-native-fbsdk/Login (= 1.0.4)
-    - react-native-fbsdk/Share (= 1.0.4)
-  - react-native-fbsdk/Core (1.0.4):
-    - FBSDKCoreKit (~> 5.5)
+    - react-native-fbsdk/Core (= 1.1.1)
+    - react-native-fbsdk/Login (= 1.1.1)
+    - react-native-fbsdk/Share (= 1.1.1)
+  - react-native-fbsdk/Core (1.1.1):
+    - FBSDKCoreKit (= 5.8)
     - React
-  - react-native-fbsdk/Login (1.0.4):
-    - FBSDKLoginKit (~> 5.5)
+  - react-native-fbsdk/Login (1.1.1):
+    - FBSDKLoginKit (= 5.8)
     - React
-  - react-native-fbsdk/Share (1.0.4):
-    - FBSDKShareKit (~> 5.5)
+  - react-native-fbsdk/Share (1.1.1):
+    - FBSDKShareKit (= 5.8)
     - React
   - react-native-geolocation (2.0.2):
     - React
   - react-native-image-picker (1.0.2):
+    - React
+  - react-native-image-resizer (1.1.0):
     - React
   - React-RCTActionSheet (0.60.4):
     - React-Core (= 0.60.4)
@@ -147,6 +149,8 @@ PODS:
     - React-fishhook (= 0.60.4)
   - RNCAsyncStorage (1.6.2):
     - React
+  - RNDateTimePicker (2.1.0):
+    - React
   - RNFastImage (7.0.2):
     - React
     - SDWebImage (~> 5.0)
@@ -163,9 +167,9 @@ PODS:
   - RNVectorIcons (6.6.0):
     - React
   - RSKImageCropper (2.2.3)
-  - SDWebImage (5.2.5):
-    - SDWebImage/Core (= 5.2.5)
-  - SDWebImage/Core (5.2.5)
+  - SDWebImage (5.3.3):
+    - SDWebImage/Core (= 5.3.3)
+  - SDWebImage/Core (5.3.3)
   - SDWebImageWebPCoder (0.2.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.0)
@@ -191,6 +195,7 @@ DEPENDENCIES:
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -202,6 +207,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
@@ -262,6 +268,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-image-resizer:
+    :path: "../node_modules/react-native-image-resizer"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -284,6 +292,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/WebSocket"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
   RNGestureHandler:
@@ -298,11 +308,11 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  AppCenter: 49a9ffe114c00e2bf5374aeda816d47eabf1978a
-  appcenter: 4072e79b8d037d99056e6fc6556224b4525b5829
-  appcenter-analytics: 94be52eca805d586207d710aac95e0ddca8b3ddb
-  appcenter-crashes: 30caece47856aee7c4c7449d4f4dae2d69795bd6
-  AppCenterReactNativeShared: 57a66e6539e9abe6079ba8f93a002bc3f95788cc
+  AppCenter: fddcbac6e4baae3d93a196ceb0bfe0e4ce407dec
+  appcenter: dc687dcf81280ccab1dc938b0b974d265144a802
+  appcenter-analytics: fa8dba207d07733dcbda749d262fde3e7161258d
+  appcenter-crashes: fa97ffec69882486d7183193cc9394473757d1ad
+  AppCenterReactNativeShared: d5e360f8a4cb5126d29e31ab98051d2f070ba631
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
@@ -322,9 +332,10 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 7549641e48bafae7bfee3f3ea19bf4901639c5de
   React-jsinspector: 73f24a02fa684ed6a2b828ba116874a2191ded88
   react-native-background-timer: 1b6e6b4e10f1b74c367a1fdc3c72b67c619b222b
-  react-native-fbsdk: 45e28bbab3e905cbc635c0bdd3444b372e933ae9
+  react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-image-picker: 5c15ac0251475ae0b9f21e17d08d7c28db847abc
+  react-native-image-resizer: 1ffe71ec5f2596c3a24d42548c03bfbfb06fe810
   React-RCTActionSheet: 9f71d7ae3e8fb10e08d162cbf14c621349dbfab3
   React-RCTAnimation: 981d8c95b0e30918a9832ccac32af83562a27fae
   React-RCTBlob: 21e73d1020a302a75fed30dbaee9f15287b80baa
@@ -336,13 +347,14 @@ SPEC CHECKSUMS:
   React-RCTVibration: 0bea40cd51bd089bd591a8f74c86e91fdf2666c5
   React-RCTWebSocket: 163873f4cdd5f1058a9483443404fc3801581cb6
   RNCAsyncStorage: 60a80e72d95bf02a01cace55d3697d9724f0d77f
+  RNDateTimePicker: 9db00606d689f5653f08aa601c81b9d3266a0a19
   RNFastImage: 9b0c22643872bb7494c8d87bbbb66cc4c0d9e7a2
   RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
   RNReanimated: 1b52415c4302f198cb581282a0166690bad62c43
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
-  SDWebImage: 4eabf2fa6695c95c47724214417a9c036c965e4a
+  SDWebImage: 51ab1ce3ebd20dec6665ae8ba25c928da323db41
   SDWebImageWebPCoder: 947093edd1349d820c40afbd9f42acb6cdecd987
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 

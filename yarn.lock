@@ -1170,37 +1170,37 @@ anymatch@^2.0.0:
     normalize-path "^2.1.1"
 
 appcenter-analytics@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-2.4.0.tgz#2b20047a72e2e469890359ab3ae26b791c4e1921"
-  integrity sha512-Rf9GLE7fOuNP95jW5eRgDgTBtvofW9KMJ+ckxAgVrd3sEEq2n+6lKe7SLvrl5FNuS3IMgO8RuR/0Iuf08w2tPA==
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-2.6.0.tgz#3e497cfcd92efec9afed66560dc447014e556ac9"
+  integrity sha512-OxFFO1DFiFs5Ds1BJAVs8MjaP4t+U232VWoSxh3osLkdi02us9F80kdvBoFTW1Z78HbMtNxlof+bWUcpDksR5A==
   dependencies:
-    appcenter "2.4.0"
+    appcenter "2.6.0"
 
 appcenter-crashes@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-2.4.0.tgz#95d1e4f8c50b760411d211061f2e323c57c2a09d"
-  integrity sha512-B1GCIzn4Kf5c0+P7iSwqzW5CnaOQifMV2s6yz4GapC8bOA2xVdrX8SfJjiKV48F1ZpHCURxa7P1XvAvApx5NJg==
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-2.6.0.tgz#a129067572e05ac044ea990573b13017345320fa"
+  integrity sha512-tPgCpaMMQr6HQQGUqgWksHGKbzKRgWEhUkm6gjdLbdsP6sW7rPfRaVHQMlmUY63JRElsl6o3+VBt22du1U1XdQ==
   dependencies:
-    appcenter "2.4.0"
+    appcenter "2.6.0"
 
-appcenter-link-scripts@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-2.4.0.tgz#2db2f3c7f701a7c901dd0b9e419600ecb59002af"
-  integrity sha512-83uH2hb2C2ORp9yqipKaA3uR4yt2w+0x5Tyli6ukvqTrKm1hBJwL+I4lM2TD4jOrfkycgiRtVmPPIwQyFZkp6g==
+appcenter-link-scripts@2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-2.6.0.tgz#becf08ac55b69b4d09f134e6b2d85b95100cabc2"
+  integrity sha512-lmlvy/prJWlzGSnrzuZTXI398El4+nx+SSLXjpGYhPkJv9aFbs+1nF0WP5qqcJeBkdc8XJIWhicWvNy5lkU1LQ==
   dependencies:
-    debug "2.2.0"
+    debug "4.1.1"
     glob "5.0.15"
     mkdirp "0.5.1"
     plist "3.0.1"
     which "1.2.11"
     xcode "2.0.0"
 
-appcenter@2.4.0, appcenter@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-2.4.0.tgz#9e8737d2edbecbec139e20402bc85670900d84fa"
-  integrity sha512-BV9/b9lH8mkg4O6NMXRFZ2PzTTt8GXnIWTSOZRTJBJxUOm4XgsguQ/yfdWckZeUTwsnA8u4aE0C/pKzNaw9d3A==
+appcenter@2.6.0, appcenter@^2.4.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-2.6.0.tgz#999137c85d84f9584f2fe2660ca57b52541f1dc0"
+  integrity sha512-Ud4lGIOKxgmACNJLE6Koie2Gl1BksgY/ZwxlaN/WEgpnOoDTGFORSt1yNcX79SCuPcZ9g2JE2djeeXBKMSh+5A==
   dependencies:
-    appcenter-link-scripts "2.4.0"
+    appcenter-link-scripts "2.6.0"
 
 aproba@^1.0.3:
   version "1.2.0"
@@ -2120,18 +2120,18 @@ debounce@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
 
-debug@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-2.2.0.tgz#f87057e995b1a1f6ae6a4960664137bc56f039da"
-  integrity sha1-+HBX6ZWxofauaklgZkE3vFbwOdo=
-  dependencies:
-    ms "0.7.1"
-
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   dependencies:
     ms "2.0.0"
+
+debug@4.1.1, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
+  integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
+  dependencies:
+    ms "^2.1.1"
 
 debug@=3.1.0:
   version "3.1.0"
@@ -2143,12 +2143,6 @@ debug@=3.1.0:
 debug@^3.2.6:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
-  dependencies:
-    ms "^2.1.1"
-
-debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   dependencies:
     ms "^2.1.1"
 
@@ -4564,6 +4558,7 @@ min-document@^2.19.0:
 "minimatch@2 || 3", minimatch@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
+  integrity sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==
   dependencies:
     brace-expansion "^1.1.7"
 
@@ -4607,6 +4602,7 @@ mixin-deep@^1.2.0:
 mkdirp@0.5.1, mkdirp@^0.5.0, mkdirp@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
+  integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
 
@@ -4624,11 +4620,6 @@ morgan@^1.9.0:
     depd "~1.1.2"
     on-finished "~2.3.0"
     on-headers "~1.0.1"
-
-ms@0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
-  integrity sha1-nNE8A62/8ltl7/3nzoZO6VIBcJg=
 
 ms@2.0.0:
   version "2.0.0"
@@ -5181,6 +5172,7 @@ pkg-dir@^3.0.0:
 plist@3.0.1, plist@^3.0.0, plist@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/plist/-/plist-3.0.1.tgz#a9b931d17c304e8912ef0ba3bdd6182baf2e1f8c"
+  integrity sha512-GpgvHHocGRyQm74b6FWEZZVRroHKE1I0/BTjAmySaohK+cUn+hZpbqXkc3KWgW3gQYkqcQej35FohcT0FRlkRQ==
   dependencies:
     base64-js "^1.2.3"
     xmlbuilder "^9.0.7"
@@ -5450,10 +5442,10 @@ react-native-fast-image@^7.0.2:
   resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-7.0.2.tgz#e06b21f42f4a9786eaa86f3db35d919070fb8403"
   integrity sha512-MfuzJbC0RjYobR2gFCdqe1I7jvNOCfDkjQ7VGOHXniqjohhULMkcWNBE9Umovi9Dx93lJ6t5utcE2wf/09zvlg==
 
-react-native-fbsdk@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-1.0.4.tgz#ecc0faf235e12de4423af9908f56b999cf144422"
-  integrity sha512-s0fBRDi/k6jfWFRnmwQwJA4WTriKhyes71tYO6LdXF6nAI7k+7DCdFZqIA7PqtTUA7WwEjSP6qjKTibCDWOwLw==
+react-native-fbsdk@^1.0.3:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-1.1.1.tgz#91a787a046bc90d29907a2269321191cd301517c"
+  integrity sha512-1hlOeQ8rXOYXd7/XKvKXKOsURxHi4EbHWCZO1aIWQWO6pdyK1i/56KuC9KDTGo8TjNTFfA/2H5vJCG040gI75Q==
 
 react-native-gesture-handler@^1.4.1:
   version "1.4.1"
@@ -7078,6 +7070,7 @@ ws@^5.2.0:
 xcode@2.0.0, xcode@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/xcode/-/xcode-2.0.0.tgz#134f1f94c26fbfe8a9aaa9724bfb2772419da1a2"
+  integrity sha512-5xF6RCjAdDEiEsbbZaS/gBRt3jZ/177otZcpoLCjGN/u1LrfgH7/Sgeeavpr/jELpyDqN2im3AKosl2G2W8hfw==
   dependencies:
     simple-plist "^1.0.0"
     uuid "^3.3.2"
