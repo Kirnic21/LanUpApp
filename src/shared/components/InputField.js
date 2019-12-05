@@ -61,6 +61,6 @@ const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
     color: "#FFF",
-    paddingLeft: "10%"
+    paddingHorizontal: "7%"
   }
 });

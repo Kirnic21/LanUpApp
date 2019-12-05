@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#24203B",
     marginTop: "3%",
     padding: "5%",
-    borderRadius: 15
+    borderRadius: 15,
+    marginBottom: "10%"
   },
   containerBtn: {
     width: "100%",
@@ -114,6 +115,14 @@ const styles = StyleSheet.create({
     height: 25,
     top: "-18%",
     left: "70%"
+  },
+  btnBank: {
+    borderColor: "#FFF",
+    borderWidth: 2,
+    paddingVertical: "3.4%",
+    borderRadius: 25,
+    width: "45%",
+    marginBottom: "2%"
   }
 });
 

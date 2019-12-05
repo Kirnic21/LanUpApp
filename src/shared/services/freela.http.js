@@ -23,6 +23,7 @@ const saveAvailability = data =>
 const getAvailability = id => HTTP.get(`freelas/${id}/availabilities`);
 
 const aboutMe = data => HTTP.put(`freelas/${data.id}/about`, data);
+
 const getAbout = id => HTTP.get(`freelas/${id}/about`);
 
 const saveSpecialDay = data =>

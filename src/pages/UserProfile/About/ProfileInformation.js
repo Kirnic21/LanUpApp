@@ -65,10 +65,10 @@ const ProfileInformation = ({}) => {
             iosHeader="Select one"
             mode="dropdown"
           >
-            <Picker.Item label="P" value="30" />
-            <Picker.Item label="M" value="20" />
-            <Picker.Item label="G" value="10" />
-            <Picker.Item label="M" value="7" />
+            <Picker.Item label="P" value="P" />
+            <Picker.Item label="M" value="M" />
+            <Picker.Item label="G" value="G" />
+            <Picker.Item label="GG" value="GG" />
           </Field>
         </View>
       </View>

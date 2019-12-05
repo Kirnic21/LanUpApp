@@ -34,6 +34,7 @@ import { setAbout } from "~/store/ducks/aboutMe/about.actions";
 class AboutMe extends Component {
   state = {
     visible: false,
+    bankCode: "",
     BoxItem: [
       {
         id: 1,
@@ -73,8 +74,8 @@ class AboutMe extends Component {
           fullName: get.name,
           nickName: get.nickName,
           description: get.description,
-          height: get.height,
-          weight: get.weight,
+          height: get.height.toString(),
+          weight: get.weight.toString(),
           clothingsSizes: get.clothingsSizes,
           professionalClothing: get.professionalClothing,
           ownTransport: get.ownTransport,
@@ -138,29 +139,41 @@ class AboutMe extends Component {
       phone,
       birthday,
       email,
-      gender
+      gender,
+      bankBranch,
+      bankAccount,
+      cpfCnpj,
+      owner
     } = form;
+    const h = Number(height);
+    const w = Number(height);
     debugger;
-    const { avatarUrl } = this.state;
+    const { avatarUrl, bankCode } = this.state;
     aboutMe({
       freelaId: token.id,
       avatar: avatarUrl,
       fullName,
       nickName,
       description,
-      height,
-      weight,
+      height: h,
+      weight: w,
       clothingsSizes,
       professionalClothing,
       ownTransport,
       healthProblem,
       smoke,
+      bankCode,
+      bankBranch,
+      bankAccount,
+      cnpj: cpfCnpj,
+      cpf: cpfCnpj,
+      owner,
       // lat,
       // long,
       // photos,
       email,
       phone,
-      birthday: birthday.toString(),
+      birthday,
       gender
     })
       .then(({ data }) => {
@@ -194,13 +207,12 @@ class AboutMe extends Component {
   };
 
   bankCode = item => {
-    this.setState({ code: item });
-    console.log(this.state.code);
+    this.setState({ bankCode: item });
     debugger;
   };
 
   render() {
-    const { avatar, BoxItem, visible } = this.state;
+    const { avatar, BoxItem, visible, bankCode } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView style={styles.ScrollView}>
@@ -214,7 +226,7 @@ class AboutMe extends Component {
             </TouchableOpacity>
           </View>
           <ProfileInformation />
-          <View style={styles.containerLocation}>
+          {/* <View style={styles.containerLocation}>
             <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "7%" }}>
               Localização
             </Text>
@@ -223,8 +235,8 @@ class AboutMe extends Component {
               component={InputField}
               name={"location"}
             />
-          </View>
-          <View style={styles.containerPresentationPhoto}>
+          </View> */}
+          {/* <View style={styles.containerPresentationPhoto}>
             <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "3%" }}>
               Fotos de apresentação
             </Text>
@@ -242,37 +254,33 @@ class AboutMe extends Component {
                 </TouchableOpacity>
               ))}
             </View>
-          </View>
-          <TouchableOpacity>
-            <Text>a</Text>
-          </TouchableOpacity>
+          </View> */}
           <AdditionalInformation />
           <BankInformations>
-            <TouchableOpacity
-              style={{ borderColor: "#FFF", borderWidth: 2 }}
-              onPress={() => {
-                this.setState({ visible: true });
-              }}
-            >
-              {/* <Input
-                  style={{ width: "47%" }}
-                  title="Banco"
-                  editable={false}
-                  value={this.state.code}
-                /> */}
-              <Text>aaaaa</Text>
-            </TouchableOpacity>
-            <Modal
-              onPress={item => {
-                this.bankCode(item);
+            <View>
+              <Text style={{ fontSize: 15, color: "#FFF" }}>Banco</Text>
+              <TouchableOpacity
+                style={styles.btnBank}
+                onPress={() => {
+                  this.setState({ visible: true });
+                }}
+              >
+                <Text style={{ color: "#FFF", paddingHorizontal: "15%" }}>
+                  {bankCode}
+                </Text>
+                <Modal
+                  onPress={item => {
+                    this.bankCode(item);
 
-                this.setState({ visible: false });
-              }}
-              onTouchOutside={() => {
-                this.setState({ visible: false });
-              }}
-              visible={visible}
-            />
+                    this.setState({ visible: false });
+                  }}
+                  onTouchOutside={() => {
+                    this.setState({ visible: false });
+                  }}
+                  visible={visible}
+                />
+              </TouchableOpacity>
+            </View>
           </BankInformations>
         </ScrollView>
         <ImageSelector

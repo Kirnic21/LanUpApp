@@ -49,11 +49,6 @@ const BankInformation = ({ children }) => {
           name={"owner"}
         />
       </View>
-      <View style={styles.containerBtn}>
-        <TouchableOpacity style={styles.btn}>
-          <Text style={{ color: "#FFF", top: -10 }}>Salvar</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
