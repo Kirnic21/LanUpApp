@@ -64,20 +64,24 @@ class SpecialHours extends Component {
   async componentDidMount() {
     const { SpecialDays } = this.state
     const objNormalize = SpecialDays.reduce((prev, cur, index) => {
-      prev[`start${index}`] = cur.start;
-      prev[`end${index}`] = end.start;
-      return prev;
+      const dt = moment(prev.date);
+      const newDate = this.getStartEndDate(dt, cur, index);
+      return {...prev, ...newDate};
     }, {});
 
-    debugger
     await this.props.initialize(objNormalize);
-    // await this.props.initialize({
-    //   [`start${id}`]: "2018-03-13T17:09:07.713",
-    //   [`end${id}`]: "2018-03-13T17:09:07.713"
-    // });
   }
 
-  onToggle(isOn) {}
+  getStartEndDate(date, { start, end }, index) {
+    const normalizedStart = start.substr(0, 5).split(':');
+    const normalizedEnd = end.substr(0, 5).split(':');
+    return {
+      [`start${index}`]: new Date(date.set({ hour: normalizedStart[0], minute: normalizedStart[1] })),
+      [`end${index}`]: new Date(date.set({ hour: normalizedEnd[0], minute: normalizedEnd[1] }))
+    }
+  }
+
+  onToggle(isOn) { }
 
   changeLayout = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -111,7 +115,7 @@ class SpecialHours extends Component {
   newDate = async () => {
     const { SpecialDays, date } = this.state
 
-    const datesToSave = [ ...SpecialDays, { date } ]
+    const datesToSave = [...SpecialDays, { date }]
 
     this.setState({ SpecialDays: datesToSave, visible: false })
 
@@ -120,7 +124,7 @@ class SpecialHours extends Component {
 
   changeHour = async (form) => {
     const { start, end } = form
-    
+
   }
 
   justSave = async () => {
@@ -197,9 +201,8 @@ class SpecialHours extends Component {
     SpecialDays[id].start = moment(data).format('hh:mm:[00]')
 
     this.setState({ SpecialDays })
-    
-  }
 
+  }
 
   render() {
     const { show, date, mode, expanded, SpecialDays } = this.state;
@@ -328,17 +331,18 @@ class SpecialHours extends Component {
                   style={{ width: "90%", height: 50, borderColor: "#865FC0" }}
                 />
               </TouchableOpacity>
-
-              {show && (
-                <DateTimePicker
-                  value={date}
-                  mode={mode}
-                  locale="es-ES"
-                  is24Hour={true}
-                  display="default"
-                  onChange={this.setDate}
-                />
-              )}
+              <View>
+                {show && (
+                  <DateTimePicker
+                    value={date}
+                    mode={mode}
+                    locale="es-ES"
+                    is24Hour={true}
+                    display="default"
+                    onChange={this.setDate}
+                  />
+                )}
+              </View>
             </View>
             <View style={{ alignItems: "center" }}>
               <RoundButton
