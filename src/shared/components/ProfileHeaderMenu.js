@@ -27,14 +27,12 @@ export default class MyComponent extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Menu
-          ref={this.setMenuRef}
-          button={<Icon onPress={this.showMenu} name="more-vert" size={25} style={{color:'#FFF'}}/>}
-        >
-          {this.props.children}
-        </Menu>
-      </View>
+      <Menu
+        ref={this.setMenuRef}
+        button={<Icon onPress={this.showMenu} name="more-vert" size={25} style={{ color: '#FFF' }} />}
+      >
+        {this.props.children}
+      </Menu>
     );
   }
 }

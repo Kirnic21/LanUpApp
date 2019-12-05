@@ -17,7 +17,7 @@ export default class DateInputField extends Component {
       : new Date
 
     const format = mode === 'time'
-      ? 'hh:mm'
+      ? 'HH:mm'
       : 'DD/MM/YYYY'
 
     return moment(dateTime).format(format)

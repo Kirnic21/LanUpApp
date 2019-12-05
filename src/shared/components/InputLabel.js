@@ -30,7 +30,7 @@ export default InputLabel = ({
           {
             height: 45,
             borderColor: "white",
-            borderRadius: 25,
+            borderRadius: 23,
             color: "white"
           },
           style,
@@ -55,7 +55,7 @@ export default InputLabel = ({
 const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
-    paddingLeft: "10%",
-    paddingTop: '3%'
+    paddingLeft: "7%",
+    paddingTop: '4%'
   }
 });

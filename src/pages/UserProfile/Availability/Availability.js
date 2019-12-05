@@ -11,20 +11,35 @@ import {
 import {
   emergencyAvailability,
   getAvailability,
-  availability,
+  saveAvailability,
   decodeToken
 } from "~/shared/services/freela.http";
 import ArrowRight from "~/assets/images/arrowRight.png";
 import { Field, reduxForm } from "redux-form";
+import moment from 'moment'
 
 import Schedules from "./Schedules";
 
 import AsyncStorage from "@react-native-community/async-storage";
 
+const DisplayDate = ({ date, displayHour }) => {
+  return <View style={{ flexDirection: "row", alignItems: "center" }}>
+    <Text style={{ color: "#FFF", fontSize: 15, marginRight: "15.5%" }}>
+      {moment(date).format("DD [de] MMM, YYYY")}
+    </Text>
+    <Text style={{
+      color: "#46C5F3",
+      fontSize: 12
+    }}>
+      {displayHour}
+    </Text>
+  </View>;
+}
+
 class Availability extends Component {
   state = {
     selected: false,
-    SpecialDays:[],
+    SpecialDays: [],
     schedules: [
       {
         id: "1",
@@ -40,7 +55,7 @@ class Availability extends Component {
         date: "Não aceito job",
         start: new Date().getTime(),
         end: new Date().getTime(),
-        available: false 
+        available: false
       },
       {
         id: "3",
@@ -117,13 +132,13 @@ class Availability extends Component {
 
     const convertItems = (days) => days.map(normalizeSpecialDate)
 
-      getAvailability(token.id).then(({ data }) => {
-        const SpecialDays = data.result.value.specialDays;
+    getAvailability(token.id).then(({ data }) => {
+      const SpecialDays = data.result.value.specialDays;
 
-        SpecialDays === null
-          ? this.setState({ SpecialDays: [] })
-          : this.setState({ SpecialDays: convertItems(SpecialDays) });
-      });
+      SpecialDays === null
+        ? this.setState({ SpecialDays: [] })
+        : this.setState({ SpecialDays: convertItems(SpecialDays) });
+    });
   }
 
   openAvailabilityDays = day => {
@@ -142,7 +157,8 @@ class Availability extends Component {
       this.setState({ schedules });
       const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
       const schedule = this.state.days;
-      availability({
+
+      saveAvailability({
         freelaId: token.id,
         dayAvailabilities: [
           ...schedule,
@@ -172,12 +188,13 @@ class Availability extends Component {
   };
 
   openSpecialHours = () => {
-    const {SpecialDays} = this.state
-    this.props.navigation.navigate("SpecialHours", {SpecialDays});
+    const { SpecialDays } = this.state
+    this.props.navigation.navigate("SpecialHours", { SpecialDays });
   };
 
   render() {
-    const { schedules } = this.state;
+    const { schedules, SpecialDays } = this.state;
+    debugger
     return (
       <View style={styles.Container}>
         <ScrollView>
@@ -242,21 +259,9 @@ class Availability extends Component {
                   }}
                 />
               </View>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text
-                  style={{ color: "#FFF", fontSize: 15, marginRight: "15.5%" }}
-                >
-                  16 de Dez,2019
-                </Text>
-                <Text
-                  style={{
-                    color: "#46C5F3",
-                    fontSize: 12
-                  }}
-                >
-                  18:00 até 21:00
-                </Text>
-              </View>
+              {SpecialDays.map(({date, start, end}) => 
+                <DisplayDate date={date} displayHour={`${start.substr(0, 5)} até ${end.substr(0, 5)}`} />
+              )}
             </TouchableOpacity>
           </View>
         </ScrollView>

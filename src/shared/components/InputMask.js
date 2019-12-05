@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
-import TextInputMask from "react-native-text-input-mask";
+// import TextInputMask from "react-native-text-input-mask";
 
 export default InputMask = ({
   input: { onChange, onBlur, ...restInput },
@@ -23,7 +23,7 @@ export default InputMask = ({
       <Text style={{ color: "white", fontSize: 15, top: "-10%" }}>{title}</Text>
     </View>
     <View style={{ marginBottom: "5%" }}>
-      <TextInputMask
+      <TextInput
         style={[
           {
             height: 45,
