@@ -23,7 +23,7 @@ import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-community/async-storage";
 import {
-  specialDay,
+  saveSpecialDay,
   decodeToken,
   getAvailability
 } from "~/shared/services/freela.http";
@@ -31,19 +31,6 @@ import {
 import DateInputField from "~/shared/components/DateInputField";
 import Toggle from "~/shared/components/SwitchComponent";
 import { MenuItem, MenuDivider } from "react-native-material-menu";
-
-specialHours = [
-  {
-    id: "1",
-    title: "16 de Dez,2019",
-    expanded: false
-  },
-  {
-    id: "2",
-    title: "25 de Dez,2019",
-    expanded: false
-  }
-];
 
 class SpecialHours extends Component {
   constructor(props) {
@@ -54,19 +41,20 @@ class SpecialHours extends Component {
       mode: "date",
       show: false,
       SpecialDays: this.props.navigation.state.params.SpecialDays,
-      expanded: false
     };
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
   }
 
+  _menu = null;
+
   async componentDidMount() {
     const { SpecialDays } = this.state
     const objNormalize = SpecialDays.reduce((prev, cur, index) => {
       const dt = moment(prev.date);
       const newDate = this.getStartEndDate(dt, cur, index);
-      return {...prev, ...newDate};
+      return { ...prev, ...newDate, [`toggle${index}`]: cur.available };
     }, {});
 
     await this.props.initialize(objNormalize);
@@ -81,27 +69,24 @@ class SpecialHours extends Component {
     }
   }
 
-  onToggle(isOn) { }
-
   changeLayout = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ expanded: !this.state.expanded });
   };
 
-  clickToggle = (id, index) => {
-    // const toggle = specialHours;
-    // const toggleSelected = toggle[index - 1];
-    // toggleSelected.expanded = !toggleSelected.expanded;
-    // this.setState(prev => ({ ...prev, toggle }));
-    // const select = toggle.filter(c => c.expanded === true).map(c => c.expanded);
-    // this.setState({ expanded: select });
-    // ;
+  onToggle = (value, index) => {
+    const { SpecialDays } = this.state;
+    const toggle = SpecialDays;
+    const toggleSelected = toggle[index];
+    toggleSelected.available = value;
+    debugger
+    this.setState({ toggle });
+    this.changeLayout();
   };
 
   setDate = (event, date) => {
     date = date || this.state.date;
     this.setState({ show: Platform.OS === "ios" ? true : false, date });
-    ;
   };
 
   show = mode => {
@@ -150,7 +135,7 @@ class SpecialHours extends Component {
     };
     ;
 
-    specialDay(request)
+    saveSpecialDay(request)
       .then(({ data }) => {
         if (data.isSuccess) {
           ;
@@ -167,7 +152,7 @@ class SpecialHours extends Component {
   async saveDates(datesToSave) {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
 
-    specialDay({
+    saveSpecialDay({
       freelaId: token.id,
       specialDayAvailabilities: [...datesToSave]
     })
@@ -186,8 +171,6 @@ class SpecialHours extends Component {
   removeDate(dateToRemove) {
     const { SpecialDays } = this.state;
 
-    ;
-
     const removeEqualDate = ({ date }) => !(date === dateToRemove);
 
     const datesToSave = SpecialDays.filter(removeEqualDate);
@@ -196,22 +179,20 @@ class SpecialHours extends Component {
     this.saveDates(datesToSave);
   }
 
-  onFieldChange(data, id) {
+  onFieldChange(propName, data, id) {
     const { SpecialDays } = this.state
-    SpecialDays[id].start = moment(data).format('hh:mm:[00]')
+    SpecialDays[id][propName] = moment(data).format('hh:mm:[00]')
 
     this.setState({ SpecialDays })
-
   }
 
   render() {
-    const { show, date, mode, expanded, SpecialDays } = this.state;
+    const { show, date, mode, SpecialDays } = this.state;
     const { handleSubmit, invalid } = this.props;
-    ;
     return (
       <View style={styles.Container}>
         <ScrollView>
-          {SpecialDays.map(({ date, start }, id) => (
+          {SpecialDays.map(({ date, start, available }, id) => (
             <View key={id} style={styles.containerSpecialHours}>
               <View style={{ flexDirection: "row", paddingBottom: "5%" }}>
                 <Text
@@ -223,16 +204,19 @@ class SpecialHours extends Component {
                 >
                   {moment(date).format("DD [de] MMM, YYYY")}
                 </Text>
-                <ProfileHeaderMenu>
-                  <MenuItem onPress={handleSubmit(this.justSave)}>
+                <ProfileHeaderMenu ref={comp => {
+                  debugger
+                  this._menu = comp}}>
+                  <MenuItem onPress={() => {
+                    handleSubmit(this.justSave);
+                    this._menu.hideMenu();
+                  }}>
                     Salvar
                   </MenuItem>
                   <MenuItem
                     onPress={() => {
-                      alert("teste");
-                    }}
-                    onPress={() => {
                       this.removeDate(date);
+                      this._menu.hideMenu();
                     }}
                   >
                     Deletar
@@ -249,25 +233,18 @@ class SpecialHours extends Component {
                 >
                   Estou disponível
                 </Text>
-                <ToggleSwitch
+                <Field
                   key={id}
                   size="small"
                   onColor="#483D8B"
                   offColor="#18142F"
-                  isOn={expanded}
-                  onToggle={expanded => {
-                    this.clickToggle(expanded, id);
-                    this.onToggle(expanded);
-                    this.changeLayout();
-                  }}
+                  isOn={available}
+                  onToggle={available => this.onToggle(available, id)}
+                  component={ToggleSwitch}
+                  name={`toggle${id}`}
                 />
               </View>
-              <View
-                style={{
-                  // height: expanded === true ? null : 0,
-                  overflow: "hidden"
-                }}
-              >
+              {available && <>
                 <Text
                   style={{
                     color: "#FFF",
@@ -287,7 +264,7 @@ class SpecialHours extends Component {
                     title="Das"
                     mode="time"
                     component={DateInputField}
-                    onChange={(data) => this.onFieldChange(data, id)}
+                    onChange={(data) => this.onFieldChange('start', data, id)}
                     name={`start${id}`}
                   />
                   <View
@@ -302,11 +279,12 @@ class SpecialHours extends Component {
                       title="Até"
                       mode="time"
                       component={DateInputField}
+                      onChange={(data) => this.onFieldChange('end', data, id)}
                       name={`end${id}`}
                     />
                   </View>
                 </View>
-              </View>
+              </>}
             </View>
           ))}
           <Modal

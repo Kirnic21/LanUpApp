@@ -10,19 +10,12 @@ const getDisplayDate = day => {
   if (!day.available) return "Não aceito job";
   const start = new Date(day.start);
   const end = new Date(day.end);
-  const format = 'hh:mm';
+  const format = 'HH:mm';
 
   return `${moment(start).format(format)} até ${moment(end).format(format)}`
 }
 
-
 const Schedules = ({ onPress, schedules, days }) => {
-  // GetDay = async () => {
-  // const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-  // getAvailability(token.id).then(({ data }) => {
-  // console.log(data.result);
-  // const days = data.result.value.days;
-  // });
   // useEffect(() => {
   //   GetDay();
   //   debugger;

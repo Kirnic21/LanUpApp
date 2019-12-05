@@ -18,15 +18,15 @@ const galleryDelete = (id, queryParams) =>
 
 const emergencyAvailability = data =>
   HTTP.put(`freelas/${data.id}/EmergencyAvailability`, data);
-const availability = data =>
+const saveAvailability = data =>
   HTTP.post(`freelas/${data.id}/availabilities`, data);
 const getAvailability = id => HTTP.get(`freelas/${id}/availabilities`);
 
 const aboutMe = data => HTTP.put(`freelas/${data.id}/about`, data);
 const getAbout = id => HTTP.get(`freelas/${id}/about`);
 
-const specialDay = data =>
-  HTTP.post(`freelas/${data.id}/availabilities/specialdays`, data);
+const saveSpecialDay = data =>
+  HTTP.post(`freelas/${data.freelaId}/availabilities/specialdays`, data);
 
 const decodeToken = token =>
   JSON.parse(
@@ -47,7 +47,7 @@ export {
   galery,
   galeries,
   galleryDelete,
-  availability,
+  saveAvailability,
   getAvailability,
   getAbout,
   aboutMe,
@@ -55,5 +55,5 @@ export {
   service,
   updateJobs,
   getJobs,
-  specialDay
+  saveSpecialDay
 };
