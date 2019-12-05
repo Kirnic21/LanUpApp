@@ -35,32 +35,30 @@ export default class DateInputField extends Component {
   };
   render() {
     const { input, meta, ...inputProps } = this.props;
-    debugger
     return (
-      <View style={styles.container}>
-        <TouchableOpacity onPress={this.showDateTimePicker}>
-          <DateTimePicker
-            style={styles.label}
-            date={input.value || new Date()} //date is transformed from input
-            onDateChange={this.handleChange}
-            mode={inputProps.mode || "date"}
-            cancelTextIOS="Annulla"
-            confirmTextIOS="Conferma"
-            isVisible={this.state.isDateTimePickerVisible}
-            onConfirm={this.handleChange}
-            onCancel={() => this.setState({ isDateTimePickerVisible: false })}
-          />
-          <Input
-            editable={false}
-            enabled={false}
-            label={this.props.label}
-            style={this.props.style}
-            title={this.props.title}
-            placeholder={this.props.placeholder}
-            value={this.getFormatByMode(input.value, inputProps.mode)}
-          />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={styles.container} onPress={this.showDateTimePicker}>
+        <DateTimePicker
+          style={styles.label}
+          date={input.value || new Date()} //date is transformed from input
+          onDateChange={this.handleChange}
+          mode={inputProps.mode || "date"}
+          cancelTextIOS="Cancelar"
+          confirmTextIOS="Confirmar"
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this.handleChange}
+          onCancel={() => this.setState({ isDateTimePickerVisible: false })}
+        />
+        <Input
+          editable={false}
+          enabled={false}
+          label={this.props.label}
+          style={this.props.style}
+          title={this.props.title}
+          placeholder={this.props.placeholder}
+          onClick={this.showDateTimePicker}
+          value={this.getFormatByMode(input.value, inputProps.mode)}
+        />
+      </TouchableOpacity>
     );
   }
 }
