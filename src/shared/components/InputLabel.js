@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import { StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-native";
 
 export default InputLabel = ({
   title,
@@ -12,9 +12,10 @@ export default InputLabel = ({
   onChange,
   value,
   editable,
-  onChangeText
+  onChangeText,
+  onClick
 }) => (
-  <View style={{ width: "100%" }}>
+  <TouchableOpacity style={{ width: "100%" }} onPress={onClick}>
     <View>
       <Text style={{ color: "white", fontSize: 15, top: "-10%" }}>{title}</Text>
     </View>
@@ -24,18 +25,18 @@ export default InputLabel = ({
         width: "100%"
       }}
     >
-      <TextInput
+      <Text
         style={[
           {
             height: 45,
-            width: "100%",
             borderColor: "white",
-            borderRadius: 50,
-            color: "#FFF"
+            borderRadius: 25,
+            color: "white"
           },
           style,
           styles.TextInput
         ]}
+        onPress={onClick}
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
         // autoFocus={autoFocus}
@@ -46,14 +47,15 @@ export default InputLabel = ({
         value={value}
         editable={editable}
         onChangeText={onChangeText}
-      />
+      >{value}</Text>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
-    paddingLeft: "10%"
+    paddingLeft: "10%",
+    paddingTop: '3%'
   }
 });
