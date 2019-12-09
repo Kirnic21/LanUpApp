@@ -7,6 +7,7 @@
     "ios": "react-native run-ios",
     "bundle:ios": "yarn react-native bundle --platform ios --dev false --entry-file index.js --bundle-output ./ios/main.jsbundle",
     "android": "react-native run-android",
+    "android:build": "cd android && ./gradlew assembleRelease",
     "android:staging": "cd android && ./gradlew assembleRelease --console plain && cd ..",
     "android:clean": "cd android && ./gradlew clean && cd ..",
     "test": "jest",
