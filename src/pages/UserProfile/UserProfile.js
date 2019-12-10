@@ -7,7 +7,6 @@ import {
   uploadGalleryImage,
   deleteGalleryImage
 } from "~/store/ducks/gallery/gallery.actions";
-// import { NavigationActions } from 'react-navigation';
 import {
   StyleSheet,
   View,
@@ -19,14 +18,14 @@ import {
   StatusBar
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import ArrowRight from "../../assets/images/arrowRight.png";
+import ArrowRight from "~assets/images/arrowRight.png";
 
 import {
   galery,
   galeries,
   decodeToken,
   galleryDelete
-} from "../../shared/services/freela.http";
+} from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 
 class UserProfile extends Component {

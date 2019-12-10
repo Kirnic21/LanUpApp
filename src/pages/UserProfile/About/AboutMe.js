@@ -146,7 +146,7 @@ class AboutMe extends Component {
       owner
     } = form;
     const h = Number(height);
-    const w = Number(height);
+    const w = Number(weight);
     debugger;
     const { avatarUrl, bankCode } = this.state;
     aboutMe({

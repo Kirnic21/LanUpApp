@@ -31,6 +31,7 @@ import {
 import DateInputField from "~/shared/components/DateInputField";
 import Toggle from "~/shared/components/SwitchComponent";
 import { MenuItem, MenuDivider } from "react-native-material-menu";
+import DropdownAlert from "react-native-dropdownalert";
 
 class SpecialHours extends Component {
   constructor(props) {
@@ -40,7 +41,7 @@ class SpecialHours extends Component {
       date: new Date(),
       mode: "date",
       show: false,
-      SpecialDays: this.props.navigation.state.params.SpecialDays,
+      SpecialDays: this.props.navigation.state.params.SpecialDays
     };
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -50,7 +51,7 @@ class SpecialHours extends Component {
   _menu = null;
 
   async componentDidMount() {
-    const { SpecialDays } = this.state
+    const { SpecialDays } = this.state;
     const objNormalize = SpecialDays.reduce((prev, cur, index) => {
       const dt = moment(prev.date);
       const newDate = this.getStartEndDate(dt, cur, index);
@@ -61,12 +62,16 @@ class SpecialHours extends Component {
   }
 
   getStartEndDate(date, { start, end }, index) {
-    const normalizedStart = start.substr(0, 5).split(':');
-    const normalizedEnd = end.substr(0, 5).split(':');
+    const normalizedStart = start.substr(0, 5).split(":");
+    const normalizedEnd = end.substr(0, 5).split(":");
     return {
-      [`start${index}`]: new Date(date.set({ hour: normalizedStart[0], minute: normalizedStart[1] })),
-      [`end${index}`]: new Date(date.set({ hour: normalizedEnd[0], minute: normalizedEnd[1] }))
-    }
+      [`start${index}`]: new Date(
+        date.set({ hour: normalizedStart[0], minute: normalizedStart[1] })
+      ),
+      [`end${index}`]: new Date(
+        date.set({ hour: normalizedEnd[0], minute: normalizedEnd[1] })
+      )
+    };
   }
 
   changeLayout = () => {
@@ -79,9 +84,9 @@ class SpecialHours extends Component {
     const toggle = SpecialDays;
     const toggleSelected = toggle[index];
     toggleSelected.available = value;
-    debugger
     this.setState({ toggle });
     this.changeLayout();
+    this.justSave();
   };
 
   setDate = (event, date) => {
@@ -98,55 +103,38 @@ class SpecialHours extends Component {
   };
 
   newDate = async () => {
-    const { SpecialDays, date } = this.state
+    const { SpecialDays, date } = this.state;
 
-    const datesToSave = [...SpecialDays, { date }]
+    const datesToSave = [...SpecialDays, { date }];
 
-    this.setState({ SpecialDays: datesToSave, visible: false })
+    this.setState({ SpecialDays: datesToSave, visible: false });
 
-    await this.saveDates(datesToSave)
-  }
+    await this.saveDates(datesToSave);
+  };
 
-  changeHour = async (form) => {
-    const { start, end } = form
-
-  }
+  changeHour = async form => {
+    const { start, end } = form;
+  };
 
   justSave = async () => {
-    const { SpecialDays } = this.state
-    this.saveDates(SpecialDays)
-  }
+    const { SpecialDays } = this.state;
+    await this.saveDates(SpecialDays);
+  };
 
-  AddHour = async (form) => {
-    const { start, end, available } = form
+  AddHour = async form => {
+    const { start, end, available } = form;
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const { date, SpecialDays } = this.state;
-    const request = {
-      freelaId: token.id,
-      specialDayAvailabilities: [
-        ...SpecialDays,
-        {
-          date,
-          start: moment(start).format('hh:mm[:00]'),
-          end: moment(end).format('hh:mm[:00]'),
-          available
-        }
-      ]
-    };
-    ;
-
-    saveSpecialDay(request)
-      .then(({ data }) => {
-        if (data.isSuccess) {
-          ;
-          console.log(data);
-        }
-      })
-      .catch(error => {
-        ;
-        console.log(error.response.data);
-      });
-    ;
+    const request = [
+      ...SpecialDays,
+      {
+        date,
+        start: moment(start).format("hh:mm[:00]"),
+        end: moment(end).format("hh:mm[:00]"),
+        available
+      }
+    ];
+    await this.saveDates(request);
   };
 
   async saveDates(datesToSave) {
@@ -158,12 +146,16 @@ class SpecialHours extends Component {
     })
       .then(({ data }) => {
         if (data.isSuccess) {
-          ;
+          this.dropDownAlertRef.alertWithType("success", "Sucesso", data);
           console.log(data);
         }
       })
       .catch(error => {
-        ;
+        this.dropDownAlertRef.alertWithType(
+          "error",
+          "Erro",
+          error.response.data.errorMessage
+        );
         console.log(error.response.data);
       });
   }
@@ -180,10 +172,10 @@ class SpecialHours extends Component {
   }
 
   onFieldChange(propName, data, id) {
-    const { SpecialDays } = this.state
-    SpecialDays[id][propName] = moment(data).format('hh:mm:[00]')
+    const { SpecialDays } = this.state;
+    SpecialDays[id][propName] = moment(data).format("hh:mm:[00]");
 
-    this.setState({ SpecialDays })
+    this.setState({ SpecialDays });
   }
 
   render() {
@@ -191,6 +183,22 @@ class SpecialHours extends Component {
     const { handleSubmit, invalid } = this.props;
     return (
       <View style={styles.Container}>
+        <View
+          style={{
+            width: "100%",
+            alignItems: "center",
+            position: "absolute",
+            marginTop: "-20%"
+          }}
+        >
+          <DropdownAlert
+            ref={ref => (this.dropDownAlertRef = ref)}
+            defaultContainer={{
+              padding: 8,
+              flexDirection: "row"
+            }}
+          />
+        </View>
         <ScrollView>
           {SpecialDays.map(({ date, start, available }, id) => (
             <View key={id} style={styles.containerSpecialHours}>
@@ -204,13 +212,17 @@ class SpecialHours extends Component {
                 >
                   {moment(date).format("DD [de] MMM, YYYY")}
                 </Text>
-                <ProfileHeaderMenu ref={comp => {
-                  debugger
-                  this._menu = comp}}>
-                  <MenuItem onPress={() => {
-                    handleSubmit(this.justSave);
-                    this._menu.hideMenu();
-                  }}>
+                <ProfileHeaderMenu
+                  ref={comp => {
+                    this._menu = comp;
+                  }}
+                >
+                  <MenuItem
+                    onPress={() => {
+                      this.justSave();
+                      this._menu.hideMenu();
+                    }}
+                  >
                     Salvar
                   </MenuItem>
                   <MenuItem
@@ -244,47 +256,49 @@ class SpecialHours extends Component {
                   name={`toggle${id}`}
                 />
               </View>
-              {available && <>
-                <Text
-                  style={{
-                    color: "#FFF",
-                    fontSize: 15,
-                    paddingBottom: "4%"
-                  }}
-                >
-                  Horas
-                </Text>
-                <View
-                  style={{
-                    alignContent: "stretch"
-                  }}
-                >
-                  <Field
-                    style={{ width: "48%" }}
-                    title="Das"
-                    mode="time"
-                    component={DateInputField}
-                    onChange={(data) => this.onFieldChange('start', data, id)}
-                    name={`start${id}`}
-                  />
+              {available && (
+                <>
+                  <Text
+                    style={{
+                      color: "#FFF",
+                      fontSize: 15,
+                      paddingBottom: "4%"
+                    }}
+                  >
+                    Horas
+                  </Text>
                   <View
                     style={{
-                      position: "absolute",
-                      width: "100%",
-                      left: "52%"
+                      alignContent: "stretch"
                     }}
                   >
                     <Field
                       style={{ width: "48%" }}
-                      title="Até"
+                      title="Das"
                       mode="time"
                       component={DateInputField}
-                      onChange={(data) => this.onFieldChange('end', data, id)}
-                      name={`end${id}`}
+                      onChange={data => this.onFieldChange("start", data, id)}
+                      name={`start${id}`}
                     />
+                    <View
+                      style={{
+                        position: "absolute",
+                        width: "100%",
+                        left: "52%"
+                      }}
+                    >
+                      <Field
+                        style={{ width: "48%" }}
+                        title="Até"
+                        mode="time"
+                        component={DateInputField}
+                        onChange={data => this.onFieldChange("end", data, id)}
+                        name={`end${id}`}
+                      />
+                    </View>
                   </View>
-                </View>
-              </>}
+                </>
+              )}
             </View>
           ))}
           <Modal
@@ -299,16 +313,13 @@ class SpecialHours extends Component {
               Adicione um horário
             </Text>
             <View style={styles.containerModalInput}>
-              <TouchableOpacity
-                onPress={this.datepicker}
-                style={{ width: "100%" }}
-              >
-                <InputLabel
-                  editable={false}
-                  value={moment(date).format("LL")}
-                  style={{ width: "90%", height: 50, borderColor: "#865FC0" }}
-                />
-              </TouchableOpacity>
+              <InputLabel
+                onClick={this.datepicker}
+                editable={false}
+                value={moment(date).format("LL")}
+                style={{ width: "90%", height: 50, borderColor: "#865FC0" }}
+              />
+
               <View>
                 {show && (
                   <DateTimePicker
@@ -382,4 +393,3 @@ export default SpecialHours = reduxForm({
   // validate: formRules,
   enableReinitialize: true
 })(SpecialHours);
-
