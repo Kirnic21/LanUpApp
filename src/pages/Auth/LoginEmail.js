@@ -21,6 +21,7 @@ import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
 import Spinner from "react-native-loading-spinner-overlay";
 import DropdownAlert from "react-native-dropdownalert";
+import InputModal from "~/shared/components/InputModal";
 
 const formRules = FormValidator.make(
   {
@@ -247,7 +248,7 @@ class LoginEmail extends Component {
                   top: "-5%"
                 }}
               >
-                <InputLabel
+                <InputModal
                   onChangeText={this.handleEmail}
                   title="E-mail"
                   style={{ width: 325, height: 50, borderColor: "#865FC0" }}

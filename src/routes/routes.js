@@ -20,6 +20,7 @@ import AvailabilityDays from "~/pages/UserProfile/Availability/AvailabilityDays"
 import SpecialHours from "~/pages/UserProfile/Availability/SpecialHours";
 import Agency from "~/pages/UserProfile/Agency/Agency";
 import Agencies from "~/pages/UserProfile/Agencies";
+import PreviewProfile from "~/pages/UserProfile/PreviewProfile";
 
 import DetailNextEvent from "~/pages/NextEvent/DetailNextEvent";
 import CheckList from "~/pages/NextEvent/CheckList";
@@ -119,6 +120,21 @@ const pageNavigator = createStackNavigator({
         <HeaderBackButton
           tintColor="#FFf"
           onPress={() => navigation.push("Availability")}
+        />
+      )
+    })
+  },
+  PreviewProfile: {
+    screen: PreviewProfile,
+    navigationOptions: ({ navigation }) => ({
+      headerTransparent: true,
+      headerStyle: {
+        marginTop: 20
+      },
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.push("UserProfile")}
         />
       )
     })
@@ -339,10 +355,10 @@ const pageNavigator = createStackNavigator({
       headerTitleStyle: {
         textAlign: "center",
         alignSelf: "center",
-        width: "75%",
+        width: "88%",
         fontFamily: "Montserrat-Bold",
         color: "#FFFFFF",
-        fontSize: 20
+        fontSize: 18
       },
       headerLeft: (
         <HeaderBackButton

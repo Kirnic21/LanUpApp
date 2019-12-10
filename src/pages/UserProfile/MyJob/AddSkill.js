@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import MaterialCommunityIcons from "react-native-vector-icons/FontAwesome";
 import { Container, Header, Right } from "native-base";
 import DropdownAlert from "react-native-dropdownalert";
+import InputModal from "~/shared/components/InputModal";
 
 class AddSkill extends Component {
   constructor(props) {
@@ -177,7 +178,7 @@ class AddSkill extends Component {
               Adicionar
             </Text>
             <View style={styles.containerModalInput}>
-              <InputLabel
+              <InputModal
                 onChangeText={this.Skills}
                 title="Habilidade"
                 style={{ width: "91%", height: 50, borderColor: "#46C5F3" }}
