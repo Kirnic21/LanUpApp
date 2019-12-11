@@ -7,31 +7,21 @@ import {
   ScrollView,
   LayoutAnimation,
   Platform,
-  UIManager,
-  TouchableOpacity
+  UIManager
 } from "react-native";
-import ProfileHeaderMenu from "~/shared/components/ProfileHeaderMenu";
-import InputField from "~/shared/components/InputField";
-import { Field, reduxForm } from "redux-form";
-import { Menu } from "react-native-paper";
-import ActionButton from "~/shared/components/ActionButton";
-import Modal from "~/shared/components/ModalComponent";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-
 import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import AsyncStorage from "@react-native-community/async-storage";
-import {
-  saveSpecialDay,
-  decodeToken,
-  getAvailability
-} from "~/shared/services/freela.http";
-
-import DateInputField from "~/shared/components/DateInputField";
-import Toggle from "~/shared/components/SwitchComponent";
-import { MenuItem, MenuDivider } from "react-native-material-menu";
+import { MenuItem } from "react-native-material-menu";
 import DropdownAlert from "react-native-dropdownalert";
+
+import ProfileHeaderMenu from "~/shared/components/ProfileHeaderMenu";
+import ActionButton from "~/shared/components/ActionButton";
+import Modal from "~/shared/components/ModalComponent";
+import DateInputField from "~/shared/components/DateInputField";
+
+import { Field, reduxForm } from "redux-form";
+import AsyncStorage from "@react-native-community/async-storage";
+import { saveSpecialDay, decodeToken } from "~/shared/services/freela.http";
 
 class SpecialHours extends Component {
   constructor(props) {
@@ -104,16 +94,9 @@ class SpecialHours extends Component {
 
   newDate = async () => {
     const { SpecialDays, date } = this.state;
-
     const datesToSave = [...SpecialDays, { date }];
-
     this.setState({ SpecialDays: datesToSave, visible: false });
-
     await this.saveDates(datesToSave);
-  };
-
-  changeHour = async form => {
-    const { start, end } = form;
   };
 
   justSave = async () => {
@@ -123,7 +106,6 @@ class SpecialHours extends Component {
 
   AddHour = async form => {
     const { start, end, available } = form;
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const { date, SpecialDays } = this.state;
     const request = [
       ...SpecialDays,
@@ -162,11 +144,8 @@ class SpecialHours extends Component {
 
   removeDate(dateToRemove) {
     const { SpecialDays } = this.state;
-
     const removeEqualDate = ({ date }) => !(date === dateToRemove);
-
     const datesToSave = SpecialDays.filter(removeEqualDate);
-
     this.setState({ SpecialDays: datesToSave });
     this.saveDates(datesToSave);
   }
@@ -174,13 +153,11 @@ class SpecialHours extends Component {
   onFieldChange(propName, data, id) {
     const { SpecialDays } = this.state;
     SpecialDays[id][propName] = moment(data).format("hh:mm:[00]");
-
     this.setState({ SpecialDays });
   }
 
   render() {
     const { show, date, mode, SpecialDays } = this.state;
-    const { handleSubmit, invalid } = this.props;
     return (
       <View style={styles.Container}>
         <View
@@ -193,10 +170,7 @@ class SpecialHours extends Component {
         >
           <DropdownAlert
             ref={ref => (this.dropDownAlertRef = ref)}
-            defaultContainer={{
-              padding: 8,
-              flexDirection: "row"
-            }}
+            defaultContainer={{ padding: 8, flexDirection: "row" }}
           />
         </View>
         <ScrollView>
@@ -204,11 +178,7 @@ class SpecialHours extends Component {
             <View key={id} style={styles.containerSpecialHours}>
               <View style={{ flexDirection: "row", paddingBottom: "5%" }}>
                 <Text
-                  style={{
-                    color: "#FFF",
-                    fontSize: 20,
-                    marginRight: "50%"
-                  }}
+                  style={{ color: "#FFF", fontSize: 20, marginRight: "50%" }}
                 >
                   {moment(date).format("DD [de] MMM, YYYY")}
                 </Text>
@@ -237,11 +207,7 @@ class SpecialHours extends Component {
               </View>
               <View style={{ flexDirection: "row", paddingBottom: "5%" }}>
                 <Text
-                  style={{
-                    color: "#FFF",
-                    fontSize: 15,
-                    marginRight: "55%"
-                  }}
+                  style={{ color: "#FFF", fontSize: 15, marginRight: "55%" }}
                 >
                   Estou disponível
                 </Text>
@@ -259,19 +225,11 @@ class SpecialHours extends Component {
               {available && (
                 <>
                   <Text
-                    style={{
-                      color: "#FFF",
-                      fontSize: 15,
-                      paddingBottom: "4%"
-                    }}
+                    style={{ color: "#FFF", fontSize: 15, paddingBottom: "4%" }}
                   >
                     Horas
                   </Text>
-                  <View
-                    style={{
-                      alignContent: "stretch"
-                    }}
-                  >
+                  <View style={{ alignContent: "stretch" }}>
                     <Field
                       style={{ width: "48%" }}
                       title="Das"
@@ -390,6 +348,5 @@ const styles = StyleSheet.create({
 
 export default SpecialHours = reduxForm({
   form: "SpecialHours",
-  // validate: formRules,
   enableReinitialize: true
 })(SpecialHours);

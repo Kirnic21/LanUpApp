@@ -19,7 +19,7 @@ const galleryDelete = (id, queryParams) =>
 const emergencyAvailability = data =>
   HTTP.put(`freelas/${data.id}/EmergencyAvailability`, data);
 const saveAvailability = data =>
-  HTTP.post(`freelas/${data.id}/availabilities`, data);
+  HTTP.post(`freelas/${data.id}/availabilities/days`, data);
 const getAvailability = id => HTTP.get(`freelas/${id}/availabilities`);
 
 const aboutMe = data => HTTP.put(`freelas/${data.id}/about`, data);

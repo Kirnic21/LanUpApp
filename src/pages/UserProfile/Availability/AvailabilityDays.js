@@ -1,131 +1,163 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
+import moment from "moment";
+
 import ToggleSwitch from "toggle-switch-react-native";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-  ScrollView
-} from "react-native";
 import ProfileHeaderMenu from "~/shared/components/ProfileHeaderMenu";
-import { Menu } from "react-native-paper";
-import Input from "~/shared/components/InputLabel";
 
-import { useState } from "react";
+import { Field, reduxForm } from "redux-form";
+import { MenuItem } from "react-native-material-menu";
+import DateInputField from "~/shared/components/DateInputField";
+import { saveAvailability, decodeToken } from "~/shared/services/freela.http";
+import AsyncStorage from "@react-native-community/async-storage";
+import DropdownAlert from "react-native-dropdownalert";
 
-import DateTimePicker from "@react-native-community/datetimepicker";
-const getFormmatedHour = time =>
-  `${new Date(time).getHours()}:${new Date(time).getMinutes()}`;
 const AvailabilityDays = props => {
-  const [showIniTime, setIniTime] = useState(false);
-  const [showEndTime, setEndTime] = useState(false);
+  useEffect(() => {
+    props.initialize({
+      start:
+        day.start === null
+          ? new Date(`01/01/2000 00:00`)
+          : new Date(`01/01/2000 ${day.start}`),
+      end:
+        day.end === null
+          ? new Date(`01/01/2000 00:00`)
+          : new Date(`01/01/2000 ${day.end}`)
+    });
+  }, []);
 
+  _menu = null;
   const day = props.navigation.state.params.day;
-  const updateTime = props.navigation.state.params.updateTime;
-  const { title, start, end, available } = day;
-  debugger;
-  const [iniTimeState, updateIniTime] = useState(start);
-  const [endTimeState, updateEndTime] = useState(end);
+  const daysOfWeek = props.navigation.state.params.daysOfWeek;
+  const schedules = props.navigation.state.params.schedules;
+  const days = schedules.filter(c => c.available === true);
+  const { dayOfWeek, available } = day;
 
-  const [now, updateNow] = useState(false);
+  const [now, updateNow] = useState(available);
+  const { handleSubmit } = props;
+
+  saveToggle = async now => {
+    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    saveAvailability({
+      freelaId: token.id,
+      dayAvailabilities: [...days, { dayOfWeek, available: now }]
+    })
+      .then(({ data }) => {
+        if (data.isSuccess) {
+          console.log(data);
+        }
+      })
+      .catch(error => {
+        console.log(error.response.data);
+      });
+  };
+
+  const saveDate = async form => {
+    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    const { start, end } = form;
+    saveAvailability({
+      freelaId: token.id,
+      dayAvailabilities: [
+        ...days,
+        {
+          dayOfWeek,
+          start: moment(start).format("hh:mm"),
+          end: moment(end).format("hh:mm"),
+          available: now
+        }
+      ]
+    })
+      .then(({ data }) => {
+        if (data.isSuccess) {
+          console.log(data);
+          this.dropDownAlertRef.alertWithType(
+            "success",
+            "Sucesso",
+            "Horário confirmado com sucesso"
+          );
+        }
+      })
+      .catch(error => {
+        console.log(error.response.data);
+      });
+  };
 
   return (
     <View style={styles.Container}>
+      <View
+        style={{
+          width: "100%",
+          alignItems: "center",
+          position: "absolute",
+          marginTop: "-20%"
+        }}
+      >
+        <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
+      </View>
       <ScrollView>
         <View style={{ marginHorizontal: "6%" }}>
-          <Text
-            style={{
-              color: "#FFF",
-              fontSize: 23,
-              paddingBottom: "6%"
-            }}
-          >
-            {title}
+          <Text style={{ color: "#FFF", fontSize: 23, paddingBottom: "6%" }}>
+            {daysOfWeek[dayOfWeek]}
           </Text>
           <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                color: "#FFF",
-                fontSize: 15,
-                marginRight: "55%"
-              }}
-            >
+            <Text style={{ color: "#FFF", fontSize: 15, marginRight: "55%" }}>
               Estou disponível
             </Text>
             <ToggleSwitch
               size="small"
               onColor="#483D8B"
-              offColor="#483D8B"
+              offColor="#24203B"
               isOn={now}
               onToggle={now => {
                 updateNow(now);
-                console.log(now);
+                this.saveToggle(now);
               }}
             />
           </View>
-          <View style={[styles.containerAvailabilityDays]}>
+          <View
+            pointerEvents={now ? "auto" : "none"}
+            style={[
+              styles.containerAvailabilityDays,
+              now ? { opacity: 1 } : { opacity: 0.5 }
+            ]}
+          >
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.Title}>Horas</Text>
-              <ProfileHeaderMenu>
-                <Menu.Item onPress={{}} title="Salvar" />
+              <ProfileHeaderMenu
+                ref={comp => {
+                  _menu = comp;
+                }}
+              >
+                <MenuItem
+                  onPress={
+                    (() => {
+                      this._menu.hideMenu();
+                    },
+                    handleSubmit(data => saveDate(data)))
+                  }
+                >
+                  Salvar
+                </MenuItem>
               </ProfileHeaderMenu>
             </View>
             <View style={{ alignContent: "stretch" }}>
-              <TouchableOpacity onPress={() => setIniTime(true)}>
-                <Input
-                  style={{ width: "50%", color: "#46C5F3" }}
-                  title="Das"
-                  editable={false}
-                  value={getFormmatedHour(iniTimeState)}
-                />
-              </TouchableOpacity>
-              {showIniTime && (
-                <DateTimePicker
-                  value={iniTimeState}
-                  mode={"time"}
-                  is24Hour={true}
-                  display="spinner"
-                  onChange={e => {
-                    if (e.type === "set") {
-                      setIniTime(false);
-                      day.start = e.nativeEvent.timestamp;
-                      updateIniTime(day.start);
-                      updateTime(true, day);
-                    }
-                  }}
-                />
-              )}
-              {showEndTime && (
-                <DateTimePicker
-                  value={endTimeState}
-                  mode={"time"}
-                  is24Hour={true}
-                  display="spinner"
-                  onChange={e => {
-                    if (e.type === "set") {
-                      setEndTime(false);
-                      day.end = e.nativeEvent.timestamp;
-                      updateEndTime(day.end);
-                      updateTime(false, day);
-                    }
-                  }}
-                />
-              )}
+              <Field
+                style={{ width: "48%" }}
+                title="Das"
+                mode="time"
+                component={DateInputField}
+                name={`start`}
+              />
               <View
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  left: "52%"
-                }}
+                style={{ position: "absolute", width: "100%", left: "52%" }}
               >
-                <TouchableOpacity onPress={() => setEndTime(true)}>
-                  <Input
-                    style={{ width: "50%", color: "#46C5F3" }}
-                    title="Até"
-                    editable={false}
-                    value={getFormmatedHour(endTimeState)}
-                  />
-                </TouchableOpacity>
+                <Field
+                  style={{ width: "48%" }}
+                  title="Até"
+                  mode="time"
+                  component={DateInputField}
+                  name={`end`}
+                />
               </View>
             </View>
           </View>
@@ -156,4 +188,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AvailabilityDays;
+export default reduxForm({
+  form: "AvailabilityDays"
+})(AvailabilityDays);

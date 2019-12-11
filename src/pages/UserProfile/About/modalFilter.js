@@ -31,7 +31,6 @@ export default class ModalFilter extends React.Component {
       dataSource: newData,
       search: text
     });
-    debugger;
   }
 
   search = text => {

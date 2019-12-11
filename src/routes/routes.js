@@ -3,7 +3,8 @@ import {
   createAppContainer,
   createStackNavigator,
   createSwitchNavigator,
-  HeaderBackButton
+  HeaderBackButton,
+  NavigationActions
 } from "react-navigation";
 import { TouchableOpacity, Text } from "react-native";
 
@@ -94,7 +95,12 @@ const pageNavigator = createStackNavigator({
       headerLeft: (
         <HeaderBackButton
           tintColor="#FFf"
-          onPress={() => navigation.goBack()}
+          onPress={() =>
+            navigation.reset(
+              [NavigationActions.navigate({ routeName: "Availability" })],
+              0
+            )
+          }
         />
       )
     })
