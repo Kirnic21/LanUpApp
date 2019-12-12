@@ -35,10 +35,15 @@ class AddSkill extends Component {
   Skills = t => {
     const text = t.trim();
     this.setState({ text });
+    debugger;
   };
 
   AddSkills = async skill => {
-    this.setState({ GetSkill: [...this.state.GetSkill, skill] });
+    this.setState({
+      GetSkill: [...this.state.GetSkill, skill],
+      visible: false,
+      text: ""
+    });
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const skills = this.state.GetSkill;
     updateSkills({ id: token.id, skills })
@@ -72,6 +77,7 @@ class AddSkill extends Component {
       .then(({ data }) => {
         if (data.isSuccess) {
           console.log(data.result);
+          this.setState({ text: "" });
         }
       })
       .catch(error => {
@@ -198,12 +204,7 @@ class AddSkill extends Component {
                     : { backgroundColor: "#c1c2c3" }
                 ]}
                 name="Adicionar"
-                onPress={() =>
-                  this.AddSkills(
-                    this.state.text,
-                    this.setState({ visible: false })
-                  )
-                }
+                onPress={() => this.AddSkills(text)}
               />
             </View>
           </Modal>
