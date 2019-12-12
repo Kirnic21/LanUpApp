@@ -71,6 +71,7 @@ class SelectAvatar extends Component {
   };
 
   render() {
+    const { nickname } = this.props;
     return (
       <ImageBackground
         source={ImageBack}
@@ -100,27 +101,29 @@ class SelectAvatar extends Component {
           <View
             style={{
               flex: 0.7,
-              width: Dimensions.get("window").width - 100,
+              width: "80%",
               justifyContent: "flex-end"
             }}
           >
             <Text
               style={{
                 color: "#FFF",
-                fontSize: 52,
+                fontSize: 39,
                 fontFamily: "Helvetica Now Micro",
-                fontWeight: "600",
-                textAlign: "center",
-                top: "-12%"
+                fontWeight: "300",
+                left: "7.5%",
+                textAlign: "left",
+
+                top: "-10%"
               }}
             >
-              MillorLanUp
+              {nickname}
             </Text>
             <Text
               style={{
-                fontSize: 25,
+                fontSize: 24,
                 color: "#FFF",
-                letterSpacing: 0.6,
+                letterSpacing: 0.8,
                 textAlign: "center"
               }}
             >
@@ -133,8 +136,8 @@ class SelectAvatar extends Component {
               height: 1,
               borderBottomColor: "#F2D74C",
               borderBottomWidth: 3,
-              top: "-10%",
-              left: "-27%",
+              top: "-8%",
+              left: "-25.5%",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center"
