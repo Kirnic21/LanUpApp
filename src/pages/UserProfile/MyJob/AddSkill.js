@@ -27,11 +27,13 @@ class AddSkill extends Component {
       prevState: [],
       show: true,
       btnShow: 1,
+      text: "",
       GetSkill: this.props.navigation.state.params.GetSkill
     };
   }
 
-  Skills = text => {
+  Skills = t => {
+    const text = t.trim();
     this.setState({ text });
   };
 
@@ -78,7 +80,7 @@ class AddSkill extends Component {
   };
 
   render() {
-    const { btnOp, show, GetSkill, visible, btnShow } = this.state;
+    const { btnOp, show, GetSkill, visible, btnShow, text } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -184,9 +186,17 @@ class AddSkill extends Component {
                 style={{ width: "91%", height: 50, borderColor: "#46C5F3" }}
               />
             </View>
-            <View style={{ alignItems: "center", top: "10%", opacity: btnOp }}>
+            <View
+              pointerEvents={text !== "" ? "auto" : "none"}
+              style={{ alignItems: "center", top: "10%", opacity: btnOp }}
+            >
               <RoundButton
-                style={styles.roundButton}
+                style={[
+                  styles.roundButton,
+                  text !== ""
+                    ? { backgroundColor: "#46C5F3" }
+                    : { backgroundColor: "#c1c2c3" }
+                ]}
                 name="Adicionar"
                 onPress={() =>
                   this.AddSkills(
@@ -243,7 +253,7 @@ export const styles = StyleSheet.create({
     width: "100%"
   },
   roundButton: {
-    backgroundColor: "#46C5F3",
+    // backgroundColor: "#46C5F3",
     width: "50%",
     height: "80%",
     alignItems: "center",
