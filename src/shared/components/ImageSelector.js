@@ -17,11 +17,12 @@ class ImageSelector extends React.Component {
   };
 
   openGallery = () => {
-    const { width, height } = this.props;
+    const { width, height, cropperCircleOverlay } = this.props;
     ImagePicker.openPicker({
       width: width,
       height: height,
       cropping: true,
+      cropperCircleOverlay: cropperCircleOverlay,
       compressImageMaxWidth: 1000,
       compressImageMaxHeight: 1000,
       compressImageQuality: 1,
@@ -30,11 +31,12 @@ class ImageSelector extends React.Component {
   };
 
   openCamera = () => {
-    const { width, height } = this.props;
+    const { width, height, cropperCircleOverlay } = this.props;
     ImagePicker.openCamera({
       width: width,
       height: height,
       cropping: true,
+      cropperCircleOverlay: cropperCircleOverlay,
       compressImageMaxWidth: 1000,
       compressImageMaxHeight: 1000,
       compressImageQuality: 1,

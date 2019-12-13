@@ -163,8 +163,9 @@ class SelectAvatar extends Component {
 
         <ImageSelector
           onImageSelected={this.onPictureAdd}
-          width={1280}
-          height={720}
+          cropperCircleOverlay={true}
+          width={1500}
+          height={1500}
           ref={o => (this.ImageSelector = o)}
         />
       </ImageBackground>
