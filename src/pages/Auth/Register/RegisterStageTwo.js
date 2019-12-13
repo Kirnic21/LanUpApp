@@ -124,6 +124,7 @@ class RegisterStageTwo extends Component {
                 title="E-mail"
                 keyboardType="email-address"
                 component={InputField}
+                autoCapitalize="none"
               />
               <View
                 style={{
@@ -137,6 +138,7 @@ class RegisterStageTwo extends Component {
                   title="Senha"
                   secureTextEntry={this.state.password}
                   component={InputField}
+                  autoCapitalize="none"
                 />
                 <Icon
                   style={stylePage.icon}
@@ -154,6 +156,7 @@ class RegisterStageTwo extends Component {
                 secureTextEntry={this.state.password}
                 fullWidth
                 component={InputField}
+                autoCapitalize="none"
               />
             </View>
             <RoundButton

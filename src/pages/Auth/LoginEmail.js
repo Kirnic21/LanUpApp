@@ -178,6 +178,7 @@ class LoginEmail extends Component {
                   keyboardType="email-address"
                   component={InputField}
                   name={"email"}
+                  autoCapitalize="none"
                 />
                 <View style={{ flexDirection: "row", left: "2.5%" }}>
                   <Field
@@ -186,6 +187,7 @@ class LoginEmail extends Component {
                     secureTextEntry={this.state.password}
                     component={InputField}
                     name={"password"}
+                    autoCapitalize="none"
                   />
                   <Icon
                     style={styles.icon}

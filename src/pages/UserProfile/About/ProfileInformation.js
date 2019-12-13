@@ -65,6 +65,7 @@ const ProfileInformation = ({}) => {
             iosHeader="Select one"
             mode="dropdown"
           >
+            <Picker.Item label="Selecione..." value={null} />
             <Picker.Item label="P" value="P" />
             <Picker.Item label="M" value="M" />
             <Picker.Item label="G" value="G" />

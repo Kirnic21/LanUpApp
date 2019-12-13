@@ -25,6 +25,7 @@ const AdditionalInformation = ({}) => {
       <Field
         style={{ width: "100%" }}
         title="Telefone"
+        keyboardType="numeric"
         component={InputField}
         name={"phone"}
       />
@@ -38,22 +39,17 @@ const AdditionalInformation = ({}) => {
         <View style={styles.containerGender}>
           <Field
             title={"Gênero"}
-            style={{
-              width: "90%",
-              color: "#fff",
-              top: "-35%",
-              left: "12%"
-            }}
+            style={{ width: "90%", color: "#fff", top: "-35%", left: "12%" }}
             name={"gender"}
             component={PickerComponent}
-            iosHeader="Select one"
             mode="dropdown"
           >
-            <Picker.Item label="Masculino" value={0} />
-            <Picker.Item label="Feminino" value={1} />
-            <Picker.Item label="Transgênero homem" value={2} />
-            <Picker.Item label="transgênero mulher" value={3} />
-            <Picker.Item label="queer +" value={4} />
+            <Picker.Item label="Selecione..." value={0} />
+            <Picker.Item label="Masculino" value={1} />
+            <Picker.Item label="Feminino" value={2} />
+            <Picker.Item label="Transgênero homem" value={3} />
+            <Picker.Item label="transgênero mulher" value={4} />
+            <Picker.Item label="queer +" value={5} />
           </Field>
         </View>
       </View>

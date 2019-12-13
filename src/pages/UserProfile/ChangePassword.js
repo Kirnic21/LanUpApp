@@ -167,6 +167,7 @@ class ChangePassword extends Component {
                 secureTextEntry
                 component={InputField}
                 name={"password"}
+                autoCapitalize="none"
               />
               <Field
                 style={styles.TextInput}
@@ -174,6 +175,7 @@ class ChangePassword extends Component {
                 secureTextEntry
                 component={InputField}
                 name={"newPassword"}
+                autoCapitalize="none"
               />
               <Field
                 style={styles.TextInput}
@@ -181,6 +183,7 @@ class ChangePassword extends Component {
                 secureTextEntry
                 name={"confirmPassword"}
                 component={InputField}
+                autoCapitalize="none"
               />
               <RoundButton
                 style={[stylePage.Btn, stylePage.btnRegister, { width: "70%" }]}

@@ -15,6 +15,7 @@ export default InputField = ({
   placeholder,
   placeholderTextColor,
   editable,
+  autoCapitalize,
 
   meta: { touched, error }
 }) => (
@@ -45,7 +46,7 @@ export default InputField = ({
         onFocus={input.onFocus}
         value={input.value}
         enablesReturnKeyAutomatically={true}
-        autoCapitalize="none"
+        autoCapitalize={autoCapitalize}
         onFocus={onFocus}
         autoCompleteType={autoCompleteType}
         placeholder={placeholder}

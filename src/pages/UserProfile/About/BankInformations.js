@@ -27,6 +27,7 @@ const BankInformation = ({ children }) => {
               title="Agência"
               component={InputField}
               name={"bankBranch"}
+              keyboardType="numeric"
             />
           </View>
         </View>
@@ -35,16 +36,18 @@ const BankInformation = ({ children }) => {
           title="Conta Corrente"
           component={InputField}
           name={"bankAccount"}
+          keyboardType="numeric"
         />
         <Field
           style={{ width: "100%" }}
           title="CPF/CNPJ"
           component={InputField}
           name={"cpfCnpj"}
+          keyboardType="numeric"
         />
         <Field
           style={{ width: "100%" }}
-          title="Nome"
+          title="Nome do Titular"
           component={InputField}
           name={"owner"}
         />
