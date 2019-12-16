@@ -5,8 +5,7 @@ import {
   Text,
   ImageBackground,
   Dimensions,
-  Image,
-  KeyboardAvoidingView
+  Image
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -22,6 +21,10 @@ import FormValidator from "~/shared/services/validator";
 import Spinner from "react-native-loading-spinner-overlay";
 import DropdownAlert from "react-native-dropdownalert";
 import InputModal from "~/shared/components/InputModal";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Container } from "native-base";
+
+import normalize from "~/assets/FontSize/index";
 
 const formRules = FormValidator.make(
   {
@@ -132,18 +135,11 @@ class LoginEmail extends Component {
   };
 
   render() {
-    const { width, height } = Dimensions.get("window");
+    const { width, height } = Dimensions.get("screen");
     const { handleSubmit, invalid } = this.props;
     return (
-      <ImageBackground
-        source={ImageBack}
-        style={{ width, height: "100%", flex: 1 }}
-      >
-        <KeyboardAvoidingView
-          style={{ flex: 1, height: "100%" }}
-          enabled
-          behavior="height"
-        >
+      <ImageBackground source={ImageBack} style={{ width, height, flex: 1 }}>
+        <KeyboardAwareScrollView style={{ flex: 1 }}>
           <View
             style={{
               width: "100%",
@@ -159,68 +155,58 @@ class LoginEmail extends Component {
             animation="fade"
             overlayColor="rgba(0, 0, 0, 0.50)"
           />
-          <View style={styles.Container}>
-            <View style={styles.ContainerLogo}>
-              <Image source={Logo} style={{ width: "70%", height: "40%" }} />
-            </View>
-
-            <View style={styles.ContainerForm}>
-              <View
-                style={{
-                  alignItems: "center",
-                  marginVertical: "10%",
-                  width: "100%"
-                }}
-              >
-                <Field
-                  style={{ width: 280, height: 55 }}
-                  title="E-mail"
-                  keyboardType="email-address"
-                  component={InputField}
-                  name={"email"}
-                  autoCapitalize="none"
-                />
-                <View style={{ flexDirection: "row", left: "2.5%" }}>
+          <Container style={{ backgroundColor: "transparent", height }}>
+            <View style={styles.container}>
+              <View style={styles.logoContainer}>
+                <Image source={Logo} style={{ width: "65%", height: "30%" }} />
+              </View>
+              <View style={styles.containerForm}>
+                <View style={{ alignContent: "stretch", width: "100%" }}>
                   <Field
-                    style={{ width: 280, height: 55 }}
+                    style={{ width: "100%" }}
+                    title="E-mail"
+                    keyboardType="email-address"
+                    component={InputField}
+                    name={"email"}
+                    autoCapitalize="none"
+                  />
+                  <Field
+                    style={{ width: "100%" }}
                     title="Senha"
                     secureTextEntry={this.state.password}
                     component={InputField}
                     name={"password"}
                     autoCapitalize="none"
                   />
-                  <Icon
-                    style={styles.icon}
-                    name={this.state.icon}
-                    size={25}
-                    color="#fff"
-                    onPress={() => this.changeIcon()}
-                  />
+                  <View style={styles.icon}>
+                    <Icon
+                      name={this.state.icon}
+                      size={25}
+                      color="#fff"
+                      onPress={() => this.changeIcon()}
+                    />
+                  </View>
                 </View>
-
-                <TouchableOpacity disabled={invalid} onPress={this.doSignup}>
-                  <TouchableOpacity
-                    disabled={invalid}
-                    style={
-                      invalid
-                        ? { ...styles.Btn, ...styles.BtnDisabled }
-                        : styles.Btn
-                    }
-                    onPress={handleSubmit(data => this.goToLoginPerfil(data))}
-                  >
-                    <Text style={styles.textBtn}>Entrar</Text>
+                <View style={{ width: "60%" }}>
+                  <TouchableOpacity disabled={invalid} onPress={this.doSignup}>
+                    <RoundButton
+                      disabled={invalid}
+                      style={[styles.Btn]}
+                      name="Entrar"
+                      onPress={handleSubmit(data => this.goToLoginPerfil(data))}
+                    />
                   </TouchableOpacity>
+                </View>
+              </View>
+              <View style={{ width: "100%", height: "5%" }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({ visible: true });
+                  }}
+                >
+                  <Text style={styles.textForgot}>Esqueci minha senha</Text>
                 </TouchableOpacity>
               </View>
-            </View>
-            <View style={{ top: "-40%" }}>
-              <TouchableOpacity
-                onPress={() => {
-                  this.setState({ visible: true });
-                }}
-              >
-                <Text style={styles.textForgot}>Esqueci minha senha</Text>
-              </TouchableOpacity>
             </View>
             <Modal
               onTouchOutside={() => {
@@ -228,44 +214,20 @@ class LoginEmail extends Component {
               }}
               visible={this.state.visible}
             >
-              <Text style={{ color: "#FFF", padding: "5%", fontSize: 30 }}>
-                Esqueci a senha
-              </Text>
-              <Text
-                style={{
-                  color: "#FFF",
-                  fontSize: 17,
-                  lineHeight: 30,
-                  padding: "5%",
-                  top: "-5%"
-                }}
-              >
+              <Text style={styles.titleModal}>Esqueci a senha</Text>
+              <Text style={styles.subtitleModal}>
                 Escreva o seu e-mail e enviaremos{`\n`}a senha provisória
               </Text>
-              <View
-                style={{
-                  justifyContent: "center",
-                  alignItems: "flex-start",
-                  left: "5%",
-                  top: "-5%"
-                }}
-              >
+              <View style={styles.containerInputModal}>
                 <InputModal
                   onChangeText={this.handleEmail}
                   title="E-mail"
-                  style={{ width: 325, height: 50, borderColor: "#865FC0" }}
+                  style={{ width: "90%", height: 50, borderColor: "#865FC0" }}
                 />
               </View>
-              <View style={{ alignItems: "center", top: "-7%" }}>
+              <View style={{ alignItems: "center", top: "-14%" }}>
                 <RoundButton
-                  style={{
-                    backgroundColor: "#865FC0",
-                    width: "50%",
-                    height: 50,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 50
-                  }}
+                  style={styles.buttonModal}
                   name="Mandar"
                   onPress={() =>
                     this.reset(
@@ -276,45 +238,71 @@ class LoginEmail extends Component {
                 />
               </View>
             </Modal>
-          </View>
-        </KeyboardAvoidingView>
+          </Container>
+        </KeyboardAwareScrollView>
       </ImageBackground>
     );
   }
 }
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("screen");
 const styles = StyleSheet.create({
-  Container: {
+  container: {
     flex: 1,
     flexDirection: "column",
-    alignItems: "center",
     justifyContent: "space-between"
   },
-  ContainerLogo: {
-    width,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    top: "-2%"
-  },
-  ContainerForm: {
+  logoContainer: {
     width: "100%",
-    height,
-    alignItems: "center"
+    height: "34%",
+    alignItems: "center",
+    justifyContent: "flex-end"
+  },
+  containerForm: {
+    width: "80%",
+    marginHorizontal: "10%",
+    alignItems: "center",
+    height: "40%"
+  },
+  titleModal: {
+    color: "#FFF",
+    padding: "5%",
+    fontSize: normalize(27)
+  },
+  subtitleModal: {
+    color: "#FFF",
+    fontSize: normalize(16),
+    lineHeight: 25,
+    padding: "5%",
+    top: "-6%"
+  },
+  containerInputModal: {
+    justifyContent: "center",
+    alignItems: "flex-start",
+    left: "5%",
+    top: "-6%"
+  },
+  buttonModal: {
+    backgroundColor: "#865FC0",
+    width: "50%",
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 50
   },
   Btn: {
     backgroundColor: "#7541bf",
     width: "100%",
-    height: "58%",
+    height: 50,
     borderRadius: 60,
     justifyContent: "center",
-    top: "25%"
+    alignItems: "center"
   },
   BtnDisabled: {
     backgroundColor: "#6C757D"
   },
   textBtn: {
     color: "#FFF",
-    fontSize: 15,
+    fontSize: normalize(15),
     textAlign: "center",
     padding: "15%"
   },
@@ -322,12 +310,13 @@ const styles = StyleSheet.create({
     color: "#483D8B",
     textDecorationLine: "underline",
     textAlign: "center",
-    fontSize: 16,
+    fontSize: normalize(15),
     letterSpacing: 0.5
   },
   icon: {
-    left: "-50%",
-    top: "9.5%"
+    position: "absolute",
+    marginVertical: "40%",
+    marginLeft: "85%"
   }
 });
 

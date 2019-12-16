@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
+import normalize from "~/assets/FontSize/index";
 
 export default InputField = ({
-  input,
+  input: { value, onChange, ...input },
   title,
   keyboardType,
   style,
@@ -18,45 +19,53 @@ export default InputField = ({
   autoCapitalize,
 
   meta: { touched, error }
-}) => (
-  <View>
+}) => {
+  return (
     <View>
-      <Text style={{ color: "white", fontSize: 15, top: "-10%" }}>{title}</Text>
+      <View>
+        <Text style={{ color: "white", fontSize: normalize(14), top: "-10%" }}>
+          {title}
+        </Text>
+      </View>
+      <View
+        style={{
+          marginBottom: "5%",
+          width: "100%"
+        }}
+      >
+        <TextInput
+          style={[
+            {
+              width: "100%",
+              borderColor: "#FFF",
+              borderRadius: 50
+            },
+            style,
+            styles.TextInput,
+            touched && error && { borderColor: "#F13567" }
+          ]}
+          keyboardType={keyboardType}
+          secureTextEntry={secureTextEntry}
+          autoFocus={autoFocus}
+          numberOfLines={numberOfLines}
+          multiline={multiline}
+          onChangeText={input.onBlur}
+          // onBlur={input.onBlur}
+          onFocus={() => this.myFunction()}
+          {...input}
+          defaultValue={value}
+          enablesReturnKeyAutomatically={true}
+          autoCapitalize={autoCapitalize}
+          autoCompleteType={autoCompleteType}
+          placeholder={placeholder}
+          placeholderTextColor={placeholderTextColor}
+          editable={editable}
+        />
+        {touched && error && <Text style={{ color: "#F13567" }}>{error}</Text>}
+      </View>
     </View>
-    <View style={{ marginBottom: "5%" }}>
-      <TextInput
-        style={[
-          {
-            height: 45,
-            width: 250,
-            borderColor: "white",
-            borderRadius: 50
-          },
-          style,
-          styles.TextInput,
-          touched && error && { borderColor: "#F13567" }
-        ]}
-        keyboardType={keyboardType}
-        secureTextEntry={secureTextEntry}
-        autoFocus={autoFocus}
-        numberOfLines={numberOfLines}
-        multiline={multiline}
-        onChangeText={input.onChange}
-        onBlur={input.onBlur}
-        onFocus={input.onFocus}
-        value={input.value}
-        enablesReturnKeyAutomatically={true}
-        autoCapitalize={autoCapitalize}
-        onFocus={onFocus}
-        autoCompleteType={autoCompleteType}
-        placeholder={placeholder}
-        placeholderTextColor={placeholderTextColor}
-        editable={editable}
-      />
-      {touched && error && <Text style={{ color: "#F13567" }}>{error}</Text>}
-    </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   TextInput: {

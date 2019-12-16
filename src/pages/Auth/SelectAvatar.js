@@ -6,20 +6,19 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
-  ImageBackground
+  ImageBackground,
+  StatusBar
 } from "react-native";
-import ImagePicker from "react-native-image-crop-picker";
 import ImageBack from "../../assets/images/Grupo_518.png";
-
 import ImageProfile from "../../assets/images/Grupo_528.png";
-
 import { create } from "../../shared/services/freela.http";
-
 import { connect } from "react-redux";
 import { formValueSelector } from "redux-form";
 import DropdownAlert from "react-native-dropdownalert";
 import AsyncStorage from "@react-native-community/async-storage";
 import ImageSelector from "~/shared/components/ImageSelector";
+
+import normalize from "~/assets/FontSize/index";
 
 class SelectAvatar extends Component {
   state = {
@@ -73,13 +72,8 @@ class SelectAvatar extends Component {
   render() {
     const { nickname } = this.props;
     return (
-      <ImageBackground
-        source={ImageBack}
-        style={{
-          width: Dimensions.get("window").width,
-          flex: 1
-        }}
-      >
+      <ImageBackground source={ImageBack} style={styles.ImageBack}>
+        <StatusBar translucent backgroundColor="transparent" />
         <View
           style={{
             width: "100%",
@@ -90,73 +84,24 @@ class SelectAvatar extends Component {
         >
           <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
         </View>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <View
-            style={{
-              flex: 0.7,
-              width: "80%",
-              justifyContent: "flex-end"
-            }}
-          >
-            <Text
-              style={{
-                color: "#FFF",
-                fontSize: 39,
-                fontFamily: "Helvetica Now Micro",
-                fontWeight: "300",
-                left: "7.5%",
-                textAlign: "left",
-
-                top: "-10%"
-              }}
-            >
-              {nickname}
-            </Text>
-            <Text
-              style={{
-                fontSize: 24,
-                color: "#FFF",
-                letterSpacing: 0.8,
-                textAlign: "center"
-              }}
-            >
-              Adicionar foto de perfil
-            </Text>
+        <View style={styles.container}>
+          <View style={styles.containerText}>
+            <Text style={styles.titleNickname}>{nickname}</Text>
+            <Text style={styles.textAdd}>Adicionar foto de perfil</Text>
           </View>
-          <View
-            style={{
-              width: "15%",
-              height: 1,
-              borderBottomColor: "#F2D74C",
-              borderBottomWidth: 3,
-              top: "-8%",
-              left: "-25.5%",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          />
-          <View
-            style={{
-              flex: 1,
-              width: Dimensions.get("window").width - 100,
-              alignItems: "center",
-              top: "5%"
-            }}
-          >
-            <Image source={ImageProfile} style={{ height: 130, width: 130 }} />
+          <View style={styles.border} />
+          <View style={styles.containerImg}>
+            <Image
+              source={ImageProfile}
+              style={{ height: "31%", width: "39%" }}
+            />
             <TouchableOpacity
               style={styles.button}
               onPress={this.handleOnPictureAdd}
             >
-              <Text style={{ color: "white", fontSize: 14 }}>Tirar Foto</Text>
+              <Text style={{ color: "white", fontSize: normalize(12) }}>
+                Tirar Foto
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -173,15 +118,63 @@ class SelectAvatar extends Component {
   }
 }
 
+const { width, height } = Dimensions.get("screen");
+
 const styles = StyleSheet.create({
+  ImageBack: {
+    width,
+    height
+  },
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  containerText: {
+    flex: 0.7,
+    width: "80%",
+    justifyContent: "flex-end"
+  },
+  titleNickname: {
+    color: "#FFF",
+    fontSize: normalize(35),
+    fontFamily: "Helvetica Now Micro",
+    fontWeight: "300",
+    left: "7.5%",
+    textAlign: "left",
+    top: "-10%"
+  },
+  textAdd: {
+    fontSize: normalize(21.5),
+    color: "#FFF",
+    letterSpacing: 0.8,
+    textAlign: "center"
+  },
+  border: {
+    width: "13%",
+    borderBottomColor: "#F2D74C",
+    borderBottomWidth: 2,
+    top: "-9%",
+    left: "-27.5%",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  },
   button: {
-    width: 150,
-    height: 50,
+    width: "35%",
+    height: "10%",
     backgroundColor: "#46C5F3",
     borderRadius: 50,
     top: "8%",
     justifyContent: "center",
     alignItems: "center"
+  },
+  containerImg: {
+    flex: 1,
+    width: Dimensions.get("screen").width,
+    alignItems: "center",
+    top: "5%"
   }
 });
 

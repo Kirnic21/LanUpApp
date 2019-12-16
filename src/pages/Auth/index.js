@@ -16,6 +16,8 @@ import Logo from "../../assets/images/logoLanUp.png";
 import FBSDK from "react-native-fbsdk";
 import AsyncStorage from "@react-native-community/async-storage";
 import { login, loginWithFacebook } from "~/shared/services/auth.http";
+import normalize from "~/assets/FontSize/index";
+// import Text from "~/assets/Text/Text";
 
 const { LoginManager, AccessToken } = FBSDK;
 // BackgroundTimer.runBackgroundTimer(() => {
@@ -57,70 +59,29 @@ class HomePage extends Component {
   };
 
   render() {
-    const { width } = Dimensions.get("window");
+    const { width, height } = Dimensions.get("screen");
     return (
       <ImageBackground
         source={ImageBack}
-        style={{
-          width: "100%",
-          height: "100%",
-          flex: 1
-        }}
+        style={{ width, height: "100%", flexGrow: 1 }}
       >
         <StatusBar translucent backgroundColor="transparent" />
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "space-between"
-          }}
-        >
+        <View style={styles.container}>
           <View
-            style={{
-              width: "80%",
-              height: "50%",
-              justifyContent: "flex-end"
-            }}
+            style={{ width: "80%", height: "50%", justifyContent: "flex-end" }}
           >
             <View style={{ alignItems: "center", top: "10%" }}>
-              <Image
-                source={Logo}
-                style={{
-                  width: "90%",
-                  height: "50%"
-                }}
-              />
+              <Image source={Logo} style={{ width: "90%", height: "50%" }} />
             </View>
 
             <View style={{ alignItems: "center", top: "-7%" }}>
-              <Text
-                style={{
-                  color: "#FFF",
-                  fontSize: 27,
-                  fontWeight: "700"
-                }}
-              >
+              <Text allowFontScaling={false} style={styles.title}>
                 Sua primeira vez aqui?
               </Text>
-              <Text
-                style={{
-                  color: "#FFF",
-                  fontSize: 18.9,
-                  letterSpacing: 0.6,
-                  fontWeight: "700"
-                }}
-              >
-                Cadastre-se com o seu e-mail
-              </Text>
+              <Text style={styles.subTitle}>Cadastre-se com o seu e-mail</Text>
             </View>
           </View>
-          <View
-            style={{
-              width,
-              height: "45%"
-            }}
-          >
+          <View style={{ width, height: "45%" }}>
             <RoundButton
               style={[styles.Btn, styles.btnRegister]}
               name="Cadastrar"
@@ -130,7 +91,7 @@ class HomePage extends Component {
               style={{
                 color: "#FFF",
                 textAlign: "center",
-                fontSize: 15
+                fontSize: normalize(14)
               }}
             >
               ou
@@ -141,13 +102,14 @@ class HomePage extends Component {
               onPress={this.goToLoginFacebook}
             />
           </View>
-          <View
-            style={{
-              width: Dimensions.get("window").width - 100,
-              height: 50
-            }}
-          >
-            <Text style={{ color: "#FFF", textAlign: "center", fontSize: 16 }}>
+          <View style={{ width, height: "10%" }}>
+            <Text
+              style={{
+                color: "#FFF",
+                textAlign: "center",
+                fontSize: normalize(15)
+              }}
+            >
               Já tem uma conta?{" "}
               <Text
                 onPress={this.goToLoginEmail}
@@ -164,6 +126,24 @@ class HomePage extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  title: {
+    color: "#FFF",
+    fontSize: normalize(25),
+    fontWeight: "700"
+  },
+  subTitle: {
+    color: "#FFF",
+    fontSize: normalize(18.5),
+    letterSpacing: 0.5,
+    fontWeight: "700",
+    fontFamily: "Helvetica Now Micro"
+  },
   btnFacebook: {
     backgroundColor: "#141364"
   },

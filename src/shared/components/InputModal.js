@@ -19,7 +19,12 @@ export default InputModal = ({
   value,
   editable,
   onChangeText,
-  onClick
+  onClick,
+  onFocus,
+  onBlur,
+  onSubmitEditing,
+  placeholder,
+  placeholderTextColor
 }) => (
   <View style={{ width: "100%" }}>
     <View>
@@ -53,9 +58,12 @@ export default InputModal = ({
         value={value}
         editable={editable}
         onChangeText={onChangeText}
-      >
-        {value}
-      </TextInput>
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onSubmitEditing={onSubmitEditing}
+        placeholder={placeholder}
+        placeholderTextColor={placeholderTextColor}
+      ></TextInput>
     </View>
   </View>
 );

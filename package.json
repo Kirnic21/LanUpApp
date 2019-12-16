@@ -41,6 +41,7 @@
     "react-native-image-picker": "^1.0.2",
     "react-native-image-resizer": "^1.1.0",
     "react-native-image-view": "^2.1.8",
+    "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-lightbox": "^0.8.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-loading-spinner-overlay": "^1.0.1",
@@ -54,7 +55,6 @@
     "react-native-progress": "^3.6.0",
     "react-native-pulse": "^1.0.7",
     "react-native-reanimated": "^1.2.0",
-    "react-native-responsive-screen": "^1.2.2",
     "react-native-star-rating": "^1.1.0",
     "react-native-text-input-mask": "^1.0.6",
     "react-native-vector-icons": "^6.6.0",
@@ -63,7 +63,6 @@
     "redux": "^4.0.1",
     "redux-form": "^8.2.6",
     "redux-form-input-masks": "^2.0.1",
-    "redux-form-material-ui": "^4.3.4",
     "toggle-switch-react-native": "^2.1.0"
   },
   "devDependencies": {

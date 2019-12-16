@@ -15,6 +15,8 @@ import styles from "./register.style";
 import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
 import DropdownAlert from "react-native-dropdownalert";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Container } from "native-base";
 
 const stylePage = {
   ...styles,
@@ -77,100 +79,83 @@ class RegisterStageTwo extends Component {
   render() {
     const { handleSubmit, invalid } = this.props;
     return (
-      <ImageBackground
-        source={ImageBack}
-        style={{
-          width: "100%",
-          flex: 1
-        }}
-      >
-        <StatusBar translucent backgroundColor="transparent" />
-        <View
-          style={{
-            width: "100%",
-            top: "-1%",
-            alignItems: "center",
-            position: "absolute"
-          }}
-        >
-          <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            alignItems: "center",
-            width: "100%"
-          }}
-        >
-          <View style={[styles.registerContainer, { width: "100%" }]}>
-            <View style={{ top: "-6%" }}>
-              <Text style={styles.textTitle}>
+      <ImageBackground source={ImageBack} style={styles.ImageBackground}>
+        <KeyboardAwareScrollView style={{ flex: 1 }}>
+          <View
+            style={{
+              width: "100%",
+              alignItems: "center",
+              position: "absolute"
+            }}
+          >
+            <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
+          </View>
+          <StatusBar translucent backgroundColor="transparent" />
+          <Container style={{ backgroundColor: "transparent" }}>
+            <View style={styles.registerContainer}>
+              <Text
+                style={[styles.textTitle, { marginTop: "-25%", top: "1%" }]}
+              >
                 Bem-vindo!{"\n"}
                 Insira seus dados
               </Text>
 
-              <Text style={stylePage.textSubtitle}>Etapa 2/2</Text>
-            </View>
-            <View
-              style={{
-                top: "-2%",
-                width: "70%"
-              }}
-            >
-              <Field
-                name={"email"}
-                style={[styles.TextInput]}
-                title="E-mail"
-                keyboardType="email-address"
-                component={InputField}
-                autoCapitalize="none"
-              />
-              <View
-                style={{
-                  alignContent: "stretch",
-                  width: "100%"
-                }}
-              >
+              <Text style={[styles.textSubtitle, { left: "-25.5%" }]}>
+                Etapa 2/2
+              </Text>
+
+              <View style={{ top: "6%", width: "70%" }}>
                 <Field
-                  name={"password"}
-                  style={[{ width: "100%", height: 51, paddingLeft: "10%" }]}
-                  title="Senha"
-                  secureTextEntry={this.state.password}
+                  name={"email"}
+                  style={styles.TextInput}
+                  title="E-mail"
+                  keyboardType="email-address"
                   component={InputField}
                   autoCapitalize="none"
                 />
-                <Icon
-                  style={stylePage.icon}
-                  name={this.state.icon}
-                  size={25}
-                  color="#fff"
-                  onPress={() => this.changeIcon()}
+                <View
+                  style={{
+                    alignContent: "stretch",
+                    width: "100%"
+                  }}
+                >
+                  <Field
+                    name={"password"}
+                    style={[{ width: "100%", height: 51, paddingLeft: "10%" }]}
+                    title="Senha"
+                    secureTextEntry={this.state.password}
+                    component={InputField}
+                    autoCapitalize="none"
+                  />
+                  <Icon
+                    style={stylePage.icon}
+                    name={this.state.icon}
+                    size={25}
+                    color="#fff"
+                    onPress={() => this.changeIcon()}
+                  />
+                </View>
+                <Field
+                  name={"confirmPassword"}
+                  title="Confirmar senha"
+                  secureTextEntry={this.state.password}
+                  component={InputField}
+                  autoCapitalize="none"
+                  style={[{ width: "100%", height: 51, paddingLeft: "10%" }]}
                 />
               </View>
 
-              <Field
-                name={"confirmPassword"}
-                style={[{ width: "100%", height: 51, paddingLeft: "10%" }]}
-                title="Confirmar senha"
-                secureTextEntry={this.state.password}
-                fullWidth
-                component={InputField}
-                autoCapitalize="none"
-              />
+              <View style={{ width: "100%", marginBottom: "-25%" }}>
+                <RoundButton
+                  disabled={invalid}
+                  style={[styles.Btn, styles.btnRegister, { top: "15%" }]}
+                  name="Continuar"
+                  onPress={handleSubmit(data => this.goLoginPicture(data))}
+                />
+              </View>
             </View>
-            <RoundButton
-              disabled={invalid}
-              style={[
-                stylePage.Btn,
-                stylePage.btnRegister,
-                { marginTop: "-1%" }
-              ]}
-              name="Continuar"
-              onPress={handleSubmit(data => this.goLoginPicture(data))}
-            />
-          </View>
-        </View>
+          </Container>
+        </KeyboardAwareScrollView>
       </ImageBackground>
     );
   }

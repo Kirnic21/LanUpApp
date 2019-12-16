@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import normalize from "~/assets/FontSize/index";
 
 const styles = StyleSheet.create({
   btnRegister: {
@@ -19,16 +20,15 @@ const styles = StyleSheet.create({
   },
   textTitle: {
     color: "#FFF",
-    fontSize: 36,
+    fontSize: normalize(32),
     fontFamily: "Helvetica Now Micro",
-    fontWeight: "600",
-    top: "5%"
+    fontWeight: "600"
   },
   textSubtitle: {
     marginTop: "5%",
     marginBottom: "5%",
     color: "#FFF",
-    fontSize: 22,
+    fontSize: normalize(18),
     fontFamily: "Helvetica Now Micro",
     fontWeight: "500"
   },
@@ -37,6 +37,11 @@ const styles = StyleSheet.create({
     height: 51,
     paddingLeft: "10%",
     fontSize: 15
+  },
+  ImageBackground: {
+    flex: 1,
+    width: Dimensions.get("screen").width,
+    height: Dimensions.get("screen").height
   }
 });
 

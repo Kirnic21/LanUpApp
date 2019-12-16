@@ -7,7 +7,7 @@ import {
   StatusBar
 } from "react-native";
 import { connect } from "react-redux";
-import { Field, reduxForm, formValueSelector } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 import { setUser } from "~/store/ducks/user/user.actions";
 
 import { bindActionCreators } from "redux";
@@ -17,9 +17,11 @@ import InputField from "~/shared/components/InputField";
 
 import styles from "./register.style";
 import FormValidator from "~/shared/services/validator";
-// import TextInputMask from "react-native-text-input-mask";
-import InputMask from "~/shared/components/InputMask";
 import AsyncStorage from "@react-native-community/async-storage";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Container } from "native-base";
+
+import normalize from "~/assets/FontSize/index";
 
 const formRules = FormValidator.make(
   {
@@ -69,60 +71,55 @@ class RegisterStageOne extends Component {
     const { user } = this.state;
     const { handleSubmit, invalid } = this.props;
     return (
-      <ImageBackground
-        source={ImageBack}
-        style={{
-          width: Dimensions.get("window").width,
-          flex: 1
-        }}
-      >
-        <StatusBar translucent backgroundColor="transparent" />
-        <View style={styles.registerContainer}>
-          <Text style={[styles.textTitle, { marginTop: "-25%", top: "1%" }]}>
-            Bem-vindo!{"\n"}
-            Insira seus dados
-          </Text>
-          {!user.isFacebook && (
-            <Text style={[styles.textSubtitle, { left: "-23.1%" }]}>
-              Etapa 1/2
-            </Text>
-          )}
+      <ImageBackground source={ImageBack} style={styles.ImageBackground}>
+        <KeyboardAwareScrollView style={{ flex: 1 }}>
+          <StatusBar translucent backgroundColor="transparent" />
+          <Container style={{ backgroundColor: "transparent" }}>
+            <View style={styles.registerContainer}>
+              <Text
+                style={[styles.textTitle, { marginTop: "-25%", top: "1%" }]}
+              >
+                Bem-vindo!{"\n"}
+                Insira seus dados
+              </Text>
+              {!user.isFacebook && (
+                <Text style={[styles.textSubtitle, { left: "-25.5%" }]}>
+                  Etapa 1/2
+                </Text>
+              )}
+              <View style={{ top: "6%", width: "70%" }}>
+                <Field
+                  name="fullName"
+                  style={styles.TextInput}
+                  title="Nome Completo"
+                  component={InputField}
+                />
+                <Field
+                  name="nickname"
+                  style={styles.TextInput}
+                  title="Apelido"
+                  component={InputField}
+                />
+                <Field
+                  name="cpf"
+                  style={styles.TextInput}
+                  title="CPF"
+                  component={InputField}
+                  keyboardType="numeric"
+                />
+              </View>
 
-          <View
-            style={{
-              top: "5%",
-              width: "70%"
-            }}
-          >
-            <Field
-              name="fullName"
-              style={styles.TextInput}
-              title="Nome Completo"
-              component={InputField}
-            />
-            <Field
-              name="nickname"
-              style={styles.TextInput}
-              title="Apelido"
-              component={InputField}
-            />
-            <Field
-              name="cpf"
-              style={styles.TextInput}
-              title="CPF"
-              component={InputMask}
-              keyboardType="numeric"
-              mask={"[000].[000].[000]-[00]"}
-            />
-          </View>
-
-          <RoundButton
-            disabled={invalid}
-            style={[styles.Btn, styles.btnRegister, { top: "15%" }]}
-            name="Continuar"
-            onPress={handleSubmit(data => this.goRegister(data))}
-          />
-        </View>
+              <View style={{ width: "100%", marginBottom: "-25%" }}>
+                <RoundButton
+                  disabled={invalid}
+                  style={[styles.Btn, styles.btnRegister, { top: "15%" }]}
+                  name="Continuar"
+                  onPress={handleSubmit(data => this.goRegister(data))}
+                />
+              </View>
+            </View>
+          </Container>
+        </KeyboardAwareScrollView>
       </ImageBackground>
     );
   }
