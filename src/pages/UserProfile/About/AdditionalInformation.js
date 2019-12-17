@@ -26,8 +26,9 @@ const AdditionalInformation = ({}) => {
         style={{ width: "100%" }}
         title="Telefone"
         keyboardType="numeric"
-        component={InputField}
+        component={InputMask}
         name={"phone"}
+        mask={"([000]) [0] [0000]-[0000]"}
       />
       <View style={{ alignContent: "stretch" }}>
         <Field

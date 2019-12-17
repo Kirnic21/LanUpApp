@@ -22,6 +22,7 @@ import DateInputField from "~/shared/components/DateInputField";
 import { Field, reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import { saveSpecialDay, decodeToken } from "~/shared/services/freela.http";
+import normalize from "~/assets/FontSize/index";
 
 class SpecialHours extends Component {
   constructor(props) {
@@ -178,7 +179,11 @@ class SpecialHours extends Component {
             <View key={id} style={styles.containerSpecialHours}>
               <View style={{ flexDirection: "row", paddingBottom: "5%" }}>
                 <Text
-                  style={{ color: "#FFF", fontSize: 20, marginRight: "50%" }}
+                  style={{
+                    color: "#FFF",
+                    fontSize: normalize(18),
+                    marginRight: "50%"
+                  }}
                 >
                   {moment(date).format("DD [de] MMM, YYYY")}
                 </Text>
@@ -207,7 +212,11 @@ class SpecialHours extends Component {
               </View>
               <View style={{ flexDirection: "row", paddingBottom: "5%" }}>
                 <Text
-                  style={{ color: "#FFF", fontSize: 15, marginRight: "55%" }}
+                  style={{
+                    color: "#FFF",
+                    fontSize: normalize(14),
+                    marginRight: "55%"
+                  }}
                 >
                   Estou disponível
                 </Text>
@@ -225,7 +234,11 @@ class SpecialHours extends Component {
               {available && (
                 <>
                   <Text
-                    style={{ color: "#FFF", fontSize: 15, paddingBottom: "4%" }}
+                    style={{
+                      color: "#FFF",
+                      fontSize: normalize(14),
+                      paddingBottom: "4%"
+                    }}
                   >
                     Horas
                   </Text>
@@ -266,7 +279,12 @@ class SpecialHours extends Component {
             visible={this.state.visible}
           >
             <Text
-              style={{ color: "#FFF", padding: "5%", top: "5%", fontSize: 30 }}
+              style={{
+                color: "#FFF",
+                padding: "5%",
+                top: "5%",
+                fontSize: normalize(28)
+              }}
             >
               Adicione um horário
             </Text>

@@ -50,8 +50,6 @@ export default InputField = ({
           numberOfLines={numberOfLines}
           multiline={multiline}
           onChangeText={input.onBlur}
-          // onBlur={input.onBlur}
-          onFocus={() => this.myFunction()}
           {...input}
           defaultValue={value}
           enablesReturnKeyAutomatically={true}

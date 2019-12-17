@@ -12,6 +12,7 @@ import moment from "moment";
 import ToggleSwitch from "toggle-switch-react-native";
 import ArrowRight from "~/assets/images/arrowRight.png";
 import Schedules from "./Schedules";
+import normalize from "~/assets/FontSize/index";
 
 import {
   emergencyAvailability,
@@ -24,7 +25,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 const DisplayDate = ({ date, displayHour, isActive }) => {
   const style = {
     color: "#FFF",
-    fontSize: 15,
+    fontSize: normalize(14),
     marginRight: "15.5%",
     marginBottom: "1%"
   };
@@ -34,7 +35,7 @@ const DisplayDate = ({ date, displayHour, isActive }) => {
       <Text
         style={[
           {
-            fontSize: 12
+            fontSize: normalize(11)
           },
           isActive ? { color: "#46C5F3" } : { color: "#EB4886" }
         ]}
@@ -132,11 +133,23 @@ class Availability extends Component {
       <View style={styles.Container}>
         <ScrollView>
           <View style={styles.containerAvailability}>
-            <Text style={{ color: "#FFF", fontSize: 15, paddingBottom: "5%" }}>
+            <Text
+              style={{
+                color: "#FFF",
+                fontSize: normalize(14),
+                paddingBottom: "5%"
+              }}
+            >
               Para vagas urgentes
             </Text>
             <View style={{ flexDirection: "row" }}>
-              <Text style={{ color: "#FFF", fontSize: 16, marginRight: "35%" }}>
+              <Text
+                style={{
+                  color: "#FFF",
+                  fontSize: normalize(14),
+                  marginRight: "35%"
+                }}
+              >
                 Estou disponível agora
               </Text>
               <ToggleSwitch
@@ -162,7 +175,11 @@ class Availability extends Component {
             <TouchableOpacity onPress={() => this.openSpecialHours()}>
               <View style={{ flexDirection: "row", paddingBottom: "10%" }}>
                 <Text
-                  style={{ color: "#FFF", fontSize: 15, marginRight: "51%" }}
+                  style={{
+                    color: "#FFF",
+                    fontSize: normalize(14),
+                    marginRight: "51%"
+                  }}
                 >
                   Horários especiais
                 </Text>
@@ -210,6 +227,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#24203B",
     marginHorizontal: "5%",
     padding: "5%",
+    marginBottom: "2%",
     borderRadius: 15,
     marginTop: "3%"
   }
