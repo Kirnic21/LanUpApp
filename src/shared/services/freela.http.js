@@ -29,6 +29,8 @@ const getAbout = id => HTTP.get(`freelas/${id}/about`);
 const saveSpecialDay = data =>
   HTTP.post(`freelas/${data.freelaId}/availabilities/specialdays`, data);
 
+const received = data => HTTP.put(`freelas/${data.freelaId}/received`, data);
+
 const decodeToken = token =>
   JSON.parse(
     decode(
@@ -56,5 +58,6 @@ export {
   service,
   updateJobs,
   getJobs,
-  saveSpecialDay
+  saveSpecialDay,
+  received
 };

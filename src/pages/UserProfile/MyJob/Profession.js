@@ -6,23 +6,49 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
-  Image
+  Image,
+  TextInput
 } from "react-native";
 import arrow from "~/assets/images/arrowRight.png";
 import { Chip } from "react-native-paper";
-import InputLabel from "~/shared/components/InputLabel";
-import { decodeToken, getSkills, getJobs } from "~/shared/services/freela.http";
+import Input from "~/shared/components/InputModal";
+import NumberFormat from "react-number-format";
+import {
+  decodeToken,
+  getSkills,
+  getJobs,
+  received,
+  getAbout
+} from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
+import normalize from "~/assets/FontSize/index";
+
+const currencyFormatter = value => {
+  if (!Number(value)) return "";
+
+  const amount = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  }).format(value / 100);
+  return `${amount}`;
+};
 
 class Profession extends Component {
   state = {
     GetSkill: [],
     GetJobs: [],
-    JobsSelected: []
+    JobsSelected: [],
+    isFocused: null,
+    text: ""
   };
 
   async componentDidMount() {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+
+    getAbout(token.id).then(({ data }) => {
+      const minimumValueToWork = data.result.value.minimumValueToWork;
+      this.setState({ text: minimumValueToWork.toString() });
+    });
     getSkills(token.id).then(({ data }) => {
       const GetSkill = data.result.value;
       GetSkill === null
@@ -37,7 +63,6 @@ class Profession extends Component {
       const name = GetJobs.filter(c => c.isSelected === true).map(c => c.name);
       this.setState({ JobsSelected: name });
     });
-
   }
 
   openAddProfession = () => {
@@ -50,24 +75,74 @@ class Profession extends Component {
     this.props.navigation.navigate("AddSkill", { GetSkill });
   };
 
+  handleInputFocus = () => this.setState({ isFocused: true });
+
+  handleInputBlur = async () => {
+    this.setState({ isFocused: false });
+    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    const { text } = this.state;
+    debugger;
+    const valueReceived = Number(text.replace(/[^0-9.-]+/g, ""));
+    const r = {
+      freelaId: token.id,
+      minimumValueToWork: valueReceived
+    };
+    received(r)
+      .then(({ data }) => {
+        debugger;
+        if (data.isSuccess) {
+          console.log(data);
+        }
+      })
+      .catch(error => {
+        debugger;
+        console.log(error.response.data);
+      });
+    debugger;
+  };
+
   render() {
-    const { GetSkill, JobsSelected } = this.state;
+    const { GetSkill, JobsSelected, text } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.containerReceive}>
-            <Text style={{ color: "#FFF", fontSize: 15 }} x>
+            <Text style={{ color: "#FFF", fontSize: normalize(14) }} x>
               Recebo no mínimo até:
             </Text>
-            <InputLabel
-              style={{ width: "100%" }}
-              component={InputField}
-              keyboardType="numeric"
+            <NumberFormat
+              value={text}
+              displayType={"text"}
+              format={currencyFormatter}
+              decimalScale={2}
+              thousandSeparator={true}
+              // prefix={"$"}
+              renderText={value => (
+                <TextInput
+                  onChangeText={text => this.setState({ text })}
+                  onFocus={this.handleInputFocus}
+                  onBlur={this.handleInputBlur}
+                  style={{
+                    width: "100%",
+                    color: "#46C5F3",
+                    borderColor: "#FFF",
+                    borderWidth: 2,
+                    borderRadius: 25,
+                    marginTop: "3%",
+                    paddingHorizontal: "7%"
+                  }}
+                  value={value}
+                  keyboardType="numeric"
+                  placeholderTextColor="#46C5F3"
+                />
+              )}
             />
           </View>
           <View style={styles.containerProfessionAndSkill}>
             <View style={{ flexDirection: "row", marginBottom: "2%" }}>
-              <Text style={{ color: "#FFF", fontSize: 15 }}>Profissão</Text>
+              <Text style={{ color: "#FFF", fontSize: normalize(14) }}>
+                Profissão
+              </Text>
               <Text style={styles.jobNumber}>{JobsSelected.length}/3</Text>
             </View>
             {JobsSelected.length ? (

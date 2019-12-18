@@ -2,7 +2,12 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import Modal, { ModalContent } from "react-native-modals";
 
-export default ModalComponent = ({ onTouchOutside, visible, children }) => (
+export default ModalComponent = ({
+  onTouchOutside,
+  visible,
+  children,
+  onSwipeOut
+}) => (
   <View>
     <Modal.BottomModal
       visible={visible}
@@ -10,7 +15,7 @@ export default ModalComponent = ({ onTouchOutside, visible, children }) => (
       height={0.5}
       width={1}
       modalStyle={{ backgroundColor: "transparent" }}
-      onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
+      onSwipeOut={onSwipeOut}
     >
       <ModalContent
         style={{

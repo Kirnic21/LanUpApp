@@ -19,11 +19,14 @@ import { Container, Header, Right } from "native-base";
 import DropdownAlert from "react-native-dropdownalert";
 import InputModal from "~/shared/components/InputModal";
 
+import normalize from "~/assets/FontSize/index";
+
 class AddSkill extends Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
+      bottomModalAndTitle: true,
       prevState: [],
       show: true,
       btnShow: 1,
@@ -111,7 +114,7 @@ class AddSkill extends Component {
                           this.setState({ show: false, btnShow: 0 });
                         }}
                         name={"pencil"}
-                        size={25}
+                        size={26}
                         style={{ opacity: this.state.opIcon }}
                         color="#FFFFFF"
                       />
@@ -125,7 +128,9 @@ class AddSkill extends Component {
                       this.setState({ show: true }), this.SaveSkill();
                     }}
                   >
-                    <Text style={{ color: "#FFF", fontSize: 15 }}>Salvar</Text>
+                    <Text style={{ color: "#FFF", fontSize: normalize(14) }}>
+                      Salvar
+                    </Text>
                   </TouchableOpacity>
                 </Right>
               )}
@@ -182,12 +187,15 @@ class AddSkill extends Component {
             }}
             visible={visible}
           >
-            <Text style={{ color: "#FFF", padding: "5%", fontSize: 30 }}>
+            <Text
+              style={{ color: "#FFF", padding: "5%", fontSize: normalize(28) }}
+            >
               Adicionar
             </Text>
             <View style={styles.containerModalInput}>
               <InputModal
                 onChangeText={this.Skills}
+                onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
                 title="Habilidade"
                 style={{ width: "91%", height: 50, borderColor: "#46C5F3" }}
               />
@@ -229,7 +237,7 @@ export const styles = StyleSheet.create({
   title: {
     color: "#FFF",
     textAlign: "center",
-    fontSize: 24.7,
+    fontSize: normalize(23),
     lineHeight: 42
   },
   subtitle: {
@@ -269,12 +277,12 @@ export const styles = StyleSheet.create({
   },
   titleSkill: {
     color: "#FFF",
-    fontSize: 25,
+    fontSize: normalize(23),
     paddingBottom: "5%"
   },
   textChip: {
     color: "#18142F",
-    fontSize: 14,
+    fontSize: normalize(13),
     paddingHorizontal: "0.5%"
   }
 });
