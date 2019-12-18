@@ -91,10 +91,7 @@ class SelectAvatar extends Component {
           </View>
           <View style={styles.border} />
           <View style={styles.containerImg}>
-            <Image
-              source={ImageProfile}
-              style={{ height: "31%", width: "39%" }}
-            />
+            <Image source={ImageProfile} style={{ height: 110, width: 110 }} />
             <TouchableOpacity
               style={styles.button}
               onPress={this.handleOnPictureAdd}
@@ -172,7 +169,9 @@ const styles = StyleSheet.create({
   },
   containerImg: {
     flex: 1,
-    width: Dimensions.get("screen").width,
+
+    height,
+    width: "100%",
     alignItems: "center",
     top: "5%"
   }

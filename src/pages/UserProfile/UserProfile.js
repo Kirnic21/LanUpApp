@@ -24,7 +24,8 @@ import {
   galery,
   galeries,
   decodeToken,
-  galleryDelete
+  galleryDelete,
+  getAbout
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 
@@ -43,8 +44,15 @@ class UserProfile extends Component {
     const { user } = this.props;
     const apiToken = await AsyncStorage.getItem("API_TOKEN");
     const token = apiToken ? decodeToken(apiToken) : undefined;
-    const avatar = token ? token.avatarUrl : user.authenticateUser.avatar.url;
-    this.setState({ avatar });
+    getAbout(token.id)
+      .then(({ data }) => {
+        const { image } = data.result.value;
+        const avatar = token ? image : user.authenticateUser.avatar.url;
+        this.setState({ avatar });
+      })
+      .catch(error => {
+        console.log(error.response.data);
+      });
     this._isMounted = true;
   }
 

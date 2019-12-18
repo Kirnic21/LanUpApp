@@ -55,7 +55,7 @@ class LoginEmail extends Component {
     if (this._isMounted) {
       setInterval(() => {
         this.hideLoader();
-      }, 3000);
+      }, 10000);
     }
   }
 
@@ -161,7 +161,7 @@ class LoginEmail extends Component {
                 <Image source={Logo} style={{ width: "65%", height: "30%" }} />
               </View>
               <View style={styles.containerForm}>
-                <View style={{ alignContent: "stretch", width: "100%" }}>
+                <View style={{ alignContent: "stretch", width: "90%" }}>
                   <Field
                     style={{ width: "100%" }}
                     title="E-mail"
@@ -170,16 +170,23 @@ class LoginEmail extends Component {
                     name={"email"}
                     autoCapitalize="none"
                   />
-                  <Field
-                    style={{ width: "100%" }}
-                    title="Senha"
-                    secureTextEntry={this.state.password}
-                    component={InputField}
-                    name={"password"}
-                    autoCapitalize="none"
-                  />
-                  <View style={styles.icon}>
+
+                  <View
+                    style={{
+                      alignContent: "stretch",
+                      width: "100%"
+                    }}
+                  >
+                    <Field
+                      style={[{ width: "100%", height: 51 }]}
+                      title="Senha"
+                      secureTextEntry={this.state.password}
+                      component={InputField}
+                      name={"password"}
+                      autoCapitalize="none"
+                    />
                     <Icon
+                      style={styles.icon}
                       name={this.state.icon}
                       size={25}
                       color="#fff"
@@ -314,9 +321,9 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5
   },
   icon: {
-    position: "absolute",
-    marginVertical: "40%",
-    marginLeft: "85%"
+    left: "80%",
+    top: 35,
+    position: "absolute"
   }
 });
 

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 // import { white } from 'ansi-colors';
 import { ScrollView } from "react-native-gesture-handler";
-import imgTitle from "../../assets/images/imgTitle.png";
+import imgTitle from "~/assets/images/imgDrawer.png";
 import imgBack from "../../assets/images/drawerBack.png";
 import IconMenu from "../../assets/images/icon_menu.png";
 import IconPerfil from "../../assets/images/iconPerfil.png";
@@ -30,10 +30,8 @@ export default class drawerContentComponents extends Component {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     getAbout(token.id)
       .then(({ data }) => {
-        const { avatarUrl } = token;
-        const { nickName } = data.result.value;
-        this.setState({ avatar: avatarUrl, nickName });
-        console.log(data);
+        const { nickName, image } = data.result.value;
+        this.setState({ avatar: image, nickName });
       })
       .catch(error => {
         console.log(error.response.data);
@@ -49,13 +47,12 @@ export default class drawerContentComponents extends Component {
 
   render() {
     const { avatar, nickName } = this.state;
-    console.log(nickName);
     return (
       <ScrollView>
         <ImageBackground
           source={imgBack}
           style={{
-            width: 170,
+            width: 165,
             height: 822,
             backgroundColor: "#24203BE6",
             elevation: 2,
@@ -69,10 +66,10 @@ export default class drawerContentComponents extends Component {
             <View style={styles.headerContainer}>
               <Image
                 source={imgTitle}
-                style={{ width: 115, height: 80, top: 20 }}
+                style={{ width: 110, height: 50, top: 20, left: 10 }}
               />
               <TouchableOpacity
-                style={{ left: 115, top: -35 }}
+                style={{ left: 115, top: -30 }}
                 onPress={() => {
                   this.props.navigation.dispatch(DrawerActions.closeDrawer());
                 }}
@@ -83,7 +80,8 @@ export default class drawerContentComponents extends Component {
                 style={{
                   color: "#fff",
                   fontSize: 17,
-                  top: 14,
+                  top: 25,
+                  left: -10,
                   textAlign: "center"
                 }}
               >
@@ -102,8 +100,8 @@ export default class drawerContentComponents extends Component {
                 <Image
                   source={{ uri: avatar }}
                   style={{
-                    width: 80,
-                    height: 80,
+                    width: 75,
+                    height: 75,
                     borderRadius: 40,
                     borderColor: "#865FC0",
                     borderWidth: 2
@@ -132,7 +130,7 @@ export default class drawerContentComponents extends Component {
               >
                 <Image
                   source={iconNextEvent}
-                  style={{ width: 75, height: 75, top: 30 }}
+                  style={{ width: 70, height: 70, top: 30 }}
                 />
                 <Text
                   style={[
@@ -156,7 +154,7 @@ export default class drawerContentComponents extends Component {
                     : null
                 ]}
               >
-                <Image source={iconExplore} style={{ width: 75, height: 75 }} />
+                <Image source={iconExplore} style={{ width: 70, height: 70 }} />
                 <Text
                   style={[
                     styles.screenTextStyle,
@@ -181,7 +179,7 @@ export default class drawerContentComponents extends Component {
               >
                 <Image
                   source={iconSchedule}
-                  style={{ width: 75, height: 75 }}
+                  style={{ width: 70, height: 70 }}
                 />
                 <Text
                   style={[
@@ -214,7 +212,7 @@ const styles = StyleSheet.create({
     top: 35,
     justifyContent: "center",
     height: 85,
-    width: 150
+    width: 145
   },
   screenContainer: {
     paddingTop: 150,
@@ -229,7 +227,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
     flexDirection: "column",
     alignItems: "center",
-    width: "70%",
+    width: "65%",
     borderBottomColor: "#865FC0",
     borderBottomWidth: 3
   },

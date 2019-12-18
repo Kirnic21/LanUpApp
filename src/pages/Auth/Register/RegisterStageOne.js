@@ -20,8 +20,10 @@ import FormValidator from "~/shared/services/validator";
 import AsyncStorage from "@react-native-community/async-storage";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
+import { create } from "~/shared/services/freela.http";
 
 import normalize from "~/assets/FontSize/index";
+import InputMask from "~/shared/components/InputMask";
 
 const formRules = FormValidator.make(
   {
@@ -55,12 +57,36 @@ class RegisterStageOne extends Component {
     }
   }
 
-  goRegister = async () => {
+  goRegister = async form => {
     const { user } = this.state;
+    debugger;
+
     await this.props.setUser(user);
+    const { email, password, avatar } = user.authenticateUser;
+    const { nickname, cpf, fullName } = form;
     if (user.isFacebook) {
       await AsyncStorage.setItem("token", user.accessToken.token);
-      this.props.navigation.navigate("UserProfile");
+      const request = {
+        name: fullName,
+        nickname,
+        cpf,
+        email,
+        password,
+        confirmPassword: password,
+        avatar: avatar.url,
+        facebookToken: user.accessToken.token
+      };
+      create(request)
+        .then(async ({ data }) => {
+          if (data.isSuccess) {
+            this.props.navigation.navigate("UserProfile");
+          }
+        })
+        .catch(error => {
+          debugger;
+          console.log(error.response.data);
+        });
+      debugger;
       return;
     }
 
@@ -104,8 +130,9 @@ class RegisterStageOne extends Component {
                   name="cpf"
                   style={styles.TextInput}
                   title="CPF"
-                  component={InputField}
+                  component={InputMask}
                   keyboardType="numeric"
+                  mask={"[000].[000].[000]-[00]"}
                 />
               </View>
 

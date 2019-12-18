@@ -18,13 +18,19 @@ import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
 import AsyncStorage from "@react-native-community/async-storage";
 import DropdownAlert from "react-native-dropdownalert";
+import Icon from "react-native-vector-icons/MaterialIcons";
+
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Container } from "native-base";
+
+import normalize from "~/assets/FontSize/index";
 
 const stylePage = {
   ...styles,
   icon: {
-    left: "62%",
-    top: "-18.2%",
-    position: "relative"
+    left: "80%",
+    top: 34,
+    position: "absolute"
   }
 };
 
@@ -45,8 +51,17 @@ class ChangePassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      icon: "visibility-off",
       password: true
     };
+    this.changeIcon = this.changeIcon.bind(this);
+  }
+
+  changeIcon() {
+    this.setState(prevState => ({
+      icon: prevState.icon === "visibility" ? "visibility-off" : "visibility",
+      password: !prevState.password
+    }));
   }
 
   goToLoginPerfil = form => {
@@ -99,100 +114,127 @@ class ChangePassword extends Component {
       <ImageBackground
         source={ImageBack}
         style={{
-          width: Dimensions.get("window").width,
+          width: Dimensions.get("screen").width,
+          height: Dimensions.get("screen").height,
           flex: 1
         }}
       >
-        <StatusBar translucent backgroundColor="transparent" />
-        <View
-          style={{
-            width: "100%",
-            top: "-1%",
-            alignItems: "center"
-          }}
-        >
-          <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            alignItems: "center"
-          }}
-        >
-          <View style={[styles.registerContainer, { width: "100%" }]}>
+        <KeyboardAwareScrollView style={{ flex: 1 }}>
+          <StatusBar translucent backgroundColor="transparent" />
+          <View
+            style={{
+              width: "100%",
+              marginTop: "10%",
+              alignItems: "center"
+            }}
+          >
+            <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
+          </View>
+          <Container style={{ backgroundColor: "transparent" }}>
             <View
               style={{
                 flex: 1,
-                width: "100%",
-                justifyContent: "flex-end",
+                flexDirection: "column",
                 alignItems: "center"
               }}
             >
-              <View style={[styles.ContainerLogo, { top: "-15%" }]}>
-                <Image
-                  source={Logo}
+              <View style={[styles.registerContainer, { width: "100%" }]}>
+                <View
                   style={{
-                    width: 280,
-                    height: 140
+                    flex: 1,
+                    width: "100%",
+                    justifyContent: "flex-end",
+                    alignItems: "center"
                   }}
-                />
-              </View>
-              <View style={{ top: "-10%" }}>
-                <Text
-                  style={[
-                    styles.textTitle,
-                    {
-                      textAlign: "center",
-                      lineHeight: 45,
-                      fontSize: 27
-                    }
-                  ]}
                 >
-                  Você está alterando{"\n"}
-                  sua senha
-                </Text>
+                  <View style={[styles.ContainerLogo, { top: "-15%" }]}>
+                    <Image
+                      source={Logo}
+                      style={{
+                        width: 260,
+                        height: 120
+                      }}
+                    />
+                  </View>
+                  <View style={{ top: "-10%" }}>
+                    <Text
+                      style={[
+                        styles.textTitle,
+                        {
+                          textAlign: "center",
+                          lineHeight: 45,
+                          fontSize: normalize(25)
+                        }
+                      ]}
+                    >
+                      Você está alterando{"\n"}
+                      sua senha
+                    </Text>
+                  </View>
+                </View>
+
+                <View
+                  style={{
+                    flex: 1.2,
+                    width: "70%"
+                  }}
+                >
+                  <View
+                    style={{
+                      alignContent: "stretch",
+                      width: "100%"
+                    }}
+                  >
+                    <Field
+                      style={styles.TextInput}
+                      title="Senha Atual"
+                      secureTextEntry
+                      component={InputField}
+                      secureTextEntry={this.state.password}
+                      name={"password"}
+                      autoCapitalize="none"
+                    />
+                    <Icon
+                      style={stylePage.icon}
+                      name={this.state.icon}
+                      size={25}
+                      color="#fff"
+                      onPress={() => this.changeIcon()}
+                    />
+                  </View>
+
+                  <Field
+                    style={styles.TextInput}
+                    title="Nova Senha"
+                    secureTextEntry
+                    component={InputField}
+                    secureTextEntry={this.state.password}
+                    name={"newPassword"}
+                    autoCapitalize="none"
+                  />
+                  <Field
+                    style={styles.TextInput}
+                    title="Confirmar sua Nova senha"
+                    secureTextEntry
+                    name={"confirmPassword"}
+                    secureTextEntry={this.state.password}
+                    component={InputField}
+                    autoCapitalize="none"
+                  />
+                  <RoundButton
+                    style={[
+                      stylePage.Btn,
+                      stylePage.btnRegister,
+                      { width: "70%" }
+                    ]}
+                    name="Salvar"
+                    onPress={handleSubmit(data => this.goToLoginPerfil(data))}
+                  />
+                </View>
               </View>
             </View>
-
-            <View
-              style={{
-                flex: 1.2,
-                width: "70%"
-              }}
-            >
-              <Field
-                style={styles.TextInput}
-                title="Senha Atual"
-                secureTextEntry
-                component={InputField}
-                name={"password"}
-                autoCapitalize="none"
-              />
-              <Field
-                style={styles.TextInput}
-                title="Nova Senha"
-                secureTextEntry
-                component={InputField}
-                name={"newPassword"}
-                autoCapitalize="none"
-              />
-              <Field
-                style={styles.TextInput}
-                title="Confirmar sua Nova senha"
-                secureTextEntry
-                name={"confirmPassword"}
-                component={InputField}
-                autoCapitalize="none"
-              />
-              <RoundButton
-                style={[stylePage.Btn, stylePage.btnRegister, { width: "70%" }]}
-                name="Salvar"
-                onPress={handleSubmit(data => this.goToLoginPerfil(data))}
-              />
-            </View>
-          </View>
-        </View>
+          </Container>
+        </KeyboardAwareScrollView>
       </ImageBackground>
     );
   }
