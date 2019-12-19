@@ -32,6 +32,7 @@ class SpecialHours extends Component {
       date: new Date(),
       mode: "date",
       show: false,
+      bottomModalAndTitle: true,
       SpecialDays: this.props.navigation.state.params.SpecialDays
     };
     if (Platform.OS === "android") {
@@ -277,6 +278,7 @@ class SpecialHours extends Component {
               this.setState({ visible: false });
             }}
             visible={this.state.visible}
+            onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
           >
             <Text
               style={{

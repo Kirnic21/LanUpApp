@@ -45,7 +45,8 @@ class LoginEmail extends Component {
       icon: "visibility-off",
       password: true,
       visible: false,
-      email: ""
+      email: "",
+      bottomModalAndTitle: true
     };
 
     this.changeIcon = this.changeIcon.bind(this);
@@ -219,6 +220,7 @@ class LoginEmail extends Component {
               onTouchOutside={() => {
                 this.setState({ visible: false });
               }}
+              onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
               visible={this.state.visible}
             >
               <Text style={styles.titleModal}>Esqueci a senha</Text>

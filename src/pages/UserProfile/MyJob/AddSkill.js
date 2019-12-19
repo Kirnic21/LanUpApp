@@ -38,7 +38,6 @@ class AddSkill extends Component {
   Skills = t => {
     const text = t.trim();
     this.setState({ text });
-    debugger;
   };
 
   AddSkills = async skill => {
@@ -186,6 +185,7 @@ class AddSkill extends Component {
               this.setState({ visible: false });
             }}
             visible={visible}
+            onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
           >
             <Text
               style={{ color: "#FFF", padding: "5%", fontSize: normalize(28) }}
@@ -195,7 +195,6 @@ class AddSkill extends Component {
             <View style={styles.containerModalInput}>
               <InputModal
                 onChangeText={this.Skills}
-                onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
                 title="Habilidade"
                 style={{ width: "91%", height: 50, borderColor: "#46C5F3" }}
               />

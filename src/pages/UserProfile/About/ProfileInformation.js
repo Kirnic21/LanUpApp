@@ -4,12 +4,19 @@ import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
 import Toggle from "~/shared/components/SwitchComponent";
 import PickerComponent from "~/shared/components/PickerComponent";
+import normalize from "~/assets/FontSize/index";
 
 const ProfileInformation = ({}) => {
   reduxForm({ form: "ProfileInformation" });
   return (
     <View style={styles.informationProfile}>
-      <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "7%" }}>
+      <Text
+        style={{
+          color: "#FFF",
+          fontSize: normalize(14.5),
+          paddingBottom: "7%"
+        }}
+      >
         Informações do Perfil
       </Text>
       <Field
@@ -71,7 +78,7 @@ const ProfileInformation = ({}) => {
           </Field>
         </View>
       </View>
-      <Text style={{ marginTop: "5%", color: "#FFF", fontSize: 15 }}>
+      <Text style={{ marginTop: "5%", color: "#FFF", fontSize: normalize(14) }}>
         Tenho:
       </Text>
       <Field

@@ -1,9 +1,10 @@
 import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
 import TextInputMask from "react-native-text-input-mask";
+import normalize from "~/assets/FontSize/index";
 
 export default InputMask = ({
-  input: { onChange, value, ...input },
+  input: { value, ...input },
   title,
   keyboardType,
   style,
@@ -16,11 +17,15 @@ export default InputMask = ({
   placeholder,
   placeholderTextColor,
   mask,
+  onChange,
+  maxLength,
   meta: { touched, error }
 }) => (
   <View>
     <View>
-      <Text style={{ color: "white", fontSize: 15, top: "-10%" }}>{title}</Text>
+      <Text style={{ color: "white", fontSize: normalize(14), top: "-10%" }}>
+        {title}
+      </Text>
     </View>
     <View style={{ marginBottom: "5%" }}>
       <TextInputMask
@@ -46,10 +51,12 @@ export default InputMask = ({
         defaultValue={value}
         autoCapitalize="none"
         onFocus={onFocus}
+        onChange={onChange}
         autoCompleteType={autoCompleteType}
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor}
         mask={mask}
+        maxLength={maxLength}
       />
       {touched && error && <Text style={{ color: "#F13567" }}>{error}</Text>}
     </View>

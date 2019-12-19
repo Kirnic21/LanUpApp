@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, Text, Picker } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
 import DateInputField from "~/shared/components/DateInputField";
 import PickerComponent from "~/shared/components/PickerComponent";
-import { initialize } from "redux-form";
+import normalize from "~/assets/FontSize/index";
 
 const AdditionalInformation = ({}) => {
   reduxForm({
@@ -12,7 +12,13 @@ const AdditionalInformation = ({}) => {
   });
   return (
     <View style={styles.containerInformationPrivade}>
-      <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "7%" }}>
+      <Text
+        style={{
+          color: "#FFF",
+          fontSize: normalize(14.5),
+          paddingBottom: "7%"
+        }}
+      >
         Informações Adicionais
       </Text>
       <Field

@@ -38,7 +38,8 @@ export default InputField = ({
             {
               width: "100%",
               borderColor: "#FFF",
-              borderRadius: 50
+              borderRadius: 50,
+              height: 45
             },
             style,
             styles.TextInput,

@@ -15,7 +15,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 export default class ModalFilter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isLoading: true, search: "" };
+    this.state = { isLoading: true, search: "", bottomModalAndTitle: true };
     this.arrayholder = [];
   }
 
