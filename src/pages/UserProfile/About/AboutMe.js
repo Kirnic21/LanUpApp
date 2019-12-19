@@ -91,6 +91,7 @@ class AboutMe extends Component {
           owner: get.owner
         });
         console.log(data);
+        debugger;
       })
       .catch(error => {
         console.log(error.response.data);
@@ -142,8 +143,9 @@ class AboutMe extends Component {
       cpfCnpj,
       owner
     } = form;
-    const h = parseFloat(height);
-    const w = parseFloat(weight);
+    debugger;
+    const h = height === "" ? 0 : parseFloat(height);
+    const w = weight === "" ? 0 : parseFloat(weight);
     debugger;
     const { avatarUrl, bankCode } = this.state;
     const request = {
@@ -165,8 +167,8 @@ class AboutMe extends Component {
       cnpj: cpfCnpj.length < 14 ? null : cpfCnpj,
       cpf: cpfCnpj.length > 11 ? null : cpfCnpj,
       owner,
-      lat: "-23.576280",
-      long: "-46.658230",
+      lat: "-23.993860",
+      long: "-46.255959",
       // photos,
       email,
       phone,
@@ -295,7 +297,7 @@ class AboutMe extends Component {
                   {bankCode}
                 </Text>
                 <Modal
-                  donPress={item => {
+                  onPress={item => {
                     this.bankCode(item);
                     this.setState({ visible: false });
                   }}

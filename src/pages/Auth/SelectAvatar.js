@@ -34,10 +34,11 @@ class SelectAvatar extends Component {
       password,
       confirmPassword
     } = this.props;
+    const CPF = cpf.replace(/[\(\)\.\s-]+/g, "");
     const newFreela = {
       name: fullName,
       nickname,
-      cpf,
+      cpf: CPF,
       email,
       password,
       confirmPassword,

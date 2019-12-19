@@ -164,7 +164,7 @@ class LoginEmail extends Component {
               <View style={styles.containerForm}>
                 <View style={{ alignContent: "stretch", width: "90%" }}>
                   <Field
-                    style={{ width: "100%" }}
+                    style={{ width: "100%", height: 51 }}
                     title="E-mail"
                     keyboardType="email-address"
                     component={InputField}
