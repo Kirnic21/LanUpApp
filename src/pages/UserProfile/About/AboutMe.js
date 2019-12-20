@@ -19,7 +19,10 @@ import styles from "./styles";
 import ProfileInformation from "./ProfileInformation";
 import AdditionalInformation from "./AdditionalInformation";
 import BankInformations from "./BankInformations";
-import { validateCPF, validateCNPJ } from "./ValidateCpfCnpj";
+import {
+  validateCPF,
+  validateCNPJ
+} from "~/shared/helpers/validate/ValidateCpfCnpj";
 import DropdownAlert from "react-native-dropdownalert";
 import normalize from "~/assets/FontSize/index";
 
@@ -71,7 +74,10 @@ class AboutMe extends Component {
           fullName: get.name,
           nickName: get.nickName,
           description: get.description,
-          height: get.height === 0 ? "" : get.height.toString(),
+          height:
+            get.height === 0
+              ? ""
+              : get.height.toString().replace(/(\d)(?=(\d{2})+(?!\d))/g, "$1,"),
           weight: get.weight === 0 ? "" : get.weight.toString(),
           clothingsSizes: get.clothingsSizes,
           professionalClothing: get.professionalClothing,
@@ -144,8 +150,8 @@ class AboutMe extends Component {
       owner
     } = form;
     debugger;
-    const h = height === "" ? 0 : parseFloat(height);
-    const w = weight === "" ? 0 : parseFloat(weight);
+    const h = height === "" ? 0 : Number(height.replace(",", ""));
+    const w = weight === "" ? 0 : Number(weight);
     debugger;
     const { avatarUrl, bankCode } = this.state;
     const request = {

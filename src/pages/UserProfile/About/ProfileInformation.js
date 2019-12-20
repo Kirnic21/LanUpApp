@@ -46,6 +46,7 @@ const ProfileInformation = ({}) => {
           component={InputMask}
           name={"height"}
           keyboardType="numeric"
+          mask={"[0],[00]"}
         />
         <View style={{ position: "absolute", left: "34%", width: "32%" }}>
           <Field
@@ -54,6 +55,8 @@ const ProfileInformation = ({}) => {
             component={InputMask}
             name={"weight"}
             keyboardType="numeric"
+            mask={"[000]"}
+            maxLength={3}
           />
         </View>
         <View style={styles.containerManequim}>

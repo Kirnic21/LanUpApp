@@ -34,7 +34,7 @@ const AdditionalInformation = ({}) => {
         keyboardType="numeric"
         component={InputMask}
         name={"phone"}
-        mask={"([000]) [0] [0000]-[0000]"}
+        mask={"([000]) [00000]-[0000]"}
       />
       <View style={{ alignContent: "stretch" }}>
         <Field

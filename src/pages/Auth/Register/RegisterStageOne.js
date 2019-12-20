@@ -4,7 +4,8 @@ import {
   Text,
   ImageBackground,
   Dimensions,
-  StatusBar
+  StatusBar,
+  TouchableOpacity
 } from "react-native";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
@@ -20,10 +21,12 @@ import FormValidator from "~/shared/services/validator";
 import AsyncStorage from "@react-native-community/async-storage";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
-import { create } from "~/shared/services/freela.http";
+import { create, validateCpf } from "~/shared/services/freela.http";
+import { validateCPF } from "~/shared/helpers/validate/ValidateCpfCnpj";
 
 import normalize from "~/assets/FontSize/index";
 import InputMask from "~/shared/components/InputMask";
+import DropdownAlert from "react-native-dropdownalert";
 
 const formRules = FormValidator.make(
   {
@@ -89,8 +92,24 @@ class RegisterStageOne extends Component {
       debugger;
       return;
     }
-
-    this.props.navigation.push("RegisterStageTwo");
+    validateCpf(cpf).then(({ data }) => {
+      const CPF = cpf.replace(/[\(\)\.\s-]+/g, "");
+      const validate = data.result.value;
+      const cpfValidate = validateCPF(CPF);
+      validate === true
+        ? this.dropDownAlertRef.alertWithType(
+            "error",
+            "Erro",
+            "Este cpf já existe."
+          )
+        : cpfValidate === false
+        ? this.dropDownAlertRef.alertWithType(
+            "error",
+            "Erro",
+            "Este cpf é inválido."
+          )
+        : this.props.navigation.push("RegisterStageTwo");
+    });
   };
 
   render() {
@@ -98,6 +117,18 @@ class RegisterStageOne extends Component {
     const { handleSubmit, invalid } = this.props;
     return (
       <ImageBackground source={ImageBack} style={styles.ImageBackground}>
+        <View
+          style={{
+            width: "100%",
+            alignItems: "center",
+            position: "absolute"
+          }}
+        >
+          <DropdownAlert
+            closeInterval={1}
+            ref={ref => (this.dropDownAlertRef = ref)}
+          />
+        </View>
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <StatusBar translucent backgroundColor="transparent" />
           <Container style={{ backgroundColor: "transparent" }}>

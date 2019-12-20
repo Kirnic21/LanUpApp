@@ -27,13 +27,13 @@ export default InputMask = ({
         {title}
       </Text>
     </View>
-    <View style={{ marginBottom: "5%" }}>
+    <View style={{ marginBottom: "5%", width: "100%" }}>
       <TextInputMask
         style={[
           {
             height: 45,
-            width: 250,
-            borderColor: "white",
+            width: "100%",
+            borderColor: "#FFF",
             borderRadius: 50
           },
           style,
@@ -67,6 +67,6 @@ const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
     color: "#FFF",
-    paddingLeft: "10%"
+    paddingHorizontal: "7%"
   }
 });

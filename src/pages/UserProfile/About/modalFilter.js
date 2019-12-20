@@ -34,6 +34,7 @@ export default class ModalFilter extends React.Component {
   }
 
   search = text => {
+    this.setState({ text });
     console.log(text);
   };
   clear = () => {
@@ -41,6 +42,7 @@ export default class ModalFilter extends React.Component {
   };
 
   render() {
+    const { search } = this.state;
     return (
       <View>
         <Modal.BottomModal
@@ -73,16 +75,25 @@ export default class ModalFilter extends React.Component {
                 searchIcon={{ size: 24, color: "#000" }}
                 placeholderTextColor={"#000"}
                 onChangeText={text => this.SearchFilterFunction(text)}
-                onClear={text => this.SearchFilterFunction("")}
+                onClear={text => this.SearchFilterFunction(text)}
                 placeholder="Digite aqui..."
-                value={this.state.search}
+                value={search}
               />
               <FlatList
                 data={this.state.dataSource}
                 ItemSeparatorComponent={this.ListViewItemSeparator}
                 renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => this.props.onPress(item.id)}>
-                    <Text style={styles.textStyle}>{item.description}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.onPress(item.id),
+                        this.setState({ search: "" });
+                    }}
+                  >
+                    {search.length ? (
+                      <Text style={styles.textStyle}>{item.description}</Text>
+                    ) : (
+                      <View></View>
+                    )}
                   </TouchableOpacity>
                 )}
                 enableEmptySections={true}

@@ -17,6 +17,7 @@ export default InputField = ({
   placeholderTextColor,
   editable,
   autoCapitalize,
+  maxLength,
 
   meta: { touched, error }
 }) => {
@@ -59,6 +60,7 @@ export default InputField = ({
           placeholder={placeholder}
           placeholderTextColor={placeholderTextColor}
           editable={editable}
+          maxLength={maxLength}
         />
         {touched && error && <Text style={{ color: "#F13567" }}>{error}</Text>}
       </View>
