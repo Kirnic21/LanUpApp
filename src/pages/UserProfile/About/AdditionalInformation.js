@@ -35,6 +35,7 @@ const AdditionalInformation = ({}) => {
         component={InputMask}
         name={"phone"}
         mask={"([000]) [00000]-[0000]"}
+        isfocused={"#A893F2"}
       />
       <View style={{ alignContent: "stretch" }}>
         <Field

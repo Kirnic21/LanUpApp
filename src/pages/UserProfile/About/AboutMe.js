@@ -239,7 +239,10 @@ class AboutMe extends Component {
             marginTop: "-14%"
           }}
         >
-          <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
+          <DropdownAlert
+            ref={ref => (this.dropDownAlertRef = ref)}
+            closeInterval={200}
+          />
         </View>
         <ScrollView
           style={styles.ScrollView}

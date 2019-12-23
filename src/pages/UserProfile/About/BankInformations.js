@@ -49,6 +49,7 @@ const BankInformation = ({ children }) => {
               name={"bankBranch"}
               keyboardType="numeric"
               maxLength={4}
+              isfocused={"#A893F2"}
             />
           </View>
         </View>
@@ -57,6 +58,7 @@ const BankInformation = ({ children }) => {
           title="Conta Corrente"
           component={InputField}
           name={"bankAccount"}
+          isfocused={"#A893F2"}
           keyboardType="numeric"
         />
         <Field
@@ -66,6 +68,7 @@ const BankInformation = ({ children }) => {
           name={"cpfCnpj"}
           keyboardType="numeric"
           maxLength={14}
+          isfocused={"#A893F2"}
           // mask={("[000].[000].[000]-[00]", "[00].[000].[000]/[0000]-[00]")}
         />
         <Field
@@ -73,6 +76,7 @@ const BankInformation = ({ children }) => {
           title="Nome do Titular"
           component={InputField}
           name={"owner"}
+          isfocused={"#A893F2"}
         />
       </View>
     </View>

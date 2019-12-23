@@ -11,16 +11,19 @@ export default InputField = ({
   autoFocus,
   numberOfLines,
   multiline,
-  onFocus,
+  // onFocus,
   autoCompleteType,
   placeholder,
   placeholderTextColor,
   editable,
   autoCapitalize,
   maxLength,
-
+  isfocused,
   meta: { touched, error }
 }) => {
+  const [isInputFocused, setInputFocused] = useState({
+    input1: false
+  });
   return (
     <View>
       <View>
@@ -38,12 +41,14 @@ export default InputField = ({
           style={[
             {
               width: "100%",
-              borderColor: "#FFF",
               borderRadius: 50,
               height: 45
             },
             style,
             styles.TextInput,
+            isInputFocused.input1
+              ? { borderColor: isfocused }
+              : { borderColor: "#FFF" },
             touched && error && { borderColor: "#F13567" }
           ]}
           keyboardType={keyboardType}
@@ -60,6 +65,8 @@ export default InputField = ({
           placeholder={placeholder}
           placeholderTextColor={placeholderTextColor}
           editable={editable}
+          onFocus={() => setInputFocused(prev => ({ ...prev, input1: true }))}
+          onBlur={() => setInputFocused(prev => ({ ...prev, input1: false }))}
           maxLength={maxLength}
         />
         {touched && error && <Text style={{ color: "#F13567" }}>{error}</Text>}

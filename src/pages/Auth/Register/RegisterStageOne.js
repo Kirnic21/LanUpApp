@@ -144,12 +144,14 @@ class RegisterStageOne extends Component {
                   style={styles.TextInput}
                   title="Nome Completo"
                   component={InputField}
+                  isfocused={"#46C5F3"}
                 />
                 <Field
                   name="nickname"
                   style={styles.TextInput}
                   title="Apelido"
                   component={InputField}
+                  isfocused={"#46C5F3"}
                 />
                 <Field
                   name="cpf"
@@ -157,6 +159,7 @@ class RegisterStageOne extends Component {
                   title="CPF"
                   component={InputMask}
                   keyboardType="numeric"
+                  isfocused={"#46C5F3"}
                   mask={"[000].[000].[000]-[00]"}
                 />
               </View>

@@ -24,12 +24,14 @@ const ProfileInformation = ({}) => {
         title="Nome Completo"
         component={InputField}
         name={"fullName"}
+        isfocused={"#A893F2"}
       />
       <Field
         style={{ width: "100%" }}
         title="Apelido"
         component={InputField}
         name={"nickName"}
+        isfocused={"#A893F2"}
       />
       <Field
         style={styles.textArea}
@@ -38,6 +40,7 @@ const ProfileInformation = ({}) => {
         name="description"
         multiline={true}
         numberOfLines={10}
+        isfocused={"#A893F2"}
       />
       <View style={{ alignContent: "stretch", width: "100%" }}>
         <Field
@@ -47,6 +50,7 @@ const ProfileInformation = ({}) => {
           name={"height"}
           keyboardType="numeric"
           mask={"[0],[00]"}
+          isfocused={"#A893F2"}
         />
         <View style={{ position: "absolute", left: "34%", width: "32%" }}>
           <Field
@@ -57,6 +61,7 @@ const ProfileInformation = ({}) => {
             keyboardType="numeric"
             mask={"[000]"}
             maxLength={3}
+            isfocused={"#A893F2"}
           />
         </View>
         <View style={styles.containerManequim}>

@@ -148,7 +148,10 @@ class LoginEmail extends Component {
               position: "absolute"
             }}
           >
-            <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
+            <DropdownAlert
+              ref={ref => (this.dropDownAlertRef = ref)}
+              closeInterval={500}
+            />
           </View>
           <Spinner
             visible={this.state.spinner}
@@ -169,6 +172,7 @@ class LoginEmail extends Component {
                     keyboardType="email-address"
                     component={InputField}
                     name={"email"}
+                    isfocused={"#A893F2"}
                     autoCapitalize="none"
                   />
 
@@ -184,6 +188,7 @@ class LoginEmail extends Component {
                       secureTextEntry={this.state.password}
                       component={InputField}
                       name={"password"}
+                      isfocused={"#A893F2"}
                       autoCapitalize="none"
                     />
                     <Icon
@@ -229,6 +234,7 @@ class LoginEmail extends Component {
               </Text>
               <View style={styles.containerInputModal}>
                 <InputModal
+                  isfocused={"#865FC0"}
                   onChangeText={this.handleEmail}
                   title="E-mail"
                   style={{ width: "90%", height: 50, borderColor: "#865FC0" }}

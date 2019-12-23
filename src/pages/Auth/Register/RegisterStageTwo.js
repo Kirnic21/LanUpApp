@@ -118,6 +118,7 @@ class RegisterStageTwo extends Component {
                   keyboardType="email-address"
                   component={InputField}
                   autoCapitalize="none"
+                  isfocused={"#46C5F3"}
                 />
                 <View
                   style={{
@@ -132,6 +133,7 @@ class RegisterStageTwo extends Component {
                     secureTextEntry={this.state.password}
                     component={InputField}
                     autoCapitalize="none"
+                    isfocused={"#46C5F3"}
                   />
                   <Icon
                     style={stylePage.icon}
@@ -147,6 +149,7 @@ class RegisterStageTwo extends Component {
                   secureTextEntry={this.state.password}
                   component={InputField}
                   autoCapitalize="none"
+                  isfocused={"#46C5F3"}
                   style={[{ width: "100%", height: 51, paddingLeft: "10%" }]}
                 />
               </View>

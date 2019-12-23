@@ -194,9 +194,10 @@ class AddSkill extends Component {
             </Text>
             <View style={styles.containerModalInput}>
               <InputModal
+                isfocused={"#46C5F3"}
                 onChangeText={this.Skills}
                 title="Habilidade"
-                style={{ width: "91%", height: 50, borderColor: "#46C5F3" }}
+                style={{ width: "91%", height: 50 }}
               />
             </View>
             <View

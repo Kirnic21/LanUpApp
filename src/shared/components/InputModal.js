@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -20,54 +20,61 @@ export default InputModal = ({
   editable,
   onChangeText,
   onClick,
-  onFocus,
-  onBlur,
   onSubmitEditing,
   placeholder,
-  placeholderTextColor
-}) => (
-  <View style={{ width: "100%" }}>
-    <View>
-      <Text style={{ color: "white", fontSize: 15, top: "-10%" }}>{title}</Text>
+  placeholderTextColor,
+  isfocused
+}) => {
+  const [isInputFocused, setInputFocused] = useState({
+    input1: false
+  });
+  return (
+    <View style={{ width: "100%" }}>
+      <View>
+        <Text style={{ color: "white", fontSize: 15, top: "-10%" }}>
+          {title}
+        </Text>
+      </View>
+      <View
+        style={{
+          marginBottom: "5%",
+          width: "100%"
+        }}
+      >
+        <TextInput
+          style={[
+            {
+              height: 45,
+              borderRadius: 23,
+              color: "white"
+            },
+            style,
+            isInputFocused.input1
+              ? { borderColor: isfocused }
+              : { borderColor: "#FFF" },
+            styles.TextInput
+          ]}
+          onPress={onClick}
+          keyboardType={keyboardType}
+          secureTextEntry={secureTextEntry}
+          // autoFocus={autoFocus}
+          numberOfLines={numberOfLines}
+          multiline={multiline}
+          enablesReturnKeyAutomatically={true}
+          onChange={onChange}
+          value={value}
+          editable={editable}
+          onChangeText={onChangeText}
+          onFocus={() => setInputFocused(prev => ({ ...prev, input1: true }))}
+          onBlur={() => setInputFocused(prev => ({ ...prev, input1: false }))}
+          onSubmitEditing={onSubmitEditing}
+          placeholder={placeholder}
+          placeholderTextColor={placeholderTextColor}
+        ></TextInput>
+      </View>
     </View>
-    <View
-      style={{
-        marginBottom: "5%",
-        width: "100%"
-      }}
-    >
-      <TextInput
-        style={[
-          {
-            height: 45,
-            borderColor: "white",
-            borderRadius: 23,
-            color: "white"
-          },
-          style,
-          styles.TextInput
-        ]}
-        onPress={onClick}
-        keyboardType={keyboardType}
-        secureTextEntry={secureTextEntry}
-        // autoFocus={autoFocus}
-        numberOfLines={numberOfLines}
-        multiline={multiline}
-        enablesReturnKeyAutomatically={true}
-        onChange={onChange}
-        value={value}
-        editable={editable}
-        onChangeText={onChangeText}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onSubmitEditing={onSubmitEditing}
-        placeholder={placeholder}
-        placeholderTextColor={placeholderTextColor}
-      ></TextInput>
-    </View>
-  </View>
-);
-
+  );
+};
 const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
