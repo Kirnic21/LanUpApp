@@ -97,17 +97,9 @@ class RegisterStageOne extends Component {
       const validate = data.result.value;
       const cpfValidate = validateCPF(CPF);
       validate === true
-        ? this.dropDownAlertRef.alertWithType(
-            "error",
-            "Erro",
-            "Este cpf já existe."
-          )
+        ? this._dropdown.alertWithType("error", "Erro", "Este cpf já existe.")
         : cpfValidate === false
-        ? this.dropDownAlertRef.alertWithType(
-            "error",
-            "Erro",
-            "Este cpf é inválido."
-          )
+        ? this._dropdown.alertWithType("error", "Erro", "Este cpf é inválido.")
         : this.props.navigation.push("RegisterStageTwo");
     });
   };
@@ -125,8 +117,10 @@ class RegisterStageOne extends Component {
           }}
         >
           <DropdownAlert
-            closeInterval={1}
-            ref={ref => (this.dropDownAlertRef = ref)}
+            ref={ref => {
+              this._dropdown = ref;
+            }}
+            closeInterval={500}
           />
         </View>
         <KeyboardAwareScrollView style={{ flex: 1 }}>

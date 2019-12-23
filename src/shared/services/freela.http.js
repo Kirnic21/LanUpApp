@@ -32,6 +32,7 @@ const saveSpecialDay = data =>
 const received = data => HTTP.put(`freelas/${data.freelaId}/received`, data);
 
 const validateCpf = data => HTTP.get(`freelas/cpf/${data}/exists`);
+const validateEmail = data => HTTP.get(`freelas/email/${data}/exists`);
 
 const decodeToken = token =>
   JSON.parse(
@@ -62,5 +63,6 @@ export {
   getJobs,
   saveSpecialDay,
   received,
-  validateCpf
+  validateCpf,
+  validateEmail
 };

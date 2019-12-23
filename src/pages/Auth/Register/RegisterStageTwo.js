@@ -17,6 +17,7 @@ import FormValidator from "~/shared/services/validator";
 import DropdownAlert from "react-native-dropdownalert";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
+import { validateEmail } from "~/shared/services/freela.http";
 
 const stylePage = {
   ...styles,
@@ -53,20 +54,20 @@ class RegisterStageTwo extends Component {
 
   goLoginPicture = form => {
     const { email, password, confirmPassword } = form;
+    validateEmail(email).then(({ data }) => {
+      console.log(data);
+      const validate = data.result.value;
 
-    if (password === confirmPassword) {
-      this.props.navigation.push("SelectAvatar", {
-        email,
-        password,
-        confirmPassword
-      });
-    } else {
-      this.dropDownAlertRef.alertWithType(
-        "error",
-        "Erro",
-        "As senhas não podem ser diferentes!"
-      );
-    }
+      validate === true
+        ? this._dropdown.alertWithType("error", "Erro", "Este email já existe.")
+        : password !== confirmPassword
+        ? this._dropdown.alertWithType(
+            "error",
+            "Erro",
+            "As senhas não podem ser diferentes!"
+          )
+        : this.props.navigation.push("SelectAvatar");
+    });
   };
 
   changeIcon() {
@@ -80,16 +81,21 @@ class RegisterStageTwo extends Component {
     const { handleSubmit, invalid } = this.props;
     return (
       <ImageBackground source={ImageBack} style={styles.ImageBackground}>
-        <KeyboardAwareScrollView style={{ flex: 1 }}>
-          <View
-            style={{
-              width: "100%",
-              alignItems: "center",
-              position: "absolute"
+        <View
+          style={{
+            width: "100%",
+            alignItems: "center",
+            position: "absolute"
+          }}
+        >
+          <DropdownAlert
+            ref={ref => {
+              this._dropdown = ref;
             }}
-          >
-            <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
-          </View>
+            closeInterval={500}
+          />
+        </View>
+        <KeyboardAwareScrollView style={{ flex: 1 }}>
           <StatusBar translucent backgroundColor="transparent" />
           <Container style={{ backgroundColor: "transparent" }}>
             <View style={styles.registerContainer}>
