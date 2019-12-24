@@ -51,11 +51,13 @@ class HomePage extends Component {
       const user = await loginWithFacebook(data.accessToken);
 
       if (user) {
-        if (user.registered)
-          this.props.navigation.navigate("UserProfile", { user });
+        const { path, user: userData } = (
+          user.isRegistered 
+            ? { path: 'UserProfile', user } 
+            : { path: 'RegisterStageOne', user: { ...user, isFacebook: true } }
+        );
 
-        user.isFacebook = true;
-        this.props.navigation.navigate("RegisterStageOne", { user });
+        this.props.navigation.navigate(path, { user: userData });
       }
     });
   };
