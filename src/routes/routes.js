@@ -21,7 +21,7 @@ import AvailabilityDays from "~/pages/UserProfile/Availability/AvailabilityDays"
 import SpecialHours from "~/pages/UserProfile/Availability/SpecialHours";
 import Agency from "~/pages/UserProfile/Agency/Agency";
 import Agencies from "~/pages/UserProfile/Agencies";
-import PreviewProfile from "~/pages/UserProfile/PreviewProfile";
+// import PreviewProfile from "~/pages/UserProfile/PreviewProfile";
 
 import DetailNextEvent from "~/pages/NextEvent/DetailNextEvent";
 import CheckList from "~/pages/NextEvent/CheckList";
@@ -130,21 +130,22 @@ const pageNavigator = createStackNavigator({
       )
     })
   },
-  PreviewProfile: {
-    screen: PreviewProfile,
-    navigationOptions: ({ navigation }) => ({
-      headerTransparent: true,
-      headerStyle: {
-        marginTop: 20
-      },
-      headerLeft: (
-        <HeaderBackButton
-          tintColor="#FFf"
-          onPress={() => navigation.push("UserProfile")}
-        />
-      )
-    })
-  },
+  // TODO: essa rota está pausada. será descomentada assim que retorna-la
+  // PreviewProfile: {
+  //   screen: PreviewProfile,
+  //   navigationOptions: ({ navigation }) => ({
+  //     headerTransparent: true,
+  //     headerStyle: {
+  //       marginTop: 20
+  //     },
+  //     headerLeft: (
+  //       <HeaderBackButton
+  //         tintColor="#FFf"
+  //         onPress={() => navigation.push("UserProfile")}
+  //       />
+  //     )
+  //   })
+  // },
   Agency: {
     screen: Agency,
     navigationOptions: ({ navigation }) => ({
