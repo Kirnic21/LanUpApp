@@ -7,11 +7,9 @@ const changePassword = data => HTTP.put("auth/change", data);
 
 const resetPassword = data => HTTP.post(`auth/reset?email=${data}`);
 
-const loginWithFacebook = async token => {
+const loginWithFacebook = async accessToken => {
   try {
-    const { data } = await HTTP.post("auth/facebook", {
-      facebookToken: token.accessToken
-    });
+    const { data } = await HTTP.post("auth/facebook", { facebookToken: accessToken });
     const tokenTask = AsyncStorage.setItem("token", data.accessToken.token);
     const userTask = AsyncStorage.setItem(
       "user",

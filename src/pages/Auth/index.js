@@ -46,8 +46,10 @@ class HomePage extends Component {
       "email"
     ]).then(async result => {
       if (result.isCancelled) return;
+
       const data = await AccessToken.getCurrentAccessToken();
-      const user = await loginWithFacebook(data);
+      const user = await loginWithFacebook(data.accessToken);
+
       if (user) {
         if (user.registered)
           this.props.navigation.navigate("UserProfile", { user });
