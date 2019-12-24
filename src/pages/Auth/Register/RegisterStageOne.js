@@ -62,13 +62,13 @@ class RegisterStageOne extends Component {
 
   goRegister = async form => {
     const { user } = this.state;
-    debugger;
 
     await this.props.setUser(user);
-    const { email, password, avatar } = user.authenticateUser;
+    const { authenticateUser, accessToken } = user;
+    const { email, password, avatar } = authenticateUser;
     const { nickname, cpf, fullName } = form;
     if (user.isFacebook) {
-      await AsyncStorage.setItem("token", user.accessToken.token);
+      await AsyncStorage.setItem("token", accessToken.token);
       const request = {
         name: fullName,
         nickname,
@@ -77,7 +77,7 @@ class RegisterStageOne extends Component {
         password,
         confirmPassword: password,
         avatar: avatar.url,
-        facebookToken: user.accessToken.token
+        facebookToken: user.facebookToken,
       };
       create(request)
         .then(async ({ data }) => {
@@ -86,10 +86,8 @@ class RegisterStageOne extends Component {
           }
         })
         .catch(error => {
-          debugger;
           console.log(error.response.data);
         });
-      debugger;
       return;
     }
     validateCpf(cpf).then(({ data }) => {
