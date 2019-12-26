@@ -46,14 +46,19 @@ class HomePage extends Component {
       "email"
     ]).then(async result => {
       if (result.isCancelled) return;
-      const data = await AccessToken.getCurrentAccessToken();
-      const user = await loginWithFacebook(data);
-      if (user) {
-        if (user.registered)
-          this.props.navigation.navigate("UserProfile", { user });
 
-        user.isFacebook = true;
-        this.props.navigation.navigate("RegisterStageOne", { user });
+      const data = await AccessToken.getCurrentAccessToken();
+      const user = await loginWithFacebook(data.accessToken);
+
+      if (user) {
+          debugger
+        const { path, user: userData } = (
+          user.isRegistered 
+            ? { path: 'UserProfile', user } 
+            : { path: 'RegisterStageOne', user: { ...user, isFacebook: true, facebookToken: data.accessToken } }
+        );
+
+        this.props.navigation.navigate(path, { user: userData });
       }
     });
   };
