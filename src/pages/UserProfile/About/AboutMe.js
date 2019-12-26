@@ -242,7 +242,7 @@ class AboutMe extends Component {
 
   xpto = (e) => {
     console.log(e)
-    debugger
+    this.setState({ googleAddress: e });
   }
   // onPhotosAdd = picture => {
   //   this.setState({ photos: [picture] });
