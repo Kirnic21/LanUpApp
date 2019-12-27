@@ -5,8 +5,12 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  FlatList,
   TouchableHighlightComponent
 } from "react-native";
+
+
+import axios from "axios";
 
 import ImageBody from "~/assets/images/icon_addbody.png";
 import ImageSelf from "~/assets/images/icon_addselfie.png";
@@ -26,13 +30,13 @@ import {
 import DropdownAlert from "react-native-dropdownalert";
 import normalize from "~/assets/FontSize/index";
 
-import { reduxForm } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import { getAbout, decodeToken, aboutMe } from "~/shared/services/freela.http";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { setAbout } from "~/store/ducks/aboutMe/about.actions";
-
+import InputSearch from "~/shared/components/InputSearch"
 class AboutMe extends Component {
   state = {
     visible: false,
@@ -149,11 +153,9 @@ class AboutMe extends Component {
       cpfCnpj,
       owner
     } = form;
-    debugger;
     const h = height === "" ? 0 : Number(height.replace(",", ""));
     const w = weight === "" ? 0 : Number(weight);
-    debugger;
-    const { avatarUrl, bankCode } = this.state;
+    const { avatarUrl, bankCode, googleAddress } = this.state;
     const request = {
       freelaId: token.id,
       avatar: avatarUrl,
@@ -173,6 +175,11 @@ class AboutMe extends Component {
       cnpj: cpfCnpj.length < 14 ? null : cpfCnpj,
       cpf: cpfCnpj.length > 11 ? null : cpfCnpj,
       owner,
+      location: {
+        address: googleAddress.address,
+        lat: googleAddress.location.latitude,
+        lng: googleAddress.location.longitude
+      },
       lat: "-23.993860",
       long: "-46.255959",
       // photos,
@@ -218,6 +225,25 @@ class AboutMe extends Component {
     this.setState({ avatar: picture.uri, avatarUrl: picture.data });
   };
 
+  onSearch = value => {
+    axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${value}&inputtype=textquery&fields=type,icon,place_id,formatted_address,name,geometry&key=AIzaSyB1QnZpLJnE-j8mL3f5uHDlCmV7jH_GRp0`)
+      .then(response => this.setState({ places: this.mapCandidatesToPlaces(response.data.candidates) }))
+      .catch(message => this.showMessage(message))
+  }
+
+  mapCandidatesToPlaces = candidates => candidates.map(candidate => ({
+    address: candidate.formatted_address || candidate.vicinity,
+    location: { latitude: candidate.geometry.location.lat, longitude: candidate.geometry.location.lng },
+    name: candidate.name,
+    icon: candidate.icon,
+    id: candidate.place_id,
+    type: candidate.types[0]
+  }))
+
+  xpto = (e) => {
+    console.log(e)
+    this.setState({ googleAddress: e });
+  }
   // onPhotosAdd = picture => {
   //   this.setState({ photos: [picture] });
   //   debugger;
@@ -259,16 +285,46 @@ class AboutMe extends Component {
             </TouchableOpacity>
           </View>
           <ProfileInformation />
-          {/* <View style={styles.containerLocation}>
+          <View style={styles.containerLocation}>
             <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "7%" }}>
-              Localização
+              Área de atuação
             </Text>
-            <Field
+            <View style={styles.container}>
+              <Field
+                title="Área de atuação"
+                component={InputSearch}
+                handleOnSearch={this.onSearch}
+                name={"area"}
+                editable={false}
+              />
+              <FlatList
+                ListEmptyComponent={
+                  <Text style={{ color: '#FFF' }}>Nenhum endereço</Text>
+                }
+                style={{ marginTop: 20, marginBottom: 20 }}
+                extraData={this.state}
+                keyExtractor={place => place.id}
+                data={this.state.places}
+                renderItem={({ item, index }) =>
+                  <TouchableOpacity
+                    onPress={e => {
+                      debugger
+                      this.xpto(item)
+                    }}
+                  >
+                    <Text style={{ color: '#fff' }}>
+                      {item.address}
+                    </Text>
+                  </TouchableOpacity>
+                }
+              />
+            </View >
+            {/* <Field
               style={{ width: "100%" }}
               component={InputField}
               name={"location"}
-            />
-          </View> */}
+            /> */}
+          </View>
           {/* <View style={styles.containerPresentationPhoto}>
             <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "3%" }}>
               Fotos de apresentação
