@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Gallery from "react-native-image-gallery";
 
-const Carousel = ({ isOpen, galleryIndex, handleOpen, pictures, caption }) => {
+const Carousel = ({ isOpen, handleOpen, pictures, caption, indexGallery }) => {
   return (
     <Modal
       animationType="slide"
@@ -28,30 +28,38 @@ const Carousel = ({ isOpen, galleryIndex, handleOpen, pictures, caption }) => {
         <Text style={styles.caption}>{caption}</Text>
       </View>
       <Gallery
-        initialPage={galleryIndex}
+        initialPage={indexGallery}
         style={styles.gallery}
         images={pictures.map(picture => ({
           source: { uri: picture.url },
-          dimensions: { width: 150, height: 150 }
+          dimensions: { width: 1000, height: 1000 }
         }))}
+        flatListProps={{
+          initialScrollIndex: indexGallery,
+          getItemLayout: (data, index) => ({
+            length: Dimensions.get("screen").width,
+            offset: Dimensions.get("screen").width * index,
+            index
+          })
+        }}
       />
     </Modal>
   );
 };
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
   closeContainer: {
     width,
-    backgroundColor: "rgba(114, 114, 114, 0.9)",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
     flexDirection: "row",
     alignItems: "center"
   },
   closeButtonContainer: {
     justifyContent: "center",
     alignItems: "center",
-    padding: 30
+    padding: "5%"
   },
   caption: {
     color: "#F7F7F7",
@@ -61,7 +69,8 @@ const styles = StyleSheet.create({
   },
   gallery: {
     flex: 1,
-    backgroundColor: "rgba(114, 114, 114, 0.8)"
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    alignItems: "center"
   }
 });
 

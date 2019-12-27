@@ -45,7 +45,7 @@ const pageNavigator = createStackNavigator({
       headerLeft: (
         <HeaderBackButton
           tintColor="#FFf"
-          onPress={() => navigation.push("UserProfile")}
+          onPress={() => navigation.goBack()}
         />
       )
     })

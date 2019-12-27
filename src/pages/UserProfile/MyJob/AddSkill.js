@@ -136,7 +136,7 @@ class AddSkill extends Component {
             </Header>
           </Container>
           <View style={{ marginHorizontal: "10%" }}>
-            <Text style={styles.titleSkill}>Habiliddades</Text>
+            <Text style={styles.titleSkill}>Habilidades</Text>
           </View>
           {GetSkill.length ? (
             <View style={{ marginHorizontal: "10%" }}>
@@ -181,6 +181,7 @@ class AddSkill extends Component {
             </View>
           )}
           <Modal
+            height={0.8}
             onTouchOutside={() => {
               this.setState({ visible: false });
             }}

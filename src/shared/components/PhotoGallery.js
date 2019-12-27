@@ -1,11 +1,13 @@
 import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { StyleSheet, TouchableOpacity, Image, View, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import PhotoGalleryEmptyState from "./emptyState/PhotoGalleryEmptyState";
 import { ScrollView } from "react-native-gesture-handler";
 import Carousel from "./Carousel";
 import ImageSelector from "./ImageSelector";
 import { connect } from "react-redux";
+import Image from "react-native-fast-image";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const Picture = ({
   picture,
@@ -33,8 +35,15 @@ const Picture = ({
 
 class PhotoGallery extends React.Component {
   state = {
-    isGalleryOpen: false
+    isGalleryOpen: false,
+    indexGallery: null
   };
+
+  componentDidMount() {
+    setInterval(() => {
+      this.hideLoader();
+    }, 4500);
+  }
 
   static navigationOptions = ({ navigation }) => {
     const isEditing = navigation.getParam("isEditing");
@@ -86,6 +95,13 @@ class PhotoGallery extends React.Component {
     };
   };
 
+  showLoader = () => {
+    this.setState({ spinner: true });
+  };
+  hideLoader = () => {
+    this.setState({ spinner: false });
+  };
+
   handleGalleryOpen = visible => {
     this.setState({ isGalleryOpen: visible });
   };
@@ -96,6 +112,7 @@ class PhotoGallery extends React.Component {
 
   onPictureAdd = async picture => {
     await this.props.navigation.getParam("handlePictureAdd")(picture);
+    this.showLoader();
   };
 
   handleImageLongPress = picture => {
@@ -144,8 +161,12 @@ class PhotoGallery extends React.Component {
     });
   };
 
+  galleryIndex = index => {
+    this.setState({ indexGallery: index });
+  };
+
   render() {
-    const { isGalleryOpen } = this.state;
+    const { isGalleryOpen, indexGallery } = this.state;
     const { pictures } = this.props;
     const isEditing = this.props.navigation.getParam("isEditing");
     const caption = this.props.navigation.getParam("caption", "");
@@ -154,6 +175,13 @@ class PhotoGallery extends React.Component {
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}
       >
+        <Spinner
+          visible={this.state.spinner}
+          size="large"
+          animation="fade"
+          color="#7541BF"
+          overlayColor="rgba(0, 0, 0, 0.9)"
+        />
         {pictures.length ? (
           <React.Fragment>
             <TouchableOpacity
@@ -163,25 +191,28 @@ class PhotoGallery extends React.Component {
               <MaterialCommunityIcons name="camera" size={38} color="#FFF" />
             </TouchableOpacity>
             {pictures.map((picture, index) => (
-              <Picture
-                picture={picture}
-                key={index}
-                isSelectedToDelete={this.isSelectedToDelete(picture)}
-                handleImageLongPress={picture =>
-                  this.handleImageLongPress(picture)
-                }
-                handleOnPress={value =>
-                  isEditing
-                    ? this.addImageToDelete(picture)
-                    : this.handleGalleryOpen(value)
-                }
-              />
+              <View key={index}>
+                <Picture
+                  picture={picture}
+                  isSelectedToDelete={this.isSelectedToDelete(picture)}
+                  handleImageLongPress={picture =>
+                    this.handleImageLongPress(picture)
+                  }
+                  handleOnPress={value => {
+                    this.galleryIndex(index);
+                    isEditing
+                      ? this.addImageToDelete(picture)
+                      : this.handleGalleryOpen(value);
+                  }}
+                />
+              </View>
             ))}
           </React.Fragment>
         ) : (
           <PhotoGalleryEmptyState onPictureAdd={this.handleOnPictureAdd} />
         )}
         <Carousel
+          indexGallery={indexGallery}
           caption={caption}
           isOpen={isGalleryOpen}
           handleOpen={this.handleGalleryOpen}
@@ -189,8 +220,8 @@ class PhotoGallery extends React.Component {
         />
         <ImageSelector
           onImageSelected={this.onPictureAdd}
-          width={1280}
-          height={720}
+          width={1500}
+          height={2000}
           ref={o => (this.ImageSelector = o)}
         />
       </ScrollView>
@@ -209,27 +240,27 @@ const styles = StyleSheet.create({
   },
   thumbContainer: {},
   picture: {
-    marginVertical: 10,
-    width: 108,
+    marginVertical: 5,
+    width: 117,
     height: 81,
-    marginLeft: 10
+    marginLeft: 9
   },
   addPictureContainer: {
-    width: 108,
+    width: 117,
     height: 81,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#7541BF",
     borderRadius: 4,
-    marginVertical: 10,
-    marginLeft: 10
+    marginVertical: 5,
+    marginLeft: 9
   },
   selectedOverlayContainer: {
     backgroundColor: "rgba(27, 191, 191, 0.8)",
-    width: 108,
+    width: 117,
     height: 81,
-    marginVertical: 10,
-    marginLeft: 10,
+    marginVertical: 5,
+    marginLeft: 9,
     position: "absolute",
     borderRadius: 4
   },

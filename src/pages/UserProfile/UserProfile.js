@@ -85,12 +85,16 @@ class UserProfile extends Component {
     this.props.navigation.navigate("Profession");
   };
 
-  openMidia = async () => {
+  handlePictureUpdate = async () => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     galeries(token.id).then(({ data }) => {
       this.props.updateGalleryImage(data.result);
     });
+  };
 
+  openMidia = async () => {
+    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    this.handlePictureUpdate();
     const handlePictureAdd = async picture => {
       const form = new FormData();
       form.append("formFile", {
@@ -104,7 +108,7 @@ class UserProfile extends Component {
       })
         .then(async ({ data }) => {
           if (data.isSuccess) {
-            this.props.uploadGalleryImage(picture);
+            this.handlePictureUpdate();
           }
         })
         .catch(error => {

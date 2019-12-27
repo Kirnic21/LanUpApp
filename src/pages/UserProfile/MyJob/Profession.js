@@ -102,7 +102,7 @@ class Profession extends Component {
   };
 
   render() {
-    const { GetSkill, JobsSelected, text } = this.state;
+    const { GetSkill, JobsSelected, text, isFocused } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -125,7 +125,7 @@ class Profession extends Component {
                   style={{
                     width: "100%",
                     color: "#46C5F3",
-                    borderColor: "#FFF",
+                    borderColor: isFocused === true ? "#46C5F3" : "#FFF",
                     borderWidth: 2,
                     borderRadius: 25,
                     marginTop: "3%",
