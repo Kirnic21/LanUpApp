@@ -55,7 +55,11 @@ export default class DateInputField extends Component {
           title={this.props.title}
           placeholder={this.props.placeholder}
           onClick={this.showDateTimePicker}
-          value={this.getFormatByMode(input.value, inputProps.mode)}
+          value={
+            input.value !== ""
+              ? this.getFormatByMode(input.value, inputProps.mode)
+              : ""
+          }
         />
       </TouchableOpacity>
     );

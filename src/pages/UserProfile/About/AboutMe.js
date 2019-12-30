@@ -9,9 +9,6 @@ import {
   TouchableHighlightComponent
 } from "react-native";
 
-
-import axios from "axios";
-
 import ImageBody from "~/assets/images/icon_addbody.png";
 import ImageSelf from "~/assets/images/icon_addselfie.png";
 import AddIcon from "~/assets/images/icon_add.png";
@@ -36,31 +33,29 @@ import { getAbout, decodeToken, aboutMe } from "~/shared/services/freela.http";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { setAbout } from "~/store/ducks/aboutMe/about.actions";
-import InputSearch from "~/shared/components/InputSearch"
+import OccupationArea from "./OccupationArea";
+import PresentationPictures from "./PresentationPictures";
 class AboutMe extends Component {
   state = {
     visible: false,
     bankCode: "",
+    address: "",
     BoxItem: [
       {
         id: 1,
-        icon: ImageSelf,
-        onPress: () => this.handleOnPictureAddPhotos()
+        icon: ImageSelf
       },
       {
         id: 2,
-        icon: ImageSelf,
-        onPress: this.SelectedInput
+        icon: ImageSelf
       },
       {
         id: 3,
-        icon: ImageBody,
-        onPress: this.SelectedInput
+        icon: ImageBody
       },
       {
         id: 4,
-        icon: ImageBody,
-        onPress: this.SelectedInput
+        icon: ImageBody
       }
     ],
     avatar: null
@@ -73,7 +68,14 @@ class AboutMe extends Component {
         const { email } = token;
         // photos: null,
         const get = data.result.value;
-        this.setState({ avatar: get.image, email, bankCode: get.bankCode });
+        this.setState({
+          avatar: get.image,
+          email,
+          bankCode: get.bankCode,
+          address: get.address,
+          lat: get.latitude,
+          long: get.longitude
+        });
         this.props.initialize({
           fullName: get.name,
           nickName: get.nickName,
@@ -92,7 +94,7 @@ class AboutMe extends Component {
           phone: get.phone,
           birthday:
             get.birthday === "0001-01-01T00:00:00Z"
-              ? new Date()
+              ? ""
               : new Date(get.birthday),
           gender: get.gender,
           bankBranch: get.bankBranch,
@@ -155,7 +157,19 @@ class AboutMe extends Component {
     } = form;
     const h = height === "" ? 0 : Number(height.replace(",", ""));
     const w = weight === "" ? 0 : Number(weight);
-    const { avatarUrl, bankCode, googleAddress } = this.state;
+    const {
+      avatarUrl,
+      bankCode,
+      googleAddress,
+      lat,
+      long,
+      address
+    } = this.state;
+    debugger;
+    const latitude = lat === null ? lat : lat.toString();
+    const longitude = long === null ? long : long.toString();
+
+    debugger;
     const request = {
       freelaId: token.id,
       avatar: avatarUrl,
@@ -175,17 +189,13 @@ class AboutMe extends Component {
       cnpj: cpfCnpj.length < 14 ? null : cpfCnpj,
       cpf: cpfCnpj.length > 11 ? null : cpfCnpj,
       owner,
-      location: {
-        address: googleAddress.address,
-        lat: googleAddress.location.latitude,
-        lng: googleAddress.location.longitude
-      },
-      lat: "-23.993860",
-      long: "-46.255959",
+      address,
+      lat: latitude,
+      long: longitude,
       // photos,
       email,
       phone,
-      birthday,
+      birthday: birthday === "" ? "0001-01-01T00:00:00Z" : birthday,
       gender
     };
     const validate = cpfCnpj.replace(/[\(\)\.\s-]+/g, "");
@@ -201,6 +211,7 @@ class AboutMe extends Component {
       aboutMe(request)
         .then(({ data }) => {
           if (data.isSuccess) {
+            debugger;
             this.dropDownAlertRef.alertWithType(
               "success",
               "Sucesso",
@@ -209,41 +220,62 @@ class AboutMe extends Component {
           }
         })
         .catch(error => {
+          debugger;
+          this.dropDownAlertRef.alertWithType(
+            "error",
+            "Erro",
+            "Área de atuação não informada."
+          );
           console.log(error.response.data);
         });
     }
+    debugger;
   };
 
   handleOnPictureAdd = () => {
     this.ImageSelector.ActionSheet.show();
   };
-  handleOnPictureAddPhotos = () => {
+  handleOnPictureAddPhotos = (e, index) => {
+    debugger;
     this.ImageSelectorPhotos.ActionSheet.show();
+    const { BoxItem } = this.state;
+    const img = BoxItem;
+    const buttonSelected = index - 1;
+    this.setState({ IconId: buttonSelected });
   };
 
   onPictureAdd = picture => {
     this.setState({ avatar: picture.uri, avatarUrl: picture.data });
   };
 
-  onSearch = value => {
-    axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${value}&inputtype=textquery&fields=type,icon,place_id,formatted_address,name,geometry&key=AIzaSyB1QnZpLJnE-j8mL3f5uHDlCmV7jH_GRp0`)
-      .then(response => this.setState({ places: this.mapCandidatesToPlaces(response.data.candidates) }))
-      .catch(message => this.showMessage(message))
-  }
+  onPhotosAdd = photo => {
+    const { BoxItem, IconId } = this.state;
 
-  mapCandidatesToPlaces = candidates => candidates.map(candidate => ({
-    address: candidate.formatted_address || candidate.vicinity,
-    location: { latitude: candidate.geometry.location.lat, longitude: candidate.geometry.location.lng },
-    name: candidate.name,
-    icon: candidate.icon,
-    id: candidate.place_id,
-    type: candidate.types[0]
-  }))
+    debugger;
+    BoxItem[IconId].icon = photo.uri;
+    console.log("passou");
+    this.setState({ photos: photo.uri });
+  };
 
-  xpto = (e) => {
-    console.log(e)
-    this.setState({ googleAddress: e });
-  }
+  xpto = e => {
+    console.log(e);
+    this.setState({
+      googleAddress: e,
+      address: e.address,
+      lat: e.location.latitude,
+      long: e.location.longitude
+    });
+  };
+
+  // click = (e, index) => {
+
+  //   // buttonSelected.isSelected = !buttonSelected.isSelected;
+  //   // this.setState(prev => ({ ...prev, buttons }));
+
+  //   // const name = buttons.filter(c => c.isSelected === true).map(c => c.name);
+  //   // this.setState({ jobs: name });
+  // };
+
   // onPhotosAdd = picture => {
   //   this.setState({ photos: [picture] });
   //   debugger;
@@ -254,7 +286,7 @@ class AboutMe extends Component {
   };
 
   render() {
-    const { avatar, BoxItem, visible, bankCode } = this.state;
+    const { avatar, BoxItem, visible, bankCode, address } = this.state;
     return (
       <View style={styles.container}>
         <View
@@ -285,65 +317,27 @@ class AboutMe extends Component {
             </TouchableOpacity>
           </View>
           <ProfileInformation />
-          <View style={styles.containerLocation}>
-            <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "7%" }}>
-              Área de atuação
-            </Text>
-            <View style={styles.container}>
-              <Field
-                title="Área de atuação"
-                component={InputSearch}
-                handleOnSearch={this.onSearch}
-                name={"area"}
-                editable={false}
-              />
-              <FlatList
-                ListEmptyComponent={
-                  <Text style={{ color: '#FFF' }}>Nenhum endereço</Text>
-                }
-                style={{ marginTop: 20, marginBottom: 20 }}
-                extraData={this.state}
-                keyExtractor={place => place.id}
-                data={this.state.places}
-                renderItem={({ item, index }) =>
-                  <TouchableOpacity
-                    onPress={e => {
-                      debugger
-                      this.xpto(item)
-                    }}
-                  >
-                    <Text style={{ color: '#fff' }}>
-                      {item.address}
-                    </Text>
-                  </TouchableOpacity>
-                }
-              />
-            </View >
-            {/* <Field
-              style={{ width: "100%" }}
-              component={InputField}
-              name={"location"}
-            /> */}
-          </View>
-          {/* <View style={styles.containerPresentationPhoto}>
-            <Text style={{ color: "#FFF", fontSize: 16, paddingBottom: "3%" }}>
-              Fotos de apresentação
-            </Text>
-            <Text style={{ color: "#ffffffad", paddingBottom: "6%" }}>
-              2 de perfil (sozinho) e 2 de corpo inteiro
-            </Text>
-            <View style={{ flexDirection: "row" }}>
-              {BoxItem.map(({ icon, id, onPress }) => (
-                <TouchableOpacity
-                  key={id}
-                  onPress={onPress}
-                  style={styles.thumbnail}
-                >
-                  <Image source={icon} style={styles.photo} />
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View> */}
+          <OccupationArea
+            address={address}
+            onPress={item => {
+              this.xpto(item);
+            }}
+          />
+          <PresentationPictures>
+            {BoxItem.map(({ icon, id }) => (
+              <TouchableOpacity
+                key={id}
+                onPress={e => this.handleOnPictureAddPhotos(e, id)}
+                style={styles.thumbnail}
+              >
+                <Image
+                  source={{ uri: icon }}
+                  source={icon}
+                  style={styles.photo}
+                />
+              </TouchableOpacity>
+            ))}
+          </PresentationPictures>
           <AdditionalInformation />
           <BankInformations>
             <View>
