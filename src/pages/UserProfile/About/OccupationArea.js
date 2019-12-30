@@ -4,13 +4,13 @@ import InputSearch from "~/shared/components/InputSearch";
 import axios from "axios";
 import styles from "./styles";
 import normalize from "~/assets/FontSize/index";
-import Modal, { ModalContent } from "react-native-modals";
+import Modal from "~/shared/components/ModalComponent";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default class OccupationArea extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { visible: false };
+    this.state = { visible: false, bottomModalAndTitle: true };
   }
 
   onSearch = value => {
@@ -73,82 +73,66 @@ export default class OccupationArea extends React.Component {
         >
           {address}
         </Text>
-        <Modal.BottomModal
+        <Modal
+          onClose={() => this.setState({ visible: false })}
           onTouchOutside={() => {
             this.setState({ visible: false });
           }}
           visible={visible}
-          height={0.5}
-          width={1}
-          modalStyle={{ backgroundColor: "transparent" }}
           onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
         >
-          <ModalContent
-            style={{
-              flex: 1,
-              backgroundColor: "#23203F",
-              borderTopLeftRadius: 40,
-              borderTopRightRadius: 40
-            }}
-          >
-            <View>
-              <MaterialCommunityIcons
-                color={"#23203F"}
-                name={"magnify"}
-                size={25}
-              />
-              <InputSearch handleOnSearch={this.onSearch} value={search} />
-              <FlatList
-                ListEmptyComponent={
-                  <View
+          <View>
+            <InputSearch handleOnSearch={this.onSearch} value={search} />
+            <FlatList
+              ListEmptyComponent={
+                <View
+                  style={{
+                    backgroundColor: "#18142F",
+                    paddingVertical: "10%",
+                    borderRadius: 15
+                  }}
+                >
+                  <Text
                     style={{
-                      backgroundColor: "#18142F",
-                      paddingVertical: "10%",
-                      borderRadius: 15
+                      color: "#FFF",
+                      fontSize: normalize(14),
+                      textAlign: "center"
                     }}
                   >
-                    <Text
-                      style={{
-                        color: "#FFF",
-                        fontSize: normalize(14),
-                        textAlign: "center"
-                      }}
-                    >
-                      "Nenhum endereço"
-                    </Text>
-                  </View>
-                }
-                style={{ marginTop: "10%", marginBottom: "10%" }}
-                extraData={this.state}
-                keyExtractor={place => place.id}
-                data={this.state.places}
-                renderItem={({ item, index }) => (
-                  <TouchableOpacity
-                    onPress={e => {
-                      this.setState({ visible: false });
-                      this.props.onPress(item);
-                    }}
+                    "Nenhum endereço"
+                  </Text>
+                </View>
+              }
+              style={{ marginTop: "10%", marginBottom: "10%" }}
+              extraData={this.state}
+              keyExtractor={place => place.id}
+              data={this.state.places}
+              renderItem={({ item, index }) => (
+                <TouchableOpacity
+                  onPress={e => {
+                    this.setState({ visible: false });
+                    this.props.onPress(item);
+                  }}
+                  style={{
+                    backgroundColor: "#18142F",
+                    paddingVertical: "10%",
+                    borderRadius: 15
+                  }}
+                >
+                  <Text
                     style={{
-                      backgroundColor: "#18142F",
-                      paddingVertical: "10%",
-                      borderRadius: 15
+                      color: "#fff",
+                      fontSize: normalize(14),
+                      textAlign: "center"
                     }}
                   >
-                    <Text
-                      style={{
-                        color: "#fff",
-                        fontSize: normalize(14),
-                        textAlign: "center"
-                      }}
-                    >
-                      {item.address}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              />
-            </View>
-          </ModalContent>
-        </Modal.BottomModal>
+                    {item.address}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        </Modal>
       </View>
     );
   }

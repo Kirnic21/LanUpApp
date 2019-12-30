@@ -1,19 +1,13 @@
-import React, { Component } from "react";
-import { View, TouchableOpacity, Text } from "react-native";
-
+import React from "react";
+import { View, Text } from "react-native";
 import InputField from "~/shared/components/InputField";
-import Input from "~/shared/components/InputLabel";
-
 import { Field, reduxForm } from "redux-form";
-
-import Modal from "./modalFilter";
+import Modal from "./ModalFilterBank";
 import styles from "./styles";
-import { useState } from "react";
 import normalize from "~/assets/FontSize/index";
 
-const BankInformation = ({ children }) => {
+const BankInformation = ({ onPress, bankCode }) => {
   reduxForm({ form: "BankInformation" });
-
   return (
     <View>
       <View style={styles.containerInformationBank}>
@@ -26,22 +20,13 @@ const BankInformation = ({ children }) => {
         >
           Informações Bancárias
         </Text>
-        <View
-          style={{
-            alignContent: "stretch",
-            // borderColor: "#FFF",
-            // borderWidth: 2,
-            paddingBottom: "2.5%"
-          }}
-        >
-          {children}
-          <View
-            style={{
-              position: "absolute",
-              width: "100%",
-              left: "53%"
-            }}
-          >
+        <View style={{ alignContent: "stretch", paddingBottom: "2.5%" }}>
+          <Text style={{ fontSize: normalize(14), color: "#FFF", top: "-1%" }}>
+            Banco
+          </Text>
+          <Modal onPress={onPress} bankCode={bankCode} />
+
+          <View style={{ position: "absolute", width: "100%", left: "53%" }}>
             <Field
               style={{ width: "47%" }}
               title="Agência"
@@ -69,7 +54,6 @@ const BankInformation = ({ children }) => {
           keyboardType="numeric"
           maxLength={14}
           isfocused={"#A893F2"}
-          // mask={("[000].[000].[000]-[00]", "[00].[000].[000]/[0000]-[00]")}
         />
         <Field
           style={{ width: "100%" }}

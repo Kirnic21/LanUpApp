@@ -81,7 +81,6 @@ class Profession extends Component {
     this.setState({ isFocused: false });
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const { text } = this.state;
-    debugger;
     const valueReceived = Number(text.replace(/[^0-9.-]+/g, ""));
     const r = {
       freelaId: token.id,
@@ -89,16 +88,13 @@ class Profession extends Component {
     };
     received(r)
       .then(({ data }) => {
-        debugger;
         if (data.isSuccess) {
           console.log(data);
         }
       })
       .catch(error => {
-        debugger;
         console.log(error.response.data);
       });
-    debugger;
   };
 
   render() {
@@ -129,6 +125,7 @@ class Profession extends Component {
                     borderWidth: 2,
                     borderRadius: 25,
                     marginTop: "3%",
+                    height: 50,
                     paddingHorizontal: "7%"
                   }}
                   value={value}

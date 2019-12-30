@@ -36,6 +36,11 @@ const styles = StyleSheet.create({
     padding: "7%",
     borderRadius: 15
   },
+  containerModalBank: {
+    justifyContent: "center",
+    flex: 1,
+    marginTop: Platform.OS == "ios" ? 30 : 0
+  },
   thumbnail: {
     width: "22%",
     height: 65,
@@ -101,6 +106,10 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     textAlignVertical: "top",
     paddingVertical: "5%"
+  },
+  textStyle: {
+    padding: 10,
+    color: "#FFF"
   },
   btn: {
     borderColor: "#FFF",

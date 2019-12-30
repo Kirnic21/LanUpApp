@@ -8,14 +8,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     borderRadius: 15,
     width: "100%",
-    height: 50,
+    height: 49,
     flexDirection: "row",
+    marginTop: "5%",
     paddingHorizontal: 11
   },
   inputSearch: {
     width: "90%",
-    fontSize: 18,
-    fontFamily: "Montserrat",
+    fontSize: 16,
     color: "#23203F"
   },
   inputSearchIconContainer: {

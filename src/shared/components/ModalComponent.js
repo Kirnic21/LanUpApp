@@ -1,12 +1,14 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import Modal, { ModalContent } from "react-native-modals";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default ModalComponent = ({
   onTouchOutside,
   visible,
   children,
-  onSwipeOut
+  onSwipeOut,
+  onClose
 }) => (
   <View>
     <Modal.BottomModal
@@ -25,6 +27,20 @@ export default ModalComponent = ({
           borderTopRightRadius: 60
         }}
       >
+        <View
+          style={{
+            alignItems: "flex-end",
+            paddingHorizontal: "8%",
+            paddingVertical: "2%"
+          }}
+        >
+          <MaterialCommunityIcons
+            onPress={onClose}
+            color={"#FFF"}
+            name={"close"}
+            size={30}
+          />
+        </View>
         {children}
       </ModalContent>
     </Modal.BottomModal>

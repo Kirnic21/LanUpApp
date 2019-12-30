@@ -181,7 +181,7 @@ class AddSkill extends Component {
             </View>
           )}
           <Modal
-            height={0.8}
+            onClose={() => this.setState({ visible: false })}
             onTouchOutside={() => {
               this.setState({ visible: false });
             }}
@@ -189,7 +189,11 @@ class AddSkill extends Component {
             onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
           >
             <Text
-              style={{ color: "#FFF", padding: "5%", fontSize: normalize(28) }}
+              style={{
+                color: "#FFF",
+                paddingHorizontal: "5%",
+                fontSize: normalize(28)
+              }}
             >
               Adicionar
             </Text>
@@ -210,7 +214,7 @@ class AddSkill extends Component {
                   styles.roundButton,
                   text !== ""
                     ? { backgroundColor: "#46C5F3" }
-                    : { backgroundColor: "#c1c2c3" }
+                    : { backgroundColor: "#6C757D" }
                 ]}
                 name="Adicionar"
                 onPress={() => this.AddSkills(text)}

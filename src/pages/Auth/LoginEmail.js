@@ -222,6 +222,9 @@ class LoginEmail extends Component {
               </View>
             </View>
             <Modal
+              onClose={() => {
+                this.setState({ visible: false });
+              }}
               onTouchOutside={() => {
                 this.setState({ visible: false });
               }}
@@ -240,7 +243,7 @@ class LoginEmail extends Component {
                   style={{ width: "90%", height: 50, borderColor: "#865FC0" }}
                 />
               </View>
-              <View style={{ alignItems: "center", top: "-14%" }}>
+              <View style={{ alignItems: "center", top: "6%" }}>
                 <RoundButton
                   style={styles.buttonModal}
                   name="Mandar"
@@ -280,21 +283,22 @@ const styles = StyleSheet.create({
   },
   titleModal: {
     color: "#FFF",
-    padding: "5%",
-    fontSize: normalize(27)
+    paddingHorizontal: "5%",
+    top: "1%",
+    fontSize: normalize(26)
   },
   subtitleModal: {
     color: "#FFF",
-    fontSize: normalize(16),
+    fontSize: normalize(15),
     lineHeight: 25,
-    padding: "5%",
-    top: "-6%"
+    paddingHorizontal: "5%",
+    top: "5%"
   },
   containerInputModal: {
     justifyContent: "center",
     alignItems: "flex-start",
     left: "5%",
-    top: "-6%"
+    top: "10%"
   },
   buttonModal: {
     backgroundColor: "#865FC0",

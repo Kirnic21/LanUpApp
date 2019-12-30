@@ -14,7 +14,6 @@ import ImageSelf from "~/assets/images/icon_addselfie.png";
 import AddIcon from "~/assets/images/icon_add.png";
 import ImageSelector from "~/shared/components/ImageSelector";
 
-import Modal from "./modalFilter";
 import styles from "./styles";
 
 import ProfileInformation from "./ProfileInformation";
@@ -339,35 +338,12 @@ class AboutMe extends Component {
             ))}
           </PresentationPictures>
           <AdditionalInformation />
-          <BankInformations>
-            <View>
-              <Text
-                style={{ fontSize: normalize(14), color: "#FFF", top: "-1%" }}
-              >
-                Banco
-              </Text>
-              <TouchableOpacity
-                style={styles.btnBank}
-                onPress={() => {
-                  this.setState({ visible: true });
-                }}
-              >
-                <Text style={{ color: "#FFF", paddingHorizontal: "15%" }}>
-                  {bankCode}
-                </Text>
-                <Modal
-                  onPress={item => {
-                    this.bankCode(item);
-                    this.setState({ visible: false });
-                  }}
-                  onTouchOutside={() => {
-                    this.setState({ visible: false });
-                  }}
-                  visible={visible}
-                />
-              </TouchableOpacity>
-            </View>
-          </BankInformations>
+          <BankInformations
+            bankCode={bankCode}
+            onPress={item => {
+              this.bankCode(item);
+            }}
+          />
         </ScrollView>
         <ImageSelector
           onImageSelected={this.onPictureAdd}
