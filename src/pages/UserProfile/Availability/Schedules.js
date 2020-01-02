@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import ArrowRight from "~/assets/images/arrowRight.png";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 const getDisplayDate = day => {
   if (!day.available) return "Não aceito job";
@@ -19,7 +19,7 @@ const Schedules = ({ onPress, schedules, daysOfWeek }) => {
   return (
     <View style={styles.containerSchedules}>
       <Text
-        style={{ color: "#FFF", fontSize: normalize(14), paddingBottom: "2%" }}
+        style={{ color: "#FFF", fontSize: dimensions(14), paddingBottom: "2%" }}
       >
         Horários
       </Text>
@@ -35,14 +35,14 @@ const Schedules = ({ onPress, schedules, daysOfWeek }) => {
               }}
             >
               <View style={{ width: "50%", justifyContent: "center" }}>
-                <Text style={{ color: "#FFF", fontSize: normalize(14) }}>
+                <Text style={{ color: "#FFF", fontSize: dimensions(14) }}>
                   {daysOfWeek[day.dayOfWeek]}
                 </Text>
               </View>
               <View style={{ width: "30%", justifyContent: "center" }}>
                 <Text
                   style={{
-                    fontSize: normalize(11),
+                    fontSize: dimensions(11),
                     color: !day.available ? "#EB4886" : "#46C5F3"
                   }}
                 >

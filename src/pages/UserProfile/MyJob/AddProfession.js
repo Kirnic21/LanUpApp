@@ -1,20 +1,18 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { Chip } from "react-native-paper";
 import DropdownAlert from "react-native-dropdownalert";
-
 import AsyncStorage from "@react-native-community/async-storage";
 import { decodeToken, updateJobs } from "~/shared/services/freela.http";
+import dimensions from "~/assets/Dimensions/index";
 
 class AddProfession extends Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
-      jobs: [],
-      GetJobs: this.props.navigation.state.params.GetJobs,
-      JobsSelected: this.props.navigation.state.params.JobsSelected
+      jobs: this.props.navigation.state.params.JobsSelected,
+      GetJobs: this.props.navigation.state.params.GetJobs
     };
   }
 
@@ -59,7 +57,6 @@ class AddProfession extends Component {
         .then(({ data }) => {
           if (data.isSuccess) {
             console.log(data);
-            // this.props.navigation.navigate("Profession");
           }
         })
         .catch(error => {
@@ -91,7 +88,7 @@ class AddProfession extends Component {
           style={{
             width: "100%",
             alignItems: "center",
-            top: "-10%",
+            top: dimensions(-67),
             position: "absolute"
           }}
         >
@@ -99,20 +96,24 @@ class AddProfession extends Component {
         </View>
         <ScrollView>
           <View style={styles.containerJob}>
-            <Text style={{ color: "#FFF", fontSize: 30, paddingBottom: "5%" }}>
+            <Text
+              style={{
+                color: "#FFF",
+                fontSize: dimensions(25),
+                paddingBottom: "5%"
+              }}
+            >
               Profissão
             </Text>
-            {jobs.length ? (
-              <Text style={styles.numberJobText}>{jobs.length}/3</Text>
-            ) : (
-              <Text style={styles.numberJobText}>{JobsSelected.length}/3</Text>
-            )}
+
+            <Text style={styles.numberJobText}>{jobs.length}/3</Text>
+
             <View
               style={{ flexWrap: "wrap", flexDirection: "row", width: "100%" }}
             >
               {GetJobs.map(({ name, isSelected }, id) => (
                 <View key={id}>
-                  <Chip
+                  <TouchableOpacity
                     style={[
                       styles.chip,
                       isSelected == true
@@ -120,12 +121,19 @@ class AddProfession extends Component {
                         : styles.chipDisabled
                     ]}
                     onPress={e => this.click(e, id)}
-                    textStyle={{
-                      color: isSelected === true ? "#FFF" : "#24203B"
-                    }}
                   >
-                    {name}
-                  </Chip>
+                    <Text
+                      style={{
+                        color: isSelected === true ? "#FFF" : "#24203B",
+                        fontSize: dimensions(14),
+                        padding: dimensions(6),
+                        paddingTop: dimensions(7)
+                      }}
+                    >
+                      {" "}
+                      {name}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               ))}
             </View>
@@ -147,7 +155,9 @@ export const styles = StyleSheet.create({
   },
   chip: {
     backgroundColor: "#6C757D",
-    margin: "2.5%"
+    margin: "2.5%",
+    height: dimensions(30),
+    borderRadius: 20
   },
   chipActive: {
     backgroundColor: "#865FC0"
@@ -157,10 +167,10 @@ export const styles = StyleSheet.create({
   },
   numberJobText: {
     color: "rgba(255, 255, 255, 0.7)",
-    fontSize: 20,
+    fontSize: dimensions(15),
     position: "absolute",
     left: "90%",
-    top: "1.5%"
+    top: dimensions(10)
   }
 });
 

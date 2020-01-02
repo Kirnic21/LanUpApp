@@ -4,7 +4,7 @@ import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
 import DateInputField from "~/shared/components/DateInputField";
 import PickerComponent from "~/shared/components/PickerComponent";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 const AdditionalInformation = ({}) => {
   reduxForm({
@@ -15,7 +15,7 @@ const AdditionalInformation = ({}) => {
       <Text
         style={{
           color: "#FFF",
-          fontSize: normalize(14.5),
+          fontSize: dimensions(15),
           paddingBottom: "7%"
         }}
       >
@@ -39,7 +39,7 @@ const AdditionalInformation = ({}) => {
       />
       <View style={{ alignContent: "stretch" }}>
         <Field
-          style={{ width: "46%" }}
+          style={{ width: "46%", height: dimensions(40) }}
           name={"birthday"}
           title="Nascimento"
           component={DateInputField}
@@ -47,17 +47,22 @@ const AdditionalInformation = ({}) => {
         <View style={styles.containerGender}>
           <Field
             title={"Gênero"}
-            style={{ width: "90%", color: "#fff", top: "-35%", left: "12%" }}
+            style={{
+              width: "90%",
+              color: "#fff",
+              top: "-35%",
+              left: "10%"
+            }}
             name={"gender"}
             component={PickerComponent}
             mode="dropdown"
           >
-            <Picker.Item label="Selecione..." value={0} />
+            <Picker.Item label="" value={0} />
             <Picker.Item label="Masculino" value={1} />
             <Picker.Item label="Feminino" value={2} />
             <Picker.Item label="Transgênero homem" value={3} />
-            <Picker.Item label="transgênero mulher" value={4} />
-            <Picker.Item label="queer +" value={5} />
+            <Picker.Item label="Transgênero mulher" value={4} />
+            <Picker.Item label="Queer +" value={5} />
           </Field>
         </View>
       </View>

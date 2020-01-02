@@ -24,7 +24,6 @@ import { Container } from "native-base";
 import { create, validateCpf } from "~/shared/services/freela.http";
 import { validateCPF } from "~/shared/helpers/validate/ValidateCpfCnpj";
 
-import normalize from "~/assets/FontSize/index";
 import InputMask from "~/shared/components/InputMask";
 import DropdownAlert from "react-native-dropdownalert";
 
@@ -77,7 +76,7 @@ class RegisterStageOne extends Component {
         password,
         confirmPassword: password,
         avatar: avatar.url,
-        facebookToken: user.facebookToken,
+        facebookToken: user.facebookToken
       };
       create(request)
         .then(async ({ data }) => {
@@ -126,7 +125,7 @@ class RegisterStageOne extends Component {
           <Container style={{ backgroundColor: "transparent" }}>
             <View style={styles.registerContainer}>
               <Text
-                style={[styles.textTitle, { marginTop: "-25%", top: "1%" }]}
+                style={[styles.textTitle, { marginTop: "-23%", top: "1%" }]}
               >
                 Bem-vindo!{"\n"}
                 Insira seus dados

@@ -13,6 +13,7 @@ import ImageBody from "~/assets/images/icon_addbody.png";
 import ImageSelf from "~/assets/images/icon_addselfie.png";
 import AddIcon from "~/assets/images/icon_add.png";
 import ImageSelector from "~/shared/components/ImageSelector";
+import dimensions from "~/assets/Dimensions/index";
 
 import styles from "./styles";
 
@@ -24,7 +25,6 @@ import {
   validateCNPJ
 } from "~/shared/helpers/validate/ValidateCpfCnpj";
 import DropdownAlert from "react-native-dropdownalert";
-import normalize from "~/assets/FontSize/index";
 
 import { reduxForm, Field } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -308,7 +308,7 @@ class AboutMe extends Component {
         >
           <View style={styles.containerAvatar}>
             <TouchableOpacity
-              style={{ width: 100 }}
+              style={{ width: dimensions(90) }}
               onPress={this.handleOnPictureAdd}
             >
               <Image source={{ uri: avatar }} style={styles.Avatar} />
@@ -329,11 +329,7 @@ class AboutMe extends Component {
                 onPress={e => this.handleOnPictureAddPhotos(e, id)}
                 style={styles.thumbnail}
               >
-                <Image
-                  source={{ uri: icon }}
-                  source={icon}
-                  style={styles.photo}
-                />
+                <Image source={icon} style={styles.photo} />
               </TouchableOpacity>
             ))}
           </PresentationPictures>

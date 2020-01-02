@@ -18,7 +18,7 @@ import DropdownAlert from "react-native-dropdownalert";
 import AsyncStorage from "@react-native-community/async-storage";
 import ImageSelector from "~/shared/components/ImageSelector";
 
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 class SelectAvatar extends Component {
   state = {
@@ -92,12 +92,15 @@ class SelectAvatar extends Component {
           </View>
           <View style={styles.border} />
           <View style={styles.containerImg}>
-            <Image source={ImageProfile} style={{ height: 110, width: 110 }} />
+            <Image
+              source={ImageProfile}
+              style={{ height: dimensions(100), width: dimensions(100) }}
+            />
             <TouchableOpacity
               style={styles.button}
               onPress={this.handleOnPictureAdd}
             >
-              <Text style={{ color: "white", fontSize: normalize(12) }}>
+              <Text style={{ color: "white", fontSize: dimensions(12) }}>
                 Tirar Foto
               </Text>
             </TouchableOpacity>
@@ -136,7 +139,7 @@ const styles = StyleSheet.create({
   },
   titleNickname: {
     color: "#FFF",
-    fontSize: normalize(35),
+    fontSize: dimensions(35),
     fontFamily: "Helvetica Now Micro",
     fontWeight: "300",
     left: "7.5%",
@@ -144,7 +147,7 @@ const styles = StyleSheet.create({
     top: "-10%"
   },
   textAdd: {
-    fontSize: normalize(21.5),
+    fontSize: dimensions(21.5),
     color: "#FFF",
     letterSpacing: 0.8,
     textAlign: "center"

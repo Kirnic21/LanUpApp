@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 export default RoundButton = ({ name, style, disabled, onPress }) => (
   <View style={styles.buttonContent}>
@@ -9,7 +9,7 @@ export default RoundButton = ({ name, style, disabled, onPress }) => (
       style={disabled ? [...style, styles.disabled] : style}
       onPress={onPress}
     >
-      <Text style={{ color: "white", fontSize: normalize(12) }}>{name}</Text>
+      <Text style={{ color: "#FFF", fontSize: dimensions(12) }}>{name}</Text>
     </TouchableOpacity>
   </View>
 );
@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
   buttonContent: {
     flexDirection: "row",
     justifyContent: "center",
-    // width: 250,
     margin: 20
   },
   disabled: {

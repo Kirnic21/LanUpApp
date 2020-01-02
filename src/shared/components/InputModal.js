@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity
 } from "react-native";
+import dimensions from "~/assets/Dimensions/index";
 
 export default InputModal = ({
   title,
@@ -31,7 +32,7 @@ export default InputModal = ({
   return (
     <View style={{ width: "100%" }}>
       <View>
-        <Text style={{ color: "white", fontSize: 15, top: "-10%" }}>
+        <Text style={{ color: "white", fontSize: dimensions(14), top: "-10%" }}>
           {title}
         </Text>
       </View>
@@ -44,8 +45,8 @@ export default InputModal = ({
         <TextInput
           style={[
             {
-              height: 45,
-              borderRadius: 23,
+              height: dimensions(45),
+              borderRadius: dimensions(23),
               color: "white"
             },
             style,

@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-  Platform
-} from "react-native";
+import { Text, View, FlatList } from "react-native";
 import Modal from "~/shared/components/ModalComponent";
 import bank from "./bank";
 import { SearchBar } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./styles";
+import dimensions from "~/assets/Dimensions/index";
 
 export default class ModalFilterBank extends React.Component {
   constructor(props) {
@@ -61,7 +55,13 @@ export default class ModalFilterBank extends React.Component {
           style={styles.btnBank}
           onPress={() => this.setState({ visible: true })}
         >
-          <Text style={{ color: "#FFF", paddingLeft: "15%" }}>
+          <Text
+            style={{
+              color: "#FFF",
+              paddingLeft: "15%",
+              marginTop: "-5%"
+            }}
+          >
             {code.length ? code : bankCode}
           </Text>
         </TouchableOpacity>

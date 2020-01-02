@@ -1,6 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-native";
-
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity
+} from "react-native";
+import dimensions from "~/assets/Dimensions/index";
 export default InputLabel = ({
   title,
   keyboardType,
@@ -17,7 +23,9 @@ export default InputLabel = ({
 }) => (
   <TouchableOpacity style={{ width: "100%" }} onPress={onClick}>
     <View>
-      <Text style={{ color: "white", fontSize: 15, top: "-10%" }}>{title}</Text>
+      <Text style={{ color: "white", fontSize: dimensions(14), top: "-10%" }}>
+        {title}
+      </Text>
     </View>
     <View
       style={{
@@ -28,7 +36,7 @@ export default InputLabel = ({
       <Text
         style={[
           {
-            height: 45,
+            height: dimensions(40),
             borderColor: "white",
             borderRadius: 23,
             color: "white"
@@ -47,7 +55,9 @@ export default InputLabel = ({
         value={value}
         editable={editable}
         onChangeText={onChangeText}
-      >{value}</Text>
+      >
+        {value}
+      </Text>
     </View>
   </TouchableOpacity>
 );
@@ -56,6 +66,6 @@ const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
     paddingLeft: "7%",
-    paddingTop: '4%'
+    paddingTop: "4%"
   }
 });

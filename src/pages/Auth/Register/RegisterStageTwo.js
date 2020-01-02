@@ -18,12 +18,13 @@ import DropdownAlert from "react-native-dropdownalert";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
 import { validateEmail } from "~/shared/services/freela.http";
+import dimensions from "~/assets/Dimensions/index";
 
 const stylePage = {
   ...styles,
   icon: {
-    left: "80%",
-    top: 35,
+    left: "82%",
+    top: dimensions(28),
     position: "absolute"
   }
 };
@@ -100,7 +101,7 @@ class RegisterStageTwo extends Component {
           <Container style={{ backgroundColor: "transparent" }}>
             <View style={styles.registerContainer}>
               <Text
-                style={[styles.textTitle, { marginTop: "-25%", top: "1%" }]}
+                style={[styles.textTitle, { marginTop: "-23%", top: "1%" }]}
               >
                 Bem-vindo!{"\n"}
                 Insira seus dados
@@ -128,7 +129,7 @@ class RegisterStageTwo extends Component {
                 >
                   <Field
                     name={"password"}
-                    style={[{ width: "100%", height: 51, paddingLeft: "10%" }]}
+                    style={[{ width: "100%", paddingLeft: "10%" }]}
                     title="Senha"
                     secureTextEntry={this.state.password}
                     component={InputField}
@@ -138,7 +139,7 @@ class RegisterStageTwo extends Component {
                   <Icon
                     style={stylePage.icon}
                     name={this.state.icon}
-                    size={25}
+                    size={dimensions(22)}
                     color="#fff"
                     onPress={() => this.changeIcon()}
                   />
@@ -150,7 +151,7 @@ class RegisterStageTwo extends Component {
                   component={InputField}
                   autoCapitalize="none"
                   isfocused={"#46C5F3"}
-                  style={[{ width: "100%", height: 51, paddingLeft: "10%" }]}
+                  style={[{ width: "100%", paddingLeft: "10%" }]}
                 />
               </View>
 

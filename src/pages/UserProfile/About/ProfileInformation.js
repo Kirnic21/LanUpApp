@@ -4,7 +4,7 @@ import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
 import Toggle from "~/shared/components/SwitchComponent";
 import PickerComponent from "~/shared/components/PickerComponent";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 const ProfileInformation = ({}) => {
   reduxForm({ form: "ProfileInformation" });
@@ -13,7 +13,7 @@ const ProfileInformation = ({}) => {
       <Text
         style={{
           color: "#FFF",
-          fontSize: normalize(14.5),
+          fontSize: dimensions(15),
           paddingBottom: "7%"
         }}
       >
@@ -44,7 +44,7 @@ const ProfileInformation = ({}) => {
       />
       <View style={{ alignContent: "stretch", width: "100%" }}>
         <Field
-          style={{ width: "32%" }}
+          style={{ width: "32%", height: dimensions(40) }}
           title="Altura"
           component={InputMask}
           name={"height"}
@@ -54,7 +54,11 @@ const ProfileInformation = ({}) => {
         />
         <View style={{ position: "absolute", left: "34%", width: "32%" }}>
           <Field
-            style={{ width: "100%" }}
+            style={{
+              width: "100%",
+              paddingLeft: "21%",
+              height: dimensions(40)
+            }}
             title="Peso"
             component={InputMask}
             name={"weight"}
@@ -68,17 +72,17 @@ const ProfileInformation = ({}) => {
           <Field
             title={"Manequim"}
             style={{
-              width: "90%",
+              // width: "20%",
               color: "#fff",
               top: "-35%",
-              left: "12%"
+              left: "11%"
             }}
             name={"clothingsSizes"}
             component={PickerComponent}
             iosHeader="Select one"
             mode="dropdown"
           >
-            <Picker.Item label="Selecione..." value={null} />
+            <Picker.Item label="" value={null} />
             <Picker.Item label="P" value="P" />
             <Picker.Item label="M" value="M" />
             <Picker.Item label="G" value="G" />
@@ -86,7 +90,9 @@ const ProfileInformation = ({}) => {
           </Field>
         </View>
       </View>
-      <Text style={{ marginTop: "5%", color: "#FFF", fontSize: normalize(14) }}>
+      <Text
+        style={{ marginTop: "5%", color: "#FFF", fontSize: dimensions(14) }}
+      >
         Tenho:
       </Text>
       <Field

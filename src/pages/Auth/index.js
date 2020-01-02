@@ -16,7 +16,7 @@ import Logo from "../../assets/images/logoLanUp.png";
 import FBSDK from "react-native-fbsdk";
 import AsyncStorage from "@react-native-community/async-storage";
 import { login, loginWithFacebook } from "~/shared/services/auth.http";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 // import Text from "~/assets/Text/Text";
 
 const { LoginManager, AccessToken } = FBSDK;
@@ -51,12 +51,17 @@ class HomePage extends Component {
       const user = await loginWithFacebook(data.accessToken);
 
       if (user) {
-          debugger
-        const { path, user: userData } = (
-          user.isRegistered 
-            ? { path: 'UserProfile', user } 
-            : { path: 'RegisterStageOne', user: { ...user, isFacebook: true, facebookToken: data.accessToken } }
-        );
+        debugger;
+        const { path, user: userData } = user.isRegistered
+          ? { path: "UserProfile", user }
+          : {
+              path: "RegisterStageOne",
+              user: {
+                ...user,
+                isFacebook: true,
+                facebookToken: data.accessToken
+              }
+            };
 
         this.props.navigation.navigate(path, { user: userData });
       }
@@ -96,7 +101,7 @@ class HomePage extends Component {
               style={{
                 color: "#FFF",
                 textAlign: "center",
-                fontSize: normalize(14)
+                fontSize: dimensions(14)
               }}
             >
               ou
@@ -112,7 +117,7 @@ class HomePage extends Component {
               style={{
                 color: "#FFF",
                 textAlign: "center",
-                fontSize: normalize(15)
+                fontSize: dimensions(15)
               }}
             >
               Já tem uma conta?{" "}
@@ -139,13 +144,12 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#FFF",
-    fontSize: normalize(25),
+    fontSize: dimensions(24.3),
     fontWeight: "700"
   },
   subTitle: {
     color: "#FFF",
-    fontSize: normalize(18.5),
-    letterSpacing: 0.5,
+    fontSize: dimensions(18.3),
     fontWeight: "700",
     fontFamily: "Helvetica Now Micro"
   },
@@ -162,7 +166,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderWidth: 1.5,
     borderRadius: 50,
-    height: 55
+    height: dimensions(48)
   }
 });
 

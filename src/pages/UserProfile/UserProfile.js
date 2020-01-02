@@ -28,6 +28,7 @@ import {
   getAbout
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
+import dimensions from "~/assets/Dimensions/index";
 
 class UserProfile extends Component {
   _isMounted = false;
@@ -162,34 +163,31 @@ class UserProfile extends Component {
       <ScrollView contentContainerStyle={styles.Container}>
         <StatusBar backgroundColor="#18142F" barStyle="light-content" />
         <View style={{ alignItems: "center", marginTop: "5%" }}>
-          <TouchableOpacity
-            style={{ width: 100, height: 100 }}
-            onPress={this.aboutMe}
-          >
+          <View style={{ width: dimensions(90), height: dimensions(90) }}>
             <Image
               source={{ uri: this.state.avatar }}
               style={{
-                width: 100,
-                height: 100,
-                borderRadius: 50,
+                width: dimensions(90),
+                height: dimensions(90),
+                borderRadius: dimensions(50),
                 borderColor: "#FFB72B",
                 borderWidth: 2
               }}
             />
             <Icon
               name="circle"
-              size={25}
+              size={dimensions(24)}
               color="#86D7CA"
               style={{
-                left: 73,
-                top: -27
+                left: dimensions(70),
+                top: dimensions(-25)
               }}
             />
-          </TouchableOpacity>
+          </View>
         </View>
         <TouchableOpacity
           onPress={this.openPreviewProfile}
-          style={{ width: 300, alignItems: "center" }}
+          style={{ width: dimensions(250), alignItems: "center" }}
         >
           <Text style={styles.submitText}>Pré-visualizar o perfil</Text>
         </TouchableOpacity>
@@ -249,13 +247,19 @@ class UserProfile extends Component {
               }}
             >
               <View>
-                <Text style={{ color: "white", fontSize: 14, marginBottom: 5 }}>
+                <Text
+                  style={{
+                    color: "#FFF",
+                    fontSize: dimensions(13),
+                    marginBottom: dimensions(5)
+                  }}
+                >
                   {item.title}
                 </Text>
                 <Text
                   style={{
                     color: "gray",
-                    fontSize: 13,
+                    fontSize: dimensions(12),
                     borderBottomWidth: 0,
                     borderTopWidth: 0
                   }}
@@ -282,9 +286,14 @@ class UserProfile extends Component {
             }
           ]}
           renderItem={({ item }) => (
-            <View style={[styles.item]}>
+            <View style={[styles.changePassword]}>
               <TouchableOpacity onPress={item.onPress}>
-                <Text style={{ color: "white", fontSize: 14, marginBottom: 5 }}>
+                <Text
+                  style={{
+                    color: "#FFF",
+                    fontSize: dimensions(13)
+                  }}
+                >
                   {item.title}
                 </Text>
               </TouchableOpacity>
@@ -296,7 +305,11 @@ class UserProfile extends Component {
 
         <Text
           onPress={() => this.PageLogin()}
-          style={{ ...styles.submitText, color: "white", marginBottom: 30 }}
+          style={{
+            ...styles.submitText,
+            color: "white",
+            marginBottom: dimensions(30)
+          }}
         >
           Terminar sessão
         </Text>
@@ -315,36 +328,40 @@ const styles = StyleSheet.create({
   },
 
   submitText: {
-    marginTop: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
+    marginTop: dimensions(20),
+    paddingVertical: dimensions(10),
     color: "#46C5F3",
     textAlign: "center",
     backgroundColor: "#24203B",
     borderRadius: 20,
-    fontSize: 13,
+    fontSize: dimensions(12),
     width: "70%"
   },
   agency: {
-    marginTop: 20,
-    paddingTop: 20,
-    paddingBottom: 20,
+    marginTop: dimensions(17),
+    paddingVertical: dimensions(17),
     color: "#46C5F3",
     padding: 20,
     backgroundColor: "#24203B",
     borderRadius: 10,
-    fontSize: 14,
-    width: width - 50
+    fontSize: dimensions(13),
+    width: width - dimensions(50)
+  },
+  changePassword: {
+    paddingVertical: dimensions(17),
+    padding: 20,
+    backgroundColor: "#24203B",
+    borderRadius: 10,
+    width: width - dimensions(50)
   },
   list: {
-    marginTop: 20,
+    marginTop: dimensions(17),
     backgroundColor: "#24203B",
-    width: width - 50,
+    width: width - dimensions(50),
     borderRadius: 20
   },
   item: {
-    padding: 20,
-    fontSize: 18
+    padding: dimensions(17)
   }
 });
 

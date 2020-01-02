@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Modal, { ModalContent } from "react-native-modals";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import dimensions from "~/assets/Dimensions/index";
 
 export default ModalComponent = ({
   onTouchOutside,
@@ -14,17 +15,15 @@ export default ModalComponent = ({
     <Modal.BottomModal
       visible={visible}
       onTouchOutside={onTouchOutside}
-      height={0.5}
-      width={1}
-      modalStyle={{ backgroundColor: "transparent" }}
+      modalStyle={{ backgroundColor: "transparent", height: dimensions(300) }}
       onSwipeOut={onSwipeOut}
     >
       <ModalContent
         style={{
           flex: 1,
           backgroundColor: "#23203F",
-          borderTopLeftRadius: 60,
-          borderTopRightRadius: 60
+          borderTopLeftRadius: dimensions(50),
+          borderTopRightRadius: dimensions(50)
         }}
       >
         <View
@@ -38,7 +37,7 @@ export default ModalComponent = ({
             onPress={onClose}
             color={"#FFF"}
             name={"close"}
-            size={30}
+            size={dimensions(28)}
           />
         </View>
         {children}

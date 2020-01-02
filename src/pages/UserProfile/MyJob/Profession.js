@@ -10,8 +10,6 @@ import {
   TextInput
 } from "react-native";
 import arrow from "~/assets/images/arrowRight.png";
-import { Chip } from "react-native-paper";
-import Input from "~/shared/components/InputModal";
 import NumberFormat from "react-number-format";
 import {
   decodeToken,
@@ -21,7 +19,7 @@ import {
   getAbout
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 const currencyFormatter = value => {
   if (!Number(value)) return "";
@@ -34,15 +32,21 @@ const currencyFormatter = value => {
 };
 
 class Profession extends Component {
-  state = {
-    GetSkill: [],
-    GetJobs: [],
-    JobsSelected: [],
-    isFocused: null,
-    text: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      GetSkill: [],
+      GetJobs: [],
+      JobsSelected: [],
+      isFocused: null,
+      text: ""
+    };
+    this.props.navigation.addListener("willFocus", () => {
+      this.getProfession();
+    });
+  }
 
-  async componentDidMount() {
+  getProfession = async () => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
 
     getAbout(token.id).then(({ data }) => {
@@ -63,6 +67,10 @@ class Profession extends Component {
       const name = GetJobs.filter(c => c.isSelected === true).map(c => c.name);
       this.setState({ JobsSelected: name });
     });
+  };
+
+  componentDidMount() {
+    this.getProfession();
   }
 
   openAddProfession = () => {
@@ -103,7 +111,7 @@ class Profession extends Component {
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.containerReceive}>
-            <Text style={{ color: "#FFF", fontSize: normalize(14) }} x>
+            <Text style={{ color: "#FFF", fontSize: dimensions(14) }} x>
               Recebo no mínimo até:
             </Text>
             <NumberFormat
@@ -125,7 +133,7 @@ class Profession extends Component {
                     borderWidth: 2,
                     borderRadius: 25,
                     marginTop: "3%",
-                    height: 50,
+                    height: dimensions(40),
                     paddingHorizontal: "7%"
                   }}
                   value={value}
@@ -137,7 +145,7 @@ class Profession extends Component {
           </View>
           <View style={styles.containerProfessionAndSkill}>
             <View style={{ flexDirection: "row", marginBottom: "2%" }}>
-              <Text style={{ color: "#FFF", fontSize: normalize(14) }}>
+              <Text style={{ color: "#FFF", fontSize: dimensions(14) }}>
                 Profissão
               </Text>
               <Text style={styles.jobNumber}>{JobsSelected.length}/3</Text>
@@ -151,13 +159,13 @@ class Profession extends Component {
                 }}
               >
                 {JobsSelected.map((name, id) => (
-                  <Chip
+                  <TouchableOpacity
                     key={id}
                     style={styles.chip}
                     textStyle={{ color: "#FFFFFF", paddingRight: "3%" }}
                   >
-                    {name}
-                  </Chip>
+                    <Text style={styles.textChip}>{name}</Text>
+                  </TouchableOpacity>
                 ))}
               </View>
             ) : (
@@ -167,11 +175,20 @@ class Profession extends Component {
               onPress={this.openAddProfession}
               style={styles.btnArrow}
             >
-              <Image source={arrow} style={{ width: 20, height: 20 }} />
+              <Image
+                source={arrow}
+                style={{ width: dimensions(20), height: dimensions(20) }}
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.containerProfessionAndSkill}>
-            <Text style={{ color: "#FFF", fontSize: 15, paddingBottom: "3%" }}>
+            <Text
+              style={{
+                color: "#FFF",
+                fontSize: dimensions(14),
+                paddingBottom: "3%"
+              }}
+            >
               Habilidades
             </Text>
             {GetSkill.length ? (
@@ -183,13 +200,18 @@ class Profession extends Component {
                 }}
               >
                 {GetSkill.map((c, id) => (
-                  <Chip
+                  <TouchableOpacity
                     key={id}
                     style={[styles.chip, { backgroundColor: "#46C5F3" }]}
-                    textStyle={{ color: "#18142F" }}
+                    textStyle={{
+                      color: "#18142F",
+                      fontSize: dimensions(14)
+                    }}
                   >
-                    {c}
-                  </Chip>
+                    <Text style={[styles.textChip, { color: "#18142F" }]}>
+                      {c}
+                    </Text>
+                  </TouchableOpacity>
                 ))}
               </View>
             ) : (
@@ -199,7 +221,10 @@ class Profession extends Component {
               onPress={this.openAddAbiliity}
               style={styles.btnArrow}
             >
-              <Image source={arrow} style={{ width: 20, height: 20 }} />
+              <Image
+                source={arrow}
+                style={{ width: dimensions(20), height: dimensions(20) }}
+              />
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -230,17 +255,26 @@ const styles = StyleSheet.create({
   },
   chip: {
     backgroundColor: "#865FC0",
-    margin: "1.0%"
+    margin: "1%",
+    height: dimensions(30),
+    borderRadius: 20
   },
+  textChip: {
+    color: "#FFF",
+    fontSize: dimensions(13),
+    padding: dimensions(10),
+    paddingTop: dimensions(7)
+  },
+
   jobNumber: {
     color: "rgba(255, 255, 255, 0.7)",
-    fontSize: 13,
-    marginTop: "1.1%",
+    fontSize: dimensions(12),
+    marginTop: "0.9%",
     marginLeft: "2%"
   },
   notJobsText: {
     color: "#FFF",
-    fontSize: 15,
+    fontSize: dimensions(14),
     textAlignVertical: "center",
     padding: "10%",
     paddingLeft: "15%",

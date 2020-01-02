@@ -171,10 +171,7 @@ class PhotoGallery extends React.Component {
     const isEditing = this.props.navigation.getParam("isEditing");
     const caption = this.props.navigation.getParam("caption", "");
     return (
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainerStyle}
-      >
+      <View style={styles.container}>
         <Spinner
           visible={this.state.spinner}
           size="large"
@@ -183,31 +180,33 @@ class PhotoGallery extends React.Component {
           overlayColor="rgba(0, 0, 0, 0.9)"
         />
         {pictures.length ? (
-          <React.Fragment>
-            <TouchableOpacity
-              onPress={this.handleOnPictureAdd}
-              style={styles.addPictureContainer}
-            >
-              <MaterialCommunityIcons name="camera" size={38} color="#FFF" />
-            </TouchableOpacity>
-            {pictures.map((picture, index) => (
-              <View key={index}>
-                <Picture
-                  picture={picture}
-                  isSelectedToDelete={this.isSelectedToDelete(picture)}
-                  handleImageLongPress={picture =>
-                    this.handleImageLongPress(picture)
-                  }
-                  handleOnPress={value => {
-                    this.galleryIndex(index);
-                    isEditing
-                      ? this.addImageToDelete(picture)
-                      : this.handleGalleryOpen(value);
-                  }}
-                />
-              </View>
-            ))}
-          </React.Fragment>
+          <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+            <React.Fragment>
+              <TouchableOpacity
+                onPress={this.handleOnPictureAdd}
+                style={styles.addPictureContainer}
+              >
+                <MaterialCommunityIcons name="camera" size={38} color="#FFF" />
+              </TouchableOpacity>
+              {pictures.map((picture, index) => (
+                <View key={index}>
+                  <Picture
+                    picture={picture}
+                    isSelectedToDelete={this.isSelectedToDelete(picture)}
+                    handleImageLongPress={picture =>
+                      this.handleImageLongPress(picture)
+                    }
+                    handleOnPress={value => {
+                      this.galleryIndex(index);
+                      isEditing
+                        ? this.addImageToDelete(picture)
+                        : this.handleGalleryOpen(value);
+                    }}
+                  />
+                </View>
+              ))}
+            </React.Fragment>
+          </ScrollView>
         ) : (
           <PhotoGalleryEmptyState onPictureAdd={this.handleOnPictureAdd} />
         )}
@@ -224,7 +223,7 @@ class PhotoGallery extends React.Component {
           height={2000}
           ref={o => (this.ImageSelector = o)}
         />
-      </ScrollView>
+      </View>
     );
   }
 }
@@ -243,7 +242,8 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     width: 117,
     height: 81,
-    marginLeft: 9
+    marginLeft: 9,
+    borderRadius: 4
   },
   addPictureContainer: {
     width: 117,

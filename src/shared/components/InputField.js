@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 export default InputField = ({
   input: { value, onChange, ...input },
@@ -27,7 +27,7 @@ export default InputField = ({
   return (
     <View>
       <View>
-        <Text style={{ color: "white", fontSize: normalize(14), top: "-10%" }}>
+        <Text style={{ color: "white", fontSize: dimensions(14), top: "-10%" }}>
           {title}
         </Text>
       </View>
@@ -42,7 +42,7 @@ export default InputField = ({
             {
               width: "100%",
               borderRadius: 50,
-              height: 45
+              height: dimensions(40)
             },
             style,
             styles.TextInput,

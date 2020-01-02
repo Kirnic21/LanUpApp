@@ -11,7 +11,7 @@ import moment from "moment";
 import ToggleSwitch from "toggle-switch-react-native";
 
 import { Field, reduxForm } from "redux-form";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 import DateInputField from "~/shared/components/DateInputField";
 import { saveAvailability, decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -31,6 +31,9 @@ class AvailabilityDays extends React.Component {
   componentDidMount() {
     const { day } = this.state;
     this.setState({ now: day.available });
+    this.props.navigation.setParams({
+      isEditing: day.available
+    });
     this.props.initialize({
       start:
         day.start === null
@@ -50,19 +53,22 @@ class AvailabilityDays extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { state } = navigation;
+    const isEditing = navigation.getParam("isEditing");
     return {
       headerRight: (
-        <TouchableOpacity
-          onPress={() => state.params.handleSave()}
-          style={{
-            paddingHorizontal: 29,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <Text style={{ color: "#FFF" }}>Salvar</Text>
-        </TouchableOpacity>
+        <View style={{ opacity: isEditing ? 1 : 0 }}>
+          <TouchableOpacity
+            onPress={() => state.params.handleSave()}
+            style={{
+              paddingHorizontal: 29,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <Text style={{ color: "#FFF" }}>Salvar</Text>
+          </TouchableOpacity>
+        </View>
       )
     };
   };
@@ -71,6 +77,9 @@ class AvailabilityDays extends React.Component {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const { schedules, day } = this.state;
     const { dayOfWeek } = day;
+    this.props.navigation.setParams({
+      isEditing: now
+    });
     const days = schedules.filter(c => c.available === true);
     const request = {
       freelaId: token.id,
@@ -164,7 +173,7 @@ class AvailabilityDays extends React.Component {
               </View>
               <View style={{ alignContent: "stretch" }}>
                 <Field
-                  style={{ width: "48%" }}
+                  style={styles.inputDate}
                   title="Das"
                   mode="time"
                   component={DateInputField}
@@ -174,7 +183,7 @@ class AvailabilityDays extends React.Component {
                   style={{ position: "absolute", width: "100%", left: "52%" }}
                 >
                   <Field
-                    style={{ width: "48%" }}
+                    style={styles.inputDate}
                     title="Até"
                     mode="time"
                     component={DateInputField}
@@ -211,13 +220,17 @@ const styles = StyleSheet.create({
   },
   titleDays: {
     color: "#FFF",
-    fontSize: normalize(22),
+    fontSize: dimensions(22),
     paddingBottom: "6%"
   },
   toggleAvailable: {
     color: "#FFF",
-    fontSize: normalize(14),
+    fontSize: dimensions(14),
     marginRight: "55%"
+  },
+  inputDate: {
+    width: "48%",
+    color: "#46C5F3"
   }
 });
 

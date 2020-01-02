@@ -12,7 +12,7 @@ import moment from "moment";
 import ToggleSwitch from "toggle-switch-react-native";
 import ArrowRight from "~/assets/images/arrowRight.png";
 import Schedules from "./Schedules";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 import {
   emergencyAvailability,
@@ -25,7 +25,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 const DisplayDate = ({ date, displayHour, isActive }) => {
   const style = {
     color: "#FFF",
-    fontSize: normalize(14),
+    fontSize: dimensions(14),
     marginRight: "15.5%",
     marginBottom: "1%"
   };
@@ -35,7 +35,7 @@ const DisplayDate = ({ date, displayHour, isActive }) => {
       <Text
         style={[
           {
-            fontSize: normalize(11)
+            fontSize: dimensions(11)
           },
           isActive ? { color: "#46C5F3" } : { color: "#EB4886" }
         ]}
@@ -47,21 +47,27 @@ const DisplayDate = ({ date, displayHour, isActive }) => {
 };
 
 class Availability extends Component {
-  state = {
-    emergencyAvailability: false,
-    selected: false,
-    SpecialDays: [],
-    schedules: [],
-    daysOfWeek: {
-      6: "Sabado",
-      5: "Sexta",
-      4: "Quinta",
-      3: "Quarta",
-      2: "Terça",
-      1: "Segunda",
-      0: "Domingo"
-    }
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      emergencyAvailability: false,
+      selected: false,
+      SpecialDays: [],
+      schedules: [],
+      daysOfWeek: {
+        6: "Sabado",
+        5: "Sexta",
+        4: "Quinta",
+        3: "Quarta",
+        2: "Terça",
+        1: "Segunda",
+        0: "Domingo"
+      }
+    };
+    this.props.navigation.addListener("willFocus", () => {
+      this.GetDataAvailability();
+    });
+  }
 
   onToggle = async isOn => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
@@ -81,18 +87,15 @@ class Availability extends Component {
       });
   };
 
-  async componentDidMount() {
+  GetDataAvailability = async () => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-
-    const normalizeSpecialDate = ({ day, date, start, end, available }) => ({
+    const dimensionsSpecialDate = ({ day, date, start, end, available }) => ({
       date: day ? day : date,
       start,
       end,
       available
     });
-
-    const convertItems = days => days.map(normalizeSpecialDate);
-
+    const convertItems = days => days.map(dimensionsSpecialDate);
     getAvailability(token.id).then(({ data }) => {
       const schedules = data.result.value.days;
       const emergencyAvailability = data.result.value.emergencyAvailability;
@@ -106,6 +109,10 @@ class Availability extends Component {
         ? this.setState({ SpecialDays: [] })
         : this.setState({ SpecialDays: convertItems(SpecialDays) });
     });
+  };
+
+  componentDidMount() {
+    this.GetDataAvailability();
   }
 
   openAvailabilityDays = day => {
@@ -136,7 +143,7 @@ class Availability extends Component {
             <Text
               style={{
                 color: "#FFF",
-                fontSize: normalize(14),
+                fontSize: dimensions(14),
                 paddingBottom: "5%"
               }}
             >
@@ -146,7 +153,7 @@ class Availability extends Component {
               <Text
                 style={{
                   color: "#FFF",
-                  fontSize: normalize(14),
+                  fontSize: dimensions(14),
                   marginRight: "35%"
                 }}
               >
@@ -177,7 +184,7 @@ class Availability extends Component {
                 <Text
                   style={{
                     color: "#FFF",
-                    fontSize: normalize(14),
+                    fontSize: dimensions(14),
                     marginRight: "51%"
                   }}
                 >

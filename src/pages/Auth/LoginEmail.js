@@ -24,7 +24,7 @@ import InputModal from "~/shared/components/InputModal";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
 
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 const formRules = FormValidator.make(
   {
@@ -167,7 +167,7 @@ class LoginEmail extends Component {
               <View style={styles.containerForm}>
                 <View style={{ alignContent: "stretch", width: "90%" }}>
                   <Field
-                    style={{ width: "100%", height: 51 }}
+                    style={{ width: "100%" }}
                     title="E-mail"
                     keyboardType="email-address"
                     component={InputField}
@@ -183,7 +183,7 @@ class LoginEmail extends Component {
                     }}
                   >
                     <Field
-                      style={[{ width: "100%", height: 51 }]}
+                      style={[{ width: "100%" }]}
                       title="Senha"
                       secureTextEntry={this.state.password}
                       component={InputField}
@@ -194,7 +194,7 @@ class LoginEmail extends Component {
                     <Icon
                       style={styles.icon}
                       name={this.state.icon}
-                      size={25}
+                      size={dimensions(24)}
                       color="#fff"
                       onPress={() => this.changeIcon()}
                     />
@@ -240,10 +240,14 @@ class LoginEmail extends Component {
                   isfocused={"#865FC0"}
                   onChangeText={this.handleEmail}
                   title="E-mail"
-                  style={{ width: "90%", height: 50, borderColor: "#865FC0" }}
+                  style={{
+                    width: "90%",
+                    height: dimensions(43),
+                    borderColor: "#865FC0"
+                  }}
                 />
               </View>
-              <View style={{ alignItems: "center", top: "6%" }}>
+              <View style={{ alignItems: "center", top: "1%" }}>
                 <RoundButton
                   style={styles.buttonModal}
                   name="Mandar"
@@ -284,26 +288,26 @@ const styles = StyleSheet.create({
   titleModal: {
     color: "#FFF",
     paddingHorizontal: "5%",
-    top: "1%",
-    fontSize: normalize(26)
+    top: "-6%",
+    fontSize: dimensions(26)
   },
   subtitleModal: {
     color: "#FFF",
-    fontSize: normalize(15),
+    fontSize: dimensions(15),
     lineHeight: 25,
     paddingHorizontal: "5%",
-    top: "5%"
+    top: "-1%"
   },
   containerInputModal: {
     justifyContent: "center",
     alignItems: "flex-start",
     left: "5%",
-    top: "10%"
+    top: "5%"
   },
   buttonModal: {
     backgroundColor: "#865FC0",
     width: "50%",
-    height: 50,
+    height: dimensions(45),
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 50
@@ -311,7 +315,7 @@ const styles = StyleSheet.create({
   Btn: {
     backgroundColor: "#7541bf",
     width: "100%",
-    height: 50,
+    height: dimensions(45),
     borderRadius: 60,
     justifyContent: "center",
     alignItems: "center"
@@ -321,7 +325,7 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     color: "#FFF",
-    fontSize: normalize(15),
+    fontSize: dimensions(15),
     textAlign: "center",
     padding: "15%"
   },
@@ -329,12 +333,12 @@ const styles = StyleSheet.create({
     color: "#483D8B",
     textDecorationLine: "underline",
     textAlign: "center",
-    fontSize: normalize(15),
+    fontSize: dimensions(15),
     letterSpacing: 0.5
   },
   icon: {
     left: "80%",
-    top: 35,
+    top: dimensions(29),
     position: "absolute"
   }
 });

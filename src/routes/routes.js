@@ -267,13 +267,12 @@ const pageNavigator = createStackNavigator({
   AddSkill: {
     screen: AddSkill,
     navigationOptions: ({ navigation }) => ({
-      headerTransparent: true,
       headerTitle: "Meu Job",
-      // headerStyle: {
-      //   backgroundColor: "#18142F",
-      //   height: 70,
-      //   elevation: -2
-      // },
+      headerStyle: {
+        backgroundColor: "#18142F",
+        height: 70,
+        elevation: -2
+      },
       headerTitleStyle: {
         textAlign: "center",
         alignSelf: "center",

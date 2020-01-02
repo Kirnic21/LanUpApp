@@ -23,13 +23,13 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
 
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 const stylePage = {
   ...styles,
   icon: {
     left: "80%",
-    top: 34,
+    top: dimensions(30),
     position: "absolute"
   }
 };
@@ -151,8 +151,8 @@ class ChangePassword extends Component {
                     <Image
                       source={Logo}
                       style={{
-                        width: 260,
-                        height: 120
+                        width: dimensions(220),
+                        height: dimensions(90)
                       }}
                     />
                   </View>
@@ -162,8 +162,8 @@ class ChangePassword extends Component {
                         styles.textTitle,
                         {
                           textAlign: "center",
-                          lineHeight: 45,
-                          fontSize: normalize(25)
+                          lineHeight: dimensions(38),
+                          fontSize: dimensions(25)
                         }
                       ]}
                     >
@@ -192,12 +192,13 @@ class ChangePassword extends Component {
                       component={InputField}
                       secureTextEntry={this.state.password}
                       name={"password"}
+                      isfocused={"#46C5F3"}
                       autoCapitalize="none"
                     />
                     <Icon
                       style={stylePage.icon}
                       name={this.state.icon}
-                      size={25}
+                      size={dimensions(22)}
                       color="#fff"
                       onPress={() => this.changeIcon()}
                     />
@@ -211,6 +212,7 @@ class ChangePassword extends Component {
                     secureTextEntry={this.state.password}
                     name={"newPassword"}
                     autoCapitalize="none"
+                    isfocused={"#46C5F3"}
                   />
                   <Field
                     style={styles.TextInput}
@@ -220,6 +222,7 @@ class ChangePassword extends Component {
                     secureTextEntry={this.state.password}
                     component={InputField}
                     autoCapitalize="none"
+                    isfocused={"#46C5F3"}
                   />
                   <RoundButton
                     style={[

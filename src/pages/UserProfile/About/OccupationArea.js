@@ -3,9 +3,8 @@ import { Text, View, TouchableOpacity, FlatList } from "react-native";
 import InputSearch from "~/shared/components/InputSearch";
 import axios from "axios";
 import styles from "./styles";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 import Modal from "~/shared/components/ModalComponent";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default class OccupationArea extends React.Component {
   constructor(props) {
@@ -51,7 +50,7 @@ export default class OccupationArea extends React.Component {
         <Text
           style={{
             color: "#FFF",
-            fontSize: normalize(15),
+            fontSize: dimensions(15),
             paddingBottom: "5%"
           }}
         >
@@ -64,7 +63,7 @@ export default class OccupationArea extends React.Component {
           style={{
             borderColor: "#fff",
             borderWidth: 2,
-            paddingVertical: "3.5%",
+            paddingVertical: dimensions(12),
             borderRadius: 25,
             color: "#FFF",
             paddingLeft: "7%",
@@ -95,7 +94,7 @@ export default class OccupationArea extends React.Component {
                   <Text
                     style={{
                       color: "#FFF",
-                      fontSize: normalize(14),
+                      fontSize: dimensions(14),
                       textAlign: "center"
                     }}
                   >
@@ -122,7 +121,7 @@ export default class OccupationArea extends React.Component {
                   <Text
                     style={{
                       color: "#fff",
-                      fontSize: normalize(14),
+                      fontSize: dimensions(14),
                       textAlign: "center"
                     }}
                   >

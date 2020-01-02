@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
 import ToggleSwitch from "toggle-switch-react-native";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 export default SwitchComponent = ({ title, textStyle, input }) => (
   <View
@@ -15,7 +15,7 @@ export default SwitchComponent = ({ title, textStyle, input }) => (
       style={[
         {
           color: "#FFF",
-          fontSize: normalize(14),
+          fontSize: dimensions(14),
           paddingBottom: "5%"
         },
         textStyle

@@ -4,7 +4,7 @@ import InputField from "~/shared/components/InputField";
 import { Field, reduxForm } from "redux-form";
 import Modal from "./ModalFilterBank";
 import styles from "./styles";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 const BankInformation = ({ onPress, bankCode }) => {
   reduxForm({ form: "BankInformation" });
@@ -14,14 +14,14 @@ const BankInformation = ({ onPress, bankCode }) => {
         <Text
           style={{
             color: "#FFF",
-            fontSize: normalize(14.5),
+            fontSize: dimensions(14.5),
             paddingBottom: "7%"
           }}
         >
           Informações Bancárias
         </Text>
         <View style={{ alignContent: "stretch", paddingBottom: "2.5%" }}>
-          <Text style={{ fontSize: normalize(14), color: "#FFF", top: "-1%" }}>
+          <Text style={{ fontSize: dimensions(14), color: "#FFF", top: "-1%" }}>
             Banco
           </Text>
           <Modal onPress={onPress} bankCode={bankCode} />

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import dimensions from "~/assets/Dimensions/index";
 
 export default ActionButton = ({ name, style, onPress }) => (
   <View style={styles.buttonContent}>
@@ -9,8 +10,8 @@ export default ActionButton = ({ name, style, onPress }) => (
         style,
         {
           alignItems: "center",
-          width: 80,
-          height: 80,
+          width: dimensions(80),
+          height: dimensions(80),
           justifyContent: "center"
         }
       ]}
@@ -23,9 +24,9 @@ export default ActionButton = ({ name, style, onPress }) => (
 
 const styles = StyleSheet.create({
   buttonContent: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: dimensions(70),
+    height: dimensions(70),
+    borderRadius: dimensions(45),
     backgroundColor: "#7541BF",
     alignItems: "center",
     justifyContent: "center"

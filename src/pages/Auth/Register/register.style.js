@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import normalize from "~/assets/FontSize/index";
+import dimensions from "~/assets/Dimensions/index";
 
 const styles = StyleSheet.create({
   btnRegister: {
@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,
-    height: 50
+    height: dimensions(40)
   },
   textTitle: {
     color: "#FFF",
-    fontSize: normalize(32),
+    fontSize: dimensions(32),
     fontFamily: "Helvetica Now Micro",
     fontWeight: "600"
   },
@@ -28,15 +28,15 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     marginBottom: "5%",
     color: "#FFF",
-    fontSize: normalize(18),
+    fontSize: dimensions(18),
     fontFamily: "Helvetica Now Micro",
     fontWeight: "500"
   },
   TextInput: {
     width: "100%",
-    height: 51,
+    height: dimensions(40),
     paddingLeft: "10%",
-    fontSize: 15
+    fontSize: dimensions(14)
   },
   ImageBackground: {
     flex: 1,

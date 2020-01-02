@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import dimensions from "~/assets/Dimensions/index";
 
 const styles = StyleSheet.create({
   container: {
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
   containerPresentationPhoto: {
     backgroundColor: "#24203B",
     marginTop: "3%",
-    padding: "7%",
+    padding: "5%",
     borderRadius: 15
   },
   containerModalBank: {
@@ -42,14 +43,14 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS == "ios" ? 30 : 0
   },
   thumbnail: {
-    width: "22%",
-    height: 65,
+    width: dimensions(57),
+    height: dimensions(55),
     paddingVertical: "1%",
     marginRight: "4%"
   },
   photo: {
-    width: "100%",
-    height: "100%",
+    width: dimensions(57),
+    height: dimensions(55),
     borderColor: "#FFF",
     borderWidth: 2,
     borderRadius: 5
@@ -76,12 +77,12 @@ const styles = StyleSheet.create({
   containerManequim: {
     borderColor: "#FFF",
     borderWidth: 2,
-    width: "32%",
+    width: dimensions(82.5),
     borderRadius: 25,
     position: "absolute",
     left: "68%",
-    height: 46,
-    top: 20
+    height: dimensions(40),
+    top: dimensions(18)
   },
   containerGender: {
     borderColor: "#FFF",
@@ -89,20 +90,20 @@ const styles = StyleSheet.create({
     width: "47%",
     position: "absolute",
     borderRadius: 25,
-    height: 45,
-    top: 20,
+    height: dimensions(40),
+    top: dimensions(18),
     left: "53%"
   },
   Avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: dimensions(90),
+    height: dimensions(90),
+    borderRadius: dimensions(50),
     borderColor: "#FFB72B",
     borderWidth: 2
   },
   textArea: {
     width: "100%",
-    height: 140,
+    height: dimensions(120),
     borderRadius: 30,
     textAlignVertical: "top",
     paddingVertical: "5%"
@@ -120,17 +121,18 @@ const styles = StyleSheet.create({
     borderRadius: 25
   },
   iconAvatar: {
-    width: 25,
-    height: 25,
+    width: dimensions(20),
+    height: dimensions(20),
     top: "-18%",
     left: "70%"
   },
   btnBank: {
     borderColor: "#FFF",
     borderWidth: 2,
-    paddingVertical: "3.4%",
+    height: dimensions(40),
     borderRadius: 25,
     width: "45%",
+    justifyContent: "center",
     marginBottom: "2%"
   }
 });
