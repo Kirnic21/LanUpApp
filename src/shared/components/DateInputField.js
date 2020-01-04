@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { TouchableOpacity, StyleSheet, View } from "react-native";
+import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Input from "~/shared/components/InputLabel";
 import moment from "moment";
+import dimensions from "~/assets/Dimensions/index";
 
 export default class DateInputField extends Component {
   constructor(props) {
@@ -36,6 +37,15 @@ export default class DateInputField extends Component {
         style={styles.container}
         onPress={this.showDateTimePicker}
       >
+        <Text
+          style={{
+            color: "white",
+            fontSize: dimensions(12),
+            fontFamily: "HelveticaNowMicro-Regular"
+          }}
+        >
+          {this.props.title}
+        </Text>
         <DateTimePicker
           style={this.props.style}
           date={input.value || new Date()} //date is transformed from input
@@ -51,8 +61,18 @@ export default class DateInputField extends Component {
           editable={false}
           enabled={false}
           label={this.props.label}
-          style={this.props.style}
-          title={this.props.title}
+          style={[
+            this.props.style,
+            {
+              top: "-46%",
+              marginBottom: dimensions(-15),
+              height: dimensions(43),
+              textAlignVertical: "center",
+              paddingVertical: "3%",
+              borderRadius: 50
+            }
+          ]}
+          // title={this.props.title}
           placeholder={this.props.placeholder}
           onClick={this.showDateTimePicker}
           value={

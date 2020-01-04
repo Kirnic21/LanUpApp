@@ -73,7 +73,15 @@ class AddProfession extends Component {
           onPress={() => params.SaveJob()}
           style={{ paddingHorizontal: 29 }}
         >
-          <Text style={{ color: "#FFF" }}>Salvar</Text>
+          <Text
+            style={{
+              color: "#FFF",
+              fontFamily: "HelveticaNowMicro-Regular",
+              fontSize: dimensions(12)
+            }}
+          >
+            Salvar
+          </Text>
         </TouchableOpacity>
       )
     };
@@ -99,8 +107,9 @@ class AddProfession extends Component {
             <Text
               style={{
                 color: "#FFF",
+                paddingBottom: "5%",
                 fontSize: dimensions(25),
-                paddingBottom: "5%"
+                fontFamily: "HelveticaNowMicro-Regular"
               }}
             >
               Profissão
@@ -125,7 +134,8 @@ class AddProfession extends Component {
                     <Text
                       style={{
                         color: isSelected === true ? "#FFF" : "#24203B",
-                        fontSize: dimensions(14),
+                        fontSize: dimensions(12),
+                        fontFamily: "HelveticaNowMicro-Regular",
                         padding: dimensions(6),
                         paddingTop: dimensions(7)
                       }}
@@ -167,10 +177,11 @@ export const styles = StyleSheet.create({
   },
   numberJobText: {
     color: "rgba(255, 255, 255, 0.7)",
-    fontSize: dimensions(15),
+    fontSize: dimensions(19),
     position: "absolute",
     left: "90%",
-    top: dimensions(10)
+    top: dimensions(9),
+    fontFamily: "HelveticaNowMicro-ExtraLight"
   }
 });
 

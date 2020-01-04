@@ -88,6 +88,12 @@
 		<string>Fontisto.ttf</string>
 		<string>HelveticaNowMicro-Light.ttf</string>
 		<string>HelveticaNowMicro-Regular.ttf</string>
+		<string>Montserrat-Regular.ttf</string>
+		<string>HelveticaNowMicro-Medium.ttf</string>
+		<string>HelveticaNowMicro-Bold.ttf</string>
+		<string>SourceSansPro-Regular.ttf</string>
+		<string>HelveticaNowDisplay-Regular.ttf</string>
+		<string>HelveticaNowMicro-ExtraLight.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

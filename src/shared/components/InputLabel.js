@@ -36,7 +36,7 @@ export default InputLabel = ({
       <Text
         style={[
           {
-            height: dimensions(40),
+            height: dimensions(43),
             borderColor: "white",
             borderRadius: 23,
             color: "white"

@@ -15,8 +15,9 @@ const AdditionalInformation = ({}) => {
       <Text
         style={{
           color: "#FFF",
-          fontSize: dimensions(15),
-          paddingBottom: "7%"
+          fontSize: dimensions(14),
+          paddingBottom: "7%",
+          fontFamily: "HelveticaNowMicro-Regular"
         }}
       >
         Informações Adicionais
@@ -39,7 +40,13 @@ const AdditionalInformation = ({}) => {
       />
       <View style={{ alignContent: "stretch" }}>
         <Field
-          style={{ width: "46%", height: dimensions(40) }}
+          style={{
+            width: "46%",
+            height: dimensions(43),
+            fontSize: dimensions(12),
+            fontFamily: "HelveticaNowMicro-Regular",
+            borderRadius: 50
+          }}
           name={"birthday"}
           title="Nascimento"
           component={DateInputField}

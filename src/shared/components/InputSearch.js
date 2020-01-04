@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   inputSearch: {
     width: "90%",
     fontSize: 16,
+    fontFamily: "HelveticaNowMicro-Regular",
     color: "#23203F"
   },
   inputSearchIconContainer: {

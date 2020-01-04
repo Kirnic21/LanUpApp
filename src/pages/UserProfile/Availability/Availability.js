@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import moment from "moment";
 
-import ToggleSwitch from "toggle-switch-react-native";
+import Toggle from "~/shared/components/ToggleComponent";
 import ArrowRight from "~/assets/images/arrowRight.png";
 import Schedules from "./Schedules";
 import dimensions from "~/assets/Dimensions/index";
@@ -23,19 +23,25 @@ import { reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 
 const DisplayDate = ({ date, displayHour, isActive }) => {
-  const style = {
-    color: "#FFF",
-    fontSize: dimensions(14),
-    marginRight: "15.5%",
-    marginBottom: "1%"
-  };
+  const style = { marginRight: "9.5%", marginBottom: "1%" };
   return (
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
-      <Text style={style}>{moment(date).format("DD [de] MMM, YYYY")}</Text>
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        width: "95.5%"
+      }}
+    >
+      <Text style={[styles.titleStyle, style]}>
+        {moment(date).format("DD [de] MMM, YYYY")}
+      </Text>
       <Text
         style={[
           {
-            fontSize: dimensions(11)
+            fontSize: dimensions(10),
+            width: "40%",
+            left: "12%",
+            fontFamily: "HelveticaNowMicro-ExtraLight"
           },
           isActive ? { color: "#46C5F3" } : { color: "#EB4886" }
         ]}
@@ -140,27 +146,14 @@ class Availability extends Component {
       <View style={styles.Container}>
         <ScrollView>
           <View style={styles.containerAvailability}>
-            <Text
-              style={{
-                color: "#FFF",
-                fontSize: dimensions(14),
-                paddingBottom: "5%"
-              }}
-            >
+            <Text style={[styles.titleStyle, { paddingBottom: "5%" }]}>
               Para vagas urgentes
             </Text>
             <View style={{ flexDirection: "row" }}>
-              <Text
-                style={{
-                  color: "#FFF",
-                  fontSize: dimensions(14),
-                  marginRight: "35%"
-                }}
-              >
+              <Text style={[styles.titleStyle, { marginRight: "25%" }]}>
                 Estou disponível agora
               </Text>
-              <ToggleSwitch
-                size="medium"
+              <Toggle
                 onColor="#483D8B"
                 offColor="#18142F"
                 isOn={emergencyAvailability}
@@ -180,19 +173,23 @@ class Availability extends Component {
           />
           <View style={styles.containerSpecialTimes}>
             <TouchableOpacity onPress={() => this.openSpecialHours()}>
-              <View style={{ flexDirection: "row", paddingBottom: "10%" }}>
-                <Text
-                  style={{
-                    color: "#FFF",
-                    fontSize: dimensions(14),
-                    marginRight: "51%"
-                  }}
-                >
+              <View
+                style={{
+                  flexDirection: "row",
+                  paddingBottom: "10%",
+                  width: "94.5%"
+                }}
+              >
+                <Text style={[styles.titleStyle, { width: "95.5%" }]}>
                   Horários especiais
                 </Text>
                 <Image
                   source={ArrowRight}
-                  style={{ width: "6%", height: 15, top: "2%" }}
+                  style={{
+                    width: "5%",
+                    height: dimensions(17),
+                    top: "2%"
+                  }}
                 />
               </View>
               {SpecialDays.map(({ date, start, end, available }, id) => (
@@ -237,6 +234,11 @@ const styles = StyleSheet.create({
     marginBottom: "2%",
     borderRadius: 15,
     marginTop: "3%"
+  },
+  titleStyle: {
+    color: "#FFF",
+    fontSize: dimensions(14),
+    fontFamily: "HelveticaNowMicro-Regular"
   }
 });
 

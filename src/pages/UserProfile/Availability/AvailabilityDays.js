@@ -7,15 +7,13 @@ import {
   TouchableOpacity
 } from "react-native";
 import moment from "moment";
-
-import ToggleSwitch from "toggle-switch-react-native";
-
 import { Field, reduxForm } from "redux-form";
 import dimensions from "~/assets/Dimensions/index";
 import DateInputField from "~/shared/components/DateInputField";
 import { saveAvailability, decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import DropdownAlert from "react-native-dropdownalert";
+import Toggle from "~/shared/components/ToggleComponent";
 
 class AvailabilityDays extends React.Component {
   constructor(props) {
@@ -60,13 +58,21 @@ class AvailabilityDays extends React.Component {
           <TouchableOpacity
             onPress={() => state.params.handleSave()}
             style={{
-              paddingHorizontal: 29,
+              paddingHorizontal: dimensions(27),
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center"
             }}
           >
-            <Text style={{ color: "#FFF" }}>Salvar</Text>
+            <Text
+              style={{
+                color: "#FFF",
+                fontFamily: "HelveticaNowMicro-Regular",
+                fontSize: dimensions(12)
+              }}
+            >
+              Salvar
+            </Text>
           </TouchableOpacity>
         </View>
       )
@@ -140,7 +146,7 @@ class AvailabilityDays extends React.Component {
             width: "100%",
             alignItems: "center",
             position: "absolute",
-            marginTop: "-20%"
+            marginTop: "-22%"
           }}
         >
           <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
@@ -150,8 +156,8 @@ class AvailabilityDays extends React.Component {
             <Text style={styles.titleDays}>{daysOfWeek[dayOfWeek]}</Text>
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.toggleAvailable}>Estou disponível</Text>
-              <ToggleSwitch
-                size="small"
+
+              <Toggle
                 onColor="#483D8B"
                 offColor="#24203B"
                 isOn={now}
@@ -214,19 +220,23 @@ const styles = StyleSheet.create({
   },
   Title: {
     color: "#FFF",
-    fontSize: 15,
+    fontSize: dimensions(14),
+    fontFamily: "HelveticaNowMicro-Regular",
     paddingBottom: "5%",
     marginRight: "75%"
   },
   titleDays: {
     color: "#FFF",
-    fontSize: dimensions(22),
+    fontSize: dimensions(20),
+    fontFamily: "HelveticaNowMicro-Regular",
     paddingBottom: "6%"
   },
   toggleAvailable: {
     color: "#FFF",
     fontSize: dimensions(14),
-    marginRight: "55%"
+    fontFamily: "HelveticaNowMicro-Regular",
+
+    width: dimensions(245)
   },
   inputDate: {
     width: "48%",

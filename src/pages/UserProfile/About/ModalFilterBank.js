@@ -59,7 +59,9 @@ export default class ModalFilterBank extends React.Component {
             style={{
               color: "#FFF",
               paddingLeft: "15%",
-              marginTop: "-5%"
+              marginTop: "-5%",
+              fontFamily: "HelveticaNowMicro-Regular",
+              fontSize: dimensions(14)
             }}
           >
             {code.length ? code : bankCode}
@@ -81,11 +83,15 @@ export default class ModalFilterBank extends React.Component {
               }}
               color={"#FFF"}
               inputContainerStyle={{ backgroundColor: "#FFF" }}
-              inputStyle={{ color: "#000" }}
-              searchIcon={{ size: 24, color: "#000" }}
-              placeholderTextColor={"#000"}
+              inputStyle={{
+                color: "#23203F",
+                fontFamily: "HelveticaNowMicro-Regular",
+                fontSize: dimensions(14)
+              }}
+              searchIcon={{ size: 24, color: "#23203F" }}
+              placeholderTextColor={"#23203F"}
               onChangeText={text => this.SearchFilterFunction(text)}
-              onClear={text => this.SearchFilterFunction(text)}
+              onClear={text => this.SearchFilterFunction("")}
               placeholder="Digite aqui..."
               value={search}
             />

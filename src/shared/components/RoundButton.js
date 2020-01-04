@@ -9,7 +9,15 @@ export default RoundButton = ({ name, style, disabled, onPress }) => (
       style={disabled ? [...style, styles.disabled] : style}
       onPress={onPress}
     >
-      <Text style={{ color: "#FFF", fontSize: dimensions(12) }}>{name}</Text>
+      <Text
+        style={{
+          color: "#FFF",
+          fontSize: dimensions(12),
+          fontFamily: "HelveticaNowMicro-Regular"
+        }}
+      >
+        {name}
+      </Text>
     </TouchableOpacity>
   </View>
 );

@@ -22,14 +22,14 @@ export default ModalComponent = ({
         style={{
           flex: 1,
           backgroundColor: "#23203F",
-          borderTopLeftRadius: dimensions(50),
-          borderTopRightRadius: dimensions(50)
+          borderTopLeftRadius: dimensions(40),
+          borderTopRightRadius: dimensions(40)
         }}
       >
         <View
           style={{
             alignItems: "flex-end",
-            paddingHorizontal: "8%",
+            paddingHorizontal: "7%",
             paddingVertical: "2%"
           }}
         >

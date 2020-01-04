@@ -29,7 +29,7 @@ const stylePage = {
   ...styles,
   icon: {
     left: "80%",
-    top: dimensions(30),
+    top: dimensions(28),
     position: "absolute"
   }
 };
@@ -119,7 +119,7 @@ class ChangePassword extends Component {
           flex: 1
         }}
       >
-        <KeyboardAwareScrollView style={{ flex: 1 }}>
+        <KeyboardAwareScrollView style={{}}>
           <StatusBar translucent backgroundColor="transparent" />
           <View
             style={{
@@ -130,7 +130,12 @@ class ChangePassword extends Component {
           >
             <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
           </View>
-          <Container style={{ backgroundColor: "transparent" }}>
+          <Container
+            style={{
+              backgroundColor: "transparent",
+              height: Dimensions.get("screen").height - dimensions(85)
+            }}
+          >
             <View
               style={{
                 flex: 1,
@@ -147,23 +152,23 @@ class ChangePassword extends Component {
                     alignItems: "center"
                   }}
                 >
-                  <View style={[styles.ContainerLogo, { top: "-15%" }]}>
+                  <View style={[styles.ContainerLogo, { top: "-20%" }]}>
                     <Image
                       source={Logo}
                       style={{
-                        width: dimensions(220),
-                        height: dimensions(90)
+                        width: dimensions(210),
+                        height: dimensions(80)
                       }}
                     />
                   </View>
-                  <View style={{ top: "-10%" }}>
+                  <View style={{ top: "-17%" }}>
                     <Text
                       style={[
                         styles.textTitle,
                         {
                           textAlign: "center",
-                          lineHeight: dimensions(38),
-                          fontSize: dimensions(25)
+                          lineHeight: dimensions(35),
+                          fontSize: dimensions(20)
                         }
                       ]}
                     >
@@ -175,8 +180,8 @@ class ChangePassword extends Component {
 
                 <View
                   style={{
-                    flex: 1.2,
-                    width: "70%"
+                    width: "70%",
+                    top: "-4%"
                   }}
                 >
                   <View

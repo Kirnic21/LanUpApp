@@ -251,7 +251,8 @@ class UserProfile extends Component {
                   style={{
                     color: "#FFF",
                     fontSize: dimensions(13),
-                    marginBottom: dimensions(5)
+                    marginBottom: dimensions(5),
+                    fontFamily: "HelveticaNowMicro-Regular"
                   }}
                 >
                   {item.title}
@@ -259,9 +260,10 @@ class UserProfile extends Component {
                 <Text
                   style={{
                     color: "gray",
-                    fontSize: dimensions(12),
+                    fontSize: dimensions(11),
                     borderBottomWidth: 0,
-                    borderTopWidth: 0
+                    borderTopWidth: 0,
+                    fontFamily: "HelveticaNowMicro-Light"
                   }}
                 >
                   {item.subtitle}
@@ -291,7 +293,8 @@ class UserProfile extends Component {
                 <Text
                   style={{
                     color: "#FFF",
-                    fontSize: dimensions(13)
+                    fontSize: dimensions(13),
+                    fontFamily: "HelveticaNowMicro-Regular"
                   }}
                 >
                   {item.title}
@@ -334,8 +337,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "#24203B",
     borderRadius: 20,
-    fontSize: dimensions(12),
-    width: "70%"
+    fontSize: dimensions(13),
+    width: "80%",
+    fontFamily: "HelveticaNowMicro-Regular"
   },
   agency: {
     marginTop: dimensions(17),
@@ -345,6 +349,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#24203B",
     borderRadius: 10,
     fontSize: dimensions(13),
+    fontFamily: "HelveticaNowMicro-Regular",
     width: width - dimensions(50)
   },
   changePassword: {

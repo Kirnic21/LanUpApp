@@ -50,7 +50,8 @@ export default class OccupationArea extends React.Component {
         <Text
           style={{
             color: "#FFF",
-            fontSize: dimensions(15),
+            fontSize: dimensions(14),
+            fontFamily: "HelveticaNowMicro-Regular",
             paddingBottom: "5%"
           }}
         >
@@ -67,7 +68,9 @@ export default class OccupationArea extends React.Component {
             borderRadius: 25,
             color: "#FFF",
             paddingLeft: "7%",
-            textAlignVertical: "center"
+            textAlignVertical: "center",
+            fontSize: dimensions(12),
+            fontFamily: "HelveticaNowMicro-Regular"
           }}
         >
           {address}
@@ -95,6 +98,7 @@ export default class OccupationArea extends React.Component {
                     style={{
                       color: "#FFF",
                       fontSize: dimensions(14),
+                      fontFamily: "HelveticaNowMicro-Regular",
                       textAlign: "center"
                     }}
                   >
@@ -122,6 +126,7 @@ export default class OccupationArea extends React.Component {
                     style={{
                       color: "#fff",
                       fontSize: dimensions(14),
+                      fontFamily: "HelveticaNowMicro-Regular",
                       textAlign: "center"
                     }}
                   >

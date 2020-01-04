@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     position: "absolute",
     left: "68%",
-    height: dimensions(40),
+    height: dimensions(43),
     top: dimensions(18)
   },
   containerGender: {
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     width: "47%",
     position: "absolute",
     borderRadius: 25,
-    height: dimensions(40),
+    height: dimensions(43),
     top: dimensions(18),
     left: "53%"
   },
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     paddingVertical: "5%"
   },
   textStyle: {
+    fontFamily: "HelveticaNowMicro-Regular",
     padding: 10,
     color: "#FFF"
   },
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
   btnBank: {
     borderColor: "#FFF",
     borderWidth: 2,
-    height: dimensions(40),
+    height: dimensions(43),
     borderRadius: 25,
     width: "45%",
     justifyContent: "center",

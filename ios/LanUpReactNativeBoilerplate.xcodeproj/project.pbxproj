@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* LanUpReactNativeBoilerplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* LanUpReactNativeBoilerplateTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -27,6 +26,13 @@
 		F6E7EA53234D207400C28045 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E7EA52234D207400C28045 /* JavaScriptCore.framework */; };
 		F6EFB6DD234CE9D2008099A0 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = F6EFB6B7234CE942008099A0 /* Fonts */; };
 		F6EFB6DE234D1BEB008099A0 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
+		BEF8C145820143D2AE4DD6E5 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C29AAFD29AD4CF1BBFA0338 /* Montserrat-Bold.ttf */; };
+		E42C200FE5E443C8A3D4390E /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56C23F0B7566486B92DA7135 /* Montserrat-Regular.ttf */; };
+		24C881B0401148BB98D965A3 /* HelveticaNowMicro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 773B582894AF40E5B43C57E1 /* HelveticaNowMicro-Medium.ttf */; };
+		7496A389187546D69506B79B /* HelveticaNowMicro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2033B003E7074E83A300EECD /* HelveticaNowMicro-Bold.ttf */; };
+		7D90DD4DBDDF40E4A29077BC /* SourceSansPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 881E8B86405C4626BE279C78 /* SourceSansPro-Regular.ttf */; };
+		4411E3D1820F4EABBBCFDD4F /* HelveticaNowDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F07822406C18481581EA5FCA /* HelveticaNowDisplay-Regular.ttf */; };
+		73743BEEDCC140E882B1D014 /* HelveticaNowMicro-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 458E0593C36348A28C7CFB4E /* HelveticaNowMicro-ExtraLight.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +109,13 @@
 		F6E7EA83234D25DB00C28045 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		F6EFB6B7234CE942008099A0 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		F7D31B56A1D846F8A752A763 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		8C29AAFD29AD4CF1BBFA0338 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; name = "Montserrat-Bold.ttf"; path = "../src/assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		56C23F0B7566486B92DA7135 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		773B582894AF40E5B43C57E1 /* HelveticaNowMicro-Medium.ttf */ = {isa = PBXFileReference; name = "HelveticaNowMicro-Medium.ttf"; path = "../src/assets/fonts/HelveticaNowMicro-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2033B003E7074E83A300EECD /* HelveticaNowMicro-Bold.ttf */ = {isa = PBXFileReference; name = "HelveticaNowMicro-Bold.ttf"; path = "../src/assets/fonts/HelveticaNowMicro-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		881E8B86405C4626BE279C78 /* SourceSansPro-Regular.ttf */ = {isa = PBXFileReference; name = "SourceSansPro-Regular.ttf"; path = "../src/assets/fonts/SourceSansPro-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F07822406C18481581EA5FCA /* HelveticaNowDisplay-Regular.ttf */ = {isa = PBXFileReference; name = "HelveticaNowDisplay-Regular.ttf"; path = "../src/assets/fonts/HelveticaNowDisplay-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		458E0593C36348A28C7CFB4E /* HelveticaNowMicro-ExtraLight.ttf */ = {isa = PBXFileReference; name = "HelveticaNowMicro-ExtraLight.ttf"; path = "../src/assets/fonts/HelveticaNowMicro-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +281,13 @@
 				F18B9B1873464921B8271B23 /* SimpleLineIcons.ttf */,
 				EE42CEA583DD463291B42249 /* Zocial.ttf */,
 				9B76FF7F14854E8BB509DB42 /* Fontisto.ttf */,
+				8C29AAFD29AD4CF1BBFA0338 /* Montserrat-Bold.ttf */,
+				56C23F0B7566486B92DA7135 /* Montserrat-Regular.ttf */,
+				773B582894AF40E5B43C57E1 /* HelveticaNowMicro-Medium.ttf */,
+				2033B003E7074E83A300EECD /* HelveticaNowMicro-Bold.ttf */,
+				881E8B86405C4626BE279C78 /* SourceSansPro-Regular.ttf */,
+				F07822406C18481581EA5FCA /* HelveticaNowDisplay-Regular.ttf */,
+				458E0593C36348A28C7CFB4E /* HelveticaNowMicro-ExtraLight.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -422,6 +442,13 @@
 				F65A3824234D35C6009075AC /* HelveticaNowMicro-Light.ttf in Resources */,
 				F65A3826234D35CB009075AC /* HelveticaNowMicro-Regular.ttf in Resources */,
 				F65AF82123988ADA00758880 /* Montserrat-Bold.ttf in Resources */,
+				BEF8C145820143D2AE4DD6E5 /* Montserrat-Bold.ttf in Resources */,
+				E42C200FE5E443C8A3D4390E /* Montserrat-Regular.ttf in Resources */,
+				24C881B0401148BB98D965A3 /* HelveticaNowMicro-Medium.ttf in Resources */,
+				7496A389187546D69506B79B /* HelveticaNowMicro-Bold.ttf in Resources */,
+				7D90DD4DBDDF40E4A29077BC /* SourceSansPro-Regular.ttf in Resources */,
+				4411E3D1820F4EABBBCFDD4F /* HelveticaNowDisplay-Regular.ttf in Resources */,
+				73743BEEDCC140E882B1D014 /* HelveticaNowMicro-ExtraLight.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

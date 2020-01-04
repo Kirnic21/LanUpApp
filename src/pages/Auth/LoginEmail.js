@@ -159,15 +159,23 @@ class LoginEmail extends Component {
             animation="fade"
             overlayColor="rgba(0, 0, 0, 0.50)"
           />
-          <Container style={{ backgroundColor: "transparent", height }}>
+          <Container
+            style={{
+              backgroundColor: "transparent",
+              height: height - dimensions(90)
+            }}
+          >
             <View style={styles.container}>
               <View style={styles.logoContainer}>
-                <Image source={Logo} style={{ width: "65%", height: "30%" }} />
+                <Image
+                  source={Logo}
+                  style={{ width: dimensions(220), height: dimensions(65) }}
+                />
               </View>
               <View style={styles.containerForm}>
                 <View style={{ alignContent: "stretch", width: "90%" }}>
                   <Field
-                    style={{ width: "100%" }}
+                    style={{ width: "100%", marginBottom: "5%" }}
                     title="E-mail"
                     keyboardType="email-address"
                     component={InputField}
@@ -211,15 +219,6 @@ class LoginEmail extends Component {
                   </TouchableOpacity>
                 </View>
               </View>
-              <View style={{ width: "100%", height: "5%" }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.setState({ visible: true });
-                  }}
-                >
-                  <Text style={styles.textForgot}>Esqueci minha senha</Text>
-                </TouchableOpacity>
-              </View>
             </View>
             <Modal
               onClose={() => {
@@ -262,11 +261,20 @@ class LoginEmail extends Component {
             </Modal>
           </Container>
         </KeyboardAwareScrollView>
+        <View style={{ width: "100%", top: "-2%" }}>
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({ visible: true });
+            }}
+          >
+            <Text style={styles.textForgot}>Esqueci minha senha</Text>
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
     );
   }
 }
-const { width, height } = Dimensions.get("screen");
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -275,7 +283,7 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     width: "100%",
-    height: "34%",
+    height: "37%",
     alignItems: "center",
     justifyContent: "flex-end"
   },
@@ -283,20 +291,22 @@ const styles = StyleSheet.create({
     width: "80%",
     marginHorizontal: "10%",
     alignItems: "center",
-    height: "40%"
+    height: "49%"
   },
   titleModal: {
     color: "#FFF",
     paddingHorizontal: "5%",
     top: "-6%",
-    fontSize: dimensions(26)
+    fontSize: dimensions(24),
+    fontFamily: "HelveticaNowMicro-Medium"
   },
   subtitleModal: {
     color: "#FFF",
-    fontSize: dimensions(15),
+    fontSize: dimensions(13),
     lineHeight: 25,
     paddingHorizontal: "5%",
-    top: "-1%"
+    top: "-1%",
+    fontFamily: "HelveticaNowMicro-Medium"
   },
   containerInputModal: {
     justifyContent: "center",
@@ -315,7 +325,7 @@ const styles = StyleSheet.create({
   Btn: {
     backgroundColor: "#7541bf",
     width: "100%",
-    height: dimensions(45),
+    height: dimensions(40),
     borderRadius: 60,
     justifyContent: "center",
     alignItems: "center"
@@ -338,7 +348,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     left: "80%",
-    top: dimensions(29),
+    top: dimensions(27),
     position: "absolute"
   }
 });

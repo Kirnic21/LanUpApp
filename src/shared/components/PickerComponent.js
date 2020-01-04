@@ -15,9 +15,10 @@ export default PickerComponent = ({
     <View>
       <Text
         style={{
-          top: dimensions(-19),
+          top: dimensions(-17),
           color: "#FFF",
-          fontSize: dimensions(14)
+          fontSize: dimensions(12),
+          fontFamily: "HelveticaNowMicro-Regular"
         }}
       >
         {title}

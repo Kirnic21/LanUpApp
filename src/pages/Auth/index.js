@@ -80,11 +80,20 @@ class HomePage extends Component {
           <View
             style={{ width: "80%", height: "50%", justifyContent: "flex-end" }}
           >
-            <View style={{ alignItems: "center", top: "10%" }}>
-              <Image source={Logo} style={{ width: "90%", height: "50%" }} />
+            <View style={{ alignItems: "center", top: "-15%" }}>
+              <Image
+                source={Logo}
+                style={{ width: dimensions(215), height: dimensions(90) }}
+              />
             </View>
 
-            <View style={{ alignItems: "center", top: "-7%" }}>
+            <View
+              style={{
+                alignItems: "flex-start",
+                top: "-7%",
+                marginLeft: "4%"
+              }}
+            >
               <Text allowFontScaling={false} style={styles.title}>
                 Sua primeira vez aqui?
               </Text>
@@ -101,7 +110,9 @@ class HomePage extends Component {
               style={{
                 color: "#FFF",
                 textAlign: "center",
-                fontSize: dimensions(14)
+                fontSize: dimensions(14),
+                marginVertical: "-1%",
+                fontFamily: "HelveticaNowMicro-Medium"
               }}
             >
               ou
@@ -117,7 +128,8 @@ class HomePage extends Component {
               style={{
                 color: "#FFF",
                 textAlign: "center",
-                fontSize: dimensions(15)
+                fontSize: dimensions(12),
+                fontFamily: "HelveticaNowMicro-Regular"
               }}
             >
               Já tem uma conta?{" "}
@@ -144,14 +156,13 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#FFF",
-    fontSize: dimensions(24.3),
-    fontWeight: "700"
+    fontSize: dimensions(20),
+    fontFamily: "HelveticaNowMicro-Bold"
   },
   subTitle: {
     color: "#FFF",
-    fontSize: dimensions(18.3),
-    fontWeight: "700",
-    fontFamily: "Helvetica Now Micro"
+    fontSize: dimensions(15),
+    fontFamily: "HelveticaNowMicro-Bold"
   },
   btnFacebook: {
     backgroundColor: "#141364"
@@ -166,7 +177,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderWidth: 1.5,
     borderRadius: 50,
-    height: dimensions(48)
+    height: dimensions(45)
   }
 });
 

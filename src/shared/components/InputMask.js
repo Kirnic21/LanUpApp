@@ -27,7 +27,14 @@ export default InputMask = ({
   return (
     <View>
       <View>
-        <Text style={{ color: "white", fontSize: dimensions(14), top: "-10%" }}>
+        <Text
+          style={{
+            color: "white",
+            fontSize: dimensions(12),
+            top: "-10%",
+            fontFamily: "HelveticaNowMicro-Regular"
+          }}
+        >
           {title}
         </Text>
       </View>
@@ -35,9 +42,11 @@ export default InputMask = ({
         <TextInputMask
           style={[
             {
-              height: dimensions(40),
+              height: dimensions(43),
               width: "100%",
-              borderRadius: 50
+              borderRadius: 50,
+              fontSize: dimensions(12),
+              fontFamily: "HelveticaNowMicro-Regular"
             },
             style,
             isInputFocused.input1

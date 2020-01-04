@@ -111,31 +111,22 @@ class Profession extends Component {
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.containerReceive}>
-            <Text style={{ color: "#FFF", fontSize: dimensions(14) }} x>
-              Recebo no mínimo até:
-            </Text>
+            <Text style={styles.Title}>Recebo no mínimo até:</Text>
             <NumberFormat
               value={text}
               displayType={"text"}
               format={currencyFormatter}
               decimalScale={2}
               thousandSeparator={true}
-              // prefix={"$"}
               renderText={value => (
                 <TextInput
                   onChangeText={text => this.setState({ text })}
                   onFocus={this.handleInputFocus}
                   onBlur={this.handleInputBlur}
-                  style={{
-                    width: "100%",
-                    color: "#46C5F3",
-                    borderColor: isFocused === true ? "#46C5F3" : "#FFF",
-                    borderWidth: 2,
-                    borderRadius: 25,
-                    marginTop: "3%",
-                    height: dimensions(40),
-                    paddingHorizontal: "7%"
-                  }}
+                  style={[
+                    { borderColor: isFocused === true ? "#46C5F3" : "#FFF" },
+                    styles.inputCurrency
+                  ]}
                   value={value}
                   keyboardType="numeric"
                   placeholderTextColor="#46C5F3"
@@ -145,9 +136,7 @@ class Profession extends Component {
           </View>
           <View style={styles.containerProfessionAndSkill}>
             <View style={{ flexDirection: "row", marginBottom: "2%" }}>
-              <Text style={{ color: "#FFF", fontSize: dimensions(14) }}>
-                Profissão
-              </Text>
+              <Text style={styles.Title}>Profissão</Text>
               <Text style={styles.jobNumber}>{JobsSelected.length}/3</Text>
             </View>
             {JobsSelected.length ? (
@@ -159,13 +148,13 @@ class Profession extends Component {
                 }}
               >
                 {JobsSelected.map((name, id) => (
-                  <TouchableOpacity
+                  <View
                     key={id}
                     style={styles.chip}
                     textStyle={{ color: "#FFFFFF", paddingRight: "3%" }}
                   >
                     <Text style={styles.textChip}>{name}</Text>
-                  </TouchableOpacity>
+                  </View>
                 ))}
               </View>
             ) : (
@@ -182,13 +171,7 @@ class Profession extends Component {
             </TouchableOpacity>
           </View>
           <View style={styles.containerProfessionAndSkill}>
-            <Text
-              style={{
-                color: "#FFF",
-                fontSize: dimensions(14),
-                paddingBottom: "3%"
-              }}
-            >
+            <Text style={[styles.Title, { paddingBottom: "3%" }]}>
               Habilidades
             </Text>
             {GetSkill.length ? (
@@ -200,7 +183,7 @@ class Profession extends Component {
                 }}
               >
                 {GetSkill.map((c, id) => (
-                  <TouchableOpacity
+                  <View
                     key={id}
                     style={[styles.chip, { backgroundColor: "#46C5F3" }]}
                     textStyle={{
@@ -211,7 +194,7 @@ class Profession extends Component {
                     <Text style={[styles.textChip, { color: "#18142F" }]}>
                       {c}
                     </Text>
-                  </TouchableOpacity>
+                  </View>
                 ))}
               </View>
             ) : (
@@ -249,9 +232,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#24203B",
     marginLeft: "5%",
     marginTop: "10%",
-    padding: "5%",
-    borderBottomLeftRadius: 15,
-    borderTopLeftRadius: 15
+    padding: dimensions(15),
+    borderBottomLeftRadius: dimensions(15),
+    borderTopLeftRadius: dimensions(15)
   },
   chip: {
     backgroundColor: "#865FC0",
@@ -261,20 +244,23 @@ const styles = StyleSheet.create({
   },
   textChip: {
     color: "#FFF",
-    fontSize: dimensions(13),
+    fontSize: dimensions(12),
+    fontFamily: "HelveticaNowMicro-Regular",
     padding: dimensions(10),
     paddingTop: dimensions(7)
   },
 
   jobNumber: {
     color: "rgba(255, 255, 255, 0.7)",
-    fontSize: dimensions(12),
-    marginTop: "0.9%",
+    fontFamily: "HelveticaNowMicro-ExtraLight",
+    fontSize: dimensions(10),
+    marginTop: "1.5%",
     marginLeft: "2%"
   },
   notJobsText: {
     color: "#FFF",
     fontSize: dimensions(14),
+    fontFamily: "HelveticaNowMicro-Regular",
     textAlignVertical: "center",
     padding: "10%",
     paddingLeft: "15%",
@@ -285,7 +271,24 @@ const styles = StyleSheet.create({
     height: "100%",
     position: "absolute",
     left: "100%",
-    top: "85%"
+    top: "70%"
+  },
+  Title: {
+    color: "#FFF",
+    fontSize: dimensions(14),
+    fontFamily: "HelveticaNowMicro-Regular"
+  },
+  inputCurrency: {
+    width: "100%",
+    color: "#46C5F3",
+
+    borderWidth: 2,
+    borderRadius: 25,
+    marginTop: "3%",
+    height: dimensions(43),
+    fontSize: dimensions(12),
+    fontFamily: "HelveticaNowMicro-Regular",
+    paddingHorizontal: "7%"
   }
 });
 

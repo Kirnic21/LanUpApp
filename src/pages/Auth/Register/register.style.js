@@ -20,21 +20,20 @@ const styles = StyleSheet.create({
   },
   textTitle: {
     color: "#FFF",
-    fontSize: dimensions(32),
-    fontFamily: "Helvetica Now Micro",
-    fontWeight: "600"
+    fontSize: dimensions(26),
+    lineHeight: dimensions(30),
+    fontFamily: "HelveticaNowMicro-Medium"
   },
   textSubtitle: {
     marginTop: "5%",
     marginBottom: "5%",
     color: "#FFF",
-    fontSize: dimensions(18),
-    fontFamily: "Helvetica Now Micro",
-    fontWeight: "500"
+    fontSize: dimensions(15),
+    fontFamily: "HelveticaNowMicro-Medium"
   },
   TextInput: {
     width: "100%",
-    height: dimensions(40),
+    height: dimensions(43),
     paddingLeft: "10%",
     fontSize: dimensions(14)
   },

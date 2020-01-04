@@ -18,11 +18,7 @@ const sortByDaysOfWeek = arr =>
 const Schedules = ({ onPress, schedules, daysOfWeek }) => {
   return (
     <View style={styles.containerSchedules}>
-      <Text
-        style={{ color: "#FFF", fontSize: dimensions(14), paddingBottom: "2%" }}
-      >
-        Horários
-      </Text>
+      <Text style={[styles.textStyle, { paddingBottom: "2%" }]}>Horários</Text>
       {sortByDaysOfWeek(schedules).map(day => {
         return (
           <TouchableOpacity key={day.dayOfWeek} onPress={() => onPress(day)}>
@@ -34,15 +30,16 @@ const Schedules = ({ onPress, schedules, daysOfWeek }) => {
                 borderBottomWidth: day.dayOfWeek === 6 ? 0 : 2
               }}
             >
-              <View style={{ width: "50%", justifyContent: "center" }}>
-                <Text style={{ color: "#FFF", fontSize: dimensions(14) }}>
+              <View style={{ width: "55%", justifyContent: "center" }}>
+                <Text style={styles.textStyle}>
                   {daysOfWeek[day.dayOfWeek]}
                 </Text>
               </View>
               <View style={{ width: "30%", justifyContent: "center" }}>
                 <Text
                   style={{
-                    fontSize: dimensions(11),
+                    fontSize: dimensions(10),
+                    fontFamily: "HelveticaNowMicro-ExtraLight",
                     color: !day.available ? "#EB4886" : "#46C5F3"
                   }}
                 >
@@ -52,13 +49,13 @@ const Schedules = ({ onPress, schedules, daysOfWeek }) => {
               <View
                 style={{
                   justifyContent: "center",
-                  width: "18%",
+                  width: "10%",
                   alignItems: "flex-end"
                 }}
               >
                 <Image
                   source={ArrowRight}
-                  style={{ width: "30%", height: 15 }}
+                  style={{ width: "35%", height: dimensions(17) }}
                 />
               </View>
             </View>
@@ -76,6 +73,11 @@ const styles = StyleSheet.create({
     padding: "5%",
     borderRadius: 15,
     marginTop: "3%"
+  },
+  textStyle: {
+    color: "#FFF",
+    fontSize: dimensions(14),
+    fontFamily: "HelveticaNowMicro-Regular"
   }
 });
 

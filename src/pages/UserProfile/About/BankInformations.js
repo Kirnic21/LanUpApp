@@ -14,14 +14,22 @@ const BankInformation = ({ onPress, bankCode }) => {
         <Text
           style={{
             color: "#FFF",
-            fontSize: dimensions(14.5),
-            paddingBottom: "7%"
+            fontSize: dimensions(14),
+            paddingBottom: "7%",
+            fontFamily: "HelveticaNowMicro-Regular"
           }}
         >
           Informações Bancárias
         </Text>
         <View style={{ alignContent: "stretch", paddingBottom: "2.5%" }}>
-          <Text style={{ fontSize: dimensions(14), color: "#FFF", top: "-1%" }}>
+          <Text
+            style={{
+              fontSize: dimensions(12),
+              color: "#FFF",
+              top: "-1%",
+              fontFamily: "HelveticaNowMicro-Regular"
+            }}
+          >
             Banco
           </Text>
           <Modal onPress={onPress} bankCode={bankCode} />

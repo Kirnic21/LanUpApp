@@ -10,7 +10,7 @@ import {
   StatusBar
 } from "react-native";
 import ImageBack from "../../assets/images/Grupo_518.png";
-import ImageProfile from "../../assets/images/Grupo_528.png";
+import ImageProfile from "../../assets/images/icon_profile.png";
 import { create } from "../../shared/services/freela.http";
 import { connect } from "react-redux";
 import { formValueSelector } from "redux-form";
@@ -139,25 +139,24 @@ const styles = StyleSheet.create({
   },
   titleNickname: {
     color: "#FFF",
-    fontSize: dimensions(35),
-    fontFamily: "Helvetica Now Micro",
-    fontWeight: "300",
-    left: "7.5%",
+    fontSize: dimensions(40),
+    fontFamily: "HelveticaNowMicro-Medium",
+    left: "7%",
     textAlign: "left",
-    top: "-10%"
+    top: dimensions(-22)
   },
   textAdd: {
-    fontSize: dimensions(21.5),
+    fontSize: dimensions(20),
     color: "#FFF",
-    letterSpacing: 0.8,
+    fontFamily: "HelveticaNowMicro-Regular",
     textAlign: "center"
   },
   border: {
     width: "13%",
     borderBottomColor: "#F2D74C",
     borderBottomWidth: 2,
-    top: "-9%",
-    left: "-27.5%",
+    top: dimensions(-60),
+    left: "-27%",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"

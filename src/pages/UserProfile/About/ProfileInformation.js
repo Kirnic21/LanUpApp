@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, Text, Picker } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
@@ -13,8 +13,9 @@ const ProfileInformation = ({}) => {
       <Text
         style={{
           color: "#FFF",
-          fontSize: dimensions(15),
-          paddingBottom: "7%"
+          fontSize: dimensions(14),
+          paddingBottom: "7%",
+          fontFamily: "HelveticaNowMicro-Regular"
         }}
       >
         Informações do Perfil
@@ -34,7 +35,10 @@ const ProfileInformation = ({}) => {
         isfocused={"#A893F2"}
       />
       <Field
-        style={styles.textArea}
+        style={[
+          styles.textArea,
+          { fontSize: 14, fontFamily: "SourceSansPro-Regular" }
+        ]}
         title="Descrição"
         component={InputField}
         name="description"
@@ -44,7 +48,7 @@ const ProfileInformation = ({}) => {
       />
       <View style={{ alignContent: "stretch", width: "100%" }}>
         <Field
-          style={{ width: "32%", height: dimensions(40) }}
+          style={{ width: "32%", height: dimensions(43) }}
           title="Altura"
           component={InputMask}
           name={"height"}
@@ -57,7 +61,7 @@ const ProfileInformation = ({}) => {
             style={{
               width: "100%",
               paddingLeft: "21%",
-              height: dimensions(40)
+              height: dimensions(43)
             }}
             title="Peso"
             component={InputMask}
@@ -75,7 +79,7 @@ const ProfileInformation = ({}) => {
               // width: "20%",
               color: "#fff",
               top: "-35%",
-              left: "11%"
+              left: "10%"
             }}
             name={"clothingsSizes"}
             component={PickerComponent}
@@ -91,7 +95,12 @@ const ProfileInformation = ({}) => {
         </View>
       </View>
       <Text
-        style={{ marginTop: "5%", color: "#FFF", fontSize: dimensions(14) }}
+        style={{
+          marginTop: "5%",
+          color: "#FFF",
+          fontSize: dimensions(14),
+          fontFamily: "HelveticaNowMicro-Regular"
+        }}
       >
         Tenho:
       </Text>

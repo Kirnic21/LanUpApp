@@ -27,7 +27,14 @@ export default InputField = ({
   return (
     <View>
       <View>
-        <Text style={{ color: "white", fontSize: dimensions(14), top: "-10%" }}>
+        <Text
+          style={{
+            color: "white",
+            top: "-10%",
+            fontSize: dimensions(12),
+            fontFamily: "HelveticaNowMicro-Regular"
+          }}
+        >
           {title}
         </Text>
       </View>
@@ -42,7 +49,9 @@ export default InputField = ({
             {
               width: "100%",
               borderRadius: 50,
-              height: dimensions(40)
+              height: dimensions(43),
+              fontSize: dimensions(12),
+              fontFamily: "HelveticaNowMicro-Regular"
             },
             style,
             styles.TextInput,

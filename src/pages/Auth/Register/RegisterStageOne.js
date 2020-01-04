@@ -131,7 +131,7 @@ class RegisterStageOne extends Component {
                 Insira seus dados
               </Text>
               {!user.isFacebook && (
-                <Text style={[styles.textSubtitle, { left: "-25.5%" }]}>
+                <Text style={[styles.textSubtitle, { left: "-25.3%" }]}>
                   Etapa 1/2
                 </Text>
               )}

@@ -126,7 +126,15 @@ class AboutMe extends Component {
             alignItems: "center"
           }}
         >
-          <Text style={{ color: "#FFF" }}>Salvar</Text>
+          <Text
+            style={{
+              color: "#FFF",
+              fontFamily: "HelveticaNowMicro-Regular",
+              fontSize: dimensions(12)
+            }}
+          >
+            Salvar
+          </Text>
         </TouchableOpacity>
       )
     };
