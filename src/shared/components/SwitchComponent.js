@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
-import ToggleSwitch from "toggle-switch-react-native";
+import Toggle from "~/shared/components/ToggleComponent";
 import dimensions from "~/assets/Dimensions/index";
 
 export default SwitchComponent = ({ title, textStyle, input }) => (
@@ -16,6 +16,7 @@ export default SwitchComponent = ({ title, textStyle, input }) => (
         {
           color: "#FFF",
           fontSize: dimensions(14),
+          fontFamily: "HelveticaNowMicro-Regular",
           paddingBottom: "5%"
         },
         textStyle
@@ -24,8 +25,7 @@ export default SwitchComponent = ({ title, textStyle, input }) => (
       {title}
     </Text>
     <View style={{ position: "absolute", marginLeft: "75%" }}>
-      <ToggleSwitch
-        size="small"
+      <Toggle
         onColor="#483D8B"
         offColor="#18142F"
         isOn={input.value ? true : false}

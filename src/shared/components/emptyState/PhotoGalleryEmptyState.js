@@ -16,26 +16,22 @@ import dimensions from "~/assets/Dimensions/index";
 const PhotoGalleryEmptyState = ({ onPictureAdd }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.containerTitle}>
-        <Text style={{ color: "#FFF", fontSize: dimensions(22) }}>
-          Não temos nenhuma
-        </Text>
-        <Text style={{ color: "#FFF", fontSize: dimensions(22) }}>
-          mídia para mostrar
-        </Text>
+      <View style={styles.containerEmptyTitle}>
+        <Text style={styles.emptyTitle}>Não temos nenhuma</Text>
+        <Text style={styles.emptyTitle}>mídia para mostrar</Text>
       </View>
 
-      <View style={styles.containerImg}>
+      <View style={styles.containerEmptyImg}>
         <Image
           source={ImageOutline}
-          style={{ width: dimensions(150), height: dimensions(150) }}
+          style={{ width: dimensions(145), height: dimensions(145) }}
         />
       </View>
-      <View style={styles.containerSubtitle}>
-        <Text style={styles.emptyStateTitle}>Adicione as suas fotos</Text>
-        <Text style={styles.emptyStateSubTitle}>e divulgue o seu trabalho</Text>
+      <View style={styles.containerEmptySubtitle}>
+        <Text style={styles.emptySubtitle}>Adicione as suas fotos</Text>
+        <Text style={styles.emptySubtitle}>e divulgue o seu trabalho</Text>
       </View>
-      <View style={styles.containerBtn}>
+      <View style={styles.containerEmptyBtn}>
         <ActionButton onPress={onPictureAdd} />
       </View>
     </View>
@@ -50,43 +46,44 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between"
   },
-
-  emptyStateTitle: {
-    color: "#ffffffad",
-    fontFamily: "Montserrat-Bold",
-    fontSize: dimensions(17),
-    letterSpacing: 0.5
-  },
-  emptyStateSubTitle: {
-    color: "#ffffffad",
-    fontFamily: "Montserrat-Regular",
-    fontSize: dimensions(17),
-    letterSpacing: 0.5
-  },
-
-  containerTitle: {
-    flex: 0.2,
+  containerEmptyTitle: {
     width: "100%",
     alignItems: "center",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    height: "30%"
   },
-  containerImg: {
-    flex: 0.2,
+  containerEmptyImg: {
     width: "100%",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    height: "30%"
   },
-  containerBtn: {
-    flex: 0.2,
+  containerEmptySubtitle: {
+    width: "100%",
+    alignItems: "center",
+    height: "20%"
+  },
+  containerEmptyBtn: {
     width: "95%",
     alignItems: "flex-end",
-    justifyContent: "center"
+    justifyContent: "center",
+    height: "20%"
   },
-  containerSubtitle: {
-    flex: 0.2,
-    width: "95%",
-    alignItems: "flex-end",
-    justifyContent: "center"
+  emptyTitle: {
+    color: "#FFF",
+    fontSize: dimensions(25),
+    fontFamily: "HelveticaNowDisplay-Regular"
+  },
+  emptyStateContainer: {
+    borderColor: "#FFF",
+    borderWidth: 2
+  },
+
+  emptySubtitle: {
+    color: "#ffffffad",
+    fontFamily: "HelveticaNowMicro-ExtraLight",
+    lineHeight: dimensions(30),
+    fontSize: dimensions(15)
   }
 });
 
