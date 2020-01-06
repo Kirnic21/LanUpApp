@@ -301,12 +301,12 @@ class AboutMe extends Component {
             width: "100%",
             alignItems: "center",
             position: "absolute",
-            marginTop: "-14%"
+            marginTop: "-22%"
           }}
         >
           <DropdownAlert
             ref={ref => (this.dropDownAlertRef = ref)}
-            closeInterval={200}
+            closeInterval={500}
           />
         </View>
         <ScrollView

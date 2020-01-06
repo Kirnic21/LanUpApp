@@ -110,7 +110,8 @@ class RegisterStageOne extends Component {
           style={{
             width: "100%",
             alignItems: "center",
-            position: "absolute"
+            position: "absolute",
+            marginTop: "-3%"
           }}
         >
           <DropdownAlert

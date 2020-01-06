@@ -99,10 +99,15 @@ class RegisterStageTwo extends Component {
         </View>
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <StatusBar translucent backgroundColor="transparent" />
-          <Container style={{ backgroundColor: "transparent" }}>
+          <Container
+            style={{
+              backgroundColor: "transparent",
+              height: Dimensions.get("window").height - dimensions(30)
+            }}
+          >
             <View style={styles.registerContainer}>
               <Text
-                style={[styles.textTitle, { marginTop: "-23%", top: "1%" }]}
+                style={[styles.textTitle, { marginTop: "-19%", top: "1%" }]}
               >
                 Bem-vindo!{"\n"}
                 Insira seus dados

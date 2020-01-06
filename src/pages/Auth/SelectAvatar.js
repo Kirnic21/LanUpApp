@@ -14,7 +14,6 @@ import ImageProfile from "../../assets/images/icon_profile.png";
 import { create } from "../../shared/services/freela.http";
 import { connect } from "react-redux";
 import { formValueSelector } from "redux-form";
-import DropdownAlert from "react-native-dropdownalert";
 import AsyncStorage from "@react-native-community/async-storage";
 import ImageSelector from "~/shared/components/ImageSelector";
 
@@ -47,21 +46,11 @@ class SelectAvatar extends Component {
     create(newFreela)
       .then(async ({ data }) => {
         if (data.isSuccess) {
-          this.dropDownAlertRef.alertWithType(
-            "success",
-            "Sucesso",
-            "Freela criado com sucesso!"
-          );
           await AsyncStorage.setItem("API_TOKEN", data.result.token);
           this.props.navigation.navigate("UserProfile");
         } else alert(data.result.errorMessage);
       })
       .catch(error => {
-        this.dropDownAlertRef.alertWithType(
-          "error",
-          "Erro",
-          error.response.data.errorMessage
-        );
         console.log(error.response.data);
       });
   };
@@ -75,16 +64,6 @@ class SelectAvatar extends Component {
     return (
       <ImageBackground source={ImageBack} style={styles.ImageBack}>
         <StatusBar translucent backgroundColor="transparent" />
-        <View
-          style={{
-            width: "100%",
-            top: "-1%",
-            alignItems: "center",
-            position: "absolute"
-          }}
-        >
-          <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
-        </View>
         <View style={styles.container}>
           <View style={styles.containerText}>
             <Text style={styles.titleNickname}>{nickname}</Text>

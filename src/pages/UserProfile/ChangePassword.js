@@ -119,17 +119,21 @@ class ChangePassword extends Component {
           flex: 1
         }}
       >
+        <View
+          style={{
+            width: "100%",
+            marginTop: "-3%",
+            alignItems: "center",
+            position: "absolute"
+          }}
+        >
+          <DropdownAlert
+            closeInterval={500}
+            ref={ref => (this.dropDownAlertRef = ref)}
+          />
+        </View>
         <KeyboardAwareScrollView style={{}}>
           <StatusBar translucent backgroundColor="transparent" />
-          <View
-            style={{
-              width: "100%",
-              marginTop: "10%",
-              alignItems: "center"
-            }}
-          >
-            <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
-          </View>
           <Container
             style={{
               backgroundColor: "transparent",
@@ -152,16 +156,16 @@ class ChangePassword extends Component {
                     alignItems: "center"
                   }}
                 >
-                  <View style={[styles.ContainerLogo, { top: "-20%" }]}>
+                  <View style={[styles.ContainerLogo, { top: "-16%" }]}>
                     <Image
                       source={Logo}
                       style={{
                         width: dimensions(210),
-                        height: dimensions(80)
+                        height: dimensions(70)
                       }}
                     />
                   </View>
-                  <View style={{ top: "-17%" }}>
+                  <View style={{ top: "-11%" }}>
                     <Text
                       style={[
                         styles.textTitle,
@@ -181,7 +185,7 @@ class ChangePassword extends Component {
                 <View
                   style={{
                     width: "70%",
-                    top: "-4%"
+                    top: "-2%"
                   }}
                 >
                   <View
@@ -233,7 +237,7 @@ class ChangePassword extends Component {
                     style={[
                       stylePage.Btn,
                       stylePage.btnRegister,
-                      { width: "70%" }
+                      { width: "70%", top: "5%" }
                     ]}
                     name="Salvar"
                     onPress={handleSubmit(data => this.goToLoginPerfil(data))}

@@ -100,7 +100,10 @@ class AddProfession extends Component {
             position: "absolute"
           }}
         >
-          <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
+          <DropdownAlert
+            closeInterval={500}
+            ref={ref => (this.dropDownAlertRef = ref)}
+          />
         </View>
         <ScrollView>
           <View style={styles.containerJob}>

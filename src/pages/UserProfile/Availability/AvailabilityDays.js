@@ -149,7 +149,10 @@ class AvailabilityDays extends React.Component {
             marginTop: "-22%"
           }}
         >
-          <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
+          <DropdownAlert
+            closeInterval={500}
+            ref={ref => (this.dropDownAlertRef = ref)}
+          />
         </View>
         <ScrollView>
           <View style={{ marginHorizontal: "6%" }}>

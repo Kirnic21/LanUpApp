@@ -266,11 +266,11 @@ class SpecialHours extends Component {
             width: "100%",
             alignItems: "center",
             position: "absolute",
-            marginTop: "-20%"
+            marginTop: "-22%"
           }}
         >
           <DropdownAlert
-            closeInterval={300}
+            closeInterval={500}
             ref={ref => (this.dropDownAlertRef = ref)}
             defaultContainer={{ padding: 8, flexDirection: "row" }}
           />

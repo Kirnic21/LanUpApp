@@ -309,7 +309,7 @@ export const styles = StyleSheet.create({
   textChip: {
     color: "#18142F",
     paddingHorizontal: "1.9%",
-    top: "-30%",
+    top: "-36%",
     fontSize: dimensions(12),
     fontFamily: "HelveticaNowMicro-Regular"
   }

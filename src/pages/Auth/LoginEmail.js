@@ -175,7 +175,7 @@ class LoginEmail extends Component {
               <View style={styles.containerForm}>
                 <View style={{ alignContent: "stretch", width: "90%" }}>
                   <Field
-                    style={{ width: "100%", marginBottom: "5%" }}
+                    style={{ width: "100%" }}
                     title="E-mail"
                     keyboardType="email-address"
                     component={InputField}
@@ -260,16 +260,16 @@ class LoginEmail extends Component {
               </View>
             </Modal>
           </Container>
+          <View style={{ width: "100%" }}>
+            <TouchableOpacity
+              onPress={() => {
+                this.setState({ visible: true });
+              }}
+            >
+              <Text style={styles.textForgot}>Esqueci minha senha</Text>
+            </TouchableOpacity>
+          </View>
         </KeyboardAwareScrollView>
-        <View style={{ width: "100%", top: "-2%" }}>
-          <TouchableOpacity
-            onPress={() => {
-              this.setState({ visible: true });
-            }}
-          >
-            <Text style={styles.textForgot}>Esqueci minha senha</Text>
-          </TouchableOpacity>
-        </View>
       </ImageBackground>
     );
   }
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     width: "80%",
     marginHorizontal: "10%",
     alignItems: "center",
-    height: "49%"
+    height: "50%"
   },
   titleModal: {
     color: "#FFF",
