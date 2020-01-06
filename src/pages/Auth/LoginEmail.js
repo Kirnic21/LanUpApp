@@ -51,29 +51,6 @@ class LoginEmail extends Component {
 
     this.changeIcon = this.changeIcon.bind(this);
   }
-  componentDidMount() {
-    this._isMounted = true;
-    if (this._isMounted) {
-      setInterval(() => {
-        this.hideLoader();
-      }, 10000);
-    }
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  showLoader = () => {
-    if (this._isMounted) {
-      this.setState({ spinner: true });
-    }
-  };
-  hideLoader = () => {
-    if (this._isMounted) {
-      this.setState({ spinner: false });
-    }
-  };
 
   doSignup = () => {
     this.showLoader();
@@ -81,6 +58,7 @@ class LoginEmail extends Component {
 
   goToLoginPerfil = form => {
     const { email, password } = form;
+    this.setState({ spinner: true });
     login({
       login: email,
       password
@@ -93,6 +71,7 @@ class LoginEmail extends Component {
         }
       })
       .catch(error => {
+        this.setState({ spinner: false });
         this.dropDownAlertRef.alertWithType(
           "error",
           "Erro",
@@ -157,7 +136,8 @@ class LoginEmail extends Component {
             visible={this.state.spinner}
             size="large"
             animation="fade"
-            overlayColor="rgba(0, 0, 0, 0.50)"
+            color="#7541BF"
+            overlayColor="rgba(0, 0, 0, 0.9)"
           />
           <Container
             style={{
@@ -209,14 +189,12 @@ class LoginEmail extends Component {
                   </View>
                 </View>
                 <View style={{ width: "60%" }}>
-                  <TouchableOpacity disabled={invalid} onPress={this.doSignup}>
-                    <RoundButton
-                      disabled={invalid}
-                      style={[styles.Btn]}
-                      name="Entrar"
-                      onPress={handleSubmit(data => this.goToLoginPerfil(data))}
-                    />
-                  </TouchableOpacity>
+                  <RoundButton
+                    disabled={invalid}
+                    style={[styles.Btn]}
+                    name="Entrar"
+                    onPress={handleSubmit(data => this.goToLoginPerfil(data))}
+                  />
                 </View>
               </View>
             </View>

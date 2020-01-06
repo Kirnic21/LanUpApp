@@ -25,7 +25,7 @@ import { Field, reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import { saveSpecialDay, decodeToken } from "~/shared/services/freela.http";
 import dimensions from "~/assets/Dimensions/index";
-import SpecialHoursEmpty from "~/pages/UserProfile/Availability/SpecialHours/SpecialHoursEmpty";
+import SpecialHoursEmpty from "~/shared/components/emptyState/SpecialHoursEmpty";
 
 class SpecialHours extends Component {
   constructor(props) {

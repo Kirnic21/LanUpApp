@@ -10,7 +10,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import MaterialCommunityIcons from "react-native-vector-icons/FontAwesome";
 import DropdownAlert from "react-native-dropdownalert";
 import InputModal from "~/shared/components/InputModal";
-import AddSkillEmpty from "./AddSkillEmpty";
+import AddSkillEmpty from "~/pages/UserProfile/MyJob/AddSkill";
 
 import dimensions from "~/assets/Dimensions/index";
 
