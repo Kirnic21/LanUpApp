@@ -6,24 +6,26 @@ import {
   StyleSheet,
   ImageBackground,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from "react-native";
 // import { white } from 'ansi-colors';
 import { ScrollView } from "react-native-gesture-handler";
 import imgTitle from "~/assets/images/imgDrawer.png";
-import imgBack from "../../assets/images/drawerBack.png";
-import IconMenu from "../../assets/images/icon_menu.png";
-import IconPerfil from "../../assets/images/iconPerfil.png";
-import iconNextEvent from "../../assets/images/iconNextEvent.png";
-import iconExplore from "../../assets/images/iconExplore.png";
-import iconSchedule from "../../assets/images/iconSchedule.png";
+import imgBack from "~/assets/images/drawerBack.png";
+import IconMenu from "~/assets/images/icon_menu.png";
+import iconNextEvent from "~/assets/images/iconNextEvent.png";
+import iconExplore from "~/assets/images/iconExplore.png";
+import iconSchedule from "~/assets/images/iconSchedule.png";
 import AsyncStorage from "@react-native-community/async-storage";
 import { getAbout, decodeToken } from "~/shared/services/freela.http";
+import dimensions from "~/assets/Dimensions/index";
 
 export default class drawerContentComponents extends Component {
   state = {
     avatar: null,
-    nickName: ""
+    nickName: "",
+    visible: false
   };
 
   async componentDidMount() {
@@ -45,237 +47,180 @@ export default class drawerContentComponents extends Component {
     this.props.navigation.dispatch(navigateAction);
   };
 
+  openModal = () => {
+    this.setState({ visible: true });
+  };
+  closeModal = () => {
+    this.setState({ visible: false });
+  };
+
   render() {
-    const { avatar, nickName } = this.state;
+    const { avatar, nickName, visible } = this.state;
+    const { height } = Dimensions.get("screen");
     return (
-      <ScrollView>
-        <ImageBackground
-          source={imgBack}
-          style={{
-            width: 165,
-            height: 822,
-            backgroundColor: "#24203BE6",
-            elevation: 2,
-            borderRightColor: "#EB48864D",
-            borderRightWidth: 2
-          }}
-          resizeMode="cover"
-          imageStyle={{ opacity: 0.3 }}
-        >
-          <View style={styles.container}>
-            <View style={styles.headerContainer}>
+      <ImageBackground
+        source={imgBack}
+        style={{
+          flex: 1,
+          height: height - dimensions(26),
+          backgroundColor: "#24203BE6",
+          elevation: 2,
+          borderRightColor: "#EB48864D",
+          borderRightWidth: 2
+        }}
+        resizeMode="cover"
+        imageStyle={{ opacity: 0.3 }}
+      >
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            <Image
+              source={imgTitle}
+              style={{
+                width: dimensions(90),
+                height: dimensions(30)
+              }}
+            />
+            <TouchableOpacity
+              style={{ left: "-10%" }}
+              onPress={() => {
+                this.props.navigation.dispatch(DrawerActions.closeDrawer());
+              }}
+            >
               <Image
-                source={imgTitle}
-                style={{ width: 110, height: 50, top: 20, left: 10 }}
+                style={{ height: dimensions(30), width: dimensions(35) }}
+                source={IconMenu}
               />
-              <TouchableOpacity
-                style={{ left: 115, top: -30 }}
-                onPress={() => {
-                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
-                }}
-              >
-                <Image style={{ height: 40, width: 40 }} source={IconMenu} />
-              </TouchableOpacity>
-              <Text
-                style={{
-                  color: "#fff",
-                  fontSize: 17,
-                  top: 25,
-                  left: -10,
-                  textAlign: "center"
-                }}
-              >
-                @{nickName}
-              </Text>
-            </View>
-            <View style={styles.screenContainer}>
-              <View
+            </TouchableOpacity>
+          </View>
+          <View style={styles.nickNameContainer}>
+            <Text
+              style={{
+                color: "#fff",
+                fontSize: dimensions(13),
+                fontFamily: "HelveticaNowMicro-Regular"
+              }}
+            >
+              @{nickName}
+            </Text>
+          </View>
+          <View style={styles.screenContainer}>
+            <TouchableOpacity
+              onPress={this.navigateToScreen("UserProfile")}
+              style={{
+                width: "70%",
+                height: "22%",
+                alignItems: "center",
+                borderBottomColor: "#865FC0",
+                borderBottomWidth: 2,
+                marginBottom: "18%"
+              }}
+            >
+              <Image
+                source={{ uri: avatar }}
                 style={[
-                  styles.screenStyle,
-                  this.props.activeItemKey === "LoginPerfil"
-                    ? styles.activeBackgroundColor
-                    : null
-                ]}
-              >
-                <Image
-                  source={{ uri: avatar }}
-                  style={{
-                    width: 75,
-                    height: 75,
+                  {
                     borderRadius: 40,
                     borderColor: "#865FC0",
                     borderWidth: 2
-                  }}
-                />
-                <Text
-                  style={[
-                    styles.screenTextStyle,
-                    this.props.activeItemKey === "LoginPerfil"
-                      ? styles.selectedTextStyle
-                      : null
-                  ]}
-                  onPress={this.navigateToScreen("LoginPerfil")}
-                >
-                  Perfil
-                </Text>
-              </View>
-              <View
-                style={[
-                  styles.screenStyle,
-                  styles.screenStyleNextEvent,
-                  this.props.activeItemKey === "NextEvent"
-                    ? styles.activeBackgroundColor
-                    : null
+                  },
+                  styles.sizeIcons
                 ]}
-              >
-                <Image
-                  source={iconNextEvent}
-                  style={{ width: 70, height: 70, top: 30 }}
-                />
-                <Text
-                  style={[
-                    styles.screenTextStyle,
-                    styles.screenTextNextEvent,
-                    this.props.activeItemKey === "NextEvent"
-                      ? styles.selectedTextStyle
-                      : null
-                  ]}
-                  onPress={this.navigateToScreen("NextEvent")}
-                >
-                  Próximo Evento
-                </Text>
-              </View>
-              <View
-                style={[
-                  styles.screenStyle,
-                  styles.screenStyleExplore,
-                  this.props.activeItemKey === "ToExplore"
-                    ? styles.activeBackgroundColor
-                    : null
-                ]}
-              >
-                <Image source={iconExplore} style={{ width: 70, height: 70 }} />
-                <Text
-                  style={[
-                    styles.screenTextStyle,
-                    styles.screenTextExplore,
-                    this.props.activeItemKey === "ToExplore"
-                      ? styles.selectedTextStyle
-                      : null
-                  ]}
-                  onPress={this.navigateToScreen("ToExplore")}
-                >
-                  Explorar
-                </Text>
-              </View>
-              <View
-                style={[
-                  styles.screenStyle,
-                  styles.screenStyleSchedule,
-                  this.props.activeItemKey === "ToExplore"
-                    ? styles.activeBackgroundColor
-                    : null
-                ]}
-              >
-                <Image
-                  source={iconSchedule}
-                  style={{ width: 70, height: 70 }}
-                />
-                <Text
-                  style={[
-                    styles.screenTextStyle,
-                    styles.screenTextExploreSchedule,
-                    this.props.activeItemKey === "ToExplore"
-                      ? styles.selectedTextStyle
-                      : null
-                  ]}
-                  onPress={this.navigateToScreen("ToExplore")}
-                >
-                  Agenda
-                </Text>
-              </View>
-            </View>
+              />
+              <Text style={styles.screenTextStyle}>Perfil</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              // onPress={this.navigateToScreen("NextEvent")}
+              onPress={() => {
+                this.openModal(),
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+              }}
+              style={styles.containerIcons}
+            >
+              <Image source={iconNextEvent} style={styles.sizeIcons} />
+              <Text style={styles.screenTextStyle}>Próximo Evento</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              // onPress={this.navigateToScreen("ToExplore")}
+              onPress={() => {
+                this.openModal(),
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+              }}
+              style={[styles.containerIcons, { height: "22%" }]}
+            >
+              <Image source={iconExplore} style={styles.sizeIcons} />
+              <Text style={styles.screenTextStyle}>Explorar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                this.openModal(),
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+              }}
+            >
+              <Image source={iconSchedule} style={styles.sizeIcons} />
+              <Text style={[styles.screenTextStyle, { borderBottomWidth: 0 }]}>
+                Agenda
+              </Text>
+            </TouchableOpacity>
           </View>
-        </ImageBackground>
-      </ScrollView>
+        </View>
+        <ModalComingSoon
+          onTouchOutside={() => this.closeModal()}
+          onClose={() => this.closeModal()}
+          visible={visible}
+          onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
+        />
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "space-between",
+    width: "100%"
   },
   headerContainer: {
-    top: 35,
-    justifyContent: "center",
-    height: 85,
-    width: 145
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
+    height: "8%",
+    width: "90%"
   },
   screenContainer: {
-    paddingTop: 150,
-    width: "100%",
+    width: "90%",
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  screenStyle: {
-    top: -70,
-    height: 135,
-    marginTop: 2,
-    flexDirection: "column",
+    justifyContent: "flex-start",
     alignItems: "center",
-    width: "65%",
-    borderBottomColor: "#865FC0",
-    borderBottomWidth: 3
+    height: "75%",
+    top: "-11.5%"
+  },
+  nickNameContainer: {
+    width: "100%",
+    alignItems: "center",
+    marginTop: "-45%"
+  },
+  sizeIcons: {
+    width: dimensions(55),
+    height: dimensions(55)
   },
   screenTextStyle: {
-    fontSize: 18.7,
-    marginLeft: 20,
+    fontSize: dimensions(14),
+    fontFamily: "SegoeUI",
     textAlign: "center",
-    color: "#FFF",
-    textAlignVertical: "bottom",
-    height: 130,
-    width: 110,
-    top: -100,
-    left: -10
+    color: "#FFF"
   },
-
-  screenStyleNextEvent: {
-    top: -80,
-    height: 185
-  },
-
-  screenTextNextEvent: {
-    top: -55
-  },
-
-  screenStyleExplore: {
-    top: -55,
-    height: 130
-  },
-
-  screenTextExplore: {
-    top: -110
-  },
-
-  screenStyleSchedule: {
-    top: -30,
-    height: 110,
-    borderBottomColor: "transparent"
-  },
-
-  screenTextExploreSchedule: {
-    top: -110
-  },
-
-  selectedTextStyle: {
-    fontWeight: "bold",
-    color: "#00adff"
-  },
-  activeBackgroundColor: {
-    backgroundColor: "blue"
+  containerIcons: {
+    width: "70%",
+    height: "25%",
+    alignItems: "center",
+    borderBottomColor: "#865FC0",
+    borderBottomWidth: 2,
+    marginBottom: "18%"
   }
 });
