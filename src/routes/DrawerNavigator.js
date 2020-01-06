@@ -11,6 +11,8 @@ import UserProfile from "~/pages/UserProfile/UserProfile";
 import NextEvent from "~/pages/NextEvent/NextEvent";
 import ToExplore from "~/pages/Explore/ToExplore";
 import drawerContentComponents from "~/shared/components/drawerContentComponents";
+import NavigationTitle from "~/shared/components/NavigationTitle";
+import dimensions from "~/assets/Dimensions/index";
 
 const DrawerButton = props => (
   <View>
@@ -29,11 +31,9 @@ const DrawerNavigator = createStackNavigator(
     UserProfile: {
       screen: UserProfile,
       navigationOptions: () => ({
-        headerTitle: "Perfil",
-        headerTitleStyle: {
-          marginLeft: "34%",
-          color: "#FFF"
-        }
+        headerTitle: (
+          <NavigationTitle title="Perfil" marginHorizontal={dimensions(-23)} />
+        )
       })
     },
     NextEvent: {
@@ -84,8 +84,8 @@ const DrawerNav = createDrawerNavigator(
   },
   {
     contentComponent: drawerContentComponents,
-    drawerWidth: 165,
-    overlayColor: " rgba(0, 0, 0, 0.1)"
+    drawerWidth: dimensions(130),
+    overlayColor: " rgba(0, 0, 0, 0.5)"
   }
 );
 
