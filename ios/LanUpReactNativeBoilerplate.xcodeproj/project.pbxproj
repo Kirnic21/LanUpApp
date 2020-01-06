@@ -33,6 +33,7 @@
 		7D90DD4DBDDF40E4A29077BC /* SourceSansPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 881E8B86405C4626BE279C78 /* SourceSansPro-Regular.ttf */; };
 		4411E3D1820F4EABBBCFDD4F /* HelveticaNowDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F07822406C18481581EA5FCA /* HelveticaNowDisplay-Regular.ttf */; };
 		73743BEEDCC140E882B1D014 /* HelveticaNowMicro-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 458E0593C36348A28C7CFB4E /* HelveticaNowMicro-ExtraLight.ttf */; };
+		BAF35D7EAEF2461D97BEFE4B /* SegoeUI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 176EE8BB3F5D4E43AFB6DE7C /* SegoeUI.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +117,7 @@
 		881E8B86405C4626BE279C78 /* SourceSansPro-Regular.ttf */ = {isa = PBXFileReference; name = "SourceSansPro-Regular.ttf"; path = "../src/assets/fonts/SourceSansPro-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		F07822406C18481581EA5FCA /* HelveticaNowDisplay-Regular.ttf */ = {isa = PBXFileReference; name = "HelveticaNowDisplay-Regular.ttf"; path = "../src/assets/fonts/HelveticaNowDisplay-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		458E0593C36348A28C7CFB4E /* HelveticaNowMicro-ExtraLight.ttf */ = {isa = PBXFileReference; name = "HelveticaNowMicro-ExtraLight.ttf"; path = "../src/assets/fonts/HelveticaNowMicro-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		176EE8BB3F5D4E43AFB6DE7C /* SegoeUI.ttf */ = {isa = PBXFileReference; name = "SegoeUI.ttf"; path = "../src/assets/fonts/SegoeUI.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +290,7 @@
 				881E8B86405C4626BE279C78 /* SourceSansPro-Regular.ttf */,
 				F07822406C18481581EA5FCA /* HelveticaNowDisplay-Regular.ttf */,
 				458E0593C36348A28C7CFB4E /* HelveticaNowMicro-ExtraLight.ttf */,
+				176EE8BB3F5D4E43AFB6DE7C /* SegoeUI.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				7D90DD4DBDDF40E4A29077BC /* SourceSansPro-Regular.ttf in Resources */,
 				4411E3D1820F4EABBBCFDD4F /* HelveticaNowDisplay-Regular.ttf in Resources */,
 				73743BEEDCC140E882B1D014 /* HelveticaNowMicro-ExtraLight.ttf in Resources */,
+				BAF35D7EAEF2461D97BEFE4B /* SegoeUI.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

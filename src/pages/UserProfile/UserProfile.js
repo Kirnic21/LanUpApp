@@ -29,6 +29,7 @@ import {
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import dimensions from "~/assets/Dimensions/index";
+import ModalComingSoon from "~/shared/components/ModalComingSoon";
 
 class UserProfile extends Component {
   _isMounted = false;
@@ -36,7 +37,8 @@ class UserProfile extends Component {
     super(props);
 
     this.state = {
-      selected: false
+      selected: false,
+      visible: false
       // user: this.state.user || props.navigation.getParam("user")
     };
   }
@@ -138,8 +140,12 @@ class UserProfile extends Component {
     });
   };
 
-  openAgency = () => {
-    this.props.navigation.navigate("Agency");
+  openModal = () => {
+    // this.props.navigation.navigate("Agency");
+    this.setState({ visible: true });
+  };
+  closeModal = () => {
+    this.setState({ visible: false });
   };
 
   openAgencies = () => {
@@ -159,6 +165,7 @@ class UserProfile extends Component {
   };
 
   render() {
+    const { visible } = this.state;
     return (
       <ScrollView contentContainerStyle={styles.Container}>
         <StatusBar backgroundColor="#18142F" barStyle="light-content" />
@@ -216,7 +223,7 @@ class UserProfile extends Component {
               key: "3",
               title: "Agências",
               subtitle: "Entre na equipe de sua agência",
-              onPress: () => this.openAgencies()
+              onPress: () => this.openModal()
             },
             {
               key: "4",
@@ -233,7 +240,8 @@ class UserProfile extends Component {
             {
               key: "6",
               title: "Histórico de trabalho",
-              subtitle: "Trabalho, avaliações e recomendações"
+              subtitle: "Trabalho, avaliações e recomendações",
+              onPress: () => this.openModal()
             }
           ]}
           renderItem={({ item }) => (
@@ -275,7 +283,7 @@ class UserProfile extends Component {
           ItemSeparatorComponent={this.renderSeparator}
           keyExtractor={item => item.key}
         />
-        <TouchableOpacity onPress={this.openAgency}>
+        <TouchableOpacity onPress={() => this.openModal()}>
           <Text style={styles.agency}>Sou uma Agência</Text>
         </TouchableOpacity>
         <FlatList
@@ -316,6 +324,12 @@ class UserProfile extends Component {
         >
           Terminar sessão
         </Text>
+        <ModalComingSoon
+          onTouchOutside={() => this.closeModal()}
+          onClose={() => this.closeModal()}
+          visible={visible}
+          onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
+        />
       </ScrollView>
     );
   }

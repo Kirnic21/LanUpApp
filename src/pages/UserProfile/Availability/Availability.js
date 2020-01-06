@@ -13,6 +13,7 @@ import Toggle from "~/shared/components/ToggleComponent";
 import ArrowRight from "~/assets/images/arrowRight.png";
 import Schedules from "./Schedules";
 import dimensions from "~/assets/Dimensions/index";
+import ModalComingSoon from "~/shared/components/ModalComingSoon";
 
 import {
   emergencyAvailability,
@@ -68,12 +69,24 @@ class Availability extends Component {
         2: "Terça",
         1: "Segunda",
         0: "Domingo"
-      }
+      },
+      visible: false
     };
     this.props.navigation.addListener("willFocus", () => {
       this.GetDataAvailability();
     });
   }
+
+  componentDidMount() {
+    this.GetDataAvailability();
+  }
+
+  openModal = () => {
+    this.setState({ visible: true });
+  };
+  closeModal = () => {
+    this.setState({ visible: false });
+  };
 
   onToggle = async isOn => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
@@ -117,10 +130,6 @@ class Availability extends Component {
     });
   };
 
-  componentDidMount() {
-    this.GetDataAvailability();
-  }
-
   openAvailabilityDays = day => {
     const { daysOfWeek, schedules } = this.state;
     this.props.navigation.push("AvailabilityDays", {
@@ -140,7 +149,8 @@ class Availability extends Component {
       schedules,
       SpecialDays,
       daysOfWeek,
-      emergencyAvailability
+      // emergencyAvailability
+      visible
     } = this.state;
     return (
       <View style={styles.Container}>
@@ -154,13 +164,14 @@ class Availability extends Component {
                 Estou disponível agora
               </Text>
               <Toggle
-                onColor="#483D8B"
+                onColor="#18142F"
                 offColor="#18142F"
-                isOn={emergencyAvailability}
-                onToggle={emergencyAvailability => {
-                  this.setState({ emergencyAvailability });
-                  this.onToggle(emergencyAvailability);
-                }}
+                isOn={false}
+                // onToggle={emergencyAvailability => {
+                //   this.setState({ emergencyAvailability });
+                //   this.onToggle(emergencyAvailability);
+                // }}
+                onToggle={() => this.openModal()}
               />
             </View>
           </View>
@@ -203,6 +214,12 @@ class Availability extends Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
+        <ModalComingSoon
+          onTouchOutside={() => this.closeModal()}
+          onClose={() => this.closeModal()}
+          visible={visible}
+          onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
+        />
       </View>
     );
   }

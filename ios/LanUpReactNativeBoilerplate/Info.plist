@@ -94,6 +94,7 @@
 		<string>SourceSansPro-Regular.ttf</string>
 		<string>HelveticaNowDisplay-Regular.ttf</string>
 		<string>HelveticaNowMicro-ExtraLight.ttf</string>
+		<string>SegoeUI.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
