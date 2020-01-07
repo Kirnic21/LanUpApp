@@ -2,7 +2,7 @@ import * as React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import AuthNavigator from "~/routes/AuthNavigator";
 import { DrawerNav } from "~/routes/DrawerNavigator";
-import pageNavigator from "~/routes/UseProfileRoute";
+import UseProfileNavigator from "~/routes/UseProfileRoute";
 
 // CheckList: {
 //   screen: CheckList,
@@ -69,7 +69,7 @@ const MainStack = createSwitchNavigator(
   {
     Auth: AuthNavigator,
     Drawer: DrawerNav,
-    page: pageNavigator
+    pageUseProfile: UseProfileNavigator
   },
   {
     initialRouteName: "Auth"

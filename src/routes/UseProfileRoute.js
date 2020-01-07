@@ -79,7 +79,12 @@ const pageNavigator = createStackNavigator(
         headerLeft: (
           <HeaderBackButton
             tintColor="#FFf"
-            onPress={() => navigation.navigate("Profession")}
+            onPress={() =>
+              navigation.reset(
+                [NavigationActions.navigate({ routeName: "Profession" })],
+                0
+              )
+            }
           />
         )
       })
