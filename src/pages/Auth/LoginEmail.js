@@ -108,7 +108,7 @@ class LoginEmail extends Component {
         this.dropDownAlertRef.alertWithType(
           "error",
           "Erro",
-          error.response.data
+          "Este endereço de email não está cadastrado."
         );
         console.log(error.response.data);
       });
@@ -129,7 +129,7 @@ class LoginEmail extends Component {
           >
             <DropdownAlert
               ref={ref => (this.dropDownAlertRef = ref)}
-              closeInterval={500}
+              closeInterval={2000}
             />
           </View>
           <Spinner
