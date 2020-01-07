@@ -4,13 +4,12 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import ActionButton from "~/shared/components/ActionButton";
 import Modal from "~/shared/components/ModalComponent";
 import { ScrollView } from "react-native-gesture-handler";
-import { Chip } from "react-native-paper";
 import { decodeToken, updateSkills } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import MaterialCommunityIcons from "react-native-vector-icons/FontAwesome";
 import DropdownAlert from "react-native-dropdownalert";
 import InputModal from "~/shared/components/InputModal";
-import AddSkillEmpty from "~/pages/UserProfile/MyJob/AddSkill";
+import AddSkillEmpty from "~/shared/components/emptyState/AddSkillEmpty";
 
 import dimensions from "~/assets/Dimensions/index";
 
