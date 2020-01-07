@@ -53,6 +53,7 @@ const BankInformation = ({ onPress, bankCode }) => {
           name={"bankAccount"}
           isfocused={"#A893F2"}
           keyboardType="numeric"
+          maxLength={20}
         />
         <Field
           style={{ width: "100%" }}
