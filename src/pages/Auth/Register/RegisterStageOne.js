@@ -21,7 +21,11 @@ import FormValidator from "~/shared/services/validator";
 import AsyncStorage from "@react-native-community/async-storage";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
-import { create, validateCpf } from "~/shared/services/freela.http";
+import {
+  create,
+  existingCpf,
+  existingEmail
+} from "~/shared/services/freela.http";
 import { validateCPF } from "~/shared/helpers/validate/ValidateCpfCnpj";
 
 import InputMask from "~/shared/components/InputMask";
@@ -49,51 +53,78 @@ class RegisterStageOne extends Component {
 
   async componentDidMount() {
     const user = this.props.navigation.getParam("user");
-
     if (user) {
       this.setState({ user: { ...user, isFacebook: true } });
       await this.props.initialize({
-        nickname: user.authenticateUser.name,
-        fullName: user.authenticateUser.name
+        nickname: user.result.authenticateUser.name,
+        fullName: user.result.authenticateUser.name
       });
     }
   }
 
   goRegister = async form => {
     const { user } = this.state;
-
-    await this.props.setUser(user);
-    const { authenticateUser, accessToken } = user;
-    const { email, password, avatar } = authenticateUser;
     const { nickname, cpf, fullName } = form;
+    const CPF = cpf.replace(/[\(\)\.\s-]+/g, "");
     if (user.isFacebook) {
-      await AsyncStorage.setItem("token", accessToken.token);
+      await this.props.setUser(user);
+      const { authenticateUser, accessToken } = user.result;
+      const { email, password, avatar } = authenticateUser;
       const request = {
         name: fullName,
         nickname,
-        cpf,
+        cpf: CPF,
         email,
         password,
         confirmPassword: password,
         avatar: avatar.url,
         facebookToken: user.facebookToken
       };
-      create(request)
-        .then(async ({ data }) => {
-          if (data.isSuccess) {
-            this.props.navigation.navigate("UserProfile");
-          }
-        })
-        .catch(error => {
-          console.log(error.response.data);
-        });
+      existingEmail(email).then(({ data }) => {
+        const emailExisting = data.result.value;
+        emailExisting === true
+          ? this._dropdown.alertWithType(
+              "error",
+              "Erro",
+              "Este email já existe."
+            )
+          : existingCpf(CPF).then(({ data }) => {
+              const cpfExisting = data.result.value;
+              const cpfValidate = validateCPF(CPF);
+              cpfExisting === true
+                ? this._dropdown.alertWithType(
+                    "error",
+                    "Erro",
+                    "Este cpf já existe."
+                  )
+                : cpfValidate === false
+                ? this._dropdown.alertWithType(
+                    "error",
+                    "Erro",
+                    "Este cpf é inválido."
+                  )
+                : create(request)
+                    .then(async ({ data }) => {
+                      if (data.isSuccess) {
+                        await AsyncStorage.setItem(
+                          "API_TOKEN",
+                          data.result.token
+                        );
+                        this.props.navigation.navigate("UserProfile");
+                      }
+                    })
+                    .catch(error => {
+                      console.log(error.response.data);
+                    });
+            });
+      });
       return;
     }
-    validateCpf(cpf).then(({ data }) => {
-      const CPF = cpf.replace(/[\(\)\.\s-]+/g, "");
-      const validate = data.result.value;
+
+    existingCpf(CPF).then(({ data }) => {
+      const cpfExisting = data.result.value;
       const cpfValidate = validateCPF(CPF);
-      validate === true
+      cpfExisting === true
         ? this._dropdown.alertWithType("error", "Erro", "Este cpf já existe.")
         : cpfValidate === false
         ? this._dropdown.alertWithType("error", "Erro", "Este cpf é inválido.")

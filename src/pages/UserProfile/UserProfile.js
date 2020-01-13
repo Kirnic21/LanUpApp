@@ -44,9 +44,7 @@ class UserProfile extends Component {
   }
 
   async componentDidMount() {
-    const { user } = this.props;
-    const apiToken = await AsyncStorage.getItem("API_TOKEN");
-    const token = apiToken ? decodeToken(apiToken) : undefined;
+    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     getAbout(token.id)
       .then(({ data }) => {
         const { image } = data.result.value;

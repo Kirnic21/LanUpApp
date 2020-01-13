@@ -49,10 +49,10 @@ class HomePage extends Component {
 
       const data = await AccessToken.getCurrentAccessToken();
       const user = await loginWithFacebook(data.accessToken);
-
+      const token = user.result.accessToken.token;
+      await AsyncStorage.setItem("API_TOKEN", token);
       if (user) {
-        debugger;
-        const { path, user: userData } = user.isRegistered
+        const { path, user: userData } = user.result.isRegistered
           ? { path: "UserProfile", user }
           : {
               path: "RegisterStageOne",

@@ -17,7 +17,7 @@ import FormValidator from "~/shared/services/validator";
 import DropdownAlert from "react-native-dropdownalert";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
-import { validateEmail } from "~/shared/services/freela.http";
+import { existingEmail } from "~/shared/services/freela.http";
 import dimensions from "~/assets/Dimensions/index";
 
 const stylePage = {
@@ -55,7 +55,7 @@ class RegisterStageTwo extends Component {
 
   goLoginPicture = form => {
     const { email, password, confirmPassword } = form;
-    validateEmail(email).then(({ data }) => {
+    existingEmail(email).then(({ data }) => {
       console.log(data);
       const validate = data.result.value;
 

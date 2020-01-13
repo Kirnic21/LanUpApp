@@ -9,11 +9,16 @@ const resetPassword = data => HTTP.post(`auth/reset?email=${data}`);
 
 const loginWithFacebook = async accessToken => {
   try {
-    const { data } = await HTTP.post("auth/facebook", { facebookToken: accessToken });
-    const tokenTask = AsyncStorage.setItem("token", data.accessToken.token);
+    const { data } = await HTTP.post("auth/facebook", {
+      facebookToken: accessToken
+    });
+    const tokenTask = AsyncStorage.setItem(
+      "token",
+      data.result.accessToken.token
+    );
     const userTask = AsyncStorage.setItem(
       "user",
-      JSON.stringify(data.authenticateUser)
+      JSON.stringify(data.result.authenticateUser)
     );
     await Promise.all(tokenTask, userTask);
     return data;
