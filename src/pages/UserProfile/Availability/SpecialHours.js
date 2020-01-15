@@ -429,7 +429,7 @@ class SpecialHours extends Component {
                 <DateTimePicker
                   value={date}
                   mode={mode}
-                  display="default"
+                  display="spinner"
                   onChange={this.setDate}
                 />
               )}
