@@ -142,11 +142,7 @@ export default class drawerContentComponents extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              // onPress={this.navigateToScreen("ToExplore")}
-              onPress={() => {
-                this.openModal(),
-                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
-              }}
+              onPress={this.navigateToScreen("ToExplore")}
               style={[styles.containerIcons, { height: "22%" }]}
             >
               <Image source={iconExplore} style={styles.sizeIcons} />

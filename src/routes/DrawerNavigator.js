@@ -50,7 +50,12 @@ const DrawerNavigator = createStackNavigator(
     ToExplore: {
       screen: ToExplore,
       navigationOptions: () => ({
-        headerTitle: "Explorar",
+        headerTitle: (
+          <NavigationTitle
+            title="Explorar"
+            marginHorizontal={dimensions(-23)}
+          />
+        ),
         headerTitleStyle: {
           fontSize: 20,
           marginLeft: "31.5%",

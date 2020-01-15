@@ -66,6 +66,7 @@
     "redux": "^4.0.1",
     "redux-form": "^8.2.6",
     "redux-form-input-masks": "^2.0.1",
+    "solidarity-react-native": "^2.1.2",
     "toggle-switch-react-native": "^2.1.0"
   },
   "devDependencies": {
