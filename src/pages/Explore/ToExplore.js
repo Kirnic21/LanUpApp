@@ -15,12 +15,7 @@ export default class ToExplore extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <View
-            style={{
-              justifyContent: "flex-start",
-              alignItems: "center"
-            }}
-          >
+          <View style={{ justifyContent: "flex-start", alignItems: "center" }}>
             <FilterToExplore
               onSelectedColor="#FFB72B"
               onTextSelectedColor="#18142F"
@@ -28,8 +23,10 @@ export default class ToExplore extends Component {
               // onPress={e => alert(e)}
             />
           </View>
-          <View style={{}}>
-            <VacancyCard />
+          <View>
+            <VacancyCard
+              onPress={() => this.props.navigation.navigate("VacanciesDetails")}
+            />
           </View>
         </ScrollView>
       </View>
