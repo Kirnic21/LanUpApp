@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native";
 import CardDeitailsVacancies from "./CardDeitailsVacancies";
 import dimensions from "~/assets/Dimensions";
 import { ScrollView } from "react-native-gesture-handler";
+import ShiftCard from "./ShiftCard";
 
 class VacanciesDetails extends Component {
   render() {
@@ -12,16 +13,15 @@ class VacanciesDetails extends Component {
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="transparent" translucent />
         <ScrollView style={{ flex: 1 }}>
-          <View style={{}}>
+          <View>
             <CardImageVacancies />
           </View>
           <View style={{ marginHorizontal: "5%" }}>
-            <CardDeitailsVacancies
-              title={<Text>aaaaa</Text>}
-              TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
-              contentTextStyle={{ color: "#FFF" }}
-              isModalOn={false}
-              content={<Text>aaaa</Text>}
+            <ShiftCard
+              title="Bartender"
+              subTitle="4 vagas"
+              value="140,00"
+              content={<Text>Turno 22:00 às 01:00</Text>}
             />
             <CardDeitailsVacancies
               title="Detalhes do Evento"
