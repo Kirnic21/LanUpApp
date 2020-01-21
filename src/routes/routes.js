@@ -2,8 +2,6 @@ import * as React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import AuthNavigator from "~/routes/AuthNavigator";
 import { DrawerNav } from "~/routes/DrawerNavigator";
-import UseProfileNavigator from "~/routes/UseProfileRoute";
-import ToExploreRoute from "~/routes/ToExplorerRoute";
 
 // CheckList: {
 //   screen: CheckList,
@@ -69,9 +67,8 @@ import ToExploreRoute from "~/routes/ToExplorerRoute";
 const MainStack = createSwitchNavigator(
   {
     Auth: AuthNavigator,
-    Drawer: DrawerNav,
-    pageUseProfile: UseProfileNavigator,
-    ToExplore: ToExploreRoute
+    Drawer: DrawerNav
+    // ToExplore: ToExploreRoute
   },
   {
     initialRouteName: "Auth"

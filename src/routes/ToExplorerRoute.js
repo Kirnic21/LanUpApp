@@ -1,29 +1,29 @@
 import * as React from "react";
-import {
-  createStackNavigator,
-  HeaderBackButton,
-  NavigationActions
-} from "react-navigation";
-import { Text, View } from "react-native";
-
-import { DrawerNavigator } from "~/routes/DrawerNavigator";
-import ChangePassword from "~/pages/UserProfile/ChangePassword";
-
-import PhotoGallery from "~/shared/components/PhotoGallery";
-
-import dimensions from "~/assets/Dimensions/index";
-import NavigationTitle from "~/shared/components/NavigationTitle";
+import { createStackNavigator, HeaderBackButton } from "react-navigation";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
+import NavigationTitle from "~/shared/components/NavigationTitle";
+import DrawerButton from "~/shared/components/DrawerButton";
+import ToExplore from "~/pages/Explore/ToExplore";
+import dimensions from "~/assets/Dimensions/index";
 
 const ToExplorerRoute = createStackNavigator(
   {
-    // DrawerNavigator: {
-    //   screen: DrawerNavigator,
-    //   navigationOptions: () => ({
-    //     headerTransparent: true,
-    //     headerLeft: null
-    //   })
-    // },
+    ToExplore: {
+      screen: ToExplore,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: (
+          <NavigationTitle
+            title="Explorar"
+            marginHorizontal={dimensions(-23)}
+          />
+        ),
+        headerStyle: {
+          backgroundColor: "#18142F",
+          height: dimensions(40)
+        },
+        headerLeft: <DrawerButton navigation={navigation} />
+      })
+    },
     VacanciesDetails: {
       screen: VacanciesDetails,
       navigationOptions: ({ navigation }) => ({
@@ -34,20 +34,20 @@ const ToExplorerRoute = createStackNavigator(
         headerLeft: (
           <HeaderBackButton
             tintColor="#FFf"
-            onPress={() => navigation.push("ToExplore")}
+            onPress={() => navigation.navigate("ToExplore")}
           />
         )
       })
     }
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "#18142F",
+        height: dimensions(70),
+        elevation: -2
+      }
+    }
   }
-  // {
-  //   defaultNavigationOptions: {
-  //     headerStyle: {
-  //       backgroundColor: "#18142F",
-  //       height: dimensions(70),
-  //       elevation: -2
-  //     }
-  //   }
-  // }
 );
 export default ToExplorerRoute;

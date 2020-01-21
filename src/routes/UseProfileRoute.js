@@ -4,9 +4,7 @@ import {
   HeaderBackButton,
   NavigationActions
 } from "react-navigation";
-import { Text, View } from "react-native";
 
-import { DrawerNavigator } from "~/routes/DrawerNavigator";
 import ChangePassword from "~/pages/UserProfile/ChangePassword";
 import AboutMe from "~/pages/UserProfile/About/AboutMe";
 import Profession from "~/pages/UserProfile/MyJob/Profession";
@@ -15,39 +13,27 @@ import AddSkill from "~/pages/UserProfile/MyJob/AddSkill";
 import Availability from "~/pages/UserProfile/Availability/Availability";
 import AvailabilityDays from "~/pages/UserProfile/Availability/AvailabilityDays";
 import SpecialHours from "~/pages/UserProfile/Availability/SpecialHours";
-// import Agency from "~/pages/UserProfile/Agency/Agency";
-// import Agencies from "~/pages/UserProfile/Agencies";
-// import PreviewProfile from "~/pages/UserProfile/PreviewProfile";
 import PhotoGallery from "~/shared/components/PhotoGallery";
-
 import dimensions from "~/assets/Dimensions/index";
+import UserProfile from "~/pages/UserProfile/UserProfile";
 import NavigationTitle from "~/shared/components/NavigationTitle";
+import DrawerButton from "~/shared/components/DrawerButton";
 
 const pageNavigator = createStackNavigator(
   {
-    DrawerNavigator: {
-      screen: DrawerNavigator,
-      navigationOptions: () => ({
-        headerTransparent: true,
-        headerLeft: null
+    UserProfile: {
+      screen: UserProfile,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: (
+          <NavigationTitle title="Perfil" marginHorizontal={dimensions(-23)} />
+        ),
+        headerLeft: <DrawerButton navigation={navigation} />,
+        headerStyle: {
+          backgroundColor: "#18142F",
+          height: dimensions(40)
+        }
       })
     },
-    // TODO: essa rota está pausada. será descomentada assim que retorna-la
-    // PreviewProfile: {
-    //   screen: PreviewProfile,
-    //   navigationOptions: ({ navigation }) => ({
-    //     headerTransparent: true,
-    //     headerStyle: {
-    //       marginTop: 20
-    //     },
-    //     headerLeft: (
-    //       <HeaderBackButton
-    //         tintColor="#FFf"
-    //         onPress={() => navigation.push("UserProfile")}
-    //       />
-    //     )
-    //   })
-    // },
     AboutMe: {
       screen: AboutMe,
       navigationOptions: ({ navigation }) => ({
@@ -55,7 +41,7 @@ const pageNavigator = createStackNavigator(
         headerLeft: (
           <HeaderBackButton
             tintColor="#FFf"
-            onPress={() => navigation.push("UserProfile")}
+            onPress={() => navigation.goBack("UserProfile")}
           />
         )
       })
@@ -106,31 +92,6 @@ const pageNavigator = createStackNavigator(
         )
       })
     },
-    // Agencies: {
-    //   screen: Agencies,
-    //   navigationOptions: ({ navigation }) => ({
-    //     title: "Agência",
-    //     headerStyle: {
-    //       backgroundColor: "#18142F",
-    //       height: 70,
-    //       elevation: -2
-    //     },
-    //     headerTitleStyle: {
-    //       textAlign: "center",
-    //       alignSelf: "center",
-    //       width: "75%",
-    //       fontFamily: "Montserrat-Bold",
-    //       color: "#FFFFFF",
-    //       fontSize: 20
-    //     },
-    //     headerLeft: (
-    //       <HeaderBackButton
-    //         tintColor="#FFf"
-    //         onPress={() => navigation.push("UserProfile")}
-    //       />
-    //     )
-    //   })
-    // },
     PhotoGallery: {
       screen: PhotoGallery,
       navigationOptions: ({ navigation }) => ({
@@ -186,31 +147,6 @@ const pageNavigator = createStackNavigator(
       })
     },
 
-    // Agency: {
-    //   screen: Agency,
-    //   navigationOptions: ({ navigation }) => ({
-    //     title: "Sou Agência",
-    //     headerStyle: {
-    //       backgroundColor: "#18142F",
-    //       height: 70,
-    //       elevation: -2
-    //     },
-    //     headerTitleStyle: {
-    //       textAlign: "center",
-    //       alignSelf: "center",
-    //       width: "75%",
-    //       fontFamily: "Montserrat-Bold",
-    //       color: "#FFFFFF",
-    //       fontSize: 20
-    //     },
-    //     headerLeft: (
-    //       <HeaderBackButton
-    //         tintColor="#FFf"
-    //         onPress={() => navigation.push("UserProfile")}
-    //       />
-    //     )
-    //   })
-    // },
     ChangePassword: {
       screen: ChangePassword,
       navigationOptions: ({ navigation }) => ({
