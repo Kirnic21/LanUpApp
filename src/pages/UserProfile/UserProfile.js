@@ -18,8 +18,6 @@ import {
   StatusBar
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import ArrowRight from "~assets/images/arrowRight.png";
-
 import {
   galery,
   galeries,
@@ -275,7 +273,7 @@ class UserProfile extends Component {
                   {item.subtitle}
                 </Text>
               </View>
-              <Image source={ArrowRight} style={{ width: 15, height: 15 }} />
+              <Icon color={"#FFF"} name={"angle-right"} size={dimensions(30)} />
             </TouchableOpacity>
           )}
           ItemSeparatorComponent={this.renderSeparator}

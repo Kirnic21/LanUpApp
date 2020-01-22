@@ -10,7 +10,6 @@ import {
 import moment from "moment";
 
 import Toggle from "~/shared/components/ToggleComponent";
-import ArrowRight from "~/assets/images/arrowRight.png";
 import Schedules from "./Schedules";
 import dimensions from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
@@ -22,6 +21,7 @@ import {
 } from "~/shared/services/freela.http";
 import { reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const DisplayDate = ({ date, displayHour, isActive }) => {
   const style = { marginRight: "9.5%", marginBottom: "1%" };
@@ -194,13 +194,10 @@ class Availability extends Component {
                 <Text style={[styles.titleStyle, { width: "95.5%" }]}>
                   Horários especiais
                 </Text>
-                <Image
-                  source={ArrowRight}
-                  style={{
-                    width: "5%",
-                    height: dimensions(17),
-                    top: "2%"
-                  }}
+                <Icon
+                  color={"#FFF"}
+                  name={"angle-right"}
+                  size={dimensions(30)}
                 />
               </View>
               {SpecialDays.map(({ date, start, end, available }, id) => (

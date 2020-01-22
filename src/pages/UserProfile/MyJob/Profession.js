@@ -9,7 +9,7 @@ import {
   Image,
   TextInput
 } from "react-native";
-import arrow from "~/assets/images/arrowRight.png";
+import Icon from "react-native-vector-icons/FontAwesome";
 import NumberFormat from "react-number-format";
 import {
   decodeToken,
@@ -134,7 +134,10 @@ class Profession extends Component {
               )}
             />
           </View>
-          <View style={styles.containerProfessionAndSkill}>
+          <TouchableOpacity
+            onPress={this.openAddProfession}
+            style={styles.containerProfessionAndSkill}
+          >
             <View style={{ flexDirection: "row", marginBottom: "2%" }}>
               <Text style={styles.Title}>Profissão</Text>
               <Text style={styles.jobNumber}>{JobsSelected.length}/3</Text>
@@ -160,17 +163,14 @@ class Profession extends Component {
             ) : (
               <Text style={styles.notJobsText}>Não há nenhuma profissão</Text>
             )}
-            <TouchableOpacity
-              onPress={this.openAddProfession}
-              style={styles.btnArrow}
-            >
-              <Image
-                source={arrow}
-                style={{ width: dimensions(20), height: dimensions(20) }}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.containerProfessionAndSkill}>
+            <View style={styles.btnArrow}>
+              <Icon color={"#FFF"} name={"angle-right"} size={dimensions(35)} />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.openAddAbiliity}
+            style={styles.containerProfessionAndSkill}
+          >
             <Text style={[styles.Title, { paddingBottom: "3%" }]}>
               Habilidades
             </Text>
@@ -200,16 +200,10 @@ class Profession extends Component {
             ) : (
               <Text style={styles.notJobsText}>Não há nenhuma habilidade</Text>
             )}
-            <TouchableOpacity
-              onPress={this.openAddAbiliity}
-              style={styles.btnArrow}
-            >
-              <Image
-                source={arrow}
-                style={{ width: dimensions(20), height: dimensions(20) }}
-              />
-            </TouchableOpacity>
-          </View>
+            <View style={styles.btnArrow}>
+              <Icon color={"#FFF"} name={"angle-right"} size={dimensions(35)} />
+            </View>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     );
@@ -271,7 +265,7 @@ const styles = StyleSheet.create({
     height: "100%",
     position: "absolute",
     left: "100%",
-    top: "70%"
+    top: "60%"
   },
   Title: {
     color: "#FFF",

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import ArrowRight from "~/assets/images/arrowRight.png";
+import Icon from "react-native-vector-icons/FontAwesome";
 import dimensions from "~/assets/Dimensions/index";
 
 const getDisplayDate = day => {
@@ -53,9 +53,10 @@ const Schedules = ({ onPress, schedules, daysOfWeek }) => {
                   alignItems: "flex-end"
                 }}
               >
-                <Image
-                  source={ArrowRight}
-                  style={{ width: "35%", height: dimensions(17) }}
+                <Icon
+                  color={"#FFF"}
+                  name={"angle-right"}
+                  size={dimensions(30)}
                 />
               </View>
             </View>
