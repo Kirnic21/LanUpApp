@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { NavigationActions, DrawerActions } from "react-navigation";
+import {
+  NavigationActions,
+  DrawerActions,
+  StackActions
+} from "react-navigation";
 import {
   Text,
   View,
@@ -41,7 +45,7 @@ export default class drawerContentComponents extends Component {
   }
 
   navigateToScreen = route => () => {
-    const navigateAction = NavigationActions.navigate({
+    const navigateAction = StackActions.push({
       routeName: route
     });
     this.props.navigation.dispatch(navigateAction);

@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  SafeAreaView,
-  FlatList
-} from "react-native";
+import { StyleSheet, View, Text, SafeAreaView, FlatList } from "react-native";
 import dimensions from "~/assets/Dimensions/index";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -21,16 +14,8 @@ export default FilterToExplore = ({
 }) => {
   const DATA = [
     {
-      id: "1",
-      title: "one"
-    },
-    {
-      id: "2",
-      title: "two"
-    },
-    {
-      id: "3",
-      title: "three"
+      id: "0",
+      title: ""
     }
   ];
 
@@ -39,6 +24,7 @@ export default FilterToExplore = ({
       <TouchableOpacity
         onPress={() => {
           onSelect(id);
+          onPress(title);
         }}
         style={[
           styles.item,
@@ -64,8 +50,7 @@ export default FilterToExplore = ({
       </TouchableOpacity>
     );
   }
-  const [selected, setSelected] = React.useState(DATA[0].id);
-
+  const [selected, setSelected] = React.useState(DATA[0].id || filterJob[0].id);
   const onSelect = id => {
     setSelected(id);
   };
