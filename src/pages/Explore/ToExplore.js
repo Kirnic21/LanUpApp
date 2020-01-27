@@ -64,9 +64,10 @@ export default class ToExplore extends Component {
 
   render() {
     const { JobsSelected, listVacancy, loading, spinner } = this.state;
+    console.log(listVacancy);
     return (
       <View style={styles.container}>
-        <SpinnerComponent visible={spinner} />
+        <SpinnerComponent loading={spinner} />
         <ScrollView>
           <View style={{ justifyContent: "flex-start", alignItems: "center" }}>
             <FilterToExplore
@@ -80,7 +81,9 @@ export default class ToExplore extends Component {
             {listVacancy.length ? (
               <VacancyCard
                 listVacancy={listVacancy}
-                onPress={() => this.props.navigation.push("VacanciesDetails")}
+                onPress={job =>
+                  this.props.navigation.push("VacanciesDetails", { job })
+                }
               />
             ) : (
               <View
