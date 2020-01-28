@@ -17,30 +17,41 @@ import { Avatar } from "react-native-elements";
 import moment from "moment";
 
 const VancancyCard = ({ onPress, listVacancy }) => {
-  debugger;
   function Item({
-    // id,
     title,
-    // selected,
-    // onSelect,
     address,
     picture,
     amount,
     workShiftQuantity,
     totalVacancy,
-    jobDate
+    jobDate,
+    job
   }) {
     formatDate = (date, form) => {
-      return moment(date).format(form);
+      return moment(date.substr(0, 10)).format(form);
     };
     // const a = moment(new Date());
     // const b = moment(eventCreationDate);
     // console.log(a.diff(b, "hours"));
+    debugger;
     return (
-      <TouchableOpacity onPress={onPress} style={styles.containerCard}>
+      <TouchableOpacity
+        onPress={e => onPress(job)}
+        style={styles.containerCard}
+      >
         <View style={{ justifyContent: "center", width: "33%" }}>
-          {picture !== undefined ? (
-            <FastImage source={{ uri: picture }} style={styles.imgCard} />
+          {picture !== null ? (
+            <View style={styles.imgCard}>
+              <FastImage
+                source={{ uri: picture.url }}
+                resizeMode="cover"
+                style={{
+                  height: dimensions(116),
+                  borderBottomRightRadius: dimensions(15),
+                  borderTopRightRadius: dimensions(15)
+                }}
+              />
+            </View>
           ) : (
             <View style={[styles.imgCard, styles.emptyImg]}>
               <Icon name="image" size={dimensions(35)} color="#23203F" />
@@ -56,6 +67,7 @@ const VancancyCard = ({ onPress, listVacancy }) => {
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <FastImage
+              resizeMode="contain"
               source={backWhite}
               style={{ height: dimensions(20), width: dimensions(20) }}
             />
@@ -79,7 +91,8 @@ const VancancyCard = ({ onPress, listVacancy }) => {
                 <Text style={{ fontSize: dimensions(20) }}>
                   {formatDate(jobDate, "DD")}
                 </Text>
-                {"\n"} {formatDate(jobDate, "MMM")}
+                {"\n"}
+                {formatDate(jobDate, "MMM")}
               </Text>
             </View>
             <View style={styles.containerVancancy}>
@@ -139,10 +152,11 @@ const VancancyCard = ({ onPress, listVacancy }) => {
             workShiftQuantity={item.workShiftQuantity}
             totalVacancy={item.totalVacancy}
             jobDate={item.jobDate}
+            picture={item.picture}
+            job={item}
           />
         )}
         keyExtractor={item => item.id}
-        // extraData={selected}
       />
     </SafeAreaView>
   );
@@ -169,7 +183,7 @@ const styles = StyleSheet.create({
     left: "-20%"
   },
   emptyImg: {
-    backgroundColor: "#FFF",
+    backgroundColor: "#FFFFFF85",
     justifyContent: "center",
     alignItems: "center",
     borderBottomRightRadius: dimensions(15),
@@ -202,7 +216,8 @@ const styles = StyleSheet.create({
     color: "#18142F",
     fontFamily: "HelveticaNowMicro-Bold",
     fontSize: dimensions(12),
-    paddingHorizontal: "4%"
+    paddingHorizontal: "4%",
+    textAlign: "center"
   },
   containerVancancy: {
     flexDirection: "column",

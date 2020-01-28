@@ -34,7 +34,7 @@ const ToExplorerRoute = createStackNavigator(
         headerLeft: (
           <HeaderBackButton
             tintColor="#FFf"
-            onPress={() => navigation.navigate("ToExplore")}
+            onPress={() => navigation.goBack()}
           />
         )
       })

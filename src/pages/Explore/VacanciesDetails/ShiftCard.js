@@ -14,9 +14,19 @@ const ShiftCard = ({
 }) => {
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <View>
-          <Text style={[styles.title, titleStyle, styles.colorTextAndFontSize]}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          flex: 1
+        }}
+      >
+        <View style={{ width: "65%" }}>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={[styles.title, titleStyle, styles.colorTextAndFontSize]}
+          >
             {title}
           </Text>
           <Text
@@ -27,11 +37,15 @@ const ShiftCard = ({
             ]}
           >{`(${subTitle})`}</Text>
         </View>
-        <View>
+        <View style={{ width: "30%" }}>
           <Text style={[styles.colorTextAndFontSize, styles.titleValue]}>
             Valor total:
           </Text>
-          <Text style={[styles.colorTextAndFontSize, styles.value]}>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={[styles.colorTextAndFontSize, styles.value]}
+          >
             R$
             <Text style={[valueStyle, { fontSize: dimensions(20) }]}>
               {value}
@@ -39,16 +53,20 @@ const ShiftCard = ({
           </Text>
         </View>
       </View>
-      <View>
-        <Text
-          style={[
-            styles.colorTextAndFontSize,
-            styles.TextContent,
-            contentTextStyle
-          ]}
-        >
-          {content}
-        </Text>
+      <View style={{ flex: 1 }}>
+        {content.map((c, i) => (
+          <View key={i}>
+            <Text
+              style={[
+                styles.colorTextAndFontSize,
+                styles.TextContent,
+                contentTextStyle
+              ]}
+            >
+              {c.description}
+            </Text>
+          </View>
+        ))}
       </View>
     </View>
   );
@@ -65,7 +83,8 @@ const styles = StyleSheet.create({
     borderRadius: dimensions(10)
   },
   title: {
-    fontSize: dimensions(30)
+    fontSize: dimensions(30),
+    width: "100%"
   },
   subTitle: {
     fontSize: dimensions(11),
@@ -80,7 +99,8 @@ const styles = StyleSheet.create({
   },
   value: {
     color: "#46C5F3",
-    fontSize: dimensions(12)
+    fontSize: dimensions(12),
+    width: "100%"
   },
   TextContent: {
     fontSize: dimensions(12)

@@ -8,13 +8,16 @@ import dimensions from "~/assets/Dimensions";
 import Modal from "react-native-modal";
 import { useState } from "react";
 import RoundButton from "~/shared/components/RoundButton";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const CardDeitailsVacancies = ({
   TitleStyle,
   title,
   contentTextStyle,
   content,
-  isModalOn
+  isModalOn,
+  previewContent,
+  children
 }) => {
   const [visible, setVisible] = useState(false);
   return (
@@ -30,13 +33,45 @@ const CardDeitailsVacancies = ({
           </Text>
         </View>
         <View style={{ width: "100%" }}>
-          <Text
-            style={[styles.contentText, contentTextStyle]}
-            numberOfLines={5}
-            ellipsizeMode="tail"
+          {previewContent.length ? (
+            <View>
+              {previewContent.map((c, i) => (
+                <View key={i}>
+                  <Text
+                    style={{
+                      width: "100%",
+                      color: "#FFF",
+                      fontSize: dimensions(12),
+                      fontFamily: "HelveticaNowMicro-Regular"
+                    }}
+                  >
+                    {c};
+                  </Text>
+                </View>
+              ))}
+            </View>
+          ) : (
+            <View>{children}</View>
+          )}
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "4%",
+              opacity: isModalOn ? 1 : 0
+            }}
           >
-            {content}
-          </Text>
+            <Text
+              style={{
+                color: "#FFF",
+                fontSize: dimensions(13),
+                fontFamily: "HelveticaNowMicro-Regular"
+              }}
+            >
+              Veja mais
+            </Text>
+            <Icon name={"chevron-down"} size={dimensions(20)} color="#FFF" />
+          </View>
         </View>
         <Modal
           isVisible={visible}
@@ -56,9 +91,13 @@ const CardDeitailsVacancies = ({
               </Text>
             </View>
             <ScrollView style={{ flex: 1, padding: "5%" }}>
-              <Text style={[styles.contentText, contentTextStyle]}>
-                {content}
-              </Text>
+              {content.map((c, i) => (
+                <View key={i}>
+                  <Text style={[styles.contentText, contentTextStyle]}>
+                    {c}
+                  </Text>
+                </View>
+              ))}
             </ScrollView>
             <View
               style={{ height: dimensions(90), justifyContent: "flex-start" }}
@@ -81,7 +120,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#23203F",
     padding: "5%",
     borderRadius: dimensions(10),
-    // height: "45%",
     marginTop: "5%",
     width: "100%"
   },

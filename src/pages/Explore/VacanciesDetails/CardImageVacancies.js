@@ -1,34 +1,57 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import imgDetails from "~/assets/images/img_details.png";
 import dimensions from "~/assets/Dimensions";
 import LinearGradient from "react-native-linear-gradient";
+import moment from "moment";
+import Icon from "react-native-vector-icons/FontAwesome";
 
-const CardImageVacancies = ({}) => {
+const CardImageVacancies = ({ title, shift, location, eventDate, picture }) => {
+  formatDate = (date, form) => {
+    return moment(date).format(form);
+  };
   return (
     <View>
-      <Image source={imgDetails} style={{ height: dimensions(250) }} />
+      {picture !== null ? (
+        <Image source={{ uri: picture }} style={{ height: dimensions(250) }} />
+      ) : (
+        <View
+          style={{
+            height: dimensions(250),
+            backgroundColor: "#FFFFFF85",
+            alignItems: "center"
+          }}
+        >
+          <Icon
+            name="image"
+            size={dimensions(35)}
+            color="#23203F"
+            style={{ top: "30%" }}
+          />
+        </View>
+      )}
       <LinearGradient
         colors={["#49358C00", "#1D1738E8", "#18142F"]}
         style={styles.linearImg}
       />
       <View style={styles.container}>
         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
-          Balada TheWeek
+          {title}
         </Text>
         <View style={{ flexDirection: "row" }}>
           <View style={styles.containerDate}>
             <Text style={styles.textDate}>
-              SÁB{"\n"}
-              <Text style={{ fontSize: dimensions(25) }}>10</Text>
-              {"\n"}OUT
+              {formatDate(eventDate, "ddd")}
+              {"\n"}
+              <Text style={{ fontSize: dimensions(25) }}>
+                {formatDate(eventDate, "DD")}
+              </Text>
+              {"\n"}
+              {formatDate(eventDate, "MMM")}
             </Text>
           </View>
-          <View style={{ flexDirection: "column" }}>
-            <Text style={styles.textShift}>3 turnos</Text>
-            <Text style={styles.textAdress}>
-              Av. Brigadeiro Luís Antônio, 2696 Jardim Paulista, SP - 05581-000
-            </Text>
+          <View style={{ flexDirection: "column", width: "80%" }}>
+            <Text style={styles.textShift}>{shift} turnos</Text>
+            <Text style={styles.textAdress}>{location}</Text>
           </View>
         </View>
       </View>
@@ -54,7 +77,7 @@ const styles = StyleSheet.create({
   title: {
     color: "#fff",
     fontFamily: "HelveticaNowDisplay-Regular",
-    fontSize: dimensions(35),
+    fontSize: dimensions(30),
     paddingBottom: "5%",
     width: "100%"
   },
@@ -79,7 +102,7 @@ const styles = StyleSheet.create({
     paddingBottom: "2%"
   },
   textAdress: {
-    width: "60%",
+    width: "100%",
     fontFamily: "HelveticaNowMicro-ExtraLight",
     fontSize: dimensions(12),
     color: "#FFF"
