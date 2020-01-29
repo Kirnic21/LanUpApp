@@ -101,10 +101,10 @@ class AboutMe extends Component {
           email,
           phone: get.phone,
           birthday:
-            get.birthday === "0001-01-01T00:00:00Z"
+            get.birthday === null || get.birthday === "0001-01-01T00:00:00Z"
               ? ""
               : new Date(get.birthday),
-          gender: get.gender,
+          gender: get.gender !== null ? get.gender : 0,
           bankBranch: get.bankBranch,
           bankAccount: get.bankAccount,
           cpfCnpj: get.cpf === null ? get.cnpj : get.cpf,
@@ -148,6 +148,23 @@ class AboutMe extends Component {
     };
   };
 
+  saveAboutMe = request => {
+    aboutMe(request)
+      .then(({ data }) => {
+        if (data.isSuccess) {
+          console.log(data);
+          this.dropDownAlertRef.alertWithType(
+            "success",
+            "Sucesso",
+            "Informações salvas com sucesso."
+          );
+        }
+      })
+      .catch(error => {
+        error.response.data;
+      });
+  };
+
   UpdateAboutMe = async form => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const {
@@ -175,7 +192,9 @@ class AboutMe extends Component {
     const { avatarUrl, bankCode, lat, long, address, photos } = this.state;
     const latitude = lat === null ? lat : lat.toString();
     const longitude = long === null ? long : long.toString();
-
+    const replaceValidate =
+      cpfCnpj !== null ? cpfCnpj.replace(/[\(\)\.\s-]+/g, "") : "";
+    debugger;
     const request = {
       freelaId: token.id,
       avatar: avatarUrl,
@@ -192,8 +211,14 @@ class AboutMe extends Component {
       bankCode,
       bankBranch,
       bankAccount,
-      cnpj: cpfCnpj.length < 14 ? null : cpfCnpj,
-      cpf: cpfCnpj.length > 11 ? null : cpfCnpj,
+      cnpj:
+        replaceValidate !== null && replaceValidate.length === 14
+          ? replaceValidate
+          : null,
+      cpf:
+        replaceValidate !== null && replaceValidate.length === 11
+          ? replaceValidate
+          : null,
       owner,
       address,
       lat: latitude,
@@ -204,35 +229,30 @@ class AboutMe extends Component {
       birthday: birthday === "" ? "0001-01-01T00:00:00Z" : birthday,
       gender
     };
-    const validate = cpfCnpj.replace(/[\(\)\.\s-]+/g, "");
-    const teste =
-      validate.length > 11 ? validateCNPJ(validate) : validateCPF(validate);
-    if (teste === false) {
-      this.dropDownAlertRef.alertWithType(
-        "error",
-        "Erro",
-        "Cpf/Cnpj inválido."
-      );
-    } else {
-      aboutMe(request)
-        .then(({ data }) => {
-          if (data.isSuccess) {
-            this.dropDownAlertRef.alertWithType(
-              "success",
-              "Sucesso",
-              "Informações salvas com sucesso."
-            );
-          }
-        })
-        .catch(error => {
-          this.dropDownAlertRef.alertWithType(
-            "error",
-            "Erro",
-            "Área de atuação não informada."
-          );
-          console.log(error.response.data);
-        });
-    }
+
+    const validateCpfCnpj =
+      replaceValidate.length > 11
+        ? validateCNPJ(replaceValidate)
+        : validateCPF(replaceValidate);
+
+    const validate =
+      replaceValidate !== null && replaceValidate !== ""
+        ? validateCpfCnpj
+        : null;
+
+    validate === false && validate !== null
+      ? this.dropDownAlertRef.alertWithType(
+          "error",
+          "Erro",
+          "Cpf/Cnpj inválido."
+        )
+      : latitude === null
+      ? this.dropDownAlertRef.alertWithType(
+          "error",
+          "Erro",
+          "Informe a área de atuação."
+        )
+      : this.saveAboutMe(request);
   };
 
   handleOnPictureAdd = () => {
@@ -259,16 +279,15 @@ class AboutMe extends Component {
       id: BoxItem[IconId].id,
       icon: { uri: photo.uri }
     };
-    if (photos.length > 4) {
-      photos[IconId] = photo.data;
-    } else {
-      this.setState({
-        photos: [
-          ...photos,
-          { content: photo.data, create: true, name: photo.name }
-        ]
-      });
-    }
+
+    photos.length > 4
+      ? (photos[IconId] = photo.data)
+      : this.setState({
+          photos: [
+            ...photos,
+            { content: photo.data, create: true, name: photo.name }
+          ]
+        });
   };
 
   xpto = e => {
@@ -285,7 +304,7 @@ class AboutMe extends Component {
   };
 
   render() {
-    const { avatar, BoxItem, visible, bankCode, address } = this.state;
+    const { avatar, BoxItem, bankCode, address } = this.state;
     return (
       <View style={styles.container}>
         <View
