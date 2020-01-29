@@ -78,7 +78,8 @@ const CardDeitailsVacancies = ({
           animationIn="zoomIn"
           animationOut="zoomOut"
           animationOutTiming={1000}
-          backdropColor="transparent"
+          backdropColor="#000000"
+          deviceHeight="100%"
         >
           <View style={styles.containerModal}>
             <View style={{ height: dimensions(44), padding: "5%" }}>

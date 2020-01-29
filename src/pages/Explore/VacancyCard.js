@@ -33,7 +33,6 @@ const VancancyCard = ({ onPress, listVacancy }) => {
     // const a = moment(new Date());
     // const b = moment(eventCreationDate);
     // console.log(a.diff(b, "hours"));
-    debugger;
     return (
       <TouchableOpacity
         onPress={e => onPress(job)}
