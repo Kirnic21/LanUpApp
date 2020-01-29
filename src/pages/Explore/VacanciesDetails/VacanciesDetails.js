@@ -222,6 +222,7 @@ class VacanciesDetails extends Component {
               <></>
             ) : (
               <SelectComponent
+                label="Turnos"
                 onSelect={(id, value) => {
                   this.selectShift(value);
                 }}

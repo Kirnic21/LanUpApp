@@ -1,20 +1,16 @@
 import React from "react";
-import { View, Text, TouchableHighlight } from "react-native";
+import { View, Text, TouchableHighlight, StyleSheet } from "react-native";
 import ModalDropdown from "react-native-modal-dropdown";
 import dimensions from "~/assets/Dimensions";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const SelectComponent = ({ value, options, onSelect }) => {
+const SelectComponent = ({ value, options, onSelect, label }) => {
   const displayRow = data => {
     return (
       <TouchableHighlight>
         <View style={{ padding: "5%" }}>
           <Text
-            style={{
-              color: "#23203F",
-              fontSize: dimensions(12),
-              fontFamily: "HelveticaNowMicro-Regular"
-            }}
+            style={[styles.title, { color: "#23203F" }]}
           >{`${data.description}`}</Text>
         </View>
       </TouchableHighlight>
@@ -22,41 +18,50 @@ const SelectComponent = ({ value, options, onSelect }) => {
   };
 
   return (
-    <ModalDropdown
-      options={options}
-      onSelect={onSelect}
-      renderRow={row => displayRow(row)}
-      dropdownStyle={{ width: "60%" }}
-      style={{
-        borderColor: "#FFF",
-        borderWidth: 2,
-        height: dimensions(45),
-        borderRadius: dimensions(50),
-        justifyContent: "center"
-        // paddingLeft: "5%"
-      }}
-    >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          paddingHorizontal: "6%"
-        }}
+    <View>
+      <Text style={styles.title}>{label}</Text>
+      <ModalDropdown
+        options={options}
+        onSelect={onSelect}
+        renderRow={row => displayRow(row)}
+        dropdownStyle={{ width: "60%" }}
+        style={styles.modal}
       >
-        <Text
-          style={{
-            color: "#FFF",
-            fontSize: dimensions(12),
-            fontFamily: "HelveticaNowMicro-Regular"
-          }}
-        >
-          {value.length ? value : "Selecione..."}
-        </Text>
-        <Icon name={"sort-down"} size={dimensions(15)} color="#FFF" />
-      </View>
-    </ModalDropdown>
+        <View style={styles.content}>
+          <Text style={styles.title}>
+            {value.length ? value : "Selecione..."}
+          </Text>
+          <Icon name={"sort-down"} size={dimensions(15)} color="#FFF" />
+        </View>
+      </ModalDropdown>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  TextInput: {
+    borderWidth: 2,
+    color: "#FFF",
+    paddingHorizontal: "7%"
+  },
+  title: {
+    color: "#FFF",
+    fontSize: dimensions(12),
+    fontFamily: "HelveticaNowMicro-Regular"
+  },
+  modal: {
+    borderColor: "#FFF",
+    borderWidth: 2,
+    height: dimensions(45),
+    borderRadius: dimensions(50),
+    justifyContent: "center"
+  },
+  content: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: "6%"
+  }
+});
 
 export default SelectComponent;
