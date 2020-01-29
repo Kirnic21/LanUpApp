@@ -14,6 +14,7 @@ import { decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import HTML from "react-native-render-html";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import DropdownAlert from "react-native-dropdownalert";
 
 class VacanciesDetails extends Component {
   state = {
@@ -27,7 +28,8 @@ class VacanciesDetails extends Component {
     checkListCheckinPreview: [],
     checkListAtCheckin: [],
     checkListCheckoutPreview: [],
-    checkListAtCheckout: []
+    checkListAtCheckout: [],
+    status: 2
   };
 
   componentDidMount() {
@@ -69,29 +71,61 @@ class VacanciesDetails extends Component {
     });
   };
 
-  // invite = async () => {
-  //   const { job } = this.props.navigation.state.params;
-  //   const { checkin, checkout } = this.state;
-  //   const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-  //   request = {
-  //     freelaId: token.id,
-  //     eventId: job.id,
-  //     day: job.jobDate,
-  //     checkout: checkout,
-  //     checkin: checkin,
-  //     jobToDo: job.job
-  //   };
-  //   debugger;
-  //   acceptInvite(request)
-  //     .then(({ data }) => {
-  //       debugger;
-  //       console.log(data);
-  //     })
-  //     .catch(error => {
-  //       debugger;
-  //       console.log(error.response.data);
-  //     });
-  // };
+  invite = async () => {
+    const { job } = this.props.navigation.state.params;
+    const { checkin, checkout } = this.state;
+    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    request = {
+      freelaId: token.id,
+      eventId: job.id,
+      day: job.jobDate,
+      checkout: checkout,
+      checkin: checkin,
+      jobToDo: job.job
+    };
+    checkin === undefined
+      ? this.dropDownAlertRef.alertWithType(
+          "error",
+          "Erro",
+          "Selecione um turno."
+        )
+      : acceptInvite(request)
+          .then(({ data }) => {
+            debugger;
+            console.log(data);
+          })
+          .catch(error => {
+            debugger;
+            console.log(error.response.data);
+          });
+  };
+
+  deleteVacancy = () => {
+    console.log("foi");
+  };
+
+  statusVacancy = () => {
+    const { status } = this.state;
+    return {
+      2: (
+        <ButtonVacancies
+          name="Aceitar"
+          style={{ backgroundColor: "#865FC0", borderWidth: 0 }}
+          onPress={() => {
+            this.invite();
+          }}
+        />
+      ),
+      3: (
+        <ButtonVacancies
+          name="Desitir da vaga"
+          onPress={() => {
+            this.deleteVacancy();
+          }}
+        />
+      )
+    }[status];
+  };
 
   render() {
     const {
@@ -112,11 +146,24 @@ class VacanciesDetails extends Component {
       checkListAtCheckout,
       description,
       eventDescription,
-      spinner
+      spinner,
+      status
     } = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="transparent" translucent={true} />
+        <View
+          style={{
+            width: "100%",
+            alignItems: "center",
+            position: "relative"
+          }}
+        >
+          <DropdownAlert
+            ref={ref => (this.dropDownAlertRef = ref)}
+            closeInterval={500}
+          />
+        </View>
         <SpinnerComponent loading={spinner} />
         <ScrollView style={{ flex: 1 }}>
           <View>
@@ -171,16 +218,18 @@ class VacanciesDetails extends Component {
             />
           </View>
           <View style={{ marginHorizontal: "5%", paddingVertical: "5%" }}>
-            <SelectComponent
-              onSelect={(id, value) => {
-                this.selectShift(value);
-              }}
-              options={serviceDetail}
-              value={description}
-            />
-            {/* <ButtonVacancies
-            //  onPress={() => this.invite()}
-            /> */}
+            {status === 3 ? (
+              <></>
+            ) : (
+              <SelectComponent
+                onSelect={(id, value) => {
+                  this.selectShift(value);
+                }}
+                options={serviceDetail}
+                value={description}
+              />
+            )}
+            <View>{this.statusVacancy()}</View>
           </View>
         </ScrollView>
       </SafeAreaView>

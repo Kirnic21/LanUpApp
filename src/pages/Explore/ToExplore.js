@@ -64,7 +64,6 @@ export default class ToExplore extends Component {
 
   render() {
     const { JobsSelected, listVacancy, loading, spinner } = this.state;
-    console.log(listVacancy);
     return (
       <View style={styles.container}>
         <SpinnerComponent loading={spinner} />
