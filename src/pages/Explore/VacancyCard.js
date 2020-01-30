@@ -61,7 +61,7 @@ const VancancyCard = ({ onPress, listVacancy }) => {
           style={{
             marginVertical: dimensions(22),
             width: "67%",
-            top: "-1%"
+            top: "-1.5%"
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -84,15 +84,26 @@ const VancancyCard = ({ onPress, listVacancy }) => {
           </Text>
           <View style={styles.containerDate}>
             <View style={styles.date}>
-              <Text style={styles.textDate}>
-                {formatDate(jobDate, "ddd")}
-                {"\n"}
-                <Text style={{ fontSize: dimensions(20) }}>
+              <View style={{ alignItems: "center", top: "12%" }}>
+                <Text style={styles.textDate}>
+                  {formatDate(jobDate, "ddd")}
+                </Text>
+                <Text
+                  style={[
+                    styles.textDate,
+                    {
+                      fontSize: dimensions(20),
+                      marginVertical: "-14%",
+                      top: "2.8%"
+                    }
+                  ]}
+                >
                   {formatDate(jobDate, "DD")}
                 </Text>
-                {"\n"}
-                {formatDate(jobDate, "MMM")}
-              </Text>
+                <Text style={styles.textDate}>
+                  {formatDate(jobDate, "MMM")}
+                </Text>
+              </View>
             </View>
             <View style={styles.containerVancancy}>
               <Text
@@ -127,6 +138,7 @@ const VancancyCard = ({ onPress, listVacancy }) => {
             <View
               style={{
                 width: "26%",
+                marginLeft: "-2%",
                 marginTop: "-5%",
                 alignItems: "center"
               }}
@@ -200,28 +212,29 @@ const styles = StyleSheet.create({
   },
   containerDate: {
     flexDirection: "row",
-    marginTop: "2%",
+    marginTop: "3.4%",
     justifyContent: "space-between",
     width: "100%"
   },
   date: {
     backgroundColor: "#FFFFFF85",
-    width: "20%",
-    borderRadius: dimensions(10),
     alignItems: "center",
-    justifyContent: "center"
+    height: dimensions(62),
+    width: dimensions(50),
+    marginRight: "4%",
+    top: "2.6%",
+    borderRadius: dimensions(10)
   },
   textDate: {
     color: "#18142F",
     fontFamily: "HelveticaNowMicro-Bold",
-    fontSize: dimensions(12),
-    paddingHorizontal: "4%",
-    textAlign: "center"
+    fontSize: dimensions(12)
   },
   containerVancancy: {
     flexDirection: "column",
     justifyContent: "space-between",
-    width: "50%"
+    width: "50%",
+    top: "1%"
   },
   TextVacancy: {
     fontSize: dimensions(12),

@@ -39,15 +39,24 @@ const CardImageVacancies = ({ title, shift, location, eventDate, picture }) => {
         </Text>
         <View style={{ flexDirection: "row" }}>
           <View style={styles.containerDate}>
-            <Text style={styles.textDate}>
-              {formatDate(eventDate, "ddd")}
-              {"\n"}
-              <Text style={{ fontSize: dimensions(25) }}>
-                {formatDate(eventDate, "DD")}
-              </Text>
-              {"\n"}
-              {formatDate(eventDate, "MMM")}
+            <Text style={styles.textDate}>{formatDate(eventDate, "ddd")}</Text>
+            <Text
+              style={[
+                styles.textDate,
+                {
+                  fontSize: dimensions(20),
+                  marginVertical: dimensions(-3.5)
+                }
+              ]}
+            >
+              {formatDate(eventDate, "DD")}
             </Text>
+
+            <View style={{ marginBottom: dimensions(-1.5) }}>
+              <Text style={[{ top: dimensions(-1) }, styles.textDate]}>
+                {formatDate(eventDate, "MMM")}
+              </Text>
+            </View>
           </View>
           <View style={{ flexDirection: "column", width: "80%" }}>
             <Text style={styles.textShift}>{shift} turnos</Text>
@@ -83,23 +92,24 @@ const styles = StyleSheet.create({
   },
   containerDate: {
     backgroundColor: "#FFFFFF85",
-    paddingHorizontal: "4%",
-    paddingVertical: "2%",
+    flexDirection: "column",
     alignItems: "center",
-    borderRadius: dimensions(10),
-    marginRight: "4%"
+    padding: "2%",
+    marginRight: "1%",
+    marginTop: "0.5%",
+    width: dimensions(50),
+    borderRadius: dimensions(10)
   },
   textDate: {
     color: "#18142F",
     fontFamily: "HelveticaNowMicro-Bold",
-    fontSize: dimensions(12),
-    textAlign: "center"
+    fontSize: dimensions(12)
   },
   textShift: {
     fontFamily: "HelveticaNowMicro-Regular",
     color: "#FFF",
     fontSize: dimensions(12),
-    paddingBottom: "2%"
+    paddingBottom: "1%"
   },
   textAdress: {
     width: "100%",
