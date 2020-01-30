@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Dimensions, StatusBar } from "react-native";
 import {
   ScrollView,
   TouchableWithoutFeedback
@@ -78,10 +78,11 @@ const CardDeitailsVacancies = ({
           animationIn="zoomIn"
           animationOut="zoomOut"
           animationOutTiming={1000}
-          backdropColor="#000000"
-          deviceHeight="100%"
+          backdropOpacity={0.6}
+          deviceHeight={Dimensions.get("screen").height}
         >
           <View style={styles.containerModal}>
+            <StatusBar backgroundColor="#00000098" />
             <View style={{ height: dimensions(44), padding: "5%" }}>
               <Text
                 numberOfLines={1}
