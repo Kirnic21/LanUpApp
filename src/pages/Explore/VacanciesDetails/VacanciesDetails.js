@@ -190,7 +190,10 @@ class VacanciesDetails extends Component {
               previewContent={[]}
               content={[]}
             >
-              <HTML html={`<Div>${eventDescription}</Div>`} />
+              <HTML
+                baseFontStyle={{ color: "#FFF" }}
+                html={`<Div>${eventDescription}</Div>`}
+              />
             </CardDeitailsVacancies>
             <CardDeitailsVacancies
               title="Minhas Responsabilidades"
