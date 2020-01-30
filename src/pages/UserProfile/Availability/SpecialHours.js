@@ -151,24 +151,26 @@ class SpecialHours extends Component {
 
   newDate = async () => {
     const { SpecialDays, date } = this.state;
+    this.setState({ activeButton: false });
     const datesToSave = [...SpecialDays, { date }];
     const isActive = datesToSave.length ? true : false;
     this.props.navigation.setParams({
       isDate: isActive
     });
-    this.setState({
-      SpecialDays: datesToSave,
-      visible: false,
-      activeButton: false,
-      dateInput: ""
-    });
-    await this.saveDates(datesToSave);
-    this.initializeInput();
-    this.dropDownAlertRef.alertWithType(
-      "success",
-      "Sucesso",
-      "Data adicionada com sucesso."
-    );
+    setTimeout(async () => {
+      this.setState({
+        SpecialDays: datesToSave,
+        visible: false,
+        dateInput: ""
+      });
+      await this.saveDates(datesToSave);
+      this.initializeInput();
+      this.dropDownAlertRef.alertWithType(
+        "success",
+        "Sucesso",
+        "Data adicionada com sucesso."
+      );
+    }, 500);
   };
 
   justSave = async () => {
@@ -436,13 +438,13 @@ class SpecialHours extends Component {
             </View>
           </View>
           <View
-            pointerEvents={activeButton === true ? "auto" : "none"}
+            pointerEvents={activeButton ? "auto" : "none"}
             style={{ alignItems: "center" }}
           >
             <RoundButton
               style={[
                 styles.btnModal,
-                activeButton === true
+                activeButton
                   ? { backgroundColor: "#865FC0" }
                   : { backgroundColor: "#6C757D" }
               ]}
