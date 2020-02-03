@@ -4,7 +4,7 @@ import CardImageVacancies from "./CardImageVacancies";
 import { SafeAreaView } from "react-native";
 import CardDeitailsVacancies from "./CardDeitailsVacancies";
 import dimensions from "~/assets/Dimensions";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import ShiftCard from "./ShiftCard";
 import SelectComponent from "~/shared/components/SelectComponent";
 import ButtonVacancies from "./ButtonVacancies";
@@ -92,10 +92,16 @@ class VacanciesDetails extends Component {
       : acceptInvite(request)
           .then(({ data }) => {
             debugger;
+            this.props.navigation.push("Schedule");
             console.log(data);
           })
           .catch(error => {
             debugger;
+            this.dropDownAlertRef.alertWithType(
+              "error",
+              "Erro",
+              error.response.data
+            );
             console.log(error.response.data);
           });
   };
