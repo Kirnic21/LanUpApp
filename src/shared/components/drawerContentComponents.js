@@ -153,12 +153,7 @@ export default class drawerContentComponents extends Component {
               <Text style={styles.screenTextStyle}>Explorar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => {
-                this.openModal(),
-                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
-              }}
-            >
+            <TouchableOpacity onPress={this.navigateToScreen("Schedule")}>
               <Image source={iconSchedule} style={styles.sizeIcons} />
               <Text style={[styles.screenTextStyle, { borderBottomWidth: 0 }]}>
                 Agenda

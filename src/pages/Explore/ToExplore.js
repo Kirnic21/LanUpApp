@@ -7,7 +7,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import FilterToExplore from "~/pages/Explore/FilterToExplore";
-import VacancyCard from "~/pages/Explore/VacancyCard";
+import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
 import { vacancy } from "~/shared/services/events.http";
 import { decodeToken, getJobs } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";

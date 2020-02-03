@@ -10,6 +10,7 @@ import ToExplorerRoute from "~/routes/ToExplorerRoute";
 import drawerContentComponents from "~/shared/components/drawerContentComponents";
 import dimensions from "~/assets/Dimensions/index";
 import UseProfileNavigator from "~/routes/UseProfileRoute";
+import SchedulesRoute from "~/routes/SchedulesRoute";
 
 // const DrawerNavigator = createStackNavigator(
 //   {
@@ -57,12 +58,14 @@ const DrawerNav = createDrawerNavigator(
   {
     UserProfile: { screen: UseProfileNavigator },
     NextEvent: { screen: NextEvent },
-    ToExplore: { screen: ToExplorerRoute }
+    ToExplore: { screen: ToExplorerRoute },
+    Schedule: { screen: SchedulesRoute }
   },
   {
     contentComponent: drawerContentComponents,
     drawerWidth: dimensions(130),
-    overlayColor: " rgba(0, 0, 0, 0.5)"
+    overlayColor: " rgba(0, 0, 0, 0.5)",
+    unmountInactiveRoutes: true
   }
 );
 
