@@ -189,7 +189,7 @@ class UserProfile extends Component {
           </View>
         </View>
         <TouchableOpacity
-          onPress={this.openPreviewProfile}
+          onPress={() => this.openModal()}
           style={{ width: dimensions(250), alignItems: "center" }}
         >
           <Text style={styles.submitText}>Pré-visualizar o perfil</Text>

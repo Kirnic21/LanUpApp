@@ -127,10 +127,11 @@ class VacanciesDetails extends Component {
             this.timeSpinner();
           })
           .catch(error => {
+            debugger;
             this.dropDownAlertRef.alertWithType(
               "error",
               "Erro",
-              error.response.data
+              error.response.data.errorMessage
             );
           });
   };
@@ -148,7 +149,7 @@ class VacanciesDetails extends Component {
         this.timeSpinner();
       })
       .catch(error => {
-        error.response.data;
+        error.response.data.errorMessage;
       });
   };
 
