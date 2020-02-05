@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 
 import dimensions from "~/assets/Dimensions/index";
 
-const NavigationTitle = ({ title, marginHorizontal }) => {
+const NavigationTitle = ({ title, marginHorizontal, style }) => {
   return (
     <View
       style={{
@@ -13,11 +13,14 @@ const NavigationTitle = ({ title, marginHorizontal }) => {
       }}
     >
       <Text
-        style={{
-          fontFamily: "HelveticaNowMicro-Regular",
-          color: "#FFFFFF",
-          fontSize: dimensions(18)
-        }}
+        style={[
+          {
+            fontFamily: "HelveticaNowMicro-Regular",
+            color: "#FFFFFF",
+            fontSize: dimensions(18)
+          },
+          style
+        ]}
       >
         {title}
       </Text>

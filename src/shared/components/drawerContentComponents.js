@@ -66,7 +66,7 @@ export default class drawerContentComponents extends Component {
         source={imgBack}
         style={{
           flex: 1,
-          height: height - dimensions(26),
+          height: height,
           backgroundColor: "#24203BE6",
           elevation: 2,
           borderRightColor: "#EB48864D",
@@ -134,11 +134,11 @@ export default class drawerContentComponents extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              // onPress={this.navigateToScreen("NextEvent")}
-              onPress={() => {
-                this.openModal(),
-                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
-              }}
+              onPress={this.navigateToScreen("NextEvent")}
+              // onPress={() => {
+              //   this.openModal(),
+              //     this.props.navigation.dispatch(DrawerActions.closeDrawer());
+              // }}
               style={styles.containerIcons}
             >
               <Image source={iconNextEvent} style={styles.sizeIcons} />

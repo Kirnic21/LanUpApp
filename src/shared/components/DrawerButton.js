@@ -12,7 +12,7 @@ const DrawerButton = props => (
       }}
     >
       <Image
-        style={{ height: dimensions(40), width: dimensions(40) }}
+        style={[{ height: dimensions(40), width: dimensions(40) }, props.style]}
         source={IconMenu}
       />
     </TouchableOpacity>

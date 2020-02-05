@@ -1,58 +1,65 @@
-import React, { Component } from "react";
+import React from "react";
 import {
-  Text,
   View,
-  StyleSheet,
-  TouchableOpacity
+  Text,
+  ImageBackground,
+  StatusBar,
+  SafeAreaView,
+  StyleSheet
 } from "react-native";
-import CoreTemplate from "~/shared/components/CoreTemplate";
+import ImageBack from "~/assets/images/Grupo_518.png";
+import dimensions from "~/assets/Dimensions";
 
-class NextEvent extends Component {
-  static navigationOptions = {
-    title: 'Proximo Evento',
-    navigationOptions: {
-      headerTintColor: 'white'
-    }
-  };
-
-  openCheckList = () => {
-    this.props.navigation.navigate('CheckList')
-  }
-
+class NextEvent extends React.Component {
   render() {
     return (
-      <CoreTemplate name="Kaori">
-        <View style={styles.border}>
-          <TouchableOpacity onPress={this.openCheckList}
-            style={{ alignItems: "center", margin: 5 }}>
-            <Text style={styles.circle}>1min para fazer Check-in</Text>
-          </TouchableOpacity>
-        </View>
-      </CoreTemplate >
+      <ImageBackground source={ImageBack} style={{ flex: 1 }}>
+        <SafeAreaView style={styles.container}>
+          <StatusBar backgroundColor="transparent" translucent={true} />
+          <View style={styles.containerTitle}>
+            <Text>Balada TheWeek</Text>
+            <Text>Bartender</Text>
+          </View>
+          <View style={styles.containerCircle}>
+            <Text
+              style={{ color: "#Fff", borderWidth: 2, borderColor: "#FFF" }}
+            >
+              Próximo Evento
+            </Text>
+          </View>
+          <View style={styles.containerButton}>
+            <Text>aaaaa</Text>
+          </View>
+        </SafeAreaView>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  circle: {
-    borderWidth: 8,
-    borderColor: '#352F4D',
-    borderRadius: 80,
-    width: 150,
-    height: 150,
-    backgroundColor: '#656565',
-    color: 'white',
-    padding: 40,
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "stretch"
   },
-  border: {
-    borderWidth: 25,
-    borderRadius: 150,
-    width: 280,
-    height: 280,
-    backgroundColor: 'transparent',
-    padding: 32,
-    paddingHorizontal: 50,
-    borderColor: '#352F4D'
+  containerTitle: {
+    height: "40%",
+    borderWidth: dimensions(2),
+    borderColor: "#FFF"
+  },
+  containerCircle: {
+    height: "37%",
+    borderWidth: dimensions(30),
+    borderColor: "#373361",
+    marginHorizontal: "10%",
+    borderRadius: dimensions(250),
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  containerButton: {
+    height: "30%",
+    borderWidth: dimensions(2),
+    borderColor: "#FFF"
   }
 });
 
