@@ -1,23 +1,5 @@
-// import React from "react";
-// import { View } from "react-native";
-// import Spinner from "react-native-loading-spinner-overlay";
-
-// const SpinnerComponent = ({ visible }) => {
-//   return (
-//     <View>
-//       <Spinner
-//         visible={visible}
-//         size="large"
-//         animation="fade"
-//         color="#7541BF"
-//         overlayColor="rgba(0, 0, 0, 0.9)"
-//       />
-//     </View>
-//   );
-// };
-// export default SpinnerComponent;
-import React, { Component } from "react";
-import { StyleSheet, View, Modal, ActivityIndicator } from "react-native";
+import React from "react";
+import { StyleSheet, View, Modal, StatusBar } from "react-native";
 
 import {
   BallIndicator,
@@ -44,6 +26,7 @@ const SpinnerComponent = props => {
       }}
     >
       <View style={styles.modalBackground}>
+        <StatusBar backgroundColor="#00000098" />
         <View style={styles.activityIndicatorWrapper}>
           <DotIndicator color="#7541BF" count={4} />
         </View>

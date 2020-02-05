@@ -30,13 +30,7 @@ const ToExplorerRoute = createStackNavigator(
         headerTransparent: true,
         headerStyle: {
           marginTop: 20
-        },
-        headerLeft: (
-          <HeaderBackButton
-            tintColor="#FFf"
-            onPress={() => navigation.goBack()}
-          />
-        )
+        }
       })
     }
   },

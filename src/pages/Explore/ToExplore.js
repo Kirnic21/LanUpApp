@@ -4,7 +4,8 @@ import {
   ScrollView,
   View,
   Text,
-  ActivityIndicator
+  ActivityIndicator,
+  StatusBar
 } from "react-native";
 import FilterToExplore from "~/pages/Explore/FilterToExplore";
 import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
@@ -66,6 +67,7 @@ export default class ToExplore extends Component {
     const { JobsSelected, listVacancy, loading, spinner } = this.state;
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor="#18142F" />
         <SpinnerComponent loading={spinner} />
         <ScrollView>
           <View style={{ justifyContent: "flex-start", alignItems: "center" }}>
@@ -81,7 +83,10 @@ export default class ToExplore extends Component {
               <VacancyCard
                 listVacancy={listVacancy}
                 onPress={job =>
-                  this.props.navigation.push("VacanciesDetails", { job })
+                  this.props.navigation.push("VacanciesDetails", {
+                    job,
+                    status: 2
+                  })
                 }
               />
             ) : (

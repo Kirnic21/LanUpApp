@@ -1,20 +1,20 @@
 import React, { Component } from "react";
-import { View, Text, StatusBar, StyleSheet } from "react-native";
+import { View, StatusBar, StyleSheet, ScrollView } from "react-native";
 import CardImageVacancies from "./CardImageVacancies";
 import { SafeAreaView } from "react-native";
 import CardDeitailsVacancies from "./CardDeitailsVacancies";
 import dimensions from "~/assets/Dimensions";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import ShiftCard from "./ShiftCard";
 import SelectComponent from "~/shared/components/SelectComponent";
 import ButtonVacancies from "./ButtonVacancies";
 import { deitailsVacancies } from "~/shared/services/events.http";
-import { acceptInvite } from "~/shared/services/vacancy.http";
+import { acceptInvite, deleteVacancies } from "~/shared/services/vacancy.http";
 import { decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import HTML from "react-native-render-html";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import DropdownAlert from "react-native-dropdownalert";
+import { HeaderBackButton } from "react-navigation";
 
 class VacanciesDetails extends Component {
   state = {
@@ -29,28 +29,40 @@ class VacanciesDetails extends Component {
     checkListAtCheckin: [],
     checkListCheckoutPreview: [],
     checkListAtCheckout: [],
-    status: 2
+    status: this.props.navigation.state.params.status
   };
 
   componentDidMount() {
     const { job } = this.props.navigation.state.params;
+    debugger;
+    const { status } = this.state;
+    const route = status === 2 ? "ToExplore" : "Schedule";
     const request = {
-      id: job.id,
+      id: status === 2 ? job.id : job.eventId,
       service: job.job,
       day: job.jobDate.substr(0, 10)
     };
+
     deitailsVacancies(request).then(({ data }) => {
       const getDeitails = data.result;
       this.setState({
         eventName: job.eventName,
-        workshiftsQuantity: getDeitails.workshiftsQuantity,
+        workshiftsQuantity:
+          status === 2
+            ? `${getDeitails.workshiftsQuantity} turnos`
+            : `${job.start} - ${job.end}`,
         location: getDeitails.location,
         eventDate: job.jobDate.substr(0, 10),
-        picture: job.picture !== null ? job.picture.url : null,
+        picture:
+          job.picture !== null && job.picture !== undefined
+            ? job.picture.url
+            : job.image !== null && job.image !== undefined
+            ? job.image.url
+            : null,
         service: job.job,
         vacancyQuantity: getDeitails.vacancyQuantity,
         payment: getDeitails.payment,
-        serviceDetail: getDeitails.serviceDetail,
+        serviceDetail: status === 2 ? getDeitails.serviceDetail : null,
         previewResponsabilities: getDeitails.previewResponsabilities,
         responsabilities: getDeitails.responsabilities,
         checkListCheckinPreview: getDeitails.checkListCheckinPreview,
@@ -61,7 +73,21 @@ class VacanciesDetails extends Component {
         spinner: false
       });
     });
+    this.props.navigation.setParams({
+      route
+    });
   }
+  static navigationOptions = ({ navigation }) => {
+    const { route } = navigation.state.params;
+    return {
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#FFf"
+          onPress={() => navigation.navigate(route)}
+        />
+      )
+    };
+  };
 
   selectShift = value => {
     this.setState({
@@ -69,6 +95,13 @@ class VacanciesDetails extends Component {
       checkin: value.checkin,
       checkout: value.checkout
     });
+  };
+
+  timeSpinner = () => {
+    setTimeout(() => {
+      this.setState({ spinner: false });
+      this.props.navigation.push("Schedule");
+    }, 1000);
   };
 
   invite = async () => {
@@ -91,23 +124,33 @@ class VacanciesDetails extends Component {
         )
       : acceptInvite(request)
           .then(({ data }) => {
-            debugger;
-            this.props.navigation.push("Schedule");
-            console.log(data);
+            this.setState({ spinner: true });
+            this.timeSpinner();
           })
           .catch(error => {
-            debugger;
             this.dropDownAlertRef.alertWithType(
               "error",
               "Erro",
               error.response.data
             );
-            console.log(error.response.data);
           });
   };
 
   deleteVacancy = () => {
-    console.log("foi");
+    const { job } = this.props.navigation.state.params;
+    request = {
+      id: job.id,
+      checkin: job.start,
+      checkout: job.end
+    };
+    deleteVacancies(request)
+      .then(({ data }) => {
+        this.setState({ spinner: true });
+        this.timeSpinner();
+      })
+      .catch(error => {
+        error.response.data;
+      });
   };
 
   statusVacancy = () => {
@@ -157,7 +200,7 @@ class VacanciesDetails extends Component {
     } = this.state;
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="transparent" translucent={true} />
+        <StatusBar backgroundColor="#00000050" translucent={true} />
         <View
           style={{
             width: "100%",

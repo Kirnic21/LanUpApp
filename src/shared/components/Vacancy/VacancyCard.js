@@ -187,7 +187,7 @@ const VancancyCard = ({ onPress, listVacancy }) => {
             workShiftQuantity={item.workShiftQuantity}
             totalVacancy={item.totalVacancy}
             jobDate={item.jobDate}
-            picture={item.picture}
+            picture={item.picture || item.image}
             job={item}
             eventCreationDate={item.eventCreationDate}
             start={item.start}

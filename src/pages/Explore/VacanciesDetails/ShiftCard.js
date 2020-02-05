@@ -37,7 +37,12 @@ const ShiftCard = ({
             ]}
           >{`(${subTitle})`}</Text>
         </View>
-        <View style={{ width: "30%" }}>
+        <View
+          style={{
+            width: "30%",
+            justifyContent: content !== null ? "flex-start" : "center"
+          }}
+        >
           <Text style={[styles.colorTextAndFontSize, styles.titleValue]}>
             Valor total:
           </Text>
@@ -53,21 +58,25 @@ const ShiftCard = ({
           </Text>
         </View>
       </View>
-      <View style={{ flex: 1 }}>
-        {content.map((c, i) => (
-          <View key={i}>
-            <Text
-              style={[
-                styles.colorTextAndFontSize,
-                styles.TextContent,
-                contentTextStyle
-              ]}
-            >
-              {c.description}
-            </Text>
-          </View>
-        ))}
-      </View>
+      {content !== null && content !== undefined ? (
+        <View style={{ flex: 1 }}>
+          {content.map((c, i) => (
+            <View key={i}>
+              <Text
+                style={[
+                  styles.colorTextAndFontSize,
+                  styles.TextContent,
+                  contentTextStyle
+                ]}
+              >
+                {c.description}
+              </Text>
+            </View>
+          ))}
+        </View>
+      ) : (
+        <></>
+      )}
     </View>
   );
 };

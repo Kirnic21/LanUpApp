@@ -11,7 +11,7 @@ const CardImageVacancies = ({ title, shift, location, eventDate, picture }) => {
   };
   return (
     <View>
-      {picture !== null ? (
+      {picture !== null && picture !== undefined ? (
         <Image source={{ uri: picture }} style={{ height: dimensions(250) }} />
       ) : (
         <View
@@ -59,7 +59,7 @@ const CardImageVacancies = ({ title, shift, location, eventDate, picture }) => {
             </View>
           </View>
           <View style={{ flexDirection: "column", width: "80%" }}>
-            <Text style={styles.textShift}>{shift} turnos</Text>
+            <Text style={styles.textShift}>{shift}</Text>
             <Text style={styles.textAdress}>{location}</Text>
           </View>
         </View>
