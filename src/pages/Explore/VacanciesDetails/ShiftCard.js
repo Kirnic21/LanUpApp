@@ -39,7 +39,7 @@ const ShiftCard = ({
         </View>
         <View
           style={{
-            width: "30%",
+            width: "40%",
             justifyContent: content !== null ? "flex-start" : "center"
           }}
         >
@@ -52,7 +52,7 @@ const ShiftCard = ({
             style={[styles.colorTextAndFontSize, styles.value]}
           >
             R$
-            <Text style={[valueStyle, { fontSize: dimensions(20) }]}>
+            <Text style={[valueStyle, { fontSize: dimensions(22) }]}>
               {value}
             </Text>
           </Text>
@@ -104,12 +104,14 @@ const styles = StyleSheet.create({
     fontFamily: "HelveticaNowDisplay-Regular"
   },
   titleValue: {
-    fontSize: dimensions(11)
+    fontSize: dimensions(11),
+    left: "15%"
   },
   value: {
     color: "#46C5F3",
-    fontSize: dimensions(12),
-    width: "100%"
+    fontSize: dimensions(13),
+    width: "100%",
+    textAlign: "center"
   },
   TextContent: {
     fontSize: dimensions(12)

@@ -34,9 +34,11 @@ const CardImageVacancies = ({ title, shift, location, eventDate, picture }) => {
         style={styles.linearImg}
       />
       <View style={styles.container}>
-        <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
-          {title}
-        </Text>
+        <View style={{ width: "100%", height: dimensions(50), top: "2%" }}>
+          <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
+            {title}
+          </Text>
+        </View>
         <View style={{ flexDirection: "row" }}>
           <View style={styles.containerDate}>
             <Text style={styles.textDate}>{formatDate(eventDate, "ddd")}</Text>
@@ -87,15 +89,14 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontFamily: "HelveticaNowDisplay-Regular",
     fontSize: dimensions(30),
-    paddingBottom: "5%",
-    width: "100%"
+    minHeight: dimensions(40)
   },
   containerDate: {
     backgroundColor: "#FFFFFF85",
     flexDirection: "column",
     alignItems: "center",
     padding: "2%",
-    marginRight: "1%",
+    marginRight: "2%",
     marginTop: "0.5%",
     width: dimensions(50),
     borderRadius: dimensions(10)

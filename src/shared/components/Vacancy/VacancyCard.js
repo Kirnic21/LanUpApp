@@ -41,9 +41,22 @@ const VancancyCard = ({ onPress, listVacancy }) => {
         onPress={e => onPress(job)}
         style={styles.containerCard}
       >
-        <View style={{ justifyContent: "center", width: "33%" }}>
+        <View
+          style={{
+            justifyContent: "center",
+            width: "33%"
+          }}
+        >
           {picture !== null && picture !== undefined ? (
-            <View style={styles.imgCard}>
+            <View
+              style={[
+                styles.imgCard,
+                {
+                  borderBottomRightRadius: dimensions(15),
+                  borderTopRightRadius: dimensions(15)
+                }
+              ]}
+            >
               <FastImage
                 source={{ uri: picture.url }}
                 resizeMode="cover"
@@ -55,8 +68,10 @@ const VancancyCard = ({ onPress, listVacancy }) => {
               />
             </View>
           ) : (
-            <View style={[styles.imgCard, styles.emptyImg]}>
-              <Icon name="image" size={dimensions(35)} color="#23203F" />
+            <View style={[styles.imgCard]}>
+              <View style={styles.emptyImg}>
+                <Icon name="image" size={dimensions(35)} color="#23203F" />
+              </View>
             </View>
           )}
         </View>
@@ -82,19 +97,15 @@ const VancancyCard = ({ onPress, listVacancy }) => {
               </Text>
             </Text>
           </View>
-          <Text
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            style={[styles.nameEvent, styles.HelveticaNowDisplayRegular]}
-          >
-            {title}
-          </Text>
-          <View
-            style={[
-              styles.containerDate,
-              title.length < 14 ? { marginTop: "0.5%" } : { marginTop: "3.4%" }
-            ]}
-          >
+          <View style={{ width: "85%", height: dimensions(33) }}>
+            <Text
+              numberOfLines={1}
+              style={[styles.nameEvent, styles.HelveticaNowDisplayRegular]}
+            >
+              {title}
+            </Text>
+          </View>
+          <View style={[styles.containerDate]}>
             <View style={styles.date}>
               <View style={{ alignItems: "center", top: "12%" }}>
                 <Text style={styles.textDate}>
@@ -225,7 +236,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderBottomRightRadius: dimensions(15),
-    borderTopRightRadius: dimensions(15)
+    borderTopRightRadius: dimensions(15),
+    height: dimensions(116)
   },
   name: {
     fontSize: dimensions(12),
@@ -235,11 +247,11 @@ const styles = StyleSheet.create({
   nameEvent: {
     color: "#FFF",
     fontSize: dimensions(24),
-    width: "85%"
+    minHeight: dimensions(35)
   },
   containerDate: {
     flexDirection: "row",
-    marginTop: "3.4%",
+    marginTop: "2.3%",
     justifyContent: "space-between",
     width: "100%"
   },
@@ -249,7 +261,6 @@ const styles = StyleSheet.create({
     height: dimensions(62),
     width: dimensions(50),
     marginRight: "4%",
-    top: "2.6%",
     borderRadius: dimensions(10)
   },
   textDate: {
