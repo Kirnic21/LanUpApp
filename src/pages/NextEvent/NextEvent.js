@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import ImageBack from "~/assets/images/Grupo_518.png";
 import dimensions from "~/assets/Dimensions";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 class NextEvent extends React.Component {
   render() {
@@ -21,11 +22,15 @@ class NextEvent extends React.Component {
             <Text>Bartender</Text>
           </View>
           <View style={styles.containerCircle}>
-            <Text
-              style={{ color: "#Fff", borderWidth: 2, borderColor: "#FFF" }}
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("MapsGeolocation")}
             >
-              Próximo Evento
-            </Text>
+              <Text
+                style={{ color: "#Fff", borderWidth: 2, borderColor: "#FFF" }}
+              >
+                Próximo Evento
+              </Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.containerButton}>
             <Text>aaaaa</Text>

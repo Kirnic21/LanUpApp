@@ -4,7 +4,7 @@ import NavigationTitle from "~/shared/components/NavigationTitle";
 import DrawerButton from "~/shared/components/DrawerButton";
 import dimensions from "~/assets/Dimensions/index";
 import NextEvent from "~/pages/NextEvent/NextEvent";
-
+import MapsGeolocation from "~/pages/NextEvent/MapsGeolocation";
 const NextEventRoute = createStackNavigator({
   NextEvent: {
     screen: NextEvent,
@@ -24,6 +24,12 @@ const NextEventRoute = createStackNavigator({
         />
       )
     })
+  },
+  MapsGeolocation: {
+    screen: MapsGeolocation,
+    navigationOptions: {
+      header: null
+    }
   }
 });
 export default NextEventRoute;
