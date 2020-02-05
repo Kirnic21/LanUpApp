@@ -249,7 +249,7 @@ class AboutMe extends Component {
       ? this.dropDownAlertRef.alertWithType(
           "error",
           "Erro",
-          "Informe a área de atuação."
+          "Informe a região de atuação."
         )
       : this.saveAboutMe(request);
   };

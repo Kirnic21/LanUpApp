@@ -55,7 +55,7 @@ export default class OccupationArea extends React.Component {
             paddingBottom: "5%"
           }}
         >
-          Área de atuação
+          Região de atuação
         </Text>
         <Text
           onPress={() => {
