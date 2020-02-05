@@ -194,7 +194,6 @@ class AboutMe extends Component {
     const longitude = long === null ? long : long.toString();
     const replaceValidate =
       cpfCnpj !== null ? cpfCnpj.replace(/[\(\)\.\s-]+/g, "") : "";
-    debugger;
     const request = {
       freelaId: token.id,
       avatar: avatarUrl,

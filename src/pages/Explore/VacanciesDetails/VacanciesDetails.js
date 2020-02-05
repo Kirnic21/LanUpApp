@@ -34,7 +34,6 @@ class VacanciesDetails extends Component {
 
   componentDidMount() {
     const { job } = this.props.navigation.state.params;
-    debugger;
     const { status } = this.state;
     const route = status === 2 ? "ToExplore" : "Schedule";
     const request = {
