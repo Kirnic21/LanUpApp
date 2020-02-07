@@ -1,0 +1,165 @@
+import React from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet
+} from "react-native";
+import { CheckBox } from "react-native-elements";
+import dimensions from "~/assets/Dimensions";
+import Modal from "~/shared/components/ModalComponent";
+
+const ModalCheckList = ({ visible, onClose, onTouchOutside, onSwipeOut }) => {
+  const DATA = [
+    {
+      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+      title: "First Item"
+    },
+    {
+      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+      title: "Second Item"
+    },
+    {
+      id: "58694a0f-3da1-471f-bd96-145571e29d72",
+      title: "Third Item"
+    },
+    {
+      id: "586s4a0f-3da1-471f-bd96-145571e29d72",
+      title: "Third Item"
+    },
+    {
+      id: "586s4s0f-3da1-471f-bd96-145571e29d72",
+      title: " Item"
+    }
+  ];
+
+  renderSeparator = () => (
+    <View
+      style={{
+        height: dimensions(3),
+        width: "90%",
+        backgroundColor: "#18142F",
+        marginLeft: "5%",
+        marginRight: "10%"
+      }}
+    />
+  );
+
+  function Item({ title }) {
+    return (
+      <CheckBox
+        title={<Text style={styles.titleCheckBox}>{title}</Text>}
+        checkedIcon="circle"
+        uncheckedIcon="circle-thin"
+        checkedColor="#46C5F3"
+        size={dimensions(15)}
+        checked={true}
+        containerStyle={[styles.CheckBox, { paddingBottom: "5%" }]}
+      />
+    );
+  }
+
+  return (
+    <Modal
+      visible={visible}
+      onClose={onClose}
+      onTouchOutside={onTouchOutside}
+      onSwipeOut={onSwipeOut}
+      style={{ height: dimensions(500) }}
+    >
+      <View style={{ flex: 1 }}>
+        <Text style={styles.header}>CheckList</Text>
+        <View style={{ top: "3%", alignItems: "center" }}>
+          <View style={{ width: "90%", minHeight: "18%" }}>
+            <Text numberOfLines={1} style={styles.title}>
+              Balada TheWeek
+            </Text>
+            <Text style={styles.subTitle}>Bartender</Text>
+          </View>
+        </View>
+        <View
+          style={[
+            styles.containerCheckBox,
+            { top: "5%", flexDirection: "row" }
+          ]}
+        >
+          <CheckBox
+            title={<Text style={styles.titleCheckBox}>Check in</Text>}
+            checkedIcon="circle"
+            uncheckedIcon="circle-thin"
+            checkedColor="#46C5F3"
+            size={dimensions(15)}
+            checked={true}
+            containerStyle={styles.CheckBox}
+          />
+        </View>
+        <View style={[styles.containerCheckBox, { top: "7%", height: "38%" }]}>
+          <FlatList
+            data={DATA}
+            renderItem={({ item }) => <Item id={item.id} title={item.title} />}
+            keyExtractor={item => item.id}
+            ItemSeparatorComponent={renderSeparator}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+        <View style={{ top: "14%", alignItems: "center" }}>
+          <TouchableOpacity style={styles.Btn}>
+            <Text style={styles.textBtn}>Confirmar</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
+const styles = StyleSheet.create({
+  titleCheckBox: {
+    fontFamily: "HelveticaNowDisplay-Regular",
+    fontSize: dimensions(18),
+    left: "20%",
+    color: "#FFF"
+  },
+  header: {
+    textAlign: "center",
+    fontFamily: "HelveticaNowMicro-Regular",
+    fontSize: dimensions(18),
+    color: "#FFF"
+  },
+  title: {
+    color: "#FFF",
+    fontSize: dimensions(28),
+    fontFamily: "HelveticaNowMicro-Medium",
+    left: "-0.5%"
+  },
+  subTitle: {
+    color: "#FFB72B",
+    fontSize: dimensions(18),
+    fontFamily: "HelveticaNowMicro-Regular",
+    top: dimensions(-5)
+  },
+  CheckBox: {
+    backgroundColor: "transparent",
+    borderWidth: 0,
+    width: "95%"
+  },
+  containerCheckBox: {
+    backgroundColor: "#403A60",
+    borderRadius: dimensions(12)
+  },
+  Btn: {
+    backgroundColor: "#7541BF",
+    width: "60%",
+    height: "33%",
+    borderRadius: dimensions(30),
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  textBtn: {
+    color: "#18142F",
+    fontSize: dimensions(12),
+    fontFamily: "HelveticaNowMicro-Regular"
+  }
+});
+
+export default ModalCheckList;

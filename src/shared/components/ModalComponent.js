@@ -9,13 +9,17 @@ export default ModalComponent = ({
   visible,
   children,
   onSwipeOut,
-  onClose
+  onClose,
+  style
 }) => (
   <View>
     <Modal.BottomModal
       visible={visible}
       onTouchOutside={onTouchOutside}
-      modalStyle={{ backgroundColor: "transparent", height: dimensions(300) }}
+      modalStyle={[
+        { backgroundColor: "transparent", height: dimensions(300) },
+        style
+      ]}
       onSwipeOut={onSwipeOut}
     >
       <ModalContent
