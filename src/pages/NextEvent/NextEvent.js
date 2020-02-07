@@ -4,68 +4,129 @@ import {
   Text,
   ImageBackground,
   StatusBar,
-  SafeAreaView,
-  StyleSheet
+  SafeAreaView
 } from "react-native";
 import ImageBack from "~/assets/images/Grupo_518.png";
 import dimensions from "~/assets/Dimensions";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
+import ButtonPulse from "~/shared/components/ButtonPulse";
+import { Dimensions } from "react-native";
+import styles from "./styles";
+import ModalCheckList from "./ModalCheckList";
 class NextEvent extends React.Component {
+  state = {
+    visible: false,
+    bottomModalAndTitle: true
+  };
+
+  closeModal = () => {
+    this.setState({ visible: false });
+  };
+
+  toCheckIn = () => {
+    this.setState({ visible: true });
+  };
+
   render() {
+    const { visible } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="transparent" translucent={true} />
           <View style={styles.containerTitle}>
-            <Text>Balada TheWeek</Text>
-            <Text>Bartender</Text>
+            <View>
+              <Text numberOfLines={1} style={styles.textTitle}>
+                Balada TheWeek
+              </Text>
+              <Text style={styles.TextsubTitle}>Bartender</Text>
+            </View>
           </View>
           <View style={styles.containerCircle}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("MapsGeolocation")}
-            >
-              <Text
-                style={{ color: "#Fff", borderWidth: 2, borderColor: "#FFF" }}
+            <View style={styles.borderCircle}>
+              <ButtonPulse
+                title={`Iniciar${"\n"}Check-in`}
+                titleStyle={{
+                  color: "#FFF",
+                  fontSize: dimensions(18),
+                  textAlign: "center",
+                  lineHeight: dimensions(26),
+                  fontFamily: "HelveticaNowMicro-Regular"
+                }}
+                startAnimations={true}
+                circleStyle={{ backgroundColor: "#46c5f35d" }}
+                styleButton={{ backgroundColor: "#46C5F3" }}
+                onPress={() => this.toCheckIn()}
               >
-                Próximo Evento
-              </Text>
-            </TouchableOpacity>
+                {/* <Text>te</Text> */}
+              </ButtonPulse>
+              {/* <View style={styles.containerButtonPulse}>
+                <ButtonPulse
+                  styleButton={[
+                    styles.ButtonHeightWidth,
+                    styles.ButtonPulseLeft
+                  ]}
+                />
+                <ButtonPulse
+                  startAnimations={true}
+                  styleButton={[
+                    styles.ButtonHeightWidth,
+                    styles.buttonOccurrence,
+                    { top: "20%", backgroundColor: "#FFB72B" }
+                  ]}
+                  circleStyle={[
+                    {
+                      height: dimensions(75),
+                      width: dimensions(75),
+                      top: "21.5%"
+                    },
+                    styles.circleOccurence
+                  ]}
+                />
+                <ButtonPulse
+                  styleButton={[
+                    styles.ButtonHeightWidth,
+                    {
+                      top: "-50%",
+                      borderColor: "#f1356760",
+                      borderWidth: 2,
+                      backgroundColor: "#F13567"
+                    }
+                  ]}
+                  circleStyle={{ height: 10, width: 10 }}
+                />
+              </View> */}
+            </View>
           </View>
-          <View style={styles.containerButton}>
-            <Text>aaaaa</Text>
+          <View
+            style={{
+              width: "100%",
+              height: "25%",
+              alignItems: "center"
+            }}
+          >
+            {/* <TouchableOpacity
+              style={{
+                borderColor: "#FFF",
+                borderWidth: 2,
+                height: dimensions(45),
+                width: dimensions(200),
+                borderRadius: dimensions(45),
+                top: "75%"
+              }}
+            >
+              <Text>aaaa</Text>
+            </TouchableOpacity> */}
           </View>
         </SafeAreaView>
+        <ModalCheckList
+          visible={visible}
+          onClose={() => this.closeModal()}
+          onTouchOutside={() => this.closeModal()}
+          onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
+        />
       </ImageBackground>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "stretch"
-  },
-  containerTitle: {
-    height: "40%",
-    borderWidth: dimensions(2),
-    borderColor: "#FFF"
-  },
-  containerCircle: {
-    height: "37%",
-    borderWidth: dimensions(30),
-    borderColor: "#373361",
-    marginHorizontal: "10%",
-    borderRadius: dimensions(250),
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  containerButton: {
-    height: "30%",
-    borderWidth: dimensions(2),
-    borderColor: "#FFF"
-  }
-});
 
 export default NextEvent;
