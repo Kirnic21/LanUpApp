@@ -1,34 +1,34 @@
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcHeight, calcWidth } from "~/assets/Dimensions/index";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    alignItems: "stretch"
   },
   containerTitle: {
-    width: "100%",
-    height: "27%",
-    justifyContent: "flex-end",
-    alignItems: "center"
+    height: calcHeight(35),
+    alignItems: "center",
+    justifyContent: "center",
+    top: calcHeight(4)
   },
   containerCircle: {
-    width: "100%",
-    height: "50%",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    height: calcHeight(45)
   },
   borderCircle: {
-    width: dimensions(250),
-    height: dimensions(250),
+    width: calcWidth(75),
+    height: calcWidth(75),
     borderWidth: dimensions(30),
     borderColor: "#373361",
-    borderRadius: dimensions(250) / 2,
+    borderRadius: dimensions(250),
     justifyContent: "center"
   },
   textTitle: {
-    fontSize: dimensions(30),
+    fontSize: calcWidth(9),
     fontFamily: "HelveticaNowMicro-Medium",
     top: "12%",
     left: "-0.3%",
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   TextsubTitle: {
     fontFamily: "HelveticaNowMicro-Regular",
-    fontSize: dimensions(20),
+    fontSize: calcWidth(6),
     color: "#FFB72B"
   },
 
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#46C5F3"
   },
   circleCheckin: {
-    backgroundColor: "#03DAC6"
+    backgroundColor: "#46c5f35d"
   },
   buttonCheckout: {
     backgroundColor: "#865FC0"
@@ -70,6 +70,12 @@ const styles = StyleSheet.create({
   },
   circleOccurence: {
     backgroundColor: "#ffb82b80"
+  },
+  buttonWithoutEvent: {
+    backgroundColor: "#4F4D65"
+  },
+  circleWithoutEvent: {
+    backgroundColor: "#70707059"
   },
   heightWidth: {
     height: dimensions(130),
@@ -84,6 +90,38 @@ const styles = StyleSheet.create({
     backgroundColor: "#46C5F3",
     borderColor: "#46c5f35d",
     borderWidth: 2
+  },
+  textButtonPulse: {
+    color: "#FFF",
+    fontFamily: "HelveticaNowMicro-Regular",
+    textAlign: "center",
+    fontSize: dimensions(18),
+    lineHeight: dimensions(28)
+  },
+  containerGroupButton: {
+    position: "absolute",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    top: calcHeight(-4),
+    width: "100%"
+  },
+  buttonSmall: {
+    height: calcWidth(21),
+    width: calcWidth(21)
+  },
+  containerBtn: {
+    height: calcHeight(60),
+    marginTop: calcHeight(6),
+    alignItems: "center"
+  },
+  btn: {
+    borderColor: "#FFF",
+    borderWidth: 2,
+    height: dimensions(45),
+    width: dimensions(200),
+    borderRadius: dimensions(45),
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 

@@ -14,3 +14,10 @@ export default function dimensions(size) {
     return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
   }
 }
+
+export const deviceWidth = Dimensions.get("window").width;
+export const deviceHeight = Dimensions.get("window").height;
+export const calcHeight = x =>
+  PixelRatio.roundToNearestPixel((deviceHeight * x) / 100);
+export const calcWidth = x =>
+  PixelRatio.roundToNearestPixel((deviceWidth * x) / 100);
