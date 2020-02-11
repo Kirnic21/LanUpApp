@@ -45,7 +45,7 @@ export default class drawerContentComponents extends Component {
   }
 
   navigateToScreen = route => () => {
-    const navigateAction = StackActions.push({
+    const navigateAction = NavigationActions.navigate({
       routeName: route
     });
     this.props.navigation.dispatch(navigateAction);

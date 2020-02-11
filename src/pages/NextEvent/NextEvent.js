@@ -1,129 +1,187 @@
 import React from "react";
-import {
-  View,
-  Text,
-  ImageBackground,
-  StatusBar,
-  SafeAreaView
-} from "react-native";
+import { View, ImageBackground, StatusBar, SafeAreaView } from "react-native";
 import ImageBack from "~/assets/images/Grupo_518.png";
-import dimensions from "~/assets/Dimensions";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import ButtonPulse from "~/shared/components/ButtonPulse";
-import { Dimensions } from "react-native";
 import styles from "./styles";
 import ModalCheckList from "./ModalCheckList";
+import { getWorkdays } from "~/shared/services/freela.http";
+import {
+  operationsCheckins,
+  operationsChecklists,
+  getCheckins,
+  getChecklists
+} from "~/shared/services/operations.http";
+import TitleEvent from "./TitleEvent";
+import RoundButton from "~/shared/components/RoundButton";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import ButtonOccurrence from "./ButtonOcurrence";
+import ButtonChecklist from "./ButtonCheckList";
+import ButtonPause from "./ButtonPause";
+import ButtonDuties from "./ButtonDuties";
 class NextEvent extends React.Component {
   state = {
     visible: false,
-    bottomModalAndTitle: true
+    bottomModalAndTitle: true,
+    eventName: "",
+    job: "",
+    checkList: [],
+    checked: false,
+    status: "",
+    spinner: true,
+    isVisible: false
+  };
+
+  componentDidMount() {
+    this.getWorkday();
+  }
+
+  getWorkday = () => {
+    const date = new Date().toISOString().substr(0, 10);
+    getWorkdays({ day: date }).then(({ data }) => {
+      const get = data.result.value;
+      this.setState({ get });
+      get !== null
+        ? this.setWordays()
+        : this.setState({ status: "without", spinner: false });
+    });
+  };
+
+  setWordays = () => {
+    const { get } = this.state;
+    const check = get.checkList.map((c, i) => ({ id: i, title: c }));
+    this.setState({
+      eventName: get.eventName,
+      job: get.job,
+      operationId: get.operationId,
+      checkList: check,
+      spinner: false
+    });
+    request = {
+      id: get.operationId,
+      freelaId: get.freelaId
+    };
+    getCheckins(request).then(({ data }) => {
+      const isCheckin = data.result.value;
+      isCheckin ? "" : this.setState({ status: "checkin" });
+      if (isCheckin) {
+        getChecklists(request).then(({ data }) => {
+          const isCheckLists = data.result.value;
+          isCheckLists
+            ? this.setState({ status: "occurrence", isVisible: true })
+            : this.setState({ visible: true });
+        });
+      }
+    });
   };
 
   closeModal = () => {
     this.setState({ visible: false });
   };
 
+  closeModalBreve = () => {
+    this.setState({ isVisible: false });
+    setTimeout(async () => {
+      this.props.navigation.navigate("UserProfile");
+    }, 500);
+  };
+
   toCheckIn = () => {
-    this.setState({ visible: true });
+    const { operationId } = this.state;
+    operationsCheckins({ id: operationId }).then(({ data }) => {
+      console.log(data);
+      this.setState({ visible: true });
+    });
+  };
+
+  confirmChecklist = () => {
+    const { operationId } = this.state;
+    operationsChecklists({ id: operationId }).then(({ data }) => {
+      debugger;
+      this.setState({
+        visible: false,
+        status: "occurrence"
+      });
+    });
+  };
+
+  checked = () => {
+    const { checked } = this.state;
+    checked
+      ? this.setState({ checked: false })
+      : this.setState({ checked: true });
+  };
+
+  buttonStatus = () => {
+    const { status } = this.state;
+    return {
+      without: (
+        <ButtonChecklist title={`Iniciar${"\n"}Check-in`} type="without" />
+      ),
+      checkin: (
+        <ButtonChecklist
+          title={`Iniciar${"\n"}Check-in`}
+          type="checkin"
+          onPress={() => this.toCheckIn()}
+        />
+      ),
+      occurrence: <ButtonOccurrence />
+    }[status];
+  };
+
+  activityButton = () => {
+    const { status } = this.state;
+    return {
+      without: (
+        <RoundButton
+          name="Encontrar mais vagas"
+          style={styles.btn}
+          onPress={() => this.props.navigation.navigate("ToExplore")}
+        />
+      ),
+      occurrence: <RoundButton name="Minhas Atividades" style={styles.btn} />
+    }[status];
   };
 
   render() {
-    const { visible } = this.state;
+    const {
+      visible,
+      eventName,
+      job,
+      checkList,
+      checked,
+      status,
+      spinner,
+      isVisible
+    } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ flex: 1 }}>
+        <SpinnerComponent loading={spinner} />
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="transparent" translucent={true} />
-          <View style={styles.containerTitle}>
-            <View>
-              <Text numberOfLines={1} style={styles.textTitle}>
-                Balada TheWeek
-              </Text>
-              <Text style={styles.TextsubTitle}>Bartender</Text>
-            </View>
-          </View>
+          <TitleEvent status={status} job={job} eventName={eventName} />
           <View style={styles.containerCircle}>
-            <View style={styles.borderCircle}>
-              <ButtonPulse
-                title={`Iniciar${"\n"}Check-in`}
-                titleStyle={{
-                  color: "#FFF",
-                  fontSize: dimensions(18),
-                  textAlign: "center",
-                  lineHeight: dimensions(26),
-                  fontFamily: "HelveticaNowMicro-Regular"
-                }}
-                startAnimations={true}
-                circleStyle={{ backgroundColor: "#46c5f35d" }}
-                styleButton={{ backgroundColor: "#46C5F3" }}
-                onPress={() => this.toCheckIn()}
-              >
-                {/* <Text>te</Text> */}
-              </ButtonPulse>
-              {/* <View style={styles.containerButtonPulse}>
-                <ButtonPulse
-                  styleButton={[
-                    styles.ButtonHeightWidth,
-                    styles.ButtonPulseLeft
-                  ]}
-                />
-                <ButtonPulse
-                  startAnimations={true}
-                  styleButton={[
-                    styles.ButtonHeightWidth,
-                    styles.buttonOccurrence,
-                    { top: "20%", backgroundColor: "#FFB72B" }
-                  ]}
-                  circleStyle={[
-                    {
-                      height: dimensions(75),
-                      width: dimensions(75),
-                      top: "21.5%"
-                    },
-                    styles.circleOccurence
-                  ]}
-                />
-                <ButtonPulse
-                  styleButton={[
-                    styles.ButtonHeightWidth,
-                    {
-                      top: "-50%",
-                      borderColor: "#f1356760",
-                      borderWidth: 2,
-                      backgroundColor: "#F13567"
-                    }
-                  ]}
-                  circleStyle={{ height: 10, width: 10 }}
-                />
-              </View> */}
-            </View>
+            <View style={styles.borderCircle}>{this.buttonStatus()}</View>
           </View>
-          <View
-            style={{
-              width: "100%",
-              height: "25%",
-              alignItems: "center"
-            }}
-          >
-            {/* <TouchableOpacity
-              style={{
-                borderColor: "#FFF",
-                borderWidth: 2,
-                height: dimensions(45),
-                width: dimensions(200),
-                borderRadius: dimensions(45),
-                top: "75%"
-              }}
-            >
-              <Text>aaaa</Text>
-            </TouchableOpacity> */}
-          </View>
+          <View style={styles.containerBtn}>{this.activityButton()}</View>
+
+          <ModalCheckList
+            visible={visible}
+            job={job}
+            checkList={checkList}
+            pressConfirm={() => this.confirmChecklist()}
+            onPressCheck={() => this.checked()}
+            checked={checked}
+            eventName={eventName}
+            onClose={() => this.closeModal()}
+            onTouchOutside={() => this.closeModal()}
+            onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
+          />
+          <ModalComingSoon
+            onTouchOutside={() => this.closeModalBreve()}
+            onClose={() => this.closeModalBreve()}
+            visible={isVisible}
+            onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
+          />
         </SafeAreaView>
-        <ModalCheckList
-          visible={visible}
-          onClose={() => this.closeModal()}
-          onTouchOutside={() => this.closeModal()}
-          onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
-        />
       </ImageBackground>
     );
   }

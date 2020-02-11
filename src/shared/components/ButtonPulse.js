@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Animated, StyleSheet } from "react-native";
 import { keyframes, stagger } from "popmotion";
-import dimensions from "~/assets/Dimensions";
+import dimensions, { calcHeight, calcWidth } from "~/assets/Dimensions";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const COUNT = 1;
@@ -85,15 +85,15 @@ const styles = StyleSheet.create({
   },
   circle: {
     backgroundColor: "#FFF",
-    height: dimensions(125),
-    width: dimensions(125),
-    borderRadius: dimensions(180)
+    height: calcWidth(35),
+    width: calcWidth(35),
+    borderRadius: dimensions(200)
   },
   btn: {
     backgroundColor: "#FFF",
-    width: dimensions(115),
-    height: dimensions(115),
-    borderRadius: dimensions(160),
+    height: calcWidth(32),
+    width: calcWidth(32),
+    borderRadius: dimensions(150),
     justifyContent: "center",
     alignItems: "center"
   }
