@@ -10,30 +10,18 @@ import { CheckBox } from "react-native-elements";
 import dimensions from "~/assets/Dimensions";
 import Modal from "~/shared/components/ModalComponent";
 
-const ModalCheckList = ({ visible, onClose, onTouchOutside, onSwipeOut }) => {
-  const DATA = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      title: "First Item"
-    },
-    {
-      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-      title: "Second Item"
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      title: "Third Item"
-    },
-    {
-      id: "586s4a0f-3da1-471f-bd96-145571e29d72",
-      title: "Third Item"
-    },
-    {
-      id: "586s4s0f-3da1-471f-bd96-145571e29d72",
-      title: " Item"
-    }
-  ];
-
+const ModalCheckList = ({
+  visible,
+  onClose,
+  onTouchOutside,
+  onSwipeOut,
+  eventName,
+  job,
+  checkList,
+  checked,
+  onPressCheck,
+  pressConfirm
+}) => {
   renderSeparator = () => (
     <View
       style={{
@@ -54,7 +42,7 @@ const ModalCheckList = ({ visible, onClose, onTouchOutside, onSwipeOut }) => {
         uncheckedIcon="circle-thin"
         checkedColor="#46C5F3"
         size={dimensions(15)}
-        checked={true}
+        checked={checked}
         containerStyle={[styles.CheckBox, { paddingBottom: "5%" }]}
       />
     );
@@ -73,9 +61,9 @@ const ModalCheckList = ({ visible, onClose, onTouchOutside, onSwipeOut }) => {
         <View style={{ top: "3%", alignItems: "center" }}>
           <View style={{ width: "90%", minHeight: "18%" }}>
             <Text numberOfLines={1} style={styles.title}>
-              Balada TheWeek
+              {eventName}
             </Text>
-            <Text style={styles.subTitle}>Bartender</Text>
+            <Text style={styles.subTitle}>{job}</Text>
           </View>
         </View>
         <View
@@ -89,22 +77,35 @@ const ModalCheckList = ({ visible, onClose, onTouchOutside, onSwipeOut }) => {
             checkedIcon="circle"
             uncheckedIcon="circle-thin"
             checkedColor="#46C5F3"
+            uncheckedColor="#46C5F3"
             size={dimensions(15)}
-            checked={true}
+            checked={checked}
             containerStyle={styles.CheckBox}
+            onPress={onPressCheck}
           />
         </View>
         <View style={[styles.containerCheckBox, { top: "7%", height: "38%" }]}>
           <FlatList
-            data={DATA}
+            data={checkList}
             renderItem={({ item }) => <Item id={item.id} title={item.title} />}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
             ItemSeparatorComponent={renderSeparator}
             showsVerticalScrollIndicator={false}
           />
         </View>
-        <View style={{ top: "14%", alignItems: "center" }}>
-          <TouchableOpacity style={styles.Btn}>
+        <View
+          pointerEvents={checked ? "auto" : "none"}
+          style={{ top: "14%", alignItems: "center" }}
+        >
+          <TouchableOpacity
+            onPress={pressConfirm}
+            style={[
+              styles.Btn,
+              checked
+                ? { backgroundColor: "#7541BF" }
+                : { backgroundColor: "#6C757D" }
+            ]}
+          >
             <Text style={styles.textBtn}>Confirmar</Text>
           </TouchableOpacity>
         </View>
@@ -148,7 +149,6 @@ const styles = StyleSheet.create({
     borderRadius: dimensions(12)
   },
   Btn: {
-    backgroundColor: "#7541BF",
     width: "60%",
     height: "33%",
     borderRadius: dimensions(30),
