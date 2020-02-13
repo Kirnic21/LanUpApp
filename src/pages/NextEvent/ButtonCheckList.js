@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text } from "react-native";
 import styles from "./styles";
 import ButtonPulse from "~/shared/components/ButtonPulse";
-import dimensions from "~/assets/Dimensions";
 
 const Checkin = ({ onPress, type, title }) => {
   return (
