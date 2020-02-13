@@ -99,11 +99,10 @@ const styles = StyleSheet.create({
     lineHeight: dimensions(28)
   },
   containerGroupButton: {
-    position: "absolute",
     flexDirection: "row",
+    width: calcWidth(78),
     justifyContent: "space-between",
-    top: calcHeight(-4),
-    width: "100%"
+    position: "absolute"
   },
   buttonSmall: {
     height: calcWidth(21),

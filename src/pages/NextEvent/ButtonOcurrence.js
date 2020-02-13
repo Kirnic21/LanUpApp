@@ -1,10 +1,9 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { Text } from "react-native";
 import { calcWidth, calcHeight } from "~/assets/Dimensions";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ButtonPulse from "~/shared/components/ButtonPulse";
 import styles from "./styles";
-import ButtonPause from "./ButtonPause";
 
 const buttonOccurrence = ({ onPress, size }) => {
   return (
@@ -35,14 +34,14 @@ const buttonOccurrence = ({ onPress, size }) => {
         name="alert-circle"
         color="#FFF"
         style={{
-          marginTop: size === "small" ? "10%" : "5%",
-          top: size === "small" ? "5%" : 0
+          marginTop: size === "small" ? calcHeight(1.4) : "5%",
+          top: size === "small" ? calcHeight(1) : 0
         }}
       />
       <Text
         style={[
           styles.textButtonPulse,
-          { fontSize: size === "small" ? calcWidth(3) : calcWidth(4) }
+          { fontSize: size === "small" ? calcWidth(2.7) : calcWidth(4) }
         ]}
       >
         Ocorrência
