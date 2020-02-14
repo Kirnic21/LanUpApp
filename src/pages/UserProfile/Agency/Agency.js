@@ -10,7 +10,6 @@ import {
 
 import AsyncStorage from "@react-native-community/async-storage";
 import { Field, reduxForm } from "redux-form";
-import { Chip } from "react-native-paper";
 
 import { registerAgencies, decodeToken } from "~/shared/services/freela.http";
 import FormValidator from "~/shared/services/validator";
@@ -147,7 +146,7 @@ class Agency extends Component {
                     margin: "2%"
                   }}
                 >
-                  <Chip
+                  {/* <Chip
                     textStyle={{ color: "#FFF" }}
                     style={[
                       styles.chip,
@@ -158,7 +157,7 @@ class Agency extends Component {
                     onPress={e => this.click(e, item.id)}
                   >
                     {item.name}
-                  </Chip>
+                  </Chip> */}
                 </View>
               )}
               numColumns={3}
