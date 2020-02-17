@@ -13,10 +13,11 @@ import {
 import TitleEvent from "./TitleEvent";
 import RoundButton from "~/shared/components/RoundButton";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
-import ButtonOccurrence from "./ButtonOcurrence";
-import ButtonChecklist from "./ButtonCheckList";
-import ButtonPause from "./ButtonPause";
-import ButtonDuties from "./ButtonDuties";
+import { calcWidth } from "~/assets/Dimensions";
+import ModalPause from "./ModalPause";
+import ModalOcurrence from "./ModalOcurrence";
+import ButtonPulse from "~/shared/components/ButtonPulse";
+
 class NextEvent extends React.Component {
   state = {
     visible: false,
@@ -27,7 +28,7 @@ class NextEvent extends React.Component {
     checked: false,
     status: "",
     spinner: true,
-    isVisible: false
+    isModalPause: false
   };
 
   componentDidMount() {
@@ -37,6 +38,7 @@ class NextEvent extends React.Component {
   getWorkday = () => {
     const date = new Date().toISOString().substr(0, 10);
     getWorkdays({ day: date }).then(({ data }) => {
+      debugger;
       const get = data.result.value;
       this.setState({ get });
       get !== null
@@ -59,42 +61,36 @@ class NextEvent extends React.Component {
       id: get.operationId,
       freelaId: get.freelaId
     };
-    getCheckins(request).then(({ data }) => {
-      const isCheckin = data.result.value;
-      isCheckin ? "" : this.setState({ status: "checkin" });
-      if (isCheckin) {
-        getChecklists(request).then(({ data }) => {
-          const isCheckLists = data.result.value;
-          isCheckLists
-            ? this.setState({ status: "occurrence", isVisible: true })
-            : this.setState({ visible: true });
-        });
-      }
-    });
+
+    getCheckins(request)
+      .then(({ data }) => data)
+      .then(({ result }) => {
+        const { value: isCheckin } = result;
+
+        const getStateByChecklist = ({ data }) =>
+          data.result.value
+            ? { status: "occurrence" }
+            : { status: "checkin", visible: true };
+
+        if (isCheckin)
+          getChecklists(request)
+            .then(getStateByChecklist)
+            .then(this.setState);
+        else this.setState({ status: "checkin" });
+      });
   };
 
-  closeModal = () => {
-    this.setState({ visible: false });
-  };
-
-  closeModalBreve = () => {
-    this.setState({ isVisible: false });
-    setTimeout(async () => {
-      this.props.navigation.navigate("UserProfile");
-    }, 500);
-  };
+  closeModal = () => this.setState({ visible: false });
 
   toCheckIn = () => {
-    const { operationId } = this.state;
-    operationsCheckins({ id: operationId }).then(({ data }) => {
-      console.log(data);
-      this.setState({ visible: true });
-    });
+    const { operationId: id } = this.state;
+
+    operationsCheckins({ id }).then(() => this.setState({ visible: true }));
   };
 
   confirmChecklist = () => {
-    const { operationId } = this.state;
-    operationsChecklists({ id: operationId }).then(({ data }) => {
+    const { operationId: id } = this.state;
+    operationsChecklists({ id }).then(({ data }) => {
       debugger;
       this.setState({
         visible: false,
@@ -103,27 +99,42 @@ class NextEvent extends React.Component {
     });
   };
 
-  checked = () => {
-    const { checked } = this.state;
-    checked
+  checked = () =>
+    this.state.checked
       ? this.setState({ checked: false })
       : this.setState({ checked: true });
-  };
 
   buttonStatus = () => {
     const { status } = this.state;
     return {
       without: (
-        <ButtonChecklist title={`Iniciar${"\n"}Check-in`} type="without" />
+        <ButtonPulse
+          title={`Iniciar${"\n"}Check-in`}
+          titleStyle={{ textAlign: "center", lineHeight: calcWidth(7) }}
+          titleColor="#24203B"
+          size="normal"
+          color="#4F4D65"
+        />
       ),
       checkin: (
-        <ButtonChecklist
+        <ButtonPulse
           title={`Iniciar${"\n"}Check-in`}
-          type="checkin"
+          titleStyle={{ textAlign: "center", lineHeight: calcWidth(7) }}
+          size="normal"
+          startAnimations={true}
+          color="#46C5F3"
           onPress={() => this.toCheckIn()}
         />
       ),
-      occurrence: <ButtonOccurrence />
+      occurrence: (
+        <ButtonPulse
+          title="Ocorrência"
+          icon="alert-circle"
+          size="normal"
+          startAnimations={true}
+          color="#FFB72B"
+        />
+      )
     }[status];
   };
 
@@ -160,6 +171,39 @@ class NextEvent extends React.Component {
           <TitleEvent status={status} job={job} eventName={eventName} />
           <View style={styles.containerCircle}>
             <View style={styles.borderCircle}>{this.buttonStatus()}</View>
+            {status === "checkout" || status === "occurrence" ? (
+              <View style={{ alignItems: "center", top: calcWidth(-26) }}>
+                <View style={styles.containerGroupButton}>
+                  <ButtonPulse
+                    icon="assistant"
+                    title="Deveres"
+                    size="small"
+                    color="#46C5F3"
+                  />
+                  {status === "checkout" ? (
+                    <View style={{ top: calcWidth(12) }}>
+                      <ButtonPulse
+                        title="Ocorrência"
+                        icon="alert-circle"
+                        size="small"
+                        startAnimations={true}
+                        color="#FFB72B"
+                      />
+                    </View>
+                  ) : (
+                    <></>
+                  )}
+                  <ButtonPulse
+                    size="small"
+                    icon="play"
+                    title="Pausa"
+                    color="#F13567"
+                  />
+                </View>
+              </View>
+            ) : (
+              <></>
+            )}
           </View>
           <View style={styles.containerBtn}>{this.activityButton()}</View>
 
@@ -175,12 +219,8 @@ class NextEvent extends React.Component {
             onTouchOutside={() => this.closeModal()}
             onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
           />
-          <ModalComingSoon
-            onTouchOutside={() => this.closeModalBreve()}
-            onClose={() => this.closeModalBreve()}
-            visible={isVisible}
-            onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
-          />
+          <ModalOcurrence visible={false} />
+          <ModalPause visible={false} />
         </SafeAreaView>
       </ImageBackground>
     );
