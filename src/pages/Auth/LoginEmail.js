@@ -19,7 +19,7 @@ import Modal from "../../shared/components/ModalComponent";
 import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
 import Spinner from "react-native-loading-spinner-overlay";
-import DropdownAlert from "react-native-dropdownalert";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import InputModal from "~/shared/components/InputModal";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
@@ -72,11 +72,7 @@ class LoginEmail extends Component {
       })
       .catch(error => {
         this.setState({ spinner: false });
-        this.dropDownAlertRef.alertWithType(
-          "error",
-          "Erro",
-          "Usuário ou senha inválidos"
-        );
+        AlertHelper.show("error", "Erro", "Usuário ou senha inválidos");
         console.log(error.response.data);
       });
   };
@@ -97,15 +93,11 @@ class LoginEmail extends Component {
       .then(({ data }) => {
         if (data.isSuccess) {
           console.log(data);
-          this.dropDownAlertRef.alertWithType(
-            "success",
-            "Sucesso",
-            "Email enviado com sucesso!"
-          );
+          AlertHelper.show("success", "Sucesso", "Email enviado com sucesso!");
         }
       })
       .catch(error => {
-        this.dropDownAlertRef.alertWithType(
+        AlertHelper.show(
           "error",
           "Erro",
           "Este endereço de email não está cadastrado."
@@ -120,18 +112,6 @@ class LoginEmail extends Component {
     return (
       <ImageBackground source={ImageBack} style={{ width, height, flex: 1 }}>
         <KeyboardAwareScrollView style={{ flex: 1 }}>
-          <View
-            style={{
-              width: "100%",
-              alignItems: "center",
-              position: "absolute"
-            }}
-          >
-            <DropdownAlert
-              ref={ref => (this.dropDownAlertRef = ref)}
-              closeInterval={2000}
-            />
-          </View>
           <Spinner
             visible={this.state.spinner}
             size="large"

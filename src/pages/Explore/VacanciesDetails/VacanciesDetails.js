@@ -13,7 +13,7 @@ import { decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import HTML from "react-native-render-html";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
-import DropdownAlert from "react-native-dropdownalert";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { HeaderBackButton } from "react-navigation";
 
 class VacanciesDetails extends Component {
@@ -116,23 +116,14 @@ class VacanciesDetails extends Component {
       jobToDo: job.job
     };
     checkin === undefined
-      ? this.dropDownAlertRef.alertWithType(
-          "error",
-          "Erro",
-          "Selecione um turno."
-        )
+      ? AlertHelper.show("error", "Erro", "Selecione um turno.")
       : acceptInvite(request)
-          .then(({ data }) => {
+          .then(() => {
             this.setState({ spinner: true });
             this.timeSpinner();
           })
           .catch(error => {
-            debugger;
-            this.dropDownAlertRef.alertWithType(
-              "error",
-              "Erro",
-              error.response.data.errorMessage
-            );
+            AlertHelper.show("error", "Erro", error.response.data.errorMessage);
           });
   };
 
@@ -201,18 +192,6 @@ class VacanciesDetails extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="#00000050" translucent={true} />
-        <View
-          style={{
-            width: "100%",
-            alignItems: "center",
-            position: "relative"
-          }}
-        >
-          <DropdownAlert
-            ref={ref => (this.dropDownAlertRef = ref)}
-            closeInterval={500}
-          />
-        </View>
         <SpinnerComponent loading={spinner} />
         <ScrollView style={{ flex: 1 }}>
           <View>

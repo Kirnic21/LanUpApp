@@ -12,7 +12,7 @@ import dimensions from "~/assets/Dimensions/index";
 import DateInputField from "~/shared/components/DateInputField";
 import { saveAvailability, decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
-import DropdownAlert from "react-native-dropdownalert";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import Toggle from "~/shared/components/ToggleComponent";
 
 class AvailabilityDays extends React.Component {
@@ -123,8 +123,7 @@ class AvailabilityDays extends React.Component {
     saveAvailability(request)
       .then(({ data }) => {
         if (data.isSuccess) {
-          console.log(data);
-          this.dropDownAlertRef.alertWithType(
+          AlertHelper.show(
             "success",
             "Sucesso",
             "Horário confirmado com sucesso"
@@ -141,19 +140,6 @@ class AvailabilityDays extends React.Component {
     const { dayOfWeek } = day;
     return (
       <View style={styles.Container}>
-        <View
-          style={{
-            width: "100%",
-            alignItems: "center",
-            position: "absolute",
-            marginTop: "-22%"
-          }}
-        >
-          <DropdownAlert
-            closeInterval={500}
-            ref={ref => (this.dropDownAlertRef = ref)}
-          />
-        </View>
         <ScrollView>
           <View style={{ marginHorizontal: "6%" }}>
             <Text style={styles.titleDays}>{daysOfWeek[dayOfWeek]}</Text>

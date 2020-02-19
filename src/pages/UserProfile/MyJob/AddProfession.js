@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import DropdownAlert from "react-native-dropdownalert";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import AsyncStorage from "@react-native-community/async-storage";
 import { decodeToken, updateJobs } from "~/shared/services/freela.http";
 import dimensions from "~/assets/Dimensions/index";
@@ -41,14 +41,10 @@ class AddProfession extends Component {
   SaveJob = async () => {
     const { jobs } = this.state;
     if (jobs.length < 1) {
-      this.dropDownAlertRef.alertWithType(
-        "error",
-        "Erro",
-        "Adicione pelo menos uma profissão!"
-      );
+      AlertHelper.show("error", "Erro", "Adicione pelo menos uma profissão!");
     } else {
       const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-      this.dropDownAlertRef.alertWithType(
+      AlertHelper.show(
         "success",
         "Sucesso",
         "Profissões adicionada com sucesso!"
@@ -92,19 +88,6 @@ class AddProfession extends Component {
     console.log(this.props.navigation.state.params);
     return (
       <View style={styles.container}>
-        <View
-          style={{
-            width: "100%",
-            alignItems: "center",
-            top: dimensions(-67),
-            position: "absolute"
-          }}
-        >
-          <DropdownAlert
-            closeInterval={500}
-            ref={ref => (this.dropDownAlertRef = ref)}
-          />
-        </View>
         <ScrollView>
           <View style={styles.containerJob}>
             <Text

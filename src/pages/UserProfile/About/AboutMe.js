@@ -14,7 +14,6 @@ import {
   validateCPF,
   validateCNPJ
 } from "~/shared/helpers/validate/ValidateCpfCnpj";
-import DropdownAlert from "react-native-dropdownalert";
 import { reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import { getAbout, decodeToken, aboutMe } from "~/shared/services/freela.http";
@@ -24,6 +23,7 @@ import { setAbout } from "~/store/ducks/aboutMe/about.actions";
 import OccupationArea from "./OccupationArea";
 import PresentationPictures from "./PresentationPictures";
 import FastImage from "react-native-fast-image";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 class AboutMe extends Component {
   state = {
     visible: false,
@@ -153,7 +153,7 @@ class AboutMe extends Component {
       .then(({ data }) => {
         if (data.isSuccess) {
           console.log(data);
-          this.dropDownAlertRef.alertWithType(
+          AlertHelper.show(
             "success",
             "Sucesso",
             "Informações salvas com sucesso."
@@ -240,17 +240,9 @@ class AboutMe extends Component {
         : null;
 
     validate === false && validate !== null
-      ? this.dropDownAlertRef.alertWithType(
-          "error",
-          "Erro",
-          "Cpf/Cnpj inválido."
-        )
+      ? AlertHelper.show("error", "Erro", "Cpf/Cnpj inválido.")
       : latitude === null
-      ? this.dropDownAlertRef.alertWithType(
-          "error",
-          "Erro",
-          "Informe a região de atuação."
-        )
+      ? AlertHelper.show("error", "Erro", "Informe a região de atuação.")
       : this.saveAboutMe(request);
   };
 
@@ -302,23 +294,14 @@ class AboutMe extends Component {
     this.setState({ bankCode: item });
   };
 
+  teste = () => {
+    AlertHelper.show("warn", "Warning", "Close to get the close event.");
+  };
+
   render() {
     const { avatar, BoxItem, bankCode, address } = this.state;
     return (
       <View style={styles.container}>
-        <View
-          style={{
-            width: "100%",
-            alignItems: "center",
-            position: "absolute",
-            marginTop: "-22%"
-          }}
-        >
-          <DropdownAlert
-            ref={ref => (this.dropDownAlertRef = ref)}
-            closeInterval={500}
-          />
-        </View>
         <ScrollView
           style={styles.ScrollView}
           showsVerticalScrollIndicator={false}

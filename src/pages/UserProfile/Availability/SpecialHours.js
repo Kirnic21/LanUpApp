@@ -13,7 +13,7 @@ import {
 import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { MenuItem } from "react-native-material-menu";
-import DropdownAlert from "react-native-dropdownalert";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import Toggle from "~/shared/components/ToggleComponent";
 
 import ProfileHeaderMenu from "~/shared/components/ProfileHeaderMenu";
@@ -165,11 +165,7 @@ class SpecialHours extends Component {
       });
       await this.saveDates(datesToSave);
       this.initializeInput();
-      this.dropDownAlertRef.alertWithType(
-        "success",
-        "Sucesso",
-        "Data adicionada com sucesso."
-      );
+      AlertHelper.show("success", "Sucesso", "Data adicionada com sucesso.");
     }, 500);
   };
 
@@ -177,17 +173,9 @@ class SpecialHours extends Component {
     const { SpecialDays } = this.state;
     if (SpecialDays.length) {
       await this.saveDates(SpecialDays);
-      this.dropDownAlertRef.alertWithType(
-        "success",
-        "Sucesso",
-        "Horário salvo com sucesso."
-      );
+      AlertHelper.show("success", "Sucesso", "Horário salvo com sucesso.");
     } else {
-      this.dropDownAlertRef.alertWithType(
-        "error",
-        "Erro",
-        "Adicione pelo menos um horário."
-      );
+      AlertHelper.show("error", "Erro", "Adicione pelo menos um horário.");
     }
   };
 
@@ -213,18 +201,9 @@ class SpecialHours extends Component {
       freelaId: token.id,
       specialDayAvailabilities: [...datesToSave]
     })
-      .then(({ data }) => {
-        if (data.isSuccess) {
-          console.log(data);
-        }
-      })
+      .then(() => {})
       .catch(error => {
-        this.dropDownAlertRef.alertWithType(
-          "error",
-          "Erro",
-          error.response.data.errorMessage
-        );
-        console.log(error.response.data);
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       });
   }
 
@@ -238,11 +217,7 @@ class SpecialHours extends Component {
       isDate: isActive
     });
     this.saveDates(datesToSave);
-    this.dropDownAlertRef.alertWithType(
-      "success",
-      "Sucesso",
-      "Horário removido com sucesso."
-    );
+    AlertHelper.show("success", "Sucesso", "Horário removido com sucesso.");
   }
 
   onFieldChange(propName, data, id) {
@@ -263,20 +238,6 @@ class SpecialHours extends Component {
 
     return (
       <View style={styles.Container}>
-        <View
-          style={{
-            width: "100%",
-            alignItems: "center",
-            position: "absolute",
-            marginTop: "-22%"
-          }}
-        >
-          <DropdownAlert
-            closeInterval={500}
-            ref={ref => (this.dropDownAlertRef = ref)}
-            defaultContainer={{ padding: 8, flexDirection: "row" }}
-          />
-        </View>
         {SpecialDays.length ? (
           <View
             style={{

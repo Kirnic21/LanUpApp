@@ -17,7 +17,7 @@ import { changePassword } from "~/shared/services/auth.http";
 import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
 import AsyncStorage from "@react-native-community/async-storage";
-import DropdownAlert from "react-native-dropdownalert";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -75,14 +75,10 @@ class ChangePassword extends Component {
         if (data.isSuccess) {
           AsyncStorage.setItem(JSON.stringify(data));
           if (password === newPassword) {
-            this.dropDownAlertRef.alertWithType(
-              "error",
-              "Erro",
-              "Nova senha é igual a atual!"
-            );
+            AlertHelper.show("error", "Erro", "Nova senha é igual a atual!");
           } else {
             this.props.navigation.navigate("UserProfile");
-            this.dropDownAlertRef.alertWithType(
+            AlertHelper.show(
               "success",
               "Sucesso",
               "Senha alterada com sucesso."
@@ -92,19 +88,9 @@ class ChangePassword extends Component {
       })
       .catch(error => {
         if (newPassword !== confirmPassword) {
-          this.dropDownAlertRef.alertWithType(
-            "error",
-            "Erro",
-            "Nova senha não confere!"
-          );
+          AlertHelper.show("error", "Erro", "Nova senha não confere!");
         }
-
-        this.dropDownAlertRef.alertWithType(
-          "error",
-          "Erro",
-          "Senha atual não confere!"
-        );
-        console.log(error.response.data);
+        AlertHelper.show("error", "Erro", "Senha atual não confere!");
       });
   };
 
@@ -119,19 +105,6 @@ class ChangePassword extends Component {
           flex: 1
         }}
       >
-        <View
-          style={{
-            width: "100%",
-            marginTop: "-3%",
-            alignItems: "center",
-            position: "absolute"
-          }}
-        >
-          <DropdownAlert
-            closeInterval={500}
-            ref={ref => (this.dropDownAlertRef = ref)}
-          />
-        </View>
         <KeyboardAwareScrollView style={{}}>
           <StatusBar translucent backgroundColor="transparent" />
           <Container

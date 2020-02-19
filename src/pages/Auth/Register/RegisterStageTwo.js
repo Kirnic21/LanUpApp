@@ -14,7 +14,7 @@ import styles from "./register.style";
 
 import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
-import DropdownAlert from "react-native-dropdownalert";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
 import { existingEmail } from "~/shared/services/freela.http";
@@ -60,9 +60,9 @@ class RegisterStageTwo extends Component {
       const validate = data.result.value;
 
       validate === true
-        ? this._dropdown.alertWithType("error", "Erro", "Este email já existe.")
+        ? AlertHelper.show("error", "Erro", "Este email já existe.")
         : password !== confirmPassword
-        ? this._dropdown.alertWithType(
+        ? AlertHelper.show(
             "error",
             "Erro",
             "As senhas não podem ser diferentes!"
@@ -82,21 +82,6 @@ class RegisterStageTwo extends Component {
     const { handleSubmit, invalid } = this.props;
     return (
       <ImageBackground source={ImageBack} style={styles.ImageBackground}>
-        <View
-          style={{
-            width: "100%",
-            alignItems: "center",
-            position: "absolute",
-            marginTop: "-5%"
-          }}
-        >
-          <DropdownAlert
-            ref={ref => {
-              this._dropdown = ref;
-            }}
-            closeInterval={500}
-          />
-        </View>
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <StatusBar translucent backgroundColor="transparent" />
           <Container

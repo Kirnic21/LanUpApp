@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  ImageBackground,
-  Dimensions,
-  StatusBar,
-  TouchableOpacity
-} from "react-native";
+import { View, Text, ImageBackground, StatusBar } from "react-native";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { setUser } from "~/store/ducks/user/user.actions";
@@ -27,9 +20,8 @@ import {
   existingEmail
 } from "~/shared/services/freela.http";
 import { validateCPF } from "~/shared/helpers/validate/ValidateCpfCnpj";
-
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import InputMask from "~/shared/components/InputMask";
-import DropdownAlert from "react-native-dropdownalert";
 
 const formRules = FormValidator.make(
   {
@@ -83,26 +75,14 @@ class RegisterStageOne extends Component {
       existingEmail(email).then(({ data }) => {
         const emailExisting = data.result.value;
         emailExisting === true
-          ? this._dropdown.alertWithType(
-              "error",
-              "Erro",
-              "Este email já existe."
-            )
+          ? AlertHelper.show("error", "Erro", "Este email já existe.")
           : existingCpf(CPF).then(({ data }) => {
               const cpfExisting = data.result.value;
               const cpfValidate = validateCPF(CPF);
               cpfExisting === true
-                ? this._dropdown.alertWithType(
-                    "error",
-                    "Erro",
-                    "Este cpf já existe."
-                  )
+                ? AlertHelper.show("error", "Erro", "Este cpf já existe.")
                 : cpfValidate === false
-                ? this._dropdown.alertWithType(
-                    "error",
-                    "Erro",
-                    "Este cpf é inválido."
-                  )
+                ? AlertHelper.show("error", "Erro", "Este cpf é inválido.")
                 : create(request)
                     .then(async ({ data }) => {
                       if (data.isSuccess) {
@@ -125,9 +105,9 @@ class RegisterStageOne extends Component {
       const cpfExisting = data.result.value;
       const cpfValidate = validateCPF(CPF);
       cpfExisting === true
-        ? this._dropdown.alertWithType("error", "Erro", "Este cpf já existe.")
+        ? AlertHelper.show("error", "Erro", "Este cpf já existe.")
         : cpfValidate === false
-        ? this._dropdown.alertWithType("error", "Erro", "Este cpf é inválido.")
+        ? AlertHelper.show("error", "Erro", "Este cpf é inválido.")
         : this.props.navigation.push("RegisterStageTwo");
     });
   };
@@ -137,21 +117,6 @@ class RegisterStageOne extends Component {
     const { handleSubmit, invalid } = this.props;
     return (
       <ImageBackground source={ImageBack} style={styles.ImageBackground}>
-        <View
-          style={{
-            width: "100%",
-            alignItems: "center",
-            position: "absolute",
-            marginTop: "-3%"
-          }}
-        >
-          <DropdownAlert
-            ref={ref => {
-              this._dropdown = ref;
-            }}
-            closeInterval={500}
-          />
-        </View>
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <StatusBar translucent backgroundColor="transparent" />
           <Container style={{ backgroundColor: "transparent" }}>

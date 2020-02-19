@@ -7,7 +7,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { decodeToken, updateSkills } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import MaterialCommunityIcons from "react-native-vector-icons/FontAwesome";
-import DropdownAlert from "react-native-dropdownalert";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import InputModal from "~/shared/components/InputModal";
 import AddSkillEmpty from "~/shared/components/emptyState/AddSkillEmpty";
 
@@ -130,11 +130,7 @@ class AddSkill extends Component {
     this.props.navigation.setParams({
       isEditing: false
     });
-    this.dropDownAlertRef.alertWithType(
-      "success",
-      "Sucesso",
-      "Habilidade removida com sucesso!"
-    );
+    AlertHelper.show("success", "Sucesso", "Habilidade removida com sucesso!");
     updateSkills({ id: token.id, skills })
       .then(({ data }) => {
         if (data.isSuccess) {
@@ -152,19 +148,6 @@ class AddSkill extends Component {
     const isEditing = this.props.navigation.getParam("isEditing");
     return (
       <View style={styles.container}>
-        <View
-          style={{
-            width: "100%",
-            alignItems: "center",
-            position: "absolute",
-            marginTop: "-22%"
-          }}
-        >
-          <DropdownAlert
-            closeInterval={500}
-            ref={ref => (this.dropDownAlertRef = ref)}
-          />
-        </View>
         {GetSkill.length ? (
           <View
             style={{
