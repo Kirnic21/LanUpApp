@@ -18,8 +18,10 @@ class App extends Component {
 constructor(properties) {
     super(properties);
     OneSignal.init(ONE_SIGNAL_ID, {
-      kOSSettingsKeyInFocusDisplayOption: 2
+      kOSSettingsKeyInFocusDisplayOption: 0
     });// set kOSSettingsKeyAutoPrompt to false prompting manually on iOS
+    // OneSignal.setLogLevel(6, 6);
+    OneSignal.inFocusDisplaying(0);
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);
     OneSignal.addEventListener('ids', this.onIds);
@@ -38,7 +40,7 @@ constructor(properties) {
   onOpened(openResult) {
     // TODO: lógica de validação de tipo de push enviado
     console.log('Message: ', openResult.notification.payload.body);
-    console.log('Data: ', openResult.notification.payload.additionalData.type);
+    console.log('Data: ', openResult.notification.payload.additionalData);
     console.log('isActive: ', openResult.notification.isAppInFocus);
     console.log('openResult: ', openResult);
   }
