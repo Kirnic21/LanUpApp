@@ -1,12 +1,24 @@
 import { HTTP } from "./http.base";
-
-const operationsCheckins = data => HTTP.post(`operations/${data.id}/checkins`);
+const resource = `operations`;
+const operationsCheckins = data =>
+  HTTP.post(`${resource}/${data.id}/checkins`, data);
 const getCheckins = data =>
-  HTTP.get(`operations/${data.id}/checkins/${data.freelaId}`);
+  HTTP.get(`${resource}/${data.id}/checkins/${data.freelaId}`);
 
 const operationsChecklists = data =>
-  HTTP.post(`operations/${data.id}/checklists`);
+  HTTP.post(`${resource}/${data.id}/checklists`, data);
 const getChecklists = data =>
-  HTTP.get(`operations/${data.id}/checklists/${data.freelaId}`);
+  HTTP.get(
+    `${resource}/${data.id}/checklists/${data.origin}/freelas/${data.freelaId}`,
+    data
+  );
 
-export { operationsCheckins, operationsChecklists, getCheckins, getChecklists };
+const incidents = data => HTTP.post(`${resource}/${data.id}/incidents`, data);
+
+export {
+  operationsCheckins,
+  operationsChecklists,
+  getCheckins,
+  getChecklists,
+  incidents
+};

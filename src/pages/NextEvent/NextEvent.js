@@ -8,7 +8,8 @@ import {
   operationsCheckins,
   operationsChecklists,
   getCheckins,
-  getChecklists
+  getChecklists,
+  incidents
 } from "~/shared/services/operations.http";
 import TitleEvent from "./TitleEvent";
 import RoundButton from "~/shared/components/RoundButton";
@@ -17,10 +18,11 @@ import { calcWidth } from "~/assets/Dimensions";
 import ModalPause from "./ModalPause";
 import ModalOcurrence from "./ModalOcurrence";
 import ButtonPulse from "~/shared/components/ButtonPulse";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 class NextEvent extends React.Component {
   state = {
-    visible: false,
+    openModalCheckin: false,
     bottomModalAndTitle: true,
     eventName: "",
     job: "",
@@ -28,7 +30,10 @@ class NextEvent extends React.Component {
     checked: false,
     status: "",
     spinner: true,
-    isModalPause: false
+    isModalPause: false,
+    openModalOccurrence: false,
+    description: "",
+    origin: ""
   };
 
   componentDidMount() {
@@ -38,7 +43,6 @@ class NextEvent extends React.Component {
   getWorkday = () => {
     const date = new Date().toISOString().substr(0, 10);
     getWorkdays({ day: date }).then(({ data }) => {
-      debugger;
       const get = data.result.value;
       this.setState({ get });
       get !== null
@@ -55,7 +59,9 @@ class NextEvent extends React.Component {
       job: get.job,
       operationId: get.operationId,
       checkList: check,
-      spinner: false
+      spinner: false,
+      vacancyId: get.vacancyId,
+      freelaId: get.freelaId
     });
     request = {
       id: get.operationId,
@@ -66,43 +72,78 @@ class NextEvent extends React.Component {
       .then(({ data }) => data)
       .then(({ result }) => {
         const { value: isCheckin } = result;
-
-        const getStateByChecklist = ({ data }) =>
-          data.result.value
-            ? { status: "occurrence" }
-            : { status: "checkin", visible: true };
-
-        if (isCheckin)
-          getChecklists(request)
-            .then(getStateByChecklist)
-            .then(this.setState);
-        else this.setState({ status: "checkin" });
+        this.setState({ origin: "Checkin" });
+        isCheckin ? this.checklist() : this.setState({ status: "checkin" });
       });
   };
 
-  closeModal = () => this.setState({ visible: false });
+  closeModal = value => {
+    return this.setState(value);
+  };
 
   toCheckIn = () => {
-    const { operationId: id } = this.state;
+    const { operationId: id, vacancyId } = this.state;
+    operationsCheckins({ id, vacancyId }).then(({}) => {
+      this.setState({ openModalCheckin: true });
+    });
+  };
 
-    operationsCheckins({ id }).then(() => this.setState({ visible: true }));
+  checklist = () => {
+    const { operationId: id, freelaId, origin } = this.state;
+    request = {
+      id,
+      origin,
+      freelaId
+    };
+    getChecklists(request)
+      .then(({ data }) => data)
+      .then(({ result }) => {
+        const { value: isCheckLists } = result;
+        isCheckLists
+          ? this.setState({ status: "occurrence" })
+          : this.setState({
+              status: "checkin",
+              openModalCheckin: true
+            });
+      });
   };
 
   confirmChecklist = () => {
-    const { operationId: id } = this.state;
-    operationsChecklists({ id }).then(({ data }) => {
-      debugger;
-      this.setState({
-        visible: false,
-        status: "occurrence"
-      });
-    });
+    const { operationId: id, origin } = this.state;
+    operationsChecklists({ id, origin: origin === "Checkin" ? 1 : 0 }).then(
+      () => {
+        this.setState({
+          openModalCheckin: false,
+          status: "occurrence"
+        });
+      }
+    );
   };
 
   checked = () =>
     this.state.checked
       ? this.setState({ checked: false })
       : this.setState({ checked: true });
+
+  sendImgOcurrence = image => {
+    this.setState({ image: image.data });
+    AlertHelper.show("success", "Sucesso", "Sua imagem foi adicionada.");
+    return;
+  };
+
+  SendOcurrence = () => {
+    const { operationId: id, job, image, description } = this.state;
+    request = { id, job, incidentStatus: 1, image, description };
+    incidents(request).then(() => {
+      this.setState({
+        description: "",
+        send: false,
+        openModalOccurrence: false
+      });
+      AlertHelper.show("success", "Sucesso", "Ocorrência enviada com sucesso.");
+    });
+    return;
+  };
 
   buttonStatus = () => {
     const { status } = this.state;
@@ -133,6 +174,7 @@ class NextEvent extends React.Component {
           size="normal"
           startAnimations={true}
           color="#FFB72B"
+          onPress={() => this.setState({ openModalOccurrence: true })}
         />
       )
     }[status];
@@ -154,14 +196,16 @@ class NextEvent extends React.Component {
 
   render() {
     const {
-      visible,
+      openModalCheckin,
+      openModalOccurrence,
       eventName,
       job,
       checkList,
       checked,
       status,
       spinner,
-      isVisible
+      send,
+      description
     } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ flex: 1 }}>
@@ -195,7 +239,7 @@ class NextEvent extends React.Component {
                   )}
                   <ButtonPulse
                     size="small"
-                    icon="play"
+                    icon="pause"
                     title="Pausa"
                     color="#F13567"
                   />
@@ -208,18 +252,35 @@ class NextEvent extends React.Component {
           <View style={styles.containerBtn}>{this.activityButton()}</View>
 
           <ModalCheckList
-            visible={visible}
+            visible={openModalCheckin}
             job={job}
             checkList={checkList}
             pressConfirm={() => this.confirmChecklist()}
             onPressCheck={() => this.checked()}
             checked={checked}
             eventName={eventName}
-            onClose={() => this.closeModal()}
-            onTouchOutside={() => this.closeModal()}
+            onClose={() => this.closeModal({ openModalCheckin: false })}
+            onTouchOutside={() => this.closeModal({ openModalCheckin: false })}
             onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
           />
-          <ModalOcurrence visible={false} />
+          <ModalOccurrence
+            visible={openModalOccurrence}
+            send={send}
+            onPressSend={() => this.SendOcurrence()}
+            onImageSelected={this.sendImgOcurrence}
+            valueInput={description}
+            onChangeText={text =>
+              this.setState({
+                description: text,
+                send: text !== "" ? true : false
+              })
+            }
+            onClose={() => this.closeModal({ openModalOccurrence: false })}
+            onTouchOutside={() =>
+              this.closeModal({ openModalOccurrence: false })
+            }
+            onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
+          />
           <ModalPause visible={false} />
         </SafeAreaView>
       </ImageBackground>
