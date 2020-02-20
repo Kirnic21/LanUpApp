@@ -16,7 +16,7 @@ import RoundButton from "~/shared/components/RoundButton";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { calcWidth } from "~/assets/Dimensions";
 import ModalPause from "./ModalPause";
-import ModalOcurrence from "./ModalOcurrence";
+import ModalOccurrence from "./ModalOccurrence";
 import ButtonPulse from "~/shared/components/ButtonPulse";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
