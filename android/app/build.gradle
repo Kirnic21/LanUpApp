@@ -1,3 +1,4 @@
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
@@ -10,9 +11,6 @@ buildscript {
         classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.1, 0.99.99]'
     }
 }
-
-apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
-
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -108,7 +106,7 @@ def enableSeparateBuildPerCPUArchitecture = true
  * Run Proguard to shrink the Java bytecode in release builds.
  */
 //  referencia : https://facebook.github.io/react-native/docs/signed-apk-android#enabling-proguard-to-reduce-the-size-of-the-apk-optional
-// def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -133,6 +131,9 @@ def useIntlJsc = true;
 def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     compileOptions {
