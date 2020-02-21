@@ -13,6 +13,10 @@ const getChecklists = data =>
     data
   );
 
+const breaks = data => HTTP.post(`${resource}/${data.id}/breaks`, data);
+const updatebreaks = data => HTTP.put(`${resource}/${data.id}/breaks`);
+const openedBreaks = data => HTTP.get(`${resource}/${data.id}/breaks/opened`);
+
 const incidents = data => HTTP.post(`${resource}/${data.id}/incidents`, data);
 
 export {
@@ -20,5 +24,8 @@ export {
   operationsChecklists,
   getCheckins,
   getChecklists,
-  incidents
+  incidents,
+  breaks,
+  updatebreaks,
+  openedBreaks
 };

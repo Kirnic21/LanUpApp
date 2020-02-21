@@ -7,7 +7,7 @@ import cameraPlus from "~/assets/images/camera-plus.png";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ImageSelector from "~/shared/components/ImageSelector";
 
-const ModalOcurrence = ({
+const ModalOccurrence = ({
   visible,
   onClose,
   onTouchOutside,
@@ -96,4 +96,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ModalOcurrence;
+export default ModalOccurrence;
