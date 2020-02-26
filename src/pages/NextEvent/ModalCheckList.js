@@ -20,7 +20,8 @@ const ModalCheckList = ({
   checkList,
   checked,
   onPressCheck,
-  pressConfirm
+  pressConfirm,
+  titleCheck
 }) => {
   renderSeparator = () => (
     <View
@@ -73,7 +74,7 @@ const ModalCheckList = ({
           ]}
         >
           <CheckBox
-            title={<Text style={styles.titleCheckBox}>Check in</Text>}
+            title={<Text style={styles.titleCheckBox}>{titleCheck}</Text>}
             checkedIcon="circle"
             uncheckedIcon="circle-thin"
             checkedColor="#46C5F3"

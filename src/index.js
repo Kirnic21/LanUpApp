@@ -61,6 +61,7 @@ class App extends Component {
   render() {
     return (
       <>
+        <StatusBar backgroundColor="#18142F" barStyle="light-content" />
         <Provider store={store}>
           <Routes />
         </Provider>

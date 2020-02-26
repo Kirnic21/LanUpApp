@@ -18,7 +18,8 @@ import {
   incidents,
   breaks,
   openedBreaks,
-  updatebreaks
+  updatebreaks,
+  operationsCheckout
 } from "~/shared/services/operations.http";
 import TitleEvent from "./TitleEvent";
 import RoundButton from "~/shared/components/RoundButton";
@@ -28,6 +29,8 @@ import ModalPause from "./ModalPause";
 import ModalOccurrence from "./ModalOccurrence";
 import ButtonPulse from "~/shared/components/ButtonPulse";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import BackgroundTimer from "react-native-background-timer";
 
 class NextEvent extends React.Component {
   state = {
@@ -43,7 +46,8 @@ class NextEvent extends React.Component {
     openModalOccurrence: false,
     description: "",
     origin: "",
-    pause: false
+    pause: false,
+    isCheckin: false
   };
 
   componentDidMount() {
@@ -53,30 +57,23 @@ class NextEvent extends React.Component {
     this.getWorkday();
   }
 
-  closeModal = value => {
-    return this.setState(value);
-  };
-
   getWorkday = () => {
-    const date = new Date().toISOString().substr(0, 10);
-    getWorkdays({ day: date }).then(({ data }) => {
+    const date = new Date();
+    const day = date.toISOString().substr(0, 10);
+    getWorkdays({ day }).then(({ data }) => {
       const get = data.result.value;
       this.setState({ get });
       get !== null
         ? this.setWordays()
         : this.setState({ status: "without", spinner: false });
-      openedBreaks({ id: get.operationId })
-        .then(({ data }) => data)
-        .then(({ result }) => {
-          const { value } = result;
-          this.setState({ pause: value });
-        });
     });
   };
 
   setWordays = () => {
-    const { get } = this.state;
-    const check = get.checkList.map((c, i) => ({ id: i, title: c }));
+    const { get, status } = this.state;
+    const checkList =
+      status === "checkout" ? get.checkListCheckout : get.checkListCheckIn;
+    const check = checkList.map((c, i) => ({ id: i, title: c }));
     this.setState({
       eventName: get.eventName,
       job: get.job,
@@ -84,20 +81,47 @@ class NextEvent extends React.Component {
       checkList: check,
       spinner: false,
       vacancyId: get.vacancyId,
-      freelaId: get.freelaId
+      freelaId: get.freelaId,
+      checkout: get.checkout
     });
     request = {
       id: get.operationId,
       freelaId: get.freelaId
     };
-
     getCheckins(request)
       .then(({ data }) => data)
       .then(({ result }) => {
         const { value: isCheckin } = result;
-        this.setState({ origin: "Checkin" });
+        this.setState({ origin: "Checkin", isCheckin });
+        this.checkoutHours();
         isCheckin ? this.checklist() : this.setState({ status: "checkin" });
       });
+
+    openedBreaks({ id: get.operationId })
+      .then(({ data }) => data)
+      .then(({ result }) => {
+        const { value } = result;
+        this.setState({ pause: value });
+      });
+    BackgroundTimer.setInterval(() => {
+      this.checkoutHours();
+    }, 60000);
+  };
+
+  checkoutHours = () => {
+    const { checkout, isCheckin } = this.state;
+    const date = new Date();
+    const checkoutDate = new Date(date.setHours(...checkout.split(":")));
+    const currentTime = date.setDate(date.getDate());
+
+    const checkoutTime =
+      checkout.substr(0, 2) === "00"
+        ? checkoutDate.setDate(checkoutDate.getDate() + 1)
+        : checkoutDate.setDate(checkoutDate.getDate());
+
+    currentTime >= checkoutTime && isCheckin
+      ? this.setState({ status: "checkout", origin: "Checkout" })
+      : this.setState({ status: "without" });
   };
 
   toCheckIn = () => {
@@ -105,6 +129,18 @@ class NextEvent extends React.Component {
     operationsCheckins({ id, vacancyId }).then(({}) => {
       this.setState({ openModalCheckin: true });
     });
+  };
+
+  toCheckout = () => {
+    const { operationId: id, vacancyId } = this.state;
+    operationsCheckout({ id, vacancyId })
+      .then(() => {
+        this.setState({ openModalCheckin: false });
+        this.props.navigation.replace("Rating");
+      })
+      .catch(error => {
+        error.response.data;
+      });
   };
 
   checklist = () => {
@@ -118,12 +154,15 @@ class NextEvent extends React.Component {
       .then(({ data }) => data)
       .then(({ result }) => {
         const { value: isCheckLists } = result;
-        isCheckLists
-          ? this.setState({ status: "occurrence" })
-          : this.setState({
-              status: "checkin",
-              openModalCheckin: true
-            });
+        const { status } = this.state;
+        if (isCheckLists && status !== "checkout")
+          this.setState({ status: "occurrence" });
+        if (isCheckLists === false && status !== "checkout")
+          this.setState({
+            status: "checkin",
+            openModalCheckin: true,
+            isCheckLists
+          });
       });
   };
 
@@ -133,15 +172,18 @@ class NextEvent extends React.Component {
       : this.setState({ checked: true });
 
   confirmChecklist = () => {
-    const { operationId: id, origin } = this.state;
-    operationsChecklists({ id, origin: origin === "Checkin" ? 1 : 0 }).then(
-      () => {
-        this.setState({
-          openModalCheckin: false,
-          status: "occurrence"
-        });
-      }
-    );
+    const { operationId: id, origin, status } = this.state;
+    operationsChecklists({
+      id,
+      origin: origin === "Checkin" ? 1 : 2
+    }).then(() => {
+      status !== "checkout"
+        ? this.setState({
+            openModalCheckin: false,
+            status: "occurrence"
+          })
+        : this.toCheckout();
+    });
   };
 
   sendImgOcurrence = image => {
@@ -202,13 +244,23 @@ class NextEvent extends React.Component {
           onPress={() => this.toCheckIn()}
         />
       ),
+      checkout: (
+        <ButtonPulse
+          title={`Iniciar${"\n"}Check-out`}
+          titleStyle={{ textAlign: "center", lineHeight: calcWidth(7) }}
+          size="normal"
+          startAnimations={pause ? false : true}
+          color="#865FC0"
+          onPress={() => this.setState({ openModalCheckin: true })}
+        />
+      ),
       occurrence: (
         <ButtonPulse
           title="Ocorrência"
           icon="alert-circle"
           size="normal"
-          startAnimations={pause ? false : true}
           color="#FFB72B"
+          startAnimations={pause ? false : true}
           onPress={() => this.setState({ openModalOccurrence: true })}
         />
       )
@@ -250,6 +302,7 @@ class NextEvent extends React.Component {
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="transparent" translucent={true} />
           <TitleEvent status={status} job={job} eventName={eventName} />
+
           <View style={styles.containerCircle}>
             <View
               pointerEvents={pause ? "none" : "auto"}
@@ -267,12 +320,18 @@ class NextEvent extends React.Component {
                     color="#46C5F3"
                   />
                   {status === "checkout" ? (
-                    <View style={{ top: calcWidth(12) }}>
+                    <View
+                      pointerEvents={pause ? "none" : "auto"}
+                      style={{ top: calcWidth(12) }}
+                    >
                       <ButtonPulse
                         title="Ocorrência"
                         icon="alert-circle"
                         size="small"
-                        startAnimations={true}
+                        startAnimations={pause ? false : true}
+                        onPress={() =>
+                          this.setState({ openModalOccurrence: true })
+                        }
                         color="#FFB72B"
                       />
                     </View>
@@ -301,15 +360,16 @@ class NextEvent extends React.Component {
 
           <ModalCheckList
             visible={openModalCheckin}
+            titleCheck={status === "checkout" ? "Check-out" : "Check-in"}
             job={job}
             checkList={checkList}
             pressConfirm={() => this.confirmChecklist()}
             onPressCheck={() => this.checkedChecklist()}
             checked={checked}
             eventName={eventName}
-            onClose={() => this.closeModal({ openModalCheckin: false })}
-            onTouchOutside={() => this.closeModal({ openModalCheckin: false })}
-            onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
+            onClose={() => {
+              this.setState({ openModalCheckin: false });
+            }}
           />
           <ModalOccurrence
             visible={openModalOccurrence}
@@ -323,18 +383,12 @@ class NextEvent extends React.Component {
                 send: text !== "" ? true : false
               })
             }
-            onClose={() => this.closeModal({ openModalOccurrence: false })}
-            onTouchOutside={() =>
-              this.closeModal({ openModalOccurrence: false })
-            }
-            onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
+            onClose={() => this.setState({ openModalOccurrence: false })}
           />
           <ModalPause
             visible={openModalPause}
             onPress={reason => this.breakOperations(reason)}
-            onClose={() => this.closeModal({ openModalCheckin: false })}
-            onTouchOutside={() => this.closeModal({ openModalCheckin: false })}
-            onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
+            onClose={() => this.setState({ openModalCheckin: false })}
           />
         </SafeAreaView>
       </ImageBackground>

@@ -19,9 +19,13 @@ const openedBreaks = data => HTTP.get(`${resource}/${data.id}/breaks/opened`);
 
 const incidents = data => HTTP.post(`${resource}/${data.id}/incidents`, data);
 
+const operationsCheckout = data =>
+  HTTP.post(`${resource}/${data.id}/checkouts`, data);
+
 export {
   operationsCheckins,
   operationsChecklists,
+  operationsCheckout,
   getCheckins,
   getChecklists,
   incidents,

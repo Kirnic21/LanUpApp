@@ -294,10 +294,6 @@ class AboutMe extends Component {
     this.setState({ bankCode: item });
   };
 
-  teste = () => {
-    AlertHelper.show("warn", "Warning", "Close to get the close event.");
-  };
-
   render() {
     const { avatar, BoxItem, bankCode, address } = this.state;
     return (
