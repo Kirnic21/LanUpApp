@@ -1,26 +1,20 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Modal, { ModalContent } from "react-native-modals";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import dimensions from "~/assets/Dimensions/index";
 
-export default ModalComponent = ({
-  onTouchOutside,
-  visible,
-  children,
-  onSwipeOut,
-  onClose,
-  style
-}) => (
+export default ModalComponent = ({ visible, children, onClose, style }) => (
   <View>
     <Modal.BottomModal
+      onHardwareBackPress={onClose}
       visible={visible}
-      onTouchOutside={onTouchOutside}
+      onTouchOutside={onClose}
       modalStyle={[
         { backgroundColor: "transparent", height: dimensions(300) },
         style
       ]}
-      onSwipeOut={onSwipeOut}
+      onSwipeOut={onClose}
     >
       <ModalContent
         style={{

@@ -22,7 +22,7 @@ const SpinnerComponent = props => {
       animationType={"none"}
       visible={loading}
       onRequestClose={() => {
-        console.log("close modal");
+        true;
       }}
     >
       <View style={styles.modalBackground}>
