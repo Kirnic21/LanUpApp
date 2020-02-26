@@ -8,7 +8,7 @@ import { decodeToken, updateSkills } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import MaterialCommunityIcons from "react-native-vector-icons/FontAwesome";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import InputModal from "~/shared/components/InputModal";
+import InputLabel from "~/shared/components/InputLabel";
 import AddSkillEmpty from "~/shared/components/emptyState/AddSkillEmpty";
 
 import dimensions from "~/assets/Dimensions/index";
@@ -219,7 +219,7 @@ class AddSkill extends Component {
             Adicionar
           </Text>
           <View style={styles.containerModalInput}>
-            <InputModal
+            <InputLabel
               isfocused={"#46C5F3"}
               onChangeText={this.Skills}
               title="Habilidade"

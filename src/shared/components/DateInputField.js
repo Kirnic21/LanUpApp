@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import Input from "~/shared/components/InputLabel";
+import Input from "~/shared/components/InputDate";
 import moment from "moment";
 import dimensions from "~/assets/Dimensions/index";
 import ptBr from "moment/src/locale/pt-br";

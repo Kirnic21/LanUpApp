@@ -20,7 +20,7 @@ import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
 import Spinner from "react-native-loading-spinner-overlay";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import InputModal from "~/shared/components/InputModal";
+import InputLabel from "~/shared/components/InputLabel";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
 
@@ -192,8 +192,8 @@ class LoginEmail extends Component {
               <Text style={styles.subtitleModal}>
                 Escreva o seu e-mail e enviaremos{`\n`}a senha provisória
               </Text>
-              <View style={styles.containerInputModal}>
-                <InputModal
+              <View style={styles.containerInputLabel}>
+                <InputLabel
                   isfocused={"#865FC0"}
                   onChangeText={this.handleEmail}
                   title="E-mail"
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     top: "-1%",
     fontFamily: "HelveticaNowMicro-Medium"
   },
-  containerInputModal: {
+  containerInputLabel: {
     justifyContent: "center",
     alignItems: "flex-start",
     left: "5%",

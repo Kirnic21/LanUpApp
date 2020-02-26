@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import dimensions from "~/assets/Dimensions/index";
+
 export default InputLabel = ({
   title,
   keyboardType,
@@ -19,49 +20,62 @@ export default InputLabel = ({
   value,
   editable,
   onChangeText,
-  onClick
-}) => (
-  <TouchableOpacity style={{ width: "100%" }} onPress={onClick}>
-    <View>
-      <Text style={{ color: "white", fontSize: dimensions(14), top: "-10%" }}>
-        {title}
-      </Text>
-    </View>
-    <View
-      style={{
-        marginBottom: "5%",
-        width: "100%"
-      }}
-    >
-      <Text
-        style={[
-          {
-            height: dimensions(43),
-            borderColor: "white",
-            borderRadius: 23,
-            color: "white"
-          },
-          style,
-          styles.TextInput
-        ]}
-        onPress={onClick}
-        keyboardType={keyboardType}
-        secureTextEntry={secureTextEntry}
-        // autoFocus={autoFocus}
-        numberOfLines={numberOfLines}
-        multiline={multiline}
-        enablesReturnKeyAutomatically={true}
-        onChange={onChange}
-        value={value}
-        editable={editable}
-        onChangeText={onChangeText}
+  onClick,
+  onSubmitEditing,
+  placeholder,
+  placeholderTextColor,
+  isfocused
+}) => {
+  const [isInputFocused, setInputFocused] = useState({
+    input1: false
+  });
+  return (
+    <View style={{ width: "100%" }}>
+      <View>
+        <Text style={{ color: "white", fontSize: dimensions(14), top: "-10%" }}>
+          {title}
+        </Text>
+      </View>
+      <View
+        style={{
+          marginBottom: "5%",
+          width: "100%"
+        }}
       >
-        {value}
-      </Text>
+        <TextInput
+          style={[
+            {
+              height: dimensions(45),
+              borderRadius: dimensions(23),
+              color: "white"
+            },
+            style,
+            isInputFocused.input1
+              ? { borderColor: isfocused }
+              : { borderColor: "#FFF" },
+            styles.TextInput
+          ]}
+          onPress={onClick}
+          keyboardType={keyboardType}
+          secureTextEntry={secureTextEntry}
+          // autoFocus={autoFocus}
+          numberOfLines={numberOfLines}
+          multiline={multiline}
+          enablesReturnKeyAutomatically={true}
+          onChange={onChange}
+          value={value}
+          editable={editable}
+          onChangeText={onChangeText}
+          onFocus={() => setInputFocused(prev => ({ ...prev, input1: true }))}
+          onBlur={() => setInputFocused(prev => ({ ...prev, input1: false }))}
+          onSubmitEditing={onSubmitEditing}
+          placeholder={placeholder}
+          placeholderTextColor={placeholderTextColor}
+        ></TextInput>
+      </View>
     </View>
-  </TouchableOpacity>
-);
-
+  );
+};
 const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,

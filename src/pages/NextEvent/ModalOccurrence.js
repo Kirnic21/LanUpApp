@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "~/shared/components/ModalComponent";
 import { calcHeight, calcWidth } from "~/assets/Dimensions/index";
-import InputModal from "~/shared/components/InputModal";
+import InputLabel from "~/shared/components/InputLabel";
 import cameraPlus from "~/assets/images/camera-plus.png";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ImageSelector from "~/shared/components/ImageSelector";
@@ -35,7 +35,7 @@ const ModalOccurrence = ({
         <View style={{ marginTop: calcHeight(4) }}>
           <Text style={styles.subTitle}>O que aconteceu?</Text>
 
-          <InputModal
+          <InputLabel
             isfocused="#46C5F3"
             onChangeText={onChangeText}
             style={{ backgroundColor: "#3f3d58", width: calcWidth(80) }}

@@ -380,7 +380,7 @@ class SpecialHours extends Component {
             Adicione um horário
           </Text>
           <View style={styles.containerModalInput}>
-            <InputLabel
+            <InputDate
               onClick={this.datepicker}
               editable={false}
               value={dateInput}
