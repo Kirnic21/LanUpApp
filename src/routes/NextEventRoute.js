@@ -1,10 +1,12 @@
 import * as React from "react";
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator, HeaderBackButton } from "react-navigation";
 import NavigationTitle from "~/shared/components/NavigationTitle";
 import DrawerButton from "~/shared/components/DrawerButton";
 import dimensions from "~/assets/Dimensions/index";
 import NextEvent from "~/pages/NextEvent/NextEvent";
 import MapsGeolocation from "~/pages/NextEvent/MapsGeolocation";
+import Rating from "~/pages/NextEvent/Rating";
+
 const NextEventRoute = createStackNavigator({
   NextEvent: {
     screen: NextEvent,
@@ -23,6 +25,23 @@ const NextEventRoute = createStackNavigator({
           style={{ marginTop: dimensions(30) }}
         />
       )
+    })
+  },
+  Rating: {
+    screen: Rating,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: (
+        <NavigationTitle
+          title="Avalie"
+          marginHorizontal={dimensions(0)}
+          style={{ marginTop: dimensions(5) }}
+        />
+      ),
+      headerStyle: {
+        backgroundColor: "#18142F",
+        height: dimensions(40)
+      },
+      headerLeft: null
     })
   },
   MapsGeolocation: {
