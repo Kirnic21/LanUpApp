@@ -60,13 +60,20 @@ class NextEvent extends React.Component {
   getWorkday = () => {
     const date = new Date();
     const day = date.toISOString().substr(0, 10);
-    getWorkdays({ day }).then(({ data }) => {
-      const get = data.result.value;
-      this.setState({ get });
-      get !== null
-        ? this.setWordays()
-        : this.setState({ status: "without", spinner: false });
-    });
+    getWorkdays({ day })
+      .then(({ data }) => {
+        const get = data.result.value;
+        debugger;
+        this.setState({ get });
+        get !== null ? this.setWordays() : this.setState({ status: "without" });
+      })
+      .catch(error => {
+        debugger;
+        error.response.data;
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
+      });
   };
 
   setWordays = () => {
@@ -82,7 +89,8 @@ class NextEvent extends React.Component {
       spinner: false,
       vacancyId: get.vacancyId,
       freelaId: get.freelaId,
-      checkout: get.checkout
+      checkout: get.checkout,
+      hirerId: get.hirerId
     });
     request = {
       id: get.operationId,
@@ -91,37 +99,46 @@ class NextEvent extends React.Component {
     getCheckins(request)
       .then(({ data }) => data)
       .then(({ result }) => {
+        debugger;
         const { value: isCheckin } = result;
         this.setState({ origin: "Checkin", isCheckin });
         this.checkoutHours();
         isCheckin ? this.checklist() : this.setState({ status: "checkin" });
+      })
+      .catch(error => {
+        debugger;
+        error.response.data;
       });
 
     openedBreaks({ id: get.operationId })
       .then(({ data }) => data)
       .then(({ result }) => {
+        debugger;
         const { value } = result;
         this.setState({ pause: value });
+      })
+      .catch(error => {
+        debugger;
+        error.response.data;
       });
     BackgroundTimer.setInterval(() => {
       this.checkoutHours();
-    }, 60000);
+    }, 900000);
   };
 
   checkoutHours = () => {
     const { checkout, isCheckin } = this.state;
     const date = new Date();
     const checkoutDate = new Date(date.setHours(...checkout.split(":")));
-    const currentTime = date.setDate(date.getDate());
+    debugger;
 
     const checkoutTime =
       checkout.substr(0, 2) === "00"
         ? checkoutDate.setDate(checkoutDate.getDate() + 1)
         : checkoutDate.setDate(checkoutDate.getDate());
 
-    currentTime >= checkoutTime && isCheckin
-      ? this.setState({ status: "checkout", origin: "Checkout" })
-      : this.setState({ status: "without" });
+    if (new Date() >= checkoutTime)
+      this.setState({ status: "checkout", origin: "Checkout" });
   };
 
   toCheckIn = () => {
@@ -132,13 +149,16 @@ class NextEvent extends React.Component {
   };
 
   toCheckout = () => {
-    const { operationId: id, vacancyId } = this.state;
+    const { operationId: id, vacancyId, hirerId, eventName } = this.state;
+    debugger;
     operationsCheckout({ id, vacancyId })
       .then(() => {
+        debugger;
         this.setState({ openModalCheckin: false });
-        this.props.navigation.replace("Rating");
+        this.props.navigation.replace("Rating", { hirerId, eventName });
       })
       .catch(error => {
+        debugger;
         error.response.data;
       });
   };
@@ -153,6 +173,7 @@ class NextEvent extends React.Component {
     getChecklists(request)
       .then(({ data }) => data)
       .then(({ result }) => {
+        debugger;
         const { value: isCheckLists } = result;
         const { status } = this.state;
         if (isCheckLists && status !== "checkout")
@@ -163,6 +184,10 @@ class NextEvent extends React.Component {
             openModalCheckin: true,
             isCheckLists
           });
+      })
+      .catch(error => {
+        debugger;
+        error.response.data;
       });
   };
 
@@ -281,6 +306,11 @@ class NextEvent extends React.Component {
     }[status];
   };
 
+  teste = () => {
+    const { hirerId, eventName } = this.state;
+    this.props.navigation.replace("Rating", { hirerId, eventName });
+  };
+
   render() {
     const {
       openModalCheckin,
@@ -302,7 +332,9 @@ class NextEvent extends React.Component {
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="transparent" translucent={true} />
           <TitleEvent status={status} job={job} eventName={eventName} />
-
+          <TouchableOpacity onPress={() => this.teste()}>
+            <Text>RATING</Text>
+          </TouchableOpacity>
           <View style={styles.containerCircle}>
             <View
               pointerEvents={pause ? "none" : "auto"}

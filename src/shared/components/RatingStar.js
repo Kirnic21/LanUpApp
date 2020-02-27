@@ -8,7 +8,6 @@ const RatingStar = ({ title, rating, selectedStar }) => {
     <View>
       <Text
         style={{
-          // marginLeft: calcWidth(8),
           fontFamily: "HelveticaNowMicro-Regular",
           fontSize: calcWidth(3.5),
           color: "#FFFFFF",

@@ -9,20 +9,30 @@ const ButtonComponent = ({
   unSelectedColor,
   textStyle,
   buttonStyle,
-  title
+  title,
+  onPress
 }) => {
   return (
-    <View style={{}}>
+    <View pointerEvents={isSelected ? "auto" : "none"}>
       <TouchableOpacity
+        onPress={onPress}
         style={[
           buttonStyle,
           styles.Btn,
           isSelected
-            ? { backgroundColor: selectedColor || "#FFF" }
-            : { backgroundColor: unSelectedColor || "#FFF" }
+            ? { backgroundColor: selectedColor || "#FFFFFF" }
+            : { backgroundColor: unSelectedColor || "#FFFFFF" }
         ]}
       >
-        <Text style={[textStyle, styles.textBtn]}>{title || "name"}</Text>
+        <Text
+          style={[
+            textStyle,
+            styles.textBtn,
+            { color: isSelected ? "#FFFFFF" : "#18142F" }
+          ]}
+        >
+          {title || "name"}
+        </Text>
       </TouchableOpacity>
     </View>
   );

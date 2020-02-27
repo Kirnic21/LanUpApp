@@ -1,26 +1,51 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableOpacity
-} from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { Field, reduxForm } from "redux-form";
 import logoRating from "~/assets/images/logo-rating.png";
 import { calcWidth } from "~/assets/Dimensions";
 import RatingStar from "~/shared/components/RatingStar";
-import InputLabel from "~/shared/components/InputLabel";
 import { CheckBox } from "react-native-elements";
 import ButtonComponent from "~/shared/components/ButtonCompoent";
+import InputField from "~/shared/components/InputField";
+import { ratings } from "~/shared/services/hirer.http";
 
-export default class Rating extends React.Component {
+class Rating extends React.Component {
   state = {
-    isSelected: false
+    isSelected: false,
+    food: 0,
+    managment: 0,
+    structure: 0,
+    hasRecommendation: false
+  };
+
+  selectedStar = rating => {
+    this.setState(rating);
+    return;
+  };
+
+  sendRatings = form => {
+    const { title, description } = form;
+    const { food, managment, structure, hasRecommendation } = this.state;
+    const { hirerId: id } = this.props.navigation.state.params;
+    request = {
+      id,
+      food,
+      managment,
+      structure,
+      description,
+      title,
+      hasRecommendation
+    };
+    ratings(request).then(() => {
+      this.props.navigation.navigate("UserProfile");
+    });
+    return;
   };
 
   render() {
-    const { isSelected } = this.state;
+    const { food, managment, structure, hasRecommendation } = this.state;
+    const { handleSubmit } = this.props;
+    const { eventName } = this.props.navigation.state.params;
     return (
       <View style={styles.container}>
         <ScrollView
@@ -33,34 +58,50 @@ export default class Rating extends React.Component {
               style={{ height: calcWidth(20), width: calcWidth(20) }}
             />
             <Text style={[styles.fontHelveticaRegular, styles.titleName]}>
-              Cláudia
+              {eventName}
             </Text>
             <Text style={[styles.fontHelveticaRegular, styles.subtitle]}>
               Avalie sua experiência
             </Text>
           </View>
           <View>
-            <RatingStar title="Gestão*" />
-            <RatingStar title="Alimentação*" />
-            <RatingStar title="Estrutura*" />
+            <RatingStar
+              rating={managment}
+              selectedStar={rating => this.selectedStar({ managment: rating })}
+              title="Gestão*"
+            />
+            <RatingStar
+              rating={food}
+              title="Alimentação*"
+              selectedStar={rating => this.selectedStar({ food: rating })}
+            />
+            <RatingStar
+              rating={structure}
+              title="Estrutura*"
+              selectedStar={rating => this.selectedStar({ structure: rating })}
+            />
             <Text style={[styles.subtitle, { color: "#9C94CB" }]}>
               * campos obrigatórios
             </Text>
           </View>
           <View>
-            <InputLabel
+            <Field
               isfocused="#8A98BA"
               placeholder="Titulo"
               placeholderTextColor="#8A98BA"
               style={styles.inputBackgroundColor}
+              component={InputField}
+              name={"title"}
             />
-            <InputLabel
+            <Field
               isfocused="#8A98BA"
               placeholder="Conte sua experiência"
               placeholderTextColor="#8A98BA"
               multiline={true}
               numberOfLines={10}
               style={[styles.inputBackgroundColor, styles.textArea]}
+              component={InputField}
+              name={"description"}
             />
             <CheckBox
               title="Recomendo trabalhar junto"
@@ -73,15 +114,18 @@ export default class Rating extends React.Component {
               uncheckedColor="#8A98BA"
               checkedColor="#C5B9EE"
               containerStyle={styles.containerCheckbox}
-              checked={true}
+              checked={hasRecommendation}
+              onPress={() =>
+                this.setState({ hasRecommendation: !hasRecommendation })
+              }
             />
             <View style={{ paddingBottom: calcWidth(5), alignItems: "center" }}>
               <ButtonComponent
                 title="concluir"
-                isSelected={true}
+                isSelected={food && structure && managment > 0 ? true : false}
+                onPress={handleSubmit(data => this.sendRatings(data))}
                 unSelectedColor="#A893F229"
                 selectedColor="#7541BF"
-                textStyle={{ color: "#FFFFFF" }}
               />
             </View>
           </View>
@@ -141,3 +185,8 @@ const styles = StyleSheet.create({
     fontFamily: "HelveticaNowMicro-Regular"
   }
 });
+
+export default Rating = reduxForm({
+  form: "Rating",
+  enableReinitialize: true
+})(Rating);
