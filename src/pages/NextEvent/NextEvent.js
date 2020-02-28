@@ -117,7 +117,7 @@ class NextEvent extends React.Component {
       });
     BackgroundTimer.setInterval(() => {
       this.checkoutHours();
-    }, 900000);
+    }, 60000);
   };
 
   checkoutHours = () => {
