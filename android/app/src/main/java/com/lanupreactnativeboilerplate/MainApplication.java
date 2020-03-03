@@ -1,4 +1,4 @@
-package com.lanupreactnativeboilerplate;
+package br.com.lanup.app;
 
 import android.app.Application;
 import android.util.Log;
@@ -17,7 +17,7 @@ import com.reactnativecommunity.geolocation.GeolocationPackage;
 import android.location.LocationManager;
 import android.location.LocationListener;
 import android.location.Location;
-import com.lanupreactnativeboilerplate.service.LocationService;
+import br.com.lanup.app.service.LocationService;
 import android.content.Context;
 import android.os.Bundle;
 import android.content.Intent;

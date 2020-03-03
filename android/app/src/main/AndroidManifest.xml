@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.lanupreactnativeboilerplate">
+  package="br.com.lanup.app">
 
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.CAMERA" />
@@ -43,7 +43,7 @@
         <data android:scheme="@string/fb_login_protocol_scheme" />
       </intent-filter>
     </activity>
-    <service android:name="com.lanupreactnativeboilerplate.service.LocationService" />
+    <service android:name="br.com.lanup.app.service.LocationService" />
   </application>
 
 </manifest>

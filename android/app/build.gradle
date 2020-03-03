@@ -142,7 +142,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.lanupreactnativeboilerplate"
+        applicationId "br.com.lanup.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
