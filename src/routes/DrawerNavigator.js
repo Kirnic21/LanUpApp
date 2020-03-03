@@ -1,4 +1,4 @@
-import { createDrawerNavigator } from "react-navigation";
+import { createDrawerNavigator } from "react-navigation-drawer";
 import NextEventRoute from "~/routes/NextEventRoute";
 import ToExplorerRoute from "~/routes/ToExplorerRoute";
 import drawerContentComponents from "~/shared/components/drawerContentComponents";

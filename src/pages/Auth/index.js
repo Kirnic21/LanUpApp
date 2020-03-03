@@ -27,13 +27,6 @@ const { LoginManager, AccessToken } = FBSDK;
 // }, 30000);
 
 class HomePage extends Component {
-  async componentDidMount() {
-    const token = await AsyncStorage.getItem("API_TOKEN");
-    if (token !== null) {
-      this.props.navigation.navigate("UserProfile");
-    }
-  }
-
   goToLoginEmail = () => this.props.navigation.navigate("LoginEmail");
 
   goRegister = () => this.props.navigation.navigate("RegisterStageOne");

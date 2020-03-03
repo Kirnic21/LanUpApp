@@ -6,7 +6,8 @@ import OneSignal from "react-native-onesignal";
 
 import store from "./store";
 
-import Routes from "~/routes/routes";
+import createNavigator from "~/routes/routes";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import { initMomentPtBr } from "~/shared/helpers";
 
@@ -21,6 +22,10 @@ const ONE_SIGNAL_ID = "974fc0c7-12f6-4d7a-8aca-c07d519c7dc1";
 class App extends Component {
   constructor(properties) {
     super(properties);
+    this.state = {
+      userChecked: false,
+      userLogged: false
+    };
     OneSignal.init(ONE_SIGNAL_ID, {
       kOSSettingsKeyInFocusDisplayOption: 0
     }); // set kOSSettingsKeyAutoPrompt to false prompting manually on iOS
@@ -29,6 +34,15 @@ class App extends Component {
     OneSignal.addEventListener("received", this.onReceived);
     OneSignal.addEventListener("opened", this.onOpened);
     OneSignal.addEventListener("ids", this.onIds);
+  }
+
+  async componentDidMount() {
+    const token = await AsyncStorage.getItem("API_TOKEN");
+
+    this.setState({
+      userChecked: true,
+      userLogged: !!token
+    });
   }
 
   componentWillUnmount() {
@@ -60,6 +74,12 @@ class App extends Component {
   }
 
   render() {
+    const { userChecked, userLogged } = this.state;
+
+    if (!userChecked) return null;
+
+    const Routes = createNavigator(userLogged);
+
     return (
       <>
         <StatusBar backgroundColor="#18142F" barStyle="light-content" />

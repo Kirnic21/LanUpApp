@@ -5,6 +5,7 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import AsyncStorage from "@react-native-community/async-storage";
 import { decodeToken, updateJobs } from "~/shared/services/freela.http";
 import dimensions from "~/assets/Dimensions/index";
+import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 
 class AddProfession extends Component {
   constructor(props) {
@@ -64,27 +65,17 @@ class AddProfession extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     return {
-      headerRight: (
-        <TouchableOpacity
+      headerRight: () => (
+        <ButtonRightNavigation
+          title="Salvar"
           onPress={() => params.SaveJob()}
-          style={{ paddingHorizontal: 29 }}
-        >
-          <Text
-            style={{
-              color: "#FFF",
-              fontFamily: "HelveticaNowMicro-Regular",
-              fontSize: dimensions(12)
-            }}
-          >
-            Salvar
-          </Text>
-        </TouchableOpacity>
+        />
       )
     };
   };
 
   render() {
-    const { GetJobs, jobs, JobsSelected } = this.state;
+    const { GetJobs, jobs } = this.state;
     console.log(this.props.navigation.state.params);
     return (
       <View style={styles.container}>

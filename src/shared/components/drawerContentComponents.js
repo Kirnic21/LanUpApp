@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import {
-  NavigationActions,
-  DrawerActions,
-  StackActions
-} from "react-navigation";
+import { NavigationActions } from "react-navigation";
+import { DrawerActions } from "react-navigation-drawer";
 import {
   Text,
   View,
@@ -13,8 +10,6 @@ import {
   TouchableOpacity,
   Dimensions
 } from "react-native";
-// import { white } from 'ansi-colors';
-import { ScrollView } from "react-native-gesture-handler";
 import imgTitle from "~/assets/images/imgDrawer.png";
 import imgBack from "~/assets/images/drawerBack.png";
 import IconMenu from "~/assets/images/icon_menu.png";
@@ -34,14 +29,10 @@ export default class drawerContentComponents extends Component {
 
   async componentDidMount() {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    getAbout(token.id)
-      .then(({ data }) => {
-        const { nickName, image } = data.result.value;
-        this.setState({ avatar: image, nickName });
-      })
-      .catch(error => {
-        console.log(error.response.data);
-      });
+    getAbout(token.id).then(({ data }) => {
+      const { nickName, image } = data.result.value;
+      this.setState({ avatar: image, nickName });
+    });
   }
 
   navigateToScreen = route => () => {
@@ -51,15 +42,8 @@ export default class drawerContentComponents extends Component {
     this.props.navigation.dispatch(navigateAction);
   };
 
-  openModal = () => {
-    this.setState({ visible: true });
-  };
-  closeModal = () => {
-    this.setState({ visible: false });
-  };
-
   render() {
-    const { avatar, nickName, visible } = this.state;
+    const { avatar, nickName } = this.state;
     const { height } = Dimensions.get("screen");
     return (
       <ImageBackground
@@ -135,10 +119,6 @@ export default class drawerContentComponents extends Component {
 
             <TouchableOpacity
               onPress={this.navigateToScreen("NextEvent")}
-              // onPress={() => {
-              //   this.openModal(),
-              //     this.props.navigation.dispatch(DrawerActions.closeDrawer());
-              // }}
               style={styles.containerIcons}
             >
               <Image source={iconNextEvent} style={styles.sizeIcons} />
@@ -150,7 +130,7 @@ export default class drawerContentComponents extends Component {
               style={[styles.containerIcons, { height: "22%" }]}
             >
               <Image source={iconExplore} style={styles.sizeIcons} />
-              <Text style={styles.screenTextStyle}>Explorar</Text>
+              <Text style={styles.screenTextStyle}>Vagas</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={this.navigateToScreen("Schedule")}>
@@ -161,12 +141,6 @@ export default class drawerContentComponents extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <ModalComingSoon
-          onTouchOutside={() => this.closeModal()}
-          onClose={() => this.closeModal()}
-          visible={visible}
-          onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
-        />
       </ImageBackground>
     );
   }

@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  createStackNavigator,
-  HeaderBackButton,
-  NavigationActions
-} from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 
 import ChangePassword from "~/pages/UserProfile/ChangePassword";
 import AboutMe from "~/pages/UserProfile/About/AboutMe";
@@ -14,9 +10,8 @@ import Availability from "~/pages/UserProfile/Availability/Availability";
 import AvailabilityDays from "~/pages/UserProfile/Availability/AvailabilityDays";
 import SpecialHours from "~/pages/UserProfile/Availability/SpecialHours";
 import PhotoGallery from "~/shared/components/PhotoGallery";
-import dimensions from "~/assets/Dimensions/index";
 import UserProfile from "~/pages/UserProfile/UserProfile";
-import NavigationTitle from "~/shared/components/NavigationTitle";
+import { calcWidth } from "~/assets/Dimensions/index";
 import DrawerButton from "~/shared/components/DrawerButton";
 
 const pageNavigator = createStackNavigator(
@@ -24,153 +19,64 @@ const pageNavigator = createStackNavigator(
     UserProfile: {
       screen: UserProfile,
       navigationOptions: ({ navigation }) => ({
-        headerTitle: (
-          <NavigationTitle title="Perfil" marginHorizontal={dimensions(-23)} />
-        ),
-        headerLeft: <DrawerButton navigation={navigation} />,
-        headerStyle: {
-          backgroundColor: "#18142F",
-          height: dimensions(40)
-        }
+        headerTitle: "Perfil",
+        headerLeft: () => <DrawerButton navigation={navigation} />
       })
     },
     AboutMe: {
       screen: AboutMe,
-      navigationOptions: ({ navigation }) => ({
-        headerTitle: <NavigationTitle title="Sobre mim" />,
-        headerLeft: (
-          <HeaderBackButton
-            tintColor="#FFf"
-            onPress={() => navigation.push("UserProfile")}
-          />
-        )
-      })
+      navigationOptions: () => ({ headerTitle: "Sobre mim" })
     },
     Profession: {
       screen: Profession,
-      navigationOptions: ({ navigation }) => ({
-        headerTitle: <NavigationTitle title="Meu Job" marginHorizontal="-8%" />,
-        headerLeft: (
-          <HeaderBackButton
-            tintColor="#FFf"
-            onPress={() => navigation.push("UserProfile")}
-          />
-        )
-      })
+      navigationOptions: () => ({ headerTitle: "Meu Job" })
     },
     AddProfession: {
       screen: AddProfession,
-      navigationOptions: ({ navigation }) => ({
-        headerTitle: <NavigationTitle title="Meu Job" />,
-        headerLeft: (
-          <HeaderBackButton
-            tintColor="#FFf"
-            onPress={() =>
-              navigation.reset(
-                [NavigationActions.navigate({ routeName: "Profession" })],
-                0
-              )
-            }
-          />
-        )
-      })
+      navigationOptions: () => ({ headerTitle: "Meu Job" })
     },
     AddSkill: {
       screen: AddSkill,
-      navigationOptions: ({ navigation }) => ({
-        headerTitle: <NavigationTitle title="Meu Job" />,
-        headerLeft: (
-          <HeaderBackButton
-            tintColor="#FFf"
-            onPress={() =>
-              navigation.reset(
-                [NavigationActions.navigate({ routeName: "Profession" })],
-                0
-              )
-            }
-          />
-        )
-      })
+      navigationOptions: () => ({ headerTitle: "Meu Job" })
     },
     PhotoGallery: {
       screen: PhotoGallery,
-      navigationOptions: ({ navigation }) => ({
-        headerLeft: (
-          <HeaderBackButton
-            tintColor="#FFf"
-            onPress={() => navigation.goBack()}
-          />
-        )
-      })
+      navigationOptions: () => ({ headerTitle: "Galeria" })
     },
     Availability: {
       screen: Availability,
-      navigationOptions: ({ navigation }) => ({
-        headerTitle: (
-          <NavigationTitle title="Disponibilidade" marginHorizontal="-7%" />
-        ),
-        headerLeft: (
-          <HeaderBackButton
-            tintColor="#FFf"
-            onPress={() => navigation.push("UserProfile")}
-          />
-        )
-      })
+      navigationOptions: () => ({ headerTitle: "Disponibilidade" })
     },
     AvailabilityDays: {
       screen: AvailabilityDays,
-      navigationOptions: ({ navigation }) => ({
-        headerTitle: <NavigationTitle title="Disponibilidade" />,
-        headerLeft: (
-          <HeaderBackButton
-            tintColor="#FFf"
-            onPress={() =>
-              navigation.reset(
-                [NavigationActions.navigate({ routeName: "Availability" })],
-                0
-              )
-            }
-          />
-        )
-      })
+      navigationOptions: () => ({ headerTitle: "Disponibilidade" })
     },
     SpecialHours: {
       screen: SpecialHours,
-      navigationOptions: ({ navigation }) => ({
-        headerTitle: <NavigationTitle title="Horários Especiais" />,
-        headerLeft: (
-          <HeaderBackButton
-            tintColor="#FFf"
-            onPress={() => navigation.push("Availability")}
-          />
-        )
-      })
+      navigationOptions: () => ({ headerTitle: "Horários Especiais" })
     },
 
     ChangePassword: {
       screen: ChangePassword,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
+        headerTitle: null,
         headerTransparent: true,
-        headerTintColor: "#FFF",
-        headerStyle: {
-          marginTop: dimensions(30),
-          marginLeft: dimensions(10)
-        },
-        headerLeft: (
-          <HeaderBackButton
-            tintColor="#FFf"
-            onPress={() => navigation.push("UserProfile")}
-          />
-        )
+        headerStyle: { height: calcWidth(20) }
       })
     }
   },
   {
     defaultNavigationOptions: {
+      headerTitleAlign: "center",
+      headerTintColor: "#FFFFFF",
       headerStyle: {
         backgroundColor: "#18142F",
-        height: dimensions(70),
-        elevation: -2
+        height: calcWidth(12)
+      },
+      headerTitleStyle: {
+        color: "#FFFF",
+        fontFamily: "HelveticaNowMicro-Regular",
+        fontSize: calcWidth(5)
       }
     }
   }

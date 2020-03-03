@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ToggleSwitch from "toggle-switch-react-native";
 import {
   StyleSheet,
   View,
@@ -7,8 +6,7 @@ import {
   ScrollView,
   LayoutAnimation,
   Platform,
-  UIManager,
-  TouchableOpacity
+  UIManager
 } from "react-native";
 import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -26,6 +24,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { saveSpecialDay, decodeToken } from "~/shared/services/freela.http";
 import dimensions from "~/assets/Dimensions/index";
 import SpecialHoursEmpty from "~/shared/components/emptyState/SpecialHoursEmpty";
+import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 
 class SpecialHours extends Component {
   constructor(props) {
@@ -75,25 +74,10 @@ class SpecialHours extends Component {
     return {
       headerRight: (
         <View style={{ opacity: isDate ? 1 : 0 }}>
-          <TouchableOpacity
+          <ButtonRightNavigation
             onPress={() => state.params.handleSaveHour()}
-            style={{
-              paddingHorizontal: 29,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <Text
-              style={{
-                color: "#FFF",
-                fontFamily: "HelveticaNowMicro-Regular",
-                fontSize: dimensions(12)
-              }}
-            >
-              Salvar
-            </Text>
-          </TouchableOpacity>
+            title="Salvar"
+          />
         </View>
       )
     };
@@ -465,7 +449,6 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: dimensions(14.5),
     marginTop: "5%"
-    // textAlign: "center"
   }
 });
 

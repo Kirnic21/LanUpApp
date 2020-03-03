@@ -14,6 +14,7 @@ import { saveAvailability, decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import Toggle from "~/shared/components/ToggleComponent";
+import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 
 class AvailabilityDays extends React.Component {
   constructor(props) {
@@ -53,27 +54,12 @@ class AvailabilityDays extends React.Component {
     const { state } = navigation;
     const isEditing = navigation.getParam("isEditing");
     return {
-      headerRight: (
+      headerRight: () => (
         <View style={{ opacity: isEditing ? 1 : 0 }}>
-          <TouchableOpacity
+          <ButtonRightNavigation
             onPress={() => state.params.handleSave()}
-            style={{
-              paddingHorizontal: dimensions(27),
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <Text
-              style={{
-                color: "#FFF",
-                fontFamily: "HelveticaNowMicro-Regular",
-                fontSize: dimensions(12)
-              }}
-            >
-              Salvar
-            </Text>
-          </TouchableOpacity>
+            title="Salvar"
+          />
         </View>
       )
     };

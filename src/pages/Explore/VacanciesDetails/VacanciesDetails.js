@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import HTML from "react-native-render-html";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import { HeaderBackButton } from "react-navigation";
+import { HeaderBackButton } from "react-navigation-stack";
 
 class VacanciesDetails extends Component {
   state = {
@@ -99,7 +99,7 @@ class VacanciesDetails extends Component {
   timeSpinner = () => {
     setTimeout(() => {
       this.setState({ spinner: false });
-      this.props.navigation.push("Schedule");
+      this.props.navigation.navigate("Schedule");
     }, 1000);
   };
 

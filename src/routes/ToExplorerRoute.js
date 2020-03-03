@@ -1,45 +1,40 @@
 import * as React from "react";
-import { createStackNavigator, HeaderBackButton } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
-import NavigationTitle from "~/shared/components/NavigationTitle";
 import DrawerButton from "~/shared/components/DrawerButton";
 import ToExplore from "~/pages/Explore/ToExplore";
-import dimensions from "~/assets/Dimensions/index";
+import { calcWidth } from "~/assets/Dimensions/index";
 
 const ToExplorerRoute = createStackNavigator(
   {
     ToExplore: {
       screen: ToExplore,
       navigationOptions: ({ navigation }) => ({
-        headerTitle: (
-          <NavigationTitle
-            title="Explorar"
-            marginHorizontal={dimensions(-23)}
-          />
-        ),
-        headerStyle: {
-          backgroundColor: "#18142F",
-          height: dimensions(40)
-        },
-        headerLeft: <DrawerButton navigation={navigation} />
+        headerTitle: "Vagas",
+        headerLeft: () => <DrawerButton navigation={navigation} />
       })
     },
     VacanciesDetails: {
       screen: VacanciesDetails,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
+        headerTitle: () => null,
         headerTransparent: true,
-        headerStyle: {
-          marginTop: 20
-        }
+        headerStyle: { height: calcWidth(20) }
       })
     }
   },
   {
     defaultNavigationOptions: {
+      headerTitleAlign: "center",
+      headerTintColor: "#FFFFFF",
       headerStyle: {
         backgroundColor: "#18142F",
-        height: dimensions(70),
-        elevation: -2
+        height: calcWidth(12)
+      },
+      headerTitleStyle: {
+        color: "#FFFF",
+        fontFamily: "HelveticaNowMicro-Regular",
+        fontSize: calcWidth(5)
       }
     }
   }

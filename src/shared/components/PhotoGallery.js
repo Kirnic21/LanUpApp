@@ -8,6 +8,8 @@ import ImageSelector from "./ImageSelector";
 import { connect } from "react-redux";
 import Image from "react-native-fast-image";
 import Spinner from "react-native-loading-spinner-overlay";
+import { calcWidth } from "~/assets/Dimensions";
+import { HeaderBackButton } from "react-navigation-stack";
 
 const Picture = ({
   picture,
@@ -52,46 +54,43 @@ class PhotoGallery extends React.Component {
     const images = navigation.getParam("images", []);
 
     return {
-      title: "Galeria",
-      headerStyle: {
-        backgroundColor: "#18142F",
-        height: 80,
-        elevation: 0
-      },
-      headerTitleStyle: {
-        textAlign: "center",
-        alignSelf: "center",
-        width: "80%",
-        fontFamily: "Montserrat-Bold",
-        color: "#FFFFFF",
-        fontSize: 20
-      },
-      headerLeft: (
-        <TouchableOpacity
-          onPress={() => (isEditing ? cancelEditing() : navigation.goBack())}
-          style={{ paddingHorizontal: 29 }}
-        >
-          <MaterialCommunityIcons
-            name={isEditing ? "close" : "chevron-left"}
-            size={38}
-            color="#FFFFFF"
+      headerLeft: () =>
+        isEditing ? (
+          <TouchableOpacity
+            onPress={() => cancelEditing()}
+            style={{ paddingHorizontal: calcWidth(5) }}
+          >
+            <MaterialCommunityIcons
+              name={"close"}
+              size={calcWidth(8)}
+              color="#FFFFFF"
+            />
+          </TouchableOpacity>
+        ) : (
+          <HeaderBackButton
+            tintColor="#FFFFFF"
+            onPress={() => navigation.goBack()}
           />
-        </TouchableOpacity>
-      ),
-      headerRight: isEditing && (
-        <TouchableOpacity
-          onPress={finishDelete}
-          style={{
-            paddingHorizontal: 29,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <Text style={styles.counter}>{images.length}</Text>
-          <MaterialCommunityIcons name="delete" size={28} color="#707070" />
-        </TouchableOpacity>
-      )
+        ),
+      headerRight: () =>
+        isEditing && (
+          <TouchableOpacity
+            onPress={finishDelete}
+            style={{
+              paddingHorizontal: calcWidth(5),
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <Text style={styles.counter}>{images.length}</Text>
+            <MaterialCommunityIcons
+              name="delete"
+              size={calcWidth(8)}
+              color="#707070"
+            />
+          </TouchableOpacity>
+        )
     };
   };
 

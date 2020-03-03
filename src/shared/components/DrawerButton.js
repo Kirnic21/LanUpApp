@@ -1,7 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, Image } from "react-native";
 import IconMenu from "~/assets/images/icon_menu.png";
-import { DrawerActions } from "react-navigation";
+import { DrawerActions } from "react-navigation-drawer";
 import dimensions from "~/assets/Dimensions/index";
 
 const DrawerButton = props => (

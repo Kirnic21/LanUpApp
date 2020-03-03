@@ -26,7 +26,7 @@ import {
   getAbout
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
 
 class UserProfile extends Component {
@@ -166,7 +166,7 @@ class UserProfile extends Component {
       <ScrollView contentContainerStyle={styles.Container}>
         <StatusBar backgroundColor="#18142F" barStyle="light-content" />
         <View style={{ alignItems: "center", marginTop: "5%" }}>
-          <View style={{ width: dimensions(90), height: dimensions(90) }}>
+          <View style={{ marginVertical: calcWidth(-5) }}>
             <Image
               source={{ uri: this.state.avatar }}
               style={{

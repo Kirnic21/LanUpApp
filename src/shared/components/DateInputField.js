@@ -4,7 +4,6 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import Input from "~/shared/components/InputDate";
 import moment from "moment";
 import dimensions from "~/assets/Dimensions/index";
-import ptBr from "moment/src/locale/pt-br";
 
 export default class DateInputField extends Component {
   constructor(props) {
@@ -51,7 +50,7 @@ export default class DateInputField extends Component {
           style={this.props.style}
           date={input.value || new Date()} //date is transformed from input
           onDateChange={this.handleChange}
-          datePickerModeAndroid="spinner"
+          timePickerModeAndroid="spinner"
           mode={inputProps.mode || "date"}
           locale={"pt_BR"}
           cancelTextIOS="Cancelar"

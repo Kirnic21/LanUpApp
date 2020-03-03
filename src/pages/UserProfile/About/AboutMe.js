@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, Text, ScrollView } from "react-native";
+import { View, TouchableOpacity, ScrollView } from "react-native";
 
 import ImageBody from "~/assets/images/icon_addbody.png";
 import ImageSelf from "~/assets/images/icon_addselfie.png";
 import AddIcon from "~/assets/images/icon_add.png";
 import ImageSelector from "~/shared/components/ImageSelector";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import styles from "./styles";
 import ProfileInformation from "./ProfileInformation";
 import AdditionalInformation from "./AdditionalInformation";
@@ -24,6 +24,7 @@ import OccupationArea from "./OccupationArea";
 import PresentationPictures from "./PresentationPictures";
 import FastImage from "react-native-fast-image";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
+import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 class AboutMe extends Component {
   state = {
     visible: false,
@@ -124,26 +125,11 @@ class AboutMe extends Component {
   static navigationOptions = ({ navigation }) => {
     const { state } = navigation;
     return {
-      headerRight: (
-        <TouchableOpacity
+      headerRight: () => (
+        <ButtonRightNavigation
+          title="Salvar"
           onPress={() => state.params.handleSave()}
-          style={{
-            paddingHorizontal: 29,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <Text
-            style={{
-              color: "#FFF",
-              fontFamily: "HelveticaNowMicro-Regular",
-              fontSize: dimensions(12)
-            }}
-          >
-            Salvar
-          </Text>
-        </TouchableOpacity>
+        />
       )
     };
   };
