@@ -82,7 +82,7 @@ class App extends Component {
 
     return (
       <>
-        <StatusBar backgroundColor="#18142F" barStyle="light-content" />
+        <StatusBar backgroundColor="#18182d" barStyle="light-content" />
         <Provider store={store}>
           <Routes />
         </Provider>
