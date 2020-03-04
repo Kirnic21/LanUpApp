@@ -3,7 +3,7 @@ import { View, StatusBar, StyleSheet, ScrollView } from "react-native";
 import CardImageVacancies from "./CardImageVacancies";
 import { SafeAreaView } from "react-native";
 import CardDeitailsVacancies from "./CardDeitailsVacancies";
-import dimensions from "~/assets/Dimensions";
+import dimensions, { calcWidth } from "~/assets/Dimensions";
 import ShiftCard from "./ShiftCard";
 import SelectComponent from "~/shared/components/SelectComponent";
 import ButtonVacancies from "./ButtonVacancies";
@@ -15,6 +15,7 @@ import HTML from "react-native-render-html";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { HeaderBackButton } from "react-navigation-stack";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 class VacanciesDetails extends Component {
   state = {
@@ -82,10 +83,17 @@ class VacanciesDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     const { route } = navigation.state.params;
     return {
-      headerLeft: (
-        <HeaderBackButton
-          tintColor="#FFf"
+      headerLeft: () => (
+        <Icon
+          name={"arrow-left"}
+          size={calcWidth(6.5)}
+          color="#FFFFFF"
           onPress={() => navigation.navigate(route)}
+          style={{
+            backgroundColor: "#00000060",
+            left: calcWidth(4),
+            borderRadius: calcWidth(4)
+          }}
         />
       )
     };
@@ -190,7 +198,12 @@ class VacanciesDetails extends Component {
     } = this.state;
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#00000050" translucent={true} />
+        <StatusBar
+          backgroundColor="#00000060"
+          translucent={true}
+          barStyle="light-content"
+        />
+
         <SpinnerComponent loading={spinner} />
         <ScrollView style={{ flex: 1 }}>
           <View>
