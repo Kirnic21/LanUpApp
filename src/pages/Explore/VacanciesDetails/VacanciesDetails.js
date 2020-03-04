@@ -18,7 +18,7 @@ import { HeaderBackButton } from "react-navigation-stack";
 
 class VacanciesDetails extends Component {
   state = {
-    spinner: true,
+    spinner: false,
     description: "",
     eventDescription: "",
     serviceDetail: [],
@@ -41,37 +41,40 @@ class VacanciesDetails extends Component {
       service: job.job,
       day: job.jobDate.substr(0, 10)
     };
-
-    deitailsVacancies(request).then(({ data }) => {
-      const getDeitails = data.result;
-      this.setState({
-        eventName: job.eventName,
-        workshiftsQuantity:
-          status === 2
-            ? `${getDeitails.workshiftsQuantity} turnos`
-            : `${job.start} - ${job.end}`,
-        location: getDeitails.location,
-        eventDate: job.jobDate.substr(0, 10),
-        picture:
-          job.picture !== null && job.picture !== undefined
-            ? job.picture.url
-            : job.image !== null && job.image !== undefined
-            ? job.image.url
-            : null,
-        service: job.job,
-        vacancyQuantity: getDeitails.vacancyQuantity,
-        payment: getDeitails.payment,
-        serviceDetail: status === 2 ? getDeitails.serviceDetail : null,
-        previewResponsabilities: getDeitails.previewResponsabilities,
-        responsabilities: getDeitails.responsabilities,
-        checkListCheckinPreview: getDeitails.checkListCheckinPreview,
-        checkListAtCheckin: getDeitails.checkListAtCheckin,
-        checkListCheckoutPreview: getDeitails.checkListCheckoutPreview,
-        checkListAtCheckout: getDeitails.checkListAtCheckout,
-        eventDescription: getDeitails.eventDescription,
-        spinner: false
+    this.setState({ spinner: true });
+    deitailsVacancies(request)
+      .then(({ data }) => {
+        const getDeitails = data.result;
+        this.setState({
+          eventName: job.eventName,
+          workshiftsQuantity:
+            status === 2
+              ? `${getDeitails.workshiftsQuantity} turnos`
+              : `${job.start} - ${job.end}`,
+          location: getDeitails.location,
+          eventDate: job.jobDate.substr(0, 10),
+          picture:
+            job.picture !== null && job.picture !== undefined
+              ? job.picture.url
+              : job.image !== null && job.image !== undefined
+              ? job.image.url
+              : null,
+          service: job.job,
+          vacancyQuantity: getDeitails.vacancyQuantity,
+          payment: getDeitails.payment,
+          serviceDetail: status === 2 ? getDeitails.serviceDetail : null,
+          previewResponsabilities: getDeitails.previewResponsabilities,
+          responsabilities: getDeitails.responsabilities,
+          checkListCheckinPreview: getDeitails.checkListCheckinPreview,
+          checkListAtCheckin: getDeitails.checkListAtCheckin,
+          checkListCheckoutPreview: getDeitails.checkListCheckoutPreview,
+          checkListAtCheckout: getDeitails.checkListAtCheckout,
+          eventDescription: getDeitails.eventDescription
+        });
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
       });
-    });
     this.props.navigation.setParams({
       route
     });
@@ -96,17 +99,11 @@ class VacanciesDetails extends Component {
     });
   };
 
-  timeSpinner = () => {
-    setTimeout(() => {
-      this.setState({ spinner: false });
-      this.props.navigation.navigate("Schedule");
-    }, 1000);
-  };
-
   invite = async () => {
     const { job } = this.props.navigation.state.params;
     const { checkin, checkout } = this.state;
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    this.setState({ spinner: true });
     request = {
       freelaId: token.id,
       eventId: job.id,
@@ -119,11 +116,13 @@ class VacanciesDetails extends Component {
       ? AlertHelper.show("error", "Erro", "Selecione um turno.")
       : acceptInvite(request)
           .then(() => {
-            this.setState({ spinner: true });
-            this.timeSpinner();
+            this.props.navigation.navigate("Schedule");
           })
           .catch(error => {
             AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+          })
+          .finally(() => {
+            this.setState({ spinner: false });
           });
   };
 

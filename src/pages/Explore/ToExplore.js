@@ -23,7 +23,7 @@ export default class ToExplore extends Component {
       GetJobs: [],
       listVacancy: [],
       loading: false,
-      spinner: true
+      spinner: false
     };
   }
 
@@ -33,19 +33,26 @@ export default class ToExplore extends Component {
 
   getFilterJob = async () => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    getJobs(token.id).then(({ data }) => {
-      const GetJobs = data;
-      GetJobs === null
-        ? this.setState({ GetJobs: [] })
-        : this.setState({ GetJobs });
-      const name = GetJobs.filter(c => c.isSelected === true).map(c => c.name);
-      const JobsSelected = name.map((item, id) => ({
-        id: `${id}`,
-        title: item
-      }));
-      this.setState({ JobsSelected, spinner: false });
-      this.getVacancy(JobsSelected[0].title);
-    });
+    this.setState({ spinner: true });
+    getJobs(token.id)
+      .then(({ data }) => {
+        const GetJobs = data;
+        GetJobs === null
+          ? this.setState({ GetJobs: [] })
+          : this.setState({ GetJobs });
+        const name = GetJobs.filter(c => c.isSelected === true).map(
+          c => c.name
+        );
+        const JobsSelected = name.map((item, id) => ({
+          id: `${id}`,
+          title: item
+        }));
+        this.setState({ JobsSelected });
+        this.getVacancy(JobsSelected[0].title);
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
+      });
   };
 
   getVacancy(e) {

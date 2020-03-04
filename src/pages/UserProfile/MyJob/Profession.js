@@ -20,6 +20,7 @@ import {
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import dimensions from "~/assets/Dimensions/index";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
 const currencyFormatter = value => {
   if (!Number(value)) return "";
@@ -39,7 +40,8 @@ class Profession extends Component {
       GetJobs: [],
       JobsSelected: [],
       isFocused: null,
-      text: ""
+      text: "",
+      spinner: false
     };
     this.props.navigation.addListener("willFocus", () => {
       this.getProfession();
@@ -48,11 +50,15 @@ class Profession extends Component {
 
   getProfession = async () => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-
-    getAbout(token.id).then(({ data }) => {
-      const minimumValueToWork = data.result.value.minimumValueToWork;
-      this.setState({ text: minimumValueToWork.toString() });
-    });
+    this.setState({ spinner: true });
+    getAbout(token.id)
+      .then(({ data }) => {
+        const minimumValueToWork = data.result.value.minimumValueToWork;
+        this.setState({ text: minimumValueToWork.toString() });
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
+      });
     getSkills(token.id).then(({ data }) => {
       const GetSkill = data.result.value;
       GetSkill === null
@@ -106,9 +112,10 @@ class Profession extends Component {
   };
 
   render() {
-    const { GetSkill, JobsSelected, text, isFocused } = this.state;
+    const { GetSkill, JobsSelected, text, isFocused, spinner } = this.state;
     return (
       <View style={styles.container}>
+        <SpinnerComponent loading={spinner} />
         <ScrollView>
           <View style={styles.containerReceive}>
             <Text style={styles.Title}>Recebo no mínimo até:</Text>

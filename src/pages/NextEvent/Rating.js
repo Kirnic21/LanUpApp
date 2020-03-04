@@ -8,6 +8,7 @@ import { CheckBox } from "react-native-elements";
 import ButtonComponent from "~/shared/components/ButtonCompoent";
 import InputField from "~/shared/components/InputField";
 import { ratings } from "~/shared/services/hirer.http";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
 class Rating extends React.Component {
   state = {
@@ -15,7 +16,8 @@ class Rating extends React.Component {
     food: 0,
     managment: 0,
     structure: 0,
-    hasRecommendation: false
+    hasRecommendation: false,
+    spinner: false
   };
 
   selectedStar = rating => {
@@ -27,6 +29,7 @@ class Rating extends React.Component {
     const { title, description } = form;
     const { food, managment, structure, hasRecommendation } = this.state;
     const { hirerId: id } = this.props.navigation.state.params;
+    this.setState({ spinner: true });
     request = {
       id,
       food,
@@ -36,18 +39,29 @@ class Rating extends React.Component {
       title,
       hasRecommendation
     };
-    ratings(request).then(() => {
-      this.props.navigation.navigate("UserProfile");
-    });
+    ratings(request)
+      .then(() => {
+        this.props.navigation.navigate("UserProfile");
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
+      });
     return;
   };
 
   render() {
-    const { food, managment, structure, hasRecommendation } = this.state;
+    const {
+      food,
+      managment,
+      structure,
+      hasRecommendation,
+      spinner
+    } = this.state;
     const { handleSubmit } = this.props;
     const { eventName } = this.props.navigation.state.params;
     return (
       <View style={styles.container}>
+        <SpinnerComponent loading={spinner} />
         <ScrollView
           style={{ flex: 1, marginHorizontal: calcWidth(7) }}
           showsVerticalScrollIndicator={false}

@@ -16,12 +16,13 @@ import { connect } from "react-redux";
 import { formValueSelector } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import ImageSelector from "~/shared/components/ImageSelector";
-import Spinner from "react-native-loading-spinner-overlay";
 import dimensions from "~/assets/Dimensions/index";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
 class SelectAvatar extends Component {
   state = {
-    selected: false
+    selected: false,
+    spinner: false
   };
   onPictureAdd = picture => {
     this.setState({ spinner: true });
@@ -50,9 +51,8 @@ class SelectAvatar extends Component {
           this.props.navigation.navigate("UserProfile");
         } else alert(data.result.errorMessage);
       })
-      .catch(error => {
+      .finally(() => {
         this.setState({ spinner: false });
-        console.log(error.response.data);
       });
   };
 
@@ -62,15 +62,10 @@ class SelectAvatar extends Component {
 
   render() {
     const { nickname } = this.props;
+    const { spinner } = this.state;
     return (
       <ImageBackground source={ImageBack} style={styles.ImageBack}>
-        <Spinner
-          visible={this.state.spinner}
-          size="large"
-          animation="fade"
-          color="#7541BF"
-          overlayColor="rgba(0, 0, 0, 0.9)"
-        />
+        <SpinnerComponent loading={spinner} />
         <StatusBar translucent backgroundColor="transparent" />
         <View style={styles.container}>
           <View style={styles.containerText}>

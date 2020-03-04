@@ -41,7 +41,7 @@ class NextEvent extends React.Component {
     checkList: [],
     checked: false,
     status: "",
-    spinner: true,
+    spinner: false,
     openModalPause: false,
     openModalOccurrence: false,
     description: "",
@@ -60,6 +60,7 @@ class NextEvent extends React.Component {
   getWorkday = () => {
     const date = new Date();
     const day = date.toISOString().substr(0, 10);
+    this.setState({ spinner: true });
     getWorkdays({ day })
       .then(({ data }) => {
         const get = data.result.value;
@@ -143,6 +144,7 @@ class NextEvent extends React.Component {
 
   toCheckout = () => {
     const { operationId: id, vacancyId, hirerId, eventName } = this.state;
+    this.setState({ spinner: true });
     operationsCheckout({ id, vacancyId })
       .then(() => {
         this.setState({ openModalCheckin: false });
@@ -150,11 +152,15 @@ class NextEvent extends React.Component {
       })
       .catch(error => {
         error.response.data;
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
       });
   };
 
   checklist = () => {
     const { operationId: id, freelaId, origin } = this.state;
+    this.setState({ spinner: true });
     request = {
       id,
       origin,
@@ -176,6 +182,9 @@ class NextEvent extends React.Component {
       })
       .catch(error => {
         error.response.data;
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
       });
   };
 
@@ -186,17 +195,22 @@ class NextEvent extends React.Component {
 
   confirmChecklist = () => {
     const { operationId: id, origin, status } = this.state;
+    this.setState({ spinner: true });
     operationsChecklists({
       id,
       origin: origin === "Checkin" ? 1 : 2
-    }).then(() => {
-      status !== "checkout"
-        ? this.setState({
-            openModalCheckin: false,
-            status: "occurrence"
-          })
-        : this.toCheckout();
-    });
+    })
+      .then(() => {
+        status !== "checkout"
+          ? this.setState({
+              openModalCheckin: false,
+              status: "occurrence"
+            })
+          : this.toCheckout();
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
+      });
   };
 
   sendImgOcurrence = image => {
@@ -221,18 +235,28 @@ class NextEvent extends React.Component {
 
   breakOperations = reason => {
     const { operationId: id } = this.state;
+    this.setState({ spinner: true });
     request = { id, reason };
-    breaks(request).then(() => {
-      this.setState({ pause: true, openModalPause: false });
-    });
+    breaks(request)
+      .then(() => {
+        this.setState({ pause: true, openModalPause: false });
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
+      });
     return;
   };
 
   returnBreak = () => {
     const { operationId: id } = this.state;
-    updatebreaks({ id }).then(() => {
-      this.setState({ pause: false });
-    });
+    this.setState({ spinner: true });
+    updatebreaks({ id })
+      .then(() => {
+        this.setState({ pause: false });
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
+      });
   };
 
   buttonsOperations = () => {

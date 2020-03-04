@@ -21,6 +21,7 @@ import {
 import { reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
 const DisplayDate = ({ date, displayHour, isActive }) => {
   const style = { marginRight: "9.5%", marginBottom: "1%" };
@@ -58,6 +59,7 @@ class Availability extends Component {
     this.state = {
       emergencyAvailability: false,
       selected: false,
+      spinner: false,
       SpecialDays: [],
       schedules: [],
       daysOfWeek: {
@@ -107,6 +109,7 @@ class Availability extends Component {
 
   GetDataAvailability = async () => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    this.setState({ spinner: true });
     const dimensionsSpecialDate = ({ day, date, start, end, available }) => ({
       date: day ? day : date,
       start,
@@ -114,19 +117,23 @@ class Availability extends Component {
       available
     });
     const convertItems = days => days.map(dimensionsSpecialDate);
-    getAvailability(token.id).then(({ data }) => {
-      const schedules = data.result.value.days;
-      const emergencyAvailability = data.result.value.emergencyAvailability;
-      this.setState({ emergencyAvailability });
-      schedules === null
-        ? this.setState({ schedules: [] })
-        : this.setState({ schedules });
+    getAvailability(token.id)
+      .then(({ data }) => {
+        const schedules = data.result.value.days;
+        const emergencyAvailability = data.result.value.emergencyAvailability;
+        this.setState({ emergencyAvailability });
+        schedules === null
+          ? this.setState({ schedules: [] })
+          : this.setState({ schedules });
 
-      const SpecialDays = data.result.value.specialDays;
-      SpecialDays === null
-        ? this.setState({ SpecialDays: [] })
-        : this.setState({ SpecialDays: convertItems(SpecialDays) });
-    });
+        const SpecialDays = data.result.value.specialDays;
+        SpecialDays === null
+          ? this.setState({ SpecialDays: [] })
+          : this.setState({ SpecialDays: convertItems(SpecialDays) });
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
+      });
   };
 
   openAvailabilityDays = day => {
@@ -148,11 +155,13 @@ class Availability extends Component {
       schedules,
       SpecialDays,
       daysOfWeek,
-      // emergencyAvailability
+      // emergencyAvailability,
+      spinner,
       visible
     } = this.state;
     return (
       <View style={styles.Container}>
+        <SpinnerComponent loading={spinner} />
         <ScrollView>
           <View style={styles.containerAvailability}>
             <Text style={[styles.titleStyle, { paddingBottom: "5%" }]}>

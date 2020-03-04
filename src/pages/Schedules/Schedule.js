@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleSheet, SafeAreaView, StatusBar, View, Text } from "react-native";
 import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
 import { getSchedules } from "~/shared/services/vacancy.http";
@@ -8,7 +8,7 @@ import dimensions from "~/assets/Dimensions/index";
 export default class Schedule extends React.Component {
   state = {
     listVacancy: [],
-    spinner: true
+    spinner: false
   };
 
   componentDidMount() {
@@ -16,13 +16,17 @@ export default class Schedule extends React.Component {
   }
 
   scheduleList = () => {
+    this.setState({ spinner: true });
     getSchedules(2)
       .then(({ data }) => {
         const getVacancy = data.result.value;
-        this.setState({ listVacancy: getVacancy, spinner: false });
+        this.setState({ listVacancy: getVacancy });
       })
       .catch(error => {
         error.response.data;
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
       });
   };
 

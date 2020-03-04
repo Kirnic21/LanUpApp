@@ -10,6 +10,7 @@ import Image from "react-native-fast-image";
 import Spinner from "react-native-loading-spinner-overlay";
 import { calcWidth } from "~/assets/Dimensions";
 import { HeaderBackButton } from "react-navigation-stack";
+import SpinnerComponent from "./SpinnerComponent";
 
 const Picture = ({
   picture,
@@ -169,15 +170,10 @@ class PhotoGallery extends React.Component {
     const { pictures } = this.props;
     const isEditing = this.props.navigation.getParam("isEditing");
     const caption = this.props.navigation.getParam("caption", "");
+    const { spinner } = this.state;
     return (
       <View style={styles.container}>
-        <Spinner
-          visible={this.state.spinner}
-          size="large"
-          animation="fade"
-          color="#7541BF"
-          overlayColor="rgba(0, 0, 0, 0.9)"
-        />
+        <SpinnerComponent loading={spinner} />
         {pictures.length ? (
           <ScrollView contentContainerStyle={styles.contentContainerStyle}>
             <React.Fragment>

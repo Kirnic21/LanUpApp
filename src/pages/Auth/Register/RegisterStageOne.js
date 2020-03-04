@@ -22,6 +22,7 @@ import {
 import { validateCPF } from "~/shared/helpers/validate/ValidateCpfCnpj";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import InputMask from "~/shared/components/InputMask";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
 const formRules = FormValidator.make(
   {
@@ -40,7 +41,8 @@ class RegisterStageOne extends Component {
     user: {
       isFacebook: false,
       authenticateUser: {}
-    }
+    },
+    spinner: false
   };
 
   async componentDidMount() {
@@ -58,6 +60,7 @@ class RegisterStageOne extends Component {
     const { user } = this.state;
     const { nickname, cpf, fullName } = form;
     const CPF = cpf.replace(/[\(\)\.\s-]+/g, "");
+    this.setState({ spinner: true });
     if (user.isFacebook) {
       await this.props.setUser(user);
       const { authenticateUser, accessToken } = user.result;
@@ -72,52 +75,61 @@ class RegisterStageOne extends Component {
         avatar: avatar.url,
         facebookToken: user.facebookToken
       };
-      existingEmail(email).then(({ data }) => {
-        const emailExisting = data.result.value;
-        emailExisting === true
-          ? AlertHelper.show("error", "Erro", "Este email já existe.")
-          : existingCpf(CPF).then(({ data }) => {
-              const cpfExisting = data.result.value;
-              const cpfValidate = validateCPF(CPF);
-              cpfExisting === true
-                ? AlertHelper.show("error", "Erro", "Este cpf já existe.")
-                : cpfValidate === false
-                ? AlertHelper.show("error", "Erro", "Este cpf é inválido.")
-                : create(request)
-                    .then(async ({ data }) => {
-                      if (data.isSuccess) {
-                        await AsyncStorage.setItem(
-                          "API_TOKEN",
-                          data.result.token
-                        );
-                        this.props.navigation.navigate("UserProfile");
-                      }
-                    })
-                    .catch(error => {
-                      console.log(error.response.data);
-                    });
-            });
-      });
+      existingEmail(email)
+        .then(({ data }) => {
+          const emailExisting = data.result.value;
+          emailExisting === true
+            ? AlertHelper.show("error", "Erro", "Este email já existe.")
+            : existingCpf(CPF).then(({ data }) => {
+                const cpfExisting = data.result.value;
+                const cpfValidate = validateCPF(CPF);
+                cpfExisting === true
+                  ? AlertHelper.show("error", "Erro", "Este cpf já existe.")
+                  : cpfValidate === false
+                  ? AlertHelper.show("error", "Erro", "Este cpf é inválido.")
+                  : create(request)
+                      .then(async ({ data }) => {
+                        if (data.isSuccess) {
+                          await AsyncStorage.setItem(
+                            "API_TOKEN",
+                            data.result.token
+                          );
+                          this.props.navigation.navigate("UserProfile");
+                        }
+                      })
+                      .catch(error => {
+                        console.log(error.response.data);
+                      });
+              });
+        })
+        .finally(() => {
+          this.setState({ spinner: false });
+        });
       return;
     }
 
-    existingCpf(CPF).then(({ data }) => {
-      const cpfExisting = data.result.value;
-      const cpfValidate = validateCPF(CPF);
-      cpfExisting === true
-        ? AlertHelper.show("error", "Erro", "Este cpf já existe.")
-        : cpfValidate === false
-        ? AlertHelper.show("error", "Erro", "Este cpf é inválido.")
-        : this.props.navigation.push("RegisterStageTwo");
-    });
+    existingCpf(CPF)
+      .then(({ data }) => {
+        const cpfExisting = data.result.value;
+        const cpfValidate = validateCPF(CPF);
+        cpfExisting === true
+          ? AlertHelper.show("error", "Erro", "Este cpf já existe.")
+          : cpfValidate === false
+          ? AlertHelper.show("error", "Erro", "Este cpf é inválido.")
+          : this.props.navigation.push("RegisterStageTwo");
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
+      });
   };
 
   render() {
-    const { user } = this.state;
+    const { user, spinner } = this.state;
     const { handleSubmit, invalid } = this.props;
     return (
       <ImageBackground source={ImageBack} style={styles.ImageBackground}>
         <KeyboardAwareScrollView style={{ flex: 1 }}>
+          <SpinnerComponent loading={spinner} />
           <StatusBar translucent backgroundColor="transparent" />
           <Container style={{ backgroundColor: "transparent" }}>
             <View style={styles.registerContainer}>

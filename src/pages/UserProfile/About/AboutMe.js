@@ -25,9 +25,11 @@ import PresentationPictures from "./PresentationPictures";
 import FastImage from "react-native-fast-image";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
 class AboutMe extends Component {
   state = {
     visible: false,
+    spinner: false,
     bankCode: "",
     address: "",
     BoxItem: [
@@ -54,6 +56,7 @@ class AboutMe extends Component {
 
   async componentDidMount() {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    this.setState({ spinner: true });
     const { BoxItem } = this.state;
     getAbout(token.id)
       .then(({ data }) => {
@@ -115,6 +118,9 @@ class AboutMe extends Component {
       })
       .catch(error => {
         console.log(error.response.data);
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
       });
     const { handleSubmit } = this.props;
     await this.props.navigation.setParams({
@@ -281,9 +287,10 @@ class AboutMe extends Component {
   };
 
   render() {
-    const { avatar, BoxItem, bankCode, address } = this.state;
+    const { avatar, BoxItem, bankCode, address, spinner } = this.state;
     return (
       <View style={styles.container}>
+        <SpinnerComponent loading={spinner} />
         <ScrollView
           style={styles.ScrollView}
           showsVerticalScrollIndicator={false}

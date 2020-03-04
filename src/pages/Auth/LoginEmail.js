@@ -18,13 +18,13 @@ import Modal from "../../shared/components/ModalComponent";
 
 import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
-import Spinner from "react-native-loading-spinner-overlay";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import InputLabel from "~/shared/components/InputLabel";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
 
 import dimensions from "~/assets/Dimensions/index";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
 const formRules = FormValidator.make(
   {
@@ -46,15 +46,12 @@ class LoginEmail extends Component {
       password: true,
       visible: false,
       email: "",
-      bottomModalAndTitle: true
+      bottomModalAndTitle: true,
+      spinner: false
     };
 
     this.changeIcon = this.changeIcon.bind(this);
   }
-
-  doSignup = () => {
-    this.showLoader();
-  };
 
   goToLoginPerfil = form => {
     const { email, password } = form;
@@ -71,10 +68,12 @@ class LoginEmail extends Component {
         }
       })
       .catch(error => {
-        this.setState({ spinner: false });
         AlertHelper.show("error", "Erro", "Usuário ou senha inválidos");
-        console.log(error.response.data);
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
       });
+    return;
   };
 
   changeIcon() {
@@ -109,16 +108,11 @@ class LoginEmail extends Component {
   render() {
     const { width, height } = Dimensions.get("screen");
     const { handleSubmit, invalid } = this.props;
+    const { spinner } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ width, height, flex: 1 }}>
         <KeyboardAwareScrollView style={{ flex: 1 }}>
-          <Spinner
-            visible={this.state.spinner}
-            size="large"
-            animation="fade"
-            color="#7541BF"
-            overlayColor="rgba(0, 0, 0, 0.9)"
-          />
+          <SpinnerComponent loading={spinner} />
           <Container
             style={{
               backgroundColor: "transparent",

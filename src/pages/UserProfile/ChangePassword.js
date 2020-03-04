@@ -24,6 +24,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Container } from "native-base";
 
 import dimensions from "~/assets/Dimensions/index";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
 const stylePage = {
   ...styles,
@@ -36,12 +37,12 @@ const stylePage = {
 
 const formRules = FormValidator.make(
   {
-    newPassword: "required",
-    confirmPassword: "required",
+    newPassword: "required|min:6",
+    confirmPassword: "required|min:6",
     password: "required"
   },
   {
-    newPassword: "Nova senha é obrigatória",
+    newPassword: "A nova senha deve conter no mínimo 6 caracteres",
     confirmPassword: "Confirmação de senha é obrigatória",
     password: "Senha atual é obrigatória"
   }
@@ -52,7 +53,8 @@ class ChangePassword extends Component {
     super(props);
     this.state = {
       icon: "visibility-off",
-      password: true
+      password: true,
+      spinner: false
     };
     this.changeIcon = this.changeIcon.bind(this);
   }
@@ -66,6 +68,7 @@ class ChangePassword extends Component {
 
   goToLoginPerfil = form => {
     const { password, newPassword, confirmPassword } = form;
+    this.setState({ spinner: true });
     changePassword({
       password,
       newPassword,
@@ -91,11 +94,15 @@ class ChangePassword extends Component {
           AlertHelper.show("error", "Erro", "Nova senha não confere!");
         }
         AlertHelper.show("error", "Erro", "Senha atual não confere!");
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
       });
   };
 
   render() {
     const { handleSubmit } = this.props;
+    const { spinner } = this.state;
     return (
       <ImageBackground
         source={ImageBack}
@@ -107,6 +114,7 @@ class ChangePassword extends Component {
       >
         <KeyboardAwareScrollView style={{}}>
           <StatusBar translucent backgroundColor="transparent" />
+          <SpinnerComponent loading={spinner} />
           <Container
             style={{
               backgroundColor: "transparent",

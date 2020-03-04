@@ -28,6 +28,7 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
 class UserProfile extends Component {
   _isMounted = false;
@@ -36,13 +37,15 @@ class UserProfile extends Component {
 
     this.state = {
       selected: false,
-      visible: false
+      visible: false,
+      spinner: false
       // user: this.state.user || props.navigation.getParam("user")
     };
   }
 
   async componentDidMount() {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    this.setState({ spinner: true });
     getAbout(token.id)
       .then(({ data }) => {
         const { image } = data.result.value;
@@ -51,6 +54,9 @@ class UserProfile extends Component {
       })
       .catch(error => {
         console.log(error.response.data);
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
       });
     this._isMounted = true;
   }
@@ -161,11 +167,12 @@ class UserProfile extends Component {
   };
 
   render() {
-    const { visible } = this.state;
+    const { visible, spinner } = this.state;
     return (
       <ScrollView contentContainerStyle={styles.Container}>
         <StatusBar backgroundColor="#18142F" barStyle="light-content" />
         <View style={{ alignItems: "center", marginTop: "5%" }}>
+          <SpinnerComponent loading={spinner} />
           <View style={{ marginVertical: calcWidth(-5) }}>
             <Image
               source={{ uri: this.state.avatar }}

@@ -1,17 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Modal, StatusBar } from "react-native";
-
-import {
-  BallIndicator,
-  BarIndicator,
-  DotIndicator,
-  MaterialIndicator,
-  PacmanIndicator,
-  PulseIndicator,
-  SkypeIndicator,
-  UIActivityIndicator,
-  WaveIndicator
-} from "react-native-indicators";
+import Lottie from "lottie-react-native";
+import loadingSpinner from "~/assets/loading.json";
+import { calcWidth } from "~/assets/Dimensions";
 
 const SpinnerComponent = props => {
   const { loading, ...attributes } = props;
@@ -22,13 +13,24 @@ const SpinnerComponent = props => {
       animationType={"none"}
       visible={loading}
       onRequestClose={() => {
+        loading;
         true;
       }}
     >
       <View style={styles.modalBackground}>
         <StatusBar backgroundColor="#00000098" />
         <View style={styles.activityIndicatorWrapper}>
-          <DotIndicator color="#7541BF" count={4} />
+          <Lottie
+            autoSize
+            style={{
+              height: calcWidth(50),
+              width: calcWidth(50)
+            }}
+            resizeMode="cover"
+            source={loadingSpinner}
+            loop
+            autoPlay
+          />
         </View>
       </View>
     </Modal>
@@ -44,8 +46,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#00000299"
   },
   activityIndicatorWrapper: {
-    height: 100,
-    width: 100,
+    width: calcWidth(100),
+    height: calcWidth(100),
     borderRadius: 10,
     display: "flex",
     alignItems: "center",

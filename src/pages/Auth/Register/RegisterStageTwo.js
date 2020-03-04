@@ -19,6 +19,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Container } from "native-base";
 import { existingEmail } from "~/shared/services/freela.http";
 import dimensions from "~/assets/Dimensions/index";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
 const stylePage = {
   ...styles,
@@ -47,7 +48,8 @@ class RegisterStageTwo extends Component {
     super(props);
     this.state = {
       icon: "visibility-off",
-      password: true
+      password: true,
+      spinner: false
     };
 
     this.changeIcon = this.changeIcon.bind(this);
@@ -55,20 +57,23 @@ class RegisterStageTwo extends Component {
 
   goLoginPicture = form => {
     const { email, password, confirmPassword } = form;
-    existingEmail(email).then(({ data }) => {
-      console.log(data);
-      const validate = data.result.value;
-
-      validate === true
-        ? AlertHelper.show("error", "Erro", "Este email já existe.")
-        : password !== confirmPassword
-        ? AlertHelper.show(
-            "error",
-            "Erro",
-            "As senhas não podem ser diferentes!"
-          )
-        : this.props.navigation.push("SelectAvatar");
-    });
+    this.setState({ spinner: true });
+    existingEmail(email)
+      .then(({ data }) => {
+        const validate = data.result.value;
+        validate === true
+          ? AlertHelper.show("error", "Erro", "Este email já existe.")
+          : password !== confirmPassword
+          ? AlertHelper.show(
+              "error",
+              "Erro",
+              "As senhas não podem ser diferentes!"
+            )
+          : this.props.navigation.push("SelectAvatar");
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
+      });
   };
 
   changeIcon() {
@@ -80,9 +85,11 @@ class RegisterStageTwo extends Component {
 
   render() {
     const { handleSubmit, invalid } = this.props;
+    const { spinner } = this.state;
     return (
       <ImageBackground source={ImageBack} style={styles.ImageBackground}>
         <KeyboardAwareScrollView style={{ flex: 1 }}>
+          <SpinnerComponent loading={spinner} />
           <StatusBar translucent backgroundColor="transparent" />
           <Container
             style={{
