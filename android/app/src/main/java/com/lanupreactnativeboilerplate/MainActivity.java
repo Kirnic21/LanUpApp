@@ -1,4 +1,4 @@
-package com.lanupreactnativeboilerplate;
+package br.com.lanup.app;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
