@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  ImageBackground,
-  StatusBar,
-  SafeAreaView,
-  Text
-} from "react-native";
+import { View, ImageBackground, StatusBar, SafeAreaView } from "react-native";
 import ImageBack from "~/assets/images/Grupo_518.png";
 import styles from "./styles";
 import ModalCheckList from "./ModalCheckList";
@@ -29,8 +23,8 @@ import ModalPause from "./ModalPause";
 import ModalOccurrence from "./ModalOccurrence";
 import ButtonPulse from "~/shared/components/ButtonPulse";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import BackgroundTimer from "react-native-background-timer";
+import ModalDuties from "./ModalDuties";
 
 class NextEvent extends React.Component {
   state = {
@@ -47,7 +41,9 @@ class NextEvent extends React.Component {
     description: "",
     origin: "",
     pause: false,
-    isCheckin: false
+    isCheckin: false,
+    openModalDuties: false,
+    responsabilities: []
   };
 
   componentDidMount() {
@@ -64,6 +60,7 @@ class NextEvent extends React.Component {
     getWorkdays({ day })
       .then(({ data }) => {
         const get = data.result.value;
+        debugger;
         this.setState({ get });
         get !== null ? this.setWordays() : this.setState({ status: "without" });
       })
@@ -89,7 +86,8 @@ class NextEvent extends React.Component {
       vacancyId: get.vacancyId,
       freelaId: get.freelaId,
       checkout: get.checkout,
-      hirerId: get.hirerId
+      hirerId: get.hirerId,
+      responsabilities: get.responsabilities
     });
     request = {
       id: get.operationId,
@@ -122,7 +120,7 @@ class NextEvent extends React.Component {
   };
 
   checkoutHours = () => {
-    const { checkout, isCheckin } = this.state;
+    const { checkout } = this.state;
     const date = new Date();
     const checkoutDate = new Date(date.setHours(...checkout.split(":")));
 
@@ -322,6 +320,7 @@ class NextEvent extends React.Component {
     const {
       openModalCheckin,
       openModalOccurrence,
+      openModalDuties,
       eventName,
       job,
       checkList,
@@ -331,7 +330,8 @@ class NextEvent extends React.Component {
       send,
       description,
       pause,
-      openModalPause
+      openModalPause,
+      responsabilities
     } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ flex: 1 }}>
@@ -354,6 +354,7 @@ class NextEvent extends React.Component {
                     title="Deveres"
                     size="small"
                     color="#46C5F3"
+                    onPress={() => this.setState({ openModalDuties: true })}
                   />
                   {status === "checkout" ? (
                     <View
@@ -425,6 +426,11 @@ class NextEvent extends React.Component {
             visible={openModalPause}
             onPress={reason => this.breakOperations(reason)}
             onClose={() => this.setState({ openModalCheckin: false })}
+          />
+          <ModalDuties
+            visible={openModalDuties}
+            responsabilities={responsabilities}
+            onClose={() => this.setState({ openModalDuties: false })}
           />
         </SafeAreaView>
       </ImageBackground>
