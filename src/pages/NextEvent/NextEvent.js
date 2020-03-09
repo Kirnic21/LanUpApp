@@ -28,17 +28,17 @@ import ModalDuties from "./ModalDuties";
 
 class NextEvent extends React.Component {
   state = {
-    openModalCheckin: false,
     bottomModalAndTitle: true,
-    eventName: "",
-    job: "",
-    checkList: [],
     checked: false,
+    checkList: [],
+    description: "",
+    eventName: "",
+    openModalCheckin: false,
+    job: "",
     status: "",
     spinner: false,
     openModalPause: false,
     openModalOccurrence: false,
-    description: "",
     origin: "",
     pause: false,
     isCheckin: false,
@@ -60,7 +60,6 @@ class NextEvent extends React.Component {
     getWorkdays({ day })
       .then(({ data }) => {
         const get = data.result.value;
-        debugger;
         this.setState({ get });
         get !== null ? this.setWordays() : this.setState({ status: "without" });
       })
@@ -212,7 +211,7 @@ class NextEvent extends React.Component {
   };
 
   sendImgOcurrence = image => {
-    this.setState({ image: image.data });
+    this.setState({ image: image.data, picture: image.uri });
     AlertHelper.show("success", "Sucesso", "Sua imagem foi adicionada.");
     return;
   };
@@ -331,7 +330,8 @@ class NextEvent extends React.Component {
       description,
       pause,
       openModalPause,
-      responsabilities
+      responsabilities,
+      picture
     } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ flex: 1 }}>
@@ -394,7 +394,6 @@ class NextEvent extends React.Component {
             )}
           </View>
           <View style={styles.containerBtn}>{this.activityButton()}</View>
-
           <ModalCheckList
             visible={openModalCheckin}
             titleCheck={status === "checkout" ? "Check-out" : "Check-in"}
@@ -410,7 +409,8 @@ class NextEvent extends React.Component {
           />
           <ModalOccurrence
             visible={openModalOccurrence}
-            send={send}
+            picture={picture}
+            sendOcurrence={send}
             onPressSend={() => this.SendOcurrence()}
             onImageSelected={this.sendImgOcurrence}
             valueInput={description}

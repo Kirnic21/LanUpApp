@@ -6,72 +6,86 @@ import InputLabel from "~/shared/components/InputLabel";
 import cameraPlus from "~/assets/images/camera-plus.png";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ImageSelector from "~/shared/components/ImageSelector";
+import { useState } from "react";
 
 const ModalOccurrence = ({
   visible,
   onClose,
-  onTouchOutside,
-  onSwipeOut,
   onChangeText,
-  send,
+  sendOcurrence,
   onPressSend,
   onImageSelected,
-  valueInput
+  valueInput,
+  picture
 }) => {
   const handleOnPictureAdd = () => {
     this.ImageSelector.ActionSheet.show();
+  };
+  const [height, setHeight] = useState(0);
+  const updateSize = height => {
+    setHeight(height);
   };
 
   return (
     <Modal
       visible={visible}
       onClose={onClose}
-      onTouchOutside={onTouchOutside}
-      onSwipeOut={onSwipeOut}
-      style={{ height: calcHeight(45) }}
+      style={{ height: picture ? calcHeight(76) : calcHeight(45) }}
     >
       <View style={{ marginHorizontal: calcWidth(5) }}>
         <Text style={styles.title}>Ocorrência</Text>
         <View style={{ marginTop: calcHeight(4) }}>
           <Text style={styles.subTitle}>O que aconteceu?</Text>
-
-          <InputLabel
-            isfocused="#46C5F3"
-            onChangeText={onChangeText}
-            style={{ backgroundColor: "#3f3d58", width: calcWidth(80) }}
-            value={valueInput}
-          />
-
-          {send ? (
-            <TouchableOpacity
-              onPress={onPressSend}
-              style={[styles.icon, { top: calcWidth(16) }]}
-            >
-              <Icon size={calcWidth(8)} name="send" color="#46C5F3" />
-            </TouchableOpacity>
+          {picture ? (
+            <View style={{ alignItems: "center", margin: calcWidth(3) }}>
+              <Image source={{ uri: picture }} style={styles.img} />
+            </View>
           ) : (
             <></>
           )}
+          <InputLabel
+            isfocused="#46C5F3"
+            onChangeText={onChangeText}
+            style={[styles.textInput, { height: Math.max(35, height) }]}
+            value={valueInput}
+            multiline={true}
+            onContentSizeChange={e => {
+              if (height < 130) {
+                updateSize(e.nativeEvent.contentSize.height);
+              }
+            }}
+          />
 
-          <TouchableOpacity
-            style={[
-              styles.icon,
-              send ? { left: calcWidth(60) } : { left: calcWidth(69) }
-            ]}
-            onPress={() => handleOnPictureAdd()}
-          >
-            <Image
-              source={cameraPlus}
-              style={{ height: calcWidth(7), width: calcWidth(7) }}
-            />
-          </TouchableOpacity>
+          <View style={styles.containerIcon}>
+            <TouchableOpacity
+              style={[
+                styles.icon,
+                sendOcurrence ? { left: calcWidth(0) } : { left: calcWidth(7) }
+              ]}
+              onPress={() => handleOnPictureAdd()}
+            >
+              <Image
+                source={cameraPlus}
+                style={{ height: calcWidth(7), width: calcWidth(7) }}
+              />
+            </TouchableOpacity>
+            {sendOcurrence ? (
+              <TouchableOpacity
+                onPress={onPressSend}
+                style={{ left: calcWidth(2) }}
+              >
+                <Icon size={calcWidth(7)} name="send" color="#46C5F3" />
+              </TouchableOpacity>
+            ) : (
+              <></>
+            )}
+          </View>
         </View>
       </View>
       <ImageSelector
         onImageSelected={onImageSelected}
-        cropperCircleOverlay={true}
-        width={1500}
-        height={1500}
+        width={2250}
+        height={3000}
         ref={o => (this.ImageSelector = o)}
       />
     </Modal>
@@ -89,10 +103,25 @@ const styles = StyleSheet.create({
     fontSize: calcWidth(5.5),
     fontFamily: "HelveticaNowMicro-Regular"
   },
-  icon: {
-    position: "absolute",
-    left: calcWidth(69),
-    top: calcWidth(16.5)
+  textInput: {
+    backgroundColor: "#3f3d58",
+    width: calcWidth(80),
+    paddingRight: calcWidth(21),
+    paddingVertical: calcWidth(3),
+    maxHeight: calcWidth(40),
+    fontSize: calcWidth(4),
+    fontFamily: "HelveticaNowMicro-Regular"
+  },
+  containerIcon: {
+    position: "relative",
+    flexDirection: "row",
+    top: calcWidth(-14),
+    left: calcWidth(60)
+  },
+  img: {
+    height: calcWidth(50),
+    width: calcWidth(75),
+    borderRadius: calcWidth(5)
   }
 });
 

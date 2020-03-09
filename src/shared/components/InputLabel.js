@@ -24,7 +24,8 @@ export default InputLabel = ({
   onSubmitEditing,
   placeholder,
   placeholderTextColor,
-  isfocused
+  isfocused,
+  onContentSizeChange
 }) => {
   const [isInputFocused, setInputFocused] = useState({
     input1: false
@@ -71,6 +72,7 @@ export default InputLabel = ({
           onSubmitEditing={onSubmitEditing}
           placeholder={placeholder}
           placeholderTextColor={placeholderTextColor}
+          onContentSizeChange={onContentSizeChange}
         ></TextInput>
       </View>
     </View>
