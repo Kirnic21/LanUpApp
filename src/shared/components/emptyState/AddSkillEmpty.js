@@ -35,16 +35,8 @@ const AddSkillEmpty = ({ onPress, isEditing }) => {
           abaixo
         </Text>
       </View>
-      <View
-        style={{
-          width: "97%",
-          height: "30%",
-          justifyContent: "flex-end",
-          alignItems: "flex-end",
-          top: "-3%"
-        }}
-      >
-        <ActionButton onPress={onPress} />
+      <View style={styles.containerActionButton}>
+        {isEditing ? <></> : <ActionButton onPress={onPress} />}
       </View>
     </View>
   );
@@ -76,6 +68,13 @@ const styles = StyleSheet.create({
     top: "3%",
     lineHeight: dimensions(40),
     fontFamily: "HelveticaNowMicro-ExtraLight"
+  },
+  containerActionButton: {
+    width: "97%",
+    height: "30%",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    top: "-3%"
   }
 });
 

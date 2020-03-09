@@ -3,7 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import ActionButton from "~/shared/components/ActionButton";
 import Modal from "~/shared/components/ModalComponent";
-import { ScrollView } from "react-native-gesture-handler";
+import {
+  ScrollView,
+  TouchableNativeFeedback
+} from "react-native-gesture-handler";
 import { decodeToken, updateSkills } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import MaterialCommunityIcons from "react-native-vector-icons/FontAwesome";
@@ -11,7 +14,7 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import InputLabel from "~/shared/components/InputLabel";
 import AddSkillEmpty from "~/shared/components/emptyState/AddSkillEmpty";
 
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 
 class AddSkill extends Component {
   constructor(props) {
@@ -40,39 +43,40 @@ class AddSkill extends Component {
     const isEditing = navigation.getParam("isEditing");
     const active = navigation.getParam("active");
     return {
-      headerRight: isEditing ? (
-        <View>
-          <TouchableOpacity
-            style={{ paddingHorizontal: dimensions(23) }}
-            onPress={() => state.params.handleSave()}
-          >
-            <Text
-              style={{
-                color: "#FFF",
-                fontFamily: "HelveticaNowMicro-Regular",
-                fontSize: dimensions(12)
-              }}
+      headerRight: () =>
+        isEditing ? (
+          <View>
+            <TouchableOpacity
+              style={{ paddingHorizontal: dimensions(23) }}
+              onPress={() => state.params.handleSave()}
             >
-              Salvar
-            </Text>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <View pointerEvents={active ? "auto" : "none"}>
-          <TouchableOpacity>
-            <MaterialCommunityIcons
-              onPress={() => state.params.editingSave()}
-              name={"pencil"}
-              size={dimensions(22)}
-              style={{
-                paddingHorizontal: dimensions(23),
-                opacity: active ? 1 : 0
-              }}
-              color="#FFFFFF"
-            />
-          </TouchableOpacity>
-        </View>
-      )
+              <Text
+                style={{
+                  color: "#FFF",
+                  fontFamily: "HelveticaNowMicro-Regular",
+                  fontSize: dimensions(12)
+                }}
+              >
+                Salvar
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View pointerEvents={active ? "auto" : "none"}>
+            <TouchableOpacity>
+              <MaterialCommunityIcons
+                onPress={() => state.params.editingSave()}
+                name={"pencil"}
+                size={dimensions(22)}
+                style={{
+                  paddingHorizontal: dimensions(23),
+                  opacity: active ? 1 : 0
+                }}
+                color="#FFFFFF"
+              />
+            </TouchableOpacity>
+          </View>
+        )
     };
   };
 
@@ -82,8 +86,8 @@ class AddSkill extends Component {
     });
   };
 
-  Skills = t => {
-    const text = t.trim();
+  Skills = txt => {
+    const text = txt.trim();
     this.setState({ text });
   };
 
@@ -100,15 +104,7 @@ class AddSkill extends Component {
       active: true
     });
 
-    updateSkills({ id: token.id, skills })
-      .then(({ data }) => {
-        if (data.isSuccess) {
-          console.log(data.result);
-        }
-      })
-      .catch(error => {
-        console.log(error.response.data);
-      });
+    updateSkills({ id: token.id, skills });
   };
 
   handleDelete = c => {
@@ -131,16 +127,11 @@ class AddSkill extends Component {
       isEditing: false
     });
     AlertHelper.show("success", "Sucesso", "Habilidade removida com sucesso!");
-    updateSkills({ id: token.id, skills })
-      .then(({ data }) => {
-        if (data.isSuccess) {
-          console.log(data.result);
-          this.setState({ text: "" });
-        }
-      })
-      .catch(error => {
-        console.log(error.response.data);
-      });
+    updateSkills({ id: token.id, skills }).then(({ data }) => {
+      if (data.isSuccess) {
+        this.setState({ text: "" });
+      }
+    });
   };
 
   render() {
@@ -165,31 +156,38 @@ class AddSkill extends Component {
                     key={i}
                     style={{ marginRight: "1%", height: dimensions(38) }}
                   >
-                    <View style={styles.chip}>
-                      <MaterialCommunityIcons
-                        name={"times-circle"}
-                        onPress={() => {
-                          this.handleDelete(c);
-                        }}
-                        size={dimensions(18)}
-                        style={[
-                          { top: "-15%", left: "80%" },
-                          isEditing ? { opacity: 1 } : { opacity: 0 }
-                        ]}
-                        color="#FFFFFF"
-                      />
-                      <Text style={styles.textChip}>{c}</Text>
-                    </View>
+                    <TouchableNativeFeedback
+                      onPress={() => {
+                        isEditing ? this.handleDelete(c) : null;
+                      }}
+                      style={styles.chip}
+                    >
+                      <Text style={[styles.textChip]}>{c}</Text>
+                      {isEditing ? (
+                        <MaterialCommunityIcons
+                          name={"times-circle"}
+                          size={dimensions(18)}
+                          style={[{ left: calcWidth(-1) }]}
+                          color="#FFFFFF"
+                        />
+                      ) : (
+                        <></>
+                      )}
+                    </TouchableNativeFeedback>
                   </View>
                 ))}
               </View>
             </ScrollView>
             <View style={styles.containerAction}>
-              <ActionButton
-                onPress={() => {
-                  this.setState({ visible: true });
-                }}
-              />
+              {isEditing ? (
+                <></>
+              ) : (
+                <ActionButton
+                  onPress={() => {
+                    this.setState({ visible: true });
+                  }}
+                />
+              )}
             </View>
           </View>
         ) : (
@@ -256,8 +254,9 @@ export const styles = StyleSheet.create({
     backgroundColor: "#46C5F3",
     width: "100%",
     height: dimensions(30),
-    borderRadius: 20
-    // justifyContent: "center"
+    borderRadius: 20,
+    alignItems: "center",
+    flexDirection: "row"
   },
   containerAction: {
     marginHorizontal: "-2%",
@@ -291,7 +290,7 @@ export const styles = StyleSheet.create({
   textChip: {
     color: "#18142F",
     paddingHorizontal: "1.9%",
-    top: "-36%",
+    // top: "-36%"
     fontSize: dimensions(12),
     fontFamily: "HelveticaNowMicro-Regular"
   }
