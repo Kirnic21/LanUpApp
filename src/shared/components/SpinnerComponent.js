@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Modal, StatusBar } from "react-native";
 import Lottie from "lottie-react-native";
-import loadingSpinner from "~/assets/loading.json";
+import loadingSpinner from "~/assets/loadingSpinner.json";
 import { calcWidth } from "~/assets/Dimensions";
 
 const SpinnerComponent = props => {
@@ -23,8 +23,8 @@ const SpinnerComponent = props => {
           <Lottie
             autoSize
             style={{
-              height: calcWidth(50),
-              width: calcWidth(50)
+              height: calcWidth(70),
+              width: calcWidth(70)
             }}
             resizeMode="cover"
             source={loadingSpinner}
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
     justifyContent: "space-around",
-    backgroundColor: "#00000299"
+    backgroundColor: "rgba(0, 0, 0, 0.7)"
   },
   activityIndicatorWrapper: {
     width: calcWidth(100),

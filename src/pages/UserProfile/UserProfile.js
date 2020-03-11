@@ -28,7 +28,7 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
-import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
 
 class UserProfile extends Component {
   _isMounted = false;
@@ -39,13 +39,12 @@ class UserProfile extends Component {
       selected: false,
       visible: false,
       spinner: false
-      // user: this.state.user || props.navigation.getParam("user")
     };
   }
 
   async componentDidMount() {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    this.setState({ spinner: true });
+    this.setState({ spinner: false });
     getAbout(token.id)
       .then(({ data }) => {
         const { image } = data.result.value;
@@ -56,7 +55,7 @@ class UserProfile extends Component {
         console.log(error.response.data);
       })
       .finally(() => {
-        this.setState({ spinner: false });
+        this.setState({ spinner: true });
       });
     this._isMounted = true;
   }
@@ -143,7 +142,6 @@ class UserProfile extends Component {
   };
 
   openModal = () => {
-    // this.props.navigation.navigate("Agency");
     this.setState({ visible: true });
   };
   closeModal = () => {
@@ -172,27 +170,29 @@ class UserProfile extends Component {
       <ScrollView contentContainerStyle={styles.Container}>
         <StatusBar backgroundColor="#18142F" barStyle="light-content" />
         <View style={{ alignItems: "center", marginTop: "5%" }}>
-          <SpinnerComponent loading={spinner} />
           <View style={{ marginVertical: calcWidth(-5) }}>
-            <Image
-              source={{ uri: this.state.avatar }}
-              style={{
-                width: dimensions(90),
-                height: dimensions(90),
-                borderRadius: dimensions(50),
-                borderColor: "#FFB72B",
-                borderWidth: 2
-              }}
-            />
-            <Icon
-              name="circle"
-              size={dimensions(24)}
-              color="#86D7CA"
-              style={{
-                left: dimensions(70),
-                top: dimensions(-25)
-              }}
-            />
+            <ShimmerPlaceHolder
+              style={[styles.avatar]}
+              width={calcWidth(25)}
+              height={calcWidth(25)}
+              autoRun={true}
+              visible={spinner}
+              colorShimmer={["#ebebeb", "#c9c9c9", "#ebebeb"]}
+            >
+              <Image
+                source={{ uri: this.state.avatar }}
+                style={[styles.avatar, { borderColor: "#FFB72B" }]}
+              />
+              <Icon
+                name="circle"
+                size={dimensions(24)}
+                color="#86D7CA"
+                style={{
+                  left: dimensions(70),
+                  top: dimensions(-25)
+                }}
+              />
+            </ShimmerPlaceHolder>
           </View>
         </View>
         <TouchableOpacity
@@ -384,6 +384,12 @@ const styles = StyleSheet.create({
   },
   item: {
     padding: dimensions(17)
+  },
+  avatar: {
+    width: dimensions(90),
+    height: dimensions(90),
+    borderRadius: dimensions(50),
+    borderWidth: 2
   }
 });
 

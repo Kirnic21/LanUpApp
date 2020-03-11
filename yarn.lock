@@ -6379,6 +6379,11 @@ react-native-screens@^2.2.0:
   dependencies:
     debounce "^1.2.0"
 
+react-native-shimmer-placeholder@^1.0.35:
+  version "1.0.35"
+  resolved "https://registry.yarnpkg.com/react-native-shimmer-placeholder/-/react-native-shimmer-placeholder-1.0.35.tgz#e75612297155a337690a42faf606fdcc4660bd39"
+  integrity sha512-qJS+eHjOuXZAxn4tFQFnRGHq6fzJOcNHrCKhbfx2+5v/Oa/W5G9Ww9DSPLiaAqzpRl74lcVZSufKTAxiVSB4qQ==
+
 react-native-star-rating@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-star-rating/-/react-native-star-rating-1.1.0.tgz#57fcd023c63e947427c4dbbd1c8f4cc49e5c48ce"
