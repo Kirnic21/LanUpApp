@@ -114,10 +114,10 @@ class AddProfession extends Component {
                         fontSize: dimensions(12),
                         fontFamily: "HelveticaNowMicro-Regular",
                         padding: dimensions(6),
-                        paddingTop: dimensions(7)
+                        paddingTop: dimensions(7),
+                        textAlign: "center"
                       }}
                     >
-                      {" "}
                       {name}
                     </Text>
                   </TouchableOpacity>
