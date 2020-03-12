@@ -1,8 +1,9 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-community/async-storage";
+import env from "react-native-config";
 
 const HTTP = axios.create({
-  baseURL: "https://lanupservices-dev.azurewebsites.net/api/",
+  baseURL: env.REACT_APP_API,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json"
@@ -10,7 +11,7 @@ const HTTP = axios.create({
 });
 
 const HTTPFORM = axios.create({
-  baseURL: "https://lanupservices-dev.azurewebsites.net/api/",
+  baseURL: env.REACT_APP_API,
   timeout: 10000,
   headers: {
     "Content-Type": "multipart/form-data"

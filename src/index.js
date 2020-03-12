@@ -57,7 +57,7 @@ class App extends Component {
 
   onOpened(openResult) {
     // TODO: lógica de validação de tipo de push enviado
-    this.props.navigation.navigate("NextEvent");
+    // this.props.navigation.navigate("NextEvent");
     console.log("Message: ", openResult.notification.payload.body);
     console.log("Data: ", openResult.notification.payload.additionalData);
     console.log("isActive: ", openResult.notification.isAppInFocus);
