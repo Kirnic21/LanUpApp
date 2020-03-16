@@ -6,7 +6,7 @@ import CardDeitailsVacancies from "./CardDeitailsVacancies";
 import dimensions, { calcWidth } from "~/assets/Dimensions";
 import ShiftCard from "./ShiftCard";
 import SelectComponent from "~/shared/components/SelectComponent";
-import ButtonVacancies from "./ButtonVacancies";
+import ButtonVacancies from "~/shared/components/Button";
 import { deitailsVacancies } from "~/shared/services/events.http";
 import { acceptInvite, deleteVacancies } from "~/shared/services/vacancy.http";
 import { decodeToken } from "~/shared/services/freela.http";
@@ -14,8 +14,9 @@ import AsyncStorage from "@react-native-community/async-storage";
 import HTML from "react-native-render-html";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import { HeaderBackButton } from "react-navigation-stack";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { WebView } from "react-native-webview";
+import ButtonComponent from "~/shared/components/ButtonCompoent";
 
 class VacanciesDetails extends Component {
   state = {
@@ -30,7 +31,8 @@ class VacanciesDetails extends Component {
     checkListAtCheckin: [],
     checkListCheckoutPreview: [],
     checkListAtCheckout: [],
-    status: this.props.navigation.state.params.status
+    status: this.props.navigation.state.params.status,
+    checkin: ""
   };
 
   componentDidMount() {
@@ -120,18 +122,21 @@ class VacanciesDetails extends Component {
       checkin: checkin,
       jobToDo: job.job
     };
-    checkin === undefined
-      ? AlertHelper.show("error", "Erro", "Selecione um turno.")
-      : acceptInvite(request)
-          .then(() => {
-            this.props.navigation.navigate("Schedule");
-          })
-          .catch(error => {
-            AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-          })
-          .finally(() => {
-            this.setState({ spinner: false });
-          });
+    if (checkin === undefined) {
+      AlertHelper.show("error", "Erro", "Selecione um turno.");
+      this.setState({ spinner: false });
+    } else {
+      acceptInvite(request)
+        .then(() => {
+          this.props.navigation.navigate("Schedule");
+        })
+        .catch(error => {
+          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+        })
+        .finally(() => {
+          this.setState({ spinner: false });
+        });
+    }
   };
 
   deleteVacancy = () => {
@@ -152,15 +157,17 @@ class VacanciesDetails extends Component {
   };
 
   statusVacancy = () => {
-    const { status } = this.state;
+    const { status, checkin } = this.state;
     return {
       2: (
-        <ButtonVacancies
-          name="Aceitar"
-          style={{ backgroundColor: "#865FC0", borderWidth: 0 }}
+        <ButtonComponent
+          title="Aceitar"
+          isSelected={checkin ? true : false}
           onPress={() => {
             this.invite();
           }}
+          unSelectedColor="#A893F229"
+          selectedColor="#865FC0"
         />
       ),
       3: (
@@ -234,31 +241,37 @@ class VacanciesDetails extends Component {
                 baseFontStyle={{ color: "#FFF" }}
                 html={`<Div>${eventDescription}</Div>`}
               />
+              <WebView
+                originWhitelist={["*"]}
+                source={{ html: "<h1>Hello world</h1>" }}
+              />
             </CardDeitailsVacancies>
-            <CardDeitailsVacancies
-              title="Minhas Responsabilidades"
-              TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
-              contentTextStyle={{ color: "#FFF" }}
-              isModalOn={true}
-              previewContent={previewResponsabilities}
-              content={responsabilities}
-            />
-            <CardDeitailsVacancies
-              title="Check In"
-              TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
-              contentTextStyle={{ color: "#FFF" }}
-              isModalOn={true}
-              previewContent={checkListCheckinPreview}
-              content={checkListAtCheckin}
-            />
-            <CardDeitailsVacancies
-              title="Check Out"
-              TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
-              contentTextStyle={{ color: "#FFF" }}
-              isModalOn={true}
-              previewContent={checkListCheckoutPreview}
-              content={checkListAtCheckout}
-            />
+            <View>
+              <CardDeitailsVacancies
+                title="Minhas Responsabilidades"
+                TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
+                contentTextStyle={{ color: "#FFF" }}
+                isModalOn={true}
+                previewContent={previewResponsabilities}
+                content={responsabilities}
+              />
+              <CardDeitailsVacancies
+                title="Check In"
+                TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
+                contentTextStyle={{ color: "#FFF" }}
+                isModalOn={true}
+                previewContent={checkListCheckinPreview}
+                content={checkListAtCheckin}
+              />
+              <CardDeitailsVacancies
+                title="Check Out"
+                TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
+                contentTextStyle={{ color: "#FFF" }}
+                isModalOn={true}
+                previewContent={checkListCheckoutPreview}
+                content={checkListAtCheckout}
+              />
+            </View>
           </View>
           <View style={{ marginHorizontal: "5%", paddingVertical: "5%" }}>
             {status === 3 ? (
@@ -273,7 +286,14 @@ class VacanciesDetails extends Component {
                 value={description}
               />
             )}
-            <View>{this.statusVacancy()}</View>
+          </View>
+          <View
+            style={{
+              marginHorizontal: calcWidth(25),
+              paddingBottom: calcWidth(6)
+            }}
+          >
+            {this.statusVacancy()}
           </View>
         </ScrollView>
       </SafeAreaView>
