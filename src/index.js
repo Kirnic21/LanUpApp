@@ -14,10 +14,15 @@ import { initMomentPtBr } from "~/shared/helpers";
 import DropdownAlert from "react-native-dropdownalert";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { calcWidth } from "./assets/Dimensions";
+import * as Sentry from "@sentry/react-native";
 
 initMomentPtBr();
 
 const ONE_SIGNAL_ID = "974fc0c7-12f6-4d7a-8aca-c07d519c7dc1";
+
+Sentry.init({
+  dsn: "https://56c92c18d0684d81b3f59dde2512aed4@sentry.io/4606069"
+});
 
 class App extends Component {
   constructor(properties) {

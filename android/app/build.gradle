@@ -220,9 +220,10 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-webview')
+    // implementation project(':@sentry_react-native')
     implementation project(':react-native-config')
     implementation project(':react-native-onesignal')
-    implementation project(':react-native-webview')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 

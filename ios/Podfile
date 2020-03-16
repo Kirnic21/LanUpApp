@@ -29,11 +29,14 @@ target 'LanUpReactNativeBoilerplate' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
   
 
-  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
   pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
 
   pod 'react-native-config', :path => '../node_modules/react-native-config'
+
+  pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
+
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
   target 'LanUpReactNativeBoilerplateTests' do
     inherit! :search_paths
