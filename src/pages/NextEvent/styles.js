@@ -48,79 +48,23 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "85%"
   },
-  containerButton: {
-    flex: 0.3,
-    borderWidth: dimensions(2),
-    borderColor: "#FFF"
-  },
-  buttonCheckin: {
-    backgroundColor: "#46C5F3"
-  },
-  circleCheckin: {
-    backgroundColor: "#46c5f35d"
-  },
-  buttonCheckout: {
-    backgroundColor: "#865FC0"
-  },
-  circleCheckout: {
-    backgroundColor: "#865fc069"
-  },
-  buttonOccurrence: {
-    backgroundColor: "#FFB72B"
-  },
-  circleOccurence: {
-    backgroundColor: "#ffb82b80"
-  },
-  buttonWithoutEvent: {
-    backgroundColor: "#4F4D65"
-  },
-  circleWithoutEvent: {
-    backgroundColor: "#70707059"
-  },
-  heightWidth: {
-    height: dimensions(130),
-    width: dimensions(130)
-  },
-  ButtonHeightWidth: {
-    top: "-50%",
-    height: dimensions(70),
-    width: dimensions(70)
-  },
-  ButtonPulseLeft: {
-    backgroundColor: "#46C5F3",
-    borderColor: "#46c5f35d",
-    borderWidth: 2
-  },
-  textButtonPulse: {
-    color: "#FFF",
-    fontFamily: "HelveticaNowMicro-Regular",
-    textAlign: "center",
-    fontSize: dimensions(18),
-    lineHeight: dimensions(28)
-  },
   containerGroupButton: {
     flexDirection: "row",
     width: calcWidth(78),
     justifyContent: "space-between",
     position: "absolute"
   },
-  buttonSmall: {
-    height: calcWidth(21),
-    width: calcWidth(21)
-  },
-  containerBtn: {
-    height: calcHeight(60),
-    marginTop: calcHeight(6),
-    alignItems: "center"
+  textBtnPulse: {
+    textAlign: "center",
+    lineHeight: calcWidth(7)
   },
   btn: {
-    borderColor: "#FFF",
+    borderColor: "#FFFFFF",
     borderWidth: 2,
-    height: dimensions(45),
-    width: dimensions(200),
-    borderRadius: dimensions(45),
+    padding: calcWidth(4),
     alignItems: "center",
-    justifyContent: "center"
+    width: calcWidth(50),
+    borderRadius: calcWidth(10)
   }
 });
 

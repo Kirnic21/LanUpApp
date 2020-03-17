@@ -6,7 +6,7 @@ import dimensions, { calcHeight, calcWidth } from "~/assets/Dimensions/index";
 const ModalDuties = ({ visible, onClose, responsabilities }) => {
   const DATA = [
     {
-      data: responsabilities
+      data: responsabilities || []
     }
   ];
 
@@ -34,7 +34,7 @@ const ModalDuties = ({ visible, onClose, responsabilities }) => {
         <Text style={[styles.title, { fontSize: calcWidth(8) }]}>Deveres:</Text>
         <View>
           <View style={styles.list}>
-            {responsabilities.length ? (
+            {responsabilities ? (
               <SectionList
                 sections={DATA}
                 keyExtractor={(item, index) => item + index}

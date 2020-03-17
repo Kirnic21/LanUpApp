@@ -24,7 +24,7 @@ const getAvailability = id => HTTP.get(`freelas/${id}/availabilities`);
 const getAbout = id => HTTP.get(`freelas/${id}/about`);
 const existingCpf = data => HTTP.get(`freelas/cpf/${data}/exists`);
 const existingEmail = data => HTTP.get(`freelas/email/${data}/exists`);
-const getWorkdays = data => HTTP.get(`freelas/workdays/${data.day}`);
+const workdays = data => HTTP.get(`freelas/workdays/${data.day}`);
 
 const galleryDelete = (id, queryParams) =>
   HTTP.delete(`freelas/${id}/galery?${queryParams}`);
@@ -60,5 +60,5 @@ export {
   received,
   existingCpf,
   existingEmail,
-  getWorkdays
+  workdays
 };

@@ -23,6 +23,7 @@ const ModalCheckList = ({
   pressConfirm,
   titleCheck
 }) => {
+  const list = checkList ? checkList.map((c, i) => ({ id: i, title: c })) : [];
   renderSeparator = () => (
     <View
       style={{
@@ -62,7 +63,7 @@ const ModalCheckList = ({
         <View style={{ top: "3%", alignItems: "center" }}>
           <View style={{ width: "90%", minHeight: "18%" }}>
             <Text numberOfLines={1} style={styles.title}>
-              {eventName}
+              {eventName || ""}
             </Text>
             <Text style={styles.subTitle}>{job}</Text>
           </View>
@@ -87,7 +88,7 @@ const ModalCheckList = ({
         </View>
         <View style={[styles.containerCheckBox, { top: "7%", height: "38%" }]}>
           <FlatList
-            data={checkList}
+            data={list}
             renderItem={({ item }) => <Item id={item.id} title={item.title} />}
             keyExtractor={item => item.id.toString()}
             ItemSeparatorComponent={renderSeparator}
