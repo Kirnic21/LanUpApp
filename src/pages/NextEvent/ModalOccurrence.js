@@ -6,6 +6,8 @@ import InputLabel from "~/shared/components/InputLabel";
 import cameraPlus from "~/assets/images/camera-plus.png";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ImageSelector from "~/shared/components/ImageSelector";
+import Lottie from "lottie-react-native";
+import loadingSpinner from "~/assets/loadingSpinner.json";
 import { useState } from "react";
 
 const ModalOccurrence = ({
@@ -15,6 +17,7 @@ const ModalOccurrence = ({
   sendOcurrence,
   onPressSend,
   onImageSelected,
+  loading,
   valueInput,
   picture
 }) => {
@@ -30,7 +33,7 @@ const ModalOccurrence = ({
     <Modal
       visible={visible}
       onClose={onClose}
-      style={{ height: picture ? calcHeight(76) : calcHeight(45) }}
+      style={{ height: picture ? calcHeight(76) : calcWidth(90) }}
     >
       <View style={{ marginHorizontal: calcWidth(5) }}>
         <Text style={styles.title}>Ocorrência</Text>
@@ -49,14 +52,31 @@ const ModalOccurrence = ({
             style={[styles.textInput, { height: Math.max(35, height) }]}
             value={valueInput}
             multiline={true}
+            editable={loading ? false : true}
             onContentSizeChange={e => {
               if (height < 130) {
                 updateSize(e.nativeEvent.contentSize.height);
               }
             }}
           />
-
-          <View style={styles.containerIcon}>
+          <View style={{ alignItems: "center" }}>
+            {loading ? (
+              <Lottie
+                autoSize
+                style={styles.loading}
+                resizeMode="cover"
+                source={loadingSpinner}
+                loop
+                autoPlay
+              />
+            ) : (
+              <></>
+            )}
+          </View>
+          <View
+            pointerEvents={loading ? "none" : "auto"}
+            style={styles.containerIcon}
+          >
             <TouchableOpacity
               style={[
                 styles.icon,
@@ -122,6 +142,11 @@ const styles = StyleSheet.create({
     height: calcWidth(50),
     width: calcWidth(75),
     borderRadius: calcWidth(5)
+  },
+  loading: {
+    height: calcWidth(20),
+    width: calcWidth(20),
+    position: "absolute"
   }
 });
 
