@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { login, resetPassword } from "../../shared/services/auth.http";
+import { decodeToken } from "~/shared/services/freela.http";
 import ImageBack from "../../assets/images/Grupo_518.png";
 import Logo from "../../assets/images/logoLanUp.png";
 import InputField from "../../shared/components/InputField";
@@ -61,14 +62,21 @@ class LoginEmail extends Component {
       password
     })
       .then(async ({ data }) => {
-        if (data.isSuccess) {
+        const token = decodeToken(data.result.token);
+        if (token.userType === "1") {
           await AsyncStorage.setItem("API_TOKEN", data.result.token);
-
           this.props.navigation.navigate("UserProfile");
+        } else {
+          AlertHelper.show(
+            "error",
+            "Erro",
+            "Somente freelas podem acessar o App."
+          );
         }
       })
       .catch(error => {
-        AlertHelper.show("error", "Erro", "Usuário ou senha inválidos");
+        error.response.data.errorMessage;
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       })
       .finally(() => {
         this.setState({ spinner: false });
