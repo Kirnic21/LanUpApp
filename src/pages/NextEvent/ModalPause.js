@@ -1,15 +1,18 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "~/shared/components/ModalComponent";
-import dimensions, { calcHeight, calcWidth } from "~/assets/Dimensions/index";
+import { calcWidth } from "~/assets/Dimensions/index";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import Lottie from "lottie-react-native";
+import loadingSpinner from "~/assets/loadingSpinner.json";
 
 const ModalPause = ({
   visible,
   onClose,
   onSwipeOut,
   onTouchOutside,
-  onPress
+  onPress,
+  loading
 }) => {
   const data = [
     {
@@ -37,9 +40,7 @@ const ModalPause = ({
     <Modal
       visible={visible}
       onClose={onClose}
-      onTouchOutside={onTouchOutside}
-      onSwipeOut={onSwipeOut}
-      style={{ height: calcHeight(85) }}
+      style={{ height: calcWidth(165) }}
     >
       <View style={{ flex: 1, alignItems: "center" }}>
         <Text style={styles.title}>Pausa para:</Text>
@@ -53,6 +54,22 @@ const ModalPause = ({
             <Text style={styles.btnText}>{name}</Text>
           </TouchableOpacity>
         ))}
+        {loading ? (
+          <Lottie
+            autoSize
+            style={{
+              height: calcWidth(15),
+              width: calcWidth(15),
+              top: calcWidth(2)
+            }}
+            resizeMode="cover"
+            source={loadingSpinner}
+            loop
+            autoPlay
+          />
+        ) : (
+          <></>
+        )}
       </View>
     </Modal>
   );
@@ -61,7 +78,7 @@ const ModalPause = ({
 const styles = StyleSheet.create({
   btn: {
     width: calcWidth(75),
-    marginTop: calcHeight(5),
+    marginTop: calcWidth(10),
     height: calcWidth(18),
     backgroundColor: "#B6AED1",
     borderRadius: calcWidth(3),

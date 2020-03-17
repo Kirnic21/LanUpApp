@@ -14,10 +14,10 @@ export default ModalComingSoon = ({
 }) => (
   <View>
     <Modal.BottomModal
-      visible={visible}
-      onTouchOutside={onTouchOutside}
+      visible={visible || false}
+      onTouchOutside={onClose}
       modalStyle={{ backgroundColor: "transparent", height: dimensions(470) }}
-      onSwipeOut={onSwipeOut}
+      onSwipeOut={onClose}
     >
       <ModalContent
         style={{

@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     height: calcHeight(35),
     alignItems: "center",
     justifyContent: "center",
-    top: calcHeight(4)
+    top: calcHeight(5.5),
+    marginHorizontal: calcWidth(10)
   },
   containerCircle: {
     justifyContent: "center",
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   textTitle: {
-    fontSize: calcWidth(9),
+    fontSize: calcWidth(7.5),
     fontFamily: "HelveticaNowMicro-Medium",
     top: "12%",
     left: "-0.3%",
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   },
   TextsubTitle: {
     fontFamily: "HelveticaNowMicro-Regular",
-    fontSize: calcWidth(6),
+    fontSize: calcWidth(5),
     color: "#FFB72B"
   },
 
@@ -61,10 +62,13 @@ const styles = StyleSheet.create({
   btn: {
     borderColor: "#FFFFFF",
     borderWidth: 2,
-    padding: calcWidth(4),
+    padding: calcWidth(3.5),
     alignItems: "center",
-    width: calcWidth(50),
+    width: calcWidth(55),
     borderRadius: calcWidth(10)
+  },
+  containerBtn: {
+    top: calcWidth(6)
   }
 });
 

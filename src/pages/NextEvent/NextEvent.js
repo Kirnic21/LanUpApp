@@ -24,6 +24,7 @@ import ButtonPulse from "~/shared/components/ButtonPulse";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import BackgroundTimer from "react-native-background-timer";
 import ModalDuties from "./ModalDuties";
+import ModalComingSoon from "~/shared/components/ModalComingSoon";
 
 class NextEvent extends React.Component {
   state = {
@@ -42,7 +43,6 @@ class NextEvent extends React.Component {
       .then(({ data }) => data)
       .then(({ result }) => {
         const { value } = result;
-        debugger;
         value !== null
           ? this.getWordays(value)
           : this.setState({ status: "without" });
@@ -88,7 +88,6 @@ class NextEvent extends React.Component {
 
   toCheckIn = () => {
     const { operationId: id, vacancyId } = this.state;
-    debugger;
     operationsCheckins({ id, vacancyId }).then(({}) => {
       this.setState({ openModalCheckin: true });
     });
@@ -118,9 +117,6 @@ class NextEvent extends React.Component {
         this.setState({ openModalCheckin: false });
         this.props.navigation.replace("Rating", { hirerId, eventName });
       })
-      .catch(error => {
-        error.response.data;
-      })
       .finally(() => {
         this.setState({ spinner: false });
       });
@@ -138,6 +134,7 @@ class NextEvent extends React.Component {
       .finally(() => {
         this.setState({ spinner: false });
       });
+    return;
   };
 
   SendOcurrence = () => {
@@ -146,7 +143,6 @@ class NextEvent extends React.Component {
     this.setState({ loading: true });
     incidents(request)
       .then(() => {
-        debugger;
         this.setState({
           description: "",
           send: false,
@@ -178,28 +174,22 @@ class NextEvent extends React.Component {
 
   toPause = reason => {
     const { operationId: id } = this.state;
-    this.setState({ spinner: true });
-    debugger;
+    this.setState({ loading: true });
     breaks({ id, reason })
       .then(() => {
         this.setState({ pause: true, openModalPause: false });
       })
       .finally(() => {
-        this.setState({ spinner: false });
+        this.setState({ loading: false });
       });
     return;
   };
 
   returnPause = () => {
     const { operationId: id } = this.state;
-    this.setState({ spinner: true });
-    updatebreaks({ id })
-      .then(() => {
-        this.setState({ pause: false });
-      })
-      .finally(() => {
-        this.setState({ spinner: false });
-      });
+    updatebreaks({ id }).then(() => {
+      this.setState({ pause: false });
+    });
     return;
   };
 
@@ -266,7 +256,8 @@ class NextEvent extends React.Component {
       picture,
       loading,
       checkListCheckIn,
-      checkListCheckout
+      checkListCheckout,
+      openModalComingSoon
     } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ flex: 1 }}>
@@ -336,7 +327,11 @@ class NextEvent extends React.Component {
                 onPress={() => this.props.navigation.navigate("ToExplore")}
               />
             ) : (
-              <RoundButton name="Minhas Atividades" style={styles.btn} />
+              <RoundButton
+                name="Minhas Atividades"
+                style={styles.btn}
+                onPress={() => this.setState({ openModalComingSoon: true })}
+              />
             )}
           </View>
           <ModalCheckList
@@ -375,12 +370,17 @@ class NextEvent extends React.Component {
           <ModalPause
             visible={openModalPause}
             onPress={reason => this.toPause(reason)}
-            onClose={() => this.setState({ openModalCheckin: false })}
+            loading={loading}
+            onClose={() => this.setState({ openModalPause: false })}
           />
           <ModalDuties
             visible={openModalDuties}
             responsabilities={responsabilities}
             onClose={() => this.setState({ openModalDuties: false })}
+          />
+          <ModalComingSoon
+            onClose={() => this.setState({ openModalComingSoon: false })}
+            visible={openModalComingSoon}
           />
         </SafeAreaView>
       </ImageBackground>
