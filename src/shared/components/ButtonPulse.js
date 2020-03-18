@@ -16,7 +16,8 @@ const ButtonPulse = ({
   size,
   color,
   icon,
-  titleColor
+  titleColor,
+  disabled
 }) => {
   const fadeIn = {
     from: {
@@ -91,6 +92,7 @@ const ButtonPulse = ({
         <TouchableOpacity
           style={[styles.btn, styleButton, ButtonSize()]}
           onPress={onPress}
+          disabled={disabled}
         >
           {icon !== undefined ? (
             <Icon

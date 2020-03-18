@@ -177,21 +177,30 @@ class NextEvent extends React.Component {
   toPause = reason => {
     const { operationId: id } = this.state;
     this.setState({ loading: true });
-    breaks({ id, reason })
-      .then(() => {
-        this.setState({ pause: true, openModalPause: false });
-      })
-      .finally(() => {
-        this.setState({ loading: false });
-      });
+    setTimeout(() => {
+      breaks({ id, reason })
+        .then(() => {
+          this.setState({ pause: true, openModalPause: false });
+        })
+        .finally(() => {
+          this.setState({ loading: false });
+        });
+    }, 500);
     return;
   };
 
   returnPause = () => {
     const { operationId: id } = this.state;
-    updatebreaks({ id }).then(() => {
-      this.setState({ pause: false });
-    });
+    this.setState({ spinner: true });
+    setTimeout(() => {
+      updatebreaks({ id })
+        .then(() => {
+          this.setState({ pause: false });
+        })
+        .finally(() => {
+          this.setState({ spinner: false });
+        });
+    }, 500);
     return;
   };
 
@@ -305,6 +314,7 @@ class NextEvent extends React.Component {
                   )}
                   <ButtonPulse
                     size="small"
+                    disabled={spinner}
                     icon={pause ? "play" : "pause"}
                     title={pause ? "voltar" : "Pausa"}
                     startAnimations={pause ? true : false}

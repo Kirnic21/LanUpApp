@@ -48,6 +48,7 @@ const ModalPause = ({
           <TouchableOpacity
             key={id}
             style={styles.btn}
+            disabled={loading}
             onPress={() => onPress(id)}
           >
             <Icon name={icon} size={calcWidth(8)} color="#18142F" />
