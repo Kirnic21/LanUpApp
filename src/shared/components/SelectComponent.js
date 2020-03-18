@@ -28,9 +28,7 @@ const SelectComponent = ({ value, options, onSelect, label }) => {
         style={styles.modal}
       >
         <View style={styles.content}>
-          <Text style={styles.title}>
-            {value.length ? value : "Selecione..."}
-          </Text>
+          <Text style={styles.title}>{value ? value : "Selecione..."}</Text>
           <Icon name={"sort-down"} size={dimensions(15)} color="#FFF" />
         </View>
       </ModalDropdown>

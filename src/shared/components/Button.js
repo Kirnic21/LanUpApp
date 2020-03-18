@@ -14,7 +14,7 @@ const Button = ({ onPress, style, name, textStyle }) => {
             borderWidth: 2,
             // width: "70%",
             alignItems: "center",
-            padding: calcWidth(4),
+            padding: calcWidth(3.5),
             borderRadius: dimensions(30)
           },
           style

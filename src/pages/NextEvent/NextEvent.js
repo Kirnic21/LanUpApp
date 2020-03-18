@@ -65,10 +65,6 @@ class NextEvent extends React.Component {
       hirerId: value.hirerId,
       responsabilities: value.responsabilities
     });
-    this.checkoutHours();
-    BackgroundTimer.setInterval(() => {
-      this.checkoutHours();
-    }, 60000);
     operationsStatus({ id: value.operationId, freelaId: value.freelaId })
       .then(({ data }) => data)
       .then(({ result }) => {
@@ -81,8 +77,12 @@ class NextEvent extends React.Component {
               openModalCheckin: true,
               origin: 1
             })
-          : null;
+          : this.setState({ isCheckin: value });
+        this.checkoutHours();
       });
+    BackgroundTimer.setInterval(() => {
+      this.checkoutHours();
+    }, 60000);
     this.isPaused(value.operationId);
   };
 
@@ -95,7 +95,7 @@ class NextEvent extends React.Component {
   };
 
   checkoutHours = () => {
-    const { checkout } = this.state;
+    const { checkout, isCheckin } = this.state;
     const date = new Date();
     const checkoutDate = new Date(date.setHours(...checkout.split(":")));
 
@@ -103,9 +103,11 @@ class NextEvent extends React.Component {
       checkout.substr(0, 2) === "00"
         ? checkoutDate.setDate(checkoutDate.getDate() + 1)
         : checkoutDate.setDate(checkoutDate.getDate());
-    new Date() >= checkoutTime
+    new Date() < checkoutTime && isCheckin === 3
+      ? this.setState({ status: "occurrence" })
+      : new Date() >= checkoutTime
       ? this.setState({ status: "checkout", origin: 2 })
-      : this.setState({ status: "occurrence" });
+      : null;
     return;
   };
 

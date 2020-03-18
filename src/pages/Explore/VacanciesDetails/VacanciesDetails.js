@@ -15,24 +15,12 @@ import HTML from "react-native-render-html";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { WebView } from "react-native-webview";
 import ButtonComponent from "~/shared/components/ButtonCompoent";
 
 class VacanciesDetails extends Component {
   state = {
     spinner: false,
-    description: "",
-    eventDescription: "",
-    serviceDetail: [],
-    previewResponsabilities: [],
-    responsabilities: [],
-    checkListPreview: [],
-    checkListCheckinPreview: [],
-    checkListAtCheckin: [],
-    checkListCheckoutPreview: [],
-    checkListAtCheckout: [],
-    status: this.props.navigation.state.params.status,
-    checkin: ""
+    status: this.props.navigation.state.params.status
   };
 
   componentDidMount() {
@@ -141,18 +129,25 @@ class VacanciesDetails extends Component {
 
   deleteVacancy = () => {
     const { job } = this.props.navigation.state.params;
+    this.setState({ spinner: true });
     request = {
       id: job.id,
       checkin: job.start,
       checkout: job.end
     };
     deleteVacancies(request)
-      .then(({ data }) => {
-        this.setState({ spinner: true });
-        this.timeSpinner();
+      .then(() => {
+        this.props.navigation.replace("Schedule");
       })
-      .catch(error => {
-        error.response.data.errorMessage;
+      .catch(() => {
+        AlertHelper.show(
+          "error",
+          "Erro",
+          "Você não pode desistir de uma vaga em operação."
+        );
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
       });
   };
 
@@ -234,16 +229,10 @@ class VacanciesDetails extends Component {
               TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
               contentTextStyle={{ color: "#FFF" }}
               isModalOn={false}
-              previewContent={[]}
-              content={[]}
             >
               <HTML
                 baseFontStyle={{ color: "#FFF" }}
                 html={`<Div>${eventDescription}</Div>`}
-              />
-              <WebView
-                originWhitelist={["*"]}
-                source={{ html: "<h1>Hello world</h1>" }}
               />
             </CardDeitailsVacancies>
             <View>

@@ -33,7 +33,7 @@ const CardDeitailsVacancies = ({
           </Text>
         </View>
         <View style={{ width: "100%" }}>
-          {previewContent.length ? (
+          {previewContent ? (
             <View>
               {previewContent.map((c, i) => (
                 <View key={i}>
@@ -92,15 +92,19 @@ const CardDeitailsVacancies = ({
                 {title}
               </Text>
             </View>
-            <ScrollView style={{ flex: 1, padding: "5%" }}>
-              {content.map((c, i) => (
-                <View key={i}>
-                  <Text style={[styles.contentText, contentTextStyle]}>
-                    {c}
-                  </Text>
-                </View>
-              ))}
-            </ScrollView>
+            {content ? (
+              <ScrollView style={{ flex: 1, padding: "5%" }}>
+                {content.map((c, i) => (
+                  <View key={i}>
+                    <Text style={[styles.contentText, contentTextStyle]}>
+                      {c}
+                    </Text>
+                  </View>
+                ))}
+              </ScrollView>
+            ) : (
+              <></>
+            )}
             <View
               style={{ height: dimensions(90), justifyContent: "flex-start" }}
             >
