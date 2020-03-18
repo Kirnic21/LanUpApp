@@ -3,6 +3,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import DrawerButton from "~/shared/components/DrawerButton";
 import Schedule from "~/pages/Schedules/Schedule";
 import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 
 const SchedulesRoute = createStackNavigator(
   {
@@ -11,6 +12,14 @@ const SchedulesRoute = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         headerTitle: "Agendas",
         headerLeft: () => <DrawerButton navigation={navigation} />
+      })
+    },
+    VacanciesDetails: {
+      screen: VacanciesDetails,
+      navigationOptions: () => ({
+        headerTitle: () => null,
+        headerTransparent: true,
+        headerStyle: { height: calcWidth(20) }
       })
     }
   },

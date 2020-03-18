@@ -4,10 +4,10 @@ import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
 import { getSchedules } from "~/shared/services/vacancy.http";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import dimensions from "~/assets/Dimensions/index";
+import FilterToExplore from "../Explore/FilterToExplore";
 
 export default class Schedule extends React.Component {
   state = {
-    listVacancy: [],
     spinner: false
   };
 
@@ -33,14 +33,17 @@ export default class Schedule extends React.Component {
   render() {
     const { spinner, listVacancy } = this.state;
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <StatusBar backgroundColor="#18142F" />
         <SpinnerComponent loading={spinner} />
-        {listVacancy.length ? (
+        {/* <View>
+          <FilterToExplore filterJob={[{ id: "1", title: "Pagos" }]} />
+        </View> */}
+        {listVacancy ? (
           <VacancyCard
             listVacancy={listVacancy}
             onPress={job =>
-              this.props.navigation.push("VacanciesDetails", {
+              this.props.navigation.navigate("VacanciesDetails", {
                 job,
                 status: 3
               })
@@ -51,7 +54,7 @@ export default class Schedule extends React.Component {
             <Text style={styles.textEmpty}>Nenhuma vaga disponivel</Text>
           </View>
         )}
-      </SafeAreaView>
+      </View>
     );
   }
 }
@@ -59,7 +62,6 @@ export default class Schedule extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: "100%",
     justifyContent: "space-between",
     backgroundColor: "#18142F",
     flexDirection: "column"
