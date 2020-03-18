@@ -21,9 +21,9 @@ export default class ToExplore extends Component {
     this.state = {
       filter: [{ id: 1, title: "a" }],
       GetJobs: [],
-      listVacancy: [],
       loading: false,
-      spinner: false
+      spinner: false,
+      listVacancy: []
     };
   }
 
@@ -59,7 +59,11 @@ export default class ToExplore extends Component {
     this.setState({ listVacancy: [], loading: true });
     vacancy(e)
       .then(({ data }) => {
-        this.setState({ listVacancy: data.result, loading: false });
+        const vacancies = data.result.filter(
+          c => c.jobDate.substr(0, 10) >= new Date().toJSON().substr(0, 10)
+        );
+        debugger;
+        this.setState({ listVacancy: vacancies, loading: false });
       })
       .catch(error => {
         error.response.data;
@@ -90,28 +94,15 @@ export default class ToExplore extends Component {
               <VacancyCard
                 listVacancy={listVacancy}
                 onPress={job =>
-                  this.props.navigation.push("VacanciesDetails", {
+                  this.props.navigation.navigate("VacanciesDetails", {
                     job,
                     status: 2
                   })
                 }
               />
             ) : (
-              <View
-                style={{
-                  height: dimensions(250),
-                  justifyContent: "flex-end",
-                  alignItems: "center"
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#FFF",
-                    fontSize: dimensions(20),
-                    fontFamily: "HelveticaNowDisplay-Regular",
-                    opacity: loading ? 0 : 1
-                  }}
-                >
+              <View style={[styles.containerEmpty]}>
+                <Text style={[styles.textEmpty, { opacity: loading ? 0 : 1 }]}>
                   Nenhuma vaga disponivel
                 </Text>
                 <ActivityIndicator
@@ -135,5 +126,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "#18142F",
     flexDirection: "column"
+  },
+  containerEmpty: {
+    height: dimensions(250),
+    justifyContent: "flex-end",
+    alignItems: "center"
+  },
+  textEmpty: {
+    color: "#FFF",
+    fontSize: dimensions(20),
+    fontFamily: "HelveticaNowDisplay-Regular"
   }
 });
