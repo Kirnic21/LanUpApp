@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text, SafeAreaView, FlatList } from "react-native";
+import React from "react";
+import { StyleSheet, Text, FlatList } from "react-native";
 import dimensions from "~/assets/Dimensions/index";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default FilterToExplore = ({
-  value,
   onSelectedColor,
   offSelectedColor,
   onTextSelectedColor,
@@ -15,7 +14,7 @@ export default FilterToExplore = ({
   const DATA = [
     {
       id: "0",
-      title: ""
+      title: "----"
     }
   ];
 
@@ -55,22 +54,20 @@ export default FilterToExplore = ({
     setSelected(id);
   };
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        horizontal={true}
-        data={filterJob || DATA}
-        renderItem={({ item }) => (
-          <Item
-            id={item.id}
-            title={item.title}
-            selected={selected === item.id ? true : false}
-            onSelect={onSelect}
-          />
-        )}
-        keyExtractor={item => item.id}
-        extraData={selected}
-      />
-    </SafeAreaView>
+    <FlatList
+      horizontal={true}
+      data={filterJob || DATA}
+      renderItem={({ item }) => (
+        <Item
+          id={item.id}
+          title={item.title}
+          selected={selected === item.id ? true : false}
+          onSelect={onSelect}
+        />
+      )}
+      keyExtractor={item => item.id}
+      extraData={selected}
+    />
   );
 };
 
