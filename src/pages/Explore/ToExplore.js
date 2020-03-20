@@ -1,19 +1,13 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  ActivityIndicator,
-  StatusBar
-} from "react-native";
+import { StyleSheet, View, FlatList, Text } from "react-native";
 import FilterToExplore from "~/pages/Explore/FilterToExplore";
 import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
 import { vacancy } from "~/shared/services/events.http";
 import { decodeToken, getJobs } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
-import dimensions from "~/assets/Dimensions";
-import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import dimensions, { calcWidth, calcHeight } from "~/assets/Dimensions";
+import Lottie from "lottie-react-native";
+import loadingSpinner from "~/assets/loadingSpinner.json";
 
 export default class ToExplore extends Component {
   constructor(props) {
@@ -33,7 +27,7 @@ export default class ToExplore extends Component {
 
   getFilterJob = async () => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    this.setState({ spinner: true });
+    this.setState({ loading: true });
     getJobs(token.id)
       .then(({ data }) => {
         const GetJobs = data;
@@ -51,7 +45,7 @@ export default class ToExplore extends Component {
         this.getVacancy(JobsSelected[0].title);
       })
       .finally(() => {
-        this.setState({ spinner: false });
+        this.setState({ loading: false });
       });
   };
 
@@ -62,11 +56,10 @@ export default class ToExplore extends Component {
         const vacancies = data.result.filter(
           c => c.jobDate.substr(0, 10) >= new Date().toJSON().substr(0, 10)
         );
-        debugger;
-        this.setState({ listVacancy: vacancies, loading: false });
+        this.setState({ listVacancy: vacancies });
       })
-      .catch(error => {
-        error.response.data;
+      .finally(() => {
+        this.setState({ loading: false });
       });
   }
 
@@ -78,42 +71,60 @@ export default class ToExplore extends Component {
     const { JobsSelected, listVacancy, loading, spinner } = this.state;
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor="#18142F" />
-        <SpinnerComponent loading={spinner} />
-        <ScrollView>
-          <View style={{ justifyContent: "flex-start", alignItems: "center" }}>
-            <FilterToExplore
-              onSelectedColor="#FFB72B"
-              onTextSelectedColor="#18142F"
-              filterJob={JobsSelected}
-              onPress={e => this.filterVacancy(e)}
-            />
-          </View>
-          <View>
-            {listVacancy.length ? (
+        <View>
+          <FlatList
+            ListHeaderComponent={
+              <View style={{ padding: calcWidth(3) }}>
+                <FilterToExplore
+                  onSelectedColor="#FFB72B"
+                  onTextSelectedColor="#18142F"
+                  filterJob={JobsSelected}
+                  onPress={e => this.filterVacancy(e)}
+                />
+              </View>
+            }
+            ListEmptyComponent={
+              <View style={styles.containerEmpty}>
+                {loading ? (
+                  <Lottie
+                    autoSize
+                    style={{
+                      height: calcWidth(30),
+                      width: calcWidth(30)
+                    }}
+                    resizeMode="cover"
+                    source={loadingSpinner}
+                    loop
+                    autoPlay
+                  />
+                ) : (
+                  <Text style={[styles.textEmpty]}>
+                    Nenhuma vaga disponivel
+                  </Text>
+                )}
+              </View>
+            }
+            data={listVacancy}
+            renderItem={({ item }) => (
               <VacancyCard
-                listVacancy={listVacancy}
-                onPress={job =>
+                title={item.eventName}
+                date={item.jobDate.substr(0, 19)}
+                eventCreationDate={item.eventCreationDate}
+                content={`${item.workShiftQuantity} turnos e ${item.totalVacancy} vagas`}
+                address={item.address}
+                picture={item.picture.url}
+                amount={item.amount}
+                onPress={() =>
                   this.props.navigation.navigate("VacanciesDetails", {
-                    job,
+                    job: item,
                     status: 2
                   })
                 }
               />
-            ) : (
-              <View style={[styles.containerEmpty]}>
-                <Text style={[styles.textEmpty, { opacity: loading ? 0 : 1 }]}>
-                  Nenhuma vaga disponivel
-                </Text>
-                <ActivityIndicator
-                  color="#FFF"
-                  animating={loading}
-                  size="large"
-                />
-              </View>
             )}
-          </View>
-        </ScrollView>
+            keyExtractor={item => item.id}
+          />
+        </View>
       </View>
     );
   }
@@ -128,9 +139,9 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   },
   containerEmpty: {
-    height: dimensions(250),
-    justifyContent: "flex-end",
-    alignItems: "center"
+    justifyContent: "center",
+    alignItems: "center",
+    height: calcHeight(65)
   },
   textEmpty: {
     color: "#FFF",
