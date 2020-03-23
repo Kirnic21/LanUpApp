@@ -94,8 +94,9 @@ apply from: "../../node_modules/react-native/react.gradle"
 
 project.ext.envConfigFiles = [
         debug: ".env",
-        staging:'.env.staging',
-        release: ".env.production"
+        release: ".env",
+        stagingrelease: ".env.staging",
+        productionrelease: ".env.production"
 ]
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
@@ -192,6 +193,14 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+        stagingrelease {
+            initWith release
+            matchingFallbacks = ['release']
+        }
+        productionrelease {
+            initWith release
+            matchingFallbacks = ['release']
         }
     }
     // applicationVariants are e.g. debug, release
