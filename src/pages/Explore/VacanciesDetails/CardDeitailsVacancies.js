@@ -77,6 +77,7 @@ const CardDeitailsVacancies = ({
           isVisible={visible}
           animationIn="zoomIn"
           animationOut="zoomOut"
+          animationInTiming={500}
           animationOutTiming={500}
           backdropOpacity={0.6}
           deviceHeight={Dimensions.get("screen").height}

@@ -165,7 +165,7 @@ class VacanciesDetails extends Component {
           selectedColor="#865FC0"
         />
       ),
-      3: (
+      6: (
         <ButtonVacancies
           name="Desitir da vaga"
           onPress={() => {
@@ -225,7 +225,7 @@ class VacanciesDetails extends Component {
               content={serviceDetail}
             />
             <CardDeitailsVacancies
-              title="Detalhes do Evento"
+              title="Briefing"
               TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
               contentTextStyle={{ color: "#FFF" }}
               isModalOn={false}
@@ -263,9 +263,7 @@ class VacanciesDetails extends Component {
             </View>
           </View>
           <View style={{ marginHorizontal: "5%", paddingVertical: "5%" }}>
-            {status === 3 ? (
-              <></>
-            ) : (
+            {status === 2 ? (
               <SelectComponent
                 label="Turnos"
                 onSelect={(id, value) => {
@@ -274,6 +272,8 @@ class VacanciesDetails extends Component {
                 options={serviceDetail}
                 value={description}
               />
+            ) : (
+              <></>
             )}
           </View>
           <View
