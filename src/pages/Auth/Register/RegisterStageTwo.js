@@ -156,7 +156,7 @@ class RegisterStageTwo extends Component {
               <View style={{ width: "100%", marginBottom: "-25%" }}>
                 <RoundButton
                   disabled={invalid}
-                  style={[styles.Btn, styles.btnRegister, { top: "15%" }]}
+                  style={[styles.btnRegister, { top: "15%" }]}
                   name="Continuar"
                   onPress={handleSubmit(data => this.goLoginPicture(data))}
                 />

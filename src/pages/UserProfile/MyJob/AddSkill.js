@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-
 import ActionButton from "~/shared/components/ActionButton";
-import Modal from "~/shared/components/ModalComponent";
 import {
   ScrollView,
   TouchableNativeFeedback
@@ -11,26 +9,24 @@ import { decodeToken, updateSkills } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import MaterialCommunityIcons from "react-native-vector-icons/FontAwesome";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import InputLabel from "~/shared/components/InputLabel";
 import AddSkillEmpty from "~/shared/components/emptyState/AddSkillEmpty";
-
 import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import ModalAddSkill from "./ModalAddSkill";
+import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 
 class AddSkill extends Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
-      bottomModalAndTitle: true,
       prevState: [],
-      text: "",
       GetSkill: this.props.navigation.state.params.GetSkill
     };
   }
 
   componentDidMount() {
     const { GetSkill } = this.state;
-    const active = GetSkill.length ? true : false;
+    const active = !!GetSkill.length;
     this.props.navigation.setParams({
       handleSave: () => this.SaveSkill(),
       editingSave: () => this.editing(),
@@ -46,20 +42,10 @@ class AddSkill extends Component {
       headerRight: () =>
         isEditing ? (
           <View>
-            <TouchableOpacity
-              style={{ paddingHorizontal: dimensions(23) }}
+            <ButtonRightNavigation
+              title="Salvar"
               onPress={() => state.params.handleSave()}
-            >
-              <Text
-                style={{
-                  color: "#FFF",
-                  fontFamily: "HelveticaNowMicro-Regular",
-                  fontSize: dimensions(12)
-                }}
-              >
-                Salvar
-              </Text>
-            </TouchableOpacity>
+            />
           </View>
         ) : (
           <View pointerEvents={active ? "auto" : "none"}>
@@ -135,7 +121,7 @@ class AddSkill extends Component {
   };
 
   render() {
-    const { btnOp, GetSkill, visible, text } = this.state;
+    const { GetSkill, visible, text } = this.state;
     const isEditing = this.props.navigation.getParam("isEditing");
     return (
       <View style={styles.container}>
@@ -198,48 +184,13 @@ class AddSkill extends Component {
             }}
           />
         )}
-        <Modal
+        <ModalAddSkill
           onClose={() => this.setState({ visible: false })}
-          onTouchOutside={() => {
-            this.setState({ visible: false });
-          }}
           visible={visible}
-          onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
-        >
-          <Text
-            style={{
-              color: "#FFF",
-              paddingHorizontal: "5%",
-              fontSize: dimensions(30),
-              fontFamily: "HelveticaNowMicro-Medium"
-            }}
-          >
-            Adicionar
-          </Text>
-          <View style={styles.containerModalInput}>
-            <InputLabel
-              isfocused={"#46C5F3"}
-              onChangeText={this.Skills}
-              title="Habilidade"
-              style={{ width: "91%", height: dimensions(40) }}
-            />
-          </View>
-          <View
-            pointerEvents={text !== "" ? "auto" : "none"}
-            style={{ alignItems: "center", top: "10%", opacity: btnOp }}
-          >
-            <RoundButton
-              style={[
-                styles.roundButton,
-                text !== ""
-                  ? { backgroundColor: "#46C5F3" }
-                  : { backgroundColor: "#6C757D" }
-              ]}
-              name="Adicionar"
-              onPress={() => this.AddSkills(text)}
-            />
-          </View>
-        </Modal>
+          onPress={() => this.AddSkills(text)}
+          onChangeText={this.Skills}
+          disabled={!text}
+        />
       </View>
     );
   }
@@ -268,19 +219,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%"
   },
-  roundButton: {
-    width: "50%",
-    height: "80%",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 50
-  },
-  containerModalInput: {
-    justifyContent: "center",
-    alignItems: "flex-start",
-    left: "5%",
-    top: "10%"
-  },
+
   titleSkill: {
     color: "#FFF",
     fontSize: dimensions(25),
@@ -290,7 +229,6 @@ export const styles = StyleSheet.create({
   textChip: {
     color: "#18142F",
     paddingHorizontal: "1.9%",
-    // top: "-36%"
     fontSize: dimensions(12),
     fontFamily: "HelveticaNowMicro-Regular"
   }

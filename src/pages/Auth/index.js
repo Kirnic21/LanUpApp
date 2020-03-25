@@ -16,7 +16,7 @@ import Logo from "../../assets/images/logoLanUp.png";
 import FBSDK from "react-native-fbsdk";
 import AsyncStorage from "@react-native-community/async-storage";
 import { login, loginWithFacebook } from "~/shared/services/auth.http";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 // import Text from "~/assets/Text/Text";
 
 const { LoginManager, AccessToken } = FBSDK;
@@ -95,6 +95,7 @@ class HomePage extends Component {
           </View>
           <View style={{ width, height: "45%" }}>
             <RoundButton
+              width={calcWidth(73)}
               style={[styles.Btn, styles.btnRegister]}
               name="Cadastrar"
               onPress={this.goRegister}
@@ -111,6 +112,7 @@ class HomePage extends Component {
               ou
             </Text>
             <RoundButton
+              width={calcWidth(73)}
               style={[styles.Btn, styles.btnFacebook]}
               name="Entrar com Facebook"
               onPress={this.goToLoginFacebook}
@@ -164,13 +166,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#06a2cd"
   },
   Btn: {
-    width: "80%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "white",
+    width: calcWidth(40),
+    borderColor: "#FFFFFF",
     borderWidth: 1.5,
-    borderRadius: 50,
-    height: dimensions(45)
+    borderRadius: 50
   }
 });
 

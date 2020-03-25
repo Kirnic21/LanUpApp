@@ -11,13 +11,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "space-around"
   },
-  Btn: {
-    width: "45%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
-    height: dimensions(40)
-  },
   textTitle: {
     color: "#FFF",
     fontSize: dimensions(26),

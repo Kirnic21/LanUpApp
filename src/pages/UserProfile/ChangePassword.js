@@ -101,7 +101,7 @@ class ChangePassword extends Component {
   };
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, invalid } = this.props;
     const { spinner } = this.state;
     return (
       <ImageBackground
@@ -215,11 +215,8 @@ class ChangePassword extends Component {
                     isfocused={"#46C5F3"}
                   />
                   <RoundButton
-                    style={[
-                      stylePage.Btn,
-                      stylePage.btnRegister,
-                      { width: "70%", top: "5%" }
-                    ]}
+                    disabled={invalid}
+                    style={[stylePage.btnRegister, { width: "70%", top: "5%" }]}
                     name="Salvar"
                     onPress={handleSubmit(data => this.goToLoginPerfil(data))}
                   />

@@ -5,7 +5,7 @@ import ImageBody from "~/assets/images/icon_addbody.png";
 import ImageSelf from "~/assets/images/icon_addselfie.png";
 import AddIcon from "~/assets/images/icon_add.png";
 import ImageSelector from "~/shared/components/ImageSelector";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions from "~/assets/Dimensions/index";
 import styles from "./styles";
 import ProfileInformation from "./ProfileInformation";
 import AdditionalInformation from "./AdditionalInformation";

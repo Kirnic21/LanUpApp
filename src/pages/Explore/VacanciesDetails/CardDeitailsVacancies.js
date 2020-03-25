@@ -111,7 +111,7 @@ const CardDeitailsVacancies = ({
             >
               <RoundButton
                 name="Okay"
-                style={styles.containerBtn}
+                style={{ backgroundColor: "#865FC0" }}
                 onPress={() => setVisible(false)}
               />
             </View>
@@ -147,12 +147,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "#23203F",
     borderRadius: dimensions(15)
-  },
-  containerBtn: {
-    backgroundColor: "#865FC0",
-    padding: "5%",
-    paddingHorizontal: "30%",
-    borderRadius: dimensions(25)
   }
 });
 

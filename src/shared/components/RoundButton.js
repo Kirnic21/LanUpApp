@@ -1,12 +1,16 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 
-export default RoundButton = ({ name, style, disabled, onPress }) => (
+export default RoundButton = ({ name, style, disabled, onPress, width }) => (
   <View style={styles.buttonContent}>
     <TouchableOpacity
       disabled={disabled}
-      style={disabled ? [...style, styles.disabled] : style}
+      style={[
+        disabled ? [...style, styles.disabled] : style,
+        styles.roundButton,
+        { width: width || calcWidth(40) }
+      ]}
       onPress={onPress}
     >
       <Text
@@ -27,6 +31,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     margin: 20
+  },
+  roundButton: {
+    height: calcWidth(13),
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: calcWidth(10)
   },
   disabled: {
     backgroundColor: "#6C757D"

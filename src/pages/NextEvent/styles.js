@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   containerCircle: {
     justifyContent: "center",
     alignItems: "center",
-    height: calcHeight(45)
+    height: calcHeight(30)
   },
   borderCircle: {
     width: calcWidth(75),
@@ -62,13 +62,11 @@ const styles = StyleSheet.create({
   btn: {
     borderColor: "#FFFFFF",
     borderWidth: 2,
-    padding: calcWidth(3.5),
     alignItems: "center",
-    width: calcWidth(55),
     borderRadius: calcWidth(10)
   },
   containerBtn: {
-    top: calcWidth(6)
+    top: calcWidth(8)
   }
 });
 
