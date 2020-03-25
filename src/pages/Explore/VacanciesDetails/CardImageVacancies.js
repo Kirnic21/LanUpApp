@@ -1,14 +1,11 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import dimensions from "~/assets/Dimensions";
+import dimensions, { calcWidth } from "~/assets/Dimensions";
 import LinearGradient from "react-native-linear-gradient";
-import moment from "moment";
 import Icon from "react-native-vector-icons/FontAwesome";
+import DateComponent from "~/shared/components/DateComponent";
 
 const CardImageVacancies = ({ title, shift, location, eventDate, picture }) => {
-  formatDate = (date, form) => {
-    return moment(date).format(form);
-  };
   return (
     <View>
       {picture !== null && picture !== undefined ? (
@@ -40,27 +37,14 @@ const CardImageVacancies = ({ title, shift, location, eventDate, picture }) => {
           </Text>
         </View>
         <View style={{ flexDirection: "row" }}>
-          <View style={styles.containerDate}>
-            <Text style={styles.textDate}>{formatDate(eventDate, "ddd")}</Text>
-            <Text
-              style={[
-                styles.textDate,
-                {
-                  fontSize: dimensions(20),
-                  marginVertical: dimensions(-3.5)
-                }
-              ]}
-            >
-              {formatDate(eventDate, "DD")}
-            </Text>
-
-            <View style={{ marginBottom: dimensions(-1.5) }}>
-              <Text style={[{ top: dimensions(-1) }, styles.textDate]}>
-                {formatDate(eventDate, "MMM")}
-              </Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "column", width: "80%" }}>
+          <DateComponent date={eventDate} />
+          <View
+            style={{
+              flexDirection: "column",
+              width: "80%",
+              left: calcWidth(2)
+            }}
+          >
             <Text style={styles.textShift}>{shift}</Text>
             <Text style={styles.textAdress}>{location}</Text>
           </View>
@@ -92,18 +76,15 @@ const styles = StyleSheet.create({
     minHeight: dimensions(40)
   },
   containerDate: {
+    width: calcWidth(15),
+    paddingVertical: calcWidth(1.5),
     backgroundColor: "#FFFFFF85",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "2%",
-    marginRight: "2%",
-    marginTop: "0.5%",
-    width: dimensions(50),
-    borderRadius: dimensions(10)
+    borderRadius: calcWidth(2)
   },
   textDate: {
     color: "#18142F",
     fontFamily: "HelveticaNowMicro-Bold",
+    textAlign: "center",
     fontSize: dimensions(12)
   },
   textShift: {

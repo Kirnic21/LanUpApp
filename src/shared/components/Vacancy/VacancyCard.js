@@ -1,12 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import dimensions, { calcWidth } from "~/assets/Dimensions";
-import audienceBand from "~/assets/images/audience-band.png";
+
 import backWhite from "~/assets/images/black-and-white.png";
 import FastImage from "react-native-fast-image";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { format, formatDistanceStrict } from "date-fns";
+import { formatDistanceStrict } from "date-fns";
 import eoLocale from "date-fns/locale/pt-BR";
+import DateComponent from "../DateComponent";
 
 const VacancyCard = ({
   title,
@@ -18,11 +19,6 @@ const VacancyCard = ({
   eventCreationDate,
   picture
 }) => {
-  const formatDate = options => {
-    return format(new Date(date || new Date()), options, {
-      locale: eoLocale
-    }).toLocaleUpperCase();
-  };
   const creationDate = formatDistanceStrict(
     new Date(eventCreationDate || new Date()),
     new Date(),
@@ -73,21 +69,7 @@ const VacancyCard = ({
           </Text>
         </View>
         <View style={{ flexDirection: "row" }}>
-          <View style={styles.date}>
-            <Text
-              style={[
-                styles.fontHNM_bold,
-                styles.f_12,
-                { textAlign: "center", color: "#18142F" }
-              ]}
-            >
-              {formatDate("EEE")}
-              {"\n"}
-              <Text style={styles.f_24}>{formatDate("dd")}</Text>
-              {"\n"}
-              {formatDate("MMM")}
-            </Text>
-          </View>
+          <DateComponent date={date} />
           <View style={{ marginLeft: calcWidth(3) }}>
             <Text
               style={[styles.fontHNM_regular, styles.f_11, styles.colorWhite]}

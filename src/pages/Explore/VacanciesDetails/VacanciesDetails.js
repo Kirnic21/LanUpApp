@@ -43,7 +43,7 @@ class VacanciesDetails extends Component {
               ? `${getDeitails.workshiftsQuantity} turnos`
               : `${job.start} - ${job.end}`,
           location: getDeitails.location,
-          eventDate: job.jobDate.substr(0, 10),
+          eventDate: job.jobDate,
           picture:
             job.picture !== null && job.picture !== undefined
               ? job.picture.url
@@ -102,7 +102,7 @@ class VacanciesDetails extends Component {
     const { checkin, checkout } = this.state;
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     this.setState({ spinner: true });
-    request = {
+    const request = {
       freelaId: token.id,
       eventId: job.id,
       day: job.jobDate,
@@ -130,7 +130,7 @@ class VacanciesDetails extends Component {
   deleteVacancy = () => {
     const { job } = this.props.navigation.state.params;
     this.setState({ spinner: true });
-    request = {
+    const request = {
       id: job.id,
       checkin: job.start,
       checkout: job.end
@@ -157,7 +157,7 @@ class VacanciesDetails extends Component {
       2: (
         <ButtonComponent
           title="Aceitar"
-          isSelected={checkin ? true : false}
+          isSelected={!!checkin}
           onPress={() => {
             this.invite();
           }}
@@ -213,7 +213,7 @@ class VacanciesDetails extends Component {
               title={`${eventName}`}
               shift={`${workshiftsQuantity}`}
               location={`${location}`}
-              eventDate={`${eventDate}`}
+              eventDate={eventDate}
               picture={picture}
             />
           </View>
