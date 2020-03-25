@@ -10,22 +10,19 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { login, resetPassword } from "../../shared/services/auth.http";
+import { login, resetPassword } from "~/shared/services/auth.http";
 import { decodeToken } from "~/shared/services/freela.http";
-import ImageBack from "../../assets/images/Grupo_518.png";
-import Logo from "../../assets/images/logoLanUp.png";
-import InputField from "../../shared/components/InputField";
-import Modal from "../../shared/components/ModalComponent";
-
+import ImageBack from "~/assets/images/Grupo_518.png";
+import Logo from "~/assets/images/logoLanUp.png";
+import InputField from "~/shared/components/InputField";
 import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import InputLabel from "~/shared/components/InputLabel";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
-
 import dimensions from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import ModalForgotPassword from "./ModalForgotPassword";
 
 const formRules = FormValidator.make(
   {
@@ -45,9 +42,9 @@ class LoginEmail extends Component {
     this.state = {
       icon: "visibility-off",
       password: true,
+      disabled: true,
       visible: false,
       email: "",
-      bottomModalAndTitle: true,
       spinner: false
     };
 
@@ -91,32 +88,26 @@ class LoginEmail extends Component {
     }));
   }
 
-  handleEmail = text => {
-    this.setState({ email: text });
-  };
-
-  reset = email => {
+  resetPassword = () => {
+    const { email } = this.state;
+    this.setState({ loading: true });
     resetPassword(email)
-      .then(({ data }) => {
-        if (data.isSuccess) {
-          console.log(data);
-          AlertHelper.show("success", "Sucesso", "Email enviado com sucesso!");
-        }
+      .then(() => {
+        this.setState({ visible: false });
+        AlertHelper.show("success", "Sucesso", "Email enviado com sucesso!");
       })
-      .catch(error => {
-        AlertHelper.show(
-          "error",
-          "Erro",
-          "Este endereço de email não está cadastrado."
-        );
-        console.log(error.response.data);
+      .catch(() => {
+        this.setState({ titleError: "Este e-mail não está cadastrado." });
+      })
+      .finally(() => {
+        this.setState({ loading: false });
       });
   };
 
   render() {
     const { width, height } = Dimensions.get("screen");
     const { handleSubmit, invalid } = this.props;
-    const { spinner } = this.state;
+    const { spinner, visible, loading, disabled, titleError } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ width, height, flex: 1 }}>
         <KeyboardAwareScrollView style={{ flex: 1 }}>
@@ -180,45 +171,23 @@ class LoginEmail extends Component {
                 </View>
               </View>
             </View>
-            <Modal
-              onClose={() => {
-                this.setState({ visible: false });
-              }}
-              onTouchOutside={() => {
-                this.setState({ visible: false });
-              }}
-              onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
-              visible={this.state.visible}
-            >
-              <Text style={styles.titleModal}>Esqueci a senha</Text>
-              <Text style={styles.subtitleModal}>
-                Escreva o seu e-mail e enviaremos{`\n`}a senha provisória
-              </Text>
-              <View style={styles.containerInputLabel}>
-                <InputLabel
-                  isfocused={"#865FC0"}
-                  onChangeText={this.handleEmail}
-                  title="E-mail"
-                  style={{
-                    width: "90%",
-                    height: dimensions(43),
-                    borderColor: "#865FC0"
-                  }}
-                />
-              </View>
-              <View style={{ alignItems: "center", top: "1%" }}>
-                <RoundButton
-                  style={styles.buttonModal}
-                  name="Mandar"
-                  onPress={() =>
-                    this.reset(
-                      this.state.email,
-                      this.setState({ visible: false })
-                    )
-                  }
-                />
-              </View>
-            </Modal>
+            <ModalForgotPassword
+              visible={visible}
+              loading={loading}
+              disabledButton={disabled}
+              titleError={titleError}
+              onPress={() => this.resetPassword()}
+              onChangeText={email =>
+                this.setState({ email, disabled: !email, titleError: "" })
+              }
+              onClose={() =>
+                this.setState({
+                  visible: false,
+                  titleError: "",
+                  disabled: true
+                })
+              }
+            />
           </Container>
           <View style={{ width: "100%" }}>
             <TouchableOpacity
@@ -253,45 +222,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: "50%"
   },
-  titleModal: {
-    color: "#FFF",
-    paddingHorizontal: "5%",
-    top: "-6%",
-    fontSize: dimensions(24),
-    fontFamily: "HelveticaNowMicro-Medium"
-  },
-  subtitleModal: {
-    color: "#FFF",
-    fontSize: dimensions(13),
-    lineHeight: 25,
-    paddingHorizontal: "5%",
-    top: "-1%",
-    fontFamily: "HelveticaNowMicro-Medium"
-  },
-  containerInputLabel: {
-    justifyContent: "center",
-    alignItems: "flex-start",
-    left: "5%",
-    top: "5%"
-  },
-  buttonModal: {
-    backgroundColor: "#865FC0",
-    width: "50%",
-    height: dimensions(45),
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 50
-  },
   Btn: {
-    backgroundColor: "#7541bf",
-    width: "100%",
-    height: dimensions(40),
-    borderRadius: 60,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  BtnDisabled: {
-    backgroundColor: "#6C757D"
+    backgroundColor: "#7541bf"
   },
   textBtn: {
     color: "#FFF",
@@ -310,6 +242,10 @@ const styles = StyleSheet.create({
     left: "80%",
     top: dimensions(27),
     position: "absolute"
+  },
+  inputModal: {
+    height: dimensions(43),
+    borderColor: "#865FC0"
   }
 });
 

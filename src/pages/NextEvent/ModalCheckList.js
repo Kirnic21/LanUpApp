@@ -7,14 +7,14 @@ import {
   StyleSheet
 } from "react-native";
 import { CheckBox } from "react-native-elements";
-import dimensions from "~/assets/Dimensions";
+import dimensions, { calcWidth } from "~/assets/Dimensions";
 import Modal from "~/shared/components/ModalComponent";
+import RoundButton from "~/shared/components/RoundButton";
 
 const ModalCheckList = ({
   visible,
   onClose,
-  onTouchOutside,
-  onSwipeOut,
+  loading,
   eventName,
   job,
   checkList,
@@ -54,26 +54,25 @@ const ModalCheckList = ({
     <Modal
       visible={visible}
       onClose={onClose}
-      onTouchOutside={onTouchOutside}
-      onSwipeOut={onSwipeOut}
-      style={{ height: dimensions(500) }}
+      loading={loading}
+      heightModal={calcWidth(175)}
     >
       <View style={{ flex: 1 }}>
         <Text style={styles.header}>CheckList</Text>
-        <View style={{ top: "3%", alignItems: "center" }}>
-          <View style={{ width: "90%", minHeight: "18%" }}>
-            <Text numberOfLines={1} style={styles.title}>
-              {eventName || ""}
-            </Text>
-            <Text style={styles.subTitle}>{job}</Text>
-          </View>
-        </View>
         <View
-          style={[
-            styles.containerCheckBox,
-            { top: "5%", flexDirection: "row" }
-          ]}
+          style={{
+            width: "90%",
+            minHeight: "20%",
+            marginHorizontal: calcWidth(5),
+            top: calcWidth(5)
+          }}
         >
+          <Text numberOfLines={1} style={styles.title}>
+            {eventName || "event name"}
+          </Text>
+          <Text style={styles.subTitle}>{job || "job"}</Text>
+        </View>
+        <View style={[styles.containerCheckBox, { flexDirection: "row" }]}>
           <CheckBox
             title={<Text style={styles.titleCheckBox}>{titleCheck}</Text>}
             checkedIcon="circle"
@@ -86,7 +85,12 @@ const ModalCheckList = ({
             onPress={onPressCheck}
           />
         </View>
-        <View style={[styles.containerCheckBox, { top: "7%", height: "38%" }]}>
+        <View
+          style={[
+            styles.containerCheckBox,
+            { top: calcWidth(2), height: "38%" }
+          ]}
+        >
           <FlatList
             data={list}
             renderItem={({ item }) => <Item id={item.id} title={item.title} />}
@@ -96,20 +100,16 @@ const ModalCheckList = ({
           />
         </View>
         <View
-          pointerEvents={checked ? "auto" : "none"}
-          style={{ top: "14%", alignItems: "center" }}
+          pointerEvents={loading ? "none" : "auto"}
+          style={{ alignItems: "center", top: calcWidth(5) }}
         >
-          <TouchableOpacity
+          <RoundButton
+            width={calcWidth(60)}
+            disabled={!checked}
+            name="Confirmar"
             onPress={pressConfirm}
-            style={[
-              styles.Btn,
-              checked
-                ? { backgroundColor: "#7541BF" }
-                : { backgroundColor: "#6C757D" }
-            ]}
-          >
-            <Text style={styles.textBtn}>Confirmar</Text>
-          </TouchableOpacity>
+            style={[styles.Btn, { backgroundColor: "#7541BF" }]}
+          />
         </View>
       </View>
     </Modal>
@@ -132,8 +132,7 @@ const styles = StyleSheet.create({
   title: {
     color: "#FFF",
     fontSize: dimensions(28),
-    fontFamily: "HelveticaNowMicro-Medium",
-    left: "-0.5%"
+    fontFamily: "HelveticaNowMicro-Medium"
   },
   subTitle: {
     color: "#FFB72B",
@@ -144,6 +143,8 @@ const styles = StyleSheet.create({
   CheckBox: {
     backgroundColor: "transparent",
     borderWidth: 0,
+    height: calcWidth(10),
+    justifyContent: "center",
     width: "95%"
   },
   containerCheckBox: {

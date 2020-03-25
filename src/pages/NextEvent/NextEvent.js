@@ -91,6 +91,7 @@ class NextEvent extends React.Component {
     operationsCheckins({ id, vacancyId }).then(({}) => {
       this.setState({ openModalCheckin: true });
     });
+
     return;
   };
 
@@ -113,20 +114,15 @@ class NextEvent extends React.Component {
 
   toCheckout = () => {
     const { operationId: id, vacancyId, hirerId, eventName } = this.state;
-    this.setState({ spinner: true });
-    operationsCheckout({ id, vacancyId })
-      .then(() => {
-        this.setState({ openModalCheckin: false });
-        this.props.navigation.replace("Rating", { hirerId, eventName });
-      })
-      .finally(() => {
-        this.setState({ spinner: false });
-      });
+    operationsCheckout({ id, vacancyId }).then(() => {
+      this.setState({ openModalCheckin: false });
+      this.props.navigation.replace("Rating", { hirerId, eventName });
+    });
   };
 
   confirmChecklist = () => {
     const { operationId: id, origin, status } = this.state;
-    this.setState({ spinner: true });
+    this.setState({ loading: true });
     operationsChecklists({ id, origin })
       .then(() => {
         status !== "checkout"
@@ -134,7 +130,7 @@ class NextEvent extends React.Component {
           : this.toCheckout();
       })
       .finally(() => {
-        this.setState({ spinner: false });
+        this.setState({ loading: false });
       });
     return;
   };
@@ -334,12 +330,14 @@ class NextEvent extends React.Component {
           <View style={styles.containerBtn}>
             {status === "without" ? (
               <RoundButton
+                width={calcWidth(55)}
                 name="Encontrar mais vagas"
                 style={styles.btn}
                 onPress={() => this.props.navigation.navigate("ToExplore")}
               />
             ) : (
               <RoundButton
+                width={calcWidth(55)}
                 name="Minhas Atividades"
                 style={styles.btn}
                 onPress={() => this.setState({ openModalComingSoon: true })}
@@ -348,6 +346,7 @@ class NextEvent extends React.Component {
           </View>
           <ModalCheckList
             visible={openModalCheckin}
+            loading={loading}
             titleCheck={status === "checkout" ? "Check-out" : "Check-in"}
             job={job}
             checkList={
@@ -377,7 +376,13 @@ class NextEvent extends React.Component {
                 send: text !== "" ? true : false
               })
             }
-            onClose={() => this.setState({ openModalOccurrence: false })}
+            onClose={() =>
+              this.setState({
+                openModalOccurrence: false,
+                image: "",
+                picture: ""
+              })
+            }
           />
           <ModalPause
             visible={openModalPause}

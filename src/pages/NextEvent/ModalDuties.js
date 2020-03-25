@@ -23,13 +23,7 @@ const ModalDuties = ({ visible, onClose, responsabilities }) => {
     return <Text style={styles.title}>{title};</Text>;
   }
   return (
-    <Modal
-      visible={visible}
-      onClose={onClose}
-      onTouchOutside={onClose}
-      onSwipeOut={onClose}
-      style={{ height: calcHeight(65) }}
-    >
+    <Modal visible={visible} onClose={onClose} heightModal={calcWidth(130)}>
       <View style={{ flex: 1, alignItems: "center" }}>
         <Text style={[styles.title, { fontSize: calcWidth(8) }]}>Deveres:</Text>
         <View>

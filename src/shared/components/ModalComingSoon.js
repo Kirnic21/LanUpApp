@@ -1,58 +1,43 @@
 import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
-import Modal, { ModalContent } from "react-native-modals";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import dimensions from "~/assets/Dimensions/index";
+
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import imgBuilder from "~/assets/images/icon_msg-builder.png";
 import RoundButton from "./RoundButton";
+import ModalComponent from "./ModalComponent";
 
-export default ModalComingSoon = ({
-  onTouchOutside,
-  visible,
-  onSwipeOut,
-  onClose
-}) => (
+export default ModalComingSoon = ({ visible, onClose }) => (
   <View>
-    <Modal.BottomModal
-      visible={visible || false}
-      onTouchOutside={onClose}
-      modalStyle={{ backgroundColor: "transparent", height: dimensions(470) }}
-      onSwipeOut={onClose}
+    <ModalComponent
+      visible={visible}
+      onClose={onClose}
+      heightModal={calcWidth(140)}
     >
-      <ModalContent
-        style={{
-          flex: 1,
-          backgroundColor: "#23203F",
-          borderTopLeftRadius: dimensions(40),
-          borderTopRightRadius: dimensions(40)
-        }}
-      >
-        <View style={styles.container}>
-          <View style={styles.containerTitle}>
-            <Text style={styles.textTitle}>Calma ai, amig@!</Text>
-          </View>
-          <View style={{ alignItems: "center", top: "-4%" }}>
-            <Text style={styles.textSubtitle}>Ainda estamos em progresso!</Text>
-          </View>
-          <View style={{ alignItems: "center", top: "-4%" }}>
-            <Image
-              source={imgBuilder}
-              style={{
-                height: dimensions(160),
-                width: dimensions(220)
-              }}
-            />
-          </View>
-          <View style={{ alignItems: "center", top: "-10%" }}>
-            <Text style={styles.textSubtitle}>Logo mais teremos essa</Text>
-            <Text style={styles.textSubtitle}>funcionalidade para você!</Text>
-          </View>
+      <View style={styles.container}>
+        <View style={styles.containerTitle}>
+          <Text style={styles.textTitle}>Calma ai, amig@!</Text>
         </View>
-        <View style={{ top: "-3%" }}>
-          <RoundButton name="Entendi" style={styles.btn} onPress={onClose} />
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.textSubtitle}>Ainda estamos em progresso!</Text>
         </View>
-      </ModalContent>
-    </Modal.BottomModal>
+        <View style={{ alignItems: "center" }}>
+          <Image
+            source={imgBuilder}
+            style={{
+              height: calcWidth(50),
+              width: calcWidth(70)
+            }}
+          />
+        </View>
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.textSubtitle}>Logo mais teremos essa</Text>
+          <Text style={styles.textSubtitle}>funcionalidade para você!</Text>
+        </View>
+      </View>
+      <View style={{}}>
+        <RoundButton name="Entendi" style={styles.btn} onPress={onClose} />
+      </View>
+    </ModalComponent>
   </View>
 );
 

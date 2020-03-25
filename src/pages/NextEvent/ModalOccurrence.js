@@ -1,13 +1,12 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "~/shared/components/ModalComponent";
-import { calcHeight, calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcHeight, calcWidth } from "~/assets/Dimensions/index";
 import InputLabel from "~/shared/components/InputLabel";
 import cameraPlus from "~/assets/images/camera-plus.png";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ImageSelector from "~/shared/components/ImageSelector";
-import Lottie from "lottie-react-native";
-import loadingSpinner from "~/assets/loadingSpinner.json";
+
 import { useState } from "react";
 
 const ModalOccurrence = ({
@@ -33,7 +32,8 @@ const ModalOccurrence = ({
     <Modal
       visible={visible}
       onClose={onClose}
-      style={{ height: picture ? calcHeight(76) : calcWidth(90) }}
+      loading={loading}
+      heightModal={picture ? dimensions(450) : calcWidth(90)}
     >
       <View style={{ marginHorizontal: calcWidth(5) }}>
         <Text style={styles.title}>Ocorrência</Text>
@@ -49,30 +49,17 @@ const ModalOccurrence = ({
           <InputLabel
             isfocused="#46C5F3"
             onChangeText={onChangeText}
-            style={[styles.textInput, { height: Math.max(35, height) }]}
+            style={[
+              styles.textInput,
+              { height: Math.max(35, height > 125 ? 125 : height) }
+            ]}
             value={valueInput}
             multiline={true}
             editable={loading ? false : true}
             onContentSizeChange={e => {
-              if (height < 130) {
-                updateSize(e.nativeEvent.contentSize.height);
-              }
+              updateSize(e.nativeEvent.contentSize.height);
             }}
           />
-          <View style={{ alignItems: "center" }}>
-            {loading ? (
-              <Lottie
-                autoSize
-                style={styles.loading}
-                resizeMode="cover"
-                source={loadingSpinner}
-                loop
-                autoPlay
-              />
-            ) : (
-              <></>
-            )}
-          </View>
           <View
             pointerEvents={loading ? "none" : "auto"}
             style={styles.containerIcon}
@@ -91,7 +78,9 @@ const ModalOccurrence = ({
             </TouchableOpacity>
             {sendOcurrence ? (
               <TouchableOpacity
-                onPress={onPressSend}
+                onPress={() => {
+                  onPressSend(), updateSize(calcWidth(13));
+                }}
                 style={{ left: calcWidth(2) }}
               >
                 <Icon size={calcWidth(7)} name="send" color="#46C5F3" />
@@ -139,7 +128,7 @@ const styles = StyleSheet.create({
     left: calcWidth(60)
   },
   img: {
-    height: calcWidth(50),
+    height: dimensions(150),
     width: calcWidth(75),
     borderRadius: calcWidth(5)
   },

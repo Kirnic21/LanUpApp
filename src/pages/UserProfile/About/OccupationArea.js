@@ -77,11 +77,7 @@ export default class OccupationArea extends React.Component {
         </Text>
         <Modal
           onClose={() => this.setState({ visible: false })}
-          onTouchOutside={() => {
-            this.setState({ visible: false });
-          }}
           visible={visible}
-          onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
         >
           <View>
             <InputSearch handleOnSearch={this.onSearch} value={search} />
@@ -113,7 +109,7 @@ export default class OccupationArea extends React.Component {
               renderItem={({ item, index }) => (
                 <TouchableOpacity
                   onPress={e => {
-                    this.setState({ visible: false });
+                    this.setState({ visible: false, place: "" });
                     this.props.onPress(item);
                   }}
                   style={{

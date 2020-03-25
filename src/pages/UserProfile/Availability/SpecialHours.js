@@ -22,7 +22,7 @@ import DateInputField from "~/shared/components/DateInputField";
 import { Field, reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import { saveSpecialDay, decodeToken } from "~/shared/services/freela.http";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import SpecialHoursEmpty from "~/shared/components/emptyState/SpecialHoursEmpty";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 
@@ -345,24 +345,12 @@ class SpecialHours extends Component {
 
         <Modal
           onClose={() => {
-            this.setState({ visible: false });
+            this.setState({ visible: false, dateInput: "" });
           }}
-          onTouchOutside={() => {
-            this.setState({ visible: false });
-          }}
+          heightModal={calcWidth(90)}
           visible={this.state.visible}
-          onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
         >
-          <Text
-            style={{
-              color: "#FFF",
-              padding: "5%",
-              fontSize: dimensions(24),
-              fontFamily: "HelveticaNowMicro-Medium"
-            }}
-          >
-            Adicione um horário
-          </Text>
+          <Text style={styles.titleModal}>Adicione um horário</Text>
           <View style={styles.containerModalInput}>
             <InputDate
               onClick={this.datepicker}
@@ -382,17 +370,10 @@ class SpecialHours extends Component {
               )}
             </View>
           </View>
-          <View
-            pointerEvents={activeButton ? "auto" : "none"}
-            style={{ alignItems: "center" }}
-          >
+          <View style={{ alignItems: "center", top: calcWidth(-5) }}>
             <RoundButton
-              style={[
-                styles.btnModal,
-                activeButton
-                  ? { backgroundColor: "#865FC0" }
-                  : { backgroundColor: "#6C757D" }
-              ]}
+              disabled={!dateInput}
+              style={[{ backgroundColor: "#865FC0" }]}
               name="adicionar"
               onPress={this.newDate}
             />
@@ -422,17 +403,9 @@ const styles = StyleSheet.create({
   },
   containerModalInput: {
     justifyContent: "center",
-    alignItems: "flex-start",
-    left: "5%"
-  },
-  btnModal: {
-    backgroundColor: "#865FC0",
-    width: "50%",
-    height: dimensions(40),
     alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 50,
-    top: "4%"
+    top: calcWidth(-4),
+    left: "5%"
   },
   inputDate: {
     width: "48%",
@@ -449,6 +422,12 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: dimensions(14.5),
     marginTop: "5%"
+  },
+  titleModal: {
+    color: "#FFF",
+    padding: "5%",
+    fontSize: dimensions(24),
+    fontFamily: "HelveticaNowMicro-Medium"
   }
 });
 

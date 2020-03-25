@@ -1,19 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "~/shared/components/ModalComponent";
-import { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Lottie from "lottie-react-native";
-import loadingSpinner from "~/assets/loadingSpinner.json";
 
-const ModalPause = ({
-  visible,
-  onClose,
-  onSwipeOut,
-  onTouchOutside,
-  onPress,
-  loading
-}) => {
+const ModalPause = ({ visible, onClose, onPress, loading }) => {
   const data = [
     {
       id: 1,
@@ -39,8 +30,9 @@ const ModalPause = ({
   return (
     <Modal
       visible={visible}
+      loading={loading}
       onClose={onClose}
-      style={{ height: calcWidth(165) }}
+      heightModal={dimensions(490)}
     >
       <View style={{ flex: 1, alignItems: "center" }}>
         <Text style={styles.title}>Pausa para:</Text>
@@ -55,22 +47,6 @@ const ModalPause = ({
             <Text style={styles.btnText}>{name}</Text>
           </TouchableOpacity>
         ))}
-        {loading ? (
-          <Lottie
-            autoSize
-            style={{
-              height: calcWidth(15),
-              width: calcWidth(15),
-              top: calcWidth(2)
-            }}
-            resizeMode="cover"
-            source={loadingSpinner}
-            loop
-            autoPlay
-          />
-        ) : (
-          <></>
-        )}
       </View>
     </Modal>
   );
@@ -78,9 +54,9 @@ const ModalPause = ({
 
 const styles = StyleSheet.create({
   btn: {
-    width: calcWidth(75),
-    marginTop: calcWidth(10),
-    height: calcWidth(18),
+    width: dimensions(220),
+    marginTop: calcWidth(7),
+    height: dimensions(55),
     backgroundColor: "#B6AED1",
     borderRadius: calcWidth(3),
     flexDirection: "row",
@@ -91,12 +67,12 @@ const styles = StyleSheet.create({
     color: "#18142F",
     fontFamily: "HelveticaNowDisplay-Regular",
     marginLeft: calcWidth(3),
-    fontSize: calcWidth(5)
+    fontSize: dimensions(18)
   },
   title: {
     color: "#FFF",
     fontFamily: "HelveticaNowMicro-Medium",
-    fontSize: calcWidth(8)
+    fontSize: dimensions(28)
   }
 });
 

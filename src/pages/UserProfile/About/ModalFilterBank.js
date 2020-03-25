@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Text, View, FlatList } from "react-native";
+import { Text, View, FlatList, TouchableOpacity } from "react-native";
 import Modal from "~/shared/components/ModalComponent";
 import bank from "./bank";
 import { SearchBar } from "react-native-elements";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./styles";
 import dimensions from "~/assets/Dimensions/index";
 
@@ -64,11 +63,11 @@ export default class ModalFilterBank extends React.Component {
               fontSize: dimensions(14)
             }}
           >
-            {code.length ? code : bankCode}
+            {code || bankCode}
           </Text>
         </TouchableOpacity>
         <Modal
-          onClose={() => this.setState({ visible: false })}
+          onClose={() => this.setState({ visible: false, search: "" })}
           onTouchOutside={() => this.setState({ visible: false })}
           visible={visible}
           onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
@@ -109,7 +108,7 @@ export default class ModalFilterBank extends React.Component {
                   {search.length ? (
                     <Text style={styles.textStyle}>{item.description}</Text>
                   ) : (
-                    <View></View>
+                    <></>
                   )}
                 </TouchableOpacity>
               )}
