@@ -24,11 +24,9 @@ export default class Schedule extends React.Component {
 
   scheduleList = e => {
     const filter = e === "Pagos" ? 5 : 2;
-    debugger;
     this.setState({ loading: true });
     getSchedules(filter)
       .then(({ data }) => {
-        debugger;
         const getVacancy = data.result.value;
         this.setState({ listVacancy: getVacancy });
       })
@@ -93,14 +91,14 @@ export default class Schedule extends React.Component {
             renderItem={({ item }) => (
               <VacancyCard
                 title={item.eventName}
-                date={item.jobDate.substr(0, 19)}
+                date={item.jobDate}
                 eventCreationDate={item.eventCreationDate}
                 content={`${item.start.substr(0, 5)} - ${item.end.substr(
                   0,
                   5
                 )}`}
                 address={item.address}
-                picture={item.image.url}
+                picture={item.image !== null ? item.image.url : null}
                 amount={item.amount}
                 onPress={() =>
                   this.props.navigation.navigate("VacanciesDetails", {

@@ -112,7 +112,7 @@ export default class ToExplore extends Component {
                 eventCreationDate={item.eventCreationDate}
                 content={`${item.workShiftQuantity} turnos e ${item.totalVacancy} vagas`}
                 address={item.address}
-                picture={item.picture.url}
+                picture={item.picture !== null ? item.picture.url : null}
                 amount={item.amount}
                 onPress={() =>
                   this.props.navigation.navigate("VacanciesDetails", {
