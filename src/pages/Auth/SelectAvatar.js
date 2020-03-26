@@ -18,6 +18,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import ImageSelector from "~/shared/components/ImageSelector";
 import dimensions from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import Analytics from "appcenter-analytics";
 
 class SelectAvatar extends Component {
   state = {
@@ -74,13 +75,23 @@ class SelectAvatar extends Component {
           </View>
           <View style={styles.border} />
           <View style={styles.containerImg}>
-            <Image
-              source={ImageProfile}
-              style={{ height: dimensions(100), width: dimensions(100) }}
-            />
+            <TouchableOpacity
+              onPress={() => {
+                this.handleOnPictureAdd(),
+                  Analytics.trackEvent("Clique na imagem.");
+              }}
+            >
+              <Image
+                source={ImageProfile}
+                style={{ height: dimensions(100), width: dimensions(100) }}
+              />
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={this.handleOnPictureAdd}
+              onPress={() => {
+                this.handleOnPictureAdd(),
+                  Analytics.trackEvent("Clique no botão.");
+              }}
             >
               <Text style={{ color: "white", fontSize: dimensions(12) }}>
                 Tirar Foto
