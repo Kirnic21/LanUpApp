@@ -105,7 +105,7 @@ export default class ToExplore extends Component {
               </View>
             }
             data={listVacancy}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <VacancyCard
                 title={item.eventName}
                 date={item.jobDate.substr(0, 19)}
@@ -122,7 +122,7 @@ export default class ToExplore extends Component {
                 }
               />
             )}
-            keyExtractor={item => item.id}
+            keyExtractor={(item, index) => index.toString()}
           />
         </View>
       </View>
