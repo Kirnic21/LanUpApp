@@ -34,6 +34,7 @@
 		4411E3D1820F4EABBBCFDD4F /* HelveticaNowDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F07822406C18481581EA5FCA /* HelveticaNowDisplay-Regular.ttf */; };
 		73743BEEDCC140E882B1D014 /* HelveticaNowMicro-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 458E0593C36348A28C7CFB4E /* HelveticaNowMicro-ExtraLight.ttf */; };
 		BAF35D7EAEF2461D97BEFE4B /* SegoeUI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 176EE8BB3F5D4E43AFB6DE7C /* SegoeUI.ttf */; };
+		5B9478BB7808461F94C3A0D5 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BFFAE16090D4D1F8F6D9997 /* Fontisto.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,7 @@
 		F07822406C18481581EA5FCA /* HelveticaNowDisplay-Regular.ttf */ = {isa = PBXFileReference; name = "HelveticaNowDisplay-Regular.ttf"; path = "../src/assets/fonts/HelveticaNowDisplay-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		458E0593C36348A28C7CFB4E /* HelveticaNowMicro-ExtraLight.ttf */ = {isa = PBXFileReference; name = "HelveticaNowMicro-ExtraLight.ttf"; path = "../src/assets/fonts/HelveticaNowMicro-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		176EE8BB3F5D4E43AFB6DE7C /* SegoeUI.ttf */ = {isa = PBXFileReference; name = "SegoeUI.ttf"; path = "../src/assets/fonts/SegoeUI.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8BFFAE16090D4D1F8F6D9997 /* Fontisto.ttf */ = {isa = PBXFileReference; name = "Fontisto.ttf"; path = "../node_modules/native-base/Fonts/Fontisto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -291,6 +293,7 @@
 				F07822406C18481581EA5FCA /* HelveticaNowDisplay-Regular.ttf */,
 				458E0593C36348A28C7CFB4E /* HelveticaNowMicro-ExtraLight.ttf */,
 				176EE8BB3F5D4E43AFB6DE7C /* SegoeUI.ttf */,
+				8BFFAE16090D4D1F8F6D9997 /* Fontisto.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				4411E3D1820F4EABBBCFDD4F /* HelveticaNowDisplay-Regular.ttf in Resources */,
 				73743BEEDCC140E882B1D014 /* HelveticaNowMicro-ExtraLight.ttf in Resources */,
 				BAF35D7EAEF2461D97BEFE4B /* SegoeUI.ttf in Resources */,
+				5B9478BB7808461F94C3A0D5 /* Fontisto.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
