@@ -38,15 +38,17 @@ const ModalCheckList = ({
 
   function Item({ title }) {
     return (
-      <CheckBox
-        title={<Text style={styles.titleCheckBox}>{title}</Text>}
-        checkedIcon="circle"
-        uncheckedIcon="circle-thin"
-        checkedColor="#46C5F3"
-        size={dimensions(15)}
-        checked={checked}
-        containerStyle={[styles.CheckBox, { paddingBottom: "5%" }]}
-      />
+      <View pointerEvents="none">
+        <CheckBox
+          title={<Text style={styles.titleCheckBox}>{title}</Text>}
+          checkedIcon="circle"
+          uncheckedIcon="circle-thin"
+          checkedColor="#46C5F3"
+          size={dimensions(15)}
+          checked={checked}
+          containerStyle={[styles.CheckBox, { paddingBottom: "5%" }]}
+        />
+      </View>
     );
   }
 

@@ -1,5 +1,12 @@
 import React from "react";
-import { View, ImageBackground, StatusBar, SafeAreaView } from "react-native";
+import {
+  View,
+  ImageBackground,
+  StatusBar,
+  SafeAreaView,
+  TouchableOpacity,
+  Text
+} from "react-native";
 import ImageBack from "~/assets/images/Grupo_518.png";
 import styles from "./styles";
 import ModalCheckList from "./ModalCheckList";
@@ -121,13 +128,16 @@ class NextEvent extends React.Component {
   };
 
   confirmChecklist = () => {
-    const { operationId: id, origin, status } = this.state;
+    const { operationId: id, origin } = this.state;
     this.setState({ loading: true });
     operationsChecklists({ id, origin })
       .then(() => {
-        status !== "checkout"
+        origin === 1
           ? this.setState({ openModalCheckin: false, status: "occurrence" })
           : this.toCheckout();
+      })
+      .catch(error => {
+        debugger;
       })
       .finally(() => {
         this.setState({ loading: false });
