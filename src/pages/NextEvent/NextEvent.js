@@ -77,7 +77,7 @@ class NextEvent extends React.Component {
       .then(({ result }) => {
         const { value } = result;
         value === 1
-          ? this.setState({ status: "checkin" })
+          ? this.setState({ status: "checkin", isCheckin: value })
           : value === 2
           ? this.setState({
               status: "checkin",
@@ -85,32 +85,46 @@ class NextEvent extends React.Component {
               origin: 1
             })
           : this.setState({ isCheckin: value });
-        this.checkoutHours();
+        this.checkinTolerance();
       });
-    BackgroundTimer.setInterval(() => {
-      this.checkoutHours();
-    }, 60000);
+
     this.isPaused(value.operationId);
+    this.backgroundHours();
+  };
+
+  backgroundHours = () => {
+    const { status } = this.state;
+    if (status !== "checkout") {
+      BackgroundTimer.setInterval(() => {
+        this.checkinTolerance();
+      }, 60000);
+    }
   };
 
   toCheckIn = () => {
     const { operationId: id, vacancyId } = this.state;
     operationsCheckins({ id, vacancyId }).then(({}) => {
-      this.setState({ openModalCheckin: true });
+      this.setState({ openModalCheckin: true, origin: 1 });
     });
+    return;
+  };
 
+  checkinTolerance = () => {
+    const { isCheckin, checkout } = this.state;
+    const toleranceTime = new Date(new Date().setHours(...checkout.split(":")));
+    debugger;
+    isCheckin === 1 &&
+    new Date() >= toleranceTime.setHours(toleranceTime.getHours() - 2)
+      ? this.setState({ status: "without" })
+      : this.checkoutHours();
     return;
   };
 
   checkoutHours = () => {
     const { checkout, isCheckin } = this.state;
-    const date = new Date();
-    const checkoutDate = new Date(date.setHours(...checkout.split(":")));
+    const checkoutDate = new Date(new Date().setHours(...checkout.split(":")));
+    const checkoutTime = checkoutDate.setHours(checkoutDate.getHours());
 
-    const checkoutTime =
-      checkout.substr(0, 2) === "00"
-        ? checkoutDate.setDate(checkoutDate.getDate() + 1)
-        : checkoutDate.setDate(checkoutDate.getDate());
     new Date() < checkoutTime && isCheckin === 3
       ? this.setState({ status: "occurrence" })
       : new Date() >= checkoutTime
@@ -135,9 +149,6 @@ class NextEvent extends React.Component {
         origin === 1
           ? this.setState({ openModalCheckin: false, status: "occurrence" })
           : this.toCheckout();
-      })
-      .catch(error => {
-        debugger;
       })
       .finally(() => {
         this.setState({ loading: false });

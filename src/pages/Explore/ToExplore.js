@@ -54,7 +54,10 @@ export default class ToExplore extends Component {
     vacancy(e)
       .then(({ data }) => {
         const vacancies = data.result.filter(
-          c => c.jobDate.substr(0, 10) >= new Date().toJSON().substr(0, 10)
+          c =>
+            new Date(
+              new Date(c.jobDate.substr(0, 19)).toLocaleDateString()
+            ).getTime() >= new Date(new Date().toLocaleDateString()).getTime()
         );
         this.setState({ listVacancy: vacancies });
       })

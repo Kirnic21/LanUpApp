@@ -64,68 +64,47 @@ export default class Schedule extends React.Component {
             onPress={e => this.scheduleList(e)}
           />
         </View>
-        <View>
-          <FlatList
-            ListEmptyComponent={
-              <View style={styles.containerEmpty}>
-                {loading ? (
-                  <Lottie
-                    autoSize
-                    style={{
-                      height: calcWidth(30),
-                      width: calcWidth(30)
-                    }}
-                    resizeMode="cover"
-                    source={loadingSpinner}
-                    loop
-                    autoPlay
-                  />
-                ) : (
-                  <Text style={[styles.textEmpty]}>
-                    Nenhuma vaga disponivel
-                  </Text>
-                )}
-              </View>
-            }
-            data={listVacancy}
-            renderItem={({ item }) => (
-              <VacancyCard
-                title={item.eventName}
-                date={item.jobDate}
-                eventCreationDate={item.eventCreationDate}
-                content={`${item.start.substr(0, 5)} - ${item.end.substr(
-                  0,
-                  5
-                )}`}
-                address={item.address}
-                picture={item.image !== null ? item.image.url : null}
-                amount={item.amount}
-                onPress={() =>
-                  this.props.navigation.navigate("VacanciesDetails", {
-                    job: item,
-                    status: 6
-                  })
-                }
-              />
-            )}
-            keyExtractor={item => item.id}
-          />
-        </View>
-        {/* {listVacancy.length ? (
-          <VacancyCard
-            listVacancy={listVacancy}
-            onPress={job =>
-              this.props.navigation.navigate("VacanciesDetails", {
-                job,
-                status: 6
-              })
-            }
-          />
-        ) : (
-          <View style={styles.containerEmpty}>
-            <Text style={styles.textEmpty}>Nenhuma vaga disponivel</Text>
-          </View>
-        )} */}
+
+        <FlatList
+          ListEmptyComponent={
+            <View style={styles.containerEmpty}>
+              {loading ? (
+                <Lottie
+                  autoSize
+                  style={{
+                    height: calcWidth(30),
+                    width: calcWidth(30)
+                  }}
+                  resizeMode="cover"
+                  source={loadingSpinner}
+                  loop
+                  autoPlay
+                />
+              ) : (
+                <Text style={[styles.textEmpty]}>Nenhuma vaga disponivel</Text>
+              )}
+            </View>
+          }
+          data={listVacancy}
+          renderItem={({ item }) => (
+            <VacancyCard
+              title={item.eventName}
+              date={item.jobDate}
+              eventCreationDate={item.eventCreationDate}
+              content={`${item.start.substr(0, 5)} - ${item.end.substr(0, 5)}`}
+              address={item.address}
+              picture={item.image !== null ? item.image.url : null}
+              amount={item.amount}
+              onPress={() =>
+                this.props.navigation.navigate("VacanciesDetails", {
+                  job: item,
+                  status: 6
+                })
+              }
+            />
+          )}
+          keyExtractor={item => item.id}
+        />
       </View>
     );
   }
