@@ -15,9 +15,7 @@ export default class ToExplore extends Component {
     this.state = {
       filter: [{ id: 1, title: "a" }],
       GetJobs: [],
-      loading: false,
-      spinner: false,
-      listVacancy: []
+      loading: false
     };
   }
 
@@ -50,14 +48,12 @@ export default class ToExplore extends Component {
   };
 
   getVacancy(e) {
-    this.setState({ listVacancy: [], loading: true });
     vacancy(e)
       .then(({ data }) => {
         const vacancies = data.result.filter(
           c =>
-            new Date(
-              new Date(c.jobDate.substr(0, 19)).toLocaleDateString()
-            ).getTime() >= new Date(new Date().toLocaleDateString()).getTime()
+            new Date(`${c.jobDate.substr(0, 11)}03:00:00.000Z`) >=
+            new Date(new Date().setHours(0, 0, 0, 0))
         );
         this.setState({ listVacancy: vacancies });
       })
@@ -67,11 +63,12 @@ export default class ToExplore extends Component {
   }
 
   filterVacancy = e => {
+    this.setState({ listVacancy: [], loading: true });
     this.getVacancy(e);
   };
 
   render() {
-    const { JobsSelected, listVacancy, loading, spinner } = this.state;
+    const { JobsSelected, listVacancy, loading } = this.state;
     return (
       <View style={styles.container}>
         <View>
