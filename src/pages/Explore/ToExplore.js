@@ -13,7 +13,6 @@ export default class ToExplore extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filter: [{ id: 1, title: "a" }],
       GetJobs: [],
       loading: false
     };

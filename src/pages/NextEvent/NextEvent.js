@@ -32,6 +32,8 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import BackgroundTimer from "react-native-background-timer";
 import ModalDuties from "./ModalDuties";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
+import { differenceInHours } from "date-fns";
+import eoLocale from "date-fns/locale/pt-BR";
 
 class NextEvent extends React.Component {
   state = {
@@ -50,6 +52,7 @@ class NextEvent extends React.Component {
       .then(({ data }) => data)
       .then(({ result }) => {
         const { value } = result;
+        console.log(value);
         value !== null
           ? this.getWordays(value)
           : this.setState({ status: "without" });
@@ -111,10 +114,13 @@ class NextEvent extends React.Component {
 
   checkinTolerance = () => {
     const { isCheckin, checkout } = this.state;
-    const toleranceTime = new Date(new Date().setHours(...checkout.split(":")));
-    debugger;
-    isCheckin === 1 &&
-    new Date() >= toleranceTime.setHours(toleranceTime.getHours() - 2)
+    const checkoutTime = new Date().setHours(...checkout.split(":"));
+    const isMidnight = checkout.substr(0, 1) === "0" ? 1 : 0;
+    const date = new Date(checkoutTime).setDate(
+      new Date(checkoutTime).getDate() + isMidnight
+    );
+    toleranceTime = new Date(date).setHours(new Date(date).getHours() - 2);
+    isCheckin === 1 && new Date() >= new Date(toleranceTime)
       ? this.setState({ status: "without" })
       : this.checkoutHours();
     return;
@@ -122,12 +128,15 @@ class NextEvent extends React.Component {
 
   checkoutHours = () => {
     const { checkout, isCheckin } = this.state;
-    const checkoutDate = new Date(new Date().setHours(...checkout.split(":")));
-    const checkoutTime = checkoutDate.setHours(checkoutDate.getHours());
+    const checkoutDate = new Date().setHours(...checkout.split(":"));
+    const isMidnight = checkout.substr(0, 2) === "0" ? 1 : 0;
+    const checkoutTime = new Date(checkoutDate).setDate(
+      new Date(checkoutDate).getDate() + isMidnight
+    );
 
-    new Date() < checkoutTime && isCheckin === 3
+    new Date() < new Date(checkoutTime) && isCheckin === 3
       ? this.setState({ status: "occurrence" })
-      : new Date() >= checkoutTime
+      : new Date() >= new Date(checkoutTime)
       ? this.setState({ status: "checkout", origin: 2 })
       : null;
     return;
