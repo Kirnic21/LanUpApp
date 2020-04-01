@@ -88,7 +88,7 @@ class NextEvent extends React.Component {
               origin: 1
             })
           : this.setState({ isCheckin: value });
-        this.checkinTolerance();
+        this.checkoutHours();
       });
 
     this.isPaused(value.operationId);
@@ -99,7 +99,7 @@ class NextEvent extends React.Component {
     const { status } = this.state;
     if (status !== "checkout") {
       BackgroundTimer.setInterval(() => {
-        this.checkinTolerance();
+        this.checkoutHours();
       }, 60000);
     }
   };
@@ -112,19 +112,19 @@ class NextEvent extends React.Component {
     return;
   };
 
-  checkinTolerance = () => {
-    const { isCheckin, checkout } = this.state;
-    const checkoutTime = new Date().setHours(...checkout.split(":"));
-    const isMidnight = checkout.substr(0, 1) === "0" ? 1 : 0;
-    const date = new Date(checkoutTime).setDate(
-      new Date(checkoutTime).getDate() + isMidnight
-    );
-    toleranceTime = new Date(date).setHours(new Date(date).getHours() - 2);
-    isCheckin === 1 && new Date() >= new Date(toleranceTime)
-      ? this.setState({ status: "without" })
-      : this.checkoutHours();
-    return;
-  };
+  // checkinTolerance = () => {
+  //   const { isCheckin, checkout } = this.state;
+  //   const checkoutTime = new Date().setHours(...checkout.split(":"));
+  //   const isMidnight = checkout.substr(0, 1) === "0" ? 1 : 0;
+  //   const date = new Date(checkoutTime).setDate(
+  //     new Date(checkoutTime).getDate() + isMidnight
+  //   );
+  //   toleranceTime = new Date(date).setHours(new Date(date).getHours() - 2);
+  //   isCheckin === 1 && new Date() >= new Date(toleranceTime)
+  //     ? this.setState({ status: "without" })
+  //     : this.checkoutHours();
+  //   return;
+  // };
 
   checkoutHours = () => {
     const { checkout, isCheckin } = this.state;
