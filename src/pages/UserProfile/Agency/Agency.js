@@ -8,20 +8,40 @@ import ModalAgency from "./ModalAgency";
 import IconAgencia from "~/assets/images/icon_agencia.png";
 import ActionButton from "~/shared/components/ActionButton";
 import { codeAgency } from "~/shared/services/agency.http";
-import { updateAgencies, decodeToken } from "~/shared/services/freela.http";
+import {
+  updateAgencies,
+  decodeToken,
+  getAgencies,
+} from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 class Agency extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
-      agencies: []
+      agencies: [],
     };
     lastTimeout = setTimeout;
   }
 
-  searchCode = event => {
+  async componentDidMount() {
+    const { id } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    this.setState({ spinner: true });
+    getAgencies(id)
+      .then(({ data }) => data)
+      .then(({ result }) => {
+        const { value } = result;
+        this.setState({ agencies: value.map((c) => c.name), id });
+      })
+      .finally(() => {
+        this.setState({ spinner: false });
+      });
+  }
+
+  searchCode = (event) => {
     const txt = event.trim();
     this.setState({ code: [], loading: !!txt });
     if (!!txt) {
@@ -37,64 +57,49 @@ class Agency extends React.Component {
           });
       }, 1000);
     }
+    return;
   };
 
-  button = async item => {
-    const { agencies } = this.state;
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    console.log(token.id);
-    updateAgencies({ agencyCode: item, id: token.id })
+  addAgencies = async (nameCode, name) => {
+    const { agencies, id } = this.state;
+    updateAgencies({ id, agencyCode: nameCode })
       .then(() => {
-        debugger;
         this.setState({
-          agencies: [...agencies, item],
+          agencies: [...agencies, name],
           visible: false,
-          code: ""
+          code: "",
         });
+        AlertHelper.show(
+          "success",
+          "Sucesso",
+          `Agora você faz parte da agência: "${name}"`
+        );
       })
-      .catch(error => {
-        debugger;
-        console.log(error);
+      .catch((error) => {
+        this.setState({ visible: false, code: [] });
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       });
+    return;
   };
 
   render() {
-    const { visible, agencies, code, loading } = this.state;
+    const { visible, agencies, code, loading, spinner } = this.state;
     return (
       <View style={{ flex: 1, backgroundColor: "#18142F" }}>
+        <SpinnerComponent loading={spinner} />
         {agencies.length ? (
           <View style={{ flex: 1 }}>
             <ScrollView>
-              <View
-                style={{
-                  marginHorizontal: calcWidth(6.1),
-                  flexWrap: "wrap",
-                  flexDirection: "row",
-                  backgroundColor: "#FFF"
-                }}
-              >
+              <View style={styles.container}>
                 {agencies.map((c, i) => (
-                  <View
-                    key={i}
-                    style={{
-                      alignItems: "center",
-                      backgroundColor: "green",
-                      width: calcWidth(29.3)
-                    }}
-                  >
+                  <View key={i} style={styles.containerAgency}>
                     <Image source={IconAgencia} style={styles.logo} />
                     <Text style={styles.nameAgency}>{c}</Text>
                   </View>
                 ))}
               </View>
             </ScrollView>
-            <View
-              style={{
-                alignItems: "flex-end",
-                margin: calcWidth(5),
-                justifyContent: "flex-end"
-              }}
-            >
+            <View style={styles.containerButton}>
               <ActionButton onPress={() => this.setState({ visible: true })} />
             </View>
           </View>
@@ -109,8 +114,8 @@ class Agency extends React.Component {
         )}
         <ModalAgency
           loading={loading}
-          onChangeText={text => this.searchCode(text)}
-          onPress={item => this.button(item)}
+          onChangeText={(text) => this.searchCode(text)}
+          onPress={(nameCode, name) => this.addAgencies(nameCode, name)}
           visible={visible}
           code={code}
           onClose={() => this.setState({ visible: false, code: [] })}
@@ -121,19 +126,34 @@ class Agency extends React.Component {
 }
 
 const styles = {
+  container: {
+    marginHorizontal: calcWidth(6),
+    flexWrap: "wrap",
+    flexDirection: "row",
+  },
+  containerAgency: {
+    alignItems: "center",
+    width: calcWidth(29.3),
+    marginBottom: calcWidth(3),
+  },
+  containerButton: {
+    alignItems: "flex-end",
+    margin: calcWidth(5),
+    justifyContent: "flex-end",
+  },
   logo: {
     height: calcWidth(20),
     width: calcWidth(20),
     borderColor: "#865FC0",
     borderWidth: 2,
     borderRadius: calcWidth(10),
-    marginBottom: calcWidth(1)
+    marginBottom: calcWidth(1),
   },
   nameAgency: {
     color: "#FFFFFF",
     fontFamily: "HelveticaNowMicro-Regular",
-    fontSize: dimensions(10)
-  }
+    fontSize: dimensions(10),
+  },
 };
 
 export default Agency;

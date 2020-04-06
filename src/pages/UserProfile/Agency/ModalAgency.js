@@ -13,7 +13,7 @@ const ModalAgency = ({
   onChangeText,
   code,
   onPress,
-  loading
+  loading,
 }) => {
   return (
     <ModalComponent
@@ -40,7 +40,7 @@ const ModalAgency = ({
                     autoSize
                     style={{
                       height: calcWidth(20),
-                      width: calcWidth(20)
+                      width: calcWidth(20),
                     }}
                     resizeMode="cover"
                     source={loadingSpinner}
@@ -52,7 +52,7 @@ const ModalAgency = ({
                 <Text
                   style={[
                     styles.nameAgency,
-                    { width: "100%", textAlign: "center" }
+                    { width: "100%", textAlign: "center" },
                   ]}
                 >
                   nenhuma agência encontrada
@@ -62,7 +62,7 @@ const ModalAgency = ({
           }
           renderItem={({ item, index }) => (
             <TouchableOpacity
-              onPress={() => onPress(item.name)}
+              onPress={() => onPress(item.code, item.name)}
               style={styles.container}
             >
               <Image
@@ -76,7 +76,7 @@ const ModalAgency = ({
                 <Text
                   style={[
                     styles.nameAgency,
-                    { width: "100%", fontSize: dimensions(12) }
+                    { width: "100%", fontSize: dimensions(12) },
                   ]}
                 >
                   CNPJ: {item.cnpj}
@@ -101,20 +101,20 @@ const styles = {
     marginBottom: calcWidth(5),
     borderRadius: calcWidth(10),
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   title: {
     color: "#FFFFFF",
     fontFamily: "HelveticaNowMicro-Medium",
     fontSize: dimensions(24),
-    marginBottom: calcWidth(5)
+    marginBottom: calcWidth(5),
   },
   nameAgency: {
     color: "#FFFFFF",
     fontFamily: "HelveticaNowMicro-ExtraLight",
     fontSize: dimensions(15),
-    width: "80%"
-  }
+    width: "80%",
+  },
 };
 
 export default ModalAgency;
