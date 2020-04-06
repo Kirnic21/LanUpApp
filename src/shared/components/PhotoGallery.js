@@ -1,16 +1,16 @@
 import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
-import PhotoGalleryEmptyState from "./emptyState/PhotoGalleryEmptyState";
+import PhotoGalleryEmptyState from "./emptyState/EmptyState";
 import { ScrollView } from "react-native-gesture-handler";
 import Carousel from "./Carousel";
 import ImageSelector from "./ImageSelector";
 import { connect } from "react-redux";
 import Image from "react-native-fast-image";
-import Spinner from "react-native-loading-spinner-overlay";
 import { calcWidth } from "~/assets/Dimensions";
 import { HeaderBackButton } from "react-navigation-stack";
 import SpinnerComponent from "./SpinnerComponent";
+import ImageOutline from "~/assets/images/outline.png";
 
 const Picture = ({
   picture,
@@ -203,7 +203,12 @@ class PhotoGallery extends React.Component {
             </React.Fragment>
           </ScrollView>
         ) : (
-          <PhotoGalleryEmptyState onPictureAdd={this.handleOnPictureAdd} />
+          <PhotoGalleryEmptyState
+            title={`Não temos nenhuma${"\n"}mídia para mostrar`}
+            subtitle={`Adicione as suas fotos${"\n"}e divulgue o seu trabalho`}
+            image={ImageOutline}
+            onPress={this.handleOnPictureAdd}
+          />
         )}
         <Carousel
           indexGallery={indexGallery}

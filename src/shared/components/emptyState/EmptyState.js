@@ -1,38 +1,33 @@
 import React from "react";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import {
-  StyleSheet,
-  Dimensions,
-  View,
-  Text,
-  Image,
-  TouchableOpacity
-} from "react-native";
+import { StyleSheet, Dimensions, View, Text, Image } from "react-native";
 import ImageOutline from "~/assets/images/outline.png";
-import FastImage from "react-native-fast-image";
 import ActionButton from "~/shared/components/ActionButton";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 
-const PhotoGalleryEmptyState = ({ onPictureAdd }) => {
+const PhotoGalleryEmptyState = ({
+  onPress,
+  title,
+  subtitle,
+  image,
+  imageStyle
+}) => {
   return (
     <View style={styles.container}>
       <View style={styles.containerEmptyTitle}>
-        <Text style={styles.emptyTitle}>Não temos nenhuma</Text>
-        <Text style={styles.emptyTitle}>mídia para mostrar</Text>
+        <Text style={styles.emptyTitle}>{title || "Titulo"}</Text>
       </View>
 
       <View style={styles.containerEmptyImg}>
         <Image
-          source={ImageOutline}
-          style={{ width: dimensions(145), height: dimensions(145) }}
+          source={image || ImageOutline}
+          style={[{ width: calcWidth(45), height: calcWidth(45) }, imageStyle]}
         />
       </View>
       <View style={styles.containerEmptySubtitle}>
-        <Text style={styles.emptySubtitle}>Adicione as suas fotos</Text>
-        <Text style={styles.emptySubtitle}>e divulgue o seu trabalho</Text>
+        <Text style={styles.emptySubtitle}>{subtitle || "Subtitulo"}</Text>
       </View>
       <View style={styles.containerEmptyBtn}>
-        <ActionButton onPress={onPictureAdd} />
+        <ActionButton onPress={onPress} />
       </View>
     </View>
   );
@@ -56,7 +51,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    height: "30%"
+    height: "28%"
   },
   containerEmptySubtitle: {
     width: "100%",
@@ -71,8 +66,10 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     color: "#FFF",
-    fontSize: dimensions(25),
-    fontFamily: "HelveticaNowDisplay-Regular"
+    fontSize: dimensions(24),
+    fontFamily: "HelveticaNowDisplay-Regular",
+    textAlign: "center",
+    lineHeight: calcWidth(11)
   },
   emptyStateContainer: {
     borderColor: "#FFF",
@@ -82,8 +79,9 @@ const styles = StyleSheet.create({
   emptySubtitle: {
     color: "#ffffffad",
     fontFamily: "HelveticaNowMicro-ExtraLight",
-    lineHeight: dimensions(30),
-    fontSize: dimensions(15)
+    lineHeight: calcWidth(8),
+    fontSize: dimensions(15),
+    textAlign: "center"
   }
 });
 

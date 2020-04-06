@@ -226,7 +226,7 @@ class UserProfile extends Component {
               key: "3",
               title: "Agências",
               subtitle: "Entre na equipe de sua agência",
-              onPress: () => this.openModal()
+              onPress: () => this.props.navigation.navigate("Agency")
             },
             {
               key: "4",

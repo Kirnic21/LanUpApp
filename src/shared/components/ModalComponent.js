@@ -13,7 +13,8 @@ export default ModalComponent = ({
   onClose,
   heightModal,
   width,
-  loading
+  loading,
+  swipe
 }) => (
   <Modal
     isVisible={visible}
@@ -22,7 +23,7 @@ export default ModalComponent = ({
     onBackdropPress={onClose}
     onSwipeComplete={onClose}
     hideModalContentWhileAnimating={true}
-    swipeDirection={["down"]}
+    swipeDirection={swipe || ["down"]}
     style={styles.view}
     animationIn="slideInUp"
   >

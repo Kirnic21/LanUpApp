@@ -9,6 +9,7 @@ import AddSkill from "~/pages/UserProfile/MyJob/AddSkill";
 import Availability from "~/pages/UserProfile/Availability/Availability";
 import AvailabilityDays from "~/pages/UserProfile/Availability/AvailabilityDays";
 import SpecialHours from "~/pages/UserProfile/Availability/SpecialHours";
+import Agency from "~/pages/UserProfile/Agency/Agency";
 import PhotoGallery from "~/shared/components/PhotoGallery";
 import UserProfile from "~/pages/UserProfile/UserProfile";
 import { calcWidth } from "~/assets/Dimensions/index";
@@ -30,6 +31,10 @@ const pageNavigator = createStackNavigator(
     Profession: {
       screen: Profession,
       navigationOptions: () => ({ headerTitle: "Meu Job" })
+    },
+    Agency: {
+      screen: Agency,
+      navigationOptions: () => ({ headerTitle: "Agência" })
     },
     AddProfession: {
       screen: AddProfession,
