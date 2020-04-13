@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import { View, StatusBar } from "react-native";
+import { StatusBar, PermissionsAndroid, Platform } from "react-native";
 
 import OneSignal from "react-native-onesignal";
 
@@ -21,7 +21,7 @@ initMomentPtBr();
 const ONE_SIGNAL_ID = "974fc0c7-12f6-4d7a-8aca-c07d519c7dc1";
 
 Sentry.init({
-  dsn: "https://56c92c18d0684d81b3f59dde2512aed4@sentry.io/4606069"
+  dsn: "https://56c92c18d0684d81b3f59dde2512aed4@sentry.io/4606069",
 });
 
 class App extends Component {
@@ -29,10 +29,10 @@ class App extends Component {
     super(properties);
     this.state = {
       userChecked: false,
-      userLogged: false
+      userLogged: false,
     };
     OneSignal.init(ONE_SIGNAL_ID, {
-      kOSSettingsKeyInFocusDisplayOption: 0
+      kOSSettingsKeyInFocusDisplayOption: 0,
     }); // set kOSSettingsKeyAutoPrompt to false prompting manually on iOS
     // OneSignal.setLogLevel(6, 6);
     OneSignal.inFocusDisplaying(0);
@@ -42,11 +42,12 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    await this.requestLocationPermision();
     const token = await AsyncStorage.getItem("API_TOKEN");
 
     this.setState({
       userChecked: true,
-      userLogged: !!token
+      userLogged: !!token,
     });
   }
 
@@ -55,6 +56,14 @@ class App extends Component {
     OneSignal.removeEventListener("opened", this.onOpened);
     OneSignal.removeEventListener("ids", this.onIds);
   }
+
+  requestLocationPermision = async () => {
+    if (Platform.OS === "android") {
+      await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      );
+    }
+  };
 
   onReceived(notification) {
     console.log("Notification received: ", notification);
@@ -95,7 +104,7 @@ class App extends Component {
           defaultContainer={{ padding: calcWidth(3), paddingTop: calcWidth(5) }}
           updateStatusBar={false}
           useNativeDriver
-          ref={ref => AlertHelper.setDropDown(ref)}
+          ref={(ref) => AlertHelper.setDropDown(ref)}
           onClose={() => AlertHelper.invokeOnClose()}
         />
       </>

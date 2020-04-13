@@ -5,7 +5,7 @@ import {
   StatusBar,
   SafeAreaView,
   TouchableOpacity,
-  Text
+  Text,
 } from "react-native";
 import ImageBack from "~/assets/images/Grupo_518.png";
 import styles from "./styles";
@@ -19,7 +19,7 @@ import {
   openedBreaks,
   updatebreaks,
   operationsStatus,
-  operationsCheckout
+  operationsCheckout,
 } from "~/shared/services/operations.http";
 import TitleEvent from "./TitleEvent";
 import RoundButton from "~/shared/components/RoundButton";
@@ -32,8 +32,6 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import BackgroundTimer from "react-native-background-timer";
 import ModalDuties from "./ModalDuties";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
-import { differenceInHours } from "date-fns";
-import eoLocale from "date-fns/locale/pt-BR";
 
 class NextEvent extends React.Component {
   state = {
@@ -41,7 +39,7 @@ class NextEvent extends React.Component {
     spinner: false,
     openModalPause: false,
     openModalOccurrence: false,
-    openModalDuties: false
+    openModalDuties: false,
   };
 
   componentDidMount() {
@@ -52,7 +50,6 @@ class NextEvent extends React.Component {
       .then(({ data }) => data)
       .then(({ result }) => {
         const { value } = result;
-        console.log(value);
         value !== null
           ? this.getWordays(value)
           : this.setState({ status: "without" });
@@ -62,7 +59,7 @@ class NextEvent extends React.Component {
       });
   }
 
-  getWordays = value => {
+  getWordays = (value) => {
     this.setState({
       eventName: value.eventName,
       job: value.job,
@@ -73,7 +70,7 @@ class NextEvent extends React.Component {
       freelaId: value.freelaId,
       checkout: value.checkout,
       hirerId: value.hirerId,
-      responsabilities: value.responsabilities
+      responsabilities: value.responsabilities,
     });
     operationsStatus({ id: value.operationId, freelaId: value.freelaId })
       .then(({ data }) => data)
@@ -85,7 +82,7 @@ class NextEvent extends React.Component {
           ? this.setState({
               status: "checkin",
               openModalCheckin: true,
-              origin: 1
+              origin: 1,
             })
           : this.setState({ isCheckin: value });
         this.checkoutHours();
@@ -102,6 +99,10 @@ class NextEvent extends React.Component {
         this.checkoutHours();
       }, 60000);
     }
+  };
+
+  openMaps = () => {
+    this.props.navigation.navigate("MapsGeolocation");
   };
 
   toCheckIn = () => {
@@ -176,7 +177,7 @@ class NextEvent extends React.Component {
           send: false,
           image: "",
           picture: "",
-          openModalOccurrence: false
+          openModalOccurrence: false,
         });
         AlertHelper.show(
           "success",
@@ -190,7 +191,7 @@ class NextEvent extends React.Component {
     return;
   };
 
-  isPaused = id => {
+  isPaused = (id) => {
     openedBreaks({ id })
       .then(({ data }) => data)
       .then(({ result }) => {
@@ -200,7 +201,7 @@ class NextEvent extends React.Component {
     return;
   };
 
-  toPause = reason => {
+  toPause = (reason) => {
     const { operationId: id } = this.state;
     this.setState({ loading: true });
     setTimeout(() => {
@@ -242,6 +243,17 @@ class NextEvent extends React.Component {
           color="#4F4D65"
         />
       ),
+      goToWork: (
+        <ButtonPulse
+          title={`Estou${"\n"}a${"\n"}caminho`}
+          titleStyle={styles.textBtnPulse}
+          size="normal"
+          startAnimations={true}
+          color="#03DAC6"
+          titleColor="#24203B"
+          // onPress={() => this.toCheckIn()}
+        />
+      ),
       checkin: (
         <ButtonPulse
           title={`Iniciar${"\n"}Check-in`}
@@ -271,7 +283,7 @@ class NextEvent extends React.Component {
           startAnimations={pause ? false : true}
           onPress={() => this.setState({ openModalOccurrence: true })}
         />
-      )
+      ),
     }[status];
   };
 
@@ -294,7 +306,7 @@ class NextEvent extends React.Component {
       loading,
       checkListCheckIn,
       checkListCheckout,
-      openModalComingSoon
+      openModalComingSoon,
     } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ flex: 1 }}>
@@ -302,6 +314,11 @@ class NextEvent extends React.Component {
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="transparent" translucent={true} />
           <TitleEvent status={status} job={job} eventName={eventName} />
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("MapsGeolocation")}
+          >
+            <Text>CLIQUE AQUIIII</Text>
+          </TouchableOpacity>
           <View style={styles.containerCircle}>
             <View
               pointerEvents={pause ? "none" : "auto"}
@@ -365,6 +382,13 @@ class NextEvent extends React.Component {
                 style={styles.btn}
                 onPress={() => this.props.navigation.navigate("ToExplore")}
               />
+            ) : status === "goToWork" ? (
+              <RoundButton
+                width={calcWidth(55)}
+                name="Ver regras e check list"
+                style={styles.btn}
+                onPress={() => this.setState({ openModalComingSoon: true })}
+              />
             ) : (
               <RoundButton
                 width={calcWidth(55)}
@@ -396,27 +420,27 @@ class NextEvent extends React.Component {
             loading={loading}
             sendOcurrence={send}
             onPressSend={() => this.SendOcurrence()}
-            onImageSelected={image =>
+            onImageSelected={(image) =>
               this.setState({ image: image.data, picture: image.uri })
             }
             valueInput={description}
-            onChangeText={text =>
+            onChangeText={(text) =>
               this.setState({
                 description: text,
-                send: text !== "" ? true : false
+                send: text !== "" ? true : false,
               })
             }
             onClose={() =>
               this.setState({
                 openModalOccurrence: false,
                 image: "",
-                picture: ""
+                picture: "",
               })
             }
           />
           <ModalPause
             visible={openModalPause}
-            onPress={reason => this.toPause(reason)}
+            onPress={(reason) => this.toPause(reason)}
             loading={loading}
             onClose={() => this.setState({ openModalPause: false })}
           />
