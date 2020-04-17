@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import dimensions from "~/assets/Dimensions";
+import dimensions, { calcWidth } from "~/assets/Dimensions";
 
 const ShiftCard = ({
   title,
@@ -10,7 +10,8 @@ const ShiftCard = ({
   valueStyle,
   value,
   contentTextStyle,
-  content
+  content,
+  status,
 }) => {
   return (
     <View style={styles.container}>
@@ -18,7 +19,7 @@ const ShiftCard = ({
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          flex: 1
+          flex: 1,
         }}
       >
         <View style={{ width: "65%" }}>
@@ -33,14 +34,14 @@ const ShiftCard = ({
             style={[
               styles.subTitle,
               subTitleStyle,
-              styles.colorTextAndFontSize
+              styles.colorTextAndFontSize,
             ]}
           >{`(${subTitle})`}</Text>
         </View>
         <View
           style={{
             width: "40%",
-            justifyContent: content !== null ? "flex-start" : "center"
+            justifyContent: content !== null ? "flex-start" : "center",
           }}
         >
           <Text style={[styles.colorTextAndFontSize, styles.titleValue]}>
@@ -56,6 +57,18 @@ const ShiftCard = ({
               {value}
             </Text>
           </Text>
+          {status && (
+            <View style={styles.containerPaid}>
+              <Text
+                style={[
+                  styles.value,
+                  { fontFamily: "HelveticaNowDisplay-Medium" },
+                ]}
+              >
+                Evento Pago
+              </Text>
+            </View>
+          )}
         </View>
       </View>
       {content !== null && content !== undefined ? (
@@ -66,7 +79,7 @@ const ShiftCard = ({
                 style={[
                   styles.colorTextAndFontSize,
                   styles.TextContent,
-                  contentTextStyle
+                  contentTextStyle,
                 ]}
               >
                 {c.description}
@@ -89,33 +102,41 @@ const styles = StyleSheet.create({
     backgroundColor: "#23203F",
     padding: "5%",
     marginTop: "5%",
-    borderRadius: dimensions(10)
+    borderRadius: dimensions(10),
+  },
+  containerPaid: {
+    backgroundColor: "#4F4D65",
+    height: calcWidth(7),
+    borderRadius: calcWidth(2),
+    width: calcWidth(25),
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
     fontSize: dimensions(30),
-    width: "100%"
+    width: "100%",
   },
   subTitle: {
     fontSize: dimensions(11),
-    top: "-10%"
+    top: "-10%",
   },
   colorTextAndFontSize: {
     color: "#FFF",
-    fontFamily: "HelveticaNowDisplay-Regular"
+    fontFamily: "HelveticaNowDisplay-Regular",
   },
   titleValue: {
     fontSize: dimensions(11),
-    left: "15%"
+    left: "15%",
   },
   value: {
     color: "#46C5F3",
     fontSize: dimensions(13),
     width: "100%",
-    textAlign: "center"
+    textAlign: "center",
   },
   TextContent: {
-    fontSize: dimensions(12)
-  }
+    fontSize: dimensions(12),
+  },
 });
 
 export default ShiftCard;

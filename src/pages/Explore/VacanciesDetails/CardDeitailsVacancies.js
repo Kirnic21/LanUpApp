@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Dimensions, StatusBar } from "react-native";
 import {
   ScrollView,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
 import dimensions from "~/assets/Dimensions";
 import Modal from "react-native-modal";
@@ -17,7 +17,7 @@ const CardDeitailsVacancies = ({
   content,
   isModalOn,
   previewContent,
-  children
+  children,
 }) => {
   const [visible, setVisible] = useState(false);
   return (
@@ -42,7 +42,7 @@ const CardDeitailsVacancies = ({
                       width: "100%",
                       color: "#FFF",
                       fontSize: dimensions(12),
-                      fontFamily: "HelveticaNowMicro-Regular"
+                      fontFamily: "HelveticaNowMicro-Regular",
                     }}
                   >
                     {c};
@@ -58,14 +58,14 @@ const CardDeitailsVacancies = ({
               alignItems: "center",
               justifyContent: "center",
               padding: "4%",
-              opacity: isModalOn ? 1 : 0
+              opacity: isModalOn ? 1 : 0,
             }}
           >
             <Text
               style={{
                 color: "#FFF",
                 fontSize: dimensions(13),
-                fontFamily: "HelveticaNowMicro-Regular"
+                fontFamily: "HelveticaNowMicro-Regular",
               }}
             >
               Veja mais
@@ -128,26 +128,27 @@ const styles = StyleSheet.create({
     padding: "5%",
     borderRadius: dimensions(10),
     marginTop: "5%",
-    width: "100%"
+    width: "100%",
   },
   title: {
     fontFamily: "HelveticaNowDisplay-Regular",
     fontSize: dimensions(20),
-    paddingBottom: "2%"
+    paddingBottom: "2%",
+    color: "#FFFFFf",
   },
   contentText: {
     width: "100%",
     fontSize: dimensions(12),
     fontFamily: "HelveticaNowMicro-Regular",
-    lineHeight: dimensions(18)
+    lineHeight: dimensions(18),
   },
   containerModal: {
     flex: 0.9,
     flexDirection: "column",
     justifyContent: "space-between",
     backgroundColor: "#23203F",
-    borderRadius: dimensions(15)
-  }
+    borderRadius: dimensions(15),
+  },
 });
 
 export default CardDeitailsVacancies;

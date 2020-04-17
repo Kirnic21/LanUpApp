@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StatusBar, StyleSheet, ScrollView } from "react-native";
+import { View, StatusBar, StyleSheet, ScrollView, Text } from "react-native";
 import CardImageVacancies from "./CardImageVacancies";
 import { SafeAreaView } from "react-native";
 import CardDeitailsVacancies from "./CardDeitailsVacancies";
@@ -8,7 +8,11 @@ import ShiftCard from "./ShiftCard";
 import SelectComponent from "~/shared/components/SelectComponent";
 import ButtonVacancies from "~/shared/components/Button";
 import { deitailsVacancies } from "~/shared/services/events.http";
-import { acceptInvite, deleteVacancies } from "~/shared/services/vacancy.http";
+import {
+  acceptInvite,
+  deleteVacancies,
+  deitailsVacanciesSchedules,
+} from "~/shared/services/vacancy.http";
 import { decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import HTML from "react-native-render-html";
@@ -20,54 +24,39 @@ import ButtonComponent from "~/shared/components/ButtonCompoent";
 class VacanciesDetails extends Component {
   state = {
     spinner: false,
-    status: this.props.navigation.state.params.status
+    status: this.props.navigation.state.params.status,
   };
 
   componentDidMount() {
     const { job } = this.props.navigation.state.params;
     const { status } = this.state;
-    const route = status === 2 ? "ToExplore" : "Schedule";
+    const route = status === 0 ? "ToExplore" : "Schedule";
     const request = {
-      id: status === 2 ? job.id : job.eventId,
+      id: job.id,
       service: job.job,
-      day: job.jobDate.substr(0, 10)
+      day: job.jobDate.substr(0, 10),
     };
     this.setState({ spinner: true });
-    deitailsVacancies(request)
-      .then(({ data }) => {
-        const getDeitails = data.result;
-        this.setState({
-          eventName: job.eventName,
-          workshiftsQuantity:
-            status === 2
-              ? `${getDeitails.workshiftsQuantity} turnos`
-              : `${job.start} - ${job.end}`,
-          location: getDeitails.location,
-          eventDate: job.jobDate,
-          picture:
-            job.picture !== null && job.picture !== undefined
-              ? job.picture.url
-              : job.image !== null && job.image !== undefined
-              ? job.image.url
-              : null,
-          service: job.job,
-          vacancyQuantity: getDeitails.vacancyQuantity,
-          payment: getDeitails.payment,
-          serviceDetail: status === 2 ? getDeitails.serviceDetail : null,
-          previewResponsabilities: getDeitails.previewResponsabilities,
-          responsabilities: getDeitails.responsabilities,
-          checkListCheckinPreview: getDeitails.checkListCheckinPreview,
-          checkListAtCheckin: getDeitails.checkListAtCheckin,
-          checkListCheckoutPreview: getDeitails.checkListCheckoutPreview,
-          checkListAtCheckout: getDeitails.checkListAtCheckout,
-          eventDescription: getDeitails.eventDescription
-        });
-      })
-      .finally(() => {
-        this.setState({ spinner: false });
-      });
+    status === 0
+      ? deitailsVacancies(request)
+          .then(({ data }) => {
+            const getDeitails = data.result;
+            this.setDeitails(getDeitails);
+          })
+          .finally(() => {
+            this.setState({ spinner: false });
+          })
+      : deitailsVacanciesSchedules(request)
+          .then(({ data }) => {
+            const getDeitails = data.result;
+            this.setDeitails(getDeitails);
+          })
+          .finally(() => {
+            this.setState({ spinner: false });
+          });
+
     this.props.navigation.setParams({
-      route
+      route,
     });
   }
   static navigationOptions = ({ navigation }) => {
@@ -82,18 +71,50 @@ class VacanciesDetails extends Component {
           style={{
             backgroundColor: "#00000060",
             left: calcWidth(4),
-            borderRadius: calcWidth(4)
+            borderRadius: calcWidth(4),
           }}
         />
-      )
+      ),
     };
   };
 
-  selectShift = value => {
+  setDeitails = (getDeitails) => {
+    const { job } = this.props.navigation.state.params;
+    const { status } = this.state;
+    debugger;
+    this.setState({
+      eventName: job.eventName,
+      workshiftsQuantity:
+        status === 0
+          ? `${getDeitails.workshiftsQuantity} turnos`
+          : `${job.start} - ${job.end}`,
+      location: getDeitails.location,
+      eventDate: job.jobDate,
+      picture:
+        job.picture !== null && job.picture !== undefined
+          ? job.picture.url
+          : job.image !== null && job.image !== undefined
+          ? job.image.url
+          : null,
+      service: job.job,
+      vacancyQuantity: getDeitails.vacancyQuantity,
+      payment: getDeitails.payment,
+      serviceDetail: status === 0 ? getDeitails.serviceDetail : null,
+      previewResponsabilities: getDeitails.previewResponsabilities,
+      responsabilities: getDeitails.responsabilities,
+      checkListCheckinPreview: getDeitails.checkListCheckinPreview,
+      checkListAtCheckin: getDeitails.checkListAtCheckin,
+      checkListCheckoutPreview: getDeitails.checkListCheckoutPreview,
+      checkListAtCheckout: getDeitails.checkListAtCheckout,
+      eventDescription: getDeitails.eventDescription,
+    });
+  };
+
+  selectShift = (value) => {
     this.setState({
       description: value.description,
       checkin: value.checkin,
-      checkout: value.checkout
+      checkout: value.checkout,
     });
   };
 
@@ -108,8 +129,9 @@ class VacanciesDetails extends Component {
       day: job.jobDate,
       checkout: checkout,
       checkin: checkin,
-      jobToDo: job.job
+      jobToDo: job.job,
     };
+    debugger;
     if (checkin === undefined) {
       AlertHelper.show("error", "Erro", "Selecione um turno.");
       this.setState({ spinner: false });
@@ -118,7 +140,7 @@ class VacanciesDetails extends Component {
         .then(() => {
           this.props.navigation.navigate("Schedule");
         })
-        .catch(error => {
+        .catch((error) => {
           AlertHelper.show("error", "Erro", error.response.data.errorMessage);
         })
         .finally(() => {
@@ -133,7 +155,7 @@ class VacanciesDetails extends Component {
     const request = {
       id: job.id,
       checkin: job.start,
-      checkout: job.end
+      checkout: job.end,
     };
     deleteVacancies(request)
       .then(() => {
@@ -154,7 +176,7 @@ class VacanciesDetails extends Component {
   statusVacancy = () => {
     const { status, checkin } = this.state;
     return {
-      2: (
+      0: (
         <ButtonComponent
           title="Aceitar"
           isSelected={!!checkin}
@@ -165,14 +187,14 @@ class VacanciesDetails extends Component {
           selectedColor="#865FC0"
         />
       ),
-      6: (
+      2: (
         <ButtonVacancies
           name="Desitir da vaga"
           onPress={() => {
             this.deleteVacancy();
           }}
         />
-      )
+      ),
     }[status];
   };
 
@@ -196,7 +218,7 @@ class VacanciesDetails extends Component {
       description,
       eventDescription,
       spinner,
-      status
+      status,
     } = this.state;
     return (
       <SafeAreaView style={styles.container}>
@@ -223,47 +245,67 @@ class VacanciesDetails extends Component {
               subTitle={`${vacancyQuantity} vagas`}
               value={`${payment}`}
               content={serviceDetail}
+              status={status === 5}
             />
             <CardDeitailsVacancies
               title="Briefing"
-              TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
-              contentTextStyle={{ color: "#FFF" }}
+              contentTextStyle={styles.colorWhite}
               isModalOn={false}
             >
               <HTML
-                baseFontStyle={{ color: "#FFF" }}
+                baseFontStyle={styles.colorWhite}
                 html={`<Div>${eventDescription}</Div>`}
               />
             </CardDeitailsVacancies>
             <View>
               <CardDeitailsVacancies
                 title="Minhas Responsabilidades"
-                TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
-                contentTextStyle={{ color: "#FFF" }}
+                contentTextStyle={styles.colorWhite}
                 isModalOn={true}
                 previewContent={previewResponsabilities}
                 content={responsabilities}
               />
-              <CardDeitailsVacancies
-                title="Check In"
-                TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
-                contentTextStyle={{ color: "#FFF" }}
-                isModalOn={true}
-                previewContent={checkListCheckinPreview}
-                content={checkListAtCheckin}
-              />
-              <CardDeitailsVacancies
-                title="Check Out"
-                TitleStyle={{ color: "#FFF", fontSize: dimensions(20) }}
-                contentTextStyle={{ color: "#FFF" }}
-                isModalOn={true}
-                previewContent={checkListCheckoutPreview}
-                content={checkListAtCheckout}
-              />
+              {status === 5 ? (
+                <CardDeitailsVacancies
+                  title="Benefícios"
+                  contentTextStyle={styles.colorWhite}
+                  isModalOn={false}
+                >
+                  <Text
+                    style={[
+                      styles.colorWhite,
+                      {
+                        fontSize: dimensions(12),
+                        fontFamily: "HelveticaNowMicro-Regular",
+                      },
+                    ]}
+                  >
+                    (VR 40,00 c/ desconto de 20% +VT + AM s/ desconto e não
+                    extensiva)
+                  </Text>
+                </CardDeitailsVacancies>
+              ) : (
+                <View>
+                  <CardDeitailsVacancies
+                    title="Check In"
+                    contentTextStyle={styles.colorWhite}
+                    isModalOn={true}
+                    previewContent={checkListCheckinPreview}
+                    content={checkListAtCheckin}
+                  />
+                  <CardDeitailsVacancies
+                    title="Check Out"
+                    contentTextStyle={styles.colorWhite}
+                    isModalOn={true}
+                    previewContent={checkListCheckoutPreview}
+                    content={checkListAtCheckout}
+                  />
+                </View>
+              )}
             </View>
           </View>
           <View style={{ marginHorizontal: "5%", paddingVertical: "5%" }}>
-            {status === 2 ? (
+            {status === 0 && (
               <SelectComponent
                 label="Turnos"
                 onSelect={(id, value) => {
@@ -272,14 +314,12 @@ class VacanciesDetails extends Component {
                 options={serviceDetail}
                 value={description}
               />
-            ) : (
-              <></>
             )}
           </View>
           <View
             style={{
               marginHorizontal: calcWidth(25),
-              paddingBottom: calcWidth(6)
+              paddingBottom: calcWidth(6),
             }}
           >
             {this.statusVacancy()}
@@ -295,8 +335,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     backgroundColor: "#18142F",
-    flexDirection: "column"
-  }
+    flexDirection: "column",
+  },
+  colorWhite: {
+    color: "#FFFFFF",
+  },
 });
 
 export default VacanciesDetails;
