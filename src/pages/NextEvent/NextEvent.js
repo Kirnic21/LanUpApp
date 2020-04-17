@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  ImageBackground,
-  StatusBar,
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+import { View, ImageBackground, StatusBar, SafeAreaView } from "react-native";
 import ImageBack from "~/assets/images/Grupo_518.png";
 import styles from "./styles";
 import ModalCheckList from "./ModalCheckList";
@@ -20,6 +13,7 @@ import {
   updatebreaks,
   operationsStatus,
   operationsCheckout,
+  startOperation,
 } from "~/shared/services/operations.http";
 import TitleEvent from "./TitleEvent";
 import RoundButton from "~/shared/components/RoundButton";
@@ -32,7 +26,6 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import BackgroundTimer from "react-native-background-timer";
 import ModalDuties from "./ModalDuties";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
-
 class NextEvent extends React.Component {
   state = {
     openModalCheckin: false,
@@ -71,25 +64,48 @@ class NextEvent extends React.Component {
       checkout: value.checkout,
       hirerId: value.hirerId,
       responsabilities: value.responsabilities,
+      addressId: value.addressId,
+      address: value.address,
     });
     operationsStatus({ id: value.operationId, freelaId: value.freelaId })
       .then(({ data }) => data)
       .then(({ result }) => {
         const { value } = result;
-        value === 1
-          ? this.setState({ status: "checkin", isCheckin: value })
-          : value === 2
-          ? this.setState({
-              status: "checkin",
-              openModalCheckin: true,
-              origin: 1,
-            })
-          : this.setState({ isCheckin: value });
+        this.setState({ isCheckin: value });
+        this.statusOperation(value);
         this.checkoutHours();
       });
-
-    this.isPaused(value.operationId);
     this.backgroundHours();
+    this.isPaused(value.operationId);
+  };
+
+  statusOperation = (value) => {
+    const { operationId: id, eventName, addressId, address } = this.state;
+    switch (value) {
+      case 1:
+        this.setState({ status: "checkin", isCheckin: value });
+        break;
+      case 2:
+        this.setState({
+          status: "checkin",
+          openModalCheckin: true,
+          origin: 1,
+        });
+        break;
+      case 6:
+        this.setState({ status: "goToWork" });
+        break;
+      case 7:
+        this.props.navigation.replace("MapsGeolocation", {
+          id,
+          eventName,
+          addressId,
+          address,
+        });
+        break;
+      default:
+        null;
+    }
   };
 
   backgroundHours = () => {
@@ -102,7 +118,15 @@ class NextEvent extends React.Component {
   };
 
   openMaps = () => {
-    this.props.navigation.navigate("MapsGeolocation");
+    const { operationId: id, eventName, addressId, address } = this.state;
+    startOperation(id).then(() => {
+      this.props.navigation.replace("MapsGeolocation", {
+        id,
+        eventName,
+        addressId,
+        address,
+      });
+    });
   };
 
   toCheckIn = () => {
@@ -251,7 +275,7 @@ class NextEvent extends React.Component {
           startAnimations={true}
           color="#03DAC6"
           titleColor="#24203B"
-          // onPress={() => this.toCheckIn()}
+          onPress={() => this.openMaps()}
         />
       ),
       checkin: (
@@ -314,11 +338,6 @@ class NextEvent extends React.Component {
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="transparent" translucent={true} />
           <TitleEvent status={status} job={job} eventName={eventName} />
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("MapsGeolocation")}
-          >
-            <Text>CLIQUE AQUIIII</Text>
-          </TouchableOpacity>
           <View style={styles.containerCircle}>
             <View
               pointerEvents={pause ? "none" : "auto"}

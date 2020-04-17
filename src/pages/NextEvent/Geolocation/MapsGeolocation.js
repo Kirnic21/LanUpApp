@@ -6,6 +6,7 @@ import {
   Dimensions,
   SafeAreaView,
   Text,
+  Vibration,
 } from "react-native";
 import MapView, { Marker, AnimatedRegion } from "react-native-maps";
 import Geolocation from "react-native-geolocation-service";
@@ -13,16 +14,22 @@ import mapStyles from "~/pages/NextEvent/Geolocation/stylesMaps";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import IconDestination from "react-native-vector-icons/FontAwesome5";
 import dimensions, { calcWidth } from "~/assets/Dimensions";
-import { getPreciseDistance } from "geolib";
 import RoundButton from "~/shared/components/RoundButton";
-const { width, height } = Dimensions.get("window");
+import MapViewDirections from "react-native-maps-directions";
+import {
+  arrivelOperation,
+  checkpoints,
+} from "~/shared/services/operations.http";
+import { location } from "~/shared/services/events.http";
 
+const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE = 0;
 const LONGITUDE = 0;
-const LATITUDE_DELTA = 0.0922;
+const LATITUDE_DELTA = 0.0099;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+const GOOGLE_MAPS_APIKEY = "AIzaSyBVsSKFLigzkkpRc1L-GTKCN2N0qQHWYOc";
 export default class MapsGeolocation extends React.Component {
   constructor(props) {
     super(props);
@@ -36,16 +43,34 @@ export default class MapsGeolocation extends React.Component {
         latitudeDelta: 0,
         longitudeDelta: 0,
       }),
-      destination: {
-        latitude: -24.010471,
-        longitude: -46.412599,
-      },
-      distance: 0,
       status: false,
+      destination: {
+        latitude: 0,
+        longitude: 0,
+      },
     };
   }
 
   componentDidMount() {
+    const {
+      id,
+      eventName,
+      addressId,
+      address,
+    } = this.props.navigation.state.params;
+    location(addressId)
+      .then(({ data }) => data)
+      .then(({ result }) => {
+        const { lat, lng } = result;
+        const destination = {
+          latitude: Number(lat),
+          longitude: Number(lng),
+        };
+        this.setState({
+          destination,
+        });
+      });
+    this.setState({ id, eventName, address });
     this.watchLocation();
   }
 
@@ -55,27 +80,33 @@ export default class MapsGeolocation extends React.Component {
 
   watchLocation = () => {
     const { coordinate } = this.state;
+    const { id } = this.props.navigation.state.params;
     this.positionWatchId = Geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        this.getDistance({ latitude, longitude });
-        const newCoordinate = {
-          latitude,
-          longitude,
-        };
-        if (Platform.OS === "android") {
-          if (this.marker) {
-            this.marker._component.animateMarkerToCoordinate(
-              newCoordinate,
-              500
-            ); // 500 is the duration to animate the marker
-          }
-        } else {
-          coordinate.timing(newCoordinate).start();
-        }
-        this.setState({
-          latitude,
-          longitude,
+        checkpoints({
+          id,
+          lat: latitude.toString(),
+          long: longitude.toString(),
+        }).then(() => {
+          this.arrived();
+          const newCoordinate = {
+            latitude,
+            longitude,
+          };
+          Platform.OS === "android"
+            ? this.marker &&
+              this.marker._component.animateMarkerToCoordinate(
+                newCoordinate,
+                1000
+              )
+            : coordinate.timing(newCoordinate).start();
+
+          this.setState({
+            latitude,
+            longitude,
+            newCoordinate,
+          });
         });
       },
       (error) => console.log(error),
@@ -83,20 +114,26 @@ export default class MapsGeolocation extends React.Component {
         enableHighAccuracy: true,
         timeout: 20000,
         maximumAge: 1000,
-        distanceFilter: 0,
+        distanceFilter: 1,
       }
     );
   };
 
-  getDistance = (data) => {
-    const { destination } = this.state;
-    const km = getPreciseDistance(data, destination) / 1000;
-    this.setState({ distance: km });
-    if (km.toString().substr(0, 4) === "0.00") {
+  arrived = () => {
+    const { distance } = this.state;
+    if (Number(distance).toFixed(2) === "0.00") {
       this.setState({ status: true });
       Vibration.vibrate(1000);
       Geolocation.clearWatch(this.positionWatchId);
     }
+    return;
+  };
+
+  goOperation = () => {
+    const { id } = this.state;
+    arrivelOperation(id).then(() => {
+      this.props.navigation.replace("NextEvent");
+    });
     return;
   };
 
@@ -108,11 +145,24 @@ export default class MapsGeolocation extends React.Component {
   });
 
   render() {
-    const { status, destination, distance } = this.state;
+    const {
+      status,
+      destination,
+      distance,
+      duration,
+      eventName,
+      address,
+    } = this.state;
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
           <MapView
+            zoomEnabled
+            zoomControlEnabled
+            zoomTapEnabled
+            showsCompass
+            paddingAdjustmentBehavior="automatic"
+            followsUserLocation
             style={styles.map}
             showUserLocation
             followUserLocation
@@ -134,6 +184,17 @@ export default class MapsGeolocation extends React.Component {
                 />
               </View>
             </Marker.Animated>
+            <MapViewDirections
+              origin={this.state.newCoordinate}
+              destination={destination}
+              apikey={GOOGLE_MAPS_APIKEY}
+              strokeColor={"#F63535"}
+              strokeWidth={4}
+              onReady={(result) => {
+                const { distance, duration } = result;
+                this.setState({ distance, duration });
+              }}
+            />
             <Marker.Animated
               coordinate={destination}
               title={"Destino"}
@@ -152,13 +213,13 @@ export default class MapsGeolocation extends React.Component {
               numberOfLines={1}
               style={[styles.fontHelveticaBold, styles.titleEvent]}
             >
-              Balada TheWeek
+              {eventName}
             </Text>
             <Text
               numberOfLines={2}
               style={[styles.fontHelveticaRegular, styles.textAddress]}
             >
-              Av. Brigadeiro Luís Antônio, 2696 Jardim Paulista, SP - 05581-000
+              {address}
             </Text>
             <View style={{ flexDirection: "row" }}>
               <FontAwesome
@@ -167,25 +228,35 @@ export default class MapsGeolocation extends React.Component {
                 color="#FFB72B"
                 style={{ left: calcWidth(-1) }}
               />
-              <Text
-                style={[
-                  styles.fontHelveticaBold,
-                  { fontSize: dimensions(20), color: "#FFB72B" },
-                ]}
-              >
-                {status ? "Você Chegou" : `${distance}KM`}
-              </Text>
+              {status ? (
+                <Text
+                  style={[
+                    styles.fontHelveticaBold,
+                    { fontSize: dimensions(20), color: "#FFB72B" },
+                  ]}
+                >
+                  {status ? "Você Chegou" : `${Number(distance).toFixed(2)}KM`}
+                </Text>
+              ) : (
+                <Text
+                  style={[
+                    styles.fontHelveticaBold,
+                    { fontSize: dimensions(20), color: "#FFB72B" },
+                  ]}
+                >
+                  {Number(distance).toFixed(2)}KM
+                  <Text style={{ fontSize: dimensions(10) }}>
+                    / {Math.round(duration)}mins
+                  </Text>
+                </Text>
+              )}
             </View>
             <RoundButton
               textStyle={{ color: "#2B2D5B" }}
               width={status ? calcWidth(40) : calcWidth(60)}
               style={{ backgroundColor: "#46C5F3" }}
               name={status ? "Okay" : "Ver regras e check list"}
-              onPress={() =>
-                status
-                  ? this.props.navigation.navigate("NextEvent")
-                  : alert("ok")
-              }
+              onPress={() => (status ? this.goOperation() : alert("ok"))}
             />
           </View>
         </View>
@@ -229,7 +300,7 @@ const styles = StyleSheet.create({
   textAddress: {
     fontSize: dimensions(15),
     paddingBottom: calcWidth(6),
-    width: "82%",
+    width: "85%",
     color: "#FFFFFF",
   },
   fontHelveticaRegular: {
