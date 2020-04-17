@@ -6,31 +6,31 @@ import dimensions, { calcWidth, calcHeight } from "~/assets/Dimensions/index";
 import FilterToExplore from "../Explore/FilterToExplore";
 import Lottie from "lottie-react-native";
 import loadingSpinner from "~/assets/loadingSpinner.json";
-import SwiperComponent from "~/shared/components/SwiperComponent";
 
 export default class Schedule extends React.Component {
   state = {
     spinner: false,
     listVacancy: [],
     listFilter: [
-      { id: "0", title: "Escalados" },
-      { id: "2", title: "Pagos" }
-    ]
+      { id: 2, title: "Escalados" },
+      { id: 5, title: "Pagos" },
+    ],
   };
 
   componentDidMount() {
-    this.scheduleList("Escalados");
+    const { listFilter } = this.state;
+    this.scheduleList(listFilter[0].id);
   }
 
-  scheduleList = e => {
-    const filter = e === "Pagos" ? 5 : 2;
+  scheduleList = (e) => {
     this.setState({ loading: true });
-    getSchedules(filter)
+    getSchedules(e)
       .then(({ data }) => {
+        console.log(data);
         const getVacancy = data.result.value;
         this.setState({ listVacancy: getVacancy });
       })
-      .catch(error => {
+      .catch((error) => {
         error.response.data;
       })
       .finally(() => {
@@ -39,20 +39,15 @@ export default class Schedule extends React.Component {
   };
 
   render() {
-    const { spinner, loading, listVacancy, listFilter } = this.state;
+    const { loading, listVacancy, listFilter } = this.state;
     return (
       <View style={styles.container}>
-        {/* <SwiperComponent
-          loading={false}
-          // list={[{ title: "Janeiro de 2020" }, { title: "fevereiro de 2020" }]}
-        /> */}
         <View style={{ margin: calcWidth(5) }}>
           <Text
             style={{
               color: "#FFF",
               fontFamily: "HelveticaNowMicro-Regular",
-              fontSize: calcWidth(5)
-              // marginBottom: calcWidth(3)
+              fontSize: calcWidth(5),
             }}
           >
             Próximos Eventos:
@@ -61,7 +56,7 @@ export default class Schedule extends React.Component {
             filterJob={listFilter}
             onSelectedColor="#FFB72B"
             onTextSelectedColor="#18142F"
-            onPress={e => this.scheduleList(e)}
+            onPress={(e) => this.scheduleList(e.id)}
           />
         </View>
 
@@ -73,7 +68,7 @@ export default class Schedule extends React.Component {
                   autoSize
                   style={{
                     height: calcWidth(30),
-                    width: calcWidth(30)
+                    width: calcWidth(30),
                   }}
                   resizeMode="cover"
                   source={loadingSpinner}
@@ -98,12 +93,12 @@ export default class Schedule extends React.Component {
               onPress={() =>
                 this.props.navigation.navigate("VacanciesDetails", {
                   job: item,
-                  status: 6
+                  status: item.status,
                 })
               }
             />
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
         />
       </View>
     );
@@ -114,16 +109,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#18142F",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   containerEmpty: {
     justifyContent: "center",
     alignItems: "center",
-    height: calcHeight(65)
+    height: calcHeight(65),
   },
   textEmpty: {
     color: "#FFF",
     fontSize: dimensions(20),
-    fontFamily: "HelveticaNowDisplay-Regular"
-  }
+    fontFamily: "HelveticaNowDisplay-Regular",
+  },
 });

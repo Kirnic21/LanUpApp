@@ -9,29 +9,24 @@ export default FilterToExplore = ({
   onTextSelectedColor,
   offTextSelectedColor,
   onPress,
-  filterJob
+  filterJob,
 }) => {
-  const DATA = [
-    {
-      id: "0",
-      title: "----"
-    }
-  ];
+  const DATA = [{ title: "----" }];
 
-  function Item({ id, title, selected, onSelect }) {
+  function Item({ index, title, item, selected, onSelect }) {
     return (
       <TouchableOpacity
         onPress={() => {
-          onSelect(id);
-          onPress(title);
+          onSelect(index);
+          onPress(item);
         }}
         style={[
           styles.item,
           {
             backgroundColor: selected
               ? onSelectedColor
-              : offSelectedColor || "#24203B"
-          }
+              : offSelectedColor || "#24203B",
+          },
         ]}
       >
         <Text
@@ -40,8 +35,8 @@ export default FilterToExplore = ({
             {
               color: selected
                 ? onTextSelectedColor
-                : offTextSelectedColor || "#FFF"
-            }
+                : offTextSelectedColor || "#FFF",
+            },
           ]}
         >
           {title}
@@ -49,23 +44,24 @@ export default FilterToExplore = ({
       </TouchableOpacity>
     );
   }
-  const [selected, setSelected] = React.useState(DATA[0].id || filterJob[0].id);
-  const onSelect = id => {
-    setSelected(id);
+  const [selected, setSelected] = React.useState(0);
+  const onSelect = (index) => {
+    setSelected(index);
   };
   return (
     <FlatList
       horizontal={true}
       data={filterJob || DATA}
-      renderItem={({ item }) => (
+      renderItem={({ item, index }) => (
         <Item
-          id={item.id}
+          index={index}
+          item={item}
           title={item.title}
-          selected={selected === item.id ? true : false}
+          selected={selected === index}
           onSelect={onSelect}
         />
       )}
-      keyExtractor={item => item.id}
+      keyExtractor={(item, index) => index.toString()}
       extraData={selected}
     />
   );
@@ -73,7 +69,7 @@ export default FilterToExplore = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   item: {
     backgroundColor: "#24203B",
@@ -81,11 +77,11 @@ const styles = StyleSheet.create({
     paddingVertical: dimensions(11),
     marginVertical: dimensions(8),
     marginHorizontal: dimensions(5),
-    borderRadius: dimensions(30)
+    borderRadius: dimensions(30),
   },
   title: {
     color: "#FFF",
     fontSize: dimensions(12),
-    fontFamily: "HelveticaNowMicro-Bold"
-  }
+    fontFamily: "HelveticaNowMicro-Bold",
+  },
 });

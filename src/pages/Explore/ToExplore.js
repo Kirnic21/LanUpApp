@@ -14,7 +14,7 @@ export default class ToExplore extends Component {
     super(props);
     this.state = {
       GetJobs: [],
-      loading: false
+      loading: false,
     };
   }
 
@@ -31,13 +31,10 @@ export default class ToExplore extends Component {
         GetJobs === null
           ? this.setState({ GetJobs: [] })
           : this.setState({ GetJobs });
-        const name = GetJobs.filter(c => c.isSelected === true).map(
-          c => c.name
+        const name = GetJobs.filter((c) => c.isSelected === true).map(
+          (c) => c.name
         );
-        const JobsSelected = name.map((item, id) => ({
-          id: `${id}`,
-          title: item
-        }));
+        const JobsSelected = name.map((item) => ({ title: item }));
         this.setState({ JobsSelected });
         this.getVacancy(JobsSelected[0].title);
       })
@@ -50,7 +47,7 @@ export default class ToExplore extends Component {
     vacancy(e)
       .then(({ data }) => {
         const vacancies = data.result.filter(
-          c =>
+          (c) =>
             new Date(`${c.jobDate.substr(0, 11)}03:00:00.000Z`) >=
             new Date(new Date().setHours(0, 0, 0, 0))
         );
@@ -61,7 +58,7 @@ export default class ToExplore extends Component {
       });
   }
 
-  filterVacancy = e => {
+  filterVacancy = (e) => {
     this.setState({ listVacancy: [], loading: true });
     this.getVacancy(e);
   };
@@ -78,7 +75,7 @@ export default class ToExplore extends Component {
                   onSelectedColor="#FFB72B"
                   onTextSelectedColor="#18142F"
                   filterJob={JobsSelected}
-                  onPress={e => this.filterVacancy(e)}
+                  onPress={(item) => this.filterVacancy(item.title)}
                 />
               </View>
             }
@@ -89,7 +86,7 @@ export default class ToExplore extends Component {
                     autoSize
                     style={{
                       height: calcWidth(30),
-                      width: calcWidth(30)
+                      width: calcWidth(30),
                     }}
                     resizeMode="cover"
                     source={loadingSpinner}
@@ -116,7 +113,7 @@ export default class ToExplore extends Component {
                 onPress={() =>
                   this.props.navigation.navigate("VacanciesDetails", {
                     job: item,
-                    status: 2
+                    status: 0,
                   })
                 }
               />
@@ -135,16 +132,16 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "space-between",
     backgroundColor: "#18142F",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   containerEmpty: {
     justifyContent: "center",
     alignItems: "center",
-    height: calcHeight(65)
+    height: calcHeight(65),
   },
   textEmpty: {
     color: "#FFF",
     fontSize: dimensions(20),
-    fontFamily: "HelveticaNowDisplay-Regular"
-  }
+    fontFamily: "HelveticaNowDisplay-Regular",
+  },
 });
