@@ -34,7 +34,8 @@ class Agency extends React.Component {
       .then(({ data }) => data)
       .then(({ result }) => {
         const { value } = result;
-        this.setState({ agencies: value.map((c) => c.name), id });
+        const listAgency = value === null ? [] : value;
+        this.setState({ agencies: listAgency.map((c) => c.name), id });
       })
       .finally(() => {
         this.setState({ spinner: false });
@@ -127,13 +128,15 @@ class Agency extends React.Component {
 
 const styles = {
   container: {
-    marginHorizontal: calcWidth(6),
+    marginHorizontal: calcWidth(4),
     flexWrap: "wrap",
     flexDirection: "row",
   },
   containerAgency: {
-    alignItems: "center",
-    width: calcWidth(29.3),
+    flex: 1,
+    minWidth: calcWidth(20),
+    maxWidth: calcWidth(20),
+    margin: calcWidth(1.5),
     marginBottom: calcWidth(3),
   },
   containerButton: {
@@ -153,6 +156,7 @@ const styles = {
     color: "#FFFFFF",
     fontFamily: "HelveticaNowMicro-Regular",
     fontSize: dimensions(10),
+    textAlign: "center",
   },
 };
 
