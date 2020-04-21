@@ -53,11 +53,9 @@ class LoginEmail extends Component {
     this.changeIcon = this.changeIcon.bind(this);
 
     this.subscription = DeviceEventEmitter.addListener(
-      'onDD',
+      'location_received',
       e => {
-        console.log(
-          `Received Coordinates from native side at ${e.data}`
-        );
+        console.log(e);
       },
     );
   }

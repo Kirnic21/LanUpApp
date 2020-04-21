@@ -1,28 +1,76 @@
 package br.com.lanup.app.backgroundservice;
 
+import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Handler;
 
 
 import androidx.annotation.Nullable;
 
-public class BackgroundIntentService extends IntentService {
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
 
-    BackgroundIntentService() {
+
+import java.util.Date;
+
+public class BackgroundIntentService extends IntentService {
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LocationCallback mLocationCallback;
+    private Gson mGson;
+
+    public BackgroundIntentService() {
         super(LocationForegroundService.class.getName());
+        mGson = new Gson();
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        broadcastLocationReceived("dd2");
-        new Handler();
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+        mLocationCallback = createLocationRequestCallback();
+
+        LocationRequest locationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(0)
+                .setFastestInterval(0);
+
+        new Handler(getMainLooper()).post(() -> mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, null));
     }
 
-    private void broadcastLocationReceived(String data) {
-        Intent eventIntent = new Intent("JS_DD_EVENT_NAME");
-        eventIntent.putExtra("JS_DD_EVENT_NAME", data);
+    private LocationCallback createLocationRequestCallback() {
+        return new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    LocationCoordinates locationCoordinates = createCoordinates(location.getLatitude(), location.getLongitude());
+                    broadcastLocationReceived(locationCoordinates);
+                    mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+                }
+            }
+        };
+    }
+
+    private LocationCoordinates createCoordinates(double latitude, double longitude) {
+        return new LocationCoordinates()
+                .setLatitude(latitude)
+                .setLongitude(longitude)
+                .setTimestamp(new Date().getTime());
+    }
+
+    private void broadcastLocationReceived(LocationCoordinates locationCoordinates) {
+        Intent eventIntent = new Intent(LocationForegroundService.LOCATION_EVENT_NAME);
+        eventIntent.putExtra(LocationForegroundService.LOCATION_EVENT_DATA_NAME, mGson.toJson(locationCoordinates));
         getApplicationContext().sendBroadcast(eventIntent);
     }
+
 
 }
