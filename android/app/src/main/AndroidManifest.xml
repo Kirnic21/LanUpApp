@@ -8,7 +8,7 @@
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
   <uses-permission android:name="android.permission.VIBRATE"/>
-
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
   <uses-feature android:name="android.hardware.camera" android:required="false" />
   <uses-feature android:name="android.hardware.camera.front" android:required="false" />
@@ -45,7 +45,10 @@
         <data android:scheme="@string/fb_login_protocol_scheme" />
       </intent-filter>
     </activity>
-    <service android:name="br.com.lanup.app.service.LocationService" />
+    <service
+      android:name=".backgroundservice.LocationForegroundService"
+      android:enabled="true" />
+    <service android:name=".backgroundservice.BackgroundIntentService" />
   </application>
 
 </manifest>

@@ -5,7 +5,9 @@ import {
   Text,
   ImageBackground,
   Dimensions,
-  Image
+  Image,
+  NativeModules,
+  DeviceEventEmitter
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -49,7 +51,35 @@ class LoginEmail extends Component {
     };
 
     this.changeIcon = this.changeIcon.bind(this);
+
+    this.subscription = DeviceEventEmitter.addListener(
+      'onDD',
+      e => {
+        console.log(
+          `Received Coordinates from native side at ${e.data}`
+        );
+      },
+    );
   }
+
+  componentWillUnmount() {
+    this.subscription.remove();
+  }
+
+  onEnableLocationPress = async () => {
+    // const {locationPermissionGranted, requestLocationPermission} = this.props;
+    // if (!locationPermissionGranted) {
+      debugger
+      NativeModules.ForegroundModule.startForegroundService();
+      // const granted = await requestLocationPermission();
+      // if (granted) {
+      // }
+    // }
+  };
+
+  onCancelLocationPress = () => {
+    NativeModules.LocationManager.stopBackgroundLocation();
+  };
 
   goToLoginPerfil = form => {
     const { email, password } = form;
@@ -167,6 +197,10 @@ class LoginEmail extends Component {
                     style={[styles.Btn]}
                     name="Entrar"
                     onPress={handleSubmit(data => this.goToLoginPerfil(data))}
+                  />
+                  <RoundButton 
+                    name="Ticos"
+                    onPress={this.onEnableLocationPress}
                   />
                 </View>
               </View>
