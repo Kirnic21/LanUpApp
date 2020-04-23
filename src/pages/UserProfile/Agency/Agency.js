@@ -29,7 +29,7 @@ class Agency extends React.Component {
 
   async componentDidMount() {
     const { id } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    this.setState({ spinner: true });
+    this.setState({ spinner: true, id });
     getAgencies(id)
       .then(({ data }) => data)
       .then(({ result }) => {
