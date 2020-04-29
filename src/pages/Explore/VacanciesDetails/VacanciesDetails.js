@@ -119,23 +119,29 @@ class VacanciesDetails extends Component {
   };
 
   invite = async () => {
-    const { job } = this.props.navigation.state.params;
     const { checkin, checkout } = this.state;
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    this.setState({ spinner: true });
+    const { id: freelaId } = decodeToken(
+      await AsyncStorage.getItem("API_TOKEN")
+    );
+    const {
+      navigation: {
+        state: {
+          params: {
+            job: { id: eventId, jobDate: day, job: jobToDo, serviceId },
+          },
+        },
+      },
+    } = this.props;
     const request = {
-      freelaId: token.id,
-      eventId: job.id,
-      day: job.jobDate,
-      checkout: checkout,
-      checkin: checkin,
-      jobToDo: job.job,
+      freelaId,
+      eventId,
+      day,
+      checkout,
+      checkin,
+      jobToDo,
+      serviceId,
     };
-    debugger;
-    if (checkin === undefined) {
-      AlertHelper.show("error", "Erro", "Selecione um turno.");
-      this.setState({ spinner: false });
-    } else {
+    this.setState({ spinner: true }, () => {
       acceptInvite(request)
         .then(() => {
           this.props.navigation.navigate("Schedule");
@@ -146,7 +152,7 @@ class VacanciesDetails extends Component {
         .finally(() => {
           this.setState({ spinner: false });
         });
-    }
+    });
   };
 
   deleteVacancy = () => {
@@ -188,6 +194,14 @@ class VacanciesDetails extends Component {
         />
       ),
       2: (
+        <ButtonVacancies
+          name="Desitir da vaga"
+          onPress={() => {
+            this.deleteVacancy();
+          }}
+        />
+      ),
+      3: (
         <ButtonVacancies
           name="Desitir da vaga"
           onPress={() => {

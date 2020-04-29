@@ -13,6 +13,7 @@ export default class Schedule extends React.Component {
     listVacancy: [],
     listFilter: [
       { id: 2, title: "Escalados" },
+      { id: 3, title: "candidatados" },
       { id: 5, title: "Pagos" },
     ],
   };
@@ -23,19 +24,20 @@ export default class Schedule extends React.Component {
   }
 
   scheduleList = (e) => {
-    this.setState({ loading: true });
-    getSchedules(e)
-      .then(({ data }) => {
-        console.log(data);
-        const getVacancy = data.result.value;
-        this.setState({ listVacancy: getVacancy });
-      })
-      .catch((error) => {
-        error.response.data;
-      })
-      .finally(() => {
+    this.setState({ loading: true }, async () => {
+      try {
+        const {
+          data: {
+            result: { value: listVacancy },
+          },
+        } = await getSchedules(e);
+        this.setState({ listVacancy });
+      } catch (error) {
+        console.log(error);
+      } finally {
         this.setState({ loading: false });
-      });
+      }
+    });
   };
 
   render() {
