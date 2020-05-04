@@ -52,7 +52,6 @@ export default FilterToExplore = ({
     <FlatList
       horizontal
       showsHorizontalScrollIndicator={false}
-      initialScrollIndex={0.5}
       data={filterJob || DATA}
       renderItem={({ item, index }) => (
         <Item
