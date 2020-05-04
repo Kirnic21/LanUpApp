@@ -6,8 +6,6 @@ import {
   ImageBackground,
   Dimensions,
   Image,
-  NativeModules,
-  DeviceEventEmitter
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -29,11 +27,11 @@ import ModalForgotPassword from "./ModalForgotPassword";
 const formRules = FormValidator.make(
   {
     email: ("required", "email"),
-    password: "required"
+    password: "required",
   },
   {
     email: ("E-mail é obrigatório", "Digite um endereço de email válido!"),
-    password: "Senha é obrigatória"
+    password: "Senha é obrigatória",
   }
 );
 
@@ -47,44 +45,18 @@ class LoginEmail extends Component {
       disabled: true,
       visible: false,
       email: "",
-      spinner: false
+      spinner: false,
     };
 
     this.changeIcon = this.changeIcon.bind(this);
-
-    this.subscription = DeviceEventEmitter.addListener(
-      'location_received',
-      e => {
-        console.log(e);
-      },
-    );
   }
 
-  componentWillUnmount() {
-    this.subscription.remove();
-  }
-
-  onEnableLocationPress = async () => {
-    // const {locationPermissionGranted, requestLocationPermission} = this.props;
-    // if (!locationPermissionGranted) {
-      debugger
-      NativeModules.ForegroundModule.startForegroundService();
-      // const granted = await requestLocationPermission();
-      // if (granted) {
-      // }
-    // }
-  };
-
-  onCancelLocationPress = () => {
-    NativeModules.LocationManager.stopBackgroundLocation();
-  };
-
-  goToLoginPerfil = form => {
+  goToLoginPerfil = (form) => {
     const { email, password } = form;
     this.setState({ spinner: true });
     login({
       login: email,
-      password
+      password,
     })
       .then(async ({ data }) => {
         const token = decodeToken(data.result.token);
@@ -99,7 +71,7 @@ class LoginEmail extends Component {
           );
         }
       })
-      .catch(error => {
+      .catch((error) => {
         error.response.data.errorMessage;
         AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       })
@@ -110,9 +82,9 @@ class LoginEmail extends Component {
   };
 
   changeIcon() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       icon: prevState.icon === "visibility" ? "visibility-off" : "visibility",
-      password: !prevState.password
+      password: !prevState.password,
     }));
   }
 
@@ -143,7 +115,7 @@ class LoginEmail extends Component {
           <Container
             style={{
               backgroundColor: "transparent",
-              height: height - dimensions(90)
+              height: height - dimensions(90),
             }}
           >
             <View style={styles.container}>
@@ -168,7 +140,7 @@ class LoginEmail extends Component {
                   <View
                     style={{
                       alignContent: "stretch",
-                      width: "100%"
+                      width: "100%",
                     }}
                   >
                     <Field
@@ -194,11 +166,7 @@ class LoginEmail extends Component {
                     disabled={invalid}
                     style={[styles.Btn]}
                     name="Entrar"
-                    onPress={handleSubmit(data => this.goToLoginPerfil(data))}
-                  />
-                  <RoundButton 
-                    name="Ticos"
-                    onPress={this.onEnableLocationPress}
+                    onPress={handleSubmit((data) => this.goToLoginPerfil(data))}
                   />
                 </View>
               </View>
@@ -209,14 +177,14 @@ class LoginEmail extends Component {
               disabledButton={disabled}
               titleError={titleError}
               onPress={() => this.resetPassword()}
-              onChangeText={email =>
+              onChangeText={(email) =>
                 this.setState({ email, disabled: !email, titleError: "" })
               }
               onClose={() =>
                 this.setState({
                   visible: false,
                   titleError: "",
-                  disabled: true
+                  disabled: true,
                 })
               }
             />
@@ -240,49 +208,49 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   logoContainer: {
     width: "100%",
     height: "37%",
     alignItems: "center",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   containerForm: {
     width: "80%",
     marginHorizontal: "10%",
     alignItems: "center",
-    height: "50%"
+    height: "50%",
   },
   Btn: {
-    backgroundColor: "#7541bf"
+    backgroundColor: "#7541bf",
   },
   textBtn: {
     color: "#FFF",
     fontSize: dimensions(15),
     textAlign: "center",
-    padding: "15%"
+    padding: "15%",
   },
   textForgot: {
     color: "#483D8B",
     textDecorationLine: "underline",
     textAlign: "center",
     fontSize: dimensions(15),
-    letterSpacing: 0.5
+    letterSpacing: 0.5,
   },
   icon: {
     left: "80%",
     top: dimensions(27),
-    position: "absolute"
+    position: "absolute",
   },
   inputModal: {
     height: dimensions(43),
-    borderColor: "#865FC0"
-  }
+    borderColor: "#865FC0",
+  },
 });
 
 export default LoginEmail = reduxForm({
   form: "LoginEmail",
   validate: formRules,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(LoginEmail);

@@ -7,14 +7,19 @@ import {
   SafeAreaView,
   Text,
   Vibration,
+  NativeModules,
+  DeviceEventEmitter,
 } from "react-native";
+
 import MapView, { Marker, AnimatedRegion } from "react-native-maps";
-import Geolocation from "react-native-geolocation-service";
-import mapStyles from "~/pages/NextEvent/Geolocation/stylesMaps";
+import RNAndroidLocationEnabler from "react-native-android-location-enabler";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import IconDestination from "react-native-vector-icons/FontAwesome5";
+
+import mapStyles from "~/pages/NextEvent/Geolocation/stylesMaps";
 import dimensions, { calcWidth } from "~/assets/Dimensions";
 import RoundButton from "~/shared/components/RoundButton";
+
 import MapViewDirections from "react-native-maps-directions";
 import {
   arrivelOperation,
@@ -49,91 +54,117 @@ export default class MapsGeolocation extends React.Component {
         longitude: 0,
       },
     };
+
+    this.subscription = DeviceEventEmitter.addListener(
+      "location_received",
+      (e) => {
+        this.watchLocation(e);
+        setTimeout(() => {
+          this.sendApi(e);
+        }, 60000);
+        console.log(e);
+      }
+    );
   }
 
-  componentDidMount() {
-    const {
-      id,
-      eventName,
-      addressId,
-      address,
-    } = this.props.navigation.state.params;
-    location(addressId)
-      .then(({ data }) => data)
-      .then(({ result }) => {
-        const { lat, lng } = result;
-        const destination = {
+  async componentDidMount() {
+    RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
+      interval: 10000,
+      fastInterval: 5000,
+    })
+      .then(() => {
+        NativeModules.ForegroundModule.startForegroundService();
+      })
+      .catch(() => {
+        this.props.navigation.navigate("NextEvent");
+      });
+    try {
+      const {
+        navigation: {
+          state: {
+            params: { id, eventName, addressId, address },
+          },
+        },
+      } = this.props;
+      const {
+        data: {
+          result: { lat, lng },
+        },
+      } = await location(addressId);
+      this.setState({
+        destination: {
           latitude: Number(lat),
           longitude: Number(lng),
-        };
-        this.setState({
-          destination,
-        });
+        },
+        id,
+        eventName,
+        address,
       });
-    this.setState({ id, eventName, address });
-    this.watchLocation();
+    } catch (error) {
+      console.log(error);
+    }
   }
-
   componentWillUnmount() {
-    Geolocation.clearWatch(this.positionWatchId);
+    this.subscription.remove();
   }
 
-  watchLocation = () => {
+  watchLocation = ({ latitude, longitude }) => {
     const { coordinate } = this.state;
-    const { id } = this.props.navigation.state.params;
-    this.positionWatchId = Geolocation.watchPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        checkpoints({
-          id,
-          lat: latitude.toString(),
-          long: longitude.toString(),
-        }).then(() => {
-          this.arrived();
-          const newCoordinate = {
-            latitude,
-            longitude,
-          };
-          Platform.OS === "android"
-            ? this.marker &&
-              this.marker._component.animateMarkerToCoordinate(
-                newCoordinate,
-                1000
-              )
-            : coordinate.timing(newCoordinate).start();
-
-          this.setState({
-            latitude,
-            longitude,
-            newCoordinate,
-          });
-        });
-      },
-      (error) => console.log(error),
+    const newCoordinate = {
+      latitude,
+      longitude,
+    };
+    this.setState(
       {
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 1000,
-        distanceFilter: 1,
+        latitude,
+        longitude,
+        newCoordinate,
+      },
+      () => {
+        this.arrived();
+        Platform.OS === "android"
+          ? this.marker &&
+            this.marker._component.animateMarkerToCoordinate(
+              newCoordinate,
+              1000
+            )
+          : coordinate.timing(newCoordinate).start();
       }
     );
   };
 
+  sendApi = async ({ latitude, longitude }) => {
+    const { id } = this.props.navigation.state.params;
+    try {
+      await checkpoints({
+        id,
+        lat: latitude.toString(),
+        long: longitude.toString(),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   arrived = () => {
     const { distance } = this.state;
-    if (Number(distance).toFixed(2) === "0.00") {
+    if (Number(distance).toFixed(2) === "0.01") {
       this.setState({ status: true });
       Vibration.vibrate(1000);
-      Geolocation.clearWatch(this.positionWatchId);
+      this.subscription.remove();
     }
     return;
   };
 
   goOperation = () => {
     const { id } = this.state;
-    arrivelOperation(id).then(() => {
-      this.props.navigation.replace("NextEvent");
-    });
+    arrivelOperation(id)
+      .then(() => {
+        this.props.navigation.replace("NextEvent");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     return;
   };
 
