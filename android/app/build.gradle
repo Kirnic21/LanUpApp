@@ -229,12 +229,15 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-android-location-enabler')
     implementation project(':react-native-webview')
     // implementation project(':@sentry_react-native')
-    implementation project(':react-native-config')
     implementation project(':react-native-onesignal')
+    implementation "com.google.code.gson:gson:2.8.5"
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "com.facebook.react:react-native:+"
+    implementation 'org.jetbrains:annotations:15.0'
+    implementation 'org.jetbrains:annotations:15.0'// From node_modules
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";

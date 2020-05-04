@@ -1,31 +1,27 @@
 package br.com.lanup.app;
 
-import android.app.Application;
-import android.util.Log;
+import androidx.multidex.MultiDexApplication;
 
 import com.facebook.react.PackageList;
-import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
-import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
-import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
+import com.heanoria.library.reactnative.locationenabler.RNAndroidLocationEnablerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.reactnativecommunity.geolocation.GeolocationPackage;
 
-import android.location.LocationManager;
 import android.location.LocationListener;
 import android.location.Location;
+
+import br.com.lanup.app.backgroundservice.ForegroundPackage;
 import br.com.lanup.app.service.LocationService;
-import android.content.Context;
+
 import android.os.Bundle;
 import android.content.Intent;
 import com.facebook.react.HeadlessJsTaskService;
 
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
   private final LocationListener listener = new LocationListener() {
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -57,6 +53,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       @SuppressWarnings("UnnecessaryLocalVariable")
       List<ReactPackage> packages = new PackageList(this).getPackages();
+      packages.add(new ForegroundPackage());
       // Packages that cannot be autolinked yet can be added manually here, for
       // example:
       // packages.add(new MyReactNativePackage());
