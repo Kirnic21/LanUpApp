@@ -70,7 +70,6 @@ class NextEvent extends React.Component {
     operationsStatus({ id: value.operationId, freelaId: value.freelaId })
       .then(({ data }) => data)
       .then(({ result }) => {
-        debugger;
         const { value } = result;
         this.setState({ isCheckin: value });
         this.statusOperation(value);

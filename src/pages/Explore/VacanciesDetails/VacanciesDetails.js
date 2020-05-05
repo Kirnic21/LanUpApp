@@ -81,7 +81,6 @@ class VacanciesDetails extends Component {
   setDeitails = (getDeitails) => {
     const { job } = this.props.navigation.state.params;
     const { status } = this.state;
-    debugger;
     this.setState({
       eventName: job.eventName,
       workshiftsQuantity:

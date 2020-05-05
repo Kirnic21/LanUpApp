@@ -148,7 +148,7 @@ export default class MapsGeolocation extends React.Component {
 
   arrived = () => {
     const { distance } = this.state;
-    if (Number(distance).toFixed(2) === "0.01") {
+    if (Number(distance).toFixed(2) === "0.00") {
       this.setState({ status: true });
       Vibration.vibrate(1000);
       this.subscription.remove();
