@@ -12,6 +12,7 @@ import {
   acceptInvite,
   deleteVacancies,
   deitailsVacanciesSchedules,
+  acceptInvitations,
 } from "~/shared/services/vacancy.http";
 import { decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -43,6 +44,9 @@ class VacanciesDetails extends Component {
             const getDeitails = data.result;
             this.setDeitails(getDeitails);
           })
+          .catch((error) => {
+            AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+          })
           .finally(() => {
             this.setState({ spinner: false });
           })
@@ -50,6 +54,9 @@ class VacanciesDetails extends Component {
           .then(({ data }) => {
             const getDeitails = data.result;
             this.setDeitails(getDeitails);
+          })
+          .catch((error) => {
+            AlertHelper.show("error", "Erro", error.response.data.errorMessage);
           })
           .finally(() => {
             this.setState({ spinner: false });
@@ -98,7 +105,8 @@ class VacanciesDetails extends Component {
       service: job.job,
       vacancyQuantity: getDeitails.vacancyQuantity,
       payment: getDeitails.payment,
-      serviceDetail: status === 0 ? getDeitails.serviceDetail : null,
+      serviceDetail:
+        status === 0 || status === 8 ? getDeitails.serviceDetail : null,
       previewResponsabilities: getDeitails.previewResponsabilities,
       responsabilities: getDeitails.responsabilities,
       checkListCheckinPreview: getDeitails.checkListCheckinPreview,
@@ -152,6 +160,26 @@ class VacanciesDetails extends Component {
           this.setState({ spinner: false });
         });
     });
+    return;
+  };
+
+  acceptVacancyInvite = () => {
+    const {
+      job: { id: vacancyId },
+    } = this.props.navigation.state.params;
+    this.setState({ spinner: true }, () => {
+      acceptInvitations(vacancyId)
+        .then(() => {
+          this.props.navigation.replace("Schedule");
+        })
+        .catch((error) => {
+          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+        })
+        .finally(() => {
+          this.setState({ spinner: false });
+        });
+    });
+    return;
   };
 
   deleteVacancy = () => {
@@ -176,6 +204,7 @@ class VacanciesDetails extends Component {
       .finally(() => {
         this.setState({ spinner: false });
       });
+    return;
   };
 
   statusVacancy = () => {
@@ -206,6 +235,16 @@ class VacanciesDetails extends Component {
           onPress={() => {
             this.deleteVacancy();
           }}
+        />
+      ),
+      8: (
+        <ButtonComponent
+          title="Aceitar"
+          isSelected={true}
+          onPress={() => {
+            this.acceptVacancyInvite();
+          }}
+          selectedColor="#865FC0"
         />
       ),
     }[status];
