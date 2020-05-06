@@ -32,14 +32,13 @@ class VacanciesDetails extends Component {
     const { job } = this.props.navigation.state.params;
     const { status } = this.state;
     const route = status === 0 ? "ToExplore" : "Schedule";
-    const request = {
-      id: job.id,
-      service: job.job,
-      day: job.jobDate.substr(0, 10),
-    };
     this.setState({ spinner: true });
     status === 0
-      ? deitailsVacancies(request)
+      ? deitailsVacancies({
+          id: job.id,
+          service: job.job,
+          day: job.jobDate.substr(0, 10),
+        })
           .then(({ data }) => {
             const getDeitails = data.result;
             this.setDeitails(getDeitails);
@@ -50,7 +49,11 @@ class VacanciesDetails extends Component {
           .finally(() => {
             this.setState({ spinner: false });
           })
-      : deitailsVacanciesSchedules(request)
+      : deitailsVacanciesSchedules({
+          id: job.id,
+          serviceId: job.serviceId,
+          day: job.jobDate.substr(0, 10),
+        })
           .then(({ data }) => {
             const getDeitails = data.result;
             this.setDeitails(getDeitails);

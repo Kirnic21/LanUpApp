@@ -10,7 +10,9 @@ const deleteVacancies = (data) =>
   HTTP.delete(`vacancies/${data.id}/${data.checkin}/${data.checkout}`);
 
 const deitailsVacanciesSchedules = (data) =>
-  HTTP.get(`vacancies/${data.id}/jobs?service=${data.service}&day=${data.day}`);
+  HTTP.get(
+    `vacancies/${data.id}/jobs?serviceId=${data.serviceId}&day=${data.day}`
+  );
 
 const getSchedules = (data) => HTTP.get(`vacancies?status=${data}`);
 
