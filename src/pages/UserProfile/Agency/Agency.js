@@ -16,6 +16,7 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
+import { debounce } from "lodash";
 
 class Agency extends React.Component {
   constructor(props) {
@@ -44,20 +45,24 @@ class Agency extends React.Component {
 
   searchCode = (event) => {
     const txt = event.trim();
-    this.setState({ code: [], loading: !!txt });
-    if (!!txt) {
-      clearTimeout(this.lastTimeout);
-      this.lastTimeout = setTimeout(() => {
-        codeAgency(txt)
-          .then(({ data }) => data)
-          .then(({ result }) => {
-            this.setState({ code: result });
-          })
-          .finally(() => {
-            this.setState({ loading: false });
-          });
-      }, 1000);
-    }
+    console.log(txt);
+    this.setState({ code: [], loading: !!txt }, async () => {
+      if (!!txt) {
+        try {
+          const {
+            data: { result: code },
+          } = await codeAgency(txt);
+          this.setState({ code });
+        } catch (error) {
+          const {
+            data: { errorMessage },
+          } = error.response;
+          AlertHelper.show("Error", "Erro", errorMessage);
+        } finally {
+          this.setState({ loading: false });
+        }
+      }
+    });
     return;
   };
 
@@ -115,7 +120,9 @@ class Agency extends React.Component {
         )}
         <ModalAgency
           loading={loading}
-          onChangeText={(text) => this.searchCode(text)}
+          onChangeText={debounce((text) => {
+            this.searchCode(text);
+          }, 1000)}
           onPress={(nameCode, name) => this.addAgencies(nameCode, name)}
           visible={visible}
           code={code}
