@@ -55,6 +55,8 @@ export default class MapsGeolocation extends React.Component {
       },
     };
 
+    lastTimeout = setTimeout
+
     this.subscription = DeviceEventEmitter.addListener(
       "location_received",
       (e) => {
@@ -135,15 +137,18 @@ export default class MapsGeolocation extends React.Component {
 
   sendApi = async ({ latitude, longitude }) => {
     const { id } = this.props.navigation.state.params;
-    try {
-      await checkpoints({
-        id,
-        lat: latitude.toString(),
-        long: longitude.toString(),
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    clearTimeout(this.lastTimeout);
+    this.lastTimeout = setTimeout(() => {
+      try {
+        await checkpoints({
+          id,
+          lat: latitude.toString(),
+          long: longitude.toString(),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }, 60000); 
   };
 
   arrived = () => {
