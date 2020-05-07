@@ -5,3 +5,4 @@ export const LOAD_ABOUT = "LOAD_ABOUT";
 export const UPLOAD_GALLERY = "UPLOAD_GALLERY";
 export const DELETE_GALLERY = "DELETE_GALLERY";
 export const UPDATE_GALLERY = "UPDATE_GALLERY";
+export const NEW_VACANCY = "NEW_VACANCY";

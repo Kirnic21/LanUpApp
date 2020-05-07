@@ -21,5 +21,13 @@ export default {
     clothingsSizes: ""
   },
   gallery: [],
-  loading: false
+  loading: false,
+  vacancy: {
+      eventId: undefined,
+      eventName: "",
+      job:"",
+      start:"",
+      end:"",
+      day:""
+  }
 };

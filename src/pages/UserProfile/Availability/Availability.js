@@ -7,21 +7,20 @@ import {
   ScrollView
 } from "react-native";
 import moment from "moment";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 import Toggle from "~/shared/components/ToggleComponent";
 import Schedules from "./Schedules";
 import dimensions from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
-
-import {
-  emergencyAvailability,
-  getAvailability,
-  decodeToken
-} from "~/shared/services/freela.http";
+import { notifyVacancy } from '~/store/ducks/vacancies/vacancies.actions'
+import { emergencyAvailability, getAvailability, decodeToken } from "~/shared/services/freela.http";
 import { reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import SignalR from "~/shared/services/signalr";
 
 const DisplayDate = ({ date, displayHour, isActive }) => {
   const style = { marginRight: "9.5%", marginBottom: "1%" };
@@ -53,6 +52,13 @@ const DisplayDate = ({ date, displayHour, isActive }) => {
   );
 };
 
+const convertSpecialDays = days => days.map(({ day, date, start, end, available }) => ({
+  date: day ? day : date,
+  start,
+  end,
+  available
+}));
+
 class Availability extends Component {
   constructor(props) {
     super(props);
@@ -60,7 +66,7 @@ class Availability extends Component {
       emergencyAvailability: false,
       selected: false,
       spinner: false,
-      SpecialDays: [],
+      specialDays: [],
       schedules: [],
       daysOfWeek: {
         6: "Sabado",
@@ -90,51 +96,59 @@ class Availability extends Component {
   };
 
   onToggle = async isOn => {
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    emergencyAvailability({
-      id: token.id,
-      hasEmergencyAvailability: isOn
-    })
-      .then(({ data }) => {
-        if (data.isSuccess) {
-          AsyncStorage.setItem(JSON.stringify(data));
-          console.log(data);
-        }
+    try {
+      const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+      await emergencyAvailability({
+        id: token.id, hasEmergencyAvailability: isOn
       })
-      .catch(error => {
-        console.log(error.response.data);
-        alert(isOn);
-      });
+
+      SignalR.connect()
+        .then(conn => {
+          if (isOn) {
+            conn.invoke('AddToGroup')
+            conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy)
+          } else {
+            conn.invoke('RemoveFromGroup')
+          }
+        });
+
+    } catch (error) {
+      console.log(error.response.data);
+    }
   };
 
-  GetDataAvailability = async () => {
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    this.setState({ spinner: true });
-    const dimensionsSpecialDate = ({ day, date, start, end, available }) => ({
-      date: day ? day : date,
-      start,
-      end,
-      available
-    });
-    const convertItems = days => days.map(dimensionsSpecialDate);
-    getAvailability(token.id)
-      .then(({ data }) => {
-        const schedules = data.result.value.days;
-        const emergencyAvailability = data.result.value.emergencyAvailability;
-        this.setState({ emergencyAvailability });
-        schedules === null
-          ? this.setState({ schedules: [] })
-          : this.setState({ schedules });
+  GetDataAvailability = () => {
+    this.setState({ spinner: true }, async () => {
+      const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
 
-        const SpecialDays = data.result.value.specialDays;
-        SpecialDays === null
-          ? this.setState({ SpecialDays: [] })
-          : this.setState({ SpecialDays: convertItems(SpecialDays) });
-      })
-      .finally(() => {
+      try {
+        const { data } = await getAvailability(token.id);
+        const { days, emergencyAvailability, specialDays } = data.result.value
+        this.setState({
+          emergencyAvailability,
+          schedules: days || [],
+          specialDays: convertSpecialDays(specialDays || [])
+        }, () => {
+          SignalR.connect()
+            .then(conn => {
+              if (emergencyAvailability) {
+                conn.invoke('AddToGroup')
+                conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy)
+              }
+            });
+        });
+      } catch (error) {
+        console.log(error)
+      } finally {
         this.setState({ spinner: false });
-      });
+      }
+    });
   };
+
+  onReceiveVacancy = (vacancy) => {
+    if (!vacancy.eventId) return;
+    this.props.notifyVacancy(vacancy)
+  }
 
   openAvailabilityDays = day => {
     const { daysOfWeek, schedules } = this.state;
@@ -146,16 +160,16 @@ class Availability extends Component {
   };
 
   openSpecialHours = () => {
-    const { SpecialDays } = this.state;
+    const { specialDays } = this.state;
     this.props.navigation.navigate("SpecialHours", { SpecialDays });
   };
 
   render() {
     const {
       schedules,
-      SpecialDays,
+      specialDays,
       daysOfWeek,
-      // emergencyAvailability,
+      emergencyAvailability,
       spinner,
       visible
     } = this.state;
@@ -174,12 +188,8 @@ class Availability extends Component {
               <Toggle
                 onColor="#18142F"
                 offColor="#18142F"
-                isOn={false}
-                // onToggle={emergencyAvailability => {
-                //   this.setState({ emergencyAvailability });
-                //   this.onToggle(emergencyAvailability);
-                // }}
-                onToggle={() => this.openModal()}
+                isOn={emergencyAvailability}
+                onToggle={value => this.setState({ emergencyAvailability: value }, () => this.onToggle(value))}
               />
             </View>
           </View>
@@ -208,7 +218,7 @@ class Availability extends Component {
                   size={dimensions(30)}
                 />
               </View>
-              {SpecialDays.map(({ date, start, end, available }, id) => (
+              {specialDays.map(({ date, start, end, available }, id) => (
                 <DisplayDate
                   key={id}
                   isActive={available}
@@ -264,8 +274,13 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Availability = reduxForm({
-  form: "Availability",
-  // validate: formRules,
-  enableReinitialize: true
-})(Availability);
+
+
+
+const mapStateToProps = state => ({});
+const mapActionToProps = dispatch => bindActionCreators({ notifyVacancy }, dispatch);
+
+Availability = connect(mapStateToProps, mapActionToProps)(Availability);
+Availability = reduxForm({ form: "Availability", enableReinitialize: true })(Availability);
+
+export default Availability

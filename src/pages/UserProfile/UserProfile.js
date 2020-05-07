@@ -7,6 +7,7 @@ import {
   uploadGalleryImage,
   deleteGalleryImage
 } from "~/store/ducks/gallery/gallery.actions";
+import { notifyVacancy } from '~/store/ducks/vacancies/vacancies.actions'
 import {
   StyleSheet,
   View,
@@ -23,12 +24,14 @@ import {
   galeries,
   decodeToken,
   galleryDelete,
-  getAbout
+  getAbout,
+  getAvailability
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
+import SignalR from "~/shared/services/signalr";
 
 class UserProfile extends Component {
   _isMounted = false;
@@ -38,30 +41,47 @@ class UserProfile extends Component {
     this.state = {
       selected: false,
       visible: false,
-      spinner: false
+      spinner: false,
+      emergencyAvailability: false
     };
   }
 
-  async componentDidMount() {
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    this.setState({ spinner: false });
-    getAbout(token.id)
-      .then(({ data }) => {
-        const { image } = data.result.value;
-        const avatar = token ? image : user.authenticateUser.avatar.url;
-        this.setState({ avatar });
-      })
-      .catch(error => {
-        console.log(error.response.data);
-      })
-      .finally(() => {
-        this.setState({ spinner: true });
+  componentDidMount() {
+    this.setState({ spinner: false }, async () => {
+      const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+
+      getAbout(token.id)
+        .then(({ data }) => this.onGetAboutSuccess(data, token))
+        .catch(error => console.log(error.response.data));
+
+      this.setState({ spinner: true }, () => {
+        this._isMounted = true;
       });
-    this._isMounted = true;
+    });
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+  }
+
+  onGetAboutSuccess = (data, token) => {
+    const { image, emergercyAvailabilityEnabled } = data.result.value;
+    const avatar = token ? image : this.Suser.authenticateUser.avatar.url;
+
+    this.setState({ avatar, emergencyAvailability: emergercyAvailabilityEnabled }, () => {
+      SignalR.connect()
+        .then(conn => {
+          if (emergercyAvailabilityEnabled) {
+            conn.invoke('AddToGroup')
+            conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy)
+          }
+        });
+    });
+  }
+
+  onReceiveVacancy = (vacancy, x) => {
+    if (!vacancy.eventId) return;
+    this.props.notifyVacancy(vacancy)
   }
 
   renderSeparator = () => (
@@ -401,7 +421,7 @@ const mapStateToProps = state => {
 
 const mapActionToProps = dispatch =>
   bindActionCreators(
-    { updateGalleryImage, uploadGalleryImage, deleteGalleryImage },
+    { updateGalleryImage, uploadGalleryImage, deleteGalleryImage, notifyVacancy },
     dispatch
   );
 export default connect(mapStateToProps, mapActionToProps)(UserProfile);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import { StatusBar, PermissionsAndroid, Platform } from "react-native";
+import { StatusBar, PermissionsAndroid, Platform, Text } from "react-native";
 
 import OneSignal from "react-native-onesignal";
 
@@ -15,11 +15,13 @@ import DropdownAlert from "react-native-dropdownalert";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { calcWidth } from "./assets/Dimensions";
 import * as Sentry from "@sentry/react-native";
+import VacancyModal from "./shared/components/Vacancy/VacancyModal";
+
+GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 initMomentPtBr();
 
 const ONE_SIGNAL_ID = "974fc0c7-12f6-4d7a-8aca-c07d519c7dc1";
-
 Sentry.init({
   dsn: "https://56c92c18d0684d81b3f59dde2512aed4@sentry.io/4606069",
 });
@@ -95,10 +97,11 @@ class App extends Component {
     const Routes = createNavigator(userLogged);
 
     return (
-      <>
+      <React.Fragment>
         <StatusBar backgroundColor="#18182d" barStyle="light-content" />
         <Provider store={store}>
           <Routes />
+          <VacancyModal />
         </Provider>
         <DropdownAlert
           defaultContainer={{ padding: calcWidth(3), paddingTop: calcWidth(5) }}
@@ -107,7 +110,7 @@ class App extends Component {
           ref={(ref) => AlertHelper.setDropDown(ref)}
           onClose={() => AlertHelper.invokeOnClose()}
         />
-      </>
+      </React.Fragment>
     );
   }
 }

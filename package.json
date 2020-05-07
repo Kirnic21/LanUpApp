@@ -14,6 +14,7 @@
     "postinstall": "npx jetify"
   },
   "dependencies": {
+    "@aspnet/signalr": "^1.1.4",
     "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/datetimepicker": "^2.3.1",
     "@react-native-community/geolocation": "^2.0.2",
@@ -66,6 +67,7 @@
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.4.0",
     "react-native-shimmer-placeholder": "^1.0.35",
+    "react-native-signalr": "^1.0.6",
     "react-native-star-rating": "^1.1.0",
     "react-native-swiper": "^1.5.14",
     "react-native-text-input-mask": "^2.0.0",
