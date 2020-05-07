@@ -9,12 +9,14 @@ import {
   Vibration,
   NativeModules,
   DeviceEventEmitter,
+  ActivityIndicator,
 } from "react-native";
 
 import MapView, { Marker, AnimatedRegion } from "react-native-maps";
 import RNAndroidLocationEnabler from "react-native-android-location-enabler";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import IconDestination from "react-native-vector-icons/FontAwesome5";
+import Geolocation from "react-native-geolocation-service";
 
 import mapStyles from "~/pages/NextEvent/Geolocation/stylesMaps";
 import dimensions, { calcWidth } from "~/assets/Dimensions";
@@ -31,7 +33,7 @@ const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE = 0;
 const LONGITUDE = 0;
-const LATITUDE_DELTA = 0.0099;
+const LATITUDE_DELTA = 0.09;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const GOOGLE_MAPS_APIKEY = "AIzaSyBVsSKFLigzkkpRc1L-GTKCN2N0qQHWYOc";
@@ -55,28 +57,45 @@ export default class MapsGeolocation extends React.Component {
       },
     };
 
-    lastTimeout = setTimeout
+    lastTimeout = setTimeout;
 
     this.subscription = DeviceEventEmitter.addListener(
       "location_received",
       (e) => {
         this.watchLocation(e);
-        setTimeout(() => {
-          this.sendApi(e);
-        }, 60000);
-        console.log(e);
+        this.sendApi(e);
       }
     );
   }
 
   async componentDidMount() {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        this.setState({
+          latitude,
+          longitude,
+          spinner: true,
+        });
+        // this.watchLocation(position.coords);
+        NativeModules.ForegroundModule.startForegroundService();
+      },
+      (error) => {
+        console.log(error.code, error.message);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 10000,
+        forceRequestLocation: true,
+      }
+    );
+
     RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
       interval: 10000,
       fastInterval: 5000,
     })
-      .then(() => {
-        NativeModules.ForegroundModule.startForegroundService();
-      })
+      .then(() => {})
       .catch(() => {
         this.props.navigation.navigate("NextEvent");
       });
@@ -121,6 +140,7 @@ export default class MapsGeolocation extends React.Component {
         latitude,
         longitude,
         newCoordinate,
+        spinner: false,
       },
       () => {
         this.arrived();
@@ -138,7 +158,7 @@ export default class MapsGeolocation extends React.Component {
   sendApi = async ({ latitude, longitude }) => {
     const { id } = this.props.navigation.state.params;
     clearTimeout(this.lastTimeout);
-    this.lastTimeout = setTimeout(() => {
+    this.lastTimeout = setTimeout(async () => {
       try {
         await checkpoints({
           id,
@@ -148,7 +168,7 @@ export default class MapsGeolocation extends React.Component {
       } catch (error) {
         console.log(error);
       }
-    }, 60000); 
+    }, 60000);
   };
 
   arrived = () => {
@@ -188,6 +208,7 @@ export default class MapsGeolocation extends React.Component {
       duration,
       eventName,
       address,
+      spinner,
     } = this.state;
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -210,7 +231,7 @@ export default class MapsGeolocation extends React.Component {
               ref={(marker) => {
                 this.marker = marker;
               }}
-              coordinate={this.state.coordinate}
+              coordinate={this.getMapRegion()}
             >
               <View style={styles.markerUSer}>
                 <FontAwesome
@@ -271,20 +292,26 @@ export default class MapsGeolocation extends React.Component {
                     { fontSize: dimensions(20), color: "#FFB72B" },
                   ]}
                 >
-                  {status ? "Você Chegou" : `${Number(distance).toFixed(2)}KM`}
+                  Você Chegou
                 </Text>
               ) : (
-                <Text
-                  style={[
-                    styles.fontHelveticaBold,
-                    { fontSize: dimensions(20), color: "#FFB72B" },
-                  ]}
-                >
-                  {Number(distance).toFixed(2)}KM
-                  <Text style={{ fontSize: dimensions(10) }}>
-                    / {Math.round(duration)}mins
-                  </Text>
-                </Text>
+                <View>
+                  {spinner ? (
+                    <ActivityIndicator color="#FFB72B" size="large" />
+                  ) : (
+                    <Text
+                      style={[
+                        styles.fontHelveticaBold,
+                        { fontSize: dimensions(20), color: "#FFB72B" },
+                      ]}
+                    >
+                      {Number(distance).toFixed(2)}KM
+                      <Text style={{ fontSize: dimensions(10) }}>
+                        / {Math.round(duration)}mins
+                      </Text>
+                    </Text>
+                  )}
+                </View>
               )}
             </View>
             <RoundButton

@@ -61,7 +61,7 @@ class NextEvent extends React.Component {
       checkListCheckIn: value.checkListCheckIn,
       vacancyId: value.vacancyId,
       freelaId: value.freelaId,
-      checkout: value.checkout,
+      checkout: "21:00:00",
       hirerId: value.hirerId,
       responsabilities: value.responsabilities,
       addressId: value.addressId,
