@@ -16,6 +16,8 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { calcWidth } from "./assets/Dimensions";
 import * as Sentry from "@sentry/react-native";
 
+GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
+
 initMomentPtBr();
 
 const ONE_SIGNAL_ID = "974fc0c7-12f6-4d7a-8aca-c07d519c7dc1";

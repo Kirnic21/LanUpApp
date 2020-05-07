@@ -1,19 +1,34 @@
 import * as React from "react";
 import { createStackNavigator } from "react-navigation-stack";
 
-import ChangePassword from "~/pages/UserProfile/ChangePassword";
+import UserProfile from "~/pages/UserProfile/UserProfile";
 import AboutMe from "~/pages/UserProfile/About/AboutMe";
 import Profession from "~/pages/UserProfile/MyJob/Profession";
 import AddProfession from "~/pages/UserProfile/MyJob/AddProfession";
 import AddSkill from "~/pages/UserProfile/MyJob/AddSkill";
+import Agency from "~/pages/UserProfile/Agency/Agency";
+import PhotoGallery from "~/shared/components/PhotoGallery";
+import Certificates from "~/pages/UserProfile/Certificate/Certificates";
+import ChangePassword from "~/pages/UserProfile/ChangePassword";
 import Availability from "~/pages/UserProfile/Availability/Availability";
 import AvailabilityDays from "~/pages/UserProfile/Availability/AvailabilityDays";
 import SpecialHours from "~/pages/UserProfile/Availability/SpecialHours";
-import Agency from "~/pages/UserProfile/Agency/Agency";
-import PhotoGallery from "~/shared/components/PhotoGallery";
-import UserProfile from "~/pages/UserProfile/UserProfile";
+
 import { calcWidth } from "~/assets/Dimensions/index";
 import DrawerButton from "~/shared/components/DrawerButton";
+import CertificateModal from "~/pages/UserProfile/Certificate/CertificateModal";
+
+export const CertificateRoute = createStackNavigator(
+  {
+    CertificateModal: {
+      screen: CertificateModal,
+    },
+  },
+  {
+    headerMode: "none",
+    mode: "modal",
+  }
+);
 
 const pageNavigator = createStackNavigator(
   {
@@ -21,44 +36,56 @@ const pageNavigator = createStackNavigator(
       screen: UserProfile,
       navigationOptions: ({ navigation }) => ({
         headerTitle: "Perfil",
-        headerLeft: () => <DrawerButton navigation={navigation} />
-      })
+        headerLeft: () => <DrawerButton navigation={navigation} />,
+      }),
     },
     AboutMe: {
       screen: AboutMe,
-      navigationOptions: () => ({ headerTitle: "Sobre mim" })
+      navigationOptions: () => ({ headerTitle: "Sobre mim" }),
     },
     Profession: {
       screen: Profession,
-      navigationOptions: () => ({ headerTitle: "Meu Job" })
+      navigationOptions: () => ({ headerTitle: "Meu Job" }),
     },
     Agency: {
       screen: Agency,
-      navigationOptions: () => ({ headerTitle: "Agência" })
+      navigationOptions: () => ({ headerTitle: "Agência" }),
     },
     AddProfession: {
       screen: AddProfession,
-      navigationOptions: () => ({ headerTitle: "Meu Job" })
+      navigationOptions: () => ({ headerTitle: "Meu Job" }),
     },
     AddSkill: {
       screen: AddSkill,
-      navigationOptions: () => ({ headerTitle: "Meu Job" })
+      navigationOptions: () => ({ headerTitle: "Meu Job" }),
     },
     PhotoGallery: {
       screen: PhotoGallery,
-      navigationOptions: () => ({ headerTitle: "Galeria" })
+      navigationOptions: () => ({ headerTitle: "Galeria" }),
+    },
+    Certificates: {
+      screen: Certificates,
+      navigationOptions: () => ({ headerTitle: "Certificados" }),
+    },
+    CertificateModal: {
+      screen: CertificateRoute,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: () => null,
+        headerTransparent: true,
+        headerLeft: () => null,
+      }),
     },
     Availability: {
       screen: Availability,
-      navigationOptions: () => ({ headerTitle: "Disponibilidade" })
+      navigationOptions: () => ({ headerTitle: "Disponibilidade" }),
     },
     AvailabilityDays: {
       screen: AvailabilityDays,
-      navigationOptions: () => ({ headerTitle: "Disponibilidade" })
+      navigationOptions: () => ({ headerTitle: "Disponibilidade" }),
     },
     SpecialHours: {
       screen: SpecialHours,
-      navigationOptions: () => ({ headerTitle: "Horários Especiais" })
+      navigationOptions: () => ({ headerTitle: "Horários Especiais" }),
     },
 
     ChangePassword: {
@@ -66,9 +93,9 @@ const pageNavigator = createStackNavigator(
       navigationOptions: () => ({
         headerTitle: null,
         headerTransparent: true,
-        headerStyle: { height: calcWidth(20) }
-      })
-    }
+        headerStyle: { height: calcWidth(20) },
+      }),
+    },
   },
   {
     defaultNavigationOptions: {
@@ -76,14 +103,18 @@ const pageNavigator = createStackNavigator(
       headerTintColor: "#FFFFFF",
       headerStyle: {
         backgroundColor: "#18142F",
-        height: calcWidth(12)
+        height: calcWidth(12),
       },
       headerTitleStyle: {
         color: "#FFFF",
         fontFamily: "HelveticaNowMicro-Regular",
-        fontSize: calcWidth(5)
-      }
-    }
+        fontSize: calcWidth(5),
+      },
+    },
+  },
+  {
+    mode: "modal",
+    headerMode: "none",
   }
 );
 export default pageNavigator;

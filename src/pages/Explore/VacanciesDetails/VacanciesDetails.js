@@ -51,6 +51,9 @@ class VacanciesDetails extends Component {
             const getDeitails = data.result;
             this.setDeitails(getDeitails);
           })
+          .catch((error) => {
+            AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+          })
           .finally(() => {
             this.setState({ spinner: false });
           });

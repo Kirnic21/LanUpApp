@@ -9,6 +9,7 @@ import ButtonComponent from "~/shared/components/ButtonCompoent";
 import InputField from "~/shared/components/InputField";
 import { ratings } from "~/shared/services/hirer.http";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 class Rating extends React.Component {
   state = {
@@ -17,15 +18,15 @@ class Rating extends React.Component {
     managment: 0,
     structure: 0,
     hasRecommendation: false,
-    spinner: false
+    spinner: false,
   };
 
-  selectedStar = rating => {
+  selectedStar = (rating) => {
     this.setState(rating);
     return;
   };
 
-  sendRatings = form => {
+  sendRatings = (form) => {
     const { title, description } = form;
     const { food, managment, structure, hasRecommendation } = this.state;
     const { hirerId: id } = this.props.navigation.state.params;
@@ -37,11 +38,14 @@ class Rating extends React.Component {
       structure,
       description,
       title,
-      hasRecommendation
+      hasRecommendation,
     };
     ratings(request)
       .then(() => {
         this.props.navigation.navigate("UserProfile");
+      })
+      .catch((error) => {
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       })
       .finally(() => {
         this.setState({ spinner: false });
@@ -55,7 +59,7 @@ class Rating extends React.Component {
       managment,
       structure,
       hasRecommendation,
-      spinner
+      spinner,
     } = this.state;
     const { handleSubmit } = this.props;
     const { eventName } = this.props.navigation.state.params;
@@ -81,18 +85,22 @@ class Rating extends React.Component {
           <View>
             <RatingStar
               rating={managment}
-              selectedStar={rating => this.selectedStar({ managment: rating })}
+              selectedStar={(rating) =>
+                this.selectedStar({ managment: rating })
+              }
               title="Gestão*"
             />
             <RatingStar
               rating={food}
               title="Alimentação*"
-              selectedStar={rating => this.selectedStar({ food: rating })}
+              selectedStar={(rating) => this.selectedStar({ food: rating })}
             />
             <RatingStar
               rating={structure}
               title="Estrutura*"
-              selectedStar={rating => this.selectedStar({ structure: rating })}
+              selectedStar={(rating) =>
+                this.selectedStar({ structure: rating })
+              }
             />
             <Text style={[styles.subtitle, { color: "#9C94CB" }]}>
               * campos obrigatórios
@@ -121,7 +129,7 @@ class Rating extends React.Component {
               title="Recomendo trabalhar junto"
               textStyle={[
                 styles.fontHelveticaRegular,
-                { color: "#8A98BA", fontSize: calcWidth(3.5) }
+                { color: "#8A98BA", fontSize: calcWidth(3.5) },
               ]}
               checkedIcon="check-square"
               uncheckedIcon="square-o"
@@ -137,7 +145,7 @@ class Rating extends React.Component {
               <ButtonComponent
                 title="concluir"
                 isSelected={food && structure && managment > 0 ? true : false}
-                onPress={handleSubmit(data => this.sendRatings(data))}
+                onPress={handleSubmit((data) => this.sendRatings(data))}
                 unSelectedColor="#A893F229"
                 selectedColor="#7541BF"
               />
@@ -153,54 +161,54 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#18142F",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   fontHelveticaRegular: {
-    fontFamily: "HelveticaNowMicro-Regular"
+    fontFamily: "HelveticaNowMicro-Regular",
   },
   perfilContainer: {
     alignItems: "center",
-    padding: calcWidth(5)
+    padding: calcWidth(5),
   },
   titleName: {
     color: "#865FC0",
     fontSize: calcWidth(5),
-    padding: calcWidth(2.5)
+    padding: calcWidth(2.5),
   },
   subtitle: {
     color: "#8391B2",
-    fontSize: calcWidth(3.5)
+    fontSize: calcWidth(3.5),
   },
   textArea: {
     height: calcWidth(50),
     borderRadius: calcWidth(10),
     textAlignVertical: "top",
     paddingTop: calcWidth(5),
-    paddingHorizontal: calcWidth(5)
+    paddingHorizontal: calcWidth(5),
   },
   inputBackgroundColor: {
-    backgroundColor: "#23203F"
+    backgroundColor: "#23203F",
   },
   containerCheckbox: {
     backgroundColor: "transparent",
     borderWidth: 0,
-    top: calcWidth(-2)
+    top: calcWidth(-2),
   },
   Btn: {
     width: "60%",
     height: "33%",
     borderRadius: calcWidth(30),
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   textBtn: {
     color: "#18142F",
     fontSize: calcWidth(12),
-    fontFamily: "HelveticaNowMicro-Regular"
-  }
+    fontFamily: "HelveticaNowMicro-Regular",
+  },
 });
 
 export default Rating = reduxForm({
   form: "Rating",
-  enableReinitialize: true
+  enableReinitialize: true,
 })(Rating);
