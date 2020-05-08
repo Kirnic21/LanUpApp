@@ -6,7 +6,6 @@ import RegisterStageOne from "~/pages/Auth/Register/RegisterStageOne";
 import RegisterStageTwo from "~/pages/Auth/Register/RegisterStageTwo";
 import SelectAvatar from "~/pages/Auth/SelectAvatar";
 import { calcWidth } from "~/assets/Dimensions";
-import VacancyModal from "~/shared/components/Vacancy/VacancyModal";
 
 const AuthNavigator = createStackNavigator(
   {
@@ -30,19 +29,4 @@ const AuthNavigator = createStackNavigator(
   }
 );
 
-const RootStack = createStackNavigator(
-  {
-    Main: {
-      screen: AuthNavigator,
-    },
-    Modal: {
-      screen: VacancyModal,
-    },
-  },
-  {
-    mode: "modal",
-    headerMode: "none",
-  }
-);
-
-export default RootStack;
+export default AuthNavigator;

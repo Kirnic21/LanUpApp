@@ -21,4 +21,4 @@ const DrawerNav = createDrawerNavigator(
   }
 );
 
-export { DrawerNav };
+export default DrawerNav;

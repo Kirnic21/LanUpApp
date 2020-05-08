@@ -19,10 +19,10 @@ const pageNavigator = createStackNavigator(
   {
     UserProfile: {
       screen: UserProfile,
-      navigationOptions: ({ navigation }) => ({
-        headerTitle: "Perfil",
-        headerLeft: () => <DrawerButton navigation={navigation} />
-      })
+      // navigationOptions: ({ navigation }) => ({
+      //   headerTitle: "Perfil",
+      //   headerLeft: () => <DrawerButton navigation={navigation} />
+      // })
     },
     AboutMe: {
       screen: AboutMe,
@@ -73,7 +73,7 @@ const pageNavigator = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerTitleAlign: "center",
-      headerTintColor: "#FFFFFF",
+      headerTintColor: "#18142F",
       headerStyle: {
         backgroundColor: "#18142F",
         height: calcWidth(12)

@@ -39,17 +39,22 @@ const styles = {
 const navigationRef = React.createRef();
 
 class VacancyModal extends React.Component {
-  onClose = () => this.props.notifyVacancy(initialState.vacancy);
   constructor(props) {
     super(props);
     this.state = {
       jobDeitails: "",
+      isVisible: true,
     };
   }
 
   showDetails = () => {
     this.props.navigation.navigate("VacanciesDetails");
   };
+
+  onClose = () => {
+    this.setState({ isVisible: false });
+    this.props.navigation.goBack();
+  }
 
   getDeitails = async () => {
     const { eventId: id, job: service, day } = this.props.vacancy;
@@ -68,12 +73,12 @@ class VacancyModal extends React.Component {
   };
 
   render() {
-    const { jobDeitails } = this.state;
+    const { jobDeitails, isVisible } = this.state;
     return (
       <ModalComponent
         heightModal={calcWidth(125)}
         onClose={this.onClose}
-        visible={!!this.props.vacancy.eventId}
+        visible={isVisible}
       >
         <Text style={{ color: "white" }}>
           {JSON.stringify(this.props.vacancy)}
