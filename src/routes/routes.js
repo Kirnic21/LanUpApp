@@ -8,23 +8,23 @@ const AppModalStack = createStackNavigator(
   {
     App: DrawerNav,
     Modal: {
-      screen: VacancyModal
+      screen: VacancyModal,
     },
   },
   {
-    mode: 'modal',
-    headerMode: 'none',
+    mode: "modal",
+    headerMode: "none",
     defaultNavigationOptions: {
       cardStyle: {
-        backgroundColor: 'transparent',
+        backgroundColor: "transparent",
         opacity: 1,
       },
       transitionConfig: () => ({
         containerStyle: {
-          backgroundColor: 'transparent',
+          backgroundColor: "transparent",
         },
-      })
-    }
+      }),
+    },
   }
 );
 

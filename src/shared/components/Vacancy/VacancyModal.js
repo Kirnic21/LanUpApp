@@ -1,10 +1,9 @@
-import React, { createRef } from "react";
+import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import ModalComponent from "../ModalComponent";
 import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
-import initialState from "~/store/ducks/initial.state";
 import dimensions, { calcWidth, calcHeight } from "~/assets/Dimensions";
 import ButtonPulse from "~/shared/components/ButtonPulse";
 import { emergenciesVacancies } from "~/shared/services/events.http";
@@ -36,8 +35,6 @@ const styles = {
   },
 };
 
-const navigationRef = React.createRef();
-
 class VacancyModal extends React.Component {
   constructor(props) {
     super(props);
@@ -54,26 +51,11 @@ class VacancyModal extends React.Component {
   onClose = () => {
     this.setState({ isVisible: false });
     this.props.navigation.goBack();
-  }
-
-  getDeitails = async () => {
-    const { eventId: id, job: service, day } = this.props.vacancy;
-    try {
-      const {
-        data: { result: jobDeitails },
-      } = await emergenciesVacancies({
-        id,
-        service,
-        day: day.slice(0, 10),
-      });
-      this.setState({ jobDeitails });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   render() {
     const { jobDeitails, isVisible } = this.state;
+    const { vacancy } = this.props;
     return (
       <ModalComponent
         heightModal={calcWidth(125)}
@@ -107,7 +89,13 @@ class VacancyModal extends React.Component {
           </Text>
           <Text style={styles.textValue}>R${jobDeitails.payment}</Text>
           <TouchableOpacity
-            onPress={() => this.showDetails()}
+            onPress={() => {
+              this.setState({ isVisible: false }),
+                this.props.navigation.navigate("VacanciesDetails", {
+                  job: vacancy,
+                  status: 1,
+                });
+            }}
             style={{ top: calcWidth(5) }}
           >
             <ButtonPulse

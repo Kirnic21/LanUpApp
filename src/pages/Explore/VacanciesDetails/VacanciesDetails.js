@@ -7,7 +7,10 @@ import dimensions, { calcWidth } from "~/assets/Dimensions";
 import ShiftCard from "./ShiftCard";
 import SelectComponent from "~/shared/components/SelectComponent";
 import ButtonVacancies from "~/shared/components/Button";
-import { deitailsVacancies } from "~/shared/services/events.http";
+import {
+  deitailsVacancies,
+  emergenciesVacancies,
+} from "~/shared/services/events.http";
 import {
   acceptInvite,
   deleteVacancies,
@@ -30,12 +33,14 @@ class VacanciesDetails extends Component {
 
   componentDidMount() {
     const { status } = this.state;
-    const { job, vacancy } = this.props.navigation.state.params;
+    const { job } = this.props.navigation.state.params;
+    debugger;
     status === 1
-      ? this.getDeitailEmergenciesVacancies(vacancy)
+      ? this.getDeitailEmergenciesVacancies(job)
       : this.getDeitailVacancy(job);
 
-    const route = status === 0 ? "ToExplore" : "Schedule";
+    const route =
+      status === 0 ? "ToExplore" : status === 1 ? "UserProfile" : "Schedule";
     this.props.navigation.setParams({
       route,
     });
@@ -60,19 +65,24 @@ class VacanciesDetails extends Component {
     };
   };
 
-  getDeitailEmergenciesVacancies = async ({
-    eventId: id,
-    job: service,
-    day,
-  }) => {
-    const {
-      data: { result },
-    } = await emergenciesVacancies({
-      id,
-      service,
-      day: day.slice(0, 10),
+  getDeitailEmergenciesVacancies = ({ eventId: id, job: service, day }) => {
+    this.setState({ spinner: true }, async () => {
+      try {
+        const {
+          data: { result },
+        } = await emergenciesVacancies({
+          id,
+          service,
+          day: day.slice(0, 10),
+        });
+        this.setDeitails(result);
+      } catch (error) {
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+      } finally {
+        this.setState({ spinner: false });
+      }
     });
-    this.setDeitails(result);
+    return;
   };
 
   getDeitailVacancy = ({ id, job: service, jobDate, serviceId }) => {
@@ -93,6 +103,7 @@ class VacanciesDetails extends Component {
                 serviceId,
                 day: jobDate.substr(0, 10),
               });
+        debugger;
         this.setDeitails(result);
       } catch (error) {
         AlertHelper.show("error", "Erro", error.response.data.errorMessage);
@@ -104,34 +115,36 @@ class VacanciesDetails extends Component {
   };
 
   setDeitails = (getDeitails) => {
-    const { job } = this.props.navigation.state.params;
     const { status } = this.state;
+    console.log(JSON.stringify({ getDeitails }));
+    const {
+      state: {
+        params: {
+          job: { eventName, jobDate, start, end, job: service, day },
+        },
+      },
+    } = this.props.navigation;
+    console.log(start, end);
     this.setState({
-      eventName: job.eventName,
+      eventName,
       workshiftsQuantity:
-        status === 0
-          ? `${getDeitails.workshiftsQuantity} turnos`
-          : `${job.start} - ${job.end}`,
+        status === 0 || status === 8
+          ? `${getDeitails.workshiftsQuantity}turnos`
+          : `${start} - ${end}`,
       location: getDeitails.location,
-      eventDate: job.jobDate,
-      picture:
-        job.picture !== null && job.picture !== undefined
-          ? job.picture.url
-          : job.image !== null && job.image !== undefined
-          ? job.image.url
-          : null,
-      service: job.job,
-      vacancyQuantity: getDeitails.vacancyQuantity,
+      jobDate: jobDate || day,
+      image: getDeitails.image,
+      service,
       payment: getDeitails.payment,
-      serviceDetail:
-        status === 0 || status === 8 ? getDeitails.serviceDetail : null,
+      vacancyQuantity: getDeitails.vacancyQuantity,
+      serviceDetail: getDeitails.serviceDetail,
+      eventDescription: getDeitails.eventDescription,
       previewResponsabilities: getDeitails.previewResponsabilities,
       responsabilities: getDeitails.responsabilities,
-      checkListCheckinPreview: getDeitails.checkListCheckinPreview,
       checkListAtCheckin: getDeitails.checkListAtCheckin,
+      checkListCheckinPreview: getDeitails.checkListCheckinPreview,
       checkListCheckoutPreview: getDeitails.checkListCheckoutPreview,
       checkListAtCheckout: getDeitails.checkListAtCheckout,
-      eventDescription: getDeitails.eventDescription,
     });
   };
 
@@ -239,6 +252,13 @@ class VacanciesDetails extends Component {
           selectedColor="#865FC0"
         />
       ),
+      1: (
+        <ButtonComponent
+          title="Estou a caminho"
+          isSelected={true}
+          selectedColor="#EB4886"
+        />
+      ),
       2: (
         <ButtonVacancies
           name="Desitir da vaga"
@@ -273,8 +293,8 @@ class VacanciesDetails extends Component {
       eventName,
       workshiftsQuantity,
       location,
-      eventDate,
-      picture,
+      jobDate,
+      image,
       service,
       vacancyQuantity,
       payment,
@@ -305,16 +325,22 @@ class VacanciesDetails extends Component {
               title={`${eventName}`}
               shift={`${workshiftsQuantity}`}
               location={`${location}`}
-              eventDate={eventDate}
-              picture={picture}
+              eventDate={jobDate}
+              picture={image}
             />
           </View>
           <View style={{ marginHorizontal: "5%" }}>
             <ShiftCard
               title={`${service}`}
-              subTitle={`${vacancyQuantity} vagas`}
+              subTitle={
+                status === 1 ? (
+                  <Text style={styles.textVacancy}>vaga urgente</Text>
+                ) : (
+                  `${vacancyQuantity} vagas`
+                )
+              }
               value={`${payment}`}
-              content={serviceDetail}
+              content={status === 0 || status === 8 ? serviceDetail : null}
               status={status === 5}
             />
             <CardDeitailsVacancies
@@ -409,6 +435,11 @@ const styles = StyleSheet.create({
   },
   colorWhite: {
     color: "#FFFFFF",
+  },
+  textVacancy: {
+    color: "#EB4886",
+    fontFamily: "HelveticaNowMicro-Regular",
+    fontSize: dimensions(20),
   },
 });
 

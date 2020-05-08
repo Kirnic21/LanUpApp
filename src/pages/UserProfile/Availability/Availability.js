@@ -4,7 +4,7 @@ import {
   View,
   TouchableOpacity,
   Text,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import moment from "moment";
 import { bindActionCreators } from "redux";
@@ -14,8 +14,12 @@ import Toggle from "~/shared/components/ToggleComponent";
 import Schedules from "./Schedules";
 import dimensions from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
-import { notifyVacancy } from '~/store/ducks/vacancies/vacancies.actions'
-import { emergencyAvailability, getAvailability, decodeToken } from "~/shared/services/freela.http";
+import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
+import {
+  emergencyAvailability,
+  getAvailability,
+  decodeToken,
+} from "~/shared/services/freela.http";
 import { reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -29,7 +33,7 @@ const DisplayDate = ({ date, displayHour, isActive }) => {
       style={{
         flexDirection: "row",
         alignItems: "center",
-        width: "95.5%"
+        width: "95.5%",
       }}
     >
       <Text style={[styles.titleStyle, style]}>
@@ -41,9 +45,9 @@ const DisplayDate = ({ date, displayHour, isActive }) => {
             fontSize: dimensions(10),
             width: "40%",
             left: "12%",
-            fontFamily: "HelveticaNowMicro-ExtraLight"
+            fontFamily: "HelveticaNowMicro-ExtraLight",
           },
-          isActive ? { color: "#46C5F3" } : { color: "#EB4886" }
+          isActive ? { color: "#46C5F3" } : { color: "#EB4886" },
         ]}
       >
         {isActive ? displayHour : "Não disponível"}
@@ -52,12 +56,13 @@ const DisplayDate = ({ date, displayHour, isActive }) => {
   );
 };
 
-const convertSpecialDays = days => days.map(({ day, date, start, end, available }) => ({
-  date: day ? day : date,
-  start,
-  end,
-  available
-}));
+const convertSpecialDays = (days) =>
+  days.map(({ day, date, start, end, available }) => ({
+    date: day ? day : date,
+    start,
+    end,
+    available,
+  }));
 
 class Availability extends Component {
   constructor(props) {
@@ -75,9 +80,9 @@ class Availability extends Component {
         3: "Quarta",
         2: "Terça",
         1: "Segunda",
-        0: "Domingo"
+        0: "Domingo",
       },
-      visible: false
+      visible: false,
     };
     this.props.navigation.addListener("willFocus", () => {
       this.GetDataAvailability();
@@ -95,23 +100,22 @@ class Availability extends Component {
     this.setState({ visible: false });
   };
 
-  onToggle = async isOn => {
+  onToggle = async (isOn) => {
     try {
       const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
       await emergencyAvailability({
-        id: token.id, hasEmergencyAvailability: isOn
-      })
+        id: token.id,
+        hasEmergencyAvailability: isOn,
+      });
 
-      SignalR.connect()
-        .then(conn => {
-          if (isOn) {
-            conn.invoke('AddToGroup')
-            conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy)
-          } else {
-            conn.invoke('RemoveFromGroup')
-          }
-        });
-
+      SignalR.connect().then((conn) => {
+        if (isOn) {
+          conn.invoke("AddToGroup");
+          conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy);
+        } else {
+          conn.invoke("RemoveFromGroup");
+        }
+      });
     } catch (error) {
       console.log(error.response.data);
     }
@@ -123,22 +127,27 @@ class Availability extends Component {
 
       try {
         const { data } = await getAvailability(token.id);
-        const { days, emergencyAvailability, specialDays } = data.result.value
-        this.setState({
-          emergencyAvailability,
-          schedules: days || [],
-          specialDays: convertSpecialDays(specialDays || [])
-        }, () => {
-          SignalR.connect()
-            .then(conn => {
+        const { days, emergencyAvailability, specialDays } = data.result.value;
+        this.setState(
+          {
+            emergencyAvailability,
+            schedules: days || [],
+            specialDays: convertSpecialDays(specialDays || []),
+          },
+          () => {
+            SignalR.connect().then((conn) => {
               if (emergencyAvailability) {
-                conn.invoke('AddToGroup')
-                conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy)
+                conn.invoke("AddToGroup");
+                conn.on(
+                  SignalR.channels.RECEIVE_VACANCY,
+                  this.onReceiveVacancy
+                );
               }
             });
-        });
+          }
+        );
       } catch (error) {
-        console.log(error)
+        console.log(error);
       } finally {
         this.setState({ spinner: false });
       }
@@ -147,15 +156,15 @@ class Availability extends Component {
 
   onReceiveVacancy = (vacancy) => {
     if (!vacancy.eventId) return;
-    this.props.notifyVacancy(vacancy)
-  }
+    this.props.notifyVacancy(vacancy);
+  };
 
-  openAvailabilityDays = day => {
+  openAvailabilityDays = (day) => {
     const { daysOfWeek, schedules } = this.state;
     this.props.navigation.push("AvailabilityDays", {
       day,
       daysOfWeek,
-      schedules
+      schedules,
     });
   };
 
@@ -171,7 +180,7 @@ class Availability extends Component {
       daysOfWeek,
       emergencyAvailability,
       spinner,
-      visible
+      visible,
     } = this.state;
     return (
       <View style={styles.Container}>
@@ -186,17 +195,21 @@ class Availability extends Component {
                 Estou disponível agora
               </Text>
               <Toggle
-                onColor="#18142F"
+                onColor="#865FC0"
                 offColor="#18142F"
                 isOn={emergencyAvailability}
-                onToggle={value => this.setState({ emergencyAvailability: value }, () => this.onToggle(value))}
+                onToggle={(value) =>
+                  this.setState({ emergencyAvailability: value }, () =>
+                    this.onToggle(value)
+                  )
+                }
               />
             </View>
           </View>
           <Schedules
             schedules={schedules}
             daysOfWeek={daysOfWeek}
-            onPress={day => {
+            onPress={(day) => {
               this.openAvailabilityDays(day);
             }}
           />
@@ -206,7 +219,7 @@ class Availability extends Component {
                 style={{
                   flexDirection: "row",
                   paddingBottom: "10%",
-                  width: "94.5%"
+                  width: "94.5%",
                 }}
               >
                 <Text style={[styles.titleStyle, { width: "95.5%" }]}>
@@ -244,20 +257,20 @@ const styles = StyleSheet.create({
   Container: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#18142F"
+    backgroundColor: "#18142F",
   },
   containerAvailability: {
     backgroundColor: "#24203B",
     marginHorizontal: "5%",
     padding: "5%",
-    borderRadius: 15
+    borderRadius: 15,
   },
   containerSchedules: {
     backgroundColor: "#24203B",
     marginHorizontal: "5%",
     padding: "5%",
     borderRadius: 15,
-    marginTop: "3%"
+    marginTop: "3%",
   },
   containerSpecialTimes: {
     backgroundColor: "#24203B",
@@ -265,22 +278,22 @@ const styles = StyleSheet.create({
     padding: "5%",
     marginBottom: "2%",
     borderRadius: 15,
-    marginTop: "3%"
+    marginTop: "3%",
   },
   titleStyle: {
     color: "#FFF",
     fontSize: dimensions(14),
-    fontFamily: "HelveticaNowMicro-Regular"
-  }
+    fontFamily: "HelveticaNowMicro-Regular",
+  },
 });
 
-
-
-
-const mapStateToProps = state => ({});
-const mapActionToProps = dispatch => bindActionCreators({ notifyVacancy }, dispatch);
+const mapStateToProps = (state) => ({});
+const mapActionToProps = (dispatch) =>
+  bindActionCreators({ notifyVacancy }, dispatch);
 
 Availability = connect(mapStateToProps, mapActionToProps)(Availability);
-Availability = reduxForm({ form: "Availability", enableReinitialize: true })(Availability);
+Availability = reduxForm({ form: "Availability", enableReinitialize: true })(
+  Availability
+);
 
-export default Availability
+export default Availability;

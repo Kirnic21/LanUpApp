@@ -82,10 +82,11 @@ class UserProfile extends Component {
   };
 
   onReceiveVacancy = (vacancy, x) => {
+    console.log(vacancy);
     if (!vacancy.eventId) return;
-    // this.props.notifyVacancy(vacancy)
+    this.props.notifyVacancy(vacancy);
     this.props.navigation.navigate("Modal");
-    console.log("ok");
+    console.log(x);
   };
 
   renderSeparator = () => (

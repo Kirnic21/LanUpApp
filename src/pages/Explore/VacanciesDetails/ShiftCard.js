@@ -36,7 +36,9 @@ const ShiftCard = ({
               subTitleStyle,
               styles.colorTextAndFontSize,
             ]}
-          >{`(${subTitle})`}</Text>
+          >
+            {subTitle}
+          </Text>
         </View>
         <View
           style={{

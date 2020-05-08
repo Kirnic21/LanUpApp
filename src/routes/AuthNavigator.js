@@ -26,6 +26,7 @@ const AuthNavigator = createStackNavigator(
       headerTransparent: true,
       headerStyle: { height: calcWidth(20) },
     },
+    mode: "card",
   }
 );
 

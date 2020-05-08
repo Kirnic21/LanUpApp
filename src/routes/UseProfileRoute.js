@@ -14,51 +14,60 @@ import PhotoGallery from "~/shared/components/PhotoGallery";
 import UserProfile from "~/pages/UserProfile/UserProfile";
 import { calcWidth } from "~/assets/Dimensions/index";
 import DrawerButton from "~/shared/components/DrawerButton";
+import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 
 const pageNavigator = createStackNavigator(
   {
     UserProfile: {
       screen: UserProfile,
-      // navigationOptions: ({ navigation }) => ({
-      //   headerTitle: "Perfil",
-      //   headerLeft: () => <DrawerButton navigation={navigation} />
-      // })
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: "Perfil",
+        headerLeft: () => <DrawerButton navigation={navigation} />,
+      }),
+    },
+    VacanciesDetails: {
+      screen: VacanciesDetails,
+      navigationOptions: () => ({
+        headerTitle: () => null,
+        headerTransparent: true,
+        headerStyle: { height: calcWidth(20) },
+      }),
     },
     AboutMe: {
       screen: AboutMe,
-      navigationOptions: () => ({ headerTitle: "Sobre mim" })
+      navigationOptions: () => ({ headerTitle: "Sobre mim" }),
     },
     Profession: {
       screen: Profession,
-      navigationOptions: () => ({ headerTitle: "Meu Job" })
+      navigationOptions: () => ({ headerTitle: "Meu Job" }),
     },
     Agency: {
       screen: Agency,
-      navigationOptions: () => ({ headerTitle: "Agência" })
+      navigationOptions: () => ({ headerTitle: "Agência" }),
     },
     AddProfession: {
       screen: AddProfession,
-      navigationOptions: () => ({ headerTitle: "Meu Job" })
+      navigationOptions: () => ({ headerTitle: "Meu Job" }),
     },
     AddSkill: {
       screen: AddSkill,
-      navigationOptions: () => ({ headerTitle: "Meu Job" })
+      navigationOptions: () => ({ headerTitle: "Meu Job" }),
     },
     PhotoGallery: {
       screen: PhotoGallery,
-      navigationOptions: () => ({ headerTitle: "Galeria" })
+      navigationOptions: () => ({ headerTitle: "Galeria" }),
     },
     Availability: {
       screen: Availability,
-      navigationOptions: () => ({ headerTitle: "Disponibilidade" })
+      navigationOptions: () => ({ headerTitle: "Disponibilidade" }),
     },
     AvailabilityDays: {
       screen: AvailabilityDays,
-      navigationOptions: () => ({ headerTitle: "Disponibilidade" })
+      navigationOptions: () => ({ headerTitle: "Disponibilidade" }),
     },
     SpecialHours: {
       screen: SpecialHours,
-      navigationOptions: () => ({ headerTitle: "Horários Especiais" })
+      navigationOptions: () => ({ headerTitle: "Horários Especiais" }),
     },
 
     ChangePassword: {
@@ -66,24 +75,24 @@ const pageNavigator = createStackNavigator(
       navigationOptions: () => ({
         headerTitle: null,
         headerTransparent: true,
-        headerStyle: { height: calcWidth(20) }
-      })
-    }
+        headerStyle: { height: calcWidth(20) },
+      }),
+    },
   },
   {
     defaultNavigationOptions: {
       headerTitleAlign: "center",
-      headerTintColor: "#18142F",
+      headerTintColor: "#FFFFFF",
       headerStyle: {
         backgroundColor: "#18142F",
-        height: calcWidth(12)
+        height: calcWidth(12),
       },
       headerTitleStyle: {
         color: "#FFFF",
         fontFamily: "HelveticaNowMicro-Regular",
-        fontSize: calcWidth(5)
-      }
-    }
+        fontSize: calcWidth(5),
+      },
+    },
   }
 );
 export default pageNavigator;
