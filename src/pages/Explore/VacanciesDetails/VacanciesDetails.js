@@ -29,46 +29,18 @@ class VacanciesDetails extends Component {
   };
 
   componentDidMount() {
-    const { job } = this.props.navigation.state.params;
     const { status } = this.state;
-    const route = status === 0 ? "ToExplore" : "Schedule";
-    this.setState({ spinner: true });
-    status === 0
-      ? deitailsVacancies({
-          id: job.id,
-          service: job.job,
-          day: job.jobDate.substr(0, 10),
-        })
-          .then(({ data }) => {
-            const getDeitails = data.result;
-            this.setDeitails(getDeitails);
-          })
-          .catch((error) => {
-            AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-          })
-          .finally(() => {
-            this.setState({ spinner: false });
-          })
-      : deitailsVacanciesSchedules({
-          id: job.id,
-          serviceId: job.serviceId,
-          day: job.jobDate.substr(0, 10),
-        })
-          .then(({ data }) => {
-            const getDeitails = data.result;
-            this.setDeitails(getDeitails);
-          })
-          .catch((error) => {
-            AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-          })
-          .finally(() => {
-            this.setState({ spinner: false });
-          });
+    const { job, vacancy } = this.props.navigation.state.params;
+    status === 1
+      ? this.getDeitailEmergenciesVacancies(vacancy)
+      : this.getDeitailVacancy(job);
 
+    const route = status === 0 ? "ToExplore" : "Schedule";
     this.props.navigation.setParams({
       route,
     });
   }
+
   static navigationOptions = ({ navigation }) => {
     const { route } = navigation.state.params;
     return {
@@ -86,6 +58,49 @@ class VacanciesDetails extends Component {
         />
       ),
     };
+  };
+
+  getDeitailEmergenciesVacancies = async ({
+    eventId: id,
+    job: service,
+    day,
+  }) => {
+    const {
+      data: { result },
+    } = await emergenciesVacancies({
+      id,
+      service,
+      day: day.slice(0, 10),
+    });
+    this.setDeitails(result);
+  };
+
+  getDeitailVacancy = ({ id, job: service, jobDate, serviceId }) => {
+    const { status } = this.state;
+    this.setState({ spinner: true }, async () => {
+      try {
+        const {
+          data: { result },
+        } =
+          status === 0
+            ? await deitailsVacancies({
+                id,
+                service,
+                day: jobDate.substr(0, 10),
+              })
+            : await deitailsVacanciesSchedules({
+                id,
+                serviceId,
+                day: jobDate.substr(0, 10),
+              });
+        this.setDeitails(result);
+      } catch (error) {
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+      } finally {
+        this.setState({ spinner: false });
+      }
+    });
+    return;
   };
 
   setDeitails = (getDeitails) => {

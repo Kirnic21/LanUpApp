@@ -1,7 +1,7 @@
 export default {
   user: {
     nickname: "brunin",
-    fullName: "brunin chainz"
+    fullName: "brunin chainz",
   },
   about: {
     fullName: "",
@@ -18,16 +18,9 @@ export default {
     professionalClothing: "",
     healthProblem: "",
     ownTransport: "",
-    clothingsSizes: ""
+    clothingsSizes: "",
   },
   gallery: [],
   loading: false,
-  vacancy: {
-      eventId: undefined,
-      eventName: "",
-      job:"",
-      start:"",
-      end:"",
-      day:""
-  }
+  vacancy: {},
 };

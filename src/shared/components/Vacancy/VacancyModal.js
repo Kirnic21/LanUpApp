@@ -1,12 +1,13 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React, { createRef } from "react";
+import { Text, View, TouchableOpacity } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import ModalComponent from "../ModalComponent";
 import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
 import initialState from "~/store/ducks/initial.state";
 import dimensions, { calcWidth, calcHeight } from "~/assets/Dimensions";
-import ButtonPulse from "../ButtonPulse";
+import ButtonPulse from "~/shared/components/ButtonPulse";
+import { emergenciesVacancies } from "~/shared/services/events.http";
 
 const styles = {
   container: {
@@ -34,11 +35,40 @@ const styles = {
     fontFamily: "HelveticaNowMicro-ExtraLight",
   },
 };
+
+const navigationRef = React.createRef();
+
 class VacancyModal extends React.Component {
   onClose = () => this.props.notifyVacancy(initialState.vacancy);
+  constructor(props) {
+    super(props);
+    this.state = {
+      jobDeitails: "",
+    };
+  }
+
+  showDetails = () => {
+    this.props.navigation.navigate("VacanciesDetails");
+  };
+
+  getDeitails = async () => {
+    const { eventId: id, job: service, day } = this.props.vacancy;
+    try {
+      const {
+        data: { result: jobDeitails },
+      } = await emergenciesVacancies({
+        id,
+        service,
+        day: day.slice(0, 10),
+      });
+      this.setState({ jobDeitails });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   render() {
-    console.log(JSON.stringify(this.props.vacancy));
+    const { jobDeitails } = this.state;
     return (
       <ModalComponent
         heightModal={calcWidth(125)}
@@ -70,8 +100,11 @@ class VacancyModal extends React.Component {
           >
             vaga urgente
           </Text>
-          <Text style={styles.textValue}>R$140,00</Text>
-          <View style={{ top: calcWidth(5) }}>
+          <Text style={styles.textValue}>R${jobDeitails.payment}</Text>
+          <TouchableOpacity
+            onPress={() => this.showDetails()}
+            style={{ top: calcWidth(5) }}
+          >
             <ButtonPulse
               titleStyle={{ textAlign: "center", lineHeight: calcHeight(3.5) }}
               size="normal"
@@ -79,10 +112,8 @@ class VacancyModal extends React.Component {
               color="#EB4886"
               startAnimations
             />
-          </View>
-          <Text style={styles.textAddress}>
-            Av. Brigadeiro Luís Antônio, 2696 Jardim Paulista, SP - 05581-000
-          </Text>
+          </TouchableOpacity>
+          <Text style={styles.textAddress}>{jobDeitails.location}</Text>
         </View>
       </ModalComponent>
     );

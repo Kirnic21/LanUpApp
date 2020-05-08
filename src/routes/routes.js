@@ -7,11 +7,11 @@ const Routes = (userlogged = false) =>
     createSwitchNavigator(
       {
         Auth: AuthNavigator,
-        Drawer: DrawerNav
+        Drawer: DrawerNav,
         // ToExplore: ToExploreRoute
       },
       {
-        initialRouteName: userlogged ? "Drawer" : "Auth"
+        initialRouteName: userlogged ? "Drawer" : "Auth",
       }
     )
   );

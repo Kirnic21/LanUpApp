@@ -5,9 +5,9 @@ import { FlatList } from "react-native-gesture-handler";
 import {
   updateGalleryImage,
   uploadGalleryImage,
-  deleteGalleryImage
+  deleteGalleryImage,
 } from "~/store/ducks/gallery/gallery.actions";
-import { notifyVacancy } from '~/store/ducks/vacancies/vacancies.actions'
+import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
 import {
   StyleSheet,
   View,
@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
@@ -25,7 +25,7 @@ import {
   decodeToken,
   galleryDelete,
   getAbout,
-  getAvailability
+  getAvailability,
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import dimensions, { calcWidth } from "~/assets/Dimensions/index";
@@ -42,7 +42,7 @@ class UserProfile extends Component {
       selected: false,
       visible: false,
       spinner: false,
-      emergencyAvailability: false
+      emergencyAvailability: false,
     };
   }
 
@@ -52,7 +52,7 @@ class UserProfile extends Component {
 
       getAbout(token.id)
         .then(({ data }) => this.onGetAboutSuccess(data, token))
-        .catch(error => console.log(error.response.data));
+        .catch((error) => console.log(error.response.data));
 
       this.setState({ spinner: true }, () => {
         this._isMounted = true;
@@ -68,21 +68,25 @@ class UserProfile extends Component {
     const { image, emergercyAvailabilityEnabled } = data.result.value;
     const avatar = token ? image : this.Suser.authenticateUser.avatar.url;
 
-    this.setState({ avatar, emergencyAvailability: emergercyAvailabilityEnabled }, () => {
-      SignalR.connect()
-        .then(conn => {
+    this.setState(
+      { avatar, emergencyAvailability: emergercyAvailabilityEnabled },
+      () => {
+        SignalR.connect().then((conn) => {
           if (emergercyAvailabilityEnabled) {
-            conn.invoke('AddToGroup')
-            conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy)
+            conn.invoke("AddToGroup");
+            conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy);
           }
         });
-    });
-  }
+      }
+    );
+  };
 
   onReceiveVacancy = (vacancy, x) => {
     if (!vacancy.eventId) return;
-    this.props.notifyVacancy(vacancy)
-  }
+    // this.props.notifyVacancy(vacancy)
+    this.props.navigation.navigate("Modal");
+    console.log("ok");
+  };
 
   renderSeparator = () => (
     <View
@@ -91,7 +95,7 @@ class UserProfile extends Component {
         width: "90%",
         backgroundColor: "#18142F",
         marginLeft: "5%",
-        marginRight: "10%"
+        marginRight: "10%",
       }}
     />
   );
@@ -119,28 +123,28 @@ class UserProfile extends Component {
   openMidia = async () => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     this.handlePictureUpdate();
-    const handlePictureAdd = async picture => {
+    const handlePictureAdd = async (picture) => {
       const form = new FormData();
       form.append("formFile", {
         uri: picture.uri,
         type: picture.type,
-        name: picture.name
+        name: picture.name,
       });
       galery({
         id: token.id,
-        url: form
+        url: form,
       })
         .then(async ({ data }) => {
           if (data.isSuccess) {
             this.handlePictureUpdate();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error.response.data);
         });
     };
 
-    const handlePictureRemove = pictures => {
+    const handlePictureRemove = (pictures) => {
       let queryParams;
       queryParams = pictures.reduce((accumulator, currentValue, index) => {
         if (index === 0) {
@@ -157,7 +161,7 @@ class UserProfile extends Component {
 
     this.props.navigation.navigate("PhotoGallery", {
       handlePictureAdd,
-      handlePictureRemove
+      handlePictureRemove,
     });
   };
 
@@ -209,7 +213,7 @@ class UserProfile extends Component {
                 color="#86D7CA"
                 style={{
                   left: dimensions(70),
-                  top: dimensions(-25)
+                  top: dimensions(-25),
                 }}
               />
             </ShimmerPlaceHolder>
@@ -234,38 +238,38 @@ class UserProfile extends Component {
               key: "1",
               title: "Sobre mim",
               subtitle: "Sua foto de perfil, apresentação e mais",
-              onPress: () => this.aboutMe()
+              onPress: () => this.aboutMe(),
             },
             {
               key: "2",
               title: "Meu Job",
               subtitle: "Área de operação, disponibilidade e mais",
-              onPress: () => this.openProfession()
+              onPress: () => this.openProfession(),
             },
             {
               key: "3",
               title: "Agências",
               subtitle: "Entre na equipe de sua agência",
-              onPress: () => this.props.navigation.navigate("Agency")
+              onPress: () => this.props.navigation.navigate("Agency"),
             },
             {
               key: "4",
               title: "Galeria",
               subtitle: "Fotos e videos de seu trabalho",
-              onPress: () => this.openMidia()
+              onPress: () => this.openMidia(),
             },
             {
               key: "5",
               title: "Disponibilidade",
               subtitle: "Dias, horários e feriados",
-              onPress: () => this.openAvaliability()
+              onPress: () => this.openAvaliability(),
             },
             {
               key: "6",
               title: "Histórico de trabalho",
               subtitle: "Trabalho, avaliações e recomendações",
-              onPress: () => this.openModal()
-            }
+              onPress: () => this.openModal(),
+            },
           ]}
           renderItem={({ item }) => (
             <TouchableOpacity
@@ -274,7 +278,7 @@ class UserProfile extends Component {
                 ...styles.item,
                 flexDirection: "row",
                 justifyContent: "space-between",
-                alignItems: "center"
+                alignItems: "center",
               }}
             >
               <View>
@@ -283,7 +287,7 @@ class UserProfile extends Component {
                     color: "#FFF",
                     fontSize: dimensions(13),
                     marginBottom: dimensions(5),
-                    fontFamily: "HelveticaNowMicro-Regular"
+                    fontFamily: "HelveticaNowMicro-Regular",
                   }}
                 >
                   {item.title}
@@ -294,7 +298,7 @@ class UserProfile extends Component {
                     fontSize: dimensions(11),
                     borderBottomWidth: 0,
                     borderTopWidth: 0,
-                    fontFamily: "HelveticaNowMicro-Light"
+                    fontFamily: "HelveticaNowMicro-Light",
                   }}
                 >
                   {item.subtitle}
@@ -304,7 +308,7 @@ class UserProfile extends Component {
             </TouchableOpacity>
           )}
           ItemSeparatorComponent={this.renderSeparator}
-          keyExtractor={item => item.key}
+          keyExtractor={(item) => item.key}
         />
         <TouchableOpacity onPress={() => this.openModal()}>
           <Text style={styles.agency}>Sou uma Agência</Text>
@@ -315,8 +319,8 @@ class UserProfile extends Component {
             {
               key: "1",
               title: "Alterar Senha",
-              onPress: () => this.openChangePassword()
-            }
+              onPress: () => this.openChangePassword(),
+            },
           ]}
           renderItem={({ item }) => (
             <View style={[styles.changePassword]}>
@@ -325,7 +329,7 @@ class UserProfile extends Component {
                   style={{
                     color: "#FFF",
                     fontSize: dimensions(13),
-                    fontFamily: "HelveticaNowMicro-Regular"
+                    fontFamily: "HelveticaNowMicro-Regular",
                   }}
                 >
                   {item.title}
@@ -334,7 +338,7 @@ class UserProfile extends Component {
             </View>
           )}
           ItemSeparatorComponent={this.renderSeparator}
-          keyExtractor={item => item.key}
+          keyExtractor={(item) => item.key}
         />
 
         <Text
@@ -342,7 +346,7 @@ class UserProfile extends Component {
           style={{
             ...styles.submitText,
             color: "white",
-            marginBottom: dimensions(30)
+            marginBottom: dimensions(30),
           }}
         >
           Terminar sessão
@@ -364,7 +368,7 @@ const styles = StyleSheet.create({
   Container: {
     alignItems: "center",
     width: "100%",
-    backgroundColor: "#18142F"
+    backgroundColor: "#18142F",
   },
 
   submitText: {
@@ -376,7 +380,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     fontSize: dimensions(13),
     width: "80%",
-    fontFamily: "HelveticaNowMicro-Regular"
+    fontFamily: "HelveticaNowMicro-Regular",
   },
   agency: {
     marginTop: dimensions(17),
@@ -387,41 +391,46 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: dimensions(13),
     fontFamily: "HelveticaNowMicro-Regular",
-    width: width - dimensions(50)
+    width: width - dimensions(50),
   },
   changePassword: {
     paddingVertical: dimensions(17),
     padding: 20,
     backgroundColor: "#24203B",
     borderRadius: 10,
-    width: width - dimensions(50)
+    width: width - dimensions(50),
   },
   list: {
     marginTop: dimensions(17),
     backgroundColor: "#24203B",
     width: width - dimensions(50),
-    borderRadius: 20
+    borderRadius: 20,
   },
   item: {
-    padding: dimensions(17)
+    padding: dimensions(17),
   },
   avatar: {
     width: dimensions(90),
     height: dimensions(90),
     borderRadius: dimensions(50),
-    borderWidth: 2
-  }
+    borderWidth: 2,
+  },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
   };
 };
 
-const mapActionToProps = dispatch =>
+const mapActionToProps = (dispatch) =>
   bindActionCreators(
-    { updateGalleryImage, uploadGalleryImage, deleteGalleryImage, notifyVacancy },
+    {
+      updateGalleryImage,
+      uploadGalleryImage,
+      deleteGalleryImage,
+      notifyVacancy,
+    },
     dispatch
   );
 export default connect(mapStateToProps, mapActionToProps)(UserProfile);

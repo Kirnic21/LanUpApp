@@ -15,7 +15,6 @@ import DropdownAlert from "react-native-dropdownalert";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { calcWidth } from "./assets/Dimensions";
 import * as Sentry from "@sentry/react-native";
-import VacancyModal from "./shared/components/Vacancy/VacancyModal";
 
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
@@ -101,7 +100,7 @@ class App extends Component {
         <StatusBar backgroundColor="#18182d" barStyle="light-content" />
         <Provider store={store}>
           <Routes />
-          <VacancyModal />
+          {/* <VacancyModal /> */}
         </Provider>
         <DropdownAlert
           defaultContainer={{ padding: calcWidth(3), paddingTop: calcWidth(5) }}
