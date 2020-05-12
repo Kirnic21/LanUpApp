@@ -52,11 +52,8 @@ class UserProfile extends Component {
 
       getAbout(token.id)
         .then(({ data }) => this.onGetAboutSuccess(data, token))
-        .catch((error) => console.log(error.response.data));
-
-      this.setState({ spinner: true }, () => {
-        this._isMounted = true;
-      });
+        .catch((error) => console.log(error.response.data))
+        .finally(() => this.setState({ spinner: true }));
     });
   }
 

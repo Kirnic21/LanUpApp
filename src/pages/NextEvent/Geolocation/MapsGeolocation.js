@@ -28,6 +28,7 @@ import {
   checkpoints,
 } from "~/shared/services/operations.http";
 import { location } from "~/shared/services/events.http";
+import ModalComingSoon from "~/shared/components/ModalComingSoon";
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
@@ -42,6 +43,7 @@ export default class MapsGeolocation extends React.Component {
     super(props);
 
     this.state = {
+      visible: false,
       latitude: LATITUDE,
       longitude: LONGITUDE,
       coordinate: new AnimatedRegion({
@@ -172,24 +174,18 @@ export default class MapsGeolocation extends React.Component {
   };
 
   arrived = () => {
-    const { distance } = this.state;
-    if (Number(distance).toFixed(2) === "0.00") {
-      this.setState({ status: true });
-      Vibration.vibrate(1000);
-      this.subscription.remove();
-    }
-    return;
-  };
-
-  goOperation = () => {
-    const { id } = this.state;
-    arrivelOperation(id)
-      .then(() => {
-        this.props.navigation.replace("NextEvent");
-      })
-      .catch((error) => {
-        console.log(error);
+    const { distance, id } = this.state;
+    if (Number(distance).toFixed(2) <= "0.15") {
+      this.setState({ status: true }, async () => {
+        Vibration.vibrate(1000);
+        this.subscription.remove();
+        try {
+          await arrivelOperation(id);
+        } catch (error) {
+          console.log(error);
+        }
       });
+    }
     return;
   };
 
@@ -209,6 +205,7 @@ export default class MapsGeolocation extends React.Component {
       eventName,
       address,
       spinner,
+      visible,
     } = this.state;
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -247,8 +244,10 @@ export default class MapsGeolocation extends React.Component {
               apikey={GOOGLE_MAPS_APIKEY}
               strokeColor={"#F63535"}
               strokeWidth={4}
+              language="pt-BR"
               onReady={(result) => {
                 const { distance, duration } = result;
+                console.log(result);
                 this.setState({ distance, duration });
               }}
             />
@@ -319,9 +318,17 @@ export default class MapsGeolocation extends React.Component {
               width={status ? calcWidth(40) : calcWidth(60)}
               style={{ backgroundColor: "#46C5F3" }}
               name={status ? "Okay" : "Ver regras e check list"}
-              onPress={() => (status ? this.goOperation() : alert("ok"))}
+              onPress={() =>
+                status
+                  ? this.props.navigation.navigate("NextEvent")
+                  : this.setState({ visible: true })
+              }
             />
           </View>
+          <ModalComingSoon
+            visible={visible}
+            onClose={() => this.setState({ visible: false })}
+          />
         </View>
       </SafeAreaView>
     );
