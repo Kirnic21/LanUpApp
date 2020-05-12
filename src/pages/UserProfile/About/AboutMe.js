@@ -12,7 +12,7 @@ import AdditionalInformation from "./AdditionalInformation";
 import BankInformations from "./BankInformations";
 import {
   validateCPF,
-  validateCNPJ
+  validateCNPJ,
 } from "~/shared/helpers/validate/ValidateCpfCnpj";
 import { reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -35,58 +35,56 @@ class AboutMe extends Component {
     BoxItem: [
       {
         id: 1,
-        icon: ImageSelf
+        icon: ImageSelf,
       },
       {
         id: 2,
-        icon: ImageSelf
+        icon: ImageSelf,
       },
       {
         id: 3,
-        icon: ImageBody
+        icon: ImageBody,
       },
       {
         id: 4,
-        icon: ImageBody
-      }
+        icon: ImageBody,
+      },
     ],
     avatar: null,
-    photos: []
+    photos: [],
   };
 
   async componentDidMount() {
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    const { Email, id } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     this.setState({ spinner: true });
     const { BoxItem } = this.state;
-    getAbout(token.id)
+    getAbout(id)
       .then(({ data }) => {
-        const { email } = token;
         const get = data.result.value;
         const getPhoto =
           get.photos !== null
-            ? get.photos.map(item => ({ uri: item.url }))
+            ? get.photos.map((item) => ({ uri: item.url }))
             : [];
         const photosGet =
           get.photos !== null
-            ? get.photos.map(item => ({ name: item.name }))
+            ? get.photos.map((item) => ({ name: item.name }))
             : [];
         const mergeArr = (arr, inc) =>
           arr.map((item, key) => ({
             ...item,
-            icon: inc[key] || item.icon
+            icon: inc[key] || item.icon,
           }));
         const getPictures = getPhoto.length
           ? mergeArr(BoxItem, getPhoto)
           : BoxItem;
         this.setState({
           avatar: get.image,
-          email,
           bankCode: get.bankCode,
           address: get.address,
           lat: get.latitude,
           long: get.longitude,
           photos: photosGet,
-          BoxItem: getPictures
+          BoxItem: getPictures,
         });
         this.props.initialize({
           fullName: get.name,
@@ -102,7 +100,7 @@ class AboutMe extends Component {
           ownTransport: get.ownTransport,
           healthProblem: get.healthProblem,
           smoke: get.smoke,
-          email,
+          Email,
           phone: get.phone,
           birthday:
             get.birthday === null || get.birthday === "0001-01-01T00:00:00Z"
@@ -112,19 +110,18 @@ class AboutMe extends Component {
           bankBranch: get.bankBranch,
           bankAccount: get.bankAccount,
           cpfCnpj: get.cpf === null ? get.cnpj : get.cpf,
-          owner: get.owner
+          owner: get.owner,
         });
-        console.log(data);
       })
-      .catch(error => {
-        console.log(error.response.data);
+      .catch((error) => {
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       })
       .finally(() => {
         this.setState({ spinner: false });
       });
     const { handleSubmit } = this.props;
     await this.props.navigation.setParams({
-      handleSave: handleSubmit(data => this.UpdateAboutMe(data))
+      handleSave: handleSubmit((data) => this.UpdateAboutMe(data)),
     });
   }
 
@@ -136,28 +133,31 @@ class AboutMe extends Component {
           title="Salvar"
           onPress={() => state.params.handleSave()}
         />
-      )
+      ),
     };
   };
 
-  saveAboutMe = request => {
-    aboutMe(request)
-      .then(({ data }) => {
-        if (data.isSuccess) {
-          console.log(data);
+  saveAboutMe = (request) => {
+    this.setState({ spinner: true }, () => {
+      aboutMe(request)
+        .then(({}) => {
           AlertHelper.show(
             "success",
             "Sucesso",
             "Informações salvas com sucesso."
           );
-        }
-      })
-      .catch(error => {
-        error.response.data;
-      });
+        })
+        .catch((error) => {
+          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+        })
+        .finally(() => {
+          this.setState({ spinner: false });
+        });
+    });
+    return;
   };
 
-  UpdateAboutMe = async form => {
+  UpdateAboutMe = async (form) => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const {
       fullName,
@@ -172,12 +172,11 @@ class AboutMe extends Component {
       smoke,
       phone,
       birthday,
-      email,
       gender,
       bankBranch,
       bankAccount,
       cpfCnpj,
-      owner
+      owner,
     } = form;
     const h = height === "" ? 0 : Number(height.replace(",", ""));
     const w = weight === "" ? 0 : Number(weight);
@@ -215,10 +214,9 @@ class AboutMe extends Component {
       lat: latitude,
       long: longitude,
       photos,
-      email,
       phone,
       birthday: birthday === "" ? "0001-01-01T00:00:00Z" : birthday,
-      gender
+      gender,
     };
 
     const validateCpfCnpj =
@@ -241,17 +239,17 @@ class AboutMe extends Component {
   handleOnPictureAdd = () => {
     this.ImageSelector.ActionSheet.show();
   };
-  handleOnPictureAddPhotos = index => {
+  handleOnPictureAddPhotos = (index) => {
     this.ImageSelectorPhotos.ActionSheet.show();
     const buttonSelected = index - 1;
     this.setState({ IconId: buttonSelected });
   };
 
-  onPictureAdd = picture => {
+  onPictureAdd = (picture) => {
     this.setState({ avatar: picture.uri, avatarUrl: picture.data });
   };
 
-  onPhotosAdd = photo => {
+  onPhotosAdd = (photo) => {
     const { BoxItem, IconId, photos } = this.state;
 
     if (photos[IconId] !== undefined) {
@@ -260,7 +258,7 @@ class AboutMe extends Component {
     }
     BoxItem[IconId] = {
       id: BoxItem[IconId].id,
-      icon: { uri: photo.uri }
+      icon: { uri: photo.uri },
     };
 
     photos.length > 4
@@ -268,21 +266,21 @@ class AboutMe extends Component {
       : this.setState({
           photos: [
             ...photos,
-            { content: photo.data, create: true, name: photo.name }
-          ]
+            { content: photo.data, create: true, name: photo.name },
+          ],
         });
   };
 
-  xpto = e => {
+  xpto = (e) => {
     console.log(e);
     this.setState({
       address: e.address,
       lat: e.location.latitude,
-      long: e.location.longitude
+      long: e.location.longitude,
     });
   };
 
-  bankCode = item => {
+  bankCode = (item) => {
     this.setState({ bankCode: item });
   };
 
@@ -309,13 +307,13 @@ class AboutMe extends Component {
 
           <OccupationArea
             address={address}
-            onPress={item => {
+            onPress={(item) => {
               this.xpto(item);
             }}
           />
           <PresentationPictures
             BoxItem={BoxItem}
-            onPress={id => {
+            onPress={(id) => {
               this.handleOnPictureAddPhotos(id);
             }}
           />
@@ -323,7 +321,7 @@ class AboutMe extends Component {
           <AdditionalInformation />
           <BankInformations
             bankCode={bankCode}
-            onPress={item => {
+            onPress={(item) => {
               this.bankCode(item);
             }}
           />
@@ -333,20 +331,20 @@ class AboutMe extends Component {
           cropperCircleOverlay={true}
           width={1500}
           height={1500}
-          ref={o => (this.ImageSelector = o)}
+          ref={(o) => (this.ImageSelector = o)}
         />
         <ImageSelector
           onImageSelected={this.onPhotosAdd}
           width={1500}
           height={2500}
-          ref={o => (this.ImageSelectorPhotos = o)}
+          ref={(o) => (this.ImageSelectorPhotos = o)}
         />
       </View>
     );
   }
 }
 
-(mapDispatchToProps = dispatch => bindActionCreators({ setAbout }, dispatch)),
+(mapDispatchToProps = (dispatch) => bindActionCreators({ setAbout }, dispatch)),
   connect(null, mapDispatchToProps)(AboutMe);
 
 AboutMe = reduxForm({ form: "AboutMe" })(AboutMe);

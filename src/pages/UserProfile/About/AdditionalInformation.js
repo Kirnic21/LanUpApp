@@ -8,7 +8,7 @@ import dimensions from "~/assets/Dimensions/index";
 
 const AdditionalInformation = ({}) => {
   reduxForm({
-    form: "AdditionalInformation"
+    form: "AdditionalInformation",
   });
   return (
     <View style={styles.containerInformationPrivade}>
@@ -17,7 +17,7 @@ const AdditionalInformation = ({}) => {
           color: "#FFF",
           fontSize: dimensions(14),
           paddingBottom: "7%",
-          fontFamily: "HelveticaNowMicro-Regular"
+          fontFamily: "HelveticaNowMicro-Regular",
         }}
       >
         Informações Adicionais
@@ -26,7 +26,7 @@ const AdditionalInformation = ({}) => {
         style={{ width: "100%" }}
         title="E-mail"
         component={InputField}
-        name={"email"}
+        name={"Email"}
         editable={false}
       />
       <Field
@@ -45,7 +45,7 @@ const AdditionalInformation = ({}) => {
             height: dimensions(43),
             fontSize: dimensions(12),
             fontFamily: "HelveticaNowMicro-Regular",
-            borderRadius: 50
+            borderRadius: 50,
           }}
           name={"birthday"}
           title="Nascimento"
@@ -58,7 +58,7 @@ const AdditionalInformation = ({}) => {
               width: "90%",
               color: "#fff",
               top: "-35%",
-              left: "10%"
+              left: "10%",
             }}
             name={"gender"}
             component={PickerComponent}
