@@ -23,7 +23,6 @@ const AdditionalInformation = ({}) => {
         Informações Adicionais
       </Text>
       <Field
-        style={{ width: "100%" }}
         title="E-mail"
         component={InputField}
         name={"Email"}

@@ -19,20 +19,21 @@ export default InputField = ({
   autoCapitalize,
   maxLength,
   isfocused,
-  meta: { touched, error }
+  meta: { touched, error },
 }) => {
   const [isInputFocused, setInputFocused] = useState({
-    input1: false
+    input1: false,
   });
+  const editableColor = editable === false ? "#a0a0a0" : "#FFFFFF";
   return (
     <View>
       <View>
         <Text
           style={{
-            color: "white",
+            color: editableColor,
             top: "-10%",
             fontSize: dimensions(12),
-            fontFamily: "HelveticaNowMicro-Regular"
+            fontFamily: "HelveticaNowMicro-Regular",
           }}
         >
           {title}
@@ -41,7 +42,7 @@ export default InputField = ({
       <View
         style={{
           marginBottom: "5%",
-          width: "100%"
+          width: "100%",
         }}
       >
         <TextInput
@@ -51,14 +52,15 @@ export default InputField = ({
               borderRadius: 50,
               height: dimensions(43),
               fontSize: dimensions(12),
-              fontFamily: "HelveticaNowMicro-Regular"
+              color: editableColor,
+              fontFamily: "HelveticaNowMicro-Regular",
             },
             style,
             styles.TextInput,
             isInputFocused.input1
               ? { borderColor: isfocused }
-              : { borderColor: "#FFF" },
-            touched && error && { borderColor: "#F13567" }
+              : { borderColor: editableColor },
+            touched && error && { borderColor: "#F13567" },
           ]}
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
@@ -74,8 +76,8 @@ export default InputField = ({
           placeholder={placeholder}
           placeholderTextColor={placeholderTextColor}
           editable={editable}
-          onFocus={() => setInputFocused(prev => ({ ...prev, input1: true }))}
-          onBlur={() => setInputFocused(prev => ({ ...prev, input1: false }))}
+          onFocus={() => setInputFocused((prev) => ({ ...prev, input1: true }))}
+          onBlur={() => setInputFocused((prev) => ({ ...prev, input1: false }))}
           maxLength={maxLength}
         />
         {touched && error && <Text style={{ color: "#F13567" }}>{error}</Text>}
@@ -87,7 +89,6 @@ export default InputField = ({
 const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
-    color: "#FFF",
-    paddingHorizontal: "7%"
-  }
+    paddingHorizontal: "7%",
+  },
 });
