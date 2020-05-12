@@ -7,15 +7,13 @@ import dimensions, { calcWidth } from "~/assets/Dimensions";
 import ShiftCard from "./ShiftCard";
 import SelectComponent from "~/shared/components/SelectComponent";
 import ButtonVacancies from "~/shared/components/Button";
-import {
-  deitailsVacancies,
-  emergenciesVacancies,
-} from "~/shared/services/events.http";
+import { deitailsVacancies } from "~/shared/services/events.http";
 import {
   acceptInvite,
   deleteVacancies,
   deitailsVacanciesSchedules,
   acceptInvitations,
+  vacanciesEmergencyAccept,
 } from "~/shared/services/vacancy.http";
 import { decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -33,11 +31,8 @@ class VacanciesDetails extends Component {
 
   componentDidMount() {
     const { status } = this.state;
-    const { job } = this.props.navigation.state.params;
-    debugger;
-    status === 1
-      ? this.getDeitailEmergenciesVacancies(job)
-      : this.getDeitailVacancy(job);
+    const { job, getDeitails } = this.props.navigation.state.params;
+    status === 1 ? this.setDeitails(getDeitails) : this.getDeitailVacancy(job);
 
     const route =
       status === 0 ? "ToExplore" : status === 1 ? "UserProfile" : "Schedule";
@@ -65,26 +60,6 @@ class VacanciesDetails extends Component {
     };
   };
 
-  getDeitailEmergenciesVacancies = ({ eventId: id, job: service, day }) => {
-    this.setState({ spinner: true }, async () => {
-      try {
-        const {
-          data: { result },
-        } = await emergenciesVacancies({
-          id,
-          service,
-          day: day.slice(0, 10),
-        });
-        this.setDeitails(result);
-      } catch (error) {
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-      } finally {
-        this.setState({ spinner: false });
-      }
-    });
-    return;
-  };
-
   getDeitailVacancy = ({ id, job: service, jobDate, serviceId }) => {
     const { status } = this.state;
     this.setState({ spinner: true }, async () => {
@@ -103,7 +78,6 @@ class VacanciesDetails extends Component {
                 serviceId,
                 day: jobDate.substr(0, 10),
               });
-        debugger;
         this.setDeitails(result);
       } catch (error) {
         AlertHelper.show("error", "Erro", error.response.data.errorMessage);
@@ -116,7 +90,6 @@ class VacanciesDetails extends Component {
 
   setDeitails = (getDeitails) => {
     const { status } = this.state;
-    console.log(JSON.stringify({ getDeitails }));
     const {
       state: {
         params: {
@@ -124,7 +97,6 @@ class VacanciesDetails extends Component {
         },
       },
     } = this.props.navigation;
-    console.log(start, end);
     this.setState({
       eventName,
       workshiftsQuantity:
@@ -153,6 +125,31 @@ class VacanciesDetails extends Component {
       description: value.description,
       checkin: value.checkin,
       checkout: value.checkout,
+    });
+  };
+
+  emergencyVacancyAccepted = () => {
+    const {
+      job: { eventId, job: jobToDo, start: checkin, end: checkout, day },
+    } = this.props.navigation.state.params;
+    this.setState({ spinner: true }, () => {
+      vacanciesEmergencyAccept({
+        eventId,
+        jobToDo,
+        checkout,
+        checkin,
+        day,
+      })
+        .then(() => {
+          this.props.navigation.navigate("NextEvent");
+        })
+        .catch((error) => {
+          console.log(error.response.data.errorMessage);
+          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+        })
+        .finally(() => {
+          this.setState({ spinner: false });
+        });
     });
   };
 
@@ -257,6 +254,7 @@ class VacanciesDetails extends Component {
           title="Estou a caminho"
           isSelected={true}
           selectedColor="#EB4886"
+          onPress={() => this.emergencyVacancyAccepted()}
         />
       ),
       2: (

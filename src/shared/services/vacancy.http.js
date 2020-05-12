@@ -3,6 +3,9 @@ import { decode } from "base-64";
 
 const acceptInvite = (data) => HTTP.post(`vacancies/`, data);
 
+const vacanciesEmergencyAccept = (data) =>
+  HTTP.post(`vacancies/emergency/accept`, data);
+
 const acceptInvitations = (vacancyId) =>
   HTTP.put(`vacancies/${vacancyId}/invitations/accept`);
 
@@ -22,4 +25,5 @@ export {
   deleteVacancies,
   deitailsVacanciesSchedules,
   acceptInvitations,
+  vacanciesEmergencyAccept,
 };

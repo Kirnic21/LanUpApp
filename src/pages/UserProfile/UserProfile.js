@@ -25,13 +25,13 @@ import {
   decodeToken,
   galleryDelete,
   getAbout,
-  getAvailability,
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
 import SignalR from "~/shared/services/signalr";
+import { emergenciesVacancies } from "~/shared/services/events.http";
 
 class UserProfile extends Component {
   _isMounted = false;
@@ -81,12 +81,21 @@ class UserProfile extends Component {
     );
   };
 
-  onReceiveVacancy = (vacancy, x) => {
-    console.log(vacancy);
+  onReceiveVacancy = async (vacancy, x) => {
     if (!vacancy.eventId) return;
-    this.props.notifyVacancy(vacancy);
-    this.props.navigation.navigate("Modal");
-    console.log(x);
+    try {
+      const {
+        data: { result },
+      } = await emergenciesVacancies({
+        id: vacancy.eventId,
+        service: vacancy.job,
+        day: vacancy.day.slice(0, 10),
+      });
+      this.props.notifyVacancy([result, vacancy]);
+      this.props.navigation.navigate("Modal");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   renderSeparator = () => (

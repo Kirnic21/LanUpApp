@@ -6,7 +6,6 @@ import ModalComponent from "../ModalComponent";
 import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
 import dimensions, { calcWidth, calcHeight } from "~/assets/Dimensions";
 import ButtonPulse from "~/shared/components/ButtonPulse";
-import { emergenciesVacancies } from "~/shared/services/events.http";
 
 const styles = {
   container: {
@@ -54,7 +53,7 @@ class VacancyModal extends React.Component {
   };
 
   render() {
-    const { jobDeitails, isVisible } = this.state;
+    const { isVisible } = this.state;
     const { vacancy } = this.props;
     return (
       <ModalComponent
@@ -62,9 +61,6 @@ class VacancyModal extends React.Component {
         onClose={this.onClose}
         visible={isVisible}
       >
-        <Text style={{ color: "white" }}>
-          {JSON.stringify(this.props.vacancy)}
-        </Text>
         <View style={styles.container}>
           <Text
             numberOfLines={1}
@@ -76,7 +72,7 @@ class VacancyModal extends React.Component {
               },
             ]}
           >
-            Bartender
+            {vacancy[1].eventName}
           </Text>
           <Text
             style={[
@@ -87,12 +83,13 @@ class VacancyModal extends React.Component {
           >
             vaga urgente
           </Text>
-          <Text style={styles.textValue}>R${jobDeitails.payment}</Text>
+          <Text style={styles.textValue}>R${vacancy[0].payment}</Text>
           <TouchableOpacity
             onPress={() => {
               this.setState({ isVisible: false }),
                 this.props.navigation.navigate("VacanciesDetails", {
-                  job: vacancy,
+                  job: vacancy[1],
+                  getDeitails: vacancy[0],
                   status: 1,
                 });
             }}
@@ -106,7 +103,7 @@ class VacancyModal extends React.Component {
               startAnimations
             />
           </TouchableOpacity>
-          <Text style={styles.textAddress}>{jobDeitails.location}</Text>
+          <Text style={styles.textAddress}>{vacancy[0].location}</Text>
         </View>
       </ModalComponent>
     );
