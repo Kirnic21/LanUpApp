@@ -1,20 +1,35 @@
 import * as React from "react";
 import { createStackNavigator } from "react-navigation-stack";
 
-import ChangePassword from "~/pages/UserProfile/ChangePassword";
+import UserProfile from "~/pages/UserProfile/UserProfile";
 import AboutMe from "~/pages/UserProfile/About/AboutMe";
 import Profession from "~/pages/UserProfile/MyJob/Profession";
 import AddProfession from "~/pages/UserProfile/MyJob/AddProfession";
 import AddSkill from "~/pages/UserProfile/MyJob/AddSkill";
+import Agency from "~/pages/UserProfile/Agency/Agency";
+import PhotoGallery from "~/shared/components/PhotoGallery";
+import Certificates from "~/pages/UserProfile/Certificate/Certificates";
+import ChangePassword from "~/pages/UserProfile/ChangePassword";
 import Availability from "~/pages/UserProfile/Availability/Availability";
 import AvailabilityDays from "~/pages/UserProfile/Availability/AvailabilityDays";
 import SpecialHours from "~/pages/UserProfile/Availability/SpecialHours";
-import Agency from "~/pages/UserProfile/Agency/Agency";
-import PhotoGallery from "~/shared/components/PhotoGallery";
-import UserProfile from "~/pages/UserProfile/UserProfile";
+
 import { calcWidth } from "~/assets/Dimensions/index";
 import DrawerButton from "~/shared/components/DrawerButton";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
+import CertificateModal from "~/pages/UserProfile/Certificate/CertificateModal";
+
+export const CertificateRoute = createStackNavigator(
+  {
+    CertificateModal: {
+      screen: CertificateModal,
+    },
+  },
+  {
+    headerMode: "none",
+    mode: "modal",
+  }
+);
 
 const pageNavigator = createStackNavigator(
   {
@@ -57,6 +72,18 @@ const pageNavigator = createStackNavigator(
       screen: PhotoGallery,
       navigationOptions: () => ({ headerTitle: "Galeria" }),
     },
+    Certificates: {
+      screen: Certificates,
+      navigationOptions: () => ({ headerTitle: "Certificados" }),
+    },
+    CertificateModal: {
+      screen: CertificateRoute,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: () => null,
+        headerTransparent: true,
+        headerLeft: () => null,
+      }),
+    },
     Availability: {
       screen: Availability,
       navigationOptions: () => ({ headerTitle: "Disponibilidade" }),
@@ -93,6 +120,10 @@ const pageNavigator = createStackNavigator(
         fontSize: calcWidth(5),
       },
     },
+  },
+  {
+    mode: "modal",
+    headerMode: "none",
   }
 );
 export default pageNavigator;

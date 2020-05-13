@@ -107,17 +107,10 @@ class UserProfile extends Component {
     />
   );
 
-  aboutMe = () => {
-    this.props.navigation.navigate("AboutMe");
-  };
-
   PageLogin = async () => {
     await AsyncStorage.clear();
     this.props.navigation.navigate("HomePage");
-  };
-
-  openProfession = () => {
-    this.props.navigation.navigate("Profession");
+    return;
   };
 
   handlePictureUpdate = async () => {
@@ -149,6 +142,7 @@ class UserProfile extends Component {
         .catch((error) => {
           console.log(error.response.data);
         });
+      return;
     };
 
     const handlePictureRemove = (pictures) => {
@@ -175,24 +169,9 @@ class UserProfile extends Component {
   openModal = () => {
     this.setState({ visible: true });
   };
-  closeModal = () => {
-    this.setState({ visible: false });
-  };
 
-  openAgencies = () => {
-    this.props.navigation.navigate("Agencies");
-  };
-
-  openPreviewProfile = () => {
-    this.props.navigation.navigate("PreviewProfile");
-  };
-
-  openAvaliability = () => {
-    this.props.navigation.navigate("Availability");
-  };
-
-  openChangePassword = () => {
-    this.props.navigation.navigate("ChangePassword");
+  navigateToScreen = (route) => {
+    return this.props.navigation.navigate(route);
   };
 
   render() {
@@ -232,53 +211,46 @@ class UserProfile extends Component {
         >
           <Text style={styles.submitText}>Pré-visualizar o perfil</Text>
         </TouchableOpacity>
-        {/* TODO: essas funções do onPress não precissa fazer um método pra cada!
-          faz uma função que recebe a rota que precisa ir on onPress
-           (ex: navegar('AboutMe'))
-          daí pra cada onPress passa uma rota especifica para essa função
-           (ex: navegar('batata'), navegar('abacaxi'))
-        */}
         <FlatList
           contentContainerStyle={styles.list}
           data={[
             {
-              key: "1",
               title: "Sobre mim",
               subtitle: "Sua foto de perfil, apresentação e mais",
-              onPress: () => this.aboutMe(),
+              onPress: () => this.navigateToScreen("AboutMe"),
             },
             {
-              key: "2",
               title: "Meu Job",
               subtitle: "Área de operação, disponibilidade e mais",
-              onPress: () => this.openProfession(),
+              onPress: () => this.navigateToScreen("Profession"),
             },
             {
-              key: "3",
               title: "Agências",
               subtitle: "Entre na equipe de sua agência",
-              onPress: () => this.props.navigation.navigate("Agency"),
+              onPress: () => this.navigateToScreen("Agency"),
             },
             {
-              key: "4",
               title: "Galeria",
               subtitle: "Fotos e videos de seu trabalho",
               onPress: () => this.openMidia(),
             },
             {
-              key: "5",
-              title: "Disponibilidade",
-              subtitle: "Dias, horários e feriados",
-              onPress: () => this.openAvaliability(),
+              title: "Certificados",
+              subtitle: "Fotos comprovando suas habilidades",
+              onPress: () => this.navigateToScreen("Certificates"),
             },
             {
-              key: "6",
+              title: "Disponibilidade",
+              subtitle: "Dias, horários e feriados",
+              onPress: () => this.navigateToScreen("Availability"),
+            },
+            {
               title: "Histórico de trabalho",
               subtitle: "Trabalho, avaliações e recomendações",
               onPress: () => this.openModal(),
             },
           ]}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <TouchableOpacity
               onPress={item.onPress}
               style={{
@@ -315,7 +287,7 @@ class UserProfile extends Component {
             </TouchableOpacity>
           )}
           ItemSeparatorComponent={this.renderSeparator}
-          keyExtractor={(item) => item.key}
+          keyExtractor={(item, index) => index.toString()}
         />
         <TouchableOpacity onPress={() => this.openModal()}>
           <Text style={styles.agency}>Sou uma Agência</Text>
@@ -324,12 +296,11 @@ class UserProfile extends Component {
           contentContainerStyle={[styles.list, { borderRadius: 10 }]}
           data={[
             {
-              key: "1",
               title: "Alterar Senha",
-              onPress: () => this.openChangePassword(),
+              onPress: () => this.navigateToScreen("ChangePassword"),
             },
           ]}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View style={[styles.changePassword]}>
               <TouchableOpacity onPress={item.onPress}>
                 <Text
@@ -345,7 +316,7 @@ class UserProfile extends Component {
             </View>
           )}
           ItemSeparatorComponent={this.renderSeparator}
-          keyExtractor={(item) => item.key}
+          keyExtractor={(item, index) => index.toString()}
         />
 
         <Text
@@ -359,10 +330,8 @@ class UserProfile extends Component {
           Terminar sessão
         </Text>
         <ModalComingSoon
-          onTouchOutside={() => this.closeModal()}
-          onClose={() => this.closeModal()}
+          onClose={() => this.setState({ visible: false })}
           visible={visible}
-          onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
         />
       </ScrollView>
     );
