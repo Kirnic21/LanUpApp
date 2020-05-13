@@ -44,6 +44,7 @@ export default class MapsGeolocation extends React.Component {
 
     this.state = {
       visible: false,
+      isLoading: false,
       latitude: LATITUDE,
       longitude: LONGITUDE,
       coordinate: new AnimatedRegion({
@@ -71,36 +72,6 @@ export default class MapsGeolocation extends React.Component {
   }
 
   async componentDidMount() {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        this.setState({
-          latitude,
-          longitude,
-          spinner: true,
-        });
-        // this.watchLocation(position.coords);
-        NativeModules.ForegroundModule.startForegroundService();
-      },
-      (error) => {
-        console.log(error.code, error.message);
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 10000,
-        forceRequestLocation: true,
-      }
-    );
-
-    RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
-      interval: 10000,
-      fastInterval: 5000,
-    })
-      .then(() => {})
-      .catch(() => {
-        this.props.navigation.navigate("NextEvent");
-      });
     try {
       const {
         navigation: {
@@ -109,20 +80,41 @@ export default class MapsGeolocation extends React.Component {
           },
         },
       } = this.props;
-      const {
-        data: {
-          result: { lat, lng },
+      Geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          const {
+            data: {
+              result: { lat, lng },
+            },
+          } = await location(addressId);
+          this.setState({
+            destination: {
+              latitude: Number(lat),
+              longitude: Number(lng),
+            },
+            id,
+            eventName,
+            address,
+            latitude,
+            longitude,
+            spinner: true,
+          });
+          setTimeout(() => {
+            this.watchLocation(position.coords);
+          }, 500);
+          NativeModules.ForegroundModule.startForegroundService();
         },
-      } = await location(addressId);
-      this.setState({
-        destination: {
-          latitude: Number(lat),
-          longitude: Number(lng),
+        (error) => {
+          console.log(error.code, error.message);
         },
-        id,
-        eventName,
-        address,
-      });
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 10000,
+          forceRequestLocation: true,
+        }
+      );
     } catch (error) {
       console.log(error);
     }
@@ -145,7 +137,6 @@ export default class MapsGeolocation extends React.Component {
         spinner: false,
       },
       () => {
-        this.arrived();
         Platform.OS === "android"
           ? this.marker &&
             this.marker._component.animateMarkerToCoordinate(
@@ -153,8 +144,10 @@ export default class MapsGeolocation extends React.Component {
               1000
             )
           : coordinate.timing(newCoordinate).start();
+        this.arrived();
       }
     );
+    return;
   };
 
   sendApi = async ({ latitude, longitude }) => {
@@ -171,11 +164,12 @@ export default class MapsGeolocation extends React.Component {
         console.log(error);
       }
     }, 60000);
+    return;
   };
 
   arrived = () => {
     const { distance, id } = this.state;
-    if (Number(distance).toFixed(2) <= "0.15") {
+    if (distance <= 0.15) {
       this.setState({ status: true }, async () => {
         Vibration.vibrate(1000);
         this.subscription.remove();
@@ -206,6 +200,7 @@ export default class MapsGeolocation extends React.Component {
       address,
       spinner,
       visible,
+      newCoordinate,
     } = this.state;
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -238,19 +233,22 @@ export default class MapsGeolocation extends React.Component {
                 />
               </View>
             </Marker.Animated>
-            <MapViewDirections
-              origin={this.state.newCoordinate}
-              destination={destination}
-              apikey={GOOGLE_MAPS_APIKEY}
-              strokeColor={"#F63535"}
-              strokeWidth={4}
-              language="pt-BR"
-              onReady={(result) => {
-                const { distance, duration } = result;
-                console.log(result);
-                this.setState({ distance, duration });
-              }}
-            />
+            {newCoordinate ? (
+              <MapViewDirections
+                origin={newCoordinate}
+                destination={destination}
+                apikey={GOOGLE_MAPS_APIKEY}
+                strokeColor={"#F63535"}
+                strokeWidth={4}
+                language="pt-BR"
+                onReady={(result) => {
+                  const { distance, duration } = result;
+                  this.setState({ distance, duration });
+                }}
+              />
+            ) : (
+              <></>
+            )}
             <Marker.Animated
               coordinate={destination}
               title={"Destino"}
