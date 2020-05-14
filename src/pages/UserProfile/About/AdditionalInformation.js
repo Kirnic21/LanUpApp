@@ -46,6 +46,7 @@ const AdditionalInformation = ({}) => {
             fontFamily: "HelveticaNowMicro-Regular",
             borderRadius: 50,
           }}
+          mode="date"
           name={"birthday"}
           title="Nascimento"
           component={DateInputField}

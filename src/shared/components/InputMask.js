@@ -19,10 +19,10 @@ export default InputMask = ({
   onChange,
   maxLength,
   isfocused,
-  meta: { touched, error }
+  meta: { touched, error },
 }) => {
   const [isInputFocused, setInputFocused] = useState({
-    input1: false
+    input1: false,
   });
   return (
     <View>
@@ -32,7 +32,7 @@ export default InputMask = ({
             color: "white",
             fontSize: dimensions(12),
             top: "-10%",
-            fontFamily: "HelveticaNowMicro-Regular"
+            fontFamily: "HelveticaNowMicro-Regular",
           }}
         >
           {title}
@@ -45,15 +45,16 @@ export default InputMask = ({
               height: dimensions(43),
               width: "100%",
               borderRadius: 50,
+              color: "#FFF",
               fontSize: dimensions(12),
-              fontFamily: "HelveticaNowMicro-Regular"
+              fontFamily: "HelveticaNowMicro-Regular",
             },
             style,
             isInputFocused.input1
               ? { borderColor: isfocused }
               : { borderColor: "#FFF" },
             styles.TextInput,
-            touched && error && { borderColor: "#F13567" }
+            touched && error && { borderColor: "#F13567" },
           ]}
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
@@ -65,8 +66,8 @@ export default InputMask = ({
           {...input}
           defaultValue={value}
           autoCapitalize="none"
-          onFocus={() => setInputFocused(prev => ({ ...prev, input1: true }))}
-          onBlur={() => setInputFocused(prev => ({ ...prev, input1: false }))}
+          onFocus={() => setInputFocused((prev) => ({ ...prev, input1: true }))}
+          onBlur={() => setInputFocused((prev) => ({ ...prev, input1: false }))}
           onChange={onChange}
           autoCompleteType={autoCompleteType}
           placeholder={placeholder}
@@ -83,7 +84,6 @@ export default InputMask = ({
 const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
-    color: "#FFF",
-    paddingHorizontal: "7%"
-  }
+    paddingHorizontal: "7%",
+  },
 });

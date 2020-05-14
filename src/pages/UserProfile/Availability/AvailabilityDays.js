@@ -4,7 +4,7 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import moment from "moment";
 import { Field, reduxForm } from "redux-form";
@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import Toggle from "~/shared/components/ToggleComponent";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
+import InputMask from "~/shared/components/InputMask";
 
 class AvailabilityDays extends React.Component {
   constructor(props) {
@@ -23,7 +24,8 @@ class AvailabilityDays extends React.Component {
       day: props.navigation.state.params.day,
       daysOfWeek: props.navigation.state.params.daysOfWeek,
       schedules: props.navigation.state.params.schedules,
-      now: false
+      now: false,
+      timeSave: false,
     };
   }
 
@@ -31,22 +33,16 @@ class AvailabilityDays extends React.Component {
     const { day } = this.state;
     this.setState({ now: day.available });
     this.props.navigation.setParams({
-      isEditing: day.available
+      isEditing: day.available,
     });
     this.props.initialize({
-      start:
-        day.start === null
-          ? new Date(`01/01/2000 00:00`)
-          : new Date(`01/01/2000 ${day.start}`),
-      end:
-        day.end === null
-          ? new Date(`01/01/2000 00:00`)
-          : new Date(`01/01/2000 ${day.end}`)
+      start: day.start === null ? "" : day.start.slice(0, 5),
+      end: day.end === null ? "" : day.end.slice(0, 5),
     });
 
     const { handleSubmit } = this.props;
     this.props.navigation.setParams({
-      handleSave: handleSubmit(data => this.saveDate(data))
+      handleSave: handleSubmit((data) => this.saveDate(data)),
     });
   }
 
@@ -61,64 +57,69 @@ class AvailabilityDays extends React.Component {
             title="Salvar"
           />
         </View>
-      )
+      ),
     };
   };
 
-  saveToggle = async now => {
+  saveToggle = async (now) => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    const { schedules, day } = this.state;
+    const { schedules, day, timeSave } = this.state;
     const { dayOfWeek } = day;
     this.props.navigation.setParams({
-      isEditing: now
+      isEditing: now,
     });
-    const days = schedules.filter(c => c.available === true);
+    const days = schedules.filter((c) => c.available === true);
     const request = {
       freelaId: token.id,
-      dayAvailabilities: [...days, { dayOfWeek, available: now }]
+      dayAvailabilities: [...days, { dayOfWeek, available: now }],
     };
-    saveAvailability(request)
-      .then(({ data }) => {
-        if (data.isSuccess) {
-          console.log(data);
-        }
-      })
-      .catch(error => {
-        console.log(error.response.data);
-      });
+    if (timeSave || now === false) {
+      saveAvailability(request)
+        .then(({ data }) => {
+          if (data.isSuccess) {
+            console.log(data);
+          }
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
+    }
   };
 
-  saveDate = async form => {
+  saveDate = async (form) => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const { schedules, day, now } = this.state;
-    const days = schedules.filter(c => c.available === true);
+    const days = schedules.filter((c) => c.available === true);
     const { dayOfWeek } = day;
     const { start, end } = form;
+    const times = start.concat(":", end).split(":");
     const request = {
       freelaId: token.id,
       dayAvailabilities: [
         ...days,
         {
           dayOfWeek,
-          start: moment(start).format("HH:mm"),
-          end: moment(end).format("HH:mm"),
-          available: now
-        }
-      ]
+          start,
+          end,
+          available: now,
+        },
+      ],
     };
-    saveAvailability(request)
-      .then(({ data }) => {
-        if (data.isSuccess) {
-          AlertHelper.show(
-            "success",
-            "Sucesso",
-            "Horário confirmado com sucesso"
-          );
-        }
-      })
-      .catch(error => {
-        console.log(error.response.data);
-      });
+    times[0] > "23" || times[2] > "23" || times[1] > "59" || times[3] > "59"
+      ? AlertHelper.show("error", "Erro", "Horário inválido")
+      : saveAvailability(request)
+          .then(() => {
+            this.setState({ timeSave: true });
+            AlertHelper.show(
+              "success",
+              "Sucesso",
+              "Horário confirmado com sucesso"
+            );
+          })
+          .catch((error) => {
+            AlertHelper.show("error", "Erro", "Horário inválido");
+            console.log(error.response.data);
+          });
   };
 
   render() {
@@ -136,7 +137,7 @@ class AvailabilityDays extends React.Component {
                 onColor="#483D8B"
                 offColor="#24203B"
                 isOn={now}
-                onToggle={now => {
+                onToggle={(now) => {
                   this.setState({ now });
                   this.saveToggle(now);
                 }}
@@ -146,7 +147,7 @@ class AvailabilityDays extends React.Component {
               pointerEvents={now ? "auto" : "none"}
               style={[
                 styles.containerAvailabilityDays,
-                now ? { opacity: 1 } : { opacity: 0.5 }
+                now ? { opacity: 1 } : { opacity: 0.5 },
               ]}
             >
               <View style={{ flexDirection: "row" }}>
@@ -156,9 +157,12 @@ class AvailabilityDays extends React.Component {
                 <Field
                   style={styles.inputDate}
                   title="Das"
-                  mode="time"
-                  component={DateInputField}
+                  component={InputMask}
+                  mask={"[00]:[00]"}
                   name={`start`}
+                  isfocused="#46C5F3"
+                  placeholder="00:00"
+                  placeholderTextColor="#808080"
                 />
                 <View
                   style={{ position: "absolute", width: "100%", left: "52%" }}
@@ -166,9 +170,12 @@ class AvailabilityDays extends React.Component {
                   <Field
                     style={styles.inputDate}
                     title="Até"
-                    mode="time"
-                    component={DateInputField}
+                    placeholder="00:00"
+                    component={InputMask}
+                    mask={"[00]:[00]"}
                     name={`end`}
+                    isfocused="#46C5F3"
+                    placeholderTextColor="#808080"
                   />
                 </View>
               </View>
@@ -184,39 +191,39 @@ const styles = StyleSheet.create({
   Container: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#18142F"
+    backgroundColor: "#18142F",
   },
   containerAvailabilityDays: {
     backgroundColor: "#24203B",
     marginTop: "5%",
     padding: "5%",
     paddingBottom: "5%",
-    borderRadius: 15
+    borderRadius: 15,
   },
   Title: {
     color: "#FFF",
     fontSize: dimensions(14),
     fontFamily: "HelveticaNowMicro-Regular",
     paddingBottom: "5%",
-    marginRight: "75%"
+    marginRight: "75%",
   },
   titleDays: {
     color: "#FFF",
     fontSize: dimensions(20),
     fontFamily: "HelveticaNowMicro-Regular",
-    paddingBottom: "6%"
+    paddingBottom: "6%",
   },
   toggleAvailable: {
     color: "#FFF",
     fontSize: dimensions(14),
     fontFamily: "HelveticaNowMicro-Regular",
 
-    width: dimensions(245)
+    width: dimensions(245),
   },
   inputDate: {
     width: "48%",
-    color: "#46C5F3"
-  }
+    color: "#46C5F3",
+  },
 });
 
 AvailabilityDays = reduxForm({ form: "AvailabilityDays" })(AvailabilityDays);

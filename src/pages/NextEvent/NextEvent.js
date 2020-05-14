@@ -43,6 +43,7 @@ class NextEvent extends React.Component {
       .then(({ data }) => data)
       .then(({ result }) => {
         const { value } = result;
+        console.log(value);
         value !== null
           ? this.getWordays(value)
           : this.setState({ status: "without" });

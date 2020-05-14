@@ -1,14 +1,20 @@
 import React, { Component } from "react";
-import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
-import DateTimePicker from "react-native-modal-datetime-picker";
+import { TouchableOpacity, StyleSheet, View, Text, Modal } from "react-native";
+import DatePicker from "react-native-date-picker";
 import Input from "~/shared/components/InputDate";
 import moment from "moment";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import ModalComponent from "./ModalComponent";
+import ButtonComponent from "./ButtonCompoent";
 
 export default class DateInputField extends Component {
   constructor(props) {
     super(props);
-    this.state = { isDateTimePickerVisible: false };
+    this.state = {
+      isDateTimePickerVisible: false,
+      date: new Date(),
+      visible: false,
+    };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -26,12 +32,15 @@ export default class DateInputField extends Component {
   hideDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: false });
   };
-  handleChange = date => {
+  handleChange = (date) => {
+    console.log(date);
     this.setState({ isDateTimePickerVisible: false });
     this.props.input.onChange(date);
   };
   render() {
-    const { input, meta, ...inputProps } = this.props;
+    const { date } = this.state;
+    const { mode, input, meta, ...inputProps } = this.props;
+    console.log(input.value);
     return (
       <TouchableOpacity
         style={styles.container}
@@ -41,16 +50,15 @@ export default class DateInputField extends Component {
           style={{
             color: "white",
             fontSize: dimensions(12),
-            fontFamily: "HelveticaNowMicro-Regular"
+            fontFamily: "HelveticaNowMicro-Regular",
           }}
         >
           {this.props.title}
         </Text>
-        <DateTimePicker
+        {/* <DateTimePicker
           style={this.props.style}
-          date={input.value || new Date()} //date is transformed from input
+          date={new Date()} //date is transformed from input
           onDateChange={this.handleChange}
-          timePickerModeAndroid="spinner"
           mode={inputProps.mode || "date"}
           locale={"pt_BR"}
           cancelTextIOS="Cancelar"
@@ -58,7 +66,29 @@ export default class DateInputField extends Component {
           isVisible={this.state.isDateTimePickerVisible}
           onConfirm={this.handleChange}
           onCancel={() => this.setState({ isDateTimePickerVisible: false })}
-        />
+        /> */}
+        <ModalComponent visible={this.state.visible}>
+          <View style={{ top: calcWidth(10), alignItems: "center" }}>
+            <DatePicker
+              mode={mode}
+              locale="pt"
+              style={{}}
+              fadeToColor="#000"
+              textColor="#FFFFFF"
+              date={input.value || date}
+              onDateChange={(date) => this.handleChange(date)}
+            />
+            <View style={{ top: calcWidth(10) }}>
+              <ButtonComponent
+                onPress={() => this.setState({ visible: false })}
+                title="Okay"
+                isSelected
+                selectedColor="#7541BF"
+              />
+            </View>
+          </View>
+        </ModalComponent>
+
         <Input
           editable={false}
           enabled={false}
@@ -71,12 +101,12 @@ export default class DateInputField extends Component {
               height: dimensions(43),
               textAlignVertical: "center",
               paddingVertical: "3%",
-              borderRadius: 50
-            }
+              borderRadius: 50,
+            },
           ]}
           // title={this.props.title}
           placeholder={this.props.placeholder}
-          onClick={this.showDateTimePicker}
+          onClick={() => this.setState({ visible: true })}
           value={
             input.value !== ""
               ? this.getFormatByMode(input.value, inputProps.mode)
@@ -96,5 +126,5 @@ export const styles = StyleSheet.create({
     // height: 50,
     // borderWidth: 0,
     // borderBottomWidth: 1
-  }
+  },
 });
