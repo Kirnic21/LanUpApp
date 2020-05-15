@@ -26,26 +26,14 @@ export default class DateInputField extends Component {
     return moment(dateTime).format(format);
   };
 
-  showDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: true });
-  };
-  hideDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: false });
-  };
   handleChange = (date) => {
-    console.log(date);
-    this.setState({ isDateTimePickerVisible: false });
     this.props.input.onChange(date);
   };
   render() {
     const { date } = this.state;
     const { mode, input, meta, ...inputProps } = this.props;
-    console.log(input.value);
     return (
-      <TouchableOpacity
-        style={styles.container}
-        onPress={this.showDateTimePicker}
-      >
+      <TouchableOpacity onPress={this.showDateTimePicker}>
         <Text
           style={{
             color: "white",
@@ -55,19 +43,10 @@ export default class DateInputField extends Component {
         >
           {this.props.title}
         </Text>
-        {/* <DateTimePicker
-          style={this.props.style}
-          date={new Date()} //date is transformed from input
-          onDateChange={this.handleChange}
-          mode={inputProps.mode || "date"}
-          locale={"pt_BR"}
-          cancelTextIOS="Cancelar"
-          confirmTextIOS="Confirmar"
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={this.handleChange}
-          onCancel={() => this.setState({ isDateTimePickerVisible: false })}
-        /> */}
-        <ModalComponent visible={this.state.visible}>
+        <ModalComponent
+          visible={this.state.visible}
+          onClose={() => this.setState({ visible: false })}
+        >
           <View style={{ top: calcWidth(10), alignItems: "center" }}>
             <DatePicker
               mode={mode}
@@ -104,7 +83,6 @@ export default class DateInputField extends Component {
               borderRadius: 50,
             },
           ]}
-          // title={this.props.title}
           placeholder={this.props.placeholder}
           onClick={() => this.setState({ visible: true })}
           value={
@@ -117,14 +95,3 @@ export default class DateInputField extends Component {
     );
   }
 }
-export const styles = StyleSheet.create({
-  container: {},
-
-  input: {
-    // flex: 1,
-    // color: "red",
-    // height: 50,
-    // borderWidth: 0,
-    // borderBottomWidth: 1
-  },
-});
