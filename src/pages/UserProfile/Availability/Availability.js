@@ -169,7 +169,7 @@ class Availability extends Component {
   };
 
   openSpecialHours = () => {
-    const { specialDays } = this.state;
+    const { specialDays:SpecialDays } = this.state;
     this.props.navigation.navigate("SpecialHours", { SpecialDays });
   };
 

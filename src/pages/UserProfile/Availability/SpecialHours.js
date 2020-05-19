@@ -25,6 +25,7 @@ import { saveSpecialDay, decodeToken } from "~/shared/services/freela.http";
 import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import SpecialHoursEmpty from "~/shared/components/emptyState/SpecialHoursEmpty";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
+import InputMask from "~/shared/components/InputMask";
 
 class SpecialHours extends Component {
   constructor(props) {
@@ -35,10 +36,12 @@ class SpecialHours extends Component {
       dateInput: "",
       mode: "date",
       show: false,
+      isValid:false,
       activeButton: false,
       bottomModalAndTitle: true,
       SpecialDays: this.props.navigation.state.params.SpecialDays
     };
+    lastTimeout = setTimeout;
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
@@ -47,11 +50,6 @@ class SpecialHours extends Component {
   _menu = null;
 
   componentDidMount() {
-    const { SpecialDays } = this.state;
-    const isActive = SpecialDays.length ? true : false;
-    this.props.navigation.setParams({
-      isDate: isActive
-    });
     this.initializeInput();
     const { handleSubmit } = this.props;
     this.props.navigation.setParams({
@@ -73,7 +71,7 @@ class SpecialHours extends Component {
     const isDate = navigation.getParam("isDate");
     return {
       headerRight: (
-        <View style={{ opacity: isDate ? 1 : 0 }}>
+        <View  pointerEvents={isDate ? 'auto' : 'none'} style={{ opacity: isDate ? 1 : 0 }}>
           <ButtonRightNavigation
             onPress={() => state.params.handleSaveHour()}
             title="Salvar"
@@ -84,17 +82,13 @@ class SpecialHours extends Component {
   };
 
   getStartEndDate(date, { start, end }, index) {
-    const dimensionsdStart =
-      start !== undefined ? start.substr(0, 5).split(":") : "00:00";
-    const dimensionsdEnd =
-      end !== undefined ? start.substr(0, 5).split(":") : "00:00";
+    const timeStart =
+      start !== undefined ? start.slice(0,5) : "";
+    const timeEnd =
+      end !== undefined ? end.slice(0, 5) : "";
     return {
-      [`start${index}`]: new Date(
-        date.set({ hour: dimensionsdStart[0], minute: dimensionsdStart[1] })
-      ),
-      [`end${index}`]: new Date(
-        date.set({ hour: dimensionsdEnd[0], minute: dimensionsdEnd[1] })
-      )
+      [`start${index}`]:timeStart,
+      [`end${index}`]: timeEnd
     };
   }
 
@@ -138,9 +132,9 @@ class SpecialHours extends Component {
     this.setState({ activeButton: false });
     const datesToSave = [...SpecialDays, { date }];
     const isActive = datesToSave.length ? true : false;
-    this.props.navigation.setParams({
-      isDate: isActive
-    });
+    // this.props.navigation.setParams({
+    //   isDate: isActive
+    // });
     setTimeout(async () => {
       this.setState({
         SpecialDays: datesToSave,
@@ -154,28 +148,13 @@ class SpecialHours extends Component {
   };
 
   justSave = async () => {
-    const { SpecialDays } = this.state;
+    const { SpecialDays, isValid } = this.state;
     if (SpecialDays.length) {
       await this.saveDates(SpecialDays);
       AlertHelper.show("success", "Sucesso", "Horário salvo com sucesso.");
     } else {
-      AlertHelper.show("error", "Erro", "Adicione pelo menos um horário.");
+      AlertHelper.show("error", "Erro", "Horário inválido");
     }
-  };
-
-  AddHour = async form => {
-    const { start, end, available } = form;
-    const { date, SpecialDays } = this.state;
-    const request = [
-      ...SpecialDays,
-      {
-        date,
-        start: moment(start).format("HH:mm"),
-        end: moment(end).format("HH:mm"),
-        available
-      }
-    ];
-    await this.saveDates(request);
   };
 
   async saveDates(datesToSave) {
@@ -206,8 +185,21 @@ class SpecialHours extends Component {
 
   onFieldChange(propName, data, id) {
     const { SpecialDays } = this.state;
-    SpecialDays[id][propName] = moment(data).format("HH:mm");
-    this.setState({ SpecialDays });
+   clearTimeout(this.lastTimeout);
+     setTimeout(() => {
+       const time = data.split(':') 
+      if(data.length > 4 && time[0] <= 23 && time[1] <= 59){
+        SpecialDays[id][propName] = data
+        this.setState({ SpecialDays, });
+        this.props.navigation.setParams({
+          isDate: true
+        });
+      }else{
+        this.props.navigation.setParams({
+          isDate: false
+        })
+      }
+     }, 500);
   }
 
   render() {
@@ -217,9 +209,8 @@ class SpecialHours extends Component {
       mode,
       SpecialDays,
       dateInput,
-      activeButton
     } = this.state;
-
+    const isDate = this.props.navigation.getParam("isDate")
     return (
       <View style={styles.Container}>
         {SpecialDays.length ? (
@@ -227,7 +218,7 @@ class SpecialHours extends Component {
             style={{
               flex: 1,
               flexDirection: "column",
-              justifyContent: "space-between"
+              justifyContent: "space-between",
             }}
           >
             <ScrollView>
@@ -239,13 +230,13 @@ class SpecialHours extends Component {
                         color: "#FFF",
                         fontSize: dimensions(20),
                         fontFamily: "HelveticaNowMicro-Regular",
-                        width: "90%"
+                        width: "90%",
                       }}
                     >
                       {moment(date).format("DD [de] MMM, YYYY")}
                     </Text>
                     <ProfileHeaderMenu
-                      ref={comp => {
+                      ref={(comp) => {
                         this._menu = comp;
                       }}
                     >
@@ -265,7 +256,7 @@ class SpecialHours extends Component {
                         color: "#FFF",
                         fontSize: dimensions(14),
                         fontFamily: "HelveticaNowMicro-Regular",
-                        width: "85%"
+                        width: "85%",
                       }}
                     >
                       Estou disponível
@@ -275,7 +266,7 @@ class SpecialHours extends Component {
                       onColor="#483D8B"
                       offColor="#18142F"
                       isOn={available}
-                      onToggle={available => this.onToggle(available, id)}
+                      onToggle={(available) => this.onToggle(available, id)}
                       component={Toggle}
                       name={`toggle${id}`}
                     />
@@ -287,7 +278,7 @@ class SpecialHours extends Component {
                           color: "#FFF",
                           fontSize: dimensions(14),
                           fontFamily: "HelveticaNowMicro-Regular",
-                          paddingBottom: "4%"
+                          paddingBottom: "4%",
                         }}
                       >
                         Horas
@@ -296,9 +287,13 @@ class SpecialHours extends Component {
                         <Field
                           style={styles.inputDate}
                           title="Das"
-                          mode="time"
-                          component={DateInputField}
-                          onChange={data =>
+                          keyboardType="numeric"
+                          mask={"[00]:[00]"}
+                          isfocused="#46C5F3"
+                          placeholder="00:00"
+                          placeholderTextColor="#808080"
+                          component={InputMask}
+                          onBlur={(data) =>
                             this.onFieldChange("start", data, id)
                           }
                           name={`start${id}`}
@@ -307,20 +302,35 @@ class SpecialHours extends Component {
                           style={{
                             position: "absolute",
                             width: "100%",
-                            left: "52%"
+                            left: "52%",
                           }}
                         >
                           <Field
                             style={styles.inputDate}
                             title="Até"
-                            mode="time"
-                            component={DateInputField}
-                            onChange={data =>
+                            keyboardType="numeric"
+                            mask={"[00]:[00]"}
+                            isfocused="#46C5F3"
+                            placeholder="00:00"
+                            placeholderTextColor="#808080"
+                            component={InputMask}
+                            onChange={(data) =>
                               this.onFieldChange("end", data, id)
                             }
                             name={`end${id}`}
                           />
                         </View>
+                        {!isDate && (
+                          <Text
+                            style={{
+                              color: "#f11111",
+                              fontSize: dimensions(14),
+                              textAlign: "center",
+                            }}
+                          >
+                            Horário inválido
+                          </Text>
+                        )}
                       </View>
                     </>
                   )}
