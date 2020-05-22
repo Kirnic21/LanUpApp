@@ -1,15 +1,7 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import moment from "moment";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import dimensions from "~/assets/Dimensions/index";
-import DateInputField from "~/shared/components/DateInputField";
 import { saveAvailability, decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
@@ -86,13 +78,17 @@ class AvailabilityDays extends React.Component {
     }
   };
 
+  isTimeValid = (time) => {
+    const timeReg = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
+    return time.match(timeReg);
+  };
+
   saveDate = async (form) => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const { schedules, day, now } = this.state;
     const days = schedules.filter((c) => c.available === true);
     const { dayOfWeek } = day;
     const { start, end } = form;
-    const times = start.concat(":", end).split(":");
     const request = {
       freelaId: token.id,
       dayAvailabilities: [
@@ -105,9 +101,8 @@ class AvailabilityDays extends React.Component {
         },
       ],
     };
-    times[0] > "23" || times[2] > "23" || times[1] > "59" || times[3] > "59"
-      ? AlertHelper.show("error", "Erro", "Horário inválido")
-      : saveAvailability(request)
+    this.isTimeValid(start) && this.isTimeValid(end)
+      ? saveAvailability(request)
           .then(() => {
             this.setState({ timeSave: true });
             AlertHelper.show(
@@ -119,7 +114,8 @@ class AvailabilityDays extends React.Component {
           .catch((error) => {
             AlertHelper.show("error", "Erro", "Horário inválido");
             console.log(error.response.data);
-          });
+          })
+      : AlertHelper.show("error", "Erro", "Horário inválido");
   };
 
   render() {
@@ -161,6 +157,7 @@ class AvailabilityDays extends React.Component {
                   mask={"[00]:[00]"}
                   name={`start`}
                   isfocused="#46C5F3"
+                  keyboardType="numeric"
                   placeholder="00:00"
                   placeholderTextColor="#808080"
                 />
@@ -175,6 +172,7 @@ class AvailabilityDays extends React.Component {
                     mask={"[00]:[00]"}
                     name={`end`}
                     isfocused="#46C5F3"
+                    keyboardType="numeric"
                     placeholderTextColor="#808080"
                   />
                 </View>

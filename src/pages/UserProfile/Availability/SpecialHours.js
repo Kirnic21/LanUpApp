@@ -6,7 +6,7 @@ import {
   ScrollView,
   LayoutAnimation,
   Platform,
-  UIManager
+  UIManager,
 } from "react-native";
 import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -17,7 +17,6 @@ import Toggle from "~/shared/components/ToggleComponent";
 import ProfileHeaderMenu from "~/shared/components/ProfileHeaderMenu";
 import ActionButton from "~/shared/components/ActionButton";
 import Modal from "~/shared/components/ModalComponent";
-import DateInputField from "~/shared/components/DateInputField";
 
 import { Field, reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -26,7 +25,6 @@ import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import SpecialHoursEmpty from "~/shared/components/emptyState/SpecialHoursEmpty";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 import InputMask from "~/shared/components/InputMask";
-
 class SpecialHours extends Component {
   constructor(props) {
     super(props);
@@ -36,12 +34,11 @@ class SpecialHours extends Component {
       dateInput: "",
       mode: "date",
       show: false,
-      isValid:false,
+      isValid: false,
       activeButton: false,
       bottomModalAndTitle: true,
-      SpecialDays: this.props.navigation.state.params.SpecialDays
+      SpecialDays: this.props.navigation.state.params.SpecialDays,
     };
-    lastTimeout = setTimeout;
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
@@ -50,10 +47,15 @@ class SpecialHours extends Component {
   _menu = null;
 
   componentDidMount() {
+    const { SpecialDays } = this.state;
+    const isActive = SpecialDays.length ? true : false;
+    this.props.navigation.setParams({
+      isDate: isActive,
+    });
     this.initializeInput();
     const { handleSubmit } = this.props;
     this.props.navigation.setParams({
-      handleSaveHour: handleSubmit(data => this.justSave(data))
+      handleSaveHour: handleSubmit((data) => this.justSave(data)),
     });
   }
   initializeInput = () => {
@@ -71,24 +73,26 @@ class SpecialHours extends Component {
     const isDate = navigation.getParam("isDate");
     return {
       headerRight: (
-        <View  pointerEvents={isDate ? 'auto' : 'none'} style={{ opacity: isDate ? 1 : 0 }}>
+        <View
+          pointerEvents={isDate ? "auto" : "none"}
+          style={{ opacity: isDate ? 1 : 0 }}
+        >
           <ButtonRightNavigation
             onPress={() => state.params.handleSaveHour()}
             title="Salvar"
           />
         </View>
-      )
+      ),
     };
   };
 
   getStartEndDate(date, { start, end }, index) {
-    const timeStart =
-      start !== undefined ? start.slice(0,5) : "";
-    const timeEnd =
-      end !== undefined ? end.slice(0, 5) : "";
+    const isEquals = start && end === "00:00:00";
+    const timeStart = start !== undefined ? start.slice(0, 5) : "";
+    const timeEnd = end !== undefined ? end.slice(0, 5) : "";
     return {
-      [`start${index}`]:timeStart,
-      [`end${index}`]: timeEnd
+      [`start${index}`]: timeStart,
+      [`end${index}`]: timeEnd,
     };
   }
 
@@ -115,11 +119,11 @@ class SpecialHours extends Component {
       date,
       showModal: true,
       dateInput,
-      activeButton: true
+      activeButton: true,
     });
   };
 
-  show = mode => {
+  show = (mode) => {
     this.setState({ show: true, mode });
   };
 
@@ -132,14 +136,14 @@ class SpecialHours extends Component {
     this.setState({ activeButton: false });
     const datesToSave = [...SpecialDays, { date }];
     const isActive = datesToSave.length ? true : false;
-    // this.props.navigation.setParams({
-    //   isDate: isActive
-    // });
+    this.props.navigation.setParams({
+      isDate: isActive,
+    });
     setTimeout(async () => {
       this.setState({
         SpecialDays: datesToSave,
         visible: false,
-        dateInput: ""
+        dateInput: "",
       });
       await this.saveDates(datesToSave);
       this.initializeInput();
@@ -147,9 +151,17 @@ class SpecialHours extends Component {
     }, 500);
   };
 
+  isTimeValid = (time) => {
+    const timeReg = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
+    return time.match(timeReg);
+  };
+
   justSave = async () => {
-    const { SpecialDays, isValid } = this.state;
-    if (SpecialDays.length) {
+    const { SpecialDays } = this.state;
+    const times = SpecialDays.map((x) => x.start).concat(
+      SpecialDays.map((x) => x.end)
+    );
+    if (times.every(this.isTimeValid)) {
       await this.saveDates(SpecialDays);
       AlertHelper.show("success", "Sucesso", "Horário salvo com sucesso.");
     } else {
@@ -162,10 +174,10 @@ class SpecialHours extends Component {
 
     saveSpecialDay({
       freelaId: token.id,
-      specialDayAvailabilities: [...datesToSave]
+      specialDayAvailabilities: [...datesToSave],
     })
       .then(() => {})
-      .catch(error => {
+      .catch((error) => {
         AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       });
   }
@@ -177,7 +189,7 @@ class SpecialHours extends Component {
     this.setState({ SpecialDays: datesToSave });
     const isActive = datesToSave.length ? true : false;
     this.props.navigation.setParams({
-      isDate: isActive
+      isDate: isActive,
     });
     this.saveDates(datesToSave);
     AlertHelper.show("success", "Sucesso", "Horário removido com sucesso.");
@@ -185,32 +197,13 @@ class SpecialHours extends Component {
 
   onFieldChange(propName, data, id) {
     const { SpecialDays } = this.state;
-   clearTimeout(this.lastTimeout);
-     setTimeout(() => {
-       const time = data.split(':') 
-      if(data.length > 4 && time[0] <= 23 && time[1] <= 59){
-        SpecialDays[id][propName] = data
-        this.setState({ SpecialDays, });
-        this.props.navigation.setParams({
-          isDate: true
-        });
-      }else{
-        this.props.navigation.setParams({
-          isDate: false
-        })
-      }
-     }, 500);
+    SpecialDays[id][propName] = data;
+    this.setState({ SpecialDays });
   }
 
   render() {
-    const {
-      show,
-      date,
-      mode,
-      SpecialDays,
-      dateInput,
-    } = this.state;
-    const isDate = this.props.navigation.getParam("isDate")
+    const { show, date, mode, SpecialDays, dateInput } = this.state;
+    const isDate = this.props.navigation.getParam("isDate");
     return (
       <View style={styles.Container}>
         {SpecialDays.length ? (
@@ -314,7 +307,7 @@ class SpecialHours extends Component {
                             placeholder="00:00"
                             placeholderTextColor="#808080"
                             component={InputMask}
-                            onChange={(data) =>
+                            onBlur={(data) =>
                               this.onFieldChange("end", data, id)
                             }
                             name={`end${id}`}
@@ -397,51 +390,51 @@ const styles = StyleSheet.create({
   Container: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#18142F"
+    backgroundColor: "#18142F",
   },
   containerSpecialHours: {
     backgroundColor: "#24203B",
     marginHorizontal: "5%",
     padding: "5%",
     borderRadius: 15,
-    marginBottom: "3%"
+    marginBottom: "3%",
   },
   containerAction: {
     marginHorizontal: "5%",
     alignItems: "flex-end",
-    top: "-2%"
+    top: "-2%",
   },
   containerModalInput: {
     justifyContent: "center",
     alignItems: "center",
     top: calcWidth(-4),
-    left: "5%"
+    left: "5%",
   },
   inputDate: {
     width: "48%",
     color: "#46C5F3",
     fontSize: dimensions(12),
-    fontFamily: "HelveticaNowMicro-Regular"
+    fontFamily: "HelveticaNowMicro-Regular",
   },
   title: {
     color: "#FFF",
     fontSize: dimensions(23),
-    textAlign: "center"
+    textAlign: "center",
   },
   subtitle: {
     color: "#FFF",
     fontSize: dimensions(14.5),
-    marginTop: "5%"
+    marginTop: "5%",
   },
   titleModal: {
     color: "#FFF",
     padding: "5%",
     fontSize: dimensions(24),
-    fontFamily: "HelveticaNowMicro-Medium"
-  }
+    fontFamily: "HelveticaNowMicro-Medium",
+  },
 });
 
 export default SpecialHours = reduxForm({
   form: "SpecialHours",
-  enableReinitialize: true
+  enableReinitialize: true,
 })(SpecialHours);
