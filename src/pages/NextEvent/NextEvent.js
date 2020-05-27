@@ -131,8 +131,8 @@ class NextEvent extends React.Component {
   };
 
   toCheckIn = () => {
-    const { operationId: id, vacancyId } = this.state;
-    operationsCheckins({ id, vacancyId }).then(({}) => {
+    const { operationId: id, vacancyId, job } = this.state;
+    operationsCheckins({ id, vacancyId, job }).then(({}) => {
       this.setState({ openModalCheckin: true, origin: 1 });
     });
     return;
@@ -169,17 +169,17 @@ class NextEvent extends React.Component {
   };
 
   toCheckout = () => {
-    const { operationId: id, vacancyId, hirerId, eventName } = this.state;
-    operationsCheckout({ id, vacancyId }).then(() => {
+    const { operationId: id, vacancyId, hirerId, eventName, job } = this.state;
+    operationsCheckout({ id, vacancyId, job }).then(() => {
       this.setState({ openModalCheckin: false });
       this.props.navigation.replace("Rating", { hirerId, eventName });
     });
   };
 
   confirmChecklist = () => {
-    const { operationId: id, origin } = this.state;
+    const { operationId: id, origin, job } = this.state;
     this.setState({ loading: true });
-    operationsChecklists({ id, origin })
+    operationsChecklists({ id, origin, job })
       .then(() => {
         origin === 1
           ? this.setState({ openModalCheckin: false, status: "occurrence" })
@@ -227,10 +227,10 @@ class NextEvent extends React.Component {
   };
 
   toPause = (reason) => {
-    const { operationId: id } = this.state;
+    const { operationId: id, job } = this.state;
     this.setState({ loading: true });
     setTimeout(() => {
-      breaks({ id, reason })
+      breaks({ id, reason, job })
         .then(() => {
           this.setState({ pause: true, openModalPause: false });
         })
@@ -242,10 +242,10 @@ class NextEvent extends React.Component {
   };
 
   returnPause = () => {
-    const { operationId: id } = this.state;
+    const { operationId: id, job } = this.state;
     this.setState({ spinner: true });
     setTimeout(() => {
-      updatebreaks({ id })
+      updatebreaks({ id, job })
         .then(() => {
           this.setState({ pause: false });
         })

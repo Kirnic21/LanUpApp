@@ -15,7 +15,7 @@ import AvailabilityDays from "~/pages/UserProfile/Availability/AvailabilityDays"
 import SpecialHours from "~/pages/UserProfile/Availability/SpecialHours";
 
 import { calcWidth } from "~/assets/Dimensions/index";
-import DrawerButton from "~/shared/components/DrawerButton";
+import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 import CertificateModal from "~/pages/UserProfile/Certificate/CertificateModal";
 
@@ -37,7 +37,9 @@ const pageNavigator = createStackNavigator(
       screen: UserProfile,
       navigationOptions: ({ navigation }) => ({
         headerTitle: "Perfil",
-        headerLeft: () => <DrawerButton navigation={navigation} />,
+        headerLeft: () => (
+          <ButtonNavigation type="drawer" navigation={navigation} />
+        ),
       }),
     },
     VacanciesDetails: {
@@ -50,7 +52,9 @@ const pageNavigator = createStackNavigator(
     },
     AboutMe: {
       screen: AboutMe,
-      navigationOptions: () => ({ headerTitle: "Sobre mim" }),
+      navigationOptions: () => ({
+        headerTitle: "Sobre mim",
+      }),
     },
     Profession: {
       screen: Profession,
@@ -107,7 +111,7 @@ const pageNavigator = createStackNavigator(
     },
   },
   {
-    defaultNavigationOptions: {
+    defaultNavigationOptions: ({ navigation }) => ({
       headerTitleAlign: "center",
       headerTintColor: "#FFFFFF",
       headerStyle: {
@@ -119,7 +123,10 @@ const pageNavigator = createStackNavigator(
         fontFamily: "HelveticaNowMicro-Regular",
         fontSize: calcWidth(5),
       },
-    },
+      headerLeft: () => (
+        <ButtonNavigation type="stack" navigation={navigation} />
+      ),
+    }),
   },
   {
     mode: "modal",

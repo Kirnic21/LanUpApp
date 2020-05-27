@@ -4,7 +4,7 @@ import ImagePicker from "react-native-image-crop-picker";
 import ImageResizer from "react-native-image-resizer";
 
 class ImageSelector extends React.Component {
-  onActionSheetPress = index => {
+  onActionSheetPress = (index) => {
     switch (index) {
       case 0:
         this.openGallery();
@@ -25,8 +25,8 @@ class ImageSelector extends React.Component {
       cropperCircleOverlay: cropperCircleOverlay,
       compressImageMaxWidth: 1000,
       compressImageMaxHeight: 1000,
-      compressImageQuality: 1,
-      includeBase64: true
+      compressImageQuality: 0.8,
+      includeBase64: true,
     }).then(this.onImageSelected);
   };
 
@@ -39,31 +39,31 @@ class ImageSelector extends React.Component {
       cropperCircleOverlay: cropperCircleOverlay,
       compressImageMaxWidth: 1000,
       compressImageMaxHeight: 1000,
-      compressImageQuality: 1,
-      includeBase64: true
+      compressImageQuality: 0.8,
+      includeBase64: true,
     }).then(this.onImageSelected);
   };
 
-  onImageSelected = image => {
+  onImageSelected = (image) => {
     const { width, height } = this.props;
     ImageResizer.createResizedImage(image.path, width, height, "JPEG", 20)
-      .then(response => {
+      .then((response) => {
         const file = {
           type: image.mime,
           uri: response.uri,
           name: response.name,
-          data: image.data
+          data: image.data,
         };
         this.props.onImageSelected(file);
       })
-      .catch(err => alert("Erro ao carregar a imagem"));
+      .catch((err) => alert("Erro ao carregar a imagem"));
   };
 
   render() {
     const { title } = this.props;
     return (
       <ActionSheet
-        ref={o => (this.ActionSheet = o)}
+        ref={(o) => (this.ActionSheet = o)}
         title={title}
         options={["Galeria", "Câmera", "Cancelar"]}
         cancelButtonIndex={2}
@@ -75,7 +75,7 @@ class ImageSelector extends React.Component {
 }
 
 ImageSelector.defaultProps = {
-  title: "Onde está sua imagem?"
+  title: "Onde está sua imagem?",
 };
 
 export default ImageSelector;

@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 
 import Toggle from "~/shared/components/ToggleComponent";
 import Schedules from "./Schedules";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
 import {
@@ -169,7 +169,7 @@ class Availability extends Component {
   };
 
   openSpecialHours = () => {
-    const { specialDays:SpecialDays } = this.state;
+    const { specialDays: SpecialDays } = this.state;
     this.props.navigation.navigate("SpecialHours", { SpecialDays });
   };
 
@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#24203B",
     marginHorizontal: "5%",
     padding: "5%",
+    marginTop: calcWidth(3),
     borderRadius: 15,
   },
   containerSchedules: {
@@ -276,7 +277,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#24203B",
     marginHorizontal: "5%",
     padding: "5%",
-    marginBottom: "2%",
+    marginBottom: "5%",
     borderRadius: 15,
     marginTop: "3%",
   },

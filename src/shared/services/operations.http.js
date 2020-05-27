@@ -7,7 +7,7 @@ const operationsChecklists = (data) =>
   HTTP.post(`${resource}/${data.id}/checklists`, data);
 
 const breaks = (data) => HTTP.post(`${resource}/${data.id}/breaks`, data);
-const updatebreaks = (data) => HTTP.put(`${resource}/${data.id}/breaks`);
+const updatebreaks = (data) => HTTP.put(`${resource}/${data.id}/breaks`, data);
 const openedBreaks = (data) => HTTP.get(`${resource}/${data.id}/breaks/opened`);
 
 const incidents = (data) => HTTP.post(`${resource}/${data.id}/incidents`, data);

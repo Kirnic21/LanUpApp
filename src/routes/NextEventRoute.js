@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createStackNavigator } from "react-navigation-stack";
-import DrawerButton from "~/shared/components/DrawerButton";
+import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import { calcWidth } from "~/assets/Dimensions/index";
 import NextEvent from "~/pages/NextEvent/NextEvent";
 import MapsGeolocation from "~/pages/NextEvent/Geolocation/MapsGeolocation";
@@ -14,7 +14,9 @@ const NextEventRoute = createStackNavigator(
         headerTransparent: true,
         headerStyle: { height: calcWidth(20) },
         headerTitle: "Próximo Evento",
-        headerLeft: () => <DrawerButton navigation={navigation} />,
+        headerLeft: () => (
+          <ButtonNavigation type="drawer" navigation={navigation} />
+        ),
       }),
     },
     Rating: {
@@ -32,7 +34,7 @@ const NextEventRoute = createStackNavigator(
     },
   },
   {
-    defaultNavigationOptions: {
+    defaultNavigationOptions: ({ navigation }) => ({
       headerTitleAlign: "center",
       headerTintColor: "#FFFFFF",
       headerStyle: {
@@ -44,7 +46,10 @@ const NextEventRoute = createStackNavigator(
         fontFamily: "HelveticaNowMicro-Regular",
         fontSize: calcWidth(5),
       },
-    },
+      headerLeft: () => (
+        <ButtonNavigation type="stack" navigation={navigation} />
+      ),
+    }),
   }
 );
 export default NextEventRoute;

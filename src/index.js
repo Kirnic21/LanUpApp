@@ -97,7 +97,7 @@ class App extends Component {
 
     return (
       <React.Fragment>
-        <StatusBar backgroundColor="#18182d" barStyle="light-content" />
+        <StatusBar backgroundColor="#18142F" barStyle="light-content" />
         <Provider store={store}>
           <Routes />
           {/* <VacancyModal /> */}

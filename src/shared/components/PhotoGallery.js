@@ -11,12 +11,13 @@ import { calcWidth } from "~/assets/Dimensions";
 import { HeaderBackButton } from "react-navigation-stack";
 import SpinnerComponent from "./SpinnerComponent";
 import ImageOutline from "~/assets/images/outline.png";
+import ButtonNavigation from "~/shared/components/ButtonNavigation";
 
 const Picture = ({
   picture,
   handleOnPress,
   handleImageLongPress,
-  isSelectedToDelete
+  isSelectedToDelete,
 }) => {
   return (
     <TouchableOpacity
@@ -39,7 +40,7 @@ const Picture = ({
 class PhotoGallery extends React.Component {
   state = {
     isGalleryOpen: false,
-    indexGallery: null
+    indexGallery: null,
   };
 
   componentDidMount() {
@@ -68,10 +69,7 @@ class PhotoGallery extends React.Component {
             />
           </TouchableOpacity>
         ) : (
-          <HeaderBackButton
-            tintColor="#FFFFFF"
-            onPress={() => navigation.goBack()}
-          />
+          <ButtonNavigation type="stack" navigation={navigation} />
         ),
       headerRight: () =>
         isEditing && (
@@ -81,7 +79,7 @@ class PhotoGallery extends React.Component {
               paddingHorizontal: calcWidth(5),
               flexDirection: "row",
               justifyContent: "center",
-              alignItems: "center"
+              alignItems: "center",
             }}
           >
             <Text style={styles.counter}>{images.length}</Text>
@@ -91,7 +89,7 @@ class PhotoGallery extends React.Component {
               color="#707070"
             />
           </TouchableOpacity>
-        )
+        ),
     };
   };
 
@@ -102,7 +100,7 @@ class PhotoGallery extends React.Component {
     this.setState({ spinner: false });
   };
 
-  handleGalleryOpen = visible => {
+  handleGalleryOpen = (visible) => {
     this.setState({ isGalleryOpen: visible });
   };
 
@@ -110,18 +108,18 @@ class PhotoGallery extends React.Component {
     this.ImageSelector.ActionSheet.show();
   };
 
-  onPictureAdd = async picture => {
+  onPictureAdd = async (picture) => {
     await this.props.navigation.getParam("handlePictureAdd")(picture);
     this.showLoader();
   };
 
-  handleImageLongPress = picture => {
+  handleImageLongPress = (picture) => {
     const images = this.props.navigation.getParam("images", []);
     this.props.navigation.setParams({
       isEditing: true,
       finishDelete: this.finishDelete,
       cancelEditing: this.cancelEditing,
-      images: [...images, picture.name]
+      images: [...images, picture.name],
     });
   };
 
@@ -135,33 +133,33 @@ class PhotoGallery extends React.Component {
   cancelEditing = () => {
     this.props.navigation.setParams({
       isEditing: false,
-      images: []
+      images: [],
     });
   };
 
-  isSelectedToDelete = picture => {
+  isSelectedToDelete = (picture) => {
     const images = this.props.navigation.getParam("images", []);
-    return images.some(x => x === picture.name);
+    return images.some((x) => x === picture.name);
   };
 
-  addImageToDelete = picture => {
+  addImageToDelete = (picture) => {
     let images = this.props.navigation.getParam("images", []);
 
-    if (images.some(x => x === picture.name)) {
-      images = images.filter(x => x !== picture.name);
+    if (images.some((x) => x === picture.name)) {
+      images = images.filter((x) => x !== picture.name);
       this.props.navigation.setParams({
         images: images,
-        isEditing: images.length > 0
+        isEditing: images.length > 0,
       });
       return;
     }
 
     this.props.navigation.setParams({
-      images: [...images, picture.name]
+      images: [...images, picture.name],
     });
   };
 
-  galleryIndex = index => {
+  galleryIndex = (index) => {
     this.setState({ indexGallery: index });
   };
 
@@ -188,10 +186,10 @@ class PhotoGallery extends React.Component {
                   <Picture
                     picture={picture}
                     isSelectedToDelete={this.isSelectedToDelete(picture)}
-                    handleImageLongPress={picture =>
+                    handleImageLongPress={(picture) =>
                       this.handleImageLongPress(picture)
                     }
-                    handleOnPress={value => {
+                    handleOnPress={(value) => {
                       this.galleryIndex(index);
                       isEditing
                         ? this.addImageToDelete(picture)
@@ -221,7 +219,7 @@ class PhotoGallery extends React.Component {
           onImageSelected={this.onPictureAdd}
           width={1500}
           height={2000}
-          ref={o => (this.ImageSelector = o)}
+          ref={(o) => (this.ImageSelector = o)}
         />
       </View>
     );
@@ -231,11 +229,11 @@ class PhotoGallery extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#18142F"
+    backgroundColor: "#18142F",
   },
   contentContainerStyle: {
     flexDirection: "row",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
   thumbContainer: {},
   picture: {
@@ -243,7 +241,7 @@ const styles = StyleSheet.create({
     width: 117,
     height: 81,
     marginLeft: 9,
-    borderRadius: 4
+    borderRadius: 4,
   },
   addPictureContainer: {
     width: 117,
@@ -253,7 +251,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#7541BF",
     borderRadius: 4,
     marginVertical: 5,
-    marginLeft: 9
+    marginLeft: 9,
   },
   selectedOverlayContainer: {
     backgroundColor: "rgba(27, 191, 191, 0.8)",
@@ -262,19 +260,19 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     marginLeft: 9,
     position: "absolute",
-    borderRadius: 4
+    borderRadius: 4,
   },
   counter: {
     color: "#707070",
     fontFamily: "Montserrat-Regular",
     fontSize: 20,
-    marginRight: 4
-  }
+    marginRight: 4,
+  },
 });
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    pictures: state.gallery
+    pictures: state.gallery,
   };
 };
 

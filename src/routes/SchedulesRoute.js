@@ -1,8 +1,8 @@
 import * as React from "react";
 import { createStackNavigator } from "react-navigation-stack";
-import DrawerButton from "~/shared/components/DrawerButton";
+import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import Schedule from "~/pages/Schedules/Schedule";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import { calcWidth } from "~/assets/Dimensions/index";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 
 const SchedulesRoute = createStackNavigator(
@@ -11,17 +11,19 @@ const SchedulesRoute = createStackNavigator(
       screen: Schedule,
       navigationOptions: ({ navigation }) => ({
         headerTitle: "Agendas",
-        headerLeft: () => <DrawerButton navigation={navigation} />
-      })
+        headerLeft: () => (
+          <ButtonNavigation type="drawer" navigation={navigation} />
+        ),
+      }),
     },
     VacanciesDetails: {
       screen: VacanciesDetails,
       navigationOptions: () => ({
         headerTitle: () => null,
         headerTransparent: true,
-        headerStyle: { height: calcWidth(20) }
-      })
-    }
+        headerStyle: { height: calcWidth(20) },
+      }),
+    },
   },
   {
     defaultNavigationOptions: {
@@ -29,14 +31,17 @@ const SchedulesRoute = createStackNavigator(
       headerTintColor: "#FFFFFF",
       headerStyle: {
         backgroundColor: "#18142F",
-        height: calcWidth(12)
+        height: calcWidth(12),
       },
       headerTitleStyle: {
         color: "#FFFF",
         fontFamily: "HelveticaNowMicro-Regular",
-        fontSize: calcWidth(5)
-      }
-    }
+        fontSize: calcWidth(5),
+      },
+      headerLeft: () => (
+        <ButtonNavigation type="stack" navigation={navigation} />
+      ),
+    },
   }
 );
 export default SchedulesRoute;

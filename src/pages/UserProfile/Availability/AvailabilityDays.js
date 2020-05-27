@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { Field, reduxForm } from "redux-form";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import { saveAvailability, decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
@@ -124,7 +124,7 @@ class AvailabilityDays extends React.Component {
     return (
       <View style={styles.Container}>
         <ScrollView>
-          <View style={{ marginHorizontal: "6%" }}>
+          <View style={{ marginHorizontal: "6%", marginTop: calcWidth(3) }}>
             <Text style={styles.titleDays}>{daysOfWeek[dayOfWeek]}</Text>
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.toggleAvailable}>Estou disponível</Text>

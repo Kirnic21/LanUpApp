@@ -20,8 +20,8 @@ import AsyncStorage from "@react-native-community/async-storage";
 import HTML from "react-native-render-html";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ButtonComponent from "~/shared/components/ButtonCompoent";
+import ButtonNavigation from "~/shared/components/ButtonNavigation";
 
 class VacanciesDetails extends Component {
   state = {
@@ -45,17 +45,7 @@ class VacanciesDetails extends Component {
     const { route } = navigation.state.params;
     return {
       headerLeft: () => (
-        <Icon
-          name={"arrow-left"}
-          size={calcWidth(6.5)}
-          color="#FFFFFF"
-          onPress={() => navigation.navigate(route)}
-          style={{
-            backgroundColor: "#00000060",
-            left: calcWidth(4),
-            borderRadius: calcWidth(4),
-          }}
-        />
+        <ButtonNavigation onPress={() => navigation.navigate(route)} />
       ),
     };
   };

@@ -398,6 +398,7 @@ const styles = StyleSheet.create({
     padding: "5%",
     borderRadius: 15,
     marginBottom: "3%",
+    marginTop: calcWidth(3),
   },
   containerAction: {
     marginHorizontal: "5%",

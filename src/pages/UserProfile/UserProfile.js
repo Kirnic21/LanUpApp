@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { FlatList } from "react-native-gesture-handler";
 import {
   updateGalleryImage,
   uploadGalleryImage,
@@ -11,13 +10,11 @@ import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
 import {
   StyleSheet,
   View,
-  Dimensions,
-  Image,
   TouchableOpacity,
   Text,
   ScrollView,
-  StatusBar,
 } from "react-native";
+import Image from "react-native-fast-image";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
   galery,
@@ -34,7 +31,6 @@ import SignalR from "~/shared/services/signalr";
 import { emergenciesVacancies } from "~/shared/services/events.http";
 
 class UserProfile extends Component {
-  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -43,6 +39,43 @@ class UserProfile extends Component {
       visible: false,
       spinner: false,
       emergencyAvailability: false,
+      data: [
+        {
+          title: "Sobre mim",
+          subtitle: "Sua foto de perfil, apresentação e mais",
+          onPress: () => this.navigateToScreen("AboutMe"),
+        },
+        {
+          title: "Meu Job",
+          subtitle: "Área de operação, disponibilidade e mais",
+          onPress: () => this.navigateToScreen("Profession"),
+        },
+        {
+          title: "Agências",
+          subtitle: "Entre na equipe de sua agência",
+          onPress: () => this.navigateToScreen("Agency"),
+        },
+        {
+          title: "Galeria",
+          subtitle: "Fotos e videos de seu trabalho",
+          onPress: () => this.openMidia(),
+        },
+        {
+          title: "Certificados",
+          subtitle: "Fotos comprovando suas habilidades",
+          onPress: () => this.navigateToScreen("Certificates"),
+        },
+        {
+          title: "Disponibilidade",
+          subtitle: "Dias, horários e feriados",
+          onPress: () => this.navigateToScreen("Availability"),
+        },
+        {
+          title: "Histórico de trabalho",
+          subtitle: "Trabalho, avaliações e recomendações",
+          onPress: () => this.openModal(),
+        },
+      ],
     };
   }
 
@@ -56,11 +89,6 @@ class UserProfile extends Component {
         .finally(() => this.setState({ spinner: true }));
     });
   }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
   onGetAboutSuccess = (data, token) => {
     const { image, emergercyAvailabilityEnabled } = data.result.value;
     const avatar = token ? image : this.Suser.authenticateUser.avatar.url;
@@ -94,18 +122,6 @@ class UserProfile extends Component {
       console.log(error);
     }
   };
-
-  renderSeparator = () => (
-    <View
-      style={{
-        height: 2,
-        width: "90%",
-        backgroundColor: "#18142F",
-        marginLeft: "5%",
-        marginRight: "10%",
-      }}
-    />
-  );
 
   PageLogin = async () => {
     await AsyncStorage.clear();
@@ -175,215 +191,138 @@ class UserProfile extends Component {
   };
 
   render() {
-    const { visible, spinner } = this.state;
+    const { visible, spinner, data } = this.state;
     return (
-      <ScrollView contentContainerStyle={styles.Container}>
-        <StatusBar backgroundColor="#18142F" barStyle="light-content" />
-        <View style={{ alignItems: "center", marginTop: "5%" }}>
-          <View style={{ marginVertical: calcWidth(-5) }}>
-            <ShimmerPlaceHolder
-              style={[styles.avatar]}
-              width={calcWidth(25)}
-              height={calcWidth(25)}
-              autoRun={true}
-              visible={spinner}
-              colorShimmer={["#ebebeb", "#c9c9c9", "#ebebeb"]}
-            >
-              <Image
-                source={{ uri: this.state.avatar }}
-                style={[styles.avatar, { borderColor: "#FFB72B" }]}
-              />
-              <Icon
-                name="circle"
-                size={dimensions(24)}
-                color="#86D7CA"
-                style={{
-                  left: dimensions(70),
-                  top: dimensions(-25),
-                }}
-              />
-            </ShimmerPlaceHolder>
-          </View>
-        </View>
-        <TouchableOpacity
-          onPress={() => this.openModal()}
-          style={{ width: dimensions(250), alignItems: "center" }}
-        >
-          <Text style={styles.submitText}>Pré-visualizar o perfil</Text>
-        </TouchableOpacity>
-        <FlatList
-          contentContainerStyle={styles.list}
-          data={[
-            {
-              title: "Sobre mim",
-              subtitle: "Sua foto de perfil, apresentação e mais",
-              onPress: () => this.navigateToScreen("AboutMe"),
-            },
-            {
-              title: "Meu Job",
-              subtitle: "Área de operação, disponibilidade e mais",
-              onPress: () => this.navigateToScreen("Profession"),
-            },
-            {
-              title: "Agências",
-              subtitle: "Entre na equipe de sua agência",
-              onPress: () => this.navigateToScreen("Agency"),
-            },
-            {
-              title: "Galeria",
-              subtitle: "Fotos e videos de seu trabalho",
-              onPress: () => this.openMidia(),
-            },
-            {
-              title: "Certificados",
-              subtitle: "Fotos comprovando suas habilidades",
-              onPress: () => this.navigateToScreen("Certificates"),
-            },
-            {
-              title: "Disponibilidade",
-              subtitle: "Dias, horários e feriados",
-              onPress: () => this.navigateToScreen("Availability"),
-            },
-            {
-              title: "Histórico de trabalho",
-              subtitle: "Trabalho, avaliações e recomendações",
-              onPress: () => this.openModal(),
-            },
-          ]}
-          renderItem={({ item, index }) => (
-            <TouchableOpacity
-              onPress={item.onPress}
-              style={{
-                ...styles.item,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <View>
-                <Text
-                  style={{
-                    color: "#FFF",
-                    fontSize: dimensions(13),
-                    marginBottom: dimensions(5),
-                    fontFamily: "HelveticaNowMicro-Regular",
-                  }}
-                >
-                  {item.title}
-                </Text>
-                <Text
-                  style={{
-                    color: "gray",
-                    fontSize: dimensions(11),
-                    borderBottomWidth: 0,
-                    borderTopWidth: 0,
-                    fontFamily: "HelveticaNowMicro-Light",
-                  }}
-                >
-                  {item.subtitle}
-                </Text>
+      <View style={styles.Container}>
+        <ScrollView>
+          <View style={{ alignItems: "center", marginTop: calcWidth(2) }}>
+            <View style={{ flexDirection: "row" }}>
+              <ShimmerPlaceHolder
+                style={[styles.avatar]}
+                width={calcWidth(25)}
+                height={calcWidth(25)}
+                autoRun={true}
+                visible={spinner}
+                colorShimmer={["#ebebeb", "#c9c9c9", "#ebebeb"]}
+              >
+                <Image
+                  source={{ uri: this.state.avatar }}
+                  style={[styles.avatar, { borderColor: "#FFB72B" }]}
+                />
+              </ShimmerPlaceHolder>
+              <View style={styles.IconContainer}>
+                <Icon name="circle" size={dimensions(24)} color="#86D7CA" />
               </View>
-              <Icon color={"#FFF"} name={"angle-right"} size={dimensions(30)} />
-            </TouchableOpacity>
-          )}
-          ItemSeparatorComponent={this.renderSeparator}
-          keyExtractor={(item, index) => index.toString()}
-        />
-        <TouchableOpacity onPress={() => this.openModal()}>
-          <Text style={styles.agency}>Sou uma Agência</Text>
-        </TouchableOpacity>
-        <FlatList
-          contentContainerStyle={[styles.list, { borderRadius: 10 }]}
-          data={[
-            {
-              title: "Alterar Senha",
-              onPress: () => this.navigateToScreen("ChangePassword"),
-            },
-          ]}
-          renderItem={({ item, index }) => (
-            <View style={[styles.changePassword]}>
-              <TouchableOpacity onPress={item.onPress}>
-                <Text
-                  style={{
-                    color: "#FFF",
-                    fontSize: dimensions(13),
-                    fontFamily: "HelveticaNowMicro-Regular",
-                  }}
-                >
-                  {item.title}
-                </Text>
-              </TouchableOpacity>
             </View>
-          )}
-          ItemSeparatorComponent={this.renderSeparator}
-          keyExtractor={(item, index) => index.toString()}
-        />
-
-        <Text
-          onPress={() => this.PageLogin()}
-          style={{
-            ...styles.submitText,
-            color: "white",
-            marginBottom: dimensions(30),
-          }}
-        >
-          Terminar sessão
-        </Text>
-        <ModalComingSoon
-          onClose={() => this.setState({ visible: false })}
-          visible={visible}
-        />
-      </ScrollView>
+            <TouchableOpacity
+              onPress={() => this.openModal()}
+              style={[{ width: dimensions(250), alignItems: "center" }]}
+            >
+              <Text style={[styles.submitText, styles.backColorSteelGray]}>
+                Pré-visualizar o perfil
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={[styles.backColorSteelGray, styles.content]}>
+            {data.map((x, i) => (
+              <TouchableOpacity
+                onPress={x.onPress}
+                key={i}
+                style={[
+                  styles.buttonItens,
+                  { borderBottomWidth: i === data.length - 1 ? 0 : 2 },
+                ]}
+              >
+                <View style={{}}>
+                  <Text style={styles.titleContent}>{x.title}</Text>
+                  <Text style={styles.subtitleContent}>{x.subtitle}</Text>
+                </View>
+                <Icon
+                  color={"#FFF"}
+                  name={"angle-right"}
+                  size={dimensions(30)}
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+          <TouchableOpacity
+            onPress={() => this.navigateToScreen("ChangePassword")}
+            style={[
+              styles.content,
+              styles.backColorSteelGray,
+              { marginTop: calcWidth(0) },
+            ]}
+          >
+            <Text style={styles.titleContent}>Alterar Senha</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.PageLogin()}
+            style={[
+              styles.backColorSteelGray,
+              {
+                margin: calcWidth(5),
+                alignItems: "center",
+                paddingVertical: calcWidth(2),
+                marginBottom: calcWidth(12),
+                borderRadius: calcWidth(4),
+                marginHorizontal: calcWidth(15),
+              },
+            ]}
+          >
+            <Text style={styles.titleContent}>Terminar sessão</Text>
+          </TouchableOpacity>
+          <ModalComingSoon
+            onClose={() => this.setState({ visible: false })}
+            visible={visible}
+          />
+        </ScrollView>
+      </View>
     );
   }
 }
 
-const { width } = Dimensions.get("window");
-
 const styles = StyleSheet.create({
   Container: {
-    alignItems: "center",
-    width: "100%",
+    flex: 1,
     backgroundColor: "#18142F",
   },
-
+  backColorSteelGray: {
+    backgroundColor: "#24203B",
+  },
+  IconContainer: {
+    margin: calcWidth(20),
+    position: "absolute",
+  },
+  titleContent: {
+    color: "#FFFFFF",
+    fontSize: dimensions(14),
+    fontFamily: "HelveticaNowMicro-Regular",
+  },
+  subtitleContent: {
+    fontFamily: "HelveticaNowMicro-Light",
+    color: "rgba(255,255,255,0.5)",
+    fontSize: dimensions(11.5),
+  },
+  content: {
+    margin: calcWidth(5),
+    padding: calcWidth(6),
+    borderRadius: calcWidth(4),
+  },
+  buttonItens: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderColor: "#18142F",
+    paddingVertical: calcWidth(3.5),
+  },
   submitText: {
-    marginTop: dimensions(20),
-    paddingVertical: dimensions(10),
+    marginTop: calcWidth(5),
+    paddingVertical: calcWidth(2.5),
+    paddingHorizontal: calcWidth(12),
     color: "#46C5F3",
     textAlign: "center",
-    backgroundColor: "#24203B",
     borderRadius: 20,
     fontSize: dimensions(13),
-    width: "80%",
     fontFamily: "HelveticaNowMicro-Regular",
-  },
-  agency: {
-    marginTop: dimensions(17),
-    paddingVertical: dimensions(17),
-    color: "#46C5F3",
-    padding: 20,
-    backgroundColor: "#24203B",
-    borderRadius: 10,
-    fontSize: dimensions(13),
-    fontFamily: "HelveticaNowMicro-Regular",
-    width: width - dimensions(50),
-  },
-  changePassword: {
-    paddingVertical: dimensions(17),
-    padding: 20,
-    backgroundColor: "#24203B",
-    borderRadius: 10,
-    width: width - dimensions(50),
-  },
-  list: {
-    marginTop: dimensions(17),
-    backgroundColor: "#24203B",
-    width: width - dimensions(50),
-    borderRadius: 20,
-  },
-  item: {
-    padding: dimensions(17),
   },
   avatar: {
     width: dimensions(90),

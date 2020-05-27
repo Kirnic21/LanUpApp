@@ -7,7 +7,7 @@ import {
   Text,
   ScrollView,
   Image,
-  TextInput
+  TextInput,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import NumberFormat from "react-number-format";
@@ -16,18 +16,18 @@ import {
   getSkills,
   getJobs,
   received,
-  getAbout
+  getAbout,
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
-const currencyFormatter = value => {
+const currencyFormatter = (value) => {
   if (!Number(value)) return "";
 
   const amount = new Intl.NumberFormat("pt-BR", {
     style: "currency",
-    currency: "BRL"
+    currency: "BRL",
   }).format(value / 100);
   return `${amount}`;
 };
@@ -41,7 +41,7 @@ class Profession extends Component {
       JobsSelected: [],
       isFocused: null,
       text: "",
-      spinner: false
+      spinner: false,
     };
     this.props.navigation.addListener("willFocus", () => {
       this.getProfession();
@@ -70,7 +70,9 @@ class Profession extends Component {
       GetJobs === null
         ? this.setState({ GetJobs: [] })
         : this.setState({ GetJobs });
-      const name = GetJobs.filter(c => c.isSelected === true).map(c => c.name);
+      const name = GetJobs.filter((c) => c.isSelected === true).map(
+        (c) => c.name
+      );
       this.setState({ JobsSelected: name });
     });
   };
@@ -98,7 +100,7 @@ class Profession extends Component {
     const valueReceived = Number(text.replace(/[^0-9.-]+/g, ""));
     const r = {
       freelaId: token.id,
-      minimumValueToWork: valueReceived
+      minimumValueToWork: valueReceived,
     };
     received(r)
       .then(({ data }) => {
@@ -106,7 +108,7 @@ class Profession extends Component {
           console.log(data);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error.response.data);
       });
   };
@@ -125,14 +127,14 @@ class Profession extends Component {
               format={currencyFormatter}
               decimalScale={2}
               thousandSeparator={true}
-              renderText={value => (
+              renderText={(value) => (
                 <TextInput
-                  onChangeText={text => this.setState({ text })}
+                  onChangeText={(text) => this.setState({ text })}
                   onFocus={this.handleInputFocus}
                   onBlur={this.handleInputBlur}
                   style={[
                     { borderColor: isFocused === true ? "#46C5F3" : "#FFF" },
-                    styles.inputCurrency
+                    styles.inputCurrency,
                   ]}
                   value={value}
                   keyboardType="numeric"
@@ -154,7 +156,7 @@ class Profession extends Component {
                 style={{
                   flexWrap: "wrap",
                   flexDirection: "row",
-                  width: "100%"
+                  width: "100%",
                 }}
               >
                 {JobsSelected.map((name, id) => (
@@ -186,7 +188,7 @@ class Profession extends Component {
                 style={{
                   flexWrap: "wrap",
                   flexDirection: "row",
-                  width: "95%"
+                  width: "95%",
                 }}
               >
                 {GetSkill.map((c, id) => (
@@ -195,7 +197,7 @@ class Profession extends Component {
                     style={[styles.chip, { backgroundColor: "#46C5F3" }]}
                     textStyle={{
                       color: "#18142F",
-                      fontSize: dimensions(14)
+                      fontSize: dimensions(14),
                     }}
                   >
                     <Text style={[styles.textChip, { color: "#18142F" }]}>
@@ -221,13 +223,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#18142F",
-    width: "100%"
+    width: "100%",
   },
   containerReceive: {
     backgroundColor: "#24203B",
     marginHorizontal: "5%",
     padding: "5%",
-    borderRadius: 15
+    borderRadius: 15,
+    marginTop: calcWidth(3),
   },
   containerProfessionAndSkill: {
     backgroundColor: "#24203B",
@@ -235,20 +238,20 @@ const styles = StyleSheet.create({
     marginTop: "10%",
     padding: dimensions(15),
     borderBottomLeftRadius: dimensions(15),
-    borderTopLeftRadius: dimensions(15)
+    borderTopLeftRadius: dimensions(15),
   },
   chip: {
     backgroundColor: "#865FC0",
     margin: "1%",
     height: dimensions(30),
-    borderRadius: 20
+    borderRadius: 20,
   },
   textChip: {
     color: "#FFF",
     fontSize: dimensions(12),
     fontFamily: "HelveticaNowMicro-Regular",
     padding: dimensions(10),
-    paddingTop: dimensions(7)
+    paddingTop: dimensions(7),
   },
 
   jobNumber: {
@@ -256,7 +259,7 @@ const styles = StyleSheet.create({
     fontFamily: "HelveticaNowMicro-ExtraLight",
     fontSize: dimensions(10),
     marginTop: "1.5%",
-    marginLeft: "2%"
+    marginLeft: "2%",
   },
   notJobsText: {
     color: "#FFF",
@@ -265,19 +268,19 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
     padding: "10%",
     paddingLeft: "15%",
-    top: "-3%"
+    top: "-3%",
   },
   btnArrow: {
     width: "50%",
     height: "100%",
     position: "absolute",
     left: "100%",
-    top: "60%"
+    top: "60%",
   },
   Title: {
     color: "#FFF",
     fontSize: dimensions(14),
-    fontFamily: "HelveticaNowMicro-Regular"
+    fontFamily: "HelveticaNowMicro-Regular",
   },
   inputCurrency: {
     width: "100%",
@@ -289,8 +292,8 @@ const styles = StyleSheet.create({
     height: dimensions(43),
     fontSize: dimensions(12),
     fontFamily: "HelveticaNowMicro-Regular",
-    paddingHorizontal: "7%"
-  }
+    paddingHorizontal: "7%",
+  },
 });
 
 export default Profession;
