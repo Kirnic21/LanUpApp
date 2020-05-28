@@ -66,15 +66,9 @@ class AvailabilityDays extends React.Component {
       dayAvailabilities: [...days, { dayOfWeek, available: now }],
     };
     if (timeSave || now === false) {
-      saveAvailability(request)
-        .then(({ data }) => {
-          if (data.isSuccess) {
-            console.log(data);
-          }
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
+      saveAvailability(request).catch((error) => {
+        console.log(error.response.data);
+      });
     }
   };
 
@@ -105,11 +99,7 @@ class AvailabilityDays extends React.Component {
       ? saveAvailability(request)
           .then(() => {
             this.setState({ timeSave: true });
-            AlertHelper.show(
-              "success",
-              "Sucesso",
-              "Horário confirmado com sucesso"
-            );
+            this.props.navigation.goBack();
           })
           .catch((error) => {
             AlertHelper.show("error", "Erro", "Horário inválido");

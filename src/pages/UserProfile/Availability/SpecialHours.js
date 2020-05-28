@@ -72,14 +72,13 @@ class SpecialHours extends Component {
     const { state } = navigation;
     const isDate = navigation.getParam("isDate");
     return {
-      headerRight: (
+      headerRight: () => (
         <View
           pointerEvents={isDate ? "auto" : "none"}
           style={{ opacity: isDate ? 1 : 0 }}
         >
           <ButtonRightNavigation
             onPress={() => state.params.handleSaveHour()}
-            title="Salvar"
           />
         </View>
       ),
@@ -87,9 +86,8 @@ class SpecialHours extends Component {
   };
 
   getStartEndDate(date, { start, end }, index) {
-    const isEquals = start && end === "00:00:00";
-    const timeStart = start !== undefined ? start.slice(0, 5) : "";
-    const timeEnd = end !== undefined ? end.slice(0, 5) : "";
+    const timeStart = start !== undefined ? start.slice(0, 5) : "00:00";
+    const timeEnd = end !== undefined ? end.slice(0, 5) : "00:00";
     return {
       [`start${index}`]: timeStart,
       [`end${index}`]: timeEnd,
@@ -153,17 +151,21 @@ class SpecialHours extends Component {
 
   isTimeValid = (time) => {
     const timeReg = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
-    return time.match(timeReg);
+    const timeReg1 = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
+    return time.match(timeReg) || time.match(timeReg1);
   };
 
   justSave = async () => {
     const { SpecialDays } = this.state;
+    debugger;
     const times = SpecialDays.map((x) => x.start).concat(
       SpecialDays.map((x) => x.end)
     );
     if (times.every(this.isTimeValid)) {
-      await this.saveDates(SpecialDays);
-      AlertHelper.show("success", "Sucesso", "Horário salvo com sucesso.");
+      this.saveDates(SpecialDays);
+      setTimeout(() => {
+        this.props.navigation.goBack();
+      }, 200);
     } else {
       AlertHelper.show("error", "Erro", "Horário inválido");
     }

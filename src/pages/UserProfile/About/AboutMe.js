@@ -129,10 +129,7 @@ class AboutMe extends Component {
     const { state } = navigation;
     return {
       headerRight: () => (
-        <ButtonRightNavigation
-          title="Salvar"
-          onPress={() => state.params.handleSave()}
-        />
+        <ButtonRightNavigation onPress={() => state.params.handleSave()} />
       ),
     };
   };
@@ -141,11 +138,7 @@ class AboutMe extends Component {
     this.setState({ spinner: true }, () => {
       aboutMe(request)
         .then(({}) => {
-          AlertHelper.show(
-            "success",
-            "Sucesso",
-            "Informações salvas com sucesso."
-          );
+          this.props.navigation.goBack();
         })
         .catch((error) => {
           AlertHelper.show("error", "Erro", error.response.data.errorMessage);

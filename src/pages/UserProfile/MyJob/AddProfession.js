@@ -13,7 +13,7 @@ class AddProfession extends Component {
     this.state = {
       visible: false,
       jobs: this.props.navigation.state.params.JobsSelected,
-      GetJobs: this.props.navigation.state.params.GetJobs
+      GetJobs: this.props.navigation.state.params.GetJobs,
     };
   }
 
@@ -23,43 +23,36 @@ class AddProfession extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-      SaveJob: () => this.SaveJob()
+      SaveJob: () => this.SaveJob(),
     });
   }
 
-  click = (e, index) => {
+  selectJob = (e, index) => {
     const buttons = this.state.GetJobs;
     const buttonSelected = buttons[index];
     buttonSelected.isSelected = !buttonSelected.isSelected;
     if (this.state.jobs.length === 3) {
       buttonSelected.isSelected = false;
     }
-    this.setState(prev => ({ ...prev, buttons }));
-    const name = buttons.filter(c => c.isSelected === true);
-    this.setState({ jobs: name });
+    this.setState((prev) => ({ ...prev, buttons }));
+    const name = buttons.filter((c) => c.isSelected === true);
+    this.setState({ jobs: name, isChange: true });
   };
 
   SaveJob = async () => {
-    const { jobs } = this.state;
-    if (jobs.length < 1) {
-      AlertHelper.show("error", "Erro", "Adicione pelo menos uma profissão!");
-    } else {
-      const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-      AlertHelper.show(
-        "success",
-        "Sucesso",
-        "Profissões adicionada com sucesso!"
-      );
-      updateJobs({ id: token.id, jobs })
-        .then(({ data }) => {
-          if (data.isSuccess) {
-            console.log(data);
-          }
-        })
-        .catch(error => {
-          console.log(error.response.data);
-        });
-    }
+    const { jobs, isChange } = this.state;
+    const { id } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+    jobs.length < 1
+      ? AlertHelper.show("error", "Erro", "Adicione pelo menos uma profissão!")
+      : isChange
+      ? updateJobs({ id, jobs })
+          .then(() => {
+            this.props.navigation.goBack();
+          })
+          .catch((error) => {
+            AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+          })
+      : this.props.navigation.goBack();
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -70,13 +63,12 @@ class AddProfession extends Component {
           title="Salvar"
           onPress={() => params.SaveJob()}
         />
-      )
+      ),
     };
   };
 
   render() {
     const { GetJobs, jobs } = this.state;
-    console.log(this.props.navigation.state.params);
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -86,7 +78,7 @@ class AddProfession extends Component {
                 color: "#FFF",
                 paddingBottom: "5%",
                 fontSize: dimensions(25),
-                fontFamily: "HelveticaNowMicro-Regular"
+                fontFamily: "HelveticaNowMicro-Regular",
               }}
             >
               Profissão
@@ -104,9 +96,9 @@ class AddProfession extends Component {
                       styles.chip,
                       isSelected == true
                         ? styles.chipActive
-                        : styles.chipDisabled
+                        : styles.chipDisabled,
                     ]}
-                    onPress={e => this.click(e, id)}
+                    onPress={(e) => this.selectJob(e, id)}
                   >
                     <Text
                       style={{
@@ -115,7 +107,7 @@ class AddProfession extends Component {
                         fontFamily: "HelveticaNowMicro-Regular",
                         padding: dimensions(6),
                         paddingTop: dimensions(7),
-                        textAlign: "center"
+                        textAlign: "center",
                       }}
                     >
                       {name}
@@ -135,22 +127,22 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#18142F",
-    width: "100%"
+    width: "100%",
   },
   containerJob: {
-    marginHorizontal: "10%"
+    marginHorizontal: "10%",
   },
   chip: {
     backgroundColor: "#6C757D",
     margin: "2.5%",
     height: dimensions(30),
-    borderRadius: 20
+    borderRadius: 20,
   },
   chipActive: {
-    backgroundColor: "#865FC0"
+    backgroundColor: "#865FC0",
   },
   chipDisabled: {
-    backgroundColor: "#FFFFFF5C"
+    backgroundColor: "#FFFFFF5C",
   },
   numberJobText: {
     color: "rgba(255, 255, 255, 0.7)",
@@ -158,8 +150,8 @@ export const styles = StyleSheet.create({
     position: "absolute",
     left: "90%",
     top: dimensions(9),
-    fontFamily: "HelveticaNowMicro-ExtraLight"
-  }
+    fontFamily: "HelveticaNowMicro-ExtraLight",
+  },
 });
 
 export default AddProfession;

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import ActionButton from "~/shared/components/ActionButton";
 import {
   ScrollView,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
 } from "react-native-gesture-handler";
 import { decodeToken, updateSkills } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -20,7 +20,7 @@ class AddSkill extends Component {
     this.state = {
       visible: false,
       prevState: [],
-      GetSkill: this.props.navigation.state.params.GetSkill
+      GetSkill: this.props.navigation.state.params.GetSkill,
     };
   }
 
@@ -30,7 +30,7 @@ class AddSkill extends Component {
     this.props.navigation.setParams({
       handleSave: () => this.SaveSkill(),
       editingSave: () => this.editing(),
-      active
+      active,
     });
   }
 
@@ -56,61 +56,61 @@ class AddSkill extends Component {
                 size={dimensions(22)}
                 style={{
                   paddingHorizontal: dimensions(23),
-                  opacity: active ? 1 : 0
+                  opacity: active ? 1 : 0,
                 }}
                 color="#FFFFFF"
               />
             </TouchableOpacity>
           </View>
-        )
+        ),
     };
   };
 
   editing = () => {
     this.props.navigation.setParams({
-      isEditing: true
+      isEditing: true,
     });
   };
 
-  Skills = txt => {
+  Skills = (txt) => {
     const text = txt.trim();
     this.setState({ text });
   };
 
-  AddSkills = async skill => {
+  AddSkills = async (skill) => {
     this.setState({
       GetSkill: [...this.state.GetSkill, skill],
       visible: false,
-      text: ""
+      text: "",
     });
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const skills = this.state.GetSkill;
 
     this.props.navigation.setParams({
-      active: true
+      active: true,
     });
 
     updateSkills({ id: token.id, skills });
   };
 
-  handleDelete = c => {
+  handleDelete = (c) => {
     const GetSkill = this.state.GetSkill;
     const Deleteskills = [c];
-    const arr = GetSkill.filter(item => !Deleteskills.includes(item));
+    const arr = GetSkill.filter((item) => !Deleteskills.includes(item));
     this.setState({ GetSkill: arr });
   };
 
   SaveSkill = async () => {
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const skills = this.state.GetSkill;
-    const active = skills.length ? true : false;
+    const active = !!skills.length;
 
     this.props.navigation.setParams({
-      active: active
+      active: active,
     });
 
     this.props.navigation.setParams({
-      isEditing: false
+      isEditing: false,
     });
     AlertHelper.show("success", "Sucesso", "Habilidade removida com sucesso!");
     updateSkills({ id: token.id, skills }).then(({ data }) => {
@@ -131,7 +131,7 @@ class AddSkill extends Component {
               flex: 1,
               flexDirection: "column",
               justifyContent: "space-between",
-              marginHorizontal: "5%"
+              marginHorizontal: "5%",
             }}
           >
             <ScrollView>
@@ -198,7 +198,7 @@ class AddSkill extends Component {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#18142F"
+    backgroundColor: "#18142F",
   },
 
   chip: {
@@ -207,31 +207,31 @@ export const styles = StyleSheet.create({
     height: dimensions(30),
     borderRadius: 20,
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   containerAction: {
     marginHorizontal: "-2%",
     alignItems: "flex-end",
-    top: dimensions(-16)
+    top: dimensions(-16),
   },
   containerChip: {
     flexWrap: "wrap",
     flexDirection: "row",
-    width: "100%"
+    width: "100%",
   },
 
   titleSkill: {
     color: "#FFF",
     fontSize: dimensions(25),
     fontFamily: "HelveticaNowMicro-Regular",
-    paddingVertical: "5.6%"
+    paddingVertical: "5.6%",
   },
   textChip: {
     color: "#18142F",
     paddingHorizontal: "1.9%",
     fontSize: dimensions(12),
-    fontFamily: "HelveticaNowMicro-Regular"
-  }
+    fontFamily: "HelveticaNowMicro-Regular",
+  },
 });
 
 export default AddSkill;

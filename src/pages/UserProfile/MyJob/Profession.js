@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
-  Image,
   TextInput,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -91,7 +90,8 @@ class Profession extends Component {
     this.props.navigation.navigate("AddSkill", { GetSkill });
   };
 
-  handleInputFocus = () => this.setState({ isFocused: true });
+  handleInputFocus = () =>
+    this.setState({ isFocused: true, isValueWork: false });
 
   handleInputBlur = async () => {
     this.setState({ isFocused: false });
@@ -103,10 +103,8 @@ class Profession extends Component {
       minimumValueToWork: valueReceived,
     };
     received(r)
-      .then(({ data }) => {
-        if (data.isSuccess) {
-          console.log(data);
-        }
+      .then(() => {
+        this.setState({ isValueWork: true });
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -114,7 +112,14 @@ class Profession extends Component {
   };
 
   render() {
-    const { GetSkill, JobsSelected, text, isFocused, spinner } = this.state;
+    const {
+      GetSkill,
+      JobsSelected,
+      text,
+      isFocused,
+      spinner,
+      isValueWork,
+    } = this.state;
     return (
       <View style={styles.container}>
         <SpinnerComponent loading={spinner} />
@@ -142,6 +147,14 @@ class Profession extends Component {
                 />
               )}
             />
+            {isValueWork && (
+              <View style={styles.TextSaveValue}>
+                <Icon name="check-circle" size={calcWidth(5)} color="#03DAC6" />
+                <Text style={[styles.Title, { color: "#03DAC6" }]}>
+                  Salvo com sucesso
+                </Text>
+              </View>
+            )}
           </View>
           <TouchableOpacity
             onPress={this.openAddProfession}
@@ -253,7 +266,13 @@ const styles = StyleSheet.create({
     padding: dimensions(10),
     paddingTop: dimensions(7),
   },
-
+  TextSaveValue: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "58%",
+    marginTop: calcWidth(2),
+    marginLeft: calcWidth(4),
+  },
   jobNumber: {
     color: "rgba(255, 255, 255, 0.7)",
     fontFamily: "HelveticaNowMicro-ExtraLight",

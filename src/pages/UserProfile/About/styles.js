@@ -1,78 +1,79 @@
 import { StyleSheet } from "react-native";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#18142F",
     width: "100%",
-    alignItems: "center"
+    alignItems: "center",
   },
   ScrollView: {
     width: "100%",
-    paddingHorizontal: "5%"
+    paddingHorizontal: "5%",
   },
   containerAvatar: {
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: calcWidth(3),
   },
   informationProfile: {
     backgroundColor: "#24203B",
     padding: "5%",
     borderRadius: 15,
-    paddingBottom: "18%"
+    paddingBottom: "18%",
   },
   containerSwitch: {
     flexDirection: "row",
-    width: "92%"
+    width: "92%",
   },
   containerLocation: {
     backgroundColor: "#24203B",
     marginTop: "3%",
     padding: "5%",
-    borderRadius: 15
+    borderRadius: 15,
   },
   containerPresentationPhoto: {
     backgroundColor: "#24203B",
     marginTop: "3%",
     padding: "5%",
-    borderRadius: 15
+    borderRadius: 15,
   },
   containerModalBank: {
     justifyContent: "center",
     flex: 1,
-    marginTop: Platform.OS == "ios" ? 30 : 0
+    marginTop: Platform.OS == "ios" ? 30 : 0,
   },
   thumbnail: {
     width: dimensions(57),
     height: dimensions(55),
     paddingVertical: "1%",
-    marginRight: "4%"
+    marginRight: "4%",
   },
   photo: {
     width: dimensions(57),
     height: dimensions(55),
     borderColor: "#FFF",
     borderWidth: 2,
-    borderRadius: 5
+    borderRadius: 5,
   },
   containerInformationPrivade: {
     backgroundColor: "#24203B",
     marginTop: "3%",
     padding: "5%",
-    borderRadius: 15
+    borderRadius: 15,
   },
   containerInformationBank: {
     backgroundColor: "#24203B",
     marginTop: "3%",
     padding: "5%",
     borderRadius: 15,
-    marginBottom: "10%"
+    marginBottom: "10%",
   },
   containerBtn: {
     width: "100%",
     alignItems: "center",
     marginTop: "3%",
-    padding: "5%"
+    padding: "5%",
   },
   containerManequim: {
     borderColor: "#FFF",
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: "68%",
     height: dimensions(43),
-    top: dimensions(18)
+    top: dimensions(18),
   },
   containerGender: {
     borderColor: "#FFF",
@@ -92,26 +93,26 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: dimensions(43),
     top: dimensions(18),
-    left: "53%"
+    left: "53%",
   },
   Avatar: {
     width: dimensions(90),
     height: dimensions(90),
     borderRadius: dimensions(50),
     borderColor: "#FFB72B",
-    borderWidth: 2
+    borderWidth: 2,
   },
   textArea: {
     width: "100%",
     height: dimensions(120),
     borderRadius: 30,
     textAlignVertical: "top",
-    paddingVertical: "5%"
+    paddingVertical: "5%",
   },
   textStyle: {
     fontFamily: "HelveticaNowMicro-Regular",
     padding: 10,
-    color: "#FFF"
+    color: "#FFF",
   },
   btn: {
     borderColor: "#FFF",
@@ -119,13 +120,13 @@ const styles = StyleSheet.create({
     padding: 24,
     width: "70%",
     alignItems: "center",
-    borderRadius: 25
+    borderRadius: 25,
   },
   iconAvatar: {
     width: dimensions(20),
     height: dimensions(20),
     top: "-18%",
-    left: "70%"
+    left: "70%",
   },
   btnBank: {
     borderColor: "#FFF",
@@ -134,8 +135,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     width: "45%",
     justifyContent: "center",
-    marginBottom: "2%"
-  }
+    marginBottom: "2%",
+  },
 });
 
 export default styles;
