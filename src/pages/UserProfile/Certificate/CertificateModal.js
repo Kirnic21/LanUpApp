@@ -58,7 +58,7 @@ const CertificateModal = ({ navigation }) => {
             isfocused={FuchsiaBlueColor}
           />
           <Field title="Serviço" component={SelectPicker} name={"service"} />
-          <View style={{ alignItems: "center" }}>
+          <View style={{ alignItems: "center", marginBottom: calcWidth(5) }}>
             <ButtonComponent
               title="Adicionar"
               isSelected={true}

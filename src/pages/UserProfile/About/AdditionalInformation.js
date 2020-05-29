@@ -12,16 +12,7 @@ const AdditionalInformation = ({}) => {
   });
   return (
     <View style={styles.containerInformationPrivade}>
-      <Text
-        style={{
-          color: "#FFF",
-          fontSize: dimensions(14),
-          paddingBottom: "7%",
-          fontFamily: "HelveticaNowMicro-Regular",
-        }}
-      >
-        Informações Adicionais
-      </Text>
+      <Text style={styles.TitleInformation}>Informações Adicionais</Text>
       <Field
         title="E-mail"
         component={InputField}
@@ -32,6 +23,8 @@ const AdditionalInformation = ({}) => {
         style={{ width: "100%" }}
         title="Telefone"
         keyboardType="numeric"
+        placeholder="(99) 99999-9999"
+        placeholderTextColor="rgba(255,255,255,0.5)"
         component={InputMask}
         name={"phone"}
         mask={"([00]) [00000]-[0000]"}

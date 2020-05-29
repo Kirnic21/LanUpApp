@@ -14,13 +14,13 @@ export default class ModalFilterBank extends React.Component {
       search: "",
       bottomModalAndTitle: true,
       visible: false,
-      code: ""
+      code: "",
     };
     this.arrayholder = [];
   }
 
   SearchFilterFunction(text) {
-    const newData = bank.filter(function(item) {
+    const newData = bank.filter(function (item) {
       const itemData = item.description
         ? item.description.toUpperCase()
         : "".toUpperCase();
@@ -29,11 +29,11 @@ export default class ModalFilterBank extends React.Component {
     });
     this.setState({
       dataSource: newData,
-      search: text
+      search: text,
     });
   }
 
-  search = text => {
+  search = (text) => {
     this.setState({ text });
     console.log(text);
   };
@@ -41,7 +41,7 @@ export default class ModalFilterBank extends React.Component {
     this.search.clear();
   };
 
-  bank = e => {
+  bank = (e) => {
     this.setState({ code: e });
   };
 
@@ -60,7 +60,7 @@ export default class ModalFilterBank extends React.Component {
               paddingLeft: "15%",
               marginTop: "-5%",
               fontFamily: "HelveticaNowMicro-Regular",
-              fontSize: dimensions(14)
+              fontSize: dimensions(14),
             }}
           >
             {code || bankCode}
@@ -78,20 +78,20 @@ export default class ModalFilterBank extends React.Component {
               containerStyle={{
                 backgroundColor: "#23203F",
                 borderTopWidth: 0,
-                borderBottomWidth: 0
+                borderBottomWidth: 0,
               }}
               color={"#FFF"}
               inputContainerStyle={{ backgroundColor: "#FFF" }}
               inputStyle={{
                 color: "#23203F",
                 fontFamily: "HelveticaNowMicro-Regular",
-                fontSize: dimensions(14)
+                fontSize: dimensions(14),
               }}
               searchIcon={{ size: 24, color: "#23203F" }}
               placeholderTextColor={"#23203F"}
-              onChangeText={text => this.SearchFilterFunction(text)}
-              onClear={text => this.SearchFilterFunction("")}
-              placeholder="Digite aqui..."
+              onChangeText={(text) => this.SearchFilterFunction(text)}
+              onClear={(text) => this.SearchFilterFunction("")}
+              placeholder="Digite o banco."
               value={search}
             />
             <FlatList

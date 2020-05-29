@@ -8,9 +8,10 @@ const ButtonComponent = ({
   selectedColor,
   unSelectedColor,
   textStyle,
+  textColor,
   buttonStyle,
   title,
-  onPress
+  onPress,
 }) => {
   return (
     <View pointerEvents={isSelected ? "auto" : "none"}>
@@ -21,14 +22,14 @@ const ButtonComponent = ({
           styles.Btn,
           isSelected
             ? { backgroundColor: selectedColor || "#FFFFFF" }
-            : { backgroundColor: unSelectedColor || "#FFFFFF" }
+            : { backgroundColor: unSelectedColor || "#FFFFFF" },
         ]}
       >
         <Text
           style={[
             textStyle,
             styles.textBtn,
-            { color: isSelected ? "#FFFFFF" : "#18142F" }
+            { color: isSelected ? textColor || "#FFFFFF" : "#18142F" },
           ]}
         >
           {title || "name"}
@@ -43,12 +44,12 @@ const styles = StyleSheet.create({
     width: calcWidth(50),
     padding: calcWidth(3.5),
     borderRadius: calcWidth(30),
-    alignItems: "center"
+    alignItems: "center",
   },
   textBtn: {
     fontSize: calcWidth(3.5),
-    fontFamily: "HelveticaNowMicro-Regular"
-  }
+    fontFamily: "HelveticaNowMicro-Regular",
+  },
 });
 
 export default ButtonComponent;

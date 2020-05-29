@@ -10,16 +10,7 @@ const ProfileInformation = ({}) => {
   reduxForm({ form: "ProfileInformation" });
   return (
     <View style={styles.informationProfile}>
-      <Text
-        style={{
-          color: "#FFF",
-          fontSize: dimensions(14),
-          paddingBottom: "7%",
-          fontFamily: "HelveticaNowMicro-Regular"
-        }}
-      >
-        Informações do Perfil
-      </Text>
+      <Text style={styles.TitleInformation}>Informações do Profissional</Text>
       <Field
         style={{ width: "100%" }}
         title="Nome Completo"
@@ -37,7 +28,7 @@ const ProfileInformation = ({}) => {
       <Field
         style={[
           styles.textArea,
-          { fontSize: 14, fontFamily: "SourceSansPro-Regular" }
+          { fontSize: 14, fontFamily: "SourceSansPro-Regular" },
         ]}
         title="Descrição"
         component={InputField}
@@ -61,7 +52,7 @@ const ProfileInformation = ({}) => {
             style={{
               width: "100%",
               paddingLeft: "21%",
-              height: dimensions(43)
+              height: dimensions(43),
             }}
             title="Peso"
             component={InputMask}
@@ -79,7 +70,7 @@ const ProfileInformation = ({}) => {
               // width: "20%",
               color: "#fff",
               top: "-35%",
-              left: "10%"
+              left: "10%",
             }}
             name={"clothingsSizes"}
             component={PickerComponent}
@@ -99,7 +90,7 @@ const ProfileInformation = ({}) => {
           marginTop: "5%",
           color: "#FFF",
           fontSize: dimensions(14),
-          fontFamily: "HelveticaNowMicro-Regular"
+          fontFamily: "HelveticaNowMicro-Regular",
         }}
       >
         Tenho:
@@ -115,11 +106,11 @@ const ProfileInformation = ({}) => {
         name={"ownTransport"}
       />
       <Field
-        title="Problema de saúde"
+        title="Quero trabalhar fixo"
         component={Toggle}
         name={"healthProblem"}
       />
-      <Field title="Costume de fumar" component={Toggle} name={"smoke"} />
+      <Field title="Material de Trabalho" component={Toggle} name={"smoke"} />
     </View>
   );
 };

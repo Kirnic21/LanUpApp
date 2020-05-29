@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, ScrollView } from "react-native";
+import { View, TouchableOpacity, ScrollView, Text } from "react-native";
 
 import ImageBody from "~/assets/images/icon_addbody.png";
 import ImageSelf from "~/assets/images/icon_addselfie.png";
@@ -295,6 +295,10 @@ class AboutMe extends Component {
               <FastImage source={{ uri: avatar }} style={styles.Avatar} />
               <FastImage source={AddIcon} style={styles.iconAvatar} />
             </TouchableOpacity>
+
+            <Text style={[styles.TitleInformation, { textAlign: "center" }]}>
+              Coloque a foto que te representa{"\n"} como profissional
+            </Text>
           </View>
           <ProfileInformation />
 

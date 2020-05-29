@@ -114,6 +114,12 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#FFF",
   },
+  TitleInformation: {
+    color: "#FFFFFF",
+    fontSize: dimensions(14),
+    paddingBottom: "7%",
+    fontFamily: "HelveticaNowMicro-Regular",
+  },
   btn: {
     borderColor: "#FFF",
     borderWidth: 2,

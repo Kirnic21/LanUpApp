@@ -24,7 +24,8 @@ export default InputField = ({
   const [isInputFocused, setInputFocused] = useState({
     input1: false,
   });
-  const editableColor = editable === false ? "#a0a0a0" : "#FFFFFF";
+  const editableColor =
+    editable === false ? "rgba(255,255,255,0.5)" : "#FFFFFF";
   return (
     <View>
       <View>

@@ -23,7 +23,7 @@ const ModalAgency = ({
       swipe={[]}
     >
       <View style={{ marginHorizontal: calcWidth(5), height: "90%" }}>
-        <Text style={styles.title}>Insira seu código</Text>
+        <Text style={styles.title}>Insira seu código{"\n"}da agência</Text>
         <InputLabel
           isfocused="#46C5F3"
           onChangeText={onChangeText}
@@ -49,14 +49,18 @@ const ModalAgency = ({
                   />
                 </View>
               ) : (
-                <Text
-                  style={[
-                    styles.nameAgency,
-                    { width: "100%", textAlign: "center" },
-                  ]}
-                >
-                  nenhuma agência encontrada
-                </Text>
+                <View style={{ alignItems: "center" }}>
+                  <Text
+                    style={[
+                      styles.nameAgency,
+                      {
+                        lineHeight: calcWidth(7),
+                      },
+                    ]}
+                  >
+                    Caso não tenha o código,{"\n"} solicite para sua Agência.
+                  </Text>
+                </View>
               )}
             </View>
           }
@@ -107,7 +111,7 @@ const styles = {
     color: "#FFFFFF",
     fontFamily: "HelveticaNowMicro-Medium",
     fontSize: dimensions(24),
-    marginBottom: calcWidth(5),
+    marginBottom: calcWidth(2),
   },
   nameAgency: {
     color: "#FFFFFF",

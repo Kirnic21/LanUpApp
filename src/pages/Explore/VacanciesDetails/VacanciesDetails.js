@@ -230,7 +230,7 @@ class VacanciesDetails extends Component {
     return {
       0: (
         <ButtonComponent
-          title="Aceitar"
+          title="Aceitar esta vaga"
           isSelected={!!checkin}
           onPress={() => {
             this.invite();
@@ -265,7 +265,7 @@ class VacanciesDetails extends Component {
       ),
       8: (
         <ButtonComponent
-          title="Aceitar"
+          title="Aceitar esta vaga"
           isSelected={true}
           onPress={() => {
             this.acceptVacancyInvite();
@@ -391,7 +391,7 @@ class VacanciesDetails extends Component {
           <View style={{ marginHorizontal: "5%", paddingVertical: "5%" }}>
             {status === 0 && (
               <SelectComponent
-                label="Turnos"
+                label="Turnos disponíveis"
                 onSelect={(id, value) => {
                   this.selectShift(value);
                 }}

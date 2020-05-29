@@ -11,33 +11,24 @@ const BankInformation = ({ onPress, bankCode }) => {
   return (
     <View>
       <View style={styles.containerInformationBank}>
-        <Text
-          style={{
-            color: "#FFF",
-            fontSize: dimensions(14),
-            paddingBottom: "7%",
-            fontFamily: "HelveticaNowMicro-Regular"
-          }}
-        >
-          Informações Bancárias
-        </Text>
+        <Text style={styles.TitleInformation}>Informações Bancárias</Text>
         <View style={{ alignContent: "stretch", paddingBottom: "2.5%" }}>
           <Text
             style={{
               fontSize: dimensions(12),
               color: "#FFF",
               top: "-1%",
-              fontFamily: "HelveticaNowMicro-Regular"
+              fontFamily: "HelveticaNowMicro-Regular",
             }}
           >
-            Banco
+            Banco:
           </Text>
           <Modal onPress={onPress} bankCode={bankCode} />
 
           <View style={{ position: "absolute", width: "100%", left: "53%" }}>
             <Field
               style={{ width: "47%" }}
-              title="Agência"
+              title="Agência:"
               component={InputField}
               name={"bankBranch"}
               keyboardType="numeric"
@@ -48,7 +39,7 @@ const BankInformation = ({ onPress, bankCode }) => {
         </View>
         <Field
           style={{ width: "100%" }}
-          title="Conta Corrente"
+          title="Número da Conta:"
           component={InputField}
           name={"bankAccount"}
           isfocused={"#A893F2"}
@@ -57,7 +48,7 @@ const BankInformation = ({ onPress, bankCode }) => {
         />
         <Field
           style={{ width: "100%" }}
-          title="CPF/CNPJ"
+          title="CPF/CNPJ do Titular:"
           component={InputMask}
           name={"cpfCnpj"}
           keyboardType="numeric"
@@ -66,7 +57,7 @@ const BankInformation = ({ onPress, bankCode }) => {
         />
         <Field
           style={{ width: "100%" }}
-          title="Nome do Titular"
+          title="Nome do Titular:"
           component={InputField}
           name={"owner"}
           isfocused={"#A893F2"}

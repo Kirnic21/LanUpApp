@@ -46,8 +46,8 @@ class UserProfile extends Component {
           onPress: () => this.navigateToScreen("AboutMe"),
         },
         {
-          title: "Meu Job",
-          subtitle: "Área de operação, disponibilidade e mais",
+          title: "Funções que atuo",
+          subtitle: "Área de operação, e habilidades",
           onPress: () => this.navigateToScreen("Profession"),
         },
         {
@@ -56,7 +56,7 @@ class UserProfile extends Component {
           onPress: () => this.navigateToScreen("Agency"),
         },
         {
-          title: "Galeria",
+          title: "Fotos dos jobs",
           subtitle: "Fotos e videos de seu trabalho",
           onPress: () => this.openMidia(),
         },
@@ -71,8 +71,8 @@ class UserProfile extends Component {
           onPress: () => this.navigateToScreen("Availability"),
         },
         {
-          title: "Histórico de trabalho",
-          subtitle: "Trabalho, avaliações e recomendações",
+          title: "Jobs realizados",
+          subtitle: "Trabalhos, avaliações e recomendações",
           onPress: () => this.openModal(),
         },
       ],
@@ -219,7 +219,7 @@ class UserProfile extends Component {
               style={[{ width: dimensions(250), alignItems: "center" }]}
             >
               <Text style={[styles.submitText, styles.backColorSteelGray]}>
-                Pré-visualizar o perfil
+                Visualizar o perfil na web
               </Text>
             </TouchableOpacity>
           </View>
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   },
   subtitleContent: {
     fontFamily: "HelveticaNowMicro-Light",
-    color: "rgba(255,255,255,0.5)",
+    color: "rgba(255,255,255,0.7)",
     fontSize: dimensions(11.5),
   },
   content: {

@@ -12,30 +12,30 @@ export default class OccupationArea extends React.Component {
     this.state = { visible: false, bottomModalAndTitle: true };
   }
 
-  onSearch = value => {
+  onSearch = (value) => {
     axios
       .get(
         `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${value}&inputtype=textquery&fields=type,icon,place_id,formatted_address,name,geometry&key=AIzaSyB1QnZpLJnE-j8mL3f5uHDlCmV7jH_GRp0`
       )
-      .then(response =>
+      .then((response) =>
         this.setState({
-          places: this.mapCandidatesToPlaces(response.data.candidates)
+          places: this.mapCandidatesToPlaces(response.data.candidates),
         })
       )
-      .catch(message => this.showMessage(message));
+      .catch((message) => this.showMessage(message));
   };
 
-  mapCandidatesToPlaces = candidates =>
-    candidates.map(candidate => ({
+  mapCandidatesToPlaces = (candidates) =>
+    candidates.map((candidate) => ({
       address: candidate.formatted_address || candidate.vicinity,
       location: {
         latitude: candidate.geometry.location.lat,
-        longitude: candidate.geometry.location.lng
+        longitude: candidate.geometry.location.lng,
       },
       name: candidate.name,
       icon: candidate.icon,
       id: candidate.place_id,
-      type: candidate.types[0]
+      type: candidate.types[0],
     }));
 
   clear = () => {
@@ -47,15 +47,8 @@ export default class OccupationArea extends React.Component {
     const { search, visible } = this.state;
     return (
       <View style={styles.containerLocation}>
-        <Text
-          style={{
-            color: "#FFF",
-            fontSize: dimensions(14),
-            fontFamily: "HelveticaNowMicro-Regular",
-            paddingBottom: "5%"
-          }}
-        >
-          Região de atuação
+        <Text style={[styles.TitleInformation, { paddingBottom: "5%" }]}>
+          Coloque seu melhor endereço
         </Text>
         <Text
           onPress={() => {
@@ -66,14 +59,14 @@ export default class OccupationArea extends React.Component {
             borderWidth: 2,
             paddingVertical: dimensions(12),
             borderRadius: 25,
-            color: "#FFF",
+            color: address ? "#FFF" : "rgba(255,255,255,0.5)",
             paddingLeft: "7%",
             textAlignVertical: "center",
             fontSize: dimensions(12),
-            fontFamily: "HelveticaNowMicro-Regular"
+            fontFamily: "HelveticaNowMicro-Regular",
           }}
         >
-          {address}
+          {address || "Coloque onde você mora"}
         </Text>
         <Modal
           onClose={() => this.setState({ visible: false })}
@@ -87,7 +80,7 @@ export default class OccupationArea extends React.Component {
                   style={{
                     backgroundColor: "#18142F",
                     paddingVertical: "10%",
-                    borderRadius: 15
+                    borderRadius: 15,
                   }}
                 >
                   <Text
@@ -95,7 +88,7 @@ export default class OccupationArea extends React.Component {
                       color: "#FFF",
                       fontSize: dimensions(14),
                       fontFamily: "HelveticaNowMicro-Regular",
-                      textAlign: "center"
+                      textAlign: "center",
                     }}
                   >
                     "Nenhum endereço"
@@ -104,18 +97,18 @@ export default class OccupationArea extends React.Component {
               }
               style={{ marginTop: "10%", marginBottom: "10%" }}
               extraData={this.state}
-              keyExtractor={place => place.id}
+              keyExtractor={(place) => place.id}
               data={this.state.places}
               renderItem={({ item, index }) => (
                 <TouchableOpacity
-                  onPress={e => {
+                  onPress={(e) => {
                     this.setState({ visible: false, place: "" });
                     this.props.onPress(item);
                   }}
                   style={{
                     backgroundColor: "#18142F",
                     paddingVertical: "10%",
-                    borderRadius: 15
+                    borderRadius: 15,
                   }}
                 >
                   <Text
@@ -123,7 +116,7 @@ export default class OccupationArea extends React.Component {
                       color: "#fff",
                       fontSize: dimensions(14),
                       fontFamily: "HelveticaNowMicro-Regular",
-                      textAlign: "center"
+                      textAlign: "center",
                     }}
                   >
                     {item.address}

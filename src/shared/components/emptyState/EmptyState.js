@@ -9,7 +9,7 @@ const PhotoGalleryEmptyState = ({
   title,
   subtitle,
   image,
-  imageStyle
+  imageStyle,
 }) => {
   return (
     <View style={styles.container}>
@@ -39,41 +39,41 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   containerEmptyTitle: {
     width: "100%",
     alignItems: "center",
     justifyContent: "flex-end",
-    height: "30%"
+    height: "25%",
   },
   containerEmptyImg: {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    height: "28%"
+    height: "28%",
   },
   containerEmptySubtitle: {
     width: "100%",
     alignItems: "center",
-    height: "20%"
+    height: "20%",
   },
   containerEmptyBtn: {
     width: "95%",
     alignItems: "flex-end",
     justifyContent: "center",
-    height: "20%"
+    height: "20%",
   },
   emptyTitle: {
     color: "#FFF",
     fontSize: dimensions(24),
     fontFamily: "HelveticaNowDisplay-Regular",
     textAlign: "center",
-    lineHeight: calcWidth(11)
+    lineHeight: calcWidth(11),
   },
   emptyStateContainer: {
     borderColor: "#FFF",
-    borderWidth: 2
+    borderWidth: 2,
   },
 
   emptySubtitle: {
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
     fontFamily: "HelveticaNowMicro-ExtraLight",
     lineHeight: calcWidth(8),
     fontSize: dimensions(15),
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 });
 
 export default PhotoGalleryEmptyState;

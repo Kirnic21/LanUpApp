@@ -241,6 +241,19 @@ class Availability extends Component {
               ))}
             </TouchableOpacity>
           </View>
+          <Text
+            style={{
+              fontFamily: "HelveticaNowMicro-ExtraLight",
+              fontSize: dimensions(14),
+              color: "rgba(255,255,255,0.8)",
+              textAlign: "center",
+              marginHorizontal: calcWidth(3),
+              marginBottom: calcWidth(8),
+            }}
+          >
+            Preencha corretamente seus horários,{"\n"}para aumentar suas chances
+            de{"\n"}receber vagas
+          </Text>
         </ScrollView>
         <ModalComingSoon
           onTouchOutside={() => this.closeModal()}

@@ -125,7 +125,7 @@ class Profession extends Component {
         <SpinnerComponent loading={spinner} />
         <ScrollView>
           <View style={styles.containerReceive}>
-            <Text style={styles.Title}>Recebo no mínimo até:</Text>
+            <Text style={styles.Title}>Recebo por dia no mínimo:</Text>
             <NumberFormat
               value={text}
               displayType={"text"}

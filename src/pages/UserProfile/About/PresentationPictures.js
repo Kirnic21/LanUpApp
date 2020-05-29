@@ -6,14 +6,7 @@ import dimensions from "~/assets/Dimensions/index";
 export default PresentationPictures = ({ children, BoxItem, onPress }) => {
   return (
     <View style={styles.containerPresentationPhoto}>
-      <Text
-        style={{
-          color: "#FFF",
-          fontSize: dimensions(14),
-          paddingBottom: "3%",
-          fontFamily: "HelveticaNowMicro-Regular"
-        }}
-      >
+      <Text style={[styles.TitleInformation, { paddingBottom: "3%" }]}>
         Fotos de apresentação
       </Text>
       <Text
@@ -21,7 +14,7 @@ export default PresentationPictures = ({ children, BoxItem, onPress }) => {
           color: "#ffffffad",
           paddingBottom: "5%",
           fontSize: dimensions(10),
-          fontFamily: "HelveticaNowMicro-Light"
+          fontFamily: "HelveticaNowMicro-Light",
         }}
       >
         2 de perfil (sozinho) e 2 de corpo inteiro
@@ -30,7 +23,7 @@ export default PresentationPictures = ({ children, BoxItem, onPress }) => {
         {BoxItem.map(({ icon, id, photo }) => (
           <TouchableOpacity
             key={id}
-            onPress={e => {
+            onPress={(e) => {
               onPress(id);
             }}
             style={styles.thumbnail}

@@ -203,7 +203,13 @@ class PhotoGallery extends React.Component {
         ) : (
           <PhotoGalleryEmptyState
             title={`Não temos nenhuma${"\n"}mídia para mostrar`}
-            subtitle={`Adicione as suas fotos${"\n"}e divulgue o seu trabalho`}
+            subtitle={
+              <Text>
+                Adicione e compartilhe{"\n"}suas fotos dos Jobs{"\n"}
+                realizados, aumentando{"\n"}suas chances no{"\n"}processo
+                seletivo!
+              </Text>
+            }
             image={ImageOutline}
             onPress={this.handleOnPictureAdd}
           />

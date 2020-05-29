@@ -56,25 +56,25 @@ const pageNavigator = createStackNavigator(
         headerTitle: "Sobre mim",
       }),
     },
-    Profession: {
-      screen: Profession,
-      navigationOptions: () => ({ headerTitle: "Meu Job" }),
-    },
     Agency: {
       screen: Agency,
-      navigationOptions: () => ({ headerTitle: "Agência" }),
+      navigationOptions: () => ({ headerTitle: "Agências" }),
+    },
+    Profession: {
+      screen: Profession,
+      navigationOptions: () => ({ headerTitle: "Funções que atuo" }),
     },
     AddProfession: {
       screen: AddProfession,
-      navigationOptions: () => ({ headerTitle: "Meu Job" }),
+      navigationOptions: () => ({ headerTitle: "Funções que atuo" }),
     },
     AddSkill: {
       screen: AddSkill,
-      navigationOptions: () => ({ headerTitle: "Meu Job" }),
+      navigationOptions: () => ({ headerTitle: "Funções que atuo" }),
     },
     PhotoGallery: {
       screen: PhotoGallery,
-      navigationOptions: () => ({ headerTitle: "Galeria" }),
+      navigationOptions: () => ({ headerTitle: "Fotos dos Jobs" }),
     },
     Certificates: {
       screen: Certificates,
