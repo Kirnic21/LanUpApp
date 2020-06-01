@@ -13,7 +13,6 @@ import {
 } from "react-native";
 
 import MapView, { Marker, AnimatedRegion } from "react-native-maps";
-import RNAndroidLocationEnabler from "react-native-android-location-enabler";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import IconDestination from "react-native-vector-icons/FontAwesome5";
 import Geolocation from "react-native-geolocation-service";

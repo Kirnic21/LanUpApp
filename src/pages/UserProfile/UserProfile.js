@@ -114,7 +114,7 @@ class UserProfile extends Component {
       } = await emergenciesVacancies({
         id: vacancy.eventId,
         service: vacancy.job,
-        day: vacancy.day.slice(0, 10),
+        day: vacancy.day,
       });
       this.props.notifyVacancy([result, vacancy]);
       this.props.navigation.navigate("Modal");

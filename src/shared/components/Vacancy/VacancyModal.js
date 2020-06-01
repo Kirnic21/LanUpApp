@@ -1,11 +1,14 @@
 import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, ActivityIndicator } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import ModalComponent from "../ModalComponent";
 import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
 import dimensions, { calcWidth, calcHeight } from "~/assets/Dimensions";
 import ButtonPulse from "~/shared/components/ButtonPulse";
+import Geolocation from "react-native-geolocation-service";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import axios from "axios";
 
 const styles = {
   container: {
@@ -32,6 +35,11 @@ const styles = {
     fontSize: dimensions(12),
     fontFamily: "HelveticaNowMicro-ExtraLight",
   },
+  textDistance: {
+    fontFamily: "HelveticaNowMicro-Bold",
+    color: "#FFB72B",
+    fontSize: dimensions(20),
+  },
 };
 
 class VacancyModal extends React.Component {
@@ -43,6 +51,42 @@ class VacancyModal extends React.Component {
     };
   }
 
+  async componentDidMount() {
+    const { vacancy } = this.props;
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        this.getDistance(latitude, longitude, vacancy[0].location);
+      },
+      (error) => {
+        console.log(error.code, error.message);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  }
+
+  getDistance = async (lat, lng, location) => {
+    this.setState({ spinner: true });
+    const origin = lat + "," + lng;
+    const destination = location;
+
+    const ApiURL = "https://maps.googleapis.com/maps/api/distancematrix/json?";
+    const params = `origins=${origin}&destinations=${destination}&language=PT&key=AIzaSyBVsSKFLigzkkpRc1L-GTKCN2N0qQHWYOc`; // you need to get a key
+    const finalApiURL = `${ApiURL}${encodeURI(params)}`;
+    axios
+      .get(finalApiURL)
+      .then((response) => {
+        const { data } = response;
+        const {
+          distance: { value: km },
+          duration: { text: time },
+        } = data.rows[0].elements[0];
+        this.setState({ km, time });
+      })
+      .catch((message) => console.log(message))
+      .finally(() => this.setState({ spinner: false }));
+  };
+
   showDetails = () => {
     this.props.navigation.navigate("VacanciesDetails");
   };
@@ -53,11 +97,11 @@ class VacancyModal extends React.Component {
   };
 
   render() {
-    const { isVisible } = this.state;
+    const { isVisible, km, time, spinner } = this.state;
     const { vacancy } = this.props;
     return (
       <ModalComponent
-        heightModal={calcWidth(125)}
+        heightModal={calcWidth(135)}
         onClose={this.onClose}
         visible={isVisible}
       >
@@ -104,6 +148,21 @@ class VacancyModal extends React.Component {
             />
           </TouchableOpacity>
           <Text style={styles.textAddress}>{vacancy[0].location}</Text>
+          <View style={{ flexDirection: "row", marginTop: calcWidth(15) }}>
+            <FontAwesome
+              name="location-arrow"
+              size={calcWidth(7)}
+              color="#FFB72B"
+              style={{ left: calcWidth(-1) }}
+            />
+            {spinner && <ActivityIndicator color="#FFB72B" size="large" />}
+            {!spinner && (
+              <Text style={styles.textDistance}>
+                {(km / 1000).toFixed(1)}KM
+                <Text style={{ fontSize: dimensions(10) }}>/{time}</Text>
+              </Text>
+            )}
+          </View>
         </View>
       </ModalComponent>
     );
