@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, StatusBar, StyleSheet, ScrollView, Text } from "react-native";
+import {
+  View,
+  StatusBar,
+  StyleSheet,
+  ScrollView,
+  Text,
+  Linking,
+} from "react-native";
 import CardImageVacancies from "./CardImageVacancies";
 import { SafeAreaView } from "react-native";
 import CardDeitailsVacancies from "./CardDeitailsVacancies";
@@ -339,6 +346,9 @@ class VacanciesDetails extends Component {
               <HTML
                 baseFontStyle={styles.colorWhite}
                 html={`<Div>${eventDescription}</Div>`}
+                onLinkPress={(event, href) => {
+                  Linking.openURL(href);
+                }}
               />
             </CardDeitailsVacancies>
             <View>

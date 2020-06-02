@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import { StatusBar, PermissionsAndroid, Platform, Text } from "react-native";
+import { StatusBar, PermissionsAndroid, Platform } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 
 import OneSignal from "react-native-onesignal";
 
@@ -49,6 +50,10 @@ class App extends Component {
     this.setState({
       userChecked: true,
       userLogged: !!token,
+    });
+    NetInfo.addEventListener((state) => {
+      !state.isConnected &&
+        AlertHelper.show("error", "Erro", "Sem conexão com a internet");
     });
   }
 

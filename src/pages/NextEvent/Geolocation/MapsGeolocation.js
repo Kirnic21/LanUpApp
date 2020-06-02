@@ -65,7 +65,6 @@ export default class MapsGeolocation extends React.Component {
       "location_received",
       (e) => {
         this.watchLocation(e);
-        this.sendApi(e);
       }
     );
   }
@@ -87,6 +86,7 @@ export default class MapsGeolocation extends React.Component {
               result: { lat, lng },
             },
           } = await location(addressId);
+
           this.setState({
             destination: {
               latitude: Number(lat),
@@ -99,9 +99,11 @@ export default class MapsGeolocation extends React.Component {
             longitude,
             spinner: true,
           });
+
           setTimeout(() => {
             this.watchLocation(position.coords);
           }, 500);
+
           NativeModules.ForegroundModule.startForegroundService();
         },
         (error) => {
@@ -123,6 +125,7 @@ export default class MapsGeolocation extends React.Component {
   }
 
   watchLocation = ({ latitude, longitude }) => {
+    this.sendApi({ latitude, longitude });
     const { coordinate } = this.state;
     const newCoordinate = {
       latitude,
@@ -159,6 +162,7 @@ export default class MapsGeolocation extends React.Component {
           lat: latitude.toString(),
           long: longitude.toString(),
         });
+        console.log("send");
       } catch (error) {
         console.log(error);
       }
@@ -168,7 +172,7 @@ export default class MapsGeolocation extends React.Component {
 
   arrived = () => {
     const { distance, id } = this.state;
-    if (distance <= 0.15) {
+    if (distance * 1000 <= 150) {
       this.setState({ status: true }, async () => {
         Vibration.vibrate(1000);
         this.subscription.remove();
@@ -235,7 +239,7 @@ export default class MapsGeolocation extends React.Component {
             {newCoordinate ? (
               <MapViewDirections
                 origin={newCoordinate}
-                destination={destination}
+                destination={address}
                 apikey={GOOGLE_MAPS_APIKEY}
                 strokeColor={"#F63535"}
                 strokeWidth={4}
