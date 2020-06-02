@@ -7,6 +7,7 @@ import {
   deleteGalleryImage,
 } from "~/store/ducks/gallery/gallery.actions";
 import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
+import { setAbout } from "~/store/ducks/aboutMe/about.actions";
 import {
   StyleSheet,
   View,
@@ -90,6 +91,7 @@ class UserProfile extends Component {
     });
   }
   onGetAboutSuccess = (data, token) => {
+    this.props.setAbout(data.result.value);
     const { image, emergercyAvailabilityEnabled } = data.result.value;
     const avatar = token ? image : this.Suser.authenticateUser.avatar.url;
 
@@ -345,6 +347,7 @@ const mapActionToProps = (dispatch) =>
       uploadGalleryImage,
       deleteGalleryImage,
       notifyVacancy,
+      setAbout,
     },
     dispatch
   );

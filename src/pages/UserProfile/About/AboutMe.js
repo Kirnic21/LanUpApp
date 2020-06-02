@@ -16,7 +16,7 @@ import {
 } from "~/shared/helpers/validate/ValidateCpfCnpj";
 import { reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
-import { getAbout, decodeToken, aboutMe } from "~/shared/services/freela.http";
+import { decodeToken, aboutMe } from "~/shared/services/freela.http";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { setAbout } from "~/store/ducks/aboutMe/about.actions";
@@ -55,70 +55,85 @@ class AboutMe extends Component {
   };
 
   async componentDidMount() {
-    const { Email, id } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    this.setState({ spinner: true });
+    const { Email } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const { BoxItem } = this.state;
-    getAbout(id)
-      .then(({ data }) => {
-        const get = data.result.value;
-        const getPhoto =
-          get.photos !== null
-            ? get.photos.map((item) => ({ uri: item.url }))
-            : [];
-        const photosGet =
-          get.photos !== null
-            ? get.photos.map((item) => ({ name: item.name }))
-            : [];
-        const mergeArr = (arr, inc) =>
-          arr.map((item, key) => ({
-            ...item,
-            icon: inc[key] || item.icon,
-          }));
-        const getPictures = getPhoto.length
-          ? mergeArr(BoxItem, getPhoto)
-          : BoxItem;
-        this.setState({
-          avatar: get.image,
-          bankCode: get.bankCode,
-          address: get.address,
-          lat: get.latitude,
-          long: get.longitude,
-          photos: photosGet,
-          BoxItem: getPictures,
-        });
-        this.props.initialize({
-          fullName: get.name,
-          nickName: get.nickName,
-          description: get.description,
-          height:
-            get.height === 0
-              ? ""
-              : get.height.toString().replace(/(\d)(?=(\d{2})+(?!\d))/g, "$1,"),
-          weight: get.weight === 0 ? "" : get.weight.toString(),
-          clothingsSizes: get.clothingsSizes,
-          professionalClothing: get.professionalClothing,
-          ownTransport: get.ownTransport,
-          healthProblem: get.healthProblem,
-          smoke: get.smoke,
-          Email,
-          phone: get.phone,
-          birthday:
-            get.birthday === null || get.birthday === "0001-01-01T00:00:00Z"
-              ? ""
-              : new Date(get.birthday),
-          gender: get.gender !== null ? get.gender : 0,
-          bankBranch: get.bankBranch,
-          bankAccount: get.bankAccount,
-          cpfCnpj: get.cpf === null ? get.cnpj : get.cpf,
-          owner: get.owner,
-        });
-      })
-      .catch((error) => {
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-      })
-      .finally(() => {
-        this.setState({ spinner: false });
+    this.setState({ spinner: true }, () => {
+      const {
+        name: fullName,
+        bankAccount,
+        bankBranch,
+        birthday,
+        clothingsSizes,
+        cpf,
+        cnpj,
+        description,
+        nickName,
+        height,
+        weight,
+        professionalClothing,
+        ownTransport,
+        healthProblem,
+        smoke,
+        phone,
+        photos,
+        image: avatar,
+        bankCode,
+        address,
+        latitude: lat,
+        longitude: long,
+        gender,
+        owner,
+      } = this.props.aboutMe;
+
+      this.props.initialize({
+        fullName,
+        bankAccount,
+        bankBranch,
+        birthday:
+          birthday === "0001-01-01T00:00:00Z" ? null : new Date(birthday),
+        clothingsSizes,
+        cpfCnpj: cpf === null ? cnpj : cpf,
+        description,
+        nickName,
+        height:
+          height === 0
+            ? ""
+            : height.toString().replace(/(\d)(?=(\d{2})+(?!\d))/g, "$1,"),
+        weight: weight === 0 ? "" : weight.toString(),
+        professionalClothing,
+        ownTransport,
+        healthProblem,
+        smoke,
+        Email,
+        phone,
+        gender: gender !== null ? gender : 0,
+        owner,
       });
+
+      const getPhoto =
+        photos !== null ? photos.map((item) => ({ uri: item.url })) : [];
+      const photosGet =
+        photos !== null ? photos.map((item) => ({ name: item.name })) : [];
+      const mergeArr = (arr, inc) =>
+        arr.map((item, key) => ({
+          ...item,
+          icon: inc[key] || item.icon,
+        }));
+      const getPictures = getPhoto.length
+        ? mergeArr(BoxItem, getPhoto)
+        : BoxItem;
+
+      this.setState({
+        avatar,
+        bankCode,
+        address,
+        lat,
+        long,
+        photos: photosGet,
+        BoxItem: getPictures,
+        spinner: false,
+      });
+    });
     const { handleSubmit } = this.props;
     await this.props.navigation.setParams({
       handleSave: handleSubmit((data) => this.UpdateAboutMe(data)),
@@ -138,7 +153,7 @@ class AboutMe extends Component {
     this.setState({ spinner: true }, () => {
       aboutMe(request)
         .then(({}) => {
-          this.props.navigation.goBack();
+          this.props.navigation.push("UserProfile");
         })
         .catch((error) => {
           AlertHelper.show("error", "Erro", error.response.data.errorMessage);
@@ -208,7 +223,7 @@ class AboutMe extends Component {
       long: longitude,
       photos,
       phone,
-      birthday: birthday === "" ? "0001-01-01T00:00:00Z" : birthday,
+      birthday: birthday === null ? "0001-01-01T00:00:00Z" : birthday,
       gender,
     };
 
@@ -264,8 +279,7 @@ class AboutMe extends Component {
         });
   };
 
-  xpto = (e) => {
-    console.log(e);
+  location = (e) => {
     this.setState({
       address: e.address,
       lat: e.location.latitude,
@@ -305,7 +319,7 @@ class AboutMe extends Component {
           <OccupationArea
             address={address}
             onPress={(item) => {
-              this.xpto(item);
+              this.location(item);
             }}
           />
           <PresentationPictures
@@ -341,9 +355,17 @@ class AboutMe extends Component {
   }
 }
 
-(mapDispatchToProps = (dispatch) => bindActionCreators({ setAbout }, dispatch)),
-  connect(null, mapDispatchToProps)(AboutMe);
+const mapStateToProps = (state) => {
+  const { aboutMe } = state;
+  return {
+    aboutMe,
+  };
+};
 
+const mapActionToProps = (dispatch) =>
+  bindActionCreators({ setAbout }, dispatch);
+
+AboutMe = connect(mapStateToProps, mapActionToProps)(AboutMe);
 AboutMe = reduxForm({ form: "AboutMe" })(AboutMe);
 
 export default AboutMe;

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import {
   StyleSheet,
   View,
@@ -8,18 +7,23 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
+
 import Icon from "react-native-vector-icons/FontAwesome";
 import NumberFormat from "react-number-format";
+import AsyncStorage from "@react-native-community/async-storage";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+
 import {
   decodeToken,
   getSkills,
   getJobs,
   received,
-  getAbout,
 } from "~/shared/services/freela.http";
-import AsyncStorage from "@react-native-community/async-storage";
 import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
+import { setAbout } from "~/store/ducks/aboutMe/about.actions";
 
 const currencyFormatter = (value) => {
   if (!Number(value)) return "";
@@ -39,7 +43,6 @@ class Profession extends Component {
       GetJobs: [],
       JobsSelected: [],
       isFocused: null,
-      text: "",
       spinner: false,
     };
     this.props.navigation.addListener("willFocus", () => {
@@ -48,31 +51,36 @@ class Profession extends Component {
   }
 
   getProfession = async () => {
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    this.setState({ spinner: true });
-    getAbout(token.id)
-      .then(({ data }) => {
-        const minimumValueToWork = data.result.value.minimumValueToWork;
-        this.setState({ text: minimumValueToWork.toString() });
-      })
-      .finally(() => {
+    this.setState({ spinner: true }, async () => {
+      try {
+        const { id } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+        const { minimumValueToWork } = this.props.aboutMe;
+        const {
+          data: {
+            result: { value: GetSkill },
+          },
+        } = await getSkills(id);
+        const { data: GetJobs } = await getJobs(id);
+
+        GetJobs === null && [];
+        GetSkill === null && [];
+
+        const JobsSelected = GetJobs.filter((c) => c.isSelected === true).map(
+          (c) => c.name
+        );
+
+        this.setState({
+          GetSkill,
+          GetJobs,
+          JobsSelected,
+          ValueToWork: minimumValueToWork.toString(),
+        });
+        console.log(GetSkill);
+      } catch (error) {
+        AlertHelper.show("error", "Erro", error);
+      } finally {
         this.setState({ spinner: false });
-      });
-    getSkills(token.id).then(({ data }) => {
-      const GetSkill = data.result.value;
-      GetSkill === null
-        ? this.setState({ GetSkill: [] })
-        : this.setState({ GetSkill });
-    });
-    getJobs(token.id).then(({ data }) => {
-      const GetJobs = data;
-      GetJobs === null
-        ? this.setState({ GetJobs: [] })
-        : this.setState({ GetJobs });
-      const name = GetJobs.filter((c) => c.isSelected === true).map(
-        (c) => c.name
-      );
-      this.setState({ JobsSelected: name });
+      }
     });
   };
 
@@ -96,18 +104,20 @@ class Profession extends Component {
   handleInputBlur = async () => {
     this.setState({ isFocused: false });
     const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    const { text } = this.state;
-    const valueReceived = Number(text.replace(/[^0-9.-]+/g, ""));
+    const { ValueToWork } = this.state;
+    const { aboutMe } = this.props;
+    const valueReceived = Number(ValueToWork.replace(/[^0-9.-]+/g, ""));
     const r = {
       freelaId: token.id,
       minimumValueToWork: valueReceived,
     };
     received(r)
       .then(() => {
+        this.props.setAbout({ ...aboutMe, minimumValueToWork: valueReceived });
         this.setState({ isValueWork: true });
       })
       .catch((error) => {
-        console.log(error.response.data);
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       });
   };
 
@@ -115,7 +125,7 @@ class Profession extends Component {
     const {
       GetSkill,
       JobsSelected,
-      text,
+      ValueToWork,
       isFocused,
       spinner,
       isValueWork,
@@ -127,14 +137,14 @@ class Profession extends Component {
           <View style={styles.containerReceive}>
             <Text style={styles.Title}>Recebo por dia no mínimo:</Text>
             <NumberFormat
-              value={text}
+              value={ValueToWork}
               displayType={"text"}
               format={currencyFormatter}
               decimalScale={2}
               thousandSeparator={true}
               renderText={(value) => (
                 <TextInput
-                  onChangeText={(text) => this.setState({ text })}
+                  onChangeText={(ValueToWork) => this.setState({ ValueToWork })}
                   onFocus={this.handleInputFocus}
                   onBlur={this.handleInputBlur}
                   style={[
@@ -196,7 +206,7 @@ class Profession extends Component {
             <Text style={[styles.Title, { paddingBottom: "3%" }]}>
               Habilidades
             </Text>
-            {GetSkill.length ? (
+            {GetSkill ? (
               <View
                 style={{
                   flexWrap: "wrap",
@@ -315,4 +325,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profession;
+const mapStateToProps = (state) => {
+  const { aboutMe } = state;
+  return {
+    aboutMe,
+  };
+};
+
+const mapActionToProps = (dispatch) =>
+  bindActionCreators({ setAbout }, dispatch);
+
+export default connect(mapStateToProps, mapActionToProps)(Profession);

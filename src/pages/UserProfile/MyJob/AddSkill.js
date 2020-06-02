@@ -20,7 +20,7 @@ class AddSkill extends Component {
     this.state = {
       visible: false,
       prevState: [],
-      GetSkill: this.props.navigation.state.params.GetSkill,
+      GetSkill: this.props.navigation.state.params.GetSkill || [],
     };
   }
 

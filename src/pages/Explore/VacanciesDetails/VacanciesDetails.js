@@ -343,7 +343,7 @@ class VacanciesDetails extends Component {
             </CardDeitailsVacancies>
             <View>
               <CardDeitailsVacancies
-                title="Minhas Responsabilidades"
+                title="Deveres"
                 contentTextStyle={styles.colorWhite}
                 isModalOn={true}
                 previewContent={previewResponsabilities}

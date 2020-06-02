@@ -8,7 +8,7 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import imgTitle from "~/assets/images/imgDrawer.png";
 import imgBack from "~/assets/images/drawerBack.png";
@@ -16,34 +16,21 @@ import IconMenu from "~/assets/images/icon_menu.png";
 import iconNextEvent from "~/assets/images/iconNextEvent.png";
 import iconExplore from "~/assets/images/iconExplore.png";
 import iconSchedule from "~/assets/images/iconSchedule.png";
-import AsyncStorage from "@react-native-community/async-storage";
-import { getAbout, decodeToken } from "~/shared/services/freela.http";
+import { connect } from "react-redux";
 import dimensions from "~/assets/Dimensions/index";
 
-export default class drawerContentComponents extends Component {
-  state = {
-    avatar: null,
-    nickName: "",
-    visible: false
-  };
+class drawerContentComponents extends Component {
+  state = { visible: false };
 
-  async componentDidMount() {
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    getAbout(token.id).then(({ data }) => {
-      const { nickName, image } = data.result.value;
-      this.setState({ avatar: image, nickName });
-    });
-  }
-
-  navigateToScreen = route => () => {
+  navigateToScreen = (route) => () => {
     const navigateAction = NavigationActions.navigate({
-      routeName: route
+      routeName: route,
     });
     this.props.navigation.dispatch(navigateAction);
   };
 
   render() {
-    const { avatar, nickName } = this.state;
+    const { image, nickName } = this.props;
     const { height } = Dimensions.get("screen");
     return (
       <ImageBackground
@@ -54,7 +41,7 @@ export default class drawerContentComponents extends Component {
           backgroundColor: "#24203BE6",
           elevation: 2,
           borderRightColor: "#EB48864D",
-          borderRightWidth: 2
+          borderRightWidth: 2,
         }}
         resizeMode="cover"
         imageStyle={{ opacity: 0.3 }}
@@ -65,7 +52,7 @@ export default class drawerContentComponents extends Component {
               source={imgTitle}
               style={{
                 width: dimensions(90),
-                height: dimensions(30)
+                height: dimensions(30),
               }}
             />
             <TouchableOpacity
@@ -85,7 +72,7 @@ export default class drawerContentComponents extends Component {
               style={{
                 color: "#fff",
                 fontSize: dimensions(13),
-                fontFamily: "HelveticaNowMicro-Regular"
+                fontFamily: "HelveticaNowMicro-Regular",
               }}
             >
               @{nickName}
@@ -100,18 +87,18 @@ export default class drawerContentComponents extends Component {
                 alignItems: "center",
                 borderBottomColor: "#865FC0",
                 borderBottomWidth: 2,
-                marginBottom: "18%"
+                marginBottom: "18%",
               }}
             >
               <Image
-                source={{ uri: avatar }}
+                source={{ uri: image }}
                 style={[
                   {
                     borderRadius: 40,
                     borderColor: "#865FC0",
-                    borderWidth: 2
+                    borderWidth: 2,
                   },
-                  styles.sizeIcons
+                  styles.sizeIcons,
                 ]}
               />
               <Text style={styles.screenTextStyle}>Perfil</Text>
@@ -152,14 +139,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "100%"
+    width: "100%",
   },
   headerContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "flex-end",
     height: "8%",
-    width: "90%"
+    width: "90%",
   },
   screenContainer: {
     width: "90%",
@@ -167,22 +154,22 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     height: "75%",
-    top: "-11.5%"
+    top: "-11.5%",
   },
   nickNameContainer: {
     width: "100%",
     alignItems: "center",
-    marginTop: "-45%"
+    marginTop: "-45%",
   },
   sizeIcons: {
     width: dimensions(55),
-    height: dimensions(55)
+    height: dimensions(55),
   },
   screenTextStyle: {
     fontSize: dimensions(14),
     fontFamily: "SegoeUI",
     textAlign: "center",
-    color: "#FFF"
+    color: "#FFF",
   },
   containerIcons: {
     width: "70%",
@@ -190,6 +177,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderBottomColor: "#865FC0",
     borderBottomWidth: 2,
-    marginBottom: "18%"
-  }
+    marginBottom: "18%",
+  },
 });
+
+const mapStateToProps = (state) => {
+  const { nickName, image } = state.aboutMe;
+  return {
+    nickName,
+    image,
+  };
+};
+
+export default connect(mapStateToProps, null)(drawerContentComponents);
