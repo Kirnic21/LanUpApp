@@ -8,7 +8,6 @@ import ImageSelector from "./ImageSelector";
 import { connect } from "react-redux";
 import Image from "react-native-fast-image";
 import { calcWidth } from "~/assets/Dimensions";
-import { HeaderBackButton } from "react-navigation-stack";
 import SpinnerComponent from "./SpinnerComponent";
 import ImageOutline from "~/assets/images/outline.png";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";

@@ -13,7 +13,7 @@ import CardDeitailsVacancies from "./CardDeitailsVacancies";
 import dimensions, { calcWidth } from "~/assets/Dimensions";
 import ShiftCard from "./ShiftCard";
 import SelectComponent from "~/shared/components/SelectComponent";
-import ButtonVacancies from "~/shared/components/Button";
+import ButtonVacancies from "~/shared/components/RoundButton";
 import { deitailsVacancies } from "~/shared/services/events.http";
 import {
   acceptInvite,
@@ -256,6 +256,8 @@ class VacanciesDetails extends Component {
       ),
       2: (
         <ButtonVacancies
+          width={calcWidth(45)}
+          style={styles.buttonVacancies}
           name="Desitir da vaga"
           onPress={() => {
             this.deleteVacancy();
@@ -264,6 +266,8 @@ class VacanciesDetails extends Component {
       ),
       3: (
         <ButtonVacancies
+          width={calcWidth(45)}
+          style={styles.buttonVacancies}
           name="Desitir da vaga"
           onPress={() => {
             this.deleteVacancy();
@@ -438,6 +442,10 @@ const styles = StyleSheet.create({
     color: "#EB4886",
     fontFamily: "HelveticaNowMicro-Regular",
     fontSize: dimensions(20),
+  },
+  buttonVacancies: {
+    borderColor: "#FFFFFF",
+    borderWidth: 2,
   },
 });
 

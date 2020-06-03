@@ -118,6 +118,7 @@ const styles = {
     fontFamily: "HelveticaNowMicro-ExtraLight",
     fontSize: dimensions(15),
     width: "80%",
+    textAlign: "center",
   },
 };
 

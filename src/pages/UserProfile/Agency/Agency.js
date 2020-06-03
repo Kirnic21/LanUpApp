@@ -45,7 +45,6 @@ class Agency extends React.Component {
 
   searchCode = (event) => {
     const txt = event.trim();
-    console.log(txt);
     this.setState({ code: [], loading: !!txt }, async () => {
       if (!!txt) {
         try {

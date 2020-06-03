@@ -26,6 +26,8 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import BackgroundTimer from "react-native-background-timer";
 import ModalDuties from "./ModalDuties";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
+import { debounce } from "lodash";
+
 class NextEvent extends React.Component {
   state = {
     openModalCheckin: false,
@@ -43,7 +45,6 @@ class NextEvent extends React.Component {
       .then(({ data }) => data)
       .then(({ result }) => {
         const { value } = result;
-        console.log(value);
         value !== null
           ? this.getWordays(value)
           : this.setState({ status: "without" });
@@ -155,11 +156,10 @@ class NextEvent extends React.Component {
   checkoutHours = () => {
     const { checkout, isCheckin } = this.state;
     const checkoutDate = new Date().setHours(...checkout.split(":"));
-    const isMidnight = checkout.substr(0, 2) === "0" ? 1 : 0;
-    const checkoutTime = new Date(checkoutDate).setDate(
-      new Date(checkoutDate).getDate() + isMidnight
-    );
-
+    const checkoutTime =
+      new Date().getTime >= "12" && checkout <= "12"
+        ? new Date(checkoutDate).setDate(new Date(checkoutDate).getDate() + 1)
+        : new Date(checkoutDate).setDate(new Date(checkoutDate).getDate());
     new Date() < new Date(checkoutTime) && isCheckin === 3
       ? this.setState({ status: "occurrence" })
       : new Date() >= new Date(checkoutTime)
@@ -228,32 +228,34 @@ class NextEvent extends React.Component {
 
   toPause = (reason) => {
     const { operationId: id, job } = this.state;
-    this.setState({ loading: true });
-    setTimeout(() => {
+    this.setState({ loading: true }, () => {
       breaks({ id, reason, job })
         .then(() => {
           this.setState({ pause: true, openModalPause: false });
         })
+        .catch((error) => {
+          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+        })
         .finally(() => {
           this.setState({ loading: false });
         });
-    }, 500);
-    return;
+    });
   };
 
   returnPause = () => {
     const { operationId: id, job } = this.state;
-    this.setState({ spinner: true });
-    setTimeout(() => {
+    this.setState({ spinner: true }, () => {
       updatebreaks({ id, job })
         .then(() => {
           this.setState({ pause: false });
         })
+        .catch((error) => {
+          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+        })
         .finally(() => {
           this.setState({ spinner: false });
         });
-    }, 500);
-    return;
+    });
   };
 
   buttonsOperations = () => {
@@ -382,11 +384,11 @@ class NextEvent extends React.Component {
                     title={pause ? "voltar" : "Pausa"}
                     startAnimations={pause ? true : false}
                     color={pause ? "#03DAC6" : "#F13567"}
-                    onPress={() => {
+                    onPress={debounce(() => {
                       pause
                         ? this.returnPause()
                         : this.setState({ openModalPause: true });
-                    }}
+                    }, 500)}
                   />
                 </View>
               </View>
@@ -460,7 +462,9 @@ class NextEvent extends React.Component {
           />
           <ModalPause
             visible={openModalPause}
-            onPress={(reason) => this.toPause(reason)}
+            onPress={debounce((reason) => {
+              this.toPause(reason);
+            }, 500)}
             loading={loading}
             onClose={() => this.setState({ openModalPause: false })}
           />
