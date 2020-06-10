@@ -162,7 +162,6 @@ export default class MapsGeolocation extends React.Component {
           lat: latitude.toString(),
           long: longitude.toString(),
         });
-        console.log("send");
       } catch (error) {
         console.log(error);
       }

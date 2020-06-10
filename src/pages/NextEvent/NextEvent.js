@@ -26,7 +26,6 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import BackgroundTimer from "react-native-background-timer";
 import ModalDuties from "./ModalDuties";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
-import { debounce } from "lodash";
 
 class NextEvent extends React.Component {
   state = {
@@ -170,9 +169,14 @@ class NextEvent extends React.Component {
 
   toCheckout = () => {
     const { operationId: id, vacancyId, hirerId, eventName, job } = this.state;
-    operationsCheckout({ id, vacancyId, job }).then(() => {
-      this.setState({ openModalCheckin: false });
-      this.props.navigation.replace("Rating", { hirerId, eventName });
+    this.setState({ openModalCheckin: false }, () => {
+      operationsCheckout({ id, vacancyId, job })
+        .then(() => {
+          this.props.navigation.replace("Rating", { hirerId, eventName });
+        })
+        .catch((error) =>
+          AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+        );
     });
   };
 
@@ -185,6 +189,9 @@ class NextEvent extends React.Component {
           ? this.setState({ openModalCheckin: false, status: "occurrence" })
           : this.toCheckout();
       })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      )
       .finally(() => {
         this.setState({ loading: false });
       });
@@ -210,6 +217,9 @@ class NextEvent extends React.Component {
           "Ocorrência enviada com sucesso."
         );
       })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      )
       .finally(() => {
         this.setState({ loading: false });
       });
@@ -222,16 +232,19 @@ class NextEvent extends React.Component {
       .then(({ result }) => {
         const { value: pause } = result;
         this.setState({ pause });
-      });
+      })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      );
     return;
   };
 
   toPause = (reason) => {
     const { operationId: id, job } = this.state;
-    this.setState({ loading: true }, () => {
+    this.setState({ loading: true, openModalPause: false }, () => {
       breaks({ id, reason, job })
         .then(() => {
-          this.setState({ pause: true, openModalPause: false });
+          this.setState({ pause: true });
         })
         .catch((error) => {
           AlertHelper.show("error", "Erro", error.response.data.errorMessage);
@@ -384,11 +397,11 @@ class NextEvent extends React.Component {
                     title={pause ? "voltar" : "Pausa"}
                     startAnimations={pause ? true : false}
                     color={pause ? "#03DAC6" : "#F13567"}
-                    onPress={debounce(() => {
+                    onPress={() =>
                       pause
                         ? this.returnPause()
-                        : this.setState({ openModalPause: true });
-                    }, 500)}
+                        : this.setState({ openModalPause: true })
+                    }
                   />
                 </View>
               </View>
@@ -462,9 +475,7 @@ class NextEvent extends React.Component {
           />
           <ModalPause
             visible={openModalPause}
-            onPress={debounce((reason) => {
-              this.toPause(reason);
-            }, 500)}
+            onPress={(reason) => this.toPause(reason)}
             loading={loading}
             onClose={() => this.setState({ openModalPause: false })}
           />

@@ -4,12 +4,16 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import dimensions, { calcWidth } from "~/assets/Dimensions";
 import Modal from "~/shared/components/ModalComponent";
 import RoundButton from "~/shared/components/RoundButton";
+
+import debounceButton from "~/shared/helpers/debounce";
+
+const Button = debounceButton(RoundButton);
 
 const ModalCheckList = ({
   visible,
@@ -21,7 +25,7 @@ const ModalCheckList = ({
   checked,
   onPressCheck,
   pressConfirm,
-  titleCheck
+  titleCheck,
 }) => {
   const list = checkList ? checkList.map((c, i) => ({ id: i, title: c })) : [];
   renderSeparator = () => (
@@ -31,7 +35,7 @@ const ModalCheckList = ({
         width: "90%",
         backgroundColor: "#18142F",
         marginLeft: "5%",
-        marginRight: "10%"
+        marginRight: "10%",
       }}
     />
   );
@@ -66,7 +70,7 @@ const ModalCheckList = ({
             width: "90%",
             minHeight: "20%",
             marginHorizontal: calcWidth(5),
-            top: calcWidth(5)
+            top: calcWidth(5),
           }}
         >
           <Text numberOfLines={1} style={styles.title}>
@@ -90,13 +94,13 @@ const ModalCheckList = ({
         <View
           style={[
             styles.containerCheckBox,
-            { top: calcWidth(2), height: "38%" }
+            { top: calcWidth(2), height: "38%" },
           ]}
         >
           <FlatList
             data={list}
             renderItem={({ item }) => <Item id={item.id} title={item.title} />}
-            keyExtractor={item => item.id.toString()}
+            keyExtractor={(item) => item.id.toString()}
             ItemSeparatorComponent={renderSeparator}
             showsVerticalScrollIndicator={false}
           />
@@ -105,7 +109,7 @@ const ModalCheckList = ({
           pointerEvents={loading ? "none" : "auto"}
           style={{ alignItems: "center", top: calcWidth(5) }}
         >
-          <RoundButton
+          <Button
             width={calcWidth(60)}
             disabled={!checked}
             name="Confirmar"
@@ -123,48 +127,48 @@ const styles = StyleSheet.create({
     fontFamily: "HelveticaNowDisplay-Regular",
     fontSize: dimensions(18),
     left: "20%",
-    color: "#FFF"
+    color: "#FFF",
   },
   header: {
     textAlign: "center",
     fontFamily: "HelveticaNowMicro-Regular",
     fontSize: dimensions(18),
-    color: "#FFF"
+    color: "#FFF",
   },
   title: {
     color: "#FFF",
     fontSize: dimensions(28),
-    fontFamily: "HelveticaNowMicro-Medium"
+    fontFamily: "HelveticaNowMicro-Medium",
   },
   subTitle: {
     color: "#FFB72B",
     fontSize: dimensions(18),
     fontFamily: "HelveticaNowMicro-Regular",
-    top: dimensions(-5)
+    top: dimensions(-5),
   },
   CheckBox: {
     backgroundColor: "transparent",
     borderWidth: 0,
     height: calcWidth(10),
     justifyContent: "center",
-    width: "95%"
+    width: "95%",
   },
   containerCheckBox: {
     backgroundColor: "#403A60",
-    borderRadius: dimensions(12)
+    borderRadius: dimensions(12),
   },
   Btn: {
     width: "60%",
     height: "33%",
     borderRadius: dimensions(30),
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   textBtn: {
     color: "#18142F",
     fontSize: dimensions(12),
-    fontFamily: "HelveticaNowMicro-Regular"
-  }
+    fontFamily: "HelveticaNowMicro-Regular",
+  },
 });
 
 export default ModalCheckList;

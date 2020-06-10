@@ -1,9 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import dimensions, { calcWidth } from "~/assets/Dimensions";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
 import * as Animatable from "react-native-animatable";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import debounceButton from "~/shared/helpers/debounce";
+
+const Button = debounceButton(TouchableOpacity);
 
 const ButtonPulse = ({
   circleStyle,
@@ -17,19 +20,19 @@ const ButtonPulse = ({
   color,
   icon,
   titleColor,
-  disabled
+  disabled,
 }) => {
   const fadeIn = {
     from: {
-      scale: 1
+      scale: 1,
     },
     to: {
-      scale: 1.1
-    }
+      scale: 1.1,
+    },
   };
 
   ButtonPulse.defaultProps = {
-    size: "small"
+    size: "small",
   };
 
   const ButtonSize = () => {
@@ -37,16 +40,16 @@ const ButtonPulse = ({
       small: {
         height: calcWidth(20),
         width: calcWidth(20),
-        backgroundColor: color || "#FFF"
+        backgroundColor: color || "#FFF",
       },
       normal: [
         {
           height: calcWidth(32),
           width: calcWidth(32),
-          backgroundColor: color || "#FFF"
+          backgroundColor: color || "#FFF",
         },
-        styles.titleNormal
-      ]
+        styles.titleNormal,
+      ],
     }[size];
   };
 
@@ -56,16 +59,16 @@ const ButtonPulse = ({
         height: calcWidth(22),
         width: calcWidth(22),
         opacity: 0.5,
-        backgroundColor: color || "#FFF"
+        backgroundColor: color || "#FFF",
       },
       normal: [
         {
           height: calcWidth(35),
           width: calcWidth(35),
           opacity: 0.5,
-          backgroundColor: color || "#FFF"
-        }
-      ]
+          backgroundColor: color || "#FFF",
+        },
+      ],
     }[size];
   };
 
@@ -84,12 +87,12 @@ const ButtonPulse = ({
           style={[
             styles.circle,
             size !== "small" ? styles.animationOff : styles.animationOffSmall,
-            { backgroundColor: color }
+            { backgroundColor: color },
           ]}
         />
       )}
       <View style={{ position: "absolute" }}>
-        <TouchableOpacity
+        <Button
           style={[styles.btn, styleButton, ButtonSize()]}
           onPress={onPress}
           disabled={disabled}
@@ -108,12 +111,12 @@ const ButtonPulse = ({
               titleStyle,
               styles.fontFamilyHR,
               { color: titleColor !== undefined ? titleColor : "#FFF" },
-              size !== "small" ? styles.titleNormal : styles.titleSmall
+              size !== "small" ? styles.titleNormal : styles.titleSmall,
             ]}
           >
             {title}
           </Text>
-        </TouchableOpacity>
+        </Button>
       </View>
     </View>
   );
@@ -123,13 +126,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   circle: {
     backgroundColor: "#FFF",
     height: calcWidth(35),
     width: calcWidth(35),
-    borderRadius: dimensions(200)
+    borderRadius: dimensions(200),
   },
   btn: {
     backgroundColor: "#FFF",
@@ -137,27 +140,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: calcWidth(32),
-    width: calcWidth(32)
+    width: calcWidth(32),
   },
   titleNormal: {
-    fontSize: calcWidth(4.3)
+    fontSize: calcWidth(4.3),
   },
   titleSmall: {
-    fontSize: calcWidth(2.6)
+    fontSize: calcWidth(2.6),
   },
   fontFamilyHR: {
-    fontFamily: "HelveticaNowMicro-Regular"
+    fontFamily: "HelveticaNowMicro-Regular",
   },
   animationOff: {
     opacity: 0.5,
     height: calcWidth(37),
-    width: calcWidth(37)
+    width: calcWidth(37),
   },
   animationOffSmall: {
     opacity: 0.5,
     height: calcWidth(22.5),
-    width: calcWidth(22.5)
-  }
+    width: calcWidth(22.5),
+  },
 });
 
 export default ButtonPulse;

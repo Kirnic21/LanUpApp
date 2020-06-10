@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "~/shared/components/ModalComponent";
 import dimensions, { calcHeight, calcWidth } from "~/assets/Dimensions/index";
@@ -7,7 +7,9 @@ import cameraPlus from "~/assets/images/camera-plus.png";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ImageSelector from "~/shared/components/ImageSelector";
 
-import { useState } from "react";
+import debounceButton from "~/shared/helpers/debounce";
+
+const Button = debounceButton(TouchableOpacity);
 
 const ModalOccurrence = ({
   visible,
@@ -18,13 +20,16 @@ const ModalOccurrence = ({
   onImageSelected,
   loading,
   valueInput,
-  picture
+  picture,
 }) => {
+  const ImageSelectorRef = useRef(null);
+
   const handleOnPictureAdd = () => {
-    this.ImageSelector.ActionSheet.show();
+    const { ActionSheet } = ImageSelectorRef.current;
+    ActionSheet.show();
   };
   const [height, setHeight] = useState(0);
-  const updateSize = height => {
+  const updateSize = (height) => {
     setHeight(height);
   };
 
@@ -51,12 +56,12 @@ const ModalOccurrence = ({
             onChangeText={onChangeText}
             style={[
               styles.textInput,
-              { height: Math.max(35, height > 125 ? 125 : height) }
+              { height: Math.max(35, height > 125 ? 125 : height) },
             ]}
             value={valueInput}
             multiline={true}
             editable={loading ? false : true}
-            onContentSizeChange={e => {
+            onContentSizeChange={(e) => {
               updateSize(e.nativeEvent.contentSize.height);
             }}
           />
@@ -64,10 +69,10 @@ const ModalOccurrence = ({
             pointerEvents={loading ? "none" : "auto"}
             style={styles.containerIcon}
           >
-            <TouchableOpacity
+            <Button
               style={[
                 styles.icon,
-                sendOcurrence ? { left: calcWidth(0) } : { left: calcWidth(7) }
+                sendOcurrence ? { left: calcWidth(0) } : { left: calcWidth(7) },
               ]}
               onPress={() => handleOnPictureAdd()}
             >
@@ -75,16 +80,16 @@ const ModalOccurrence = ({
                 source={cameraPlus}
                 style={{ height: calcWidth(7), width: calcWidth(7) }}
               />
-            </TouchableOpacity>
+            </Button>
             {sendOcurrence ? (
-              <TouchableOpacity
+              <Button
                 onPress={() => {
                   onPressSend(), updateSize(calcWidth(13));
                 }}
                 style={{ left: calcWidth(2) }}
               >
                 <Icon size={calcWidth(7)} name="send" color="#46C5F3" />
-              </TouchableOpacity>
+              </Button>
             ) : (
               <></>
             )}
@@ -95,7 +100,7 @@ const ModalOccurrence = ({
         onImageSelected={onImageSelected}
         width={2250}
         height={3000}
-        ref={o => (this.ImageSelector = o)}
+        ref={ImageSelectorRef}
       />
     </Modal>
   );
@@ -105,12 +110,12 @@ const styles = StyleSheet.create({
   title: {
     color: "#FFF",
     fontSize: calcWidth(8),
-    fontFamily: "HelveticaNowMicro-Medium"
+    fontFamily: "HelveticaNowMicro-Medium",
   },
   subTitle: {
     color: "#FFF",
     fontSize: calcWidth(5.5),
-    fontFamily: "HelveticaNowMicro-Regular"
+    fontFamily: "HelveticaNowMicro-Regular",
   },
   textInput: {
     backgroundColor: "#3f3d58",
@@ -119,24 +124,24 @@ const styles = StyleSheet.create({
     paddingVertical: calcWidth(3),
     maxHeight: calcWidth(40),
     fontSize: calcWidth(4),
-    fontFamily: "HelveticaNowMicro-Regular"
+    fontFamily: "HelveticaNowMicro-Regular",
   },
   containerIcon: {
     position: "relative",
     flexDirection: "row",
     top: calcWidth(-14),
-    left: calcWidth(60)
+    left: calcWidth(60),
   },
   img: {
     height: dimensions(150),
     width: calcWidth(75),
-    borderRadius: calcWidth(5)
+    borderRadius: calcWidth(5),
   },
   loading: {
     height: calcWidth(20),
     width: calcWidth(20),
-    position: "absolute"
-  }
+    position: "absolute",
+  },
 });
 
 export default ModalOccurrence;
