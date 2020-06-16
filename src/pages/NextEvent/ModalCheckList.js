@@ -3,17 +3,18 @@ import {
   View,
   Text,
   FlatList,
-  TouchableOpacity,
   StyleSheet,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import dimensions, { calcWidth } from "~/assets/Dimensions";
 import Modal from "~/shared/components/ModalComponent";
-import RoundButton from "~/shared/components/RoundButton";
+import ButtonLoading from "~/shared/components/Button";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import debounceButton from "~/shared/helpers/debounce";
 
-const Button = debounceButton(RoundButton);
+const Button = debounceButton(ButtonLoading);
 
 const ModalCheckList = ({
   visible,
@@ -42,17 +43,18 @@ const ModalCheckList = ({
 
   function Item({ title }) {
     return (
-      <View pointerEvents="none">
-        <CheckBox
-          title={<Text style={styles.titleCheckBox}>{title}</Text>}
-          checkedIcon="circle"
-          uncheckedIcon="circle-thin"
-          checkedColor="#46C5F3"
-          size={dimensions(15)}
-          checked={checked}
-          containerStyle={[styles.CheckBox, { paddingBottom: "5%" }]}
-        />
-      </View>
+      <TouchableWithoutFeedback>
+        <View style={styles.checkLists}>
+          <Icon
+            name={checked ? "circle" : "circle-thin"}
+            size={calcWidth(4.3)}
+            color={checked ? "#46C5F3" : "#6C757D"}
+          />
+          <Text style={[styles.titleCheckBox, { left: calcWidth(3) }]}>
+            {title}
+          </Text>
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 
@@ -60,8 +62,8 @@ const ModalCheckList = ({
     <Modal
       visible={visible}
       onClose={onClose}
-      loading={loading}
-      heightModal={calcWidth(175)}
+      heightModal={calcWidth(160)}
+      swipe={[]}
     >
       <View style={{ flex: 1 }}>
         <Text style={styles.header}>CheckList</Text>
@@ -80,7 +82,8 @@ const ModalCheckList = ({
         </View>
         <View style={[styles.containerCheckBox, { flexDirection: "row" }]}>
           <CheckBox
-            title={<Text style={styles.titleCheckBox}>{titleCheck}</Text>}
+            title={titleCheck}
+            textStyle={styles.titleCheckBox}
             checkedIcon="circle"
             uncheckedIcon="circle-thin"
             checkedColor="#46C5F3"
@@ -94,10 +97,11 @@ const ModalCheckList = ({
         <View
           style={[
             styles.containerCheckBox,
-            { top: calcWidth(2), height: "38%" },
+            { top: calcWidth(2), height: "45%" },
           ]}
         >
           <FlatList
+            keyboardShouldPersistTaps="always"
             data={list}
             renderItem={({ item }) => <Item id={item.id} title={item.title} />}
             keyExtractor={(item) => item.id.toString()}
@@ -107,14 +111,16 @@ const ModalCheckList = ({
         </View>
         <View
           pointerEvents={loading ? "none" : "auto"}
-          style={{ alignItems: "center", top: calcWidth(5) }}
+          style={{ alignItems: "center", top: calcWidth(8) }}
         >
           <Button
-            width={calcWidth(60)}
             disabled={!checked}
+            loading={!loading}
+            color="#7541bf"
+            cliclButtonColor="#EB4886"
             name="Confirmar"
             onPress={pressConfirm}
-            style={[styles.Btn, { backgroundColor: "#7541BF" }]}
+            size="small"
           />
         </View>
       </View>
@@ -125,9 +131,10 @@ const ModalCheckList = ({
 const styles = StyleSheet.create({
   titleCheckBox: {
     fontFamily: "HelveticaNowDisplay-Regular",
-    fontSize: dimensions(18),
-    left: "20%",
+    fontSize: dimensions(17),
     color: "#FFF",
+    width: "80%",
+    fontWeight: "normal",
   },
   header: {
     textAlign: "center",
@@ -149,9 +156,13 @@ const styles = StyleSheet.create({
   CheckBox: {
     backgroundColor: "transparent",
     borderWidth: 0,
-    height: calcWidth(10),
-    justifyContent: "center",
     width: "95%",
+  },
+  checkLists: {
+    flexDirection: "row",
+    padding: calcWidth(5),
+    alignItems: "center",
+    marginLeft: calcWidth(0.6),
   },
   containerCheckBox: {
     backgroundColor: "#403A60",

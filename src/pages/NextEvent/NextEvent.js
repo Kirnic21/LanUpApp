@@ -181,12 +181,16 @@ class NextEvent extends React.Component {
   };
 
   confirmChecklist = () => {
-    const { operationId: id, origin, job } = this.state;
+    const { operationId: id, origin, job, checked } = this.state;
     this.setState({ loading: true });
     operationsChecklists({ id, origin, job })
       .then(() => {
         origin === 1
-          ? this.setState({ openModalCheckin: false, status: "occurrence" })
+          ? this.setState({
+              openModalCheckin: false,
+              status: "occurrence",
+              checked: false,
+            })
           : this.toCheckout();
       })
       .catch((error) =>
