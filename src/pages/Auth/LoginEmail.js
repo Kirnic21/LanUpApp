@@ -20,9 +20,10 @@ import FormValidator from "~/shared/services/validator";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { calcWidth } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import ModalForgotPassword from "./ModalForgotPassword";
+import ButtonLoading from "~/shared/components/Button";
 
 const formRules = FormValidator.make(
   {
@@ -53,32 +54,32 @@ class LoginEmail extends Component {
 
   goToLoginPerfil = (form) => {
     const { email, password } = form;
-    this.setState({ spinner: true });
-    login({
-      login: email,
-      password,
-    })
-      .then(async ({ data }) => {
-        const token = decodeToken(data.result.token);
-        if (token.userType === "1") {
-          await AsyncStorage.setItem("API_TOKEN", data.result.token);
-          this.props.navigation.navigate("UserProfile");
-        } else {
-          AlertHelper.show(
-            "error",
-            "Erro",
-            "Somente freelas podem acessar o App."
-          );
-        }
+    this.setState({ spinner: true }, () => {
+      login({
+        login: email,
+        password,
       })
-      .catch((error) => {
-        error.response.data.errorMessage;
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-      })
-      .finally(() => {
-        this.setState({ spinner: false });
-      });
-    return;
+        .then(async ({ data }) => {
+          const token = decodeToken(data.result.token);
+          if (token.userType === "1") {
+            await AsyncStorage.setItem("API_TOKEN", data.result.token);
+            this.props.navigation.navigate("UserProfile");
+          } else {
+            AlertHelper.show(
+              "error",
+              "Erro",
+              "Somente freelas podem acessar o App."
+            );
+          }
+        })
+        .catch((error) => {
+          error.response.data.errorMessage;
+          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+        })
+        .finally(() => {
+          this.setState({ spinner: false });
+        });
+    });
   };
 
   changeIcon() {
@@ -111,7 +112,6 @@ class LoginEmail extends Component {
     return (
       <ImageBackground source={ImageBack} style={{ width, height, flex: 1 }}>
         <KeyboardAwareScrollView style={{ flex: 1 }}>
-          <SpinnerComponent loading={spinner} />
           <Container
             style={{
               backgroundColor: "transparent",
@@ -161,11 +161,14 @@ class LoginEmail extends Component {
                     />
                   </View>
                 </View>
-                <View style={{ width: "60%" }}>
-                  <RoundButton
+                <View style={{ width: "60%", marginTop: calcWidth(5) }}>
+                  <ButtonLoading
                     disabled={invalid}
-                    style={[styles.Btn]}
+                    loading={!spinner}
+                    color="#7541bf"
+                    cliclButtonColor="#EB4886"
                     name="Entrar"
+                    size="small"
                     onPress={handleSubmit((data) => this.goToLoginPerfil(data))}
                   />
                 </View>
