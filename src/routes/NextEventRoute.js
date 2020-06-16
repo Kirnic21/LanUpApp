@@ -13,7 +13,7 @@ const NextEventRoute = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         headerTransparent: true,
         headerStyle: { height: calcWidth(20) },
-        headerTitle: "Próximo Evento",
+        headerTitle: "Próximo Job",
         headerLeft: () => (
           <ButtonNavigation type="drawer" navigation={navigation} />
         ),

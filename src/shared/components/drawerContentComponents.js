@@ -109,7 +109,7 @@ class drawerContentComponents extends Component {
               style={styles.containerIcons}
             >
               <Image source={iconNextEvent} style={styles.sizeIcons} />
-              <Text style={styles.screenTextStyle}>Próximo Evento</Text>
+              <Text style={styles.screenTextStyle}>Próximo Job</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
