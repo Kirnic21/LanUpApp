@@ -1,382 +1,283 @@
-import React from "react";
+import React, { Component } from "react";
 import {
+  Dimensions,
   StyleSheet,
   View,
-  Platform,
-  Dimensions,
-  SafeAreaView,
   Text,
-  Vibration,
-  NativeModules,
   DeviceEventEmitter,
-  ActivityIndicator,
+  Vibration,
 } from "react-native";
 
-import MapView, { Marker, AnimatedRegion } from "react-native-maps";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import IconDestination from "react-native-vector-icons/FontAwesome5";
-import Geolocation from "react-native-geolocation-service";
-
-import mapStyles from "~/pages/NextEvent/Geolocation/stylesMaps";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
-import RoundButton from "~/shared/components/RoundButton";
-
+import MapView from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
+import dimensions, { calcWidth } from "~/assets/Dimensions";
+import mapStyles from "~/pages/NextEvent/Geolocation/stylesMaps";
+import RoundButton from "~/shared/components/RoundButton";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
+import { location } from "~/shared/services/events.http";
 import {
   arrivelOperation,
   checkpoints,
 } from "~/shared/services/operations.http";
-import { location } from "~/shared/services/events.http";
-import ModalComingSoon from "~/shared/components/ModalComingSoon";
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE = 0;
 const LONGITUDE = 0;
-const LATITUDE_DELTA = 0.09;
+const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const GOOGLE_MAPS_APIKEY = "AIzaSyBVsSKFLigzkkpRc1L-GTKCN2N0qQHWYOc";
-export default class MapsGeolocation extends React.Component {
+
+class MapsGeolocation extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      visible: false,
-      isLoading: false,
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
-      coordinate: new AnimatedRegion({
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: 0,
-        longitudeDelta: 0,
-      }),
       status: false,
+      coordinates: [],
+      distance: 0,
+      duration: 0,
+      position: {
+        latitude: 0,
+        longitude: 0,
+      },
       destination: {
         latitude: 0,
         longitude: 0,
       },
     };
-
-    lastTimeout = setTimeout;
+    this.mapView = null;
+    this.lastTimeout = setTimeout;
 
     this.subscription = DeviceEventEmitter.addListener(
       "location_received",
       (e) => {
-        this.watchLocation(e);
+        this.watchPosition(e);
       }
     );
   }
 
   async componentDidMount() {
+    const {
+      id,
+      address,
+      eventName,
+      addressId,
+    } = this.props.navigation.state.params;
     try {
       const {
-        navigation: {
-          state: {
-            params: { id, eventName, addressId, address },
-          },
+        data: {
+          result: { lat, lng },
         },
-      } = this.props;
-      Geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-          const {
-            data: {
-              result: { lat, lng },
-            },
-          } = await location(addressId);
-
-          this.setState({
-            destination: {
-              latitude: Number(lat),
-              longitude: Number(lng),
-            },
-            id,
-            eventName,
-            address,
-            latitude,
-            longitude,
-            spinner: true,
-          });
-
-          setTimeout(() => {
-            this.watchLocation(position.coords);
-          }, 500);
-
-          NativeModules.ForegroundModule.startForegroundService();
+      } = await location(addressId);
+      this.setState({
+        destination: {
+          latitude: Number(lat),
+          longitude: Number(lng),
         },
-        (error) => {
-          console.log(error.code, error.message);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 15000,
-          maximumAge: 10000,
-          forceRequestLocation: true,
-        }
-      );
+        address,
+        eventName,
+        id,
+      });
     } catch (error) {
-      console.log(error);
+      AlertHelper.show("error", "Erro", error.message);
     }
   }
+
   componentWillUnmount() {
     this.subscription.remove();
   }
 
-  watchLocation = ({ latitude, longitude }) => {
-    this.sendApi({ latitude, longitude });
-    const { coordinate } = this.state;
-    const newCoordinate = {
-      latitude,
-      longitude,
-    };
-    this.setState(
-      {
+  watchPosition = ({ latitude, longitude }) => {
+    const { destination } = this.state;
+    clearTimeout(this.lastTimeout);
+    this.lastTimeout = setTimeout(() => {
+      this.sendLocationApi({ latitude, longitude });
+    }, 60000);
+
+    this.setState({
+      coordinates: [
+        {
+          latitude,
+          longitude,
+        },
+        destination,
+      ],
+      position: {
         latitude,
         longitude,
-        newCoordinate,
-        spinner: false,
       },
-      () => {
-        Platform.OS === "android"
-          ? this.marker &&
-            this.marker._component.animateMarkerToCoordinate(
-              newCoordinate,
-              1000
-            )
-          : coordinate.timing(newCoordinate).start();
-        this.arrived();
-      }
-    );
-    return;
+    });
   };
 
-  sendApi = async ({ latitude, longitude }) => {
-    const { id } = this.props.navigation.state.params;
-    clearTimeout(this.lastTimeout);
-    this.lastTimeout = setTimeout(async () => {
-      try {
-        await checkpoints({
-          id,
-          lat: latitude.toString(),
-          long: longitude.toString(),
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }, 60000);
-    return;
+  sendLocationApi = async ({ latitude, longitude }) => {
+    const { id } = this.state;
+    try {
+      await checkpoints({
+        id,
+        lat: latitude.toString(),
+        long: longitude.toString(),
+      });
+    } catch (error) {
+      AlertHelper.show("error", "Erro", error.message);
+    }
   };
 
-  arrived = () => {
-    const { distance, id } = this.state;
-    if (distance * 1000 <= 150) {
+  arrived = (distance) => {
+    const { id, status } = this.state;
+    if (distance * 1000 <= 150 && status === false) {
       this.setState({ status: true }, async () => {
         Vibration.vibrate(1000);
         this.subscription.remove();
         try {
           await arrivelOperation(id);
         } catch (error) {
-          console.log(error);
+          AlertHelper.show("error", "Erro", error.message);
         }
       });
     }
     return;
   };
 
-  getMapRegion = () => ({
-    latitude: this.state.latitude,
-    longitude: this.state.longitude,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA,
-  });
-
   render() {
-    const {
-      status,
-      destination,
-      distance,
-      duration,
-      eventName,
-      address,
-      spinner,
-      visible,
-      newCoordinate,
-    } = this.state;
+    const { status, distance, duration, address, eventName } = this.state;
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={styles.container}>
-          <MapView
-            zoomEnabled
-            zoomControlEnabled
-            zoomTapEnabled
-            showsCompass
-            paddingAdjustmentBehavior="automatic"
-            followsUserLocation
-            style={styles.map}
-            showUserLocation
-            followUserLocation
-            loadingEnabled
-            customMapStyle={mapStyles}
-            region={this.getMapRegion()}
-          >
-            <Marker.Animated
-              ref={(marker) => {
-                this.marker = marker;
-              }}
-              coordinate={this.getMapRegion()}
-            >
-              <View style={styles.markerUSer}>
-                <FontAwesome
-                  name={"circle"}
-                  size={calcWidth(3)}
-                  color="#E29D01"
-                />
-              </View>
-            </Marker.Animated>
-            {newCoordinate ? (
-              <MapViewDirections
-                origin={newCoordinate}
-                destination={address}
-                apikey={GOOGLE_MAPS_APIKEY}
-                strokeColor={"#F63535"}
-                strokeWidth={4}
-                language="pt-BR"
-                onReady={(result) => {
-                  const { distance, duration } = result;
-                  this.setState({ distance, duration });
-                }}
-              />
-            ) : (
-              <></>
-            )}
-            <Marker.Animated
-              coordinate={destination}
-              title={"Destino"}
-              description={"Destino"}
-            >
-              <IconDestination
-                name={"map-marker"}
-                size={calcWidth(12)}
-                color="#F63535"
-              />
-            </Marker.Animated>
-          </MapView>
+      <View style={StyleSheet.absoluteFill}>
+        <MapView
+          initialRegion={{
+            latitude: LATITUDE,
+            longitude: LONGITUDE,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+          }}
+          style={StyleSheet.absoluteFill}
+          customMapStyle={mapStyles}
+          ref={(c) => (this.mapView = c)}
+        >
+          <MapView.Marker coordinate={this.state.position}>
+            <View style={styles.iconStyle}>
+              <Icon name={"circle"} size={calcWidth(4)} color={"#FFB72B"} />
+            </View>
+          </MapView.Marker>
+          <MapView.Marker coordinate={this.state.destination}>
+            <Icon name={"map-marker"} size={calcWidth(14)} color={"#F63535"} />
+          </MapView.Marker>
+          {this.state.coordinates.length >= 2 && (
+            <MapViewDirections
+              origin={this.state.coordinates[0]}
+              destination={
+                this.state.coordinates[this.state.coordinates.length - 1]
+              }
+              apikey={GOOGLE_MAPS_APIKEY}
+              strokeWidth={3}
+              strokeColor="#F63535"
+              optimizeWaypoints={true}
+              onReady={(result) => {
+                const { distance, duration } = result;
+                this.setState({
+                  distance,
+                  duration,
+                });
 
-          <View style={styles.containerInformation}>
+                this.arrived(distance);
+
+                this.mapView.fitToCoordinates(result.coordinates, {
+                  edgePadding: {
+                    right: width / dimensions(20),
+                    bottom: height / dimensions(20),
+                    left: width / dimensions(20),
+                    top: height / dimensions(20),
+                  },
+                });
+              }}
+              onError={(errorMessage) => {
+                AlertHelper.show("error", "Erro", errorMessage);
+              }}
+            />
+          )}
+        </MapView>
+        <View style={{ flex: 1, justifyContent: "flex-end" }}>
+          <View style={styles.container}>
             <Text
-              numberOfLines={1}
-              style={[styles.fontHelveticaBold, styles.titleEvent]}
+              numberOfLines={2}
+              style={[
+                styles.eventName,
+                {
+                  fontSize:
+                    eventName?.length > 14 ? dimensions(25) : dimensions(30),
+                },
+              ]}
             >
               {eventName}
             </Text>
-            <Text
-              numberOfLines={2}
-              style={[styles.fontHelveticaRegular, styles.textAddress]}
-            >
+            <Text numberOfLines={2} style={styles.address}>
               {address}
             </Text>
-            <View style={{ flexDirection: "row" }}>
-              <FontAwesome
-                name="location-arrow"
-                size={calcWidth(7)}
-                color="#FFB72B"
-                style={{ left: calcWidth(-1) }}
-              />
-              {status ? (
-                <Text
-                  style={[
-                    styles.fontHelveticaBold,
-                    { fontSize: dimensions(20), color: "#FFB72B" },
-                  ]}
-                >
-                  Você Chegou
+            <Text style={styles.distance}>
+              <Icon name="near-me" size={calcWidth(7)} color="#FFB72B" />
+              {status ? "Você chegou" : `${Number(distance).toFixed(2)}KM`}
+              {!status && (
+                <Text style={{ fontSize: dimensions(10) }}>
+                  / {Math.round(duration)}min
                 </Text>
-              ) : (
-                <View>
-                  {spinner ? (
-                    <ActivityIndicator color="#FFB72B" size="large" />
-                  ) : (
-                    <Text
-                      style={[
-                        styles.fontHelveticaBold,
-                        { fontSize: dimensions(20), color: "#FFB72B" },
-                      ]}
-                    >
-                      {Number(distance).toFixed(2)}KM
-                      <Text style={{ fontSize: dimensions(10) }}>
-                        / {Math.round(duration)}mins
-                      </Text>
-                    </Text>
-                  )}
-                </View>
               )}
+            </Text>
+            <View style={{ top: calcWidth(4) }}>
+              <RoundButton
+                textStyle={{ color: "#2B2D5B" }}
+                width={status ? calcWidth(40) : calcWidth(60)}
+                style={{ backgroundColor: "#46C5F3" }}
+                name={status ? "Okay" : "Ver regras e check list"}
+                onPress={() =>
+                  status
+                    ? this.props.navigation.replace("NextEvent")
+                    : this.setState({ visible: true })
+                }
+              />
             </View>
-            <RoundButton
-              textStyle={{ color: "#2B2D5B" }}
-              width={status ? calcWidth(40) : calcWidth(60)}
-              style={{ backgroundColor: "#46C5F3" }}
-              name={status ? "Okay" : "Ver regras e check list"}
-              onPress={() =>
-                status
-                  ? this.props.navigation.navigate("NextEvent")
-                  : this.setState({ visible: true })
-              }
-            />
           </View>
-          <ModalComingSoon
-            visible={visible}
-            onClose={() => this.setState({ visible: false })}
-          />
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  containerInformation: {
-    height: calcWidth(70),
-    width: "100%",
     backgroundColor: "#24203B",
+    minHeight: calcWidth(70),
     alignItems: "center",
   },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  markerUSer: {
+  iconStyle: {
+    borderRadius: calcWidth(10),
     backgroundColor: "#EFBC2C48",
-    height: calcWidth(10),
-    width: calcWidth(10),
-    borderRadius: calcWidth(5),
+    borderColor: "#FFB72B",
+    borderWidth: 2,
+    padding: calcWidth(3),
     alignItems: "center",
     justifyContent: "center",
-    borderColor: "#E29D01",
-    borderWidth: 2,
   },
-  titleEvent: {
-    fontSize: dimensions(29),
-    paddingBottom: calcWidth(5),
-    textAlign: "center",
-    width: "90%",
+  eventName: {
     color: "#FFFFFF",
-  },
-  textAddress: {
-    fontSize: dimensions(15),
-    paddingBottom: calcWidth(6),
-    width: "85%",
-    color: "#FFFFFF",
-  },
-  fontHelveticaRegular: {
-    fontFamily: "HelveticaNowMicro-Regular",
-  },
-  fontHelveticaBold: {
     fontFamily: "HelveticaNowMicro-Bold",
+    margin: calcWidth(3),
   },
-});
+  address: {
+    color: "#FFFFFF",
+    fontFamily: "HelveticaNowMicro-Regular",
+    marginHorizontal: calcWidth(5),
+    textAlign: "center",
+    fontSize: dimensions(15),
+    minHeight: calcWidth(10),
+  },
+  distance: {
+    color: "#FFB72B",
+    fontFamily: "HelveticaNowMicro-Bold",
+    fontSize: dimensions(20),
+    top: calcWidth(4),
+  },
+};
+
+export default MapsGeolocation;

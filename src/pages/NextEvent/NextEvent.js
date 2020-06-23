@@ -1,5 +1,11 @@
 import React from "react";
-import { View, ImageBackground, StatusBar, SafeAreaView } from "react-native";
+import {
+  View,
+  ImageBackground,
+  StatusBar,
+  SafeAreaView,
+  NativeModules,
+} from "react-native";
 import ImageBack from "~/assets/images/Grupo_518.png";
 import styles from "./styles";
 import ModalCheckList from "./ModalCheckList";
@@ -26,6 +32,7 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import BackgroundTimer from "react-native-background-timer";
 import ModalDuties from "./ModalDuties";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
+import RNAndroidLocationEnabler from "react-native-android-location-enabler";
 
 class NextEvent extends React.Component {
   state = {
@@ -48,6 +55,9 @@ class NextEvent extends React.Component {
           ? this.getWordays(value)
           : this.setState({ status: "without" });
       })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      )
       .finally(() => {
         this.setState({ spinner: false });
       });
@@ -75,7 +85,10 @@ class NextEvent extends React.Component {
         this.setState({ isCheckin: value });
         this.statusOperation(value);
         this.checkoutHours();
-      });
+      })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      );
     this.backgroundHours();
     this.isPaused(value.operationId);
   };
@@ -97,12 +110,7 @@ class NextEvent extends React.Component {
         this.setState({ status: "goToWork" });
         break;
       case 7:
-        this.props.navigation.replace("MapsGeolocation", {
-          id,
-          eventName,
-          addressId,
-          address,
-        });
+        this.openMaps();
         break;
       default:
         null;
@@ -118,23 +126,50 @@ class NextEvent extends React.Component {
     }
   };
 
-  openMaps = () => {
-    const { operationId: id, eventName, addressId, address } = this.state;
-    startOperation(id).then(() => {
+  openMaps = async () => {
+    const {
+      operationId: id,
+      eventName,
+      addressId,
+      address,
+      isCheckin,
+    } = this.state;
+    try {
+      await RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
+        interval: 10000,
+        fastInterval: 5000,
+      });
+
+      isCheckin === 6 && (await startOperation(id));
+
+      NativeModules.ForegroundModule.startForegroundService();
+
       this.props.navigation.replace("MapsGeolocation", {
         id,
         eventName,
         addressId,
         address,
       });
-    });
+    } catch (error) {
+      error.message === "denied"
+        ? AlertHelper.show(
+            "error",
+            "Erro",
+            "Ative sua localização para continuar!."
+          )
+        : AlertHelper.show("error", "Erro", error.message);
+    }
   };
 
   toCheckIn = () => {
     const { operationId: id, vacancyId, job } = this.state;
-    operationsCheckins({ id, vacancyId, job }).then(({}) => {
-      this.setState({ openModalCheckin: true, origin: 1 });
-    });
+    operationsCheckins({ id, vacancyId, job })
+      .then(({}) => {
+        this.setState({ openModalCheckin: true, origin: 1 });
+      })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      );
     return;
   };
 
