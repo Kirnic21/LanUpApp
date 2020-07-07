@@ -45,7 +45,7 @@ class Rating extends React.Component {
         this.props.navigation.navigate("UserProfile");
       })
       .catch((error) => {
-        AlertHelper.show("error", "Erro", error.response.data);
+        this.props.navigation.navigate("UserProfile");
       })
       .finally(() => {
         this.setState({ spinner: false });

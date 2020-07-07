@@ -61,11 +61,11 @@ class UserProfile extends Component {
           subtitle: "Fotos e videos de seu trabalho",
           onPress: () => this.openMidia(),
         },
-        {
-          title: "Certificados",
-          subtitle: "Fotos comprovando suas habilidades",
-          onPress: () => this.navigateToScreen("Certificates"),
-        },
+        // {
+        //   title: "Certificados",
+        //   subtitle: "Fotos comprovando suas habilidades",
+        //   onPress: () => this.navigateToScreen("Certificates"),
+        // },
         {
           title: "Disponibilidade",
           subtitle: "Dias, horários e feriados",

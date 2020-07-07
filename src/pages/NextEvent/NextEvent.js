@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   ImageBackground,
   StatusBar,
   SafeAreaView,
   NativeModules,
-} from "react-native";
-import ImageBack from "~/assets/images/Grupo_518.png";
-import styles from "./styles";
-import ModalCheckList from "./ModalCheckList";
-import { workdays } from "~/shared/services/freela.http";
+} from 'react-native';
+import ImageBack from '~/assets/images/Grupo_518.png';
+import styles from './styles';
+import ModalCheckList from './ModalCheckList';
+import { workdays } from '~/shared/services/freela.http';
 import {
   operationsCheckins,
   operationsChecklists,
@@ -20,19 +20,19 @@ import {
   operationsStatus,
   operationsCheckout,
   startOperation,
-} from "~/shared/services/operations.http";
-import TitleEvent from "./TitleEvent";
-import RoundButton from "~/shared/components/RoundButton";
-import SpinnerComponent from "~/shared/components/SpinnerComponent";
-import { calcWidth } from "~/assets/Dimensions";
-import ModalPause from "./ModalPause";
-import ModalOccurrence from "./ModalOccurrence";
-import ButtonPulse from "~/shared/components/ButtonPulse";
-import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import BackgroundTimer from "react-native-background-timer";
-import ModalDuties from "./ModalDuties";
-import ModalComingSoon from "~/shared/components/ModalComingSoon";
-import RNAndroidLocationEnabler from "react-native-android-location-enabler";
+} from '~/shared/services/operations.http';
+import TitleEvent from './TitleEvent';
+import RoundButton from '~/shared/components/RoundButton';
+import SpinnerComponent from '~/shared/components/SpinnerComponent';
+import { calcWidth } from '~/assets/Dimensions';
+import ModalPause from './ModalPause';
+import ModalOccurrence from './ModalOccurrence';
+import ButtonPulse from '~/shared/components/ButtonPulse';
+import { AlertHelper } from '~/shared/helpers/AlertHelper';
+import BackgroundTimer from 'react-native-background-timer';
+import ModalDuties from './ModalDuties';
+import ModalComingSoon from '~/shared/components/ModalComingSoon';
+import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 
 class NextEvent extends React.Component {
   state = {
@@ -53,10 +53,10 @@ class NextEvent extends React.Component {
         const { value } = result;
         value !== null
           ? this.getWordays(value)
-          : this.setState({ status: "without" });
+          : this.setState({ status: 'without' });
       })
       .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+        AlertHelper.show('error', 'Erro', error.response.data.errorMessage)
       )
       .finally(() => {
         this.setState({ spinner: false });
@@ -72,6 +72,7 @@ class NextEvent extends React.Component {
       checkListCheckIn: value.checkListCheckIn,
       vacancyId: value.vacancyId,
       freelaId: value.freelaId,
+      checkin: value.checkin,
       checkout: value.checkout,
       hirerId: value.hirerId,
       responsabilities: value.responsabilities,
@@ -87,27 +88,26 @@ class NextEvent extends React.Component {
         this.checkoutHours();
       })
       .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+        AlertHelper.show('error', 'Erro', error.response.data.errorMessage)
       );
     this.backgroundHours();
     this.isPaused(value.operationId);
   };
 
   statusOperation = (value) => {
-    const { operationId: id, eventName, addressId, address } = this.state;
     switch (value) {
       case 1:
-        this.setState({ status: "checkin", isCheckin: value });
+        this.setState({ status: 'checkin', isCheckin: value });
         break;
       case 2:
         this.setState({
-          status: "checkin",
+          status: 'checkin',
           openModalCheckin: true,
           origin: 1,
         });
         break;
       case 6:
-        this.setState({ status: "goToWork" });
+        this.setState({ status: 'goToWork' });
         break;
       case 7:
         this.openMaps();
@@ -119,7 +119,7 @@ class NextEvent extends React.Component {
 
   backgroundHours = () => {
     const { status } = this.state;
-    if (status !== "checkout") {
+    if (status !== 'checkout') {
       BackgroundTimer.setInterval(() => {
         this.checkoutHours();
       }, 60000);
@@ -144,20 +144,20 @@ class NextEvent extends React.Component {
 
       NativeModules.ForegroundModule.startForegroundService();
 
-      this.props.navigation.replace("MapsGeolocation", {
+      this.props.navigation.replace('MapsGeolocation', {
         id,
         eventName,
         addressId,
         address,
       });
     } catch (error) {
-      error.message === "denied"
+      error.message === 'denied'
         ? AlertHelper.show(
-            "error",
-            "Erro",
-            "Ative sua localização para continuar!."
+            'error',
+            'Erro',
+            'Ative sua localização para continuar!.'
           )
-        : AlertHelper.show("error", "Erro", error.message);
+        : AlertHelper.show('error', 'Erro', error.message);
     }
   };
 
@@ -168,7 +168,7 @@ class NextEvent extends React.Component {
         this.setState({ openModalCheckin: true, origin: 1 });
       })
       .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+        AlertHelper.show('error', 'Erro', error.response.data.errorMessage)
       );
     return;
   };
@@ -188,18 +188,17 @@ class NextEvent extends React.Component {
   // };
 
   checkoutHours = () => {
-    const { checkout, isCheckin } = this.state;
-    const checkoutDate = new Date().setHours(...checkout.split(":"));
+    const { checkout, isCheckin, checkin } = this.state;
+    const checkoutDate = new Date().setHours(...checkout.split(':'));
     const checkoutTime =
-      new Date().getTime >= "12" && checkout <= "12"
+      checkin >= '12' && checkout <= '12'
         ? new Date(checkoutDate).setDate(new Date(checkoutDate).getDate() + 1)
         : new Date(checkoutDate).setDate(new Date(checkoutDate).getDate());
     new Date() < new Date(checkoutTime) && isCheckin === 3
-      ? this.setState({ status: "occurrence" })
+      ? this.setState({ status: 'occurrence' })
       : new Date() >= new Date(checkoutTime)
-      ? this.setState({ status: "checkout", origin: 2 })
+      ? this.setState({ status: 'checkout', origin: 2 })
       : null;
-    return;
   };
 
   toCheckout = () => {
@@ -207,10 +206,10 @@ class NextEvent extends React.Component {
     this.setState({ openModalCheckin: false }, () => {
       operationsCheckout({ id, vacancyId, job })
         .then(() => {
-          this.props.navigation.replace("Rating", { hirerId, eventName });
+          this.props.navigation.replace('Rating', { hirerId, eventName });
         })
         .catch((error) =>
-          AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+          AlertHelper.show('error', 'Erro', error.response.data.errorMessage)
         );
     });
   };
@@ -223,13 +222,13 @@ class NextEvent extends React.Component {
         origin === 1
           ? this.setState({
               openModalCheckin: false,
-              status: "occurrence",
+              status: 'occurrence',
               checked: false,
             })
           : this.toCheckout();
       })
       .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+        AlertHelper.show('error', 'Erro', error.response.data.errorMessage)
       )
       .finally(() => {
         this.setState({ loading: false });
@@ -244,20 +243,20 @@ class NextEvent extends React.Component {
     incidents(request)
       .then(() => {
         this.setState({
-          description: "",
+          description: '',
           send: false,
-          image: "",
-          picture: "",
+          image: '',
+          picture: '',
           openModalOccurrence: false,
         });
         AlertHelper.show(
-          "success",
-          "Sucesso",
-          "Ocorrência enviada com sucesso."
+          'success',
+          'Sucesso',
+          'Ocorrência enviada com sucesso.'
         );
       })
       .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+        AlertHelper.show('error', 'Erro', error.response.data.errorMessage)
       )
       .finally(() => {
         this.setState({ loading: false });
@@ -273,7 +272,7 @@ class NextEvent extends React.Component {
         this.setState({ pause });
       })
       .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+        AlertHelper.show('error', 'Erro', error.response.data.errorMessage)
       );
     return;
   };
@@ -286,7 +285,7 @@ class NextEvent extends React.Component {
           this.setState({ pause: true });
         })
         .catch((error) => {
-          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+          AlertHelper.show('error', 'Erro', error.response.data.errorMessage);
         })
         .finally(() => {
           this.setState({ loading: false });
@@ -302,7 +301,7 @@ class NextEvent extends React.Component {
           this.setState({ pause: false });
         })
         .catch((error) => {
-          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+          AlertHelper.show('error', 'Erro', error.response.data.errorMessage);
         })
         .finally(() => {
           this.setState({ spinner: false });
@@ -315,7 +314,7 @@ class NextEvent extends React.Component {
     return {
       without: (
         <ButtonPulse
-          title={`Iniciar${"\n"}Check-in`}
+          title={`Iniciar${'\n'}Check-in`}
           titleStyle={styles.textBtnPulse}
           titleColor="#24203B"
           size="normal"
@@ -324,7 +323,7 @@ class NextEvent extends React.Component {
       ),
       goToWork: (
         <ButtonPulse
-          title={`Estou${"\n"}a${"\n"}caminho`}
+          title={`Estou${'\n'}a${'\n'}caminho`}
           titleStyle={styles.textBtnPulse}
           size="normal"
           startAnimations={true}
@@ -335,7 +334,7 @@ class NextEvent extends React.Component {
       ),
       checkin: (
         <ButtonPulse
-          title={`Iniciar${"\n"}Check-in`}
+          title={`Iniciar${'\n'}Check-in`}
           titleStyle={styles.textBtnPulse}
           size="normal"
           startAnimations={true}
@@ -345,7 +344,7 @@ class NextEvent extends React.Component {
       ),
       checkout: (
         <ButtonPulse
-          title={`Iniciar${"\n"}Check-out`}
+          title={`Iniciar${'\n'}Check-out`}
           titleStyle={styles.textBtnPulse}
           size="normal"
           startAnimations={pause ? false : true}
@@ -395,13 +394,13 @@ class NextEvent extends React.Component {
           <TitleEvent status={status} job={job} eventName={eventName} />
           <View style={styles.containerCircle}>
             <View
-              pointerEvents={pause ? "none" : "auto"}
+              pointerEvents={pause ? 'none' : 'auto'}
               style={styles.borderCircle}
             >
               {this.buttonsOperations()}
             </View>
-            {status === "checkout" || status === "occurrence" ? (
-              <View style={{ alignItems: "center", top: calcWidth(-26) }}>
+            {status === 'checkout' || status === 'occurrence' ? (
+              <View style={{ alignItems: 'center', top: calcWidth(-26) }}>
                 <View style={styles.containerGroupButton}>
                   <ButtonPulse
                     icon="assistant"
@@ -410,9 +409,9 @@ class NextEvent extends React.Component {
                     color="#46C5F3"
                     onPress={() => this.setState({ openModalDuties: true })}
                   />
-                  {status === "checkout" ? (
+                  {status === 'checkout' ? (
                     <View
-                      pointerEvents={pause ? "none" : "auto"}
+                      pointerEvents={pause ? 'none' : 'auto'}
                       style={{ top: calcWidth(12) }}
                     >
                       <ButtonPulse
@@ -432,10 +431,10 @@ class NextEvent extends React.Component {
                   <ButtonPulse
                     size="small"
                     disabled={spinner}
-                    icon={pause ? "play" : "pause"}
-                    title={pause ? "voltar" : "Pausa"}
+                    icon={pause ? 'play' : 'pause'}
+                    title={pause ? 'voltar' : 'Pausa'}
                     startAnimations={pause ? true : false}
-                    color={pause ? "#03DAC6" : "#F13567"}
+                    color={pause ? '#03DAC6' : '#F13567'}
                     onPress={() =>
                       pause
                         ? this.returnPause()
@@ -449,14 +448,14 @@ class NextEvent extends React.Component {
             )}
           </View>
           <View style={styles.containerBtn}>
-            {status === "without" ? (
+            {status === 'without' ? (
               <RoundButton
                 width={calcWidth(55)}
                 name="Encontrar mais vagas"
                 style={styles.btn}
-                onPress={() => this.props.navigation.navigate("ToExplore")}
+                onPress={() => this.props.navigation.navigate('ToExplore')}
               />
-            ) : status === "goToWork" ? (
+            ) : status === 'goToWork' ? (
               <RoundButton
                 width={calcWidth(55)}
                 name="Ver regras e check list"
@@ -475,10 +474,10 @@ class NextEvent extends React.Component {
           <ModalCheckList
             visible={openModalCheckin}
             loading={loading}
-            titleCheck={status === "checkout" ? "Check-out" : "Check-in"}
+            titleCheck={status === 'checkout' ? 'Check-out' : 'Check-in'}
             job={job}
             checkList={
-              status === "checkin" ? checkListCheckIn : checkListCheckout
+              status === 'checkin' ? checkListCheckIn : checkListCheckout
             }
             pressConfirm={() => this.confirmChecklist()}
             onPressCheck={() => this.setState({ checked: !checked })}
@@ -501,14 +500,14 @@ class NextEvent extends React.Component {
             onChangeText={(text) =>
               this.setState({
                 description: text,
-                send: text !== "" ? true : false,
+                send: text !== '' ? true : false,
               })
             }
             onClose={() =>
               this.setState({
                 openModalOccurrence: false,
-                image: "",
-                picture: "",
+                image: '',
+                picture: '',
               })
             }
           />
