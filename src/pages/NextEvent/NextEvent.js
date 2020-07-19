@@ -44,8 +44,9 @@ class NextEvent extends React.Component {
   };
 
   componentDidMount() {
-    const date = new Date();
-    const day = date.toISOString().substr(0, 10);
+    const dayx = new Date();
+    const month = dayx.getMonth() + 1;
+    const day = `${dayx.getFullYear()}-${month < 10 ? `0${month}` : month}-${dayx.getDate()}`;
     this.setState({ spinner: true });
     workdays({ day })
       .then(({ data }) => data)
