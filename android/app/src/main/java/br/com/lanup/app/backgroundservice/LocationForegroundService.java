@@ -25,7 +25,7 @@ public class LocationForegroundService extends Service {
     public static final int NOTIFICATION_ID = 1;
     public static final String LOCATION_EVENT_NAME = "com.rnbglocation.LOCATION_INFO";
     public static final String LOCATION_EVENT_DATA_NAME = "LocationData";
-    public static final int LOCATION_UPDATE_INTERVAL = 60000;
+    public static final int LOCATION_UPDATE_INTERVAL = 10000;
     public static final String JS_LOCATION_LAT_KEY = "latitude";
     public static final String JS_LOCATION_LON_KEY = "longitude";
     public static final String JS_LOCATION_TIME_KEY = "timestamp";

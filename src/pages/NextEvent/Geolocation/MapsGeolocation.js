@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -6,35 +6,37 @@ import {
   Text,
   DeviceEventEmitter,
   Vibration,
-} from "react-native";
+} from 'react-native';
 
-import MapView from "react-native-maps";
-import MapViewDirections from "react-native-maps-directions";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import MapView from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import dimensions, { calcWidth } from "~/assets/Dimensions";
-import mapStyles from "~/pages/NextEvent/Geolocation/stylesMaps";
-import RoundButton from "~/shared/components/RoundButton";
-import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import { location } from "~/shared/services/events.http";
+import dimensions, { calcWidth } from '~/assets/Dimensions';
+import ModalComingSoon from '~/shared/components/ModalComingSoon';
+import mapStyles from '~/pages/NextEvent/Geolocation/stylesMaps';
+import RoundButton from '~/shared/components/RoundButton';
+import { AlertHelper } from '~/shared/helpers/AlertHelper';
+import { location } from '~/shared/services/events.http';
 import {
   arrivelOperation,
   checkpoints,
-} from "~/shared/services/operations.http";
+} from '~/shared/services/operations.http';
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE = 0;
 const LONGITUDE = 0;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const GOOGLE_MAPS_APIKEY = "AIzaSyBVsSKFLigzkkpRc1L-GTKCN2N0qQHWYOc";
+const GOOGLE_MAPS_APIKEY = 'AIzaSyBVsSKFLigzkkpRc1L-GTKCN2N0qQHWYOc';
 
 class MapsGeolocation extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      visible: false,
       status: false,
       coordinates: [],
       distance: 0,
@@ -52,7 +54,7 @@ class MapsGeolocation extends Component {
     this.lastTimeout = setTimeout;
 
     this.subscription = DeviceEventEmitter.addListener(
-      "location_received",
+      'location_received',
       (e) => {
         this.watchPosition(e);
       }
@@ -82,7 +84,7 @@ class MapsGeolocation extends Component {
         id,
       });
     } catch (error) {
-      AlertHelper.show("error", "Erro", error.message);
+      AlertHelper.show('error', 'Erro', error.message);
     }
   }
 
@@ -121,7 +123,7 @@ class MapsGeolocation extends Component {
         long: longitude.toString(),
       });
     } catch (error) {
-      AlertHelper.show("error", "Erro", error.message);
+      AlertHelper.show('error', 'Erro', error.message);
     }
   };
 
@@ -134,7 +136,7 @@ class MapsGeolocation extends Component {
         try {
           await arrivelOperation(id);
         } catch (error) {
-          AlertHelper.show("error", "Erro", error.message);
+          AlertHelper.show('error', 'Erro', error.message);
         }
       });
     }
@@ -142,7 +144,14 @@ class MapsGeolocation extends Component {
   };
 
   render() {
-    const { status, distance, duration, address, eventName } = this.state;
+    const {
+      status,
+      distance,
+      duration,
+      address,
+      eventName,
+      visible,
+    } = this.state;
     return (
       <View style={StyleSheet.absoluteFill}>
         <MapView
@@ -158,11 +167,11 @@ class MapsGeolocation extends Component {
         >
           <MapView.Marker coordinate={this.state.position}>
             <View style={styles.iconStyle}>
-              <Icon name={"circle"} size={calcWidth(4)} color={"#FFB72B"} />
+              <Icon name={'circle'} size={calcWidth(4)} color={'#FFB72B'} />
             </View>
           </MapView.Marker>
           <MapView.Marker coordinate={this.state.destination}>
-            <Icon name={"map-marker"} size={calcWidth(14)} color={"#F63535"} />
+            <Icon name={'map-marker'} size={calcWidth(14)} color={'#F63535'} />
           </MapView.Marker>
           {this.state.coordinates.length >= 2 && (
             <MapViewDirections
@@ -193,12 +202,12 @@ class MapsGeolocation extends Component {
                 });
               }}
               onError={(errorMessage) => {
-                AlertHelper.show("error", "Erro", errorMessage);
+                AlertHelper.show('error', 'Erro', errorMessage);
               }}
             />
           )}
         </MapView>
-        <View style={{ flex: 1, justifyContent: "flex-end" }}>
+        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
           <View style={styles.container}>
             <Text
               numberOfLines={2}
@@ -217,7 +226,7 @@ class MapsGeolocation extends Component {
             </Text>
             <Text style={styles.distance}>
               <Icon name="near-me" size={calcWidth(7)} color="#FFB72B" />
-              {status ? "Você chegou" : `${Number(distance).toFixed(2)}KM`}
+              {status ? 'Você chegou' : `${Number(distance).toFixed(2)}KM`}
               {!status && (
                 <Text style={{ fontSize: dimensions(10) }}>
                   / {Math.round(duration)}min
@@ -226,15 +235,19 @@ class MapsGeolocation extends Component {
             </Text>
             <View style={{ top: calcWidth(4) }}>
               <RoundButton
-                textStyle={{ color: "#2B2D5B" }}
+                textStyle={{ color: '#2B2D5B' }}
                 width={status ? calcWidth(40) : calcWidth(60)}
-                style={{ backgroundColor: "#46C5F3" }}
-                name={status ? "Okay" : "Ver regras e check list"}
+                style={{ backgroundColor: '#46C5F3' }}
+                name={status ? 'Okay' : 'Ver regras e check list'}
                 onPress={() =>
                   status
-                    ? this.props.navigation.replace("NextEvent")
+                    ? this.props.navigation.replace('NextEvent')
                     : this.setState({ visible: true })
                 }
+              />
+              <ModalComingSoon
+                onClose={() => this.setState({ visible: false })}
+                visible={visible}
               />
             </View>
           </View>
@@ -246,35 +259,35 @@ class MapsGeolocation extends Component {
 
 const styles = {
   container: {
-    backgroundColor: "#24203B",
+    backgroundColor: '#24203B',
     minHeight: calcWidth(70),
-    alignItems: "center",
+    alignItems: 'center',
   },
   iconStyle: {
     borderRadius: calcWidth(10),
-    backgroundColor: "#EFBC2C48",
-    borderColor: "#FFB72B",
+    backgroundColor: '#EFBC2C48',
+    borderColor: '#FFB72B',
     borderWidth: 2,
     padding: calcWidth(3),
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   eventName: {
-    color: "#FFFFFF",
-    fontFamily: "HelveticaNowMicro-Bold",
+    color: '#FFFFFF',
+    fontFamily: 'HelveticaNowMicro-Bold',
     margin: calcWidth(3),
   },
   address: {
-    color: "#FFFFFF",
-    fontFamily: "HelveticaNowMicro-Regular",
+    color: '#FFFFFF',
+    fontFamily: 'HelveticaNowMicro-Regular',
     marginHorizontal: calcWidth(5),
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: dimensions(15),
     minHeight: calcWidth(10),
   },
   distance: {
-    color: "#FFB72B",
-    fontFamily: "HelveticaNowMicro-Bold",
+    color: '#FFB72B',
+    fontFamily: 'HelveticaNowMicro-Bold',
     fontSize: dimensions(20),
     top: calcWidth(4),
   },
