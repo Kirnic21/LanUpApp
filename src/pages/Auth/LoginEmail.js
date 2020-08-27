@@ -54,10 +54,12 @@ class LoginEmail extends Component {
 
   goToLoginPerfil = (form) => {
     const { email, password } = form;
-    this.setState({ spinner: true }, () => {
+    this.setState({ spinner: true }, async () => {
+      const deviceId = await AsyncStorage.getItem("DEVICE_ID");
       login({
         login: email,
         password,
+        deviceId
       })
         .then(async ({ data }) => {
           const token = decodeToken(data.result.token);

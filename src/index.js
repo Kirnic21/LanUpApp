@@ -46,10 +46,11 @@ class App extends Component {
   async componentDidMount() {
     await this.requestLocationPermision();
     const token = await AsyncStorage.getItem("API_TOKEN");
+    const deviceId = await AsyncStorage.getItem("DEVICE_ID");
 
     this.setState({
       userChecked: true,
-      userLogged: !!token,
+      userLogged: !!token && !!deviceId,
     });
     NetInfo.addEventListener((state) => {
       !state.isConnected &&
@@ -85,12 +86,8 @@ class App extends Component {
   }
 
   onIds(device) {
-    // const { userId: deviceId } = device
-
-    // TODO: lógica de atualização de deviceId
-    // TODO: lógica salvamento de deviceId para enviar no cadastro de usuário
-
-    console.log("Device info: ", device);
+    const { deviceId } = device
+    await AsyncStorage.setItem("DEVICE_ID", deviceId);
   }
 
   render() {
