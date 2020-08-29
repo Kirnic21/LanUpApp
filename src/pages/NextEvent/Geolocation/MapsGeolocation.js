@@ -10,18 +10,20 @@ import {
 
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import dimensions, { calcWidth } from '~/assets/Dimensions';
 import ModalComingSoon from '~/shared/components/ModalComingSoon';
 import mapStyles from '~/pages/NextEvent/Geolocation/stylesMaps';
 import RoundButton from '~/shared/components/RoundButton';
+
 import { AlertHelper } from '~/shared/helpers/AlertHelper';
 import { location } from '~/shared/services/events.http';
 import {
   arrivelOperation,
   checkpoints,
 } from '~/shared/services/operations.http';
+import env from "react-native-config";
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -29,9 +31,6 @@ const LATITUDE = 0;
 const LONGITUDE = 0;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
-const GOOGLE_MAPS_APIKEY = 'AIzaSyBVsSKFLigzkkpRc1L-GTKCN2N0qQHWYOc';
-
 class MapsGeolocation extends Component {
   constructor(props) {
     super(props);
@@ -167,11 +166,11 @@ class MapsGeolocation extends Component {
         >
           <MapView.Marker coordinate={this.state.position}>
             <View style={styles.iconStyle}>
-              <Icon name={'circle'} size={calcWidth(4)} color={'#FFB72B'} />
+              <Icon name={'lens'} size={calcWidth(4)} color={'#FFB72B'} />
             </View>
           </MapView.Marker>
           <MapView.Marker coordinate={this.state.destination}>
-            <Icon name={'map-marker'} size={calcWidth(14)} color={'#F63535'} />
+            <Icon name={'place'} size={calcWidth(14)} color={'#F63535'} />
           </MapView.Marker>
           {this.state.coordinates.length >= 2 && (
             <MapViewDirections
@@ -179,7 +178,7 @@ class MapsGeolocation extends Component {
               destination={
                 this.state.coordinates[this.state.coordinates.length - 1]
               }
-              apikey={GOOGLE_MAPS_APIKEY}
+              apikey={env.GOOGLE_MAPS_API_KEY}
               strokeWidth={3}
               strokeColor="#F63535"
               optimizeWaypoints={true}

@@ -2,6 +2,7 @@ import * as React from "react";
 import { createStackNavigator } from "react-navigation-stack";
 
 import UserProfile from "~/pages/UserProfile/UserProfile";
+import ViewProfile from "~/pages/UserProfile/ViewProfile";
 import AboutMe from "~/pages/UserProfile/About/AboutMe";
 import Profession from "~/pages/UserProfile/MyJob/Profession";
 import AddProfession from "~/pages/UserProfile/MyJob/AddProfession";
@@ -48,6 +49,12 @@ const pageNavigator = createStackNavigator(
         headerTitle: () => null,
         headerTransparent: true,
         headerStyle: { height: calcWidth(20) },
+      }),
+    },
+    ViewProfile: {
+      screen: ViewProfile,
+      navigationOptions: () => ({
+        headerTitle: "Visualizar Perfil",
       }),
     },
     AboutMe: {

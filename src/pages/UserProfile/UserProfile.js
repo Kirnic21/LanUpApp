@@ -217,7 +217,7 @@ class UserProfile extends Component {
               </View>
             </View>
             <TouchableOpacity
-              onPress={() => this.openModal()}
+              onPress={() => this.navigateToScreen("ViewProfile")}
               style={[{ width: dimensions(250), alignItems: "center" }]}
             >
               <Text style={[styles.submitText, styles.backColorSteelGray]}>

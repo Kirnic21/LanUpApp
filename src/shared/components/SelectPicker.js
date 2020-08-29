@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import dimensions, { calcWidth } from "~/assets/Dimensions";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialIcons";
 
 const SelectPicker = ({
   input: { onChange, value, ...inputProps },
@@ -31,7 +31,7 @@ const SelectPicker = ({
           Icon={() => {
             return (
               <MaterialCommunityIcons
-                name={"chevron-down"}
+                name={"keyboard-arrow-down"}
                 size={calcWidth(10)}
                 color="#FFFFFF"
               />
@@ -41,7 +41,7 @@ const SelectPicker = ({
           <View style={styles.containerText}>
             <Text style={styles.textPicker}>{value || "Selecione ..."}</Text>
             <MaterialCommunityIcons
-              name={"chevron-down"}
+              name={"keyboard-arrow-down"}
               size={calcWidth(10)}
               color="#FFFFFF"
             />

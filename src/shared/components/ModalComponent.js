@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialIcons";
 import { calcWidth } from "~/assets/Dimensions/index";
 import Modal from "react-native-modal";
 import { TextInput } from "react-native-gesture-handler";
