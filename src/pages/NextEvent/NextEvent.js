@@ -356,7 +356,7 @@ class NextEvent extends React.Component {
       occurrence: (
         <ButtonPulse
           title="Ocorrência"
-          icon="alert-circle"
+          icon="error"
           size="normal"
           color="#FFB72B"
           startAnimations={pause ? false : true}
@@ -417,7 +417,7 @@ class NextEvent extends React.Component {
                     >
                       <ButtonPulse
                         title="Ocorrência"
-                        icon="alert-circle"
+                        icon="error"
                         size="small"
                         startAnimations={pause ? false : true}
                         onPress={() =>
@@ -432,7 +432,7 @@ class NextEvent extends React.Component {
                   <ButtonPulse
                     size="small"
                     disabled={spinner}
-                    icon={pause ? 'play' : 'pause'}
+                    icon={pause ? 'play-arrow' : 'pause'}
                     title={pause ? 'voltar' : 'Pausa'}
                     startAnimations={pause ? true : false}
                     color={pause ? '#03DAC6' : '#F13567'}

@@ -1,5 +1,5 @@
 import React from "react";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialIcons";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import PhotoGalleryEmptyState from "./emptyState/EmptyState";
 import { ScrollView } from "react-native-gesture-handler";
@@ -178,7 +178,7 @@ class PhotoGallery extends React.Component {
                 onPress={this.handleOnPictureAdd}
                 style={styles.addPictureContainer}
               >
-                <MaterialCommunityIcons name="camera" size={38} color="#FFF" />
+                <MaterialCommunityIcons name="photo-camera" size={38} color="#FFF" />
               </TouchableOpacity>
               {pictures.map((picture, index) => (
                 <View key={index}>

@@ -47,7 +47,6 @@ class App extends Component {
     await this.requestLocationPermision();
     const token = await AsyncStorage.getItem("API_TOKEN");
     const deviceId = await AsyncStorage.getItem("DEVICE_ID");
-
     this.setState({
       userChecked: true,
       userLogged: !!token && !!deviceId,
@@ -85,13 +84,12 @@ class App extends Component {
     console.log("openResult: ", openResult);
   }
 
-  onIds(device) {
-    const { deviceId } = device
-    await AsyncStorage.setItem("DEVICE_ID", deviceId);
+  async onIds(device) {
+    await AsyncStorage.setItem("DEVICE_ID", device.userId);
   }
 
   render() {
-    const { userChecked, userLogged } = this.state;
+    const { userChecked, userLogged,  } = this.state;
 
     if (!userChecked) return null;
 

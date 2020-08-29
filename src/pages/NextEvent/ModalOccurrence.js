@@ -4,7 +4,7 @@ import Modal from "~/shared/components/ModalComponent";
 import dimensions, { calcHeight, calcWidth } from "~/assets/Dimensions/index";
 import InputLabel from "~/shared/components/InputLabel";
 import cameraPlus from "~/assets/images/camera-plus.png";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import ImageSelector from "~/shared/components/ImageSelector";
 
 import debounceButton from "~/shared/helpers/debounce";

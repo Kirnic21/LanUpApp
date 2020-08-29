@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, TextInput } from "react-native";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialIcons";
 import { debounce } from "lodash";
 
 const styles = StyleSheet.create({
@@ -40,7 +40,7 @@ const InputSearch = ({ handleOnSearch, debounceTime = 500, value }) => {
       />
 
       <View style={styles.inputSearchIconContainer}>
-        <MaterialCommunityIcons color={"#23203F"} name={"magnify"} size={25} />
+        <MaterialCommunityIcons color={"#23203F"} name={"search"} size={25} />
       </View>
     </View>
   );

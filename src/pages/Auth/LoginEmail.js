@@ -52,14 +52,14 @@ class LoginEmail extends Component {
     this.changeIcon = this.changeIcon.bind(this);
   }
 
-  goToLoginPerfil = (form) => {
+  goToLoginPerfil = async (form) => {
     const { email, password } = form;
-    this.setState({ spinner: true }, async () => {
-      const deviceId = await AsyncStorage.getItem("DEVICE_ID");
+    const deviceId = await AsyncStorage.getItem("DEVICE_ID");
+    this.setState({ spinner: true }, () => {
       login({
         login: email,
         password,
-        deviceId
+        deviceId,
       })
         .then(async ({ data }) => {
           const token = decodeToken(data.result.token);

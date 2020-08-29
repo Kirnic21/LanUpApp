@@ -1,13 +1,13 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import dimensions, { calcWidth } from "~/assets/Dimensions/index";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const ButtonRightNavigation = ({ onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.button}>
       <Icon
-        name="content-save"
+        name="save"
         size={calcWidth(8)}
         color="#FFFFFF"
         style={{
