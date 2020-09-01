@@ -25,36 +25,40 @@ class SelectAvatar extends Component {
     selected: false,
     spinner: false
   };
-  onPictureAdd = picture => {
-    this.setState({ spinner: true });
-    const {
-      fullName,
-      nickname,
-      cpf,
-      email,
-      password,
-      confirmPassword
-    } = this.props;
-    const CPF = cpf.replace(/[\(\)\.\s-]+/g, "");
-    const newFreela = {
-      name: fullName,
-      nickname,
-      cpf: CPF,
-      email,
-      password,
-      confirmPassword,
-      avatar: picture.data
-    };
-    create(newFreela)
-      .then(async ({ data }) => {
-        if (data.isSuccess) {
-          await AsyncStorage.setItem("API_TOKEN", data.result.token);
-          this.props.navigation.navigate("UserProfile");
-        } else alert(data.result.errorMessage);
-      })
-      .finally(() => {
-        this.setState({ spinner: false });
-      });
+
+  onPictureAdd = async picture => {
+    const deviceId = await AsyncStorage.getItem("DEVICE_ID");
+    this.setState({ spinner: true }, () => {
+      const {
+        fullName,
+        nickname,
+        cpf,
+        email,
+        password,
+        confirmPassword
+      } = this.props;
+      const CPF = cpf.replace(/[\(\)\.\s-]+/g, ""); 
+      const newFreela = {
+        name: fullName,
+        nickname,
+        cpf: CPF,
+        email,
+        password,
+        confirmPassword,
+        avatar: picture.data,
+        deviceId
+      };
+      create(newFreela)
+        .then(async ({ data }) => {
+          if (data.isSuccess) {
+            await AsyncStorage.setItem("API_TOKEN", data.result.token);
+            this.props.navigation.push("UserProfile");
+          } else alert(data.result.errorMessage);
+        })
+        .finally(() => {
+          this.setState({ spinner: false });
+        });
+    })
   };
 
   handleOnPictureAdd = () => {
