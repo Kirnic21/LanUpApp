@@ -35,8 +35,12 @@ export default class ToExplore extends Component {
           (c) => c.name
         );
         const JobsSelected = name.map((item) => ({ title: item }));
-        this.setState({ JobsSelected });
-        this.getVacancy(JobsSelected[0].title);
+        if(JobsSelected.length) {
+          this.setState({ JobsSelected });
+          this.getVacancy(JobsSelected[0].title);
+        }else {
+          this.props.navigation.push('Profession')
+        }
       })
       .finally(() => {
         this.setState({ loading: false });
