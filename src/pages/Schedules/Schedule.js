@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, FlatList, View, Text } from "react-native";
 import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
 import { getSchedules } from "~/shared/services/vacancy.http";
-import dimensions, { calcWidth, calcHeight } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, calcHeight, adjust } from "~/assets/Dimensions/index";
 import FilterToExplore from "../Explore/FilterToExplore";
 import Lottie from "lottie-react-native";
 import loadingSpinner from "~/assets/loadingSpinner.json";
@@ -54,7 +54,7 @@ export default class Schedule extends React.Component {
             style={{
               color: "#FFF",
               fontFamily: "HelveticaNowMicro-Regular",
-              fontSize: calcWidth(5),
+              fontSize: adjust(15),
             }}
           >
             Próximos Eventos:
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   textEmpty: {
     color: "#FFF",
-    fontSize: dimensions(20),
+    fontSize: adjust(15),
     fontFamily: "HelveticaNowDisplay-Regular",
   },
 });

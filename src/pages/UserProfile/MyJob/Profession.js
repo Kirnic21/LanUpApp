@@ -20,7 +20,7 @@ import {
   getJobs,
   received,
 } from "~/shared/services/freela.http";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { setAbout } from "~/store/ducks/aboutMe/about.actions";
@@ -218,10 +218,6 @@ class Profession extends Component {
                   <View
                     key={id}
                     style={[styles.chip, { backgroundColor: "#46C5F3" }]}
-                    textStyle={{
-                      color: "#18142F",
-                      fontSize: dimensions(14),
-                    }}
                   >
                     <Text style={[styles.textChip, { color: "#18142F" }]}>
                       {c}
@@ -271,7 +267,7 @@ const styles = StyleSheet.create({
   },
   textChip: {
     color: "#FFF",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
     padding: dimensions(10),
     paddingTop: dimensions(7),
@@ -286,13 +282,13 @@ const styles = StyleSheet.create({
   jobNumber: {
     color: "rgba(255, 255, 255, 0.7)",
     fontFamily: "HelveticaNowMicro-ExtraLight",
-    fontSize: dimensions(10),
+    fontSize: adjust(8),
     marginTop: "1.5%",
     marginLeft: "2%",
   },
   notJobsText: {
     color: "#FFF",
-    fontSize: dimensions(14),
+    fontSize: adjust(12),
     fontFamily: "HelveticaNowMicro-Regular",
     textAlignVertical: "center",
     padding: "10%",
@@ -308,7 +304,7 @@ const styles = StyleSheet.create({
   },
   Title: {
     color: "#FFF",
-    fontSize: dimensions(14),
+    fontSize: adjust(12),
     fontFamily: "HelveticaNowMicro-Regular",
   },
   inputCurrency: {
@@ -319,7 +315,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginTop: "3%",
     height: dimensions(43),
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
     paddingHorizontal: "7%",
   },

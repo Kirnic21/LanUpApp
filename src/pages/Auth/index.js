@@ -6,26 +6,17 @@ import {
   ImageBackground,
   Dimensions,
   Image,
-  StatusBar
+  StatusBar,
 } from "react-native";
-import BackgroundTimer from "react-native-background-timer";
-// import Geolocation from '@react-native-community/geolocation';
 import RoundButton from "~/shared/components/RoundButton";
 import ImageBack from "../../assets/images/Grupo_518.png";
 import Logo from "../../assets/images/logoLanUp.png";
 import FBSDK from "react-native-fbsdk";
 import AsyncStorage from "@react-native-community/async-storage";
-import { login, loginWithFacebook } from "~/shared/services/auth.http";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
-// import Text from "~/assets/Text/Text";
+import { loginWithFacebook } from "~/shared/services/auth.http";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 
 const { LoginManager, AccessToken } = FBSDK;
-// BackgroundTimer.runBackgroundTimer(() => {
-//   Geolocation.getCurrentPosition((position) => {
-//     console.log(new Date(), position);
-//   });
-// }, 30000);
-
 class HomePage extends Component {
   goToLoginEmail = () => this.props.navigation.navigate("LoginEmail");
 
@@ -36,8 +27,8 @@ class HomePage extends Component {
     LoginManager.logInWithPermissions([
       "public_profile",
       "user_birthday",
-      "email"
-    ]).then(async result => {
+      "email",
+    ]).then(async (result) => {
       if (result.isCancelled) return;
 
       const data = await AccessToken.getCurrentAccessToken();
@@ -52,8 +43,8 @@ class HomePage extends Component {
               user: {
                 ...user,
                 isFacebook: true,
-                facebookToken: data.accessToken
-              }
+                facebookToken: data.accessToken,
+              },
             };
 
         this.props.navigation.navigate(path, { user: userData });
@@ -84,7 +75,7 @@ class HomePage extends Component {
               style={{
                 alignItems: "flex-start",
                 top: "-7%",
-                marginLeft: "4%"
+                marginLeft: "4%",
               }}
             >
               <Text allowFontScaling={false} style={styles.title}>
@@ -104,9 +95,9 @@ class HomePage extends Component {
               style={{
                 color: "#FFF",
                 textAlign: "center",
-                fontSize: dimensions(14),
+                fontSize: adjust(12),
                 marginVertical: "-1%",
-                fontFamily: "HelveticaNowMicro-Medium"
+                fontFamily: "HelveticaNowMicro-Medium",
               }}
             >
               ou
@@ -123,8 +114,8 @@ class HomePage extends Component {
               style={{
                 color: "#FFF",
                 textAlign: "center",
-                fontSize: dimensions(12),
-                fontFamily: "HelveticaNowMicro-Regular"
+                fontSize: adjust(10),
+                fontFamily: "HelveticaNowMicro-Regular",
               }}
             >
               Já tem uma conta?{" "}
@@ -147,30 +138,30 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   title: {
     color: "#FFF",
-    fontSize: dimensions(20),
-    fontFamily: "HelveticaNowMicro-Bold"
+    fontSize: adjust(18),
+    fontFamily: "HelveticaNowMicro-Bold",
   },
   subTitle: {
     color: "#FFF",
-    fontSize: dimensions(15),
-    fontFamily: "HelveticaNowMicro-Bold"
+    fontSize: adjust(13),
+    fontFamily: "HelveticaNowMicro-Bold",
   },
   btnFacebook: {
-    backgroundColor: "#141364"
+    backgroundColor: "#141364",
   },
   btnRegister: {
-    backgroundColor: "#06a2cd"
+    backgroundColor: "#06a2cd",
   },
   Btn: {
     width: calcWidth(40),
     borderColor: "#FFFFFF",
     borderWidth: 1.5,
-    borderRadius: 50
-  }
+    borderRadius: 50,
+  },
 });
 
 export default HomePage;

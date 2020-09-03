@@ -4,7 +4,7 @@ import Modal from "~/shared/components/ModalComponent";
 import bank from "./bank";
 import { SearchBar } from "react-native-elements";
 import styles from "./styles";
-import dimensions from "~/assets/Dimensions/index";
+import { adjust } from "~/assets/Dimensions/index";
 
 export default class ModalFilterBank extends React.Component {
   constructor(props) {
@@ -60,7 +60,7 @@ export default class ModalFilterBank extends React.Component {
               paddingLeft: "15%",
               marginTop: "-5%",
               fontFamily: "HelveticaNowMicro-Regular",
-              fontSize: dimensions(14),
+              fontSize: adjust(10),
             }}
           >
             {code || bankCode}
@@ -80,12 +80,11 @@ export default class ModalFilterBank extends React.Component {
                 borderTopWidth: 0,
                 borderBottomWidth: 0,
               }}
-              color={"#FFF"}
               inputContainerStyle={{ backgroundColor: "#FFF" }}
               inputStyle={{
                 color: "#23203F",
                 fontFamily: "HelveticaNowMicro-Regular",
-                fontSize: dimensions(14),
+                fontSize: adjust(10),
               }}
               searchIcon={{ size: 24, color: "#23203F" }}
               placeholderTextColor={"#23203F"}

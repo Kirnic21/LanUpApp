@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialIcons";
 import { debounce } from "lodash";
+import { adjust } from "~/assets/Dimensions";
 
 const styles = StyleSheet.create({
   inputSearchContainer: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
   },
   inputSearch: {
     width: "90%",
-    fontSize: 16,
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
     color: "#23203F"
   },

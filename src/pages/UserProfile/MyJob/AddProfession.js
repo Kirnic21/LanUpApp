@@ -4,7 +4,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import AsyncStorage from "@react-native-community/async-storage";
 import { decodeToken, updateJobs } from "~/shared/services/freela.http";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { adjust } from "~/assets/Dimensions/index";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 
 class AddProfession extends Component {
@@ -77,7 +77,7 @@ class AddProfession extends Component {
               style={{
                 color: "#FFF",
                 paddingBottom: "5%",
-                fontSize: dimensions(25),
+                fontSize: adjust(20),
                 fontFamily: "HelveticaNowMicro-Regular",
               }}
             >
@@ -103,7 +103,7 @@ class AddProfession extends Component {
                     <Text
                       style={{
                         color: isSelected === true ? "#FFF" : "#24203B",
-                        fontSize: dimensions(12),
+                        fontSize: adjust(10),
                         fontFamily: "HelveticaNowMicro-Regular",
                         padding: dimensions(6),
                         paddingTop: dimensions(7),
@@ -146,7 +146,7 @@ export const styles = StyleSheet.create({
   },
   numberJobText: {
     color: "rgba(255, 255, 255, 0.7)",
-    fontSize: dimensions(19),
+    fontSize: adjust(14),
     position: "absolute",
     left: "90%",
     top: dimensions(9),

@@ -25,7 +25,7 @@ import {
   getAbout,
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
 import SignalR from "~/shared/services/signalr";
@@ -213,12 +213,12 @@ class UserProfile extends Component {
                 />
               </ShimmerPlaceHolder>
               <View style={styles.IconContainer}>
-                <Icon name="circle" size={dimensions(24)} color="#86D7CA" />
+                <Icon name="circle" size={adjust(20)} color="#86D7CA" />
               </View>
             </View>
             <TouchableOpacity
               onPress={() => this.navigateToScreen("ViewProfile")}
-              style={[{ width: dimensions(250), alignItems: "center" }]}
+              style={[{ alignItems: "center" }]}
             >
               <Text style={[styles.submitText, styles.backColorSteelGray]}>
                 Visualizar o perfil na web
@@ -235,14 +235,14 @@ class UserProfile extends Component {
                   { borderBottomWidth: i === data.length - 1 ? 0 : 2 },
                 ]}
               >
-                <View style={{}}>
+                <View style={{ width:'90%'}}>
                   <Text style={styles.titleContent}>{x.title}</Text>
-                  <Text style={styles.subtitleContent}>{x.subtitle}</Text>
+                  <Text style={[styles.subtitleContent]}>{x.subtitle}</Text>
                 </View>
                 <Icon
                   color={"#FFF"}
                   name={"angle-right"}
-                  size={dimensions(30)}
+                  size={adjust(25)}
                 />
               </TouchableOpacity>
             ))}
@@ -297,13 +297,13 @@ const styles = StyleSheet.create({
   },
   titleContent: {
     color: "#FFFFFF",
-    fontSize: dimensions(14),
+    fontSize: adjust(12),
     fontFamily: "HelveticaNowMicro-Regular",
   },
   subtitleContent: {
     fontFamily: "HelveticaNowMicro-Light",
     color: "rgba(255,255,255,0.7)",
-    fontSize: dimensions(11.5),
+    fontSize: adjust(9),
   },
   content: {
     margin: calcWidth(5),
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
     color: "#46C5F3",
     textAlign: "center",
     borderRadius: 20,
-    fontSize: dimensions(13),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
   },
   avatar: {

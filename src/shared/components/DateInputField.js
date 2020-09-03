@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { TouchableOpacity, StyleSheet, View, Text, Modal } from "react-native";
 import DatePicker from "react-native-date-picker";
-import Input from "~/shared/components/InputDate";
 import moment from "moment";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import  { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalComponent from "./ModalComponent";
 import ButtonComponent from "./ButtonCompoent";
 
@@ -31,13 +30,13 @@ export default class DateInputField extends Component {
   };
   render() {
     const { date } = this.state;
-    const { mode, input, meta, ...inputProps } = this.props;
+    const { style, mode, input, meta, ...inputProps } = this.props;
     return (
-      <TouchableOpacity onPress={this.showDateTimePicker}>
+      <TouchableOpacity onPress={() => this.setState({ visible: true })}>
         <Text
           style={{
             color: "white",
-            fontSize: dimensions(12),
+            fontSize: adjust(10),
             fontFamily: "HelveticaNowMicro-Regular",
           }}
         >
@@ -52,7 +51,7 @@ export default class DateInputField extends Component {
               mode={mode}
               locale="pt"
               style={{}}
-              fadeToColor="#000"
+              fadeToColor="#23203F"
               textColor="#FFFFFF"
               date={input.value || date}
               onDateChange={(date) => this.handleChange(date)}
@@ -67,31 +66,27 @@ export default class DateInputField extends Component {
             </View>
           </View>
         </ModalComponent>
-
-        <Input
-          editable={false}
-          enabled={false}
-          label={this.props.label}
-          style={[
-            this.props.style,
-            {
-              top: "-46%",
-              marginBottom: dimensions(-15),
-              height: dimensions(43),
-              textAlignVertical: "center",
-              paddingVertical: "3%",
-              borderRadius: 50,
-            },
-          ]}
-          placeholder={this.props.placeholder}
-          onClick={() => this.setState({ visible: true })}
-          value={
-            input.value !== ""
-              ? this.getFormatByMode(input.value, inputProps.mode)
-              : ""
-          }
-        />
+        <Text style={[styles.input, style]} >
+          {input.value !== ""
+            ? this.getFormatByMode(input.value, inputProps.mode)
+            : ""}
+        </Text>
       </TouchableOpacity>
     );
   }
 }
+
+const styles = {
+  input: {
+    height: 50,
+    width: "100%",
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: "#FFFFFF",
+    textAlignVertical: "center",
+    paddingHorizontal: "7%",
+    color: "#FFF",
+    fontSize: adjust(10),
+    fontFamily: "HelveticaNowMicro-Regular",
+  },
+};

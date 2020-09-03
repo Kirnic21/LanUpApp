@@ -5,7 +5,7 @@ import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
 import { vacancy } from "~/shared/services/events.http";
 import { decodeToken, getJobs } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
-import dimensions, { calcWidth, calcHeight } from "~/assets/Dimensions";
+import { calcWidth, calcHeight, adjust } from "~/assets/Dimensions";
 import Lottie from "lottie-react-native";
 import loadingSpinner from "~/assets/loadingSpinner.json";
 
@@ -35,8 +35,12 @@ export default class ToExplore extends Component {
           (c) => c.name
         );
         const JobsSelected = name.map((item) => ({ title: item }));
-        this.setState({ JobsSelected });
-        this.getVacancy(JobsSelected[0].title);
+        if(JobsSelected.length) {
+          this.setState({ JobsSelected });
+          this.getVacancy(JobsSelected[0].title);
+        }else {
+          this.props.navigation.push('Profession')
+        }
       })
       .finally(() => {
         this.setState({ loading: false });
@@ -141,7 +145,7 @@ const styles = StyleSheet.create({
   },
   textEmpty: {
     color: "#FFF",
-    fontSize: dimensions(20),
+    fontSize: adjust(18),
     fontFamily: "HelveticaNowDisplay-Regular",
   },
 });

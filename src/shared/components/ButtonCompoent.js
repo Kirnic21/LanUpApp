@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
 
-import { calcWidth } from "~/assets/Dimensions";
+import { calcWidth, adjust } from "~/assets/Dimensions";
 
 const ButtonComponent = ({
   isSelected,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textBtn: {
-    fontSize: calcWidth(3.5),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
   },
 });

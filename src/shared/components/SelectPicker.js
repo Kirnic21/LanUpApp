@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialIcons";
 
 const SelectPicker = ({
@@ -64,7 +64,7 @@ const styles = {
   },
   textPicker: {
     color: "#FFFFFF",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
   },
   containerText: {

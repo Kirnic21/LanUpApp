@@ -4,7 +4,7 @@ import InputField from "~/shared/components/InputField";
 import { Field, reduxForm } from "redux-form";
 import Modal from "./ModalFilterBank";
 import styles from "./styles";
-import dimensions from "~/assets/Dimensions/index";
+import { adjust } from "~/assets/Dimensions/index";
 
 const BankInformation = ({ onPress, bankCode }) => {
   reduxForm({ form: "BankInformation" });
@@ -15,7 +15,7 @@ const BankInformation = ({ onPress, bankCode }) => {
         <View style={{ alignContent: "stretch", paddingBottom: "2.5%" }}>
           <Text
             style={{
-              fontSize: dimensions(12),
+              fontSize: adjust(10),
               color: "#FFF",
               top: "-1%",
               fontFamily: "HelveticaNowMicro-Regular",

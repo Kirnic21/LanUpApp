@@ -1,4 +1,4 @@
-import dimensions, { calcHeight, calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcHeight, calcWidth, adjust } from "~/assets/Dimensions/index";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   textTitle: {
-    fontSize: calcWidth(7.5),
+    fontSize: adjust(22),
     fontFamily: "HelveticaNowMicro-Medium",
     top: "12%",
     left: "-0.3%",
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   TextsubTitle: {
     fontFamily: "HelveticaNowMicro-Regular",
-    fontSize: calcWidth(5),
+    fontSize: adjust(15),
     color: "#FFB72B"
   },
 

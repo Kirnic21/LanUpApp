@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, SectionList, StyleSheet } from "react-native";
 import Modal from "~/shared/components/ModalComponent";
-import dimensions, { calcHeight, calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcHeight, calcWidth, adjust } from "~/assets/Dimensions/index";
 
 const ModalDuties = ({ visible, onClose, responsabilities }) => {
   const DATA = [
@@ -25,7 +25,7 @@ const ModalDuties = ({ visible, onClose, responsabilities }) => {
   return (
     <Modal visible={visible} onClose={onClose} heightModal={calcWidth(130)}>
       <View style={{ flex: 1, alignItems: "center" }}>
-        <Text style={[styles.title, { fontSize: calcWidth(8) }]}>Deveres:</Text>
+        <Text style={[styles.title, { fontSize: adjust(20) }]}>Deveres:</Text>
         <View>
           <View style={styles.list}>
             {responsabilities ? (
@@ -37,7 +37,7 @@ const ModalDuties = ({ visible, onClose, responsabilities }) => {
               />
             ) : (
               <View style={styles.containerEmpty}>
-                <Text style={[styles.title, { fontSize: calcWidth(7) }]}>
+                <Text style={[styles.title, { fontSize: adjust(10) }]}>
                   Sem deveres
                 </Text>
               </View>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   title: {
     color: "#FFF",
     fontFamily: "HelveticaNowDisplay-Regular",
-    fontSize: calcWidth(5),
+    fontSize: adjust(15),
     margin: calcWidth(1)
   },
   list: {

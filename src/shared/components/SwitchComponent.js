@@ -1,21 +1,21 @@
 import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
 import Toggle from "~/shared/components/ToggleComponent";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { adjust } from "~/assets/Dimensions/index";
 
 export default SwitchComponent = ({ title, textStyle, input }) => (
   <View
     style={{
-      alignContent: "stretch",
-
-      top: "10%"
+      flexDirection:'row',
+      justifyContent:'space-between',
+      alignItems:'center',
     }}
   >
     <Text
       style={[
         {
           color: "#FFF",
-          fontSize: dimensions(14),
+          fontSize: adjust(11),
           fontFamily: "HelveticaNowMicro-Regular",
           paddingBottom: "5%"
         },
@@ -24,7 +24,7 @@ export default SwitchComponent = ({ title, textStyle, input }) => (
     >
       {title}
     </Text>
-    <View style={{ position: "absolute", marginLeft: "75%" }}>
+    <View style={{ paddingBottom: "5%"}}>
       <Toggle
         onColor="#483D8B"
         offColor="#18142F"

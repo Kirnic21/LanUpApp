@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 
 const styles = StyleSheet.create({
   container: {
@@ -76,9 +76,7 @@ const styles = StyleSheet.create({
     padding: "5%",
   },
   containerManequim: {
-    borderColor: "#FFF",
-    borderWidth: 2,
-    width: dimensions(82.5),
+    width: '32%',
     borderRadius: 25,
     position: "absolute",
     left: "68%",
@@ -116,7 +114,7 @@ const styles = StyleSheet.create({
   },
   TitleInformation: {
     color: "#FFFFFF",
-    fontSize: dimensions(14),
+    fontSize: adjust(12),
     paddingBottom: "7%",
     fontFamily: "HelveticaNowMicro-Regular",
   },

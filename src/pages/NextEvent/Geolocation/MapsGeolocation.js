@@ -12,7 +12,7 @@ import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import dimensions, { calcWidth } from '~/assets/Dimensions';
+import dimensions, { calcWidth, adjust } from '~/assets/Dimensions';
 import ModalComingSoon from '~/shared/components/ModalComingSoon';
 import mapStyles from '~/pages/NextEvent/Geolocation/stylesMaps';
 import RoundButton from '~/shared/components/RoundButton';
@@ -214,7 +214,7 @@ class MapsGeolocation extends Component {
                 styles.eventName,
                 {
                   fontSize:
-                    eventName?.length > 14 ? dimensions(25) : dimensions(30),
+                    eventName?.length > 14 ? adjust(20) : adjust(25),
                 },
               ]}
             >
@@ -227,7 +227,7 @@ class MapsGeolocation extends Component {
               <Icon name="near-me" size={calcWidth(7)} color="#FFB72B" />
               {status ? 'Você chegou' : `${Number(distance).toFixed(2)}KM`}
               {!status && (
-                <Text style={{ fontSize: dimensions(10) }}>
+                <Text style={{ fontSize: adjust(8) }}>
                   / {Math.round(duration)}min
                 </Text>
               )}
@@ -281,13 +281,13 @@ const styles = {
     fontFamily: 'HelveticaNowMicro-Regular',
     marginHorizontal: calcWidth(5),
     textAlign: 'center',
-    fontSize: dimensions(15),
+    fontSize: adjust(13),
     minHeight: calcWidth(10),
   },
   distance: {
     color: '#FFB72B',
     fontFamily: 'HelveticaNowMicro-Bold',
-    fontSize: dimensions(20),
+    fontSize: adjust(18),
     top: calcWidth(4),
   },
 };

@@ -20,8 +20,7 @@ import FormValidator from "~/shared/services/validator";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
-import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalForgotPassword from "./ModalForgotPassword";
 import ButtonLoading from "~/shared/components/Button";
 
@@ -232,7 +231,7 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     color: "#FFF",
-    fontSize: dimensions(15),
+    fontSize: adjust(13),
     textAlign: "center",
     padding: "15%",
   },
@@ -240,7 +239,7 @@ const styles = StyleSheet.create({
     color: "#483D8B",
     textDecorationLine: "underline",
     textAlign: "center",
-    fontSize: dimensions(15),
+    fontSize: adjust(13),
     letterSpacing: 0.5,
   },
   icon: {

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import styles from "./styles";
-import dimensions, { calcHeight, calcWidth } from "~/assets/Dimensions";
+import { calcHeight, adjust } from "~/assets/Dimensions";
 
 const TitleEvent = ({ eventName, job, status }) => {
   return (
@@ -28,7 +28,7 @@ const TitleEvent = ({ eventName, job, status }) => {
             style={{
               color: "#FFF",
               fontFamily: "HelveticaNowMicro-Regular",
-              fontSize: calcWidth(5),
+              fontSize: adjust(15),
               textAlign: "center",
 
               lineHeight: calcHeight(3)

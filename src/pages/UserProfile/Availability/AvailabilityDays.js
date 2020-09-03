@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { Field, reduxForm } from "redux-form";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import { saveAvailability, decodeToken } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
@@ -190,20 +190,20 @@ const styles = StyleSheet.create({
   },
   Title: {
     color: "#FFF",
-    fontSize: dimensions(14),
+    fontSize: adjust(12),
     fontFamily: "HelveticaNowMicro-Regular",
     paddingBottom: "5%",
     marginRight: "75%",
   },
   titleDays: {
     color: "#FFF",
-    fontSize: dimensions(20),
+    fontSize: adjust(18),
     fontFamily: "HelveticaNowMicro-Regular",
     paddingBottom: "6%",
   },
   toggleAvailable: {
     color: "#FFF",
-    fontSize: dimensions(14),
+    fontSize: adjust(12),
     fontFamily: "HelveticaNowMicro-Regular",
 
     width: dimensions(245),

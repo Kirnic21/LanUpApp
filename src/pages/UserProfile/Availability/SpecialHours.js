@@ -21,10 +21,11 @@ import Modal from "~/shared/components/ModalComponent";
 import { Field, reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import { saveSpecialDay, decodeToken } from "~/shared/services/freela.http";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import SpecialHoursEmpty from "~/shared/components/emptyState/SpecialHoursEmpty";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 import InputMask from "~/shared/components/InputMask";
+import InputDate from "~/shared/components/InputDate"
 class SpecialHours extends Component {
   constructor(props) {
     super(props);
@@ -223,7 +224,7 @@ class SpecialHours extends Component {
                     <Text
                       style={{
                         color: "#FFF",
-                        fontSize: dimensions(20),
+                        fontSize: adjust(18),
                         fontFamily: "HelveticaNowMicro-Regular",
                         width: "90%",
                       }}
@@ -249,7 +250,7 @@ class SpecialHours extends Component {
                     <Text
                       style={{
                         color: "#FFF",
-                        fontSize: dimensions(14),
+                        fontSize: adjust(12),
                         fontFamily: "HelveticaNowMicro-Regular",
                         width: "85%",
                       }}
@@ -271,7 +272,7 @@ class SpecialHours extends Component {
                       <Text
                         style={{
                           color: "#FFF",
-                          fontSize: dimensions(14),
+                          fontSize: adjust(12),
                           fontFamily: "HelveticaNowMicro-Regular",
                           paddingBottom: "4%",
                         }}
@@ -319,7 +320,7 @@ class SpecialHours extends Component {
                           <Text
                             style={{
                               color: "#f11111",
-                              fontSize: dimensions(14),
+                              fontSize: adjust(12),
                               textAlign: "center",
                             }}
                           >
@@ -416,23 +417,23 @@ const styles = StyleSheet.create({
   inputDate: {
     width: "48%",
     color: "#46C5F3",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
   },
   title: {
     color: "#FFF",
-    fontSize: dimensions(23),
+    fontSize: adjust(20),
     textAlign: "center",
   },
   subtitle: {
     color: "#FFF",
-    fontSize: dimensions(14.5),
+    fontSize: adjust(11.5),
     marginTop: "5%",
   },
   titleModal: {
     color: "#FFF",
     padding: "5%",
-    fontSize: dimensions(24),
+    fontSize: adjust(20),
     fontFamily: "HelveticaNowMicro-Medium",
   },
 });

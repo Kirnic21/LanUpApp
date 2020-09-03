@@ -10,7 +10,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import MaterialCommunityIcons from "react-native-vector-icons/FontAwesome";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import AddSkillEmpty from "~/shared/components/emptyState/AddSkillEmpty";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalAddSkill from "./ModalAddSkill";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 
@@ -222,14 +222,14 @@ export const styles = StyleSheet.create({
 
   titleSkill: {
     color: "#FFF",
-    fontSize: dimensions(25),
+    fontSize: adjust(20),
     fontFamily: "HelveticaNowMicro-Regular",
     paddingVertical: "5.6%",
   },
   textChip: {
     color: "#18142F",
     paddingHorizontal: "1.9%",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
   },
 });

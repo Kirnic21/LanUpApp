@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 
 import backWhite from "~/assets/images/black-and-white.png";
 import FastImage from "react-native-fast-image";
@@ -17,14 +17,14 @@ const VacancyCard = ({
   amount,
   onPress,
   eventCreationDate,
-  picture
+  picture,
 }) => {
   const creationDate = formatDistanceStrict(
     new Date(eventCreationDate || new Date()),
     new Date(),
     {
       addSuffix: true,
-      locale: eoLocale
+      locale: eoLocale,
     }
   );
   return (
@@ -46,11 +46,12 @@ const VacancyCard = ({
               style={{
                 width: calcWidth(5),
                 height: calcWidth(5),
-                marginRight: calcWidth(1)
+                marginRight: calcWidth(1),
               }}
             />
             <Text
               numberOfLines={1}
+              allowFontScaling={false}
               style={[styles.f_11, styles.colorWhite, styles.fontHND_regular]}
             >
               {title} - <Text>{creationDate}</Text>
@@ -58,11 +59,12 @@ const VacancyCard = ({
           </View>
           <Text
             numberOfLines={1}
+            allowFontScaling={false}
             style={[
               styles.colorWhite,
               styles.fontHND_regular,
               styles.f_24,
-              { height: calcWidth(10) }
+              { height: calcWidth(10) },
             ]}
           >
             {title || "Titulo"}
@@ -72,32 +74,38 @@ const VacancyCard = ({
           <DateComponent date={date} />
           <View style={{ marginLeft: calcWidth(3) }}>
             <Text
+              allowFontScaling={false}
               style={[styles.fontHNM_regular, styles.f_11, styles.colorWhite]}
             >
               {content || "conteúdo"}
             </Text>
             <Text
+              allowFontScaling={false}
               numberOfLines={1}
               style={[
                 styles.fontHNM_regular,
                 styles.f_11,
                 styles.colorWhite,
-                { width: calcWidth(32) }
+                { width: calcWidth(32) },
               ]}
             >
               {address || "endereços"}
             </Text>
             <Text
+              allowFontScaling={false}
               numberOfLines={1}
               style={[
                 styles.f_11,
                 styles.fontHND_regular,
                 styles.colorWhite,
-                { width: calcWidth(40), height: calcWidth(8) }
+                { width: calcWidth(40), height: calcWidth(8) },
               ]}
             >
               Valor total:{"       "}
-              <Text style={[{ color: "#46C5F3" }, styles.f_12]}>
+              <Text
+                style={[{ color: "#46C5F3" }, styles.f_12]}
+                allowFontScaling={false}
+              >
                 R$<Text style={styles.f_24}>{amount || "0"}</Text>
               </Text>
             </Text>
@@ -121,57 +129,57 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: calcWidth(3),
     borderTopLeftRadius: calcWidth(3),
     paddingVertical: calcWidth(5),
-    marginBottom: calcWidth(5)
+    marginBottom: calcWidth(5),
   },
   containerImg: {
-    marginLeft: calcWidth(-5)
+    marginLeft: calcWidth(-5),
   },
   img: {
     height: calcWidth(38),
     width: calcWidth(35),
     borderBottomRightRadius: calcWidth(4),
-    borderTopRightRadius: calcWidth(4)
+    borderTopRightRadius: calcWidth(4),
   },
   emptyImg: {
     backgroundColor: "#FFFFFF85",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   containerContent: {
     width: calcWidth(52),
-    flexDirection: "column"
+    flexDirection: "column",
   },
   containerArrow: {
     width: calcWidth(7),
-    justifyContent: "center"
+    justifyContent: "center",
   },
   colorWhite: {
-    color: "#FFFFFF"
+    color: "#FFFFFF",
   },
   fontHNM_bold: {
-    fontFamily: "HelveticaNowMicro-Bold"
+    fontFamily: "HelveticaNowMicro-Bold",
   },
   fontHND_regular: {
-    fontFamily: "HelveticaNowDisplay-Regular"
+    fontFamily: "HelveticaNowDisplay-Regular",
   },
   fontHNM_regular: {
-    fontFamily: "HelveticaNowMicro-Regular"
+    fontFamily: "HelveticaNowMicro-Regular",
   },
   f_24: {
-    fontSize: dimensions(24)
+    fontSize: adjust(22),
   },
   f_12: {
-    fontSize: dimensions(12)
+    fontSize: adjust(10),
   },
   f_11: {
-    fontSize: dimensions(11)
+    fontSize: adjust(9),
   },
   date: {
     width: calcWidth(15),
     paddingVertical: calcWidth(1.5),
     backgroundColor: "#FFFFFF85",
-    borderRadius: calcWidth(2)
-  }
+    borderRadius: calcWidth(2),
+  },
 });
 
 export default VacancyCard;

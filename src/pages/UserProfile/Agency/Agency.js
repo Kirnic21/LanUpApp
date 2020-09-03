@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import EmptyState from "~/shared/components/emptyState/EmptyState";
 import Emptyimage from "~/assets/images/emptyAgency.png";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import { ScrollView } from "react-native-gesture-handler";
 import ModalAgency from "./ModalAgency";
 import IconAgencia from "~/assets/images/icon_agencia.png";
@@ -161,7 +161,7 @@ const styles = {
   nameAgency: {
     color: "#FFFFFF",
     fontFamily: "HelveticaNowMicro-Regular",
-    fontSize: dimensions(10),
+    fontSize: adjust(8),
     textAlign: "center",
   },
 };

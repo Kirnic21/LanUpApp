@@ -1,37 +1,51 @@
-import React, { Children } from "react";
+import React from "react";
 import { View, Text, Picker } from "react-native";
-import { Field, reduxForm } from "redux-form";
-import dimensions from "~/assets/Dimensions/index";
+import { adjust } from "~/assets/Dimensions/index";
 
-// style={styles.containerManequim}
 export default PickerComponent = ({
   input: { onChange, value, ...inputProps },
   title,
+  stylePicker,
   style,
   children,
   ...pickerProps
 }) => {
   return (
     <View>
-      <Text
-        style={{
-          top: dimensions(-17),
-          color: "#FFF",
-          fontSize: dimensions(12),
-          fontFamily: "HelveticaNowMicro-Regular"
-        }}
+      <View>
+        <Text
+          style={{
+            top: "-10%",
+            color: "#FFF",
+            fontSize: adjust(10),
+            fontFamily: "HelveticaNowMicro-Regular",
+          }}
+        >
+          {title}
+        </Text>
+      </View>
+      <View
+        style={[
+          style,
+          {
+            borderColor: "#FFFFFF",
+            borderWidth: 2,
+            borderRadius: 50,
+            height:50,
+            paddingHorizontal: "7%",
+          },
+        ]}
       >
-        {title}
-      </Text>
-      <Picker
-        style={style}
-        selectedValue={value}
-        onValueChange={value => onChange(value)}
-        {...inputProps}
-        {...pickerProps}
-      >
-        {children}
-      </Picker>
+        <Picker
+          style={stylePicker}
+          selectedValue={value}
+          onValueChange={(value) => onChange(value)}
+          {...inputProps}
+          {...pickerProps}
+        >
+          {children}
+        </Picker>
+      </View>
     </View>
   );
 };

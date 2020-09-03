@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createStackNavigator } from "react-navigation-stack";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
-import { calcWidth } from "~/assets/Dimensions/index";
+import { calcWidth, adjust } from "~/assets/Dimensions/index";
 import NextEvent from "~/pages/NextEvent/NextEvent";
 import MapsGeolocation from "~/pages/NextEvent/Geolocation/MapsGeolocation";
 import Rating from "~/pages/NextEvent/Rating";
@@ -44,7 +44,7 @@ const NextEventRoute = createStackNavigator(
       headerTitleStyle: {
         color: "#FFFF",
         fontFamily: "HelveticaNowMicro-Regular",
-        fontSize: calcWidth(5),
+        fontSize: adjust(15),
       },
       headerLeft: () => (
         <ButtonNavigation type="stack" navigation={navigation} />

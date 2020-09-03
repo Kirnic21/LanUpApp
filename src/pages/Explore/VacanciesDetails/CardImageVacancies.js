@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DateComponent from "~/shared/components/DateComponent";
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   title: {
     color: "#fff",
     fontFamily: "HelveticaNowDisplay-Regular",
-    fontSize: dimensions(30),
+    fontSize: adjust(25),
     minHeight: dimensions(40)
   },
   containerDate: {
@@ -85,18 +85,18 @@ const styles = StyleSheet.create({
     color: "#18142F",
     fontFamily: "HelveticaNowMicro-Bold",
     textAlign: "center",
-    fontSize: dimensions(12)
+    fontSize: adjust(10)
   },
   textShift: {
     fontFamily: "HelveticaNowMicro-Regular",
     color: "#FFF",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     paddingBottom: "1%"
   },
   textAdress: {
     width: "100%",
     fontFamily: "HelveticaNowMicro-ExtraLight",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     color: "#FFF"
   }
 });
