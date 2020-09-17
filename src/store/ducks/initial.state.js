@@ -5,6 +5,10 @@ export default {
   },
   about: {},
   gallery: [],
+  certificates: {
+    certificate: [],
+    loading: true,
+  },
   loading: false,
   vacancy: {},
 };

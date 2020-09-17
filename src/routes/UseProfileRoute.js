@@ -20,17 +20,6 @@ import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 import CertificateModal from "~/pages/UserProfile/Certificate/CertificateModal";
 
-export const CertificateRoute = createStackNavigator(
-  {
-    CertificateModal: {
-      screen: CertificateModal,
-    },
-  },
-  {
-    headerMode: "none",
-    mode: "modal",
-  }
-);
 
 const pageNavigator = createStackNavigator(
   {
@@ -88,7 +77,7 @@ const pageNavigator = createStackNavigator(
       navigationOptions: () => ({ headerTitle: "Certificados" }),
     },
     CertificateModal: {
-      screen: CertificateRoute,
+      screen: CertificateModal,
       navigationOptions: ({ navigation }) => ({
         headerTitle: () => null,
         headerTransparent: true,

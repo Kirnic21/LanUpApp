@@ -80,7 +80,7 @@ export default InputField = ({
           onBlur={() => setInputFocused((prev) => ({ ...prev, input1: false }))}
           maxLength={maxLength}
         />
-        {touched && error && <Text style={{ color: "#F13567" }}>{error}</Text>}
+        {touched && error && <Text style={{ color: "#F13567", fontSize: adjust(10) }}>{error}</Text>}
       </View>
     </View>
   );

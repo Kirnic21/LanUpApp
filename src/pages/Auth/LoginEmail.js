@@ -26,7 +26,7 @@ import ButtonLoading from "~/shared/components/Button";
 
 const formRules = FormValidator.make(
   {
-    email: ("required", "email"),
+    email:"required|email",
     password: "required",
   },
   {

@@ -19,7 +19,6 @@ import {
   existingCpf,
   existingEmail
 } from "~/shared/services/freela.http";
-import { validateCPF } from "~/shared/helpers/validate/ValidateCpfCnpj";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import InputMask from "~/shared/components/InputMask";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
@@ -63,7 +62,7 @@ class RegisterStageOne extends Component {
     this.setState({ spinner: true });
     if (user.isFacebook) {
       await this.props.setUser(user);
-      const { authenticateUser, accessToken } = user.result;
+      const { authenticateUser } = user.result;
       const { email, password, avatar } = authenticateUser;
       const request = {
         name: fullName,
@@ -82,11 +81,8 @@ class RegisterStageOne extends Component {
             ? AlertHelper.show("error", "Erro", "Este email já existe.")
             : existingCpf(CPF).then(({ data }) => {
                 const cpfExisting = data.result.value;
-                const cpfValidate = validateCPF(CPF);
                 cpfExisting === true
                   ? AlertHelper.show("error", "Erro", "Este cpf já existe.")
-                  : cpfValidate === false
-                  ? AlertHelper.show("error", "Erro", "Este cpf é inválido.")
                   : create(request)
                       .then(async ({ data }) => {
                         if (data.isSuccess) {
@@ -98,7 +94,7 @@ class RegisterStageOne extends Component {
                         }
                       })
                       .catch(error => {
-                        console.log(error.response.data);
+                        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
                       });
               });
         })
@@ -111,11 +107,8 @@ class RegisterStageOne extends Component {
     existingCpf(CPF)
       .then(({ data }) => {
         const cpfExisting = data.result.value;
-        const cpfValidate = validateCPF(CPF);
         cpfExisting === true
           ? AlertHelper.show("error", "Erro", "Este cpf já existe.")
-          : cpfValidate === false
-          ? AlertHelper.show("error", "Erro", "Este cpf é inválido.")
           : this.props.navigation.push("RegisterStageTwo");
       })
       .finally(() => {
