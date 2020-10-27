@@ -2,58 +2,26 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import AsyncStorage from "@react-native-community/async-storage";
-import { decodeToken, updateJobs } from "~/shared/services/freela.http";
+
 import dimensions, { adjust } from "~/assets/Dimensions/index";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
-
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import {
+  jobSuccess,
+  updateServices,
+} from "~/store/ducks/Profession/Job/job.actions";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
 class AddProfession extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      visible: false,
-      jobs: this.props.navigation.state.params.JobsSelected,
-      GetJobs: this.props.navigation.state.params.GetJobs,
-    };
-  }
-
-  setModalViisible(status) {
-    this.setState({ modalVisible: status });
-  }
-
   componentDidMount() {
     this.props.navigation.setParams({
       SaveJob: () => this.SaveJob(),
     });
   }
 
-  selectJob = (e, index) => {
-    const buttons = this.state.GetJobs;
-    const buttonSelected = buttons[index];
-    buttonSelected.isSelected = !buttonSelected.isSelected;
-    if (this.state.jobs.length === 3) {
-      buttonSelected.isSelected = false;
-    }
-    this.setState((prev) => ({ ...prev, buttons }));
-    const name = buttons.filter((c) => c.isSelected === true);
-    this.setState({ jobs: name, isChange: true });
-  };
-
-  SaveJob = async () => {
-    const { jobs, isChange } = this.state;
-    const { id } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    jobs.length < 1
-      ? AlertHelper.show("error", "Erro", "Adicione pelo menos uma profissão!")
-      : isChange
-      ? updateJobs({ id, jobs })
-          .then(() => {
-            this.props.navigation.goBack();
-          })
-          .catch((error) => {
-            AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-          })
-      : this.props.navigation.goBack();
-  };
+  componentDidUpdate(prevProps) {
+    prevProps.errorUpdate !== this.props.errorUpdate && this.props.goBack();
+  }
 
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
@@ -67,10 +35,39 @@ class AddProfession extends Component {
     };
   };
 
+  selectJob = (index) => {
+    const { services, jobSuccess } = this.props;
+    const buttonSelected = services[index];
+    buttonSelected.isSelected = !buttonSelected.isSelected;
+
+    this.setState((prev) => ({ ...prev, services }));
+    jobSuccess(services);
+  };
+
+  SaveJob = async () => {
+    const {
+      updateServices,
+      services,
+      servicesSelected,
+      navigation,
+    } = this.props;
+
+    !servicesSelected.length
+      ? AlertHelper.show("error", "Erro", "Adicione pelo menos uma profissão!")
+      : await updateServices({
+          services,
+          jobs: servicesSelected,
+          onSuccess: () => {
+            navigation.goBack();
+          },
+        });
+  };
+
   render() {
-    const { GetJobs, jobs } = this.state;
+    const { services, servicesSelected, loading } = this.props;
     return (
       <View style={styles.container}>
+        <SpinnerComponent loading={loading} />
         <ScrollView>
           <View style={styles.containerJob}>
             <Text
@@ -84,21 +81,26 @@ class AddProfession extends Component {
               Profissão
             </Text>
 
-            <Text style={styles.numberJobText}>{jobs.length}/3</Text>
+            <Text style={styles.numberJobText}>
+              {servicesSelected.length}/3
+            </Text>
 
             <View
               style={{ flexWrap: "wrap", flexDirection: "row", width: "100%" }}
             >
-              {GetJobs.map(({ name, isSelected }, id) => (
+              {services.map(({ name, isSelected }, id) => (
                 <View key={id}>
                   <TouchableOpacity
+                    disabled={
+                      isSelected === false && servicesSelected.length === 3
+                    }
                     style={[
                       styles.chip,
                       isSelected == true
                         ? styles.chipActive
                         : styles.chipDisabled,
                     ]}
-                    onPress={(e) => this.selectJob(e, id)}
+                    onPress={() => this.selectJob(id)}
                   >
                     <Text
                       style={{
@@ -154,4 +156,27 @@ export const styles = StyleSheet.create({
   },
 });
 
-export default AddProfession;
+const mapStateToProps = (state) => {
+  const { services, loading } = state.jobs;
+  return {
+    services,
+    loading,
+    servicesSelected: services
+      ?.filter((job) => job.isSelected === true)
+      .map(({ isSelected, name }) => ({
+        isSelected,
+        name,
+      })),
+  };
+};
+
+const mapActionToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      jobSuccess,
+      updateServices,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapActionToProps)(AddProfession);

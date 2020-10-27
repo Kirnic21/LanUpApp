@@ -22,7 +22,6 @@ import {
   galeries,
   decodeToken,
   galleryDelete,
-  getAbout,
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
@@ -30,85 +29,75 @@ import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
 import SignalR from "~/shared/services/signalr";
 import { emergenciesVacancies } from "~/shared/services/events.http";
+import { fetchJobs } from "~/store/ducks/Profession/Job/job.actions";
+import { fetchSkill } from "~/store/ducks/Profession/skills/skills.actions";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 class UserProfile extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      selected: false,
-      visible: false,
-      spinner: false,
-      emergencyAvailability: false,
-      data: [
-        {
-          title: "Sobre mim",
-          subtitle: "Sua foto de perfil, apresentação e mais",
-          onPress: () => this.navigateToScreen("AboutMe"),
-        },
-        {
-          title: "Funções que atuo",
-          subtitle: "Área de operação, e habilidades",
-          onPress: () => this.navigateToScreen("Profession"),
-        },
-        {
-          title: "Agências",
-          subtitle: "Entre na equipe de sua agência",
-          onPress: () => this.navigateToScreen("Agency"),
-        },
-        {
-          title: "Fotos dos jobs",
-          subtitle: "Fotos e videos de seu trabalho",
-          onPress: () => this.openMidia(),
-        },
-        {
-          title: "Certificados",
-          subtitle: "Fotos comprovando suas habilidades",
-          onPress: () => this.navigateToScreen("Certificates"),
-        },
-        {
-          title: "Disponibilidade",
-          subtitle: "Dias, horários e feriados",
-          onPress: () => this.navigateToScreen("Availability"),
-        },
-        {
-          title: "Jobs realizados",
-          subtitle: "Trabalhos, avaliações e recomendações",
-          onPress: () => this.openModal(),
-        },
-      ],
-    };
-  }
-
-  componentDidMount() {
-    this.setState({ spinner: false }, async () => {
-      const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-
-      getAbout(token.id)
-        .then(({ data }) => this.onGetAboutSuccess(data, token))
-        .catch((error) => console.log(error.response.data))
-        .finally(() => this.setState({ spinner: true }));
-    });
-  }
-  onGetAboutSuccess = (data, token) => {
-    this.props.setAbout(data.result.value);
-    const { image, emergercyAvailabilityEnabled } = data.result.value;
-    const avatar = token ? image : this.Suser.authenticateUser.avatar.url;
-
-    this.setState(
-      { avatar, emergencyAvailability: emergercyAvailabilityEnabled },
-      () => {
-        SignalR.connect().then((conn) => {
-          if (emergercyAvailabilityEnabled) {
-            conn.invoke("AddToGroup");
-            conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy);
-          }
-        });
-      }
-    );
+  state = {
+    selected: false,
+    visible: false,
+    spinner: false,
+    emergencyAvailability: false,
+    data: [
+      {
+        title: "Sobre mim",
+        subtitle: "Sua foto de perfil, apresentação e mais",
+        onPress: () => this.navigateToScreen("AboutMe"),
+      },
+      {
+        title: "Funções que atuo",
+        subtitle: "Área de operação, e habilidades",
+        onPress: () => this.openProfession(),
+      },
+      {
+        title: "Agências",
+        subtitle: "Entre na equipe de sua agência",
+        onPress: () => this.navigateToScreen("Agency"),
+      },
+      {
+        title: "Fotos dos jobs",
+        subtitle: "Fotos e videos de seu trabalho",
+        onPress: () => this.openMidia(),
+      },
+      {
+        title: "Certificados",
+        subtitle: "Fotos comprovando suas habilidades",
+        onPress: () => this.navigateToScreen("Certificates"),
+      },
+      {
+        title: "Disponibilidade",
+        subtitle: "Dias, horários e feriados",
+        onPress: () => this.navigateToScreen("Availability"),
+      },
+      {
+        title: "Jobs realizados",
+        subtitle: "Trabalhos, avaliações e recomendações",
+        onPress: () => this.openModal(),
+      },
+    ],
   };
 
-  onReceiveVacancy = async (vacancy, x) => {
+  componentDidMount() {
+    const { setAbout } = this.props;
+    setAbout();
+  }
+
+  componentDidUpdate() {
+    this.onGetAboutSuccess();
+  }
+
+  onGetAboutSuccess = () => {
+    const { emergercyAvailabilityEnabled } = this.props.about;
+    SignalR.connect().then((conn) => {
+      if (emergercyAvailabilityEnabled) {
+        conn.invoke("AddToGroup");
+        conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy);
+      }
+    });
+  };
+
+  onReceiveVacancy = async (vacancy) => {
     if (!vacancy.eventId) return;
     try {
       const {
@@ -173,7 +162,7 @@ class UserProfile extends Component {
         }
       }, "");
 
-      galleryDelete(token.id, queryParams).then(({ data }) => {
+      galleryDelete(token.id, queryParams).then(() => {
         this.props.deleteGalleryImage(pictures);
       });
     };
@@ -189,11 +178,26 @@ class UserProfile extends Component {
   };
 
   navigateToScreen = (route) => {
-    return this.props.navigation.navigate(route);
+    this.props.navigation.navigate(route);
+  };
+
+  openProfession = () => {
+    const { fetchJobs, fetchSkill } = this.props;
+    try {
+      fetchJobs({ onSuccess: () => {} });
+      fetchSkill({ onSuccess: () => {} });
+      this.navigateToScreen("Profession");
+    } catch (error) {
+      AlertHelper.show("error", "Erro", error);
+    }
   };
 
   render() {
-    const { visible, spinner, data } = this.state;
+    const { visible, data } = this.state;
+    const {
+      about: { image },
+      loading,
+    } = this.props;
     return (
       <View style={styles.Container}>
         <ScrollView>
@@ -204,11 +208,11 @@ class UserProfile extends Component {
                 width={calcWidth(25)}
                 height={calcWidth(25)}
                 autoRun={true}
-                visible={spinner}
+                visible={!loading}
                 colorShimmer={["#ebebeb", "#c9c9c9", "#ebebeb"]}
               >
                 <Image
-                  source={{ uri: this.state.avatar }}
+                  source={{ uri: image }}
                   style={[styles.avatar, { borderColor: "#FFB72B" }]}
                 />
               </ShimmerPlaceHolder>
@@ -235,15 +239,11 @@ class UserProfile extends Component {
                   { borderBottomWidth: i === data.length - 1 ? 0 : 2 },
                 ]}
               >
-                <View style={{ width:'90%'}}>
+                <View style={{ width: "90%" }}>
                   <Text style={styles.titleContent}>{x.title}</Text>
                   <Text style={[styles.subtitleContent]}>{x.subtitle}</Text>
                 </View>
-                <Icon
-                  color={"#FFF"}
-                  name={"angle-right"}
-                  size={adjust(25)}
-                />
+                <Icon color={"#FFF"} name={"angle-right"} size={adjust(25)} />
               </TouchableOpacity>
             ))}
           </View>
@@ -335,8 +335,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
+  const { about, loading } = state.aboutMe;
   return {
     user: state.user,
+    about,
+    loading,
   };
 };
 
@@ -348,6 +351,8 @@ const mapActionToProps = (dispatch) =>
       deleteGalleryImage,
       notifyVacancy,
       setAbout,
+      fetchJobs,
+      fetchSkill,
     },
     dispatch
   );

@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { login, resetPassword } from "~/shared/services/auth.http";
-import { decodeToken } from "~/shared/services/freela.http";
+import { decodeToken } from "~/shared/services/decode";
 import ImageBack from "~/assets/images/Grupo_518.png";
 import Logo from "~/assets/images/logoLanUp.png";
 import InputField from "~/shared/components/InputField";
@@ -26,7 +26,7 @@ import ButtonLoading from "~/shared/components/Button";
 
 const formRules = FormValidator.make(
   {
-    email:"required|email",
+    email: "required|email",
     password: "required",
   },
   {
@@ -37,19 +37,14 @@ const formRules = FormValidator.make(
 
 class LoginEmail extends Component {
   _isMounted = false;
-  constructor(props) {
-    super(props);
-    this.state = {
-      icon: "visibility-off",
-      password: true,
-      disabled: true,
-      visible: false,
-      email: "",
-      spinner: false,
-    };
-
-    this.changeIcon = this.changeIcon.bind(this);
-  }
+  state = {
+    icon: "visibility-off",
+    password: true,
+    disabled: true,
+    visible: false,
+    email: "",
+    spinner: false,
+  };
 
   goToLoginPerfil = async (form) => {
     const { email, password } = form;
@@ -83,12 +78,13 @@ class LoginEmail extends Component {
     });
   };
 
-  changeIcon() {
-    this.setState((prevState) => ({
-      icon: prevState.icon === "visibility" ? "visibility-off" : "visibility",
-      password: !prevState.password,
-    }));
-  }
+  changeIcon = () => {
+    const { password, icon } = this.state;
+    this.setState({
+      icon: icon === "visibility" ? "visibility-off" : "visibility",
+      password: !password,
+    });
+  };
 
   resetPassword = () => {
     const { email } = this.state;
