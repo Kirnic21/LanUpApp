@@ -29,9 +29,6 @@ import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
 import SignalR from "~/shared/services/signalr";
 import { emergenciesVacancies } from "~/shared/services/events.http";
-import { fetchJobs } from "~/store/ducks/Profession/Job/job.actions";
-import { fetchSkill } from "~/store/ducks/Profession/skills/skills.actions";
-import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 class UserProfile extends Component {
   state = {
@@ -48,7 +45,7 @@ class UserProfile extends Component {
       {
         title: "Funções que atuo",
         subtitle: "Área de operação, e habilidades",
-        onPress: () => this.openProfession(),
+        onPress: () => this.navigateToScreen("Profession"),
       },
       {
         title: "Agências",
@@ -179,17 +176,6 @@ class UserProfile extends Component {
 
   navigateToScreen = (route) => {
     this.props.navigation.navigate(route);
-  };
-
-  openProfession = () => {
-    const { fetchJobs, fetchSkill } = this.props;
-    try {
-      fetchJobs({ onSuccess: () => {} });
-      fetchSkill({ onSuccess: () => {} });
-      this.navigateToScreen("Profession");
-    } catch (error) {
-      AlertHelper.show("error", "Erro", error);
-    }
   };
 
   render() {
@@ -351,8 +337,6 @@ const mapActionToProps = (dispatch) =>
       deleteGalleryImage,
       notifyVacancy,
       setAbout,
-      fetchJobs,
-      fetchSkill,
     },
     dispatch
   );

@@ -11,6 +11,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import NumberFormat from "react-number-format";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import { received } from "~/shared/services/freela.http";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
@@ -18,6 +19,9 @@ import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import Lottie from "lottie-react-native";
 import loadingSpinner from "~/assets/loadingSpinner.json";
+
+import { fetchJobs } from "~/store/ducks/Profession/Job/job.actions";
+import { fetchSkill } from "~/store/ducks/Profession/skills/skills.actions";
 
 const currencyFormatter = (value) => {
   if (!Number(value)) return "";
@@ -36,7 +40,9 @@ class Profession extends Component {
   };
 
   componentDidMount() {
-    const { minimumValueToWork } = this.props;
+    const { fetchJobs, fetchSkill, minimumValueToWork } = this.props;
+    fetchJobs();
+    fetchSkill();
     this.setState({
       ValueToWork: minimumValueToWork?.toString(),
     });
@@ -315,4 +321,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Profession);
+const mapActionToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchJobs,
+      fetchSkill,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapActionToProps)(Profession);

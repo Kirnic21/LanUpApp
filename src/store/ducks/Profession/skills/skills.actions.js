@@ -20,31 +20,35 @@ const skillsError = (error) => ({
   },
 });
 
-export const fetchSkill = ({ onSuccess }) => {
-  return (dispatch) => {
-    dispatch(skillsFetching());
-    getSkills()
-      .then(({ value }) => {
-        const response = value === null ? [] : value
-        dispatch(skillsSuccess(response));
-        onSuccess();
-      })
-      .catch((error) => {
-        dispatch(skillsError(error.response.data.errorMessage));
-      });
-  };
+export const fetchSkill = () => {
+  return (dispatch) =>
+    new Promise((resolve, reject) => {
+      dispatch(skillsFetching());
+      getSkills()
+        .then(({ value }) => {
+          const response = value === null ? [] : value;
+          dispatch(skillsSuccess(response));
+          resolve();
+        })
+        .catch((error) => {
+          dispatch(skillsError(error.response.data.errorMessage));
+          reject();
+        });
+    });
 };
 
-export const updateSkill = ({onSuccess, skills }) => {
-  return (dispatch) => {
-    dispatch(skillsFetching());
-    updateSkills(skills)
-      .then(() => {
-        dispatch(skillsSuccess(skills));
-        onSuccess();
-      })
-      .catch((error) => {
-        dispatch(skillsError(error.response.data.errorMessage));
-      });
-  };
+export const updateSkill = ({ skills }) => {
+  return (dispatch) =>
+    new Promise((resolve, reject) => {
+      dispatch(skillsFetching());
+      updateSkills(skills)
+        .then(() => {
+          dispatch(skillsSuccess(skills));
+          resolve();
+        })
+        .catch((error) => {
+          dispatch(skillsError(error.response.data.errorMessage));
+          reject();
+        });
+    });
 };

@@ -81,7 +81,7 @@ class AddSkill extends Component {
   AddSkills = async (textSkill) => {
     const { updateSkill, skill, navigation } = this.props;
     this.setState({ visible: false, text: "" });
-    updateSkill({ onSuccess: () => {}, skills: [...skill, textSkill] });
+    updateSkill({ skills: [...skill, textSkill] });
     navigation.setParams({ active: true });
   };
 
@@ -95,10 +95,9 @@ class AddSkill extends Component {
     navigation.setParams({ active: !!skills.length, isEditing: false });
     AlertHelper.show("success", "Sucesso", "Habilidade removida com sucesso!");
     updateSkill({
-      onSuccess: () => {
-        this.setState({ text: "" });
-      },
       skills,
+    }).then(() => {
+      this.setState({ text: "" });
     });
   };
 
