@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, Picker } from "react-native";
+import { View, Text } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
 import DateInputField from "~/shared/components/DateInputField";
-import PickerComponent from "~/shared/components/PickerComponent";
+import SelectPicker from "~/shared/components/SelectPicker";
 
 const AdditionalInformation = ({}) => {
   reduxForm({
@@ -15,7 +15,7 @@ const AdditionalInformation = ({}) => {
       <Field
         title="E-mail"
         component={InputField}
-        name={"Email"}
+        name={"email"}
         editable={false}
       />
       <Field
@@ -38,20 +38,18 @@ const AdditionalInformation = ({}) => {
           component={DateInputField}
         />
         <Field
-          title={"Gênero"}
-          stylePicker={{ color: "#fff" }}
+          title="Gênero"
+          component={SelectPicker}
           style={{ width: 150 }}
           name={"gender"}
-          component={PickerComponent}
-          mode="dropdown"
-        >
-          <Picker.Item label="" value={0} />
-          <Picker.Item label="Masculino" value={1} />
-          <Picker.Item label="Feminino" value={2} />
-          <Picker.Item label="Transgênero homem" value={3} />
-          <Picker.Item label="Transgênero mulher" value={4} />
-          <Picker.Item label="Queer +" value={5} />
-        </Field>
+          items={[
+            { label: "Masculino", value: 1 },
+            { label: "Feminino", value: 2 },
+            { label: "Transgênero homem", value: 3 },
+            { label: "Transgênero mulher", value: 4 },
+            { label: "Queer +", value: 5 },
+          ]}
+        />
       </View>
     </View>
   );

@@ -2,20 +2,16 @@ import React, { Component } from "react";
 import { TouchableOpacity, StyleSheet, View, Text, Modal } from "react-native";
 import DatePicker from "react-native-date-picker";
 import moment from "moment";
-import  { calcWidth, adjust } from "~/assets/Dimensions/index";
+import { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalComponent from "./ModalComponent";
 import ButtonComponent from "./ButtonCompoent";
 
 export default class DateInputField extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isDateTimePickerVisible: false,
-      date: new Date(),
-      visible: false,
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
+  state = {
+    isDateTimePickerVisible: false,
+    date: new Date(),
+    visible: false,
+  };
 
   getFormatByMode = (value, mode = "date") => {
     const dateTime = value ? new Date(value) : new Date();
@@ -38,6 +34,7 @@ export default class DateInputField extends Component {
             color: "white",
             fontSize: adjust(10),
             fontFamily: "HelveticaNowMicro-Regular",
+            bottom: "3%",
           }}
         >
           {this.props.title}
@@ -53,7 +50,7 @@ export default class DateInputField extends Component {
               style={{}}
               fadeToColor="#23203F"
               textColor="#FFFFFF"
-              date={input.value || date}
+              date={new Date(input.value) || date}
               onDateChange={(date) => this.handleChange(date)}
             />
             <View style={{ top: calcWidth(10) }}>
@@ -66,7 +63,7 @@ export default class DateInputField extends Component {
             </View>
           </View>
         </ModalComponent>
-        <Text style={[styles.input, style]} >
+        <Text style={[styles.input, style]}>
           {input.value !== ""
             ? this.getFormatByMode(input.value, inputProps.mode)
             : ""}

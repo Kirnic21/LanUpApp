@@ -35,7 +35,7 @@ const InputSearch = ({ handleOnSearch, debounceTime = 500, value }) => {
       <TextInput
         onChangeText={text => onSearch(text, handleOnSearch, debounceTime)}
         placeholderTextColor="#23203F"
-        placeholder="Endereço"
+        placeholder=""
         style={styles.inputSearch}
         value={value}
       />

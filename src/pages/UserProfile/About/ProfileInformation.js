@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, Picker } from "react-native";
+import { View, Text } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
 import Toggle from "~/shared/components/SwitchComponent";
-import PickerComponent from "~/shared/components/PickerComponent";
+import SelectPicker from "~/shared/components/SelectPicker";
 import { adjust } from "~/assets/Dimensions/index";
 
 const ProfileInformation = ({}) => {
@@ -37,9 +37,9 @@ const ProfileInformation = ({}) => {
         numberOfLines={10}
         isfocused={"#A893F2"}
       />
-      <View style={{  flexDirection:'row', justifyContent:'space-between',}}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Field
-          style={{width:100}}
+          style={{ width: 100 }}
           title="Altura"
           component={InputMask}
           name={"height"}
@@ -48,7 +48,7 @@ const ProfileInformation = ({}) => {
           isfocused={"#A893F2"}
         />
         <Field
-          style={{width:100}}
+          style={{ width: 100 }}
           title="Peso"
           component={InputMask}
           name={"weight"}
@@ -57,22 +57,18 @@ const ProfileInformation = ({}) => {
           maxLength={3}
           isfocused={"#A893F2"}
         />
-
         <Field
-          title={"Manequim"}
+          title="Manequim"
+          component={SelectPicker}
           style={{ width: 100 }}
-          stylePicker={{color:'#FFFFFF'}}
           name={"clothingsSizes"}
-          component={PickerComponent}
-          iosHeader="Select one"
-          mode="dropdown"
-        >
-          <Picker.Item label="" value={null} />
-          <Picker.Item label="P" value="P" />
-          <Picker.Item label="M" value="M" />
-          <Picker.Item label="G" value="G" />
-          <Picker.Item label="GG" value="GG" />
-        </Field>
+          items={[
+            { label: "P", value: "P" },
+            { label: "M", value: "M" },
+            { label: "G", value: "G" },
+            { label: "GG", value: "GG" },
+          ]}
+        />
       </View>
       <Text
         style={{

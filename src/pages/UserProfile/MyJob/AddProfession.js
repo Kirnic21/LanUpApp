@@ -54,12 +54,8 @@ class AddProfession extends Component {
 
     !servicesSelected.length
       ? AlertHelper.show("error", "Erro", "Adicione pelo menos uma profissão!")
-      : await updateServices({
-          services,
-          jobs: servicesSelected,
-          onSuccess: () => {
-            navigation.goBack();
-          },
+      : await updateServices({ services, jobs: servicesSelected }).then(() => {
+          navigation.goBack();
         });
   };
 

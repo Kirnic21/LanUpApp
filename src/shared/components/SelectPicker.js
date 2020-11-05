@@ -25,6 +25,7 @@ const SelectPicker = ({
       <View
         style={[
           styles.container,
+          style,
           { borderColor: error ? "#F13567" : "#FFFFFF" },
         ]}
       >
@@ -34,6 +35,7 @@ const SelectPicker = ({
           {...pickerProps}
           {...inputProps}
           items={items || []}
+          value={value}
           useNativeAndroidPickerStyle={false}
           style={{
             ...styles,

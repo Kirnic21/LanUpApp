@@ -101,7 +101,6 @@ const CertificateModal = ({
   const UpdateCertificates = async (form) => {
     const { type, name, issuer, conclusionYear } = form;
     const year = Number(conclusionYear);
-    debugger;
     try {
       await updateCertificate({
         id: item.id,
@@ -230,12 +229,14 @@ const CertificateModal = ({
                 <Field
                   title="Tipo"
                   error={errorType}
-                  setValue={isEditing && content[0].subTitle}
                   component={SelectPicker}
                   name={"type"}
                   items={[
                     { label: "Curso Técnico", value: 0 },
                     { label: "Curso Livre", value: 1 },
+                    { label: "Graduação", value: 2 },
+                    { label: "Pós graduação", value: 3 },
+                    { label: "MBA", value: 4 },
                   ]}
                 />
                 <Field
@@ -332,9 +333,9 @@ const mapStateToProps = (state, ownProps) => {
 
   const initialValues = viewCerticates
     ? {
-        type:item?.type,
-        name:item?.name,
-        issuer:item?.issuer,
+        type: item?.type,
+        name: item?.name,
+        issuer: item?.issuer,
         conclusionYear: item?.conclusionYear.toString(),
       }
     : {};

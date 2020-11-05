@@ -182,7 +182,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { nickName, image } = state.aboutMe;
+  const {
+    about: { nickName, image },
+  } = state.aboutMe;
   return {
     nickName,
     image,
