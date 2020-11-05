@@ -8,11 +8,8 @@ import ModalAgency from "./ModalAgency";
 import IconAgencia from "~/assets/images/icon_agencia.png";
 import ActionButton from "~/shared/components/ActionButton";
 import { codeAgency } from "~/shared/services/agency.http";
-import {
-  updateAgencies,
-  decodeToken,
-  getAgencies,
-} from "~/shared/services/freela.http";
+import { updateAgencies, getAgencies } from "~/shared/services/freela.http";
+import { decodeToken } from "~/shared/services/decode";
 import AsyncStorage from "@react-native-community/async-storage";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";

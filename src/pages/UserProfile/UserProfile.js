@@ -17,18 +17,14 @@ import {
 } from "react-native";
 import Image from "react-native-fast-image";
 import Icon from "react-native-vector-icons/FontAwesome";
-import {
-  galery,
-  galeries,
-  decodeToken,
-  galleryDelete,
-} from "~/shared/services/freela.http";
+import { galery, galeries, galleryDelete } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
 import SignalR from "~/shared/services/signalr";
 import { emergenciesVacancies } from "~/shared/services/events.http";
+import { decodeToken } from "~/shared/services/decode";
 
 class UserProfile extends Component {
   state = {

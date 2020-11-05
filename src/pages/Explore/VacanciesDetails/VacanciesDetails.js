@@ -22,7 +22,7 @@ import {
   acceptInvitations,
   vacanciesEmergencyAccept,
 } from "~/shared/services/vacancy.http";
-import { decodeToken } from "~/shared/services/freela.http";
+import { decodeToken } from "~/shared/services/decode";
 import AsyncStorage from "@react-native-community/async-storage";
 import HTML from "react-native-render-html";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";

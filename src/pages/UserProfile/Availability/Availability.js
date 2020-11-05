@@ -18,8 +18,8 @@ import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
 import {
   emergencyAvailability,
   getAvailability,
-  decodeToken,
 } from "~/shared/services/freela.http";
+import { decodeToken } from "~/shared/services/decode";
 import { reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -34,7 +34,7 @@ const DisplayDate = ({ date, displayHour, isActive }) => {
         flexDirection: "row",
         alignItems: "center",
         width: "95.5%",
-        top:'-5%'
+        top: "-5%",
       }}
     >
       <Text style={[styles.titleStyle, style]}>
@@ -192,7 +192,10 @@ class Availability extends Component {
               Para vagas urgentes
             </Text>
             <View style={{ flexDirection: "row" }}>
-              <Text style={[styles.titleStyle, { marginRight: "25%" }]} allowFontScaling={false}>
+              <Text
+                style={[styles.titleStyle, { marginRight: "25%" }]}
+                allowFontScaling={false}
+              >
                 Estou disponível agora
               </Text>
               <Toggle
@@ -214,8 +217,8 @@ class Availability extends Component {
               this.openAvailabilityDays(day);
             }}
           />
-            <TouchableOpacity onPress={() => this.openSpecialHours()}>
-          <View style={styles.containerSpecialTimes}>
+          <TouchableOpacity onPress={() => this.openSpecialHours()}>
+            <View style={styles.containerSpecialTimes}>
               <View
                 style={{
                   flexDirection: "row",
@@ -240,8 +243,8 @@ class Availability extends Component {
                   displayHour={`${start.substr(0, 5)} até ${end.substr(0, 5)}`}
                 />
               ))}
-          </View>
-            </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
           <Text
             style={{
               fontFamily: "HelveticaNowMicro-ExtraLight",

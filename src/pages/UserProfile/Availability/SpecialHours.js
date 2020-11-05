@@ -20,12 +20,13 @@ import Modal from "~/shared/components/ModalComponent";
 
 import { Field, reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
-import { saveSpecialDay, decodeToken } from "~/shared/services/freela.http";
+import { saveSpecialDay } from "~/shared/services/freela.http";
+import { decodeToken } from "~/shared/services/decode";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import SpecialHoursEmpty from "~/shared/components/emptyState/SpecialHoursEmpty";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 import InputMask from "~/shared/components/InputMask";
-import InputDate from "~/shared/components/InputDate"
+import InputDate from "~/shared/components/InputDate";
 class SpecialHours extends Component {
   constructor(props) {
     super(props);
