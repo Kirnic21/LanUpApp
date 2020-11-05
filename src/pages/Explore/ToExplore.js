@@ -27,11 +27,10 @@ export default class ToExplore extends Component {
   }
 
   getFilterJob = async () => {
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     this.setState({ loading: true });
-    getJobs(token.id)
-      .then(({ data }) => {
-        const GetJobs = data;
+    getJobs()
+      .then((GetJobs) => {
+        debugger;
         const name = GetJobs.filter((c) => c.isSelected === true).map(
           (c) => c.name
         );
