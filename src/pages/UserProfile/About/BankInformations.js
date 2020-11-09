@@ -1,29 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
 import InputField from "~/shared/components/InputField";
 import { Field, reduxForm } from "redux-form";
-import Modal from "./ModalFilterBank";
 import styles from "./styles";
-import dimensions from "~/assets/Dimensions/index";
+import bank from "./bank";
+import ModalSearch from "~/shared/components/ModalSearch";
 
-const BankInformation = ({ onPress, bankCode }) => {
+const BankInformation = () => {
   reduxForm({ form: "BankInformation" });
+
+  const [code, setCode] = useState([]);
+  const SearchFilterFunction = (text) => {
+    const newData = bank.filter(function (item) {
+      const itemData = item.description
+        ? item.description.toUpperCase()
+        : "".toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    const code = newData.map((x) => ({
+      name: x.description,
+      id: x.id,
+    }));
+    setCode(code);
+  };
+
   return (
     <View>
       <View style={styles.containerInformationBank}>
         <Text style={styles.TitleInformation}>Informações Bancárias</Text>
         <View style={{ alignContent: "stretch", paddingBottom: "2.5%" }}>
-          <Text
-            style={{
-              fontSize: dimensions(12),
-              color: "#FFF",
-              top: "-1%",
-              fontFamily: "HelveticaNowMicro-Regular",
-            }}
-          >
-            Banco:
-          </Text>
-          <Modal onPress={onPress} bankCode={bankCode} />
+          <Field
+            component={ModalSearch}
+            label="Banco:"
+            handleOnSearch={SearchFilterFunction}
+            data={code}
+            name={"bankCode"}
+            onlyId={true}
+            style={{ width: "47%" }}
+            EmptyText="Nenhum banco encontrado"
+          />
 
           <View style={{ position: "absolute", width: "100%", left: "53%" }}>
             <Field

@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 import { formValueSelector } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import ImageSelector from "~/shared/components/ImageSelector";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { adjust } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import Analytics from "appcenter-analytics";
 
@@ -97,7 +97,7 @@ class SelectAvatar extends Component {
                   Analytics.trackEvent("Clique no botão.");
               }}
             >
-              <Text style={{ color: "white", fontSize: dimensions(12) }}>
+              <Text style={{ color: "white", fontSize: adjust(10) }}>
                 Tirar Foto
               </Text>
             </TouchableOpacity>
@@ -136,14 +136,14 @@ const styles = StyleSheet.create({
   },
   titleNickname: {
     color: "#FFF",
-    fontSize: dimensions(40),
+    fontSize: adjust(38),
     fontFamily: "HelveticaNowMicro-Medium",
     left: "7%",
     textAlign: "left",
     top: dimensions(-22)
   },
   textAdd: {
-    fontSize: dimensions(20),
+    fontSize: adjust(18),
     color: "#FFF",
     fontFamily: "HelveticaNowMicro-Regular",
     textAlign: "center"

@@ -2,9 +2,9 @@ import React from "react";
 import { StyleSheet, Dimensions, View, Text, Image } from "react-native";
 import ImageOutline from "~/assets/images/outline.png";
 import ActionButton from "~/shared/components/ActionButton";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 
-const PhotoGalleryEmptyState = ({
+const EmptyState = ({
   onPress,
   title,
   subtitle,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     color: "#FFF",
-    fontSize: dimensions(24),
+    fontSize: adjust(20),
     fontFamily: "HelveticaNowDisplay-Regular",
     textAlign: "center",
     lineHeight: calcWidth(11),
@@ -80,9 +80,9 @@ const styles = StyleSheet.create({
     color: "#ffffffad",
     fontFamily: "HelveticaNowMicro-ExtraLight",
     lineHeight: calcWidth(8),
-    fontSize: dimensions(15),
+    fontSize: adjust(12),
     textAlign: "center",
   },
 });
 
-export default PhotoGalleryEmptyState;
+export default EmptyState;

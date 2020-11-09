@@ -1,10 +1,26 @@
 export default {
   user: {
-    nickname: "brunin",
-    fullName: "brunin chainz",
+    nickname: "",
+    fullName: "",
   },
-  about: {},
+  about: {
+    about: {},
+    loading: false,
+  },
   gallery: [],
+  certificates: {
+    certificate: [],
+    loading: true,
+  },
   loading: false,
   vacancy: {},
+  jobs: {
+    services: [],
+    loading: false,
+  },
+
+  skills: {
+    skill: [],
+    loading: false,
+  },
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import logoRating from "~/assets/images/logo-rating.png";
-import { calcWidth } from "~/assets/Dimensions";
+import { calcWidth, adjust } from "~/assets/Dimensions";
 import RatingStar from "~/shared/components/RatingStar";
 import { CheckBox } from "react-native-elements";
 import ButtonComponent from "~/shared/components/ButtonCompoent";
@@ -31,7 +31,7 @@ class Rating extends React.Component {
     const { food, managment, structure, hasRecommendation } = this.state;
     const { hirerId: id } = this.props.navigation.state.params;
     this.setState({ spinner: true });
-    request = {
+    const request = {
       id,
       food,
       managment,
@@ -129,7 +129,7 @@ class Rating extends React.Component {
               title="Recomendo trabalhar junto"
               textStyle={[
                 styles.fontHelveticaRegular,
-                { color: "#8A98BA", fontSize: calcWidth(3.5) },
+                { color: "#8A98BA", fontSize: adjust(12) },
               ]}
               checkedIcon="check-square"
               uncheckedIcon="square-o"
@@ -172,12 +172,12 @@ const styles = StyleSheet.create({
   },
   titleName: {
     color: "#865FC0",
-    fontSize: calcWidth(5),
+    fontSize: adjust(15),
     padding: calcWidth(2.5),
   },
   subtitle: {
     color: "#8391B2",
-    fontSize: calcWidth(3.5),
+    fontSize: adjust(12),
   },
   textArea: {
     height: calcWidth(50),
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     color: "#18142F",
-    fontSize: calcWidth(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
   },
 });

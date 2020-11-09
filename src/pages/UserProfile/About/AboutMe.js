@@ -15,11 +15,9 @@ import {
   validateCNPJ,
 } from "~/shared/helpers/validate/ValidateCpfCnpj";
 import { reduxForm } from "redux-form";
-import AsyncStorage from "@react-native-community/async-storage";
-import { decodeToken, aboutMe } from "~/shared/services/freela.http";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { setAbout } from "~/store/ducks/aboutMe/about.actions";
+import { updateAbout } from "~/store/ducks/aboutMe/about.actions";
 import OccupationArea from "./OccupationArea";
 import PresentationPictures from "./PresentationPictures";
 import FastImage from "react-native-fast-image";
@@ -30,8 +28,6 @@ class AboutMe extends Component {
   state = {
     visible: false,
     spinner: false,
-    bankCode: "",
-    address: "",
     BoxItem: [
       {
         id: 1,
@@ -51,88 +47,29 @@ class AboutMe extends Component {
       },
     ],
     avatar: null,
-    photos: [],
+    photos: this.props.data.photos,
   };
 
   async componentDidMount() {
-    const { Email } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    const { BoxItem } = this.state;
-    this.setState({ spinner: true }, () => {
-      const {
-        name: fullName,
-        bankAccount,
-        bankBranch,
-        birthday,
-        clothingsSizes,
-        cpf,
-        cnpj,
-        description,
-        nickName,
-        height,
-        weight,
-        professionalClothing,
-        ownTransport,
-        healthProblem,
-        smoke,
-        phone,
-        photos,
-        image: avatar,
-        bankCode,
-        address,
-        latitude: lat,
-        longitude: long,
-        gender,
-        owner,
-      } = this.props.aboutMe;
+    const { BoxItem, photos } = this.state;
+    this.props.initialize(this.props.data);
 
-      this.props.initialize({
-        fullName,
-        bankAccount,
-        bankBranch,
-        birthday:
-          birthday === "0001-01-01T00:00:00Z" ? null : new Date(birthday),
-        clothingsSizes,
-        cpfCnpj: cpf === null ? cnpj : cpf,
-        description,
-        nickName,
-        height:
-          height === 0
-            ? ""
-            : height.toString().replace(/(\d)(?=(\d{2})+(?!\d))/g, "$1,"),
-        weight: weight === 0 ? "" : weight.toString(),
-        professionalClothing,
-        ownTransport,
-        healthProblem,
-        smoke,
-        Email,
-        phone,
-        gender: gender !== null ? gender : 0,
-        owner,
-      });
+    const getPhoto =
+      photos !== null ? photos.map((item) => ({ uri: item.url })) : [];
+    const photosGet =
+      photos !== null
+        ? photos.map((item) => ({ name: item.name, url: item.url }))
+        : [];
+    const mergeArr = (arr, inc) =>
+      arr.map((item, key) => ({
+        ...item,
+        icon: inc[key] || item.icon,
+      }));
+    const getPictures = getPhoto.length ? mergeArr(BoxItem, getPhoto) : BoxItem;
 
-      const getPhoto =
-        photos !== null ? photos.map((item) => ({ uri: item.url })) : [];
-      const photosGet =
-        photos !== null ? photos.map((item) => ({ name: item.name })) : [];
-      const mergeArr = (arr, inc) =>
-        arr.map((item, key) => ({
-          ...item,
-          icon: inc[key] || item.icon,
-        }));
-      const getPictures = getPhoto.length
-        ? mergeArr(BoxItem, getPhoto)
-        : BoxItem;
-
-      this.setState({
-        avatar,
-        bankCode,
-        address,
-        lat,
-        long,
-        photos: photosGet,
-        BoxItem: getPictures,
-        spinner: false,
-      });
+    this.setState({
+      photos: photosGet,
+      BoxItem: getPictures,
     });
     const { handleSubmit } = this.props;
     await this.props.navigation.setParams({
@@ -150,23 +87,14 @@ class AboutMe extends Component {
   };
 
   saveAboutMe = (request) => {
-    this.setState({ spinner: true }, () => {
-      aboutMe(request)
-        .then(({}) => {
-          this.props.navigation.push("UserProfile");
-        })
-        .catch((error) => {
-          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-        })
-        .finally(() => {
-          this.setState({ spinner: false });
-        });
+    const { about: value, updateAbout, navigation } = this.props;
+    updateAbout({ value, request }).then(() => {
+      navigation.push("UserProfile");
     });
     return;
   };
 
   UpdateAboutMe = async (form) => {
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const {
       fullName,
       nickName,
@@ -185,16 +113,15 @@ class AboutMe extends Component {
       bankAccount,
       cpfCnpj,
       owner,
+      address,
+      bankCode,
     } = form;
     const h = height === "" ? 0 : Number(height.replace(",", ""));
     const w = weight === "" ? 0 : Number(weight);
-    const { avatarUrl, bankCode, lat, long, address, photos } = this.state;
-    const latitude = lat === null ? lat : lat.toString();
-    const longitude = long === null ? long : long.toString();
+    const { avatarUrl, photos } = this.state;
     const replaceValidate =
       cpfCnpj !== null ? cpfCnpj.replace(/[\(\)\.\s-]+/g, "") : "";
     const request = {
-      freelaId: token.id,
       avatar: avatarUrl,
       fullName,
       nickName,
@@ -206,7 +133,7 @@ class AboutMe extends Component {
       ownTransport,
       healthProblem,
       smoke,
-      bankCode,
+      bankCode: bankCode.id,
       bankBranch,
       bankAccount,
       cnpj:
@@ -218,15 +145,14 @@ class AboutMe extends Component {
           ? replaceValidate
           : null,
       owner,
-      address,
-      lat: latitude,
-      long: longitude,
+      address: address.name,
+      lat: address.latitude,
+      long: address.longitude,
       photos,
       phone,
-      birthday: birthday === null ? "0001-01-01T00:00:00Z" : birthday,
-      gender,
+      birthday,
+      gender: gender === null ? 0 : gender,
     };
-
     const validateCpfCnpj =
       replaceValidate.length > 11
         ? validateCNPJ(replaceValidate)
@@ -239,8 +165,10 @@ class AboutMe extends Component {
 
     validate === false && validate !== null
       ? AlertHelper.show("error", "Erro", "Cpf/Cnpj inválido.")
-      : latitude === null
+      : address.latitude === null
       ? AlertHelper.show("error", "Erro", "Informe a região de atuação.")
+      : birthday === null
+      ? AlertHelper.show("error", "Erro", "Informe sua data de nascimento.")
       : this.saveAboutMe(request);
   };
 
@@ -279,23 +207,13 @@ class AboutMe extends Component {
         });
   };
 
-  location = (e) => {
-    this.setState({
-      address: e.address,
-      lat: e.location.latitude,
-      long: e.location.longitude,
-    });
-  };
-
-  bankCode = (item) => {
-    this.setState({ bankCode: item });
-  };
-
   render() {
-    const { avatar, BoxItem, bankCode, address, spinner } = this.state;
+    const { avatar, BoxItem } = this.state;
+    const { loading, data } = this.props;
+    const { image } = data;
     return (
       <View style={styles.container}>
-        <SpinnerComponent loading={spinner} />
+        <SpinnerComponent loading={loading} />
         <ScrollView
           style={styles.ScrollView}
           showsVerticalScrollIndicator={false}
@@ -306,7 +224,10 @@ class AboutMe extends Component {
               style={{ width: dimensions(90) }}
               onPress={this.handleOnPictureAdd}
             >
-              <FastImage source={{ uri: avatar }} style={styles.Avatar} />
+              <FastImage
+                source={{ uri: avatar || image }}
+                style={styles.Avatar}
+              />
               <FastImage source={AddIcon} style={styles.iconAvatar} />
             </TouchableOpacity>
 
@@ -315,13 +236,7 @@ class AboutMe extends Component {
             </Text>
           </View>
           <ProfileInformation />
-
-          <OccupationArea
-            address={address}
-            onPress={(item) => {
-              this.location(item);
-            }}
-          />
+          <OccupationArea />
           <PresentationPictures
             BoxItem={BoxItem}
             onPress={(id) => {
@@ -330,12 +245,7 @@ class AboutMe extends Component {
           />
 
           <AdditionalInformation />
-          <BankInformations
-            bankCode={bankCode}
-            onPress={(item) => {
-              this.bankCode(item);
-            }}
-          />
+          <BankInformations />
         </ScrollView>
         <ImageSelector
           onImageSelected={this.onPictureAdd}
@@ -356,14 +266,31 @@ class AboutMe extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { aboutMe } = state;
+  const { about, loading } = state.aboutMe;
   return {
-    aboutMe,
+    data: {
+      ...about,
+      fullName: about.name,
+      gender: about.gender === 0 ? null : about.gender,
+      cpfCnpj: about.cpf === null ? about.cnpj : about.cpf,
+      height:
+        (about.height === 0 && "") ||
+        about.height.toString().replace(/(\d)(?=(\d{2})+(?!\d))/g, "$1,"),
+      weight: (about.weight === 0 && "") || about.weight.toString(),
+      address: {
+        name: about.address,
+        latitude: about.latitude,
+        longitude: about.longitude,
+      },
+      bankCode: { id: about.bankCode },
+    },
+    loading,
+    about,
   };
 };
 
 const mapActionToProps = (dispatch) =>
-  bindActionCreators({ setAbout }, dispatch);
+  bindActionCreators({ updateAbout }, dispatch);
 
 AboutMe = connect(mapStateToProps, mapActionToProps)(AboutMe);
 AboutMe = reduxForm({ form: "AboutMe" })(AboutMe);

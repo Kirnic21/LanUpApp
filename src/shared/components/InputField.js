@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
-import dimensions from "~/assets/Dimensions/index";
+import { adjust } from "~/assets/Dimensions/index";
 
 export default InputField = ({
   input: { value, onChange, ...input },
@@ -11,7 +11,6 @@ export default InputField = ({
   autoFocus,
   numberOfLines,
   multiline,
-  // onFocus,
   autoCompleteType,
   placeholder,
   placeholderTextColor,
@@ -33,7 +32,7 @@ export default InputField = ({
           style={{
             color: editableColor,
             top: "-10%",
-            fontSize: dimensions(12),
+            fontSize: adjust(10),
             fontFamily: "HelveticaNowMicro-Regular",
           }}
         >
@@ -51,8 +50,8 @@ export default InputField = ({
             {
               width: "100%",
               borderRadius: 50,
-              height: dimensions(43),
-              fontSize: dimensions(12),
+              height:50,
+              fontSize: adjust(10),
               color: editableColor,
               fontFamily: "HelveticaNowMicro-Regular",
             },
@@ -81,7 +80,7 @@ export default InputField = ({
           onBlur={() => setInputFocused((prev) => ({ ...prev, input1: false }))}
           maxLength={maxLength}
         />
-        {touched && error && <Text style={{ color: "#F13567" }}>{error}</Text>}
+        {touched && error && <Text style={{ color: "#F13567", fontSize: adjust(10) }}>{error}</Text>}
       </View>
     </View>
   );

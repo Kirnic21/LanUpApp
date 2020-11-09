@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text, Picker } from "react-native";
+import { View, Text } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
 import DateInputField from "~/shared/components/DateInputField";
-import PickerComponent from "~/shared/components/PickerComponent";
-import dimensions from "~/assets/Dimensions/index";
+
+import DropDown from "~/shared/components/DropDown";
+import { calcWidth } from "~/assets/Dimensions";
 
 const AdditionalInformation = ({}) => {
   reduxForm({
@@ -16,7 +17,7 @@ const AdditionalInformation = ({}) => {
       <Field
         title="E-mail"
         component={InputField}
-        name={"Email"}
+        name={"email"}
         editable={false}
       />
       <Field
@@ -30,41 +31,29 @@ const AdditionalInformation = ({}) => {
         mask={"([00]) [00000]-[0000]"}
         isfocused={"#A893F2"}
       />
-      <View style={{ alignContent: "stretch" }}>
+      <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
         <Field
-          style={{
-            width: "46%",
-            height: dimensions(43),
-            fontSize: dimensions(12),
-            fontFamily: "HelveticaNowMicro-Regular",
-            borderRadius: 50,
-          }}
+          style={{ width: 150 }}
           mode="date"
           name={"birthday"}
           title="Nascimento"
           component={DateInputField}
         />
-        <View style={styles.containerGender}>
-          <Field
-            title={"Gênero"}
-            style={{
-              width: "90%",
-              color: "#fff",
-              top: "-35%",
-              left: "10%",
-            }}
-            name={"gender"}
-            component={PickerComponent}
-            mode="dropdown"
-          >
-            <Picker.Item label="" value={0} />
-            <Picker.Item label="Masculino" value={1} />
-            <Picker.Item label="Feminino" value={2} />
-            <Picker.Item label="Transgênero homem" value={3} />
-            <Picker.Item label="Transgênero mulher" value={4} />
-            <Picker.Item label="Queer +" value={5} />
-          </Field>
-        </View>
+
+        <Field
+          title="Gênero"
+          component={DropDown}
+          style={{ width: 150 }}
+          name={"gender"}
+          heightModal={calcWidth(105)}
+          items={[
+            { label: "Masculino", value: 1 },
+            { label: "Feminino", value: 2 },
+            { label: "Transgênero homem", value: 3 },
+            { label: "Transgênero mulher", value: 4 },
+            { label: "Queer +", value: 5 },
+          ]}
+        />
       </View>
     </View>
   );

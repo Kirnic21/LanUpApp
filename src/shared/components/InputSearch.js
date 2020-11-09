@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialIcons";
 import { debounce } from "lodash";
+import { adjust } from "~/assets/Dimensions";
 
 const styles = StyleSheet.create({
   inputSearchContainer: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
   },
   inputSearch: {
     width: "90%",
-    fontSize: 16,
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
     color: "#23203F"
   },
@@ -34,7 +35,7 @@ const InputSearch = ({ handleOnSearch, debounceTime = 500, value }) => {
       <TextInput
         onChangeText={text => onSearch(text, handleOnSearch, debounceTime)}
         placeholderTextColor="#23203F"
-        placeholder="Endereço"
+        placeholder=""
         style={styles.inputSearch}
         value={value}
       />

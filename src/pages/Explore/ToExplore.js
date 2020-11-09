@@ -1,36 +1,35 @@
 import React, { Component } from "react";
 import { StyleSheet, View, FlatList, Text } from "react-native";
-import FilterToExplore from "~/pages/Explore/FilterToExplore";
-import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
-import { vacancy } from "~/shared/services/events.http";
-import { decodeToken, getJobs } from "~/shared/services/freela.http";
+
 import AsyncStorage from "@react-native-community/async-storage";
-import dimensions, { calcWidth, calcHeight } from "~/assets/Dimensions";
 import Lottie from "lottie-react-native";
+
+import { calcWidth, calcHeight, adjust } from "~/assets/Dimensions";
 import loadingSpinner from "~/assets/loadingSpinner.json";
 
+import FilterToExplore from "~/pages/Explore/FilterToExplore";
+import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
+import ExclusionModal from "~/shared/components/ExclusionModal";
+
+import { vacancy } from "~/shared/services/events.http";
+import { decodeToken, getJobs } from "~/shared/services/freela.http";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
+
 export default class ToExplore extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      GetJobs: [],
-      loading: false,
-    };
-  }
+  state = {
+    GetJobs: [],
+    loading: false,
+    visible: false,
+  };
 
   componentDidMount() {
     this.getFilterJob();
   }
 
   getFilterJob = async () => {
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     this.setState({ loading: true });
-    getJobs(token.id)
-      .then(({ data }) => {
-        const GetJobs = data;
-        GetJobs === null
-          ? this.setState({ GetJobs: [] })
-          : this.setState({ GetJobs });
+    getJobs()
+      .then((GetJobs) => {
         const name = GetJobs.filter((c) => c.isSelected === true).map(
           (c) => c.name
         );
@@ -68,7 +67,7 @@ export default class ToExplore extends Component {
   };
 
   render() {
-    const { JobsSelected, listVacancy, loading } = this.state;
+    const { JobsSelected, listVacancy, loading, visible } = this.state;
     return (
       <View style={styles.container}>
         <View>
@@ -125,6 +124,12 @@ export default class ToExplore extends Component {
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
+        <ExclusionModal
+          visible={visible}
+          onClose={() => this.setState({ visible: false })}
+          onPress={() => this.props.navigation.push("Profession")}
+          title="Para continuar defina uma Profissão!"
+        />
       </View>
     );
   }
@@ -145,7 +150,7 @@ const styles = StyleSheet.create({
   },
   textEmpty: {
     color: "#FFF",
-    fontSize: dimensions(20),
+    fontSize: adjust(18),
     fontFamily: "HelveticaNowDisplay-Regular",
   },
 });

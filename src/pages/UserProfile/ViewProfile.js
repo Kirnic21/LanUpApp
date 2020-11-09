@@ -35,6 +35,7 @@ class ViewProfile extends Component {
     const { token } = this.state;
     return (
       <WebView
+        textZoom={100}
         renderLoading={this.LoadingIndicatorView}
         startInLoadingState={true}
         source={{

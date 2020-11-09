@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableHighlight, StyleSheet } from "react-native";
 import ModalDropdown from "react-native-modal-dropdown";
-import dimensions from "~/assets/Dimensions";
+import dimensions, { adjust } from "~/assets/Dimensions";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const SelectComponent = ({ value, options, onSelect, label }) => {
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#FFF",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular"
   },
   modal: {

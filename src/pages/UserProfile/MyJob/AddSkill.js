@@ -1,33 +1,34 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import ActionButton from "~/shared/components/ActionButton";
 import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
   ScrollView,
-  TouchableNativeFeedback,
-} from "react-native-gesture-handler";
-import { decodeToken, updateSkills } from "~/shared/services/freela.http";
-import AsyncStorage from "@react-native-community/async-storage";
+} from "react-native";
+import ActionButton from "~/shared/components/ActionButton";
 import MaterialCommunityIcons from "react-native-vector-icons/FontAwesome";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import AddSkillEmpty from "~/shared/components/emptyState/AddSkillEmpty";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalAddSkill from "./ModalAddSkill";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
+import {
+  skillsSuccess,
+  updateSkill,
+} from "~/store/ducks/Profession/skills/skills.actions";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 class AddSkill extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      visible: false,
-      prevState: [],
-      GetSkill: this.props.navigation.state.params.GetSkill || [],
-    };
-  }
+  state = {
+    visible: false,
+  };
 
   componentDidMount() {
-    const { GetSkill } = this.state;
-    const active = !!GetSkill.length;
-    this.props.navigation.setParams({
+    const { skill, navigation } = this.props;
+    const active = !!skill.length;
+    navigation.setParams({
       handleSave: () => this.SaveSkill(),
       editingSave: () => this.editing(),
       active,
@@ -77,55 +78,36 @@ class AddSkill extends Component {
     this.setState({ text });
   };
 
-  AddSkills = async (skill) => {
-    this.setState({
-      GetSkill: [...this.state.GetSkill, skill],
-      visible: false,
-      text: "",
-    });
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    const skills = this.state.GetSkill;
-
-    this.props.navigation.setParams({
-      active: true,
-    });
-
-    updateSkills({ id: token.id, skills });
+  AddSkills = async (textSkill) => {
+    const { updateSkill, skill, navigation } = this.props;
+    this.setState({ visible: false, text: "" });
+    updateSkill({ skills: [...skill, textSkill] });
+    navigation.setParams({ active: true });
   };
 
-  handleDelete = (c) => {
-    const GetSkill = this.state.GetSkill;
-    const Deleteskills = [c];
-    const arr = GetSkill.filter((item) => !Deleteskills.includes(item));
-    this.setState({ GetSkill: arr });
+  handleDelete = (delSkill) => {
+    const { skillsSuccess, skill } = this.props;
+    skillsSuccess(skill.filter((item) => ![delSkill].includes(item)));
   };
 
-  SaveSkill = async () => {
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    const skills = this.state.GetSkill;
-    const active = !!skills.length;
-
-    this.props.navigation.setParams({
-      active: active,
-    });
-
-    this.props.navigation.setParams({
-      isEditing: false,
-    });
+  SaveSkill = () => {
+    const { skill: skills, updateSkill, navigation } = this.props;
+    navigation.setParams({ active: !!skills.length, isEditing: false });
     AlertHelper.show("success", "Sucesso", "Habilidade removida com sucesso!");
-    updateSkills({ id: token.id, skills }).then(({ data }) => {
-      if (data.isSuccess) {
-        this.setState({ text: "" });
-      }
+    updateSkill({
+      skills,
+    }).then(() => {
+      this.setState({ text: "" });
     });
   };
 
   render() {
-    const { GetSkill, visible, text } = this.state;
+    const { visible, text } = this.state;
+    const { skill } = this.props;
     const isEditing = this.props.navigation.getParam("isEditing");
     return (
       <View style={styles.container}>
-        {GetSkill.length ? (
+        {skill.length ? (
           <View
             style={{
               flex: 1,
@@ -137,12 +119,12 @@ class AddSkill extends Component {
             <ScrollView>
               <Text style={styles.titleSkill}>Habilidades</Text>
               <View style={styles.containerChip}>
-                {GetSkill.map((c, i) => (
+                {skill.map((c, i) => (
                   <View
                     key={i}
                     style={{ marginRight: "1%", height: dimensions(38) }}
                   >
-                    <TouchableNativeFeedback
+                    <TouchableOpacity
                       onPress={() => {
                         isEditing ? this.handleDelete(c) : null;
                       }}
@@ -159,7 +141,7 @@ class AddSkill extends Component {
                       ) : (
                         <></>
                       )}
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
                   </View>
                 ))}
               </View>
@@ -222,16 +204,33 @@ export const styles = StyleSheet.create({
 
   titleSkill: {
     color: "#FFF",
-    fontSize: dimensions(25),
+    fontSize: adjust(20),
     fontFamily: "HelveticaNowMicro-Regular",
     paddingVertical: "5.6%",
   },
   textChip: {
     color: "#18142F",
     paddingHorizontal: "1.9%",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
   },
 });
 
-export default AddSkill;
+const mapStateToProps = (state) => {
+  const { skill, loading } = state.skills;
+  return {
+    skill,
+    loading,
+  };
+};
+
+const mapActionToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      skillsSuccess,
+      updateSkill,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapActionToProps)(AddSkill);

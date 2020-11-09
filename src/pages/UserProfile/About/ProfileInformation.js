@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text, Picker } from "react-native";
+import { View, Text } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
 import Toggle from "~/shared/components/SwitchComponent";
-import PickerComponent from "~/shared/components/PickerComponent";
-import dimensions from "~/assets/Dimensions/index";
+
+import DropDown from "~/shared/components/DropDown";
+import { adjust, calcWidth } from "~/assets/Dimensions/index";
 
 const ProfileInformation = ({}) => {
   reduxForm({ form: "ProfileInformation" });
@@ -28,7 +29,7 @@ const ProfileInformation = ({}) => {
       <Field
         style={[
           styles.textArea,
-          { fontSize: 14, fontFamily: "SourceSansPro-Regular" },
+          { fontSize: adjust(11), fontFamily: "SourceSansPro-Regular" },
         ]}
         title="Descrição"
         component={InputField}
@@ -37,9 +38,9 @@ const ProfileInformation = ({}) => {
         numberOfLines={10}
         isfocused={"#A893F2"}
       />
-      <View style={{ alignContent: "stretch", width: "100%" }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Field
-          style={{ width: "32%", height: dimensions(43) }}
+          style={{ width: 100 }}
           title="Altura"
           component={InputMask}
           name={"height"}
@@ -47,70 +48,58 @@ const ProfileInformation = ({}) => {
           mask={"[0],[00]"}
           isfocused={"#A893F2"}
         />
-        <View style={{ position: "absolute", left: "34%", width: "32%" }}>
-          <Field
-            style={{
-              width: "100%",
-              paddingLeft: "21%",
-              height: dimensions(43),
-            }}
-            title="Peso"
-            component={InputMask}
-            name={"weight"}
-            keyboardType="numeric"
-            mask={"[000]"}
-            maxLength={3}
-            isfocused={"#A893F2"}
-          />
-        </View>
-        <View style={styles.containerManequim}>
-          <Field
-            title={"Manequim"}
-            style={{
-              // width: "20%",
-              color: "#fff",
-              top: "-35%",
-              left: "10%",
-            }}
-            name={"clothingsSizes"}
-            component={PickerComponent}
-            iosHeader="Select one"
-            mode="dropdown"
-          >
-            <Picker.Item label="" value={null} />
-            <Picker.Item label="P" value="P" />
-            <Picker.Item label="M" value="M" />
-            <Picker.Item label="G" value="G" />
-            <Picker.Item label="GG" value="GG" />
-          </Field>
-        </View>
+        <Field
+          style={{ width: 100 }}
+          title="Peso"
+          component={InputMask}
+          name={"weight"}
+          keyboardType="numeric"
+          mask={"[000]"}
+          maxLength={3}
+          isfocused={"#A893F2"}
+        />
+        <Field
+          title="Manequim"
+          component={DropDown}
+          style={{ width: 100 }}
+          name={"clothingsSizes"}
+          heightModal={calcWidth(95)}
+          items={[
+            { label: "P", value: "P" },
+            { label: "M", value: "M" },
+            { label: "G", value: "G" },
+            { label: "GG", value: "GG" },
+          ]}
+        />
       </View>
       <Text
         style={{
           marginTop: "5%",
           color: "#FFF",
-          fontSize: dimensions(14),
+          fontSize: adjust(11),
           fontFamily: "HelveticaNowMicro-Regular",
         }}
       >
         Tenho:
       </Text>
-      <Field
-        title="Vestimenta profissional"
-        component={Toggle}
-        name={"professionalClothing"}
-      />
-      <Field
-        title="Transporte próprio"
-        component={Toggle}
-        name={"ownTransport"}
-      />
-      <Field
-        title="Quero trabalhar fixo"
-        component={Toggle}
-        name={"healthProblem"}
-      />
-      <Field title="Material de Trabalho" component={Toggle} name={"smoke"} />
+      <View style={{ top: "10%", width: "100%" }}>
+        <Field
+          title="Vestimenta profissional"
+          component={Toggle}
+          name={"professionalClothing"}
+        />
+        <Field
+          title="Transporte próprio"
+          component={Toggle}
+          name={"ownTransport"}
+        />
+        <Field
+          title="Quero trabalhar fixo"
+          component={Toggle}
+          name={"healthProblem"}
+        />
+        <Field title="Material de Trabalho" component={Toggle} name={"smoke"} />
+      </View>
     </View>
   );
 };

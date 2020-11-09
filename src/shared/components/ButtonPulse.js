@@ -1,12 +1,10 @@
-import React from 'react';
-import {
-  View, Text, StyleSheet, TouchableOpacity,
-} from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import dimensions, { calcWidth } from '~/assets/Dimensions';
-import debounceButton from '~/shared/helpers/debounce';
+import * as Animatable from "react-native-animatable";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
+import debounceButton from "~/shared/helpers/debounce";
 
 const Button = debounceButton(TouchableOpacity);
 
@@ -34,41 +32,43 @@ const ButtonPulse = ({
   };
 
   ButtonPulse.defaultProps = {
-    size: 'small',
+    size: "small",
   };
 
-  const ButtonSize = () => ({
-    small: {
-      height: calcWidth(20),
-      width: calcWidth(20),
-      backgroundColor: color || '#FFF',
-    },
-    normal: [
-      {
-        height: calcWidth(32),
-        width: calcWidth(32),
-        backgroundColor: color || '#FFF',
+  const ButtonSize = () =>
+    ({
+      small: {
+        height: calcWidth(20),
+        width: calcWidth(20),
+        backgroundColor: color || "#FFF",
       },
-      styles.titleNormal,
-    ],
-  }[size]);
+      normal: [
+        {
+          height: calcWidth(32),
+          width: calcWidth(32),
+          backgroundColor: color || "#FFF",
+        },
+        styles.titleNormal,
+      ],
+    }[size]);
 
-  const circleSize = () => ({
-    small: {
-      height: calcWidth(22),
-      width: calcWidth(22),
-      opacity: 0.5,
-      backgroundColor: color || '#FFF',
-    },
-    normal: [
-      {
-        height: calcWidth(35),
-        width: calcWidth(35),
+  const circleSize = () =>
+    ({
+      small: {
+        height: calcWidth(22),
+        width: calcWidth(22),
         opacity: 0.5,
-        backgroundColor: color || '#FFF',
+        backgroundColor: color || "#FFF",
       },
-    ],
-  }[size]);
+      normal: [
+        {
+          height: calcWidth(35),
+          width: calcWidth(35),
+          opacity: 0.5,
+          backgroundColor: color || "#FFF",
+        },
+      ],
+    }[size]);
 
   return (
     <View style={styles.container}>
@@ -84,12 +84,12 @@ const ButtonPulse = ({
         <View
           style={[
             styles.circle,
-            size !== 'small' ? styles.animationOff : styles.animationOffSmall,
+            size !== "small" ? styles.animationOff : styles.animationOffSmall,
             { backgroundColor: color },
           ]}
         />
       )}
-      <View style={{ position: 'absolute' }}>
+      <View style={{ position: "absolute" }}>
         <Button
           style={[styles.btn, styleButton, ButtonSize()]}
           onPress={onPress}
@@ -98,18 +98,19 @@ const ButtonPulse = ({
           {icon !== undefined ? (
             <Icon
               name={icon}
-              size={size !== 'small' ? calcWidth(12) : calcWidth(8.5)}
-              color={'#FFF' || iconColor}
+              size={size !== "small" ? calcWidth(12) : calcWidth(8.5)}
+              color={"#FFF" || iconColor}
             />
           ) : (
             <></>
           )}
           <Text
+            allowFontScaling={false}
             style={[
               titleStyle,
               styles.fontFamilyHR,
-              { color: titleColor !== undefined ? titleColor : '#FFF' },
-              size !== 'small' ? styles.titleNormal : styles.titleSmall,
+              { color: titleColor !== undefined ? titleColor : "#FFF" },
+              size !== "small" ? styles.titleNormal : styles.titleSmall,
             ]}
           >
             {title}
@@ -122,32 +123,32 @@ const ButtonPulse = ({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   circle: {
-    backgroundColor: '#FFF',
+    backgroundColor: "#FFF",
     height: calcWidth(35),
     width: calcWidth(35),
     borderRadius: dimensions(200),
   },
   btn: {
-    backgroundColor: '#FFF',
+    backgroundColor: "#FFF",
     borderRadius: dimensions(150),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     height: calcWidth(32),
     width: calcWidth(32),
   },
   titleNormal: {
-    fontSize: calcWidth(4.3),
+    fontSize: adjust(12),
   },
   titleSmall: {
-    fontSize: calcWidth(2.6),
+    fontSize: adjust(7),
   },
   fontFamilyHR: {
-    fontFamily: 'HelveticaNowMicro-Regular',
+    fontFamily: "HelveticaNowMicro-Regular",
   },
   animationOff: {
     opacity: 0.5,

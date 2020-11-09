@@ -10,7 +10,7 @@ import {
 import CardImageVacancies from "./CardImageVacancies";
 import { SafeAreaView } from "react-native";
 import CardDeitailsVacancies from "./CardDeitailsVacancies";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import { calcWidth, adjust } from "~/assets/Dimensions";
 import ShiftCard from "./ShiftCard";
 import SelectComponent from "~/shared/components/SelectComponent";
 import ButtonVacancies from "~/shared/components/RoundButton";
@@ -22,7 +22,7 @@ import {
   acceptInvitations,
   vacanciesEmergencyAccept,
 } from "~/shared/services/vacancy.http";
-import { decodeToken } from "~/shared/services/freela.http";
+import { decodeToken } from "~/shared/services/decode";
 import AsyncStorage from "@react-native-community/async-storage";
 import HTML from "react-native-render-html";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
@@ -373,7 +373,7 @@ class VacanciesDetails extends Component {
                     style={[
                       styles.colorWhite,
                       {
-                        fontSize: dimensions(12),
+                        fontSize: adjust(10),
                         fontFamily: "HelveticaNowMicro-Regular",
                       },
                     ]}
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
   textVacancy: {
     color: "#EB4886",
     fontFamily: "HelveticaNowMicro-Regular",
-    fontSize: dimensions(20),
+    fontSize: adjust(18),
   },
   buttonVacancies: {
     borderColor: "#FFFFFF",

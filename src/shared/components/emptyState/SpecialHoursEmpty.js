@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import ActionButton from "~/shared/components/ActionButton";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import add from "~/assets/images/icon_add.png";
 
 const SpecialHoursEmpty = ({ onPress }) => {
@@ -58,20 +58,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
   },
-  titleSkill: {
-    color: "#FFF",
-    fontSize: dimensions(23),
-    paddingBottom: "5%",
-  },
   title: {
     color: "#FFF",
     textAlign: "center",
-    fontSize: dimensions(22),
+    fontSize: adjust(20),
     lineHeight: dimensions(37),
   },
   subtitle: {
     color: "rgba(255, 255, 255, 0.7)",
-    fontSize: dimensions(15),
+    fontSize: adjust(13),
     fontFamily: "HelveticaNowMicro-ExtraLight",
     textAlign: "center",
     top: calcWidth(6),

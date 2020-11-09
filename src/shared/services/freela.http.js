@@ -1,5 +1,44 @@
 import { HTTP, HTTPFORM } from "./http.base";
-import { decode } from "base-64";
+import { tokenDecode } from "~/shared/services/decode";
+
+const getAbout = () =>
+  tokenDecode().then(({ id }) =>
+    HTTP.get(`freelas/${id}/about`).then(({ data }) => data.result)
+  );
+
+const aboutMe = (data) =>
+  tokenDecode().then(({ id: freelaId }) =>
+    HTTP.put(`freelas/${freelaId}/about`, { freelaId, ...data }).then(
+      ({ data }) => data.result
+    )
+  );
+
+const received = (data) =>
+  tokenDecode().then(({ id }) =>
+    HTTP.get(`freelas/${id}/received`, { freelaId: id, ...data }).then(
+      ({ data }) => data.result
+    )
+  );
+
+const getJobs = () =>
+  tokenDecode().then(({ id }) =>
+    HTTP.get(`freelas/${id}/jobs`).then(({ data }) => data)
+  );
+
+const updateJobs = (jobs) =>
+  tokenDecode().then(({ id }) =>
+    HTTP.put(`freelas/${id}/jobs`, { id, jobs }).then((data) => data)
+  );
+
+const getSkills = () =>
+  tokenDecode().then(({ id }) =>
+    HTTP.get(`freelas/${id}/skills`).then(({ data }) => data.result)
+  );
+
+const updateSkills = (skills) =>
+  tokenDecode().then(({ id }) =>
+    HTTP.put(`freelas/${id}/skills`, { id, skills }).then((data) => data)
+  );
 
 const registerAgencies = (data) =>
   HTTP.post(`freelas/${data.id}/agencies`, data);
@@ -10,19 +49,14 @@ const saveAvailability = (data) =>
 const saveSpecialDay = (data) =>
   HTTP.post(`freelas/${data.freelaId}/availabilities/specialdays`, data);
 
-const updateSkills = (data) => HTTP.put(`freelas/${data.id}/skills`, data);
-const updateJobs = (data) => HTTP.put(`freelas/${data.id}/jobs`, data);
 const emergencyAvailability = (data) =>
   HTTP.put(`freelas/${data.id}/EmergencyAvailability`, data);
-const aboutMe = (data) => HTTP.put(`freelas/${data.id}/about`, data);
-const received = (data) => HTTP.put(`freelas/${data.freelaId}/received`, data);
 
-const getSkills = (id) => HTTP.get(`freelas/${id}/skills`);
 const service = () => HTTP.get(`services`);
-const getJobs = (id) => HTTP.get(`freelas/${id}/jobs`);
+
 const galeries = (id) => HTTP.get(`freelas/${id}/galery`);
 const getAvailability = (id) => HTTP.get(`freelas/${id}/availabilities`);
-const getAbout = (id) => HTTP.get(`freelas/${id}/about`);
+
 const existingCpf = (data) => HTTP.get(`freelas/cpf/${data}/exists`);
 const existingEmail = (data) => HTTP.get(`freelas/email/${data}/exists`);
 const workdays = (data) => HTTP.get(`freelas/workdays/${data.day}`);
@@ -33,14 +67,10 @@ const getAgencies = (id) => HTTP.get(`freelas/${id}/agencies`);
 const galleryDelete = (id, queryParams) =>
   HTTP.delete(`freelas/${id}/galery?${queryParams}`);
 
-const decodeToken = (token) =>
-  JSON.parse(decode(token.split(".")[1].replace("-", "+").replace("_", "/")));
-
 export {
   create,
   updateSkills,
   registerAgencies,
-  decodeToken,
   emergencyAvailability,
   galery,
   galeries,

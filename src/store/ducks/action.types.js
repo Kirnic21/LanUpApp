@@ -1,8 +1,20 @@
 export const REGISTER_STEP_ONE = "REGISTER_STEP_ONE";
 export const REGISTER_STEP_TWO = "REGISTER_STEP_TWO";
 export const LOAD_USER = "LOAD_USER";
-export const LOAD_ABOUT = "LOAD_ABOUT";
+export const LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 export const UPLOAD_GALLERY = "UPLOAD_GALLERY";
 export const DELETE_GALLERY = "DELETE_GALLERY";
 export const UPDATE_GALLERY = "UPDATE_GALLERY";
 export const NEW_VACANCY = "NEW_VACANCY";
+
+export const ABOUT_FETCHING = "ABOUT_FETCHING";
+export const ABOUT_SUCCESS = "ABOUT_SUCCESS";
+export const ABOUT_ERROR = "ABOUT_ERROR";
+
+export const JOB_FETCHING = "JOB_FETCHING";
+export const JOB_SUCCESS = "JOB_SUCCESS";
+export const JOB_ERROR = "JOB_ERROR";
+
+export const SKILLS_FETCHING = "SKILLS_FETCHING";
+export const SKILLS_SUCCESS = "SKILLS_SUCCESS";
+export const SKILLS_ERROR = "SKILLS_ERROR";

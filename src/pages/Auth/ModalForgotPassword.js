@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import InputLabel from "~/shared/components/InputLabel";
 import RoundButton from "~/shared/components/RoundButton";
 import ModalComponent from "~/shared/components/ModalComponent";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import { calcWidth, adjust } from "~/assets/Dimensions";
 
 const ModalForgotPassword = ({
   onClose,
@@ -48,7 +48,7 @@ const ModalForgotPassword = ({
         <Text
           style={[
             styles.fontHMicroMeudim,
-            { color: "#C40E14", fontSize: dimensions(14), top: calcWidth(5) },
+            { color: "#C40E14", fontSize: adjust(12), top: calcWidth(5) },
           ]}
         >
           {titleError}
@@ -65,10 +65,10 @@ const styles = StyleSheet.create({
   },
   titleModal: {
     paddingHorizontal: "5%",
-    fontSize: dimensions(25),
+    fontSize: adjust(23),
   },
   subtitleModal: {
-    fontSize: dimensions(14.5),
+    fontSize: adjust(12),
     lineHeight: calcWidth(8),
     marginHorizontal: calcWidth(4),
     top: calcWidth(3),

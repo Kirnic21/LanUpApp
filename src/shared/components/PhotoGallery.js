@@ -7,7 +7,7 @@ import Carousel from "./Carousel";
 import ImageSelector from "./ImageSelector";
 import { connect } from "react-redux";
 import Image from "react-native-fast-image";
-import { calcWidth } from "~/assets/Dimensions";
+import { calcWidth, adjust } from "~/assets/Dimensions";
 import SpinnerComponent from "./SpinnerComponent";
 import ImageOutline from "~/assets/images/outline.png";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
   counter: {
     color: "#707070",
     fontFamily: "Montserrat-Regular",
-    fontSize: 20,
+    fontSize: adjust(15),
     marginRight: 4,
   },
 });

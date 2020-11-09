@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { adjust } from "~/assets/Dimensions/index";
 
 const getDisplayDate = day => {
   if (!day.available) return "Não aceito job";
@@ -38,7 +38,7 @@ const Schedules = ({ onPress, schedules, daysOfWeek }) => {
               <View style={{ width: "30%", justifyContent: "center" }}>
                 <Text
                   style={{
-                    fontSize: dimensions(10),
+                    fontSize: adjust(8),
                     fontFamily: "HelveticaNowMicro-ExtraLight",
                     color: !day.available ? "#EB4886" : "#46C5F3"
                   }}
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: "#FFF",
-    fontSize: dimensions(14),
+    fontSize: adjust(12),
     fontFamily: "HelveticaNowMicro-Regular"
   }
 });
