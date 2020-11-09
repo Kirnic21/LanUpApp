@@ -5,7 +5,6 @@ import {
   StatusBar,
   SafeAreaView,
   NativeModules,
-  Text
 } from "react-native";
 import ImageBack from "~/assets/images/Grupo_518.png";
 import styles from "./styles";
@@ -178,32 +177,25 @@ class NextEvent extends React.Component {
     return;
   };
 
-  // checkinTolerance = () => {
-  //   const { isCheckin, checkout } = this.state;
-  //   const checkoutTime = new Date().setHours(...checkout.split(":"));
-  //   const isMidnight = checkout.substr(0, 1) === "0" ? 1 : 0;
-  //   const date = new Date(checkoutTime).setDate(
-  //     new Date(checkoutTime).getDate() + isMidnight
-  //   );
-  //   toleranceTime = new Date(date).setHours(new Date(date).getHours() - 2);
-  //   isCheckin === 1 && new Date() >= new Date(toleranceTime)
-  //     ? this.setState({ status: "without" })
-  //     : this.checkoutHours();
-  //   return;
-  // };
-
   checkoutHours = () => {
-    const { checkout, isCheckin, checkin } = this.state;
-    const checkoutDate = new Date().setHours(...checkout.split(":"));
-    const checkoutTime =
-      checkin >= "12" && checkout <= "12"
-        ? new Date(checkoutDate).setDate(new Date(checkoutDate).getDate() + 1)
-        : new Date(checkoutDate).setDate(new Date(checkoutDate).getDate());
-    new Date() < new Date(checkoutTime) && isCheckin === 3
-      ? this.setState({ status: "occurrence" })
-      : new Date() >= new Date(checkoutTime)
-      ? this.setState({ status: "checkout", origin: 2 })
-      : null;
+    const { checkout, isCheckin, date } = this.state;
+    const checkoutTime = new Date(date).setHours(...checkout.split(":"));
+    console.log(checkoutTime);
+    if (isCheckin == 3) {
+      if (new Date() < checkoutTime) {
+        this.setState({ status: "occurrence" });
+      } else {
+        if (new Date() >= checkoutTime) {
+          this.setState({ status: "checkout", origin: 2, isLate: false });
+        }
+        const checkoutTimeLate = new Date(checkoutTime).setHours(
+          new Date(checkoutTime).getHours() + 1
+        );
+        if (new Date() >= checkoutTimeLate) {
+          this.setState({ status: "checkout", origin: 2, isLate: true });
+        }
+      }
+    }
   };
 
   toCheckout = () => {
@@ -315,7 +307,7 @@ class NextEvent extends React.Component {
   };
 
   buttonsOperations = () => {
-    const { status, pause } = this.state;
+    const { status, pause, isLate } = this.state;
     return {
       without: (
         <ButtonPulse
@@ -353,7 +345,7 @@ class NextEvent extends React.Component {
           titleStyle={styles.textBtnPulse}
           size="normal"
           startAnimations={pause ? false : true}
-          color="#865FC0"
+          color={isLate ? "#FF0000" : "#865FC0"}
           onPress={() => this.setState({ openModalCheckin: true })}
         />
       ),
@@ -390,14 +382,19 @@ class NextEvent extends React.Component {
       checkListCheckIn,
       checkListCheckout,
       openModalComingSoon,
-      date
+      date,
     } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ flex: 1 }}>
         <SpinnerComponent loading={spinner} />
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="transparent" translucent={true} />
-          <TitleEvent status={status} job={job} eventName={eventName} date={date}/>
+          <TitleEvent
+            status={status}
+            job={job}
+            eventName={eventName}
+            date={date}
+          />
           <View style={styles.containerCircle}>
             <View
               pointerEvents={pause ? "none" : "auto"}
