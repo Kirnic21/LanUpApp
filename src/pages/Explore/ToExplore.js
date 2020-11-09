@@ -30,7 +30,6 @@ export default class ToExplore extends Component {
     this.setState({ loading: true });
     getJobs()
       .then((GetJobs) => {
-        debugger;
         const name = GetJobs.filter((c) => c.isSelected === true).map(
           (c) => c.name
         );
