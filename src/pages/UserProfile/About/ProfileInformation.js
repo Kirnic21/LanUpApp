@@ -3,8 +3,9 @@ import { View, Text } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
 import Toggle from "~/shared/components/SwitchComponent";
-import SelectPicker from "~/shared/components/SelectPicker";
-import { adjust } from "~/assets/Dimensions/index";
+
+import DropDown from "~/shared/components/DropDown";
+import { adjust, calcWidth } from "~/assets/Dimensions/index";
 
 const ProfileInformation = ({}) => {
   reduxForm({ form: "ProfileInformation" });
@@ -59,9 +60,10 @@ const ProfileInformation = ({}) => {
         />
         <Field
           title="Manequim"
-          component={SelectPicker}
+          component={DropDown}
           style={{ width: 100 }}
           name={"clothingsSizes"}
+          heightModal={calcWidth(95)}
           items={[
             { label: "P", value: "P" },
             { label: "M", value: "M" },

@@ -27,7 +27,6 @@ export const setAbout = () => {
 };
 
 export const updateAbout = ({ request, value }) => {
-  debugger;
   return (dispatch) =>
     new Promise((resolve, reject) => {
       dispatch(aboutFetching());

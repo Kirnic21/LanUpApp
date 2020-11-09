@@ -3,7 +3,9 @@ import { View, Text } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
 import DateInputField from "~/shared/components/DateInputField";
-import SelectPicker from "~/shared/components/SelectPicker";
+
+import DropDown from "~/shared/components/DropDown";
+import { calcWidth } from "~/assets/Dimensions";
 
 const AdditionalInformation = ({}) => {
   reduxForm({
@@ -37,11 +39,13 @@ const AdditionalInformation = ({}) => {
           title="Nascimento"
           component={DateInputField}
         />
+
         <Field
           title="Gênero"
-          component={SelectPicker}
+          component={DropDown}
           style={{ width: 150 }}
           name={"gender"}
+          heightModal={calcWidth(105)}
           items={[
             { label: "Masculino", value: 1 },
             { label: "Feminino", value: 2 },
