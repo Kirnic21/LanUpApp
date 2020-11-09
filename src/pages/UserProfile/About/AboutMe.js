@@ -15,7 +15,6 @@ import {
   validateCNPJ,
 } from "~/shared/helpers/validate/ValidateCpfCnpj";
 import { reduxForm } from "redux-form";
-import { aboutMe } from "~/shared/services/freela.http";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updateAbout } from "~/store/ducks/aboutMe/about.actions";
@@ -92,18 +91,6 @@ class AboutMe extends Component {
     updateAbout({ value, request }).then(() => {
       navigation.push("UserProfile");
     });
-    // this.setState({ spinner: true }, () => {
-    //   aboutMe(request)
-    //     .then(({}) => {
-    //
-    //     })
-    //     .catch((error) => {
-    //       AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-    //     })
-    //     .finally(() => {
-    //       this.setState({ spinner: false });
-    //     });
-    // });
     return;
   };
 
@@ -163,8 +150,8 @@ class AboutMe extends Component {
       long: address.longitude,
       photos,
       phone,
-      birthday: birthday === null ? "0001-01-01T00:00:00Z" : birthday,
-      gender,
+      birthday,
+      gender: gender === null ? 0 : gender,
     };
     const validateCpfCnpj =
       replaceValidate.length > 11
@@ -180,6 +167,8 @@ class AboutMe extends Component {
       ? AlertHelper.show("error", "Erro", "Cpf/Cnpj inválido.")
       : address.latitude === null
       ? AlertHelper.show("error", "Erro", "Informe a região de atuação.")
+      : birthday === null
+      ? AlertHelper.show("error", "Erro", "Informe sua data de nascimento.")
       : this.saveAboutMe(request);
   };
 
@@ -282,8 +271,7 @@ const mapStateToProps = (state) => {
     data: {
       ...about,
       fullName: about.name,
-      birthday:
-        (about.birthday === "0001-01-01T00:00:00Z" && null) || about.birthday,
+      gender: about.gender === 0 ? null : about.gender,
       cpfCnpj: about.cpf === null ? about.cnpj : about.cpf,
       height:
         (about.height === 0 && "") ||
@@ -297,7 +285,7 @@ const mapStateToProps = (state) => {
       bankCode: { id: about.bankCode },
     },
     loading,
-    about
+    about,
   };
 };
 

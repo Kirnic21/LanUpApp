@@ -5,7 +5,7 @@ import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialIcons";
 
 const SelectPicker = ({
-  input: { onChange, value, ...inputProps },
+  input: { onChange, onBlur, value, ...inputProps },
   title,
   style,
   items,
@@ -31,7 +31,9 @@ const SelectPicker = ({
       >
         <RNPickerSelect
           placeholder={placeholder}
-          onValueChange={(value) => onChange(value)}
+          onValueChange={(value) => {
+            onBlur(value);
+          }}
           {...pickerProps}
           {...inputProps}
           items={items || []}

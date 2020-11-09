@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TouchableOpacity, StyleSheet, View, Text, Modal } from "react-native";
+import { TouchableOpacity, View, Text } from "react-native";
 import DatePicker from "react-native-date-picker";
 import moment from "moment";
 import { calcWidth, adjust } from "~/assets/Dimensions/index";
@@ -27,6 +27,7 @@ export default class DateInputField extends Component {
   render() {
     const { date } = this.state;
     const { style, mode, input, meta, ...inputProps } = this.props;
+    debugger;
     return (
       <TouchableOpacity onPress={() => this.setState({ visible: true })}>
         <Text
@@ -50,7 +51,7 @@ export default class DateInputField extends Component {
               style={{}}
               fadeToColor="#23203F"
               textColor="#FFFFFF"
-              date={new Date(input.value) || date}
+              date={!!input.value ? new Date(input.value) : date}
               onDateChange={(date) => this.handleChange(date)}
             />
             <View style={{ top: calcWidth(10) }}>
