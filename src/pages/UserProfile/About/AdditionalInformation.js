@@ -45,7 +45,7 @@ const AdditionalInformation = ({}) => {
           component={DropDown}
           style={{ width: 150 }}
           name={"gender"}
-          heightModal={calcWidth(105)}
+          heightModal={calcWidth(110)}
           items={[
             { label: "Masculino", value: 1 },
             { label: "Feminino", value: 2 },

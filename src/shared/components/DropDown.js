@@ -34,7 +34,7 @@ const DropDown = ({
     return label;
   };
   return (
-    <View>
+    <View style={{ marginBottom:'5%'}}>
       <Text style={[styles.textInput, { bottom: "1%" }]}>{title}</Text>
 
       <TouchableOpacity
@@ -68,7 +68,7 @@ const DropDown = ({
         onClose={() => setVisible(false)}
         heightModal={heightModal}
       >
-        <View style={{ marginTop: "3%", height: calcWidth(70) }}>
+        <View style={{ marginTop: "3%", height: calcWidth(80) }}>
           <TouchableOpacity
             onPress={() => {
               onChange(null);

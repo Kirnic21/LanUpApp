@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 import { calcWidth, adjust } from "~/assets/Dimensions";
-import SelectPicker from "~/shared/components/SelectPicker";
+import DropDown from "~/shared/components/DropDown";
 import ImageSelector from "~/shared/components/ImageSelector";
 import InputField from "~/shared/components/InputField";
 import ExclusionModal from "~/shared/components/ExclusionModal";
@@ -60,10 +60,18 @@ const CertificateModal = ({
   const [errorType, setErrorType] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const Type = { 
+    1:"Curso Técnico",
+    2:"Curso Livre",
+    3:"Graduação",
+    4:"Pós graduação",
+    5:"MBA"
+  }
+
   const content = [
     {
       title: "Tipo",
-      subTitle: item?.type === 0 ? "Curso Técnico" : "Curso Livre",
+      subTitle: Type[item?.type]
     },
     { title: "Nome do curso/treinamento", subTitle: item?.name },
     { title: "Instituição", subTitle: item?.issuer },
@@ -229,14 +237,14 @@ const CertificateModal = ({
                 <Field
                   title="Tipo"
                   error={errorType}
-                  component={SelectPicker}
+                  component={DropDown}
                   name={"type"}
                   items={[
-                    { label: "Curso Técnico", value: 0 },
-                    { label: "Curso Livre", value: 1 },
-                    { label: "Graduação", value: 2 },
-                    { label: "Pós graduação", value: 3 },
-                    { label: "MBA", value: 4 },
+                    { label: "Curso Técnico", value: 1 },
+                    { label: "Curso Livre", value: 2 },
+                    { label: "Graduação", value: 3 },
+                    { label: "Pós graduação", value: 4 },
+                    { label: "MBA", value: 5 },
                   ]}
                 />
                 <Field

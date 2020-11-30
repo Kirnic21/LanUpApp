@@ -6,6 +6,9 @@ import styles from "./styles";
 import bank from "./bank";
 import ModalSearch from "~/shared/components/ModalSearch";
 
+import DropDown from "~/shared/components/DropDown";
+import { calcWidth } from "~/assets/Dimensions";
+
 const BankInformation = () => {
   reduxForm({ form: "BankInformation" });
 
@@ -29,6 +32,17 @@ const BankInformation = () => {
     <View>
       <View style={styles.containerInformationBank}>
         <Text style={styles.TitleInformation}>Informações Bancárias</Text>
+        <Field
+          style={{ width: "100%" }}
+          title="Tipo da conta"
+          component={DropDown}
+          name={"bankAccountType"}
+          heightModal={calcWidth(75)}
+          items={[
+            { label: "Conta Corrente", value: "Conta Corrente" },
+            { label: "Conta Poupança", value: "Conta Poupança" },
+          ]}
+        />
         <View style={{ alignContent: "stretch", paddingBottom: "2.5%" }}>
           <Field
             component={ModalSearch}

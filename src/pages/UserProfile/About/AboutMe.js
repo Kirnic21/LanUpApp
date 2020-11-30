@@ -115,6 +115,7 @@ class AboutMe extends Component {
       owner,
       address,
       bankCode,
+      bankAccountType
     } = form;
     const h = height === "" ? 0 : Number(height.replace(",", ""));
     const w = weight === "" ? 0 : Number(weight);
@@ -136,6 +137,7 @@ class AboutMe extends Component {
       bankCode: bankCode.id,
       bankBranch,
       bankAccount,
+      bankAccountType,
       cnpj:
         replaceValidate !== null && replaceValidate.length === 14
           ? replaceValidate
