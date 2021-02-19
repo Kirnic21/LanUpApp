@@ -177,24 +177,34 @@ class NextEvent extends React.Component {
     return;
   };
 
+  formatDate = (date) => {
+    return new Date(date).toLocaleDateString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   checkoutHours = () => {
-    const { checkout, isCheckin, date } = this.state;
-    const checkoutTime = new Date(date).setHours(...checkout.split(":"));
-    console.log(checkoutTime);
-    if (isCheckin == 3) {
-      if (new Date() < checkoutTime) {
-        this.setState({ status: "occurrence" });
-      } else {
-        if (new Date() >= checkoutTime) {
-          this.setState({ status: "checkout", origin: 2, isLate: false });
-        }
-        const checkoutTimeLate = new Date(checkoutTime).setHours(
-          new Date(checkoutTime).getHours() + 1
-        );
-        if (new Date() >= checkoutTimeLate) {
-          this.setState({ status: "checkout", origin: 2, isLate: true });
-        }
-      }
+    const { checkout, isCheckin } = this.state;
+    const dateNow = new Date();
+    const checkoutDate = new Date(checkout);
+    const checkoutTimeLate = parseInt(
+      (dateNow - checkoutDate) / (24 * 3600 * 1000 * 7)
+    );
+
+    if (
+      isCheckin === 3 &&
+      this.formatDate(dateNow) < this.formatDate(checkout)
+    ) {
+      return this.setState({ status: "occurrence" });
+    }
+
+    if (dateNow >= checkoutDate) {
+      return this.setState({
+        status: "checkout",
+        origin: 2,
+        isLate: checkoutTimeLate > 1,
+      });
     }
   };
 
@@ -212,7 +222,7 @@ class NextEvent extends React.Component {
   };
 
   confirmChecklist = () => {
-    const { operationId: id, origin, job, checked } = this.state;
+    const { operationId: id, origin, job } = this.state;
     this.setState({ loading: true });
     operationsChecklists({ id, origin, job })
       .then(() => {
@@ -383,6 +393,7 @@ class NextEvent extends React.Component {
       checkListCheckout,
       openModalComingSoon,
       date,
+      origin
     } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ flex: 1 }}>
@@ -412,11 +423,11 @@ class NextEvent extends React.Component {
                     color="#46C5F3"
                     onPress={() => this.setState({ openModalDuties: true })}
                   />
-                  {status === "checkout" ? (
-                    <View
-                      pointerEvents={pause ? "none" : "auto"}
-                      style={{ top: calcWidth(12) }}
-                    >
+                  <View
+                    pointerEvents={pause ? "none" : "auto"}
+                    style={{ top: calcWidth(12) }}
+                  >
+                    {status === "checkout" ? (
                       <ButtonPulse
                         title="Ocorrência"
                         icon="error"
@@ -427,10 +438,20 @@ class NextEvent extends React.Component {
                         }
                         color="#FFB72B"
                       />
-                    </View>
-                  ) : (
-                    <></>
-                  )}
+                    ) : (
+                      <ButtonPulse
+                        title={`Iniciar${"\n"}Check-out`}
+                        titleStyle={[styles.textBtnPulse, { lineHeight: calcWidth(5)}]}
+                        size="small"
+                        startAnimations={pause ? false : true}
+                        onPress={() =>
+                          this.setState({ openModalCheckin: true, origin: 2 })
+                        }
+                        color="#865FC0"
+                      />
+                    )}
+                  </View>
+
                   <ButtonPulse
                     size="small"
                     disabled={spinner}
@@ -477,10 +498,10 @@ class NextEvent extends React.Component {
           <ModalCheckList
             visible={openModalCheckin}
             loading={loading}
-            titleCheck={status === "checkout" ? "Check-out" : "Check-in"}
+            titleCheck={origin === 2 ? "Check-out" : "Check-in"}
             job={job}
             checkList={
-              status === "checkin" ? checkListCheckIn : checkListCheckout
+              origin === 1 ? checkListCheckIn : checkListCheckout
             }
             pressConfirm={() => this.confirmChecklist()}
             onPressCheck={() => this.setState({ checked: !checked })}

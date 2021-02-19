@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
+import formatDate from "~/shared/helpers/formatDate";
 
 const ShiftCard = ({
   title,
@@ -55,9 +56,7 @@ const ShiftCard = ({
             style={[styles.colorTextAndFontSize, styles.value]}
           >
             R$
-            <Text style={[valueStyle, { fontSize: adjust(20) }]}>
-              {value}
-            </Text>
+            <Text style={[valueStyle, { fontSize: adjust(20) }]}>{value}</Text>
           </Text>
           {status && (
             <View style={styles.containerPaid}>
@@ -84,7 +83,7 @@ const ShiftCard = ({
                   contentTextStyle,
                 ]}
               >
-                {c.description}
+                Turno: {formatDate(c.checkin)} até {formatDate(c.checkout)}
               </Text>
             </View>
           ))}

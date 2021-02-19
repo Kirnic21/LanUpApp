@@ -29,6 +29,7 @@ import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import ButtonComponent from "~/shared/components/ButtonCompoent";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
+import formatDate from "~/shared/helpers/formatDate";
 
 class VacanciesDetails extends Component {
   state = {
@@ -99,7 +100,7 @@ class VacanciesDetails extends Component {
       workshiftsQuantity:
         status === 0 || status === 8
           ? `${getDeitails.workshiftsQuantity}turnos`
-          : `${start} - ${end}`,
+          : `${formatDate(start)} - ${formatDate(end)}`,
       location: getDeitails.location,
       jobDate: jobDate || day,
       image: getDeitails.image,
@@ -117,11 +118,11 @@ class VacanciesDetails extends Component {
     });
   };
 
-  selectShift = (value) => {
+  selectShift = ({ checkin, checkout }) => {
     this.setState({
-      description: value.description,
-      checkin: value.checkin,
-      checkout: value.checkout,
+      description: `${formatDate(checkin)} - ${formatDate(checkout)}`,
+      checkin: checkin,
+      checkout: checkout,
     });
   };
 

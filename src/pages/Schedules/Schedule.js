@@ -52,6 +52,11 @@ export default class Schedule extends React.Component {
     });
   };
 
+  formatDate = (date) => {
+    return new Date(date).toLocaleDateString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+  }
+
+
   render() {
     const { loading, listVacancy, listFilter } = this.state;
     return (
@@ -100,7 +105,7 @@ export default class Schedule extends React.Component {
               title={item.eventName}
               date={item.jobDate}
               eventCreationDate={item.eventCreationDate}
-              content={`${item.start.substr(0, 5)} - ${item.end.substr(0, 5)}`}
+              content={`${this.formatDate(item.start)}  - ${this.formatDate(item.end)}`}
               address={item.address}
               picture={item.image !== null ? item.image.url : null}
               amount={item.amount}

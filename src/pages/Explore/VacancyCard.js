@@ -33,7 +33,7 @@ const VancancyCard = ({ onPress, listVacancy }) => {
     // console.log(a.diff(b, "hours"));
     return (
       <TouchableOpacity
-        onPress={e => onPress(job)}
+        onPress={() => onPress(job)}
         style={styles.containerCard}
       >
         <View style={{ justifyContent: "center", width: "33%" }}>

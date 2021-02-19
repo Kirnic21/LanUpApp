@@ -3,6 +3,7 @@ import { View, Text, TouchableHighlight, StyleSheet } from "react-native";
 import ModalDropdown from "react-native-modal-dropdown";
 import dimensions, { adjust } from "~/assets/Dimensions";
 import Icon from "react-native-vector-icons/FontAwesome";
+import formatDate from "~/shared/helpers/formatDate";
 
 const SelectComponent = ({ value, options, onSelect, label }) => {
   const displayRow = data => {
@@ -11,7 +12,7 @@ const SelectComponent = ({ value, options, onSelect, label }) => {
         <View style={{ padding: "5%" }}>
           <Text
             style={[styles.title, { color: "#23203F" }]}
-          >{`${data.description}`}</Text>
+          >{formatDate(data.checkin)} até {formatDate(data.checkout)}</Text>
         </View>
       </TouchableHighlight>
     );
@@ -24,7 +25,7 @@ const SelectComponent = ({ value, options, onSelect, label }) => {
         options={options}
         onSelect={onSelect}
         renderRow={row => displayRow(row)}
-        dropdownStyle={{ width: "60%" }}
+        dropdownStyle={{ width: "80%" }}
         style={styles.modal}
       >
         <View style={styles.content}>

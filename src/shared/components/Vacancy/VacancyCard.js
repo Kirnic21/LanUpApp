@@ -39,7 +39,7 @@ const VacancyCard = ({
         )}
       </View>
       <View style={styles.containerContent}>
-        <View style={{ height: "50%" }}>
+        <View style={{ height: "48%" }}>
           <View style={{ flexDirection: "row" }}>
             <FastImage
               source={backWhite}

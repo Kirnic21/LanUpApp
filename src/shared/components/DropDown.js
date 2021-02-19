@@ -34,7 +34,7 @@ const DropDown = ({
     return label;
   };
   return (
-    <View style={{ marginBottom:'5%'}}>
+    <View style={{ marginBottom: "5%" }}>
       <Text style={[styles.textInput, { bottom: "1%" }]}>{title}</Text>
 
       <TouchableOpacity
@@ -107,7 +107,9 @@ const DropDown = ({
                   size={adjust(16)}
                   color={value === item.value ? "#46C5F3" : "#00000029"}
                 />
-                <Text style={styles.textSelected}>{item.label}</Text>
+                <Text style={[styles.textSelected, { color: "#FFFFFF" }]}>
+                  {item.label}
+                </Text>
               </TouchableOpacity>
             )}
             keyExtractor={() => Math.random().toString()}
