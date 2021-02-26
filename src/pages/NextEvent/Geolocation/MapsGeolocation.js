@@ -128,7 +128,7 @@ class MapsGeolocation extends Component {
 
   arrived = (distance) => {
     const { id, status } = this.state;
-    if (distance * 1000 <= 150 && status === false) {
+    if (distance * 1000 <= 1000 && status === false) {
       this.setState({ status: true }, async () => {
         Vibration.vibrate(1000);
         this.subscription.remove();
