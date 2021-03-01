@@ -11,6 +11,7 @@ import {
 import MapView from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import Geolocation from '@react-native-community/geolocation';
 
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
@@ -61,30 +62,38 @@ class MapsGeolocation extends Component {
   }
 
   async componentDidMount() {
-    const {
-      id,
-      address,
-      eventName,
-      addressId,
-    } = this.props.navigation.state.params;
-    try {
+    this.getCurrentPosition()
+
+  }
+
+  getCurrentPosition = () => {
+    Geolocation.getCurrentPosition(async ({coords:{latitude,longitude}}) => {
       const {
-        data: {
-          result: { lat, lng },
-        },
-      } = await location(addressId);
-      this.setState({
-        destination: {
-          latitude: Number(lat),
-          longitude: Number(lng),
-        },
+        id,
         address,
         eventName,
-        id,
-      });
-    } catch (error) {
-      AlertHelper.show("error", "Erro", error.message);
-    }
+        addressId,
+      } = this.props.navigation.state.params;
+      try {
+        const {
+          data: {
+            result: { lat, lng },
+          },
+        } = await location(addressId);
+        this.setState({
+          destination: {
+            latitude: Number(lat),
+            longitude: Number(lng),
+          },
+          address,
+          eventName,
+          id,
+        });
+        await this.watchPosition({latitude,longitude})
+      } catch (error) {
+        AlertHelper.show("error", "Erro", error.message);
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -172,7 +181,7 @@ class MapsGeolocation extends Component {
           <MapView.Marker coordinate={this.state.destination}>
             <Icon name={"place"} size={calcWidth(14)} color={"#F63535"} />
           </MapView.Marker>
-          {this.state.coordinates.length >= 2 && (
+        
             <MapViewDirections
               origin={this.state.coordinates[0]}
               destination={
@@ -204,7 +213,6 @@ class MapsGeolocation extends Component {
                 AlertHelper.show("error", "Erro", errorMessage);
               }}
             />
-          )}
         </MapView>
         <View style={{ flex: 1, justifyContent: "flex-end" }}>
           <View style={styles.container}>
