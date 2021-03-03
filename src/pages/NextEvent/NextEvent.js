@@ -178,20 +178,19 @@ class NextEvent extends React.Component {
   checkoutHours = () => {
     const { checkout, isCheckin } = this.state;
     const dateNow = new Date();
-
     if (isCheckin === 3) {
-      if (dateNow < checkout) {
+      if (dateNow < new Date(checkout)) {
         // fez checkin
         return this.setState({ status: 'occurrence' });
       }
-      if (dateNow >= checkout) {
+      if (dateNow >= new Date(checkout)) {
         // fazer checkout
         this.setState({ status: 'checkout', origin: 2, isLate: false });
       }
       const checkoutTimeLate = new Date(checkout).setHours(
         new Date(checkout).getHours() + 1,
       );
-      if (dateNow >= checkoutTimeLate) {
+      if (dateNow >= new Date(checkoutTimeLate)) {
         // fazer checkout atrasado
         this.setState({ status: 'checkout', origin: 2, isLate: true });
       }

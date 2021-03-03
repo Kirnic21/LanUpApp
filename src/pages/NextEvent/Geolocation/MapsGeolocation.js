@@ -11,7 +11,7 @@ import {
 import MapView from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
@@ -91,6 +91,7 @@ class MapsGeolocation extends Component {
         });
         await this.watchPosition({latitude,longitude})
       } catch (error) {
+        console.log(error)
         AlertHelper.show("error", "Erro", error.message);
       }
     });
