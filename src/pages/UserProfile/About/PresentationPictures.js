@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";
-import dimensions from "~/assets/Dimensions/index";
+import { adjust } from "~/assets/Dimensions/index";
 
 export default PresentationPictures = ({ children, BoxItem, onPress }) => {
   return (
@@ -13,7 +13,7 @@ export default PresentationPictures = ({ children, BoxItem, onPress }) => {
         style={{
           color: "#ffffffad",
           paddingBottom: "5%",
-          fontSize: dimensions(10),
+          fontSize: adjust(8),
           fontFamily: "HelveticaNowMicro-Light",
         }}
       >

@@ -1,5 +1,5 @@
 import React from "react";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialIcons";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import PhotoGalleryEmptyState from "./emptyState/EmptyState";
 import { ScrollView } from "react-native-gesture-handler";
@@ -7,7 +7,7 @@ import Carousel from "./Carousel";
 import ImageSelector from "./ImageSelector";
 import { connect } from "react-redux";
 import Image from "react-native-fast-image";
-import { calcWidth } from "~/assets/Dimensions";
+import { calcWidth, adjust } from "~/assets/Dimensions";
 import SpinnerComponent from "./SpinnerComponent";
 import ImageOutline from "~/assets/images/outline.png";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
@@ -178,7 +178,7 @@ class PhotoGallery extends React.Component {
                 onPress={this.handleOnPictureAdd}
                 style={styles.addPictureContainer}
               >
-                <MaterialCommunityIcons name="camera" size={38} color="#FFF" />
+                <MaterialCommunityIcons name="photo-camera" size={38} color="#FFF" />
               </TouchableOpacity>
               {pictures.map((picture, index) => (
                 <View key={index}>
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
   counter: {
     color: "#707070",
     fontFamily: "Montserrat-Regular",
-    fontSize: 20,
+    fontSize: adjust(15),
     marginRight: 4,
   },
 });

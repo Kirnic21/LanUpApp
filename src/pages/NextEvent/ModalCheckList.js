@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import Modal from "~/shared/components/ModalComponent";
 import ButtonLoading from "~/shared/components/Button";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -131,7 +131,7 @@ const ModalCheckList = ({
 const styles = StyleSheet.create({
   titleCheckBox: {
     fontFamily: "HelveticaNowDisplay-Regular",
-    fontSize: dimensions(17),
+    fontSize: adjust(15),
     color: "#FFF",
     width: "80%",
     fontWeight: "normal",
@@ -139,17 +139,17 @@ const styles = StyleSheet.create({
   header: {
     textAlign: "center",
     fontFamily: "HelveticaNowMicro-Regular",
-    fontSize: dimensions(18),
+    fontSize: adjust(16),
     color: "#FFF",
   },
   title: {
     color: "#FFF",
-    fontSize: dimensions(28),
+    fontSize: adjust(25),
     fontFamily: "HelveticaNowMicro-Medium",
   },
   subTitle: {
     color: "#FFB72B",
-    fontSize: dimensions(18),
+    fontSize: adjust(15),
     fontFamily: "HelveticaNowMicro-Regular",
     top: dimensions(-5),
   },
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     color: "#18142F",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
   },
 });

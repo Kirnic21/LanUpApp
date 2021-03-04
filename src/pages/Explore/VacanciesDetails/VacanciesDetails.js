@@ -10,7 +10,7 @@ import {
 import CardImageVacancies from "./CardImageVacancies";
 import { SafeAreaView } from "react-native";
 import CardDeitailsVacancies from "./CardDeitailsVacancies";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import { calcWidth, adjust } from "~/assets/Dimensions";
 import ShiftCard from "./ShiftCard";
 import SelectComponent from "~/shared/components/SelectComponent";
 import ButtonVacancies from "~/shared/components/RoundButton";
@@ -22,13 +22,14 @@ import {
   acceptInvitations,
   vacanciesEmergencyAccept,
 } from "~/shared/services/vacancy.http";
-import { decodeToken } from "~/shared/services/freela.http";
+import { decodeToken } from "~/shared/services/decode";
 import AsyncStorage from "@react-native-community/async-storage";
 import HTML from "react-native-render-html";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import ButtonComponent from "~/shared/components/ButtonCompoent";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
+import formatDate from "~/shared/helpers/formatDate";
 
 class VacanciesDetails extends Component {
   state = {
@@ -99,7 +100,7 @@ class VacanciesDetails extends Component {
       workshiftsQuantity:
         status === 0 || status === 8
           ? `${getDeitails.workshiftsQuantity}turnos`
-          : `${start} - ${end}`,
+          : `${formatDate(start)} - ${formatDate(end)}`,
       location: getDeitails.location,
       jobDate: jobDate || day,
       image: getDeitails.image,
@@ -117,11 +118,11 @@ class VacanciesDetails extends Component {
     });
   };
 
-  selectShift = (value) => {
+  selectShift = ({ checkin, checkout }) => {
     this.setState({
-      description: value.description,
-      checkin: value.checkin,
-      checkout: value.checkout,
+      description: `${formatDate(checkin)} - ${formatDate(checkout)}`,
+      checkin: checkin,
+      checkout: checkout,
     });
   };
 
@@ -373,7 +374,7 @@ class VacanciesDetails extends Component {
                     style={[
                       styles.colorWhite,
                       {
-                        fontSize: dimensions(12),
+                        fontSize: adjust(10),
                         fontFamily: "HelveticaNowMicro-Regular",
                       },
                     ]}
@@ -441,7 +442,7 @@ const styles = StyleSheet.create({
   textVacancy: {
     color: "#EB4886",
     fontFamily: "HelveticaNowMicro-Regular",
-    fontSize: dimensions(20),
+    fontSize: adjust(18),
   },
   buttonVacancies: {
     borderColor: "#FFFFFF",

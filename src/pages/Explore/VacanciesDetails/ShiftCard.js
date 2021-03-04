@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
+import formatDate from "~/shared/helpers/formatDate";
 
 const ShiftCard = ({
   title,
@@ -55,9 +56,7 @@ const ShiftCard = ({
             style={[styles.colorTextAndFontSize, styles.value]}
           >
             R$
-            <Text style={[valueStyle, { fontSize: dimensions(22) }]}>
-              {value}
-            </Text>
+            <Text style={[valueStyle, { fontSize: adjust(20) }]}>{value}</Text>
           </Text>
           {status && (
             <View style={styles.containerPaid}>
@@ -84,7 +83,7 @@ const ShiftCard = ({
                   contentTextStyle,
                 ]}
               >
-                {c.description}
+                Turno: {formatDate(c.checkin)} até {formatDate(c.checkout)}
               </Text>
             </View>
           ))}
@@ -115,11 +114,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: dimensions(30),
+    fontSize: adjust(25),
     width: "100%",
   },
   subTitle: {
-    fontSize: dimensions(11),
+    fontSize: adjust(9),
     top: "-10%",
   },
   colorTextAndFontSize: {
@@ -127,17 +126,17 @@ const styles = StyleSheet.create({
     fontFamily: "HelveticaNowDisplay-Regular",
   },
   titleValue: {
-    fontSize: dimensions(11),
+    fontSize: adjust(9),
     left: "15%",
   },
   value: {
     color: "#46C5F3",
-    fontSize: dimensions(13),
+    fontSize: adjust(11),
     width: "100%",
     textAlign: "center",
   },
   TextContent: {
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
   },
 });
 

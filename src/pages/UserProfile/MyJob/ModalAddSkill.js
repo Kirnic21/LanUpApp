@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import ModalComponent from "~/shared/components/ModalComponent";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import { calcWidth, adjust } from "~/assets/Dimensions";
 
 const ModalAddSkill = ({
   onClose,
@@ -40,7 +40,7 @@ const styles = {
   title: {
     color: "#FFF",
     paddingHorizontal: "5%",
-    fontSize: dimensions(30),
+    fontSize: adjust(25),
     fontFamily: "HelveticaNowMicro-Medium"
   },
   containerModalInput: {

@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import ActionButton from "~/shared/components/ActionButton";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { adjust } from "~/assets/Dimensions/index";
 import add from "~/assets/images/icon_add.png";
 
 const AddSkillEmpty = ({ onPress, isEditing }) => {
@@ -50,20 +50,20 @@ const styles = StyleSheet.create({
   },
   titleSkill: {
     color: "#FFF",
-    fontSize: dimensions(25),
+    fontSize: adjust(20),
     paddingBottom: "5%",
     fontFamily: "HelveticaNowMicro-Regular"
   },
   title: {
     color: "#FFF",
     textAlign: "center",
-    fontSize: dimensions(25),
+    fontSize: adjust(20),
     lineHeight: dimensions(37),
     fontFamily: "HelveticaNowDisplay-Regular"
   },
   subtitle: {
     color: "rgba(255, 255, 255, 0.7)",
-    fontSize: dimensions(15),
+    fontSize: adjust(13),
     textAlign: "center",
     top: "3%",
     lineHeight: dimensions(40),

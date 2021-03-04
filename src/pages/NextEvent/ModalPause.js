@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "~/shared/components/ModalComponent";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import debounceButton from "~/shared/helpers/debounce";
 
@@ -70,12 +70,12 @@ const styles = StyleSheet.create({
     color: "#18142F",
     fontFamily: "HelveticaNowDisplay-Regular",
     marginLeft: calcWidth(3),
-    fontSize: dimensions(18),
+    fontSize: adjust(15),
   },
   title: {
     color: "#FFF",
     fontFamily: "HelveticaNowMicro-Medium",
-    fontSize: dimensions(28),
+    fontSize: adjust(25),
   },
 });
 

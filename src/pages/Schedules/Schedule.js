@@ -1,11 +1,15 @@
 import React from "react";
 import { StyleSheet, FlatList, View, Text } from "react-native";
-import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
-import { getSchedules } from "~/shared/services/vacancy.http";
-import dimensions, { calcWidth, calcHeight } from "~/assets/Dimensions/index";
-import FilterToExplore from "../Explore/FilterToExplore";
 import Lottie from "lottie-react-native";
+
+import { calcWidth, calcHeight, adjust } from "~/assets/Dimensions/index";
 import loadingSpinner from "~/assets/loadingSpinner.json";
+
+import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
+import FilterToExplore from "../Explore/FilterToExplore";
+
+import { getSchedules } from "~/shared/services/vacancy.http";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 export default class Schedule extends React.Component {
   state = {
@@ -28,12 +32,15 @@ export default class Schedule extends React.Component {
     try {
       const {
         data: {
-          result: { value: listVacancy },
+          result: { value },
         },
       } = await getSchedules(e);
+      const listVacancy = value.sort(({ jobDate: a }, { jobDate: b }) =>
+        a > b ? -1 : a < b ? 1 : 0
+      );
       this.setState({ listVacancy });
     } catch (error) {
-      console.log(error);
+      AlertHelper.show("error", "Erro", error.response.data.errorMessage);
     } finally {
       this.setState({ loading: false });
     }
@@ -45,6 +52,11 @@ export default class Schedule extends React.Component {
     });
   };
 
+  formatDate = (date) => {
+    return new Date(date).toLocaleDateString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+  }
+
+
   render() {
     const { loading, listVacancy, listFilter } = this.state;
     return (
@@ -54,7 +66,7 @@ export default class Schedule extends React.Component {
             style={{
               color: "#FFF",
               fontFamily: "HelveticaNowMicro-Regular",
-              fontSize: calcWidth(5),
+              fontSize: adjust(15),
             }}
           >
             Próximos Eventos:
@@ -93,7 +105,7 @@ export default class Schedule extends React.Component {
               title={item.eventName}
               date={item.jobDate}
               eventCreationDate={item.eventCreationDate}
-              content={`${item.start.substr(0, 5)} - ${item.end.substr(0, 5)}`}
+              content={`${this.formatDate(item.start)}  - ${this.formatDate(item.end)}`}
               address={item.address}
               picture={item.image !== null ? item.image.url : null}
               amount={item.amount}
@@ -125,7 +137,7 @@ const styles = StyleSheet.create({
   },
   textEmpty: {
     color: "#FFF",
-    fontSize: dimensions(20),
+    fontSize: adjust(15),
     fontFamily: "HelveticaNowDisplay-Regular",
   },
 });

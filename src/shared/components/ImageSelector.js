@@ -45,8 +45,19 @@ class ImageSelector extends React.Component {
   };
 
   onImageSelected = (image) => {
-    const { width, height } = this.props;
-    ImageResizer.createResizedImage(image.path, width, height, "JPEG", 20)
+    let divider = 1;
+    if (image.size > 300000) {
+      divider = image.size / 300000;
+    }
+    ImageResizer.createResizedImage(
+      image.path,
+      image.width / divider,
+      image.height / divider,
+      "JPEG",
+      100,
+      0,
+      null
+    )
       .then((response) => {
         const file = {
           type: image.mime,

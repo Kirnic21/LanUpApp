@@ -10,20 +10,18 @@ import {
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import NumberFormat from "react-number-format";
-import AsyncStorage from "@react-native-community/async-storage";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import {
-  decodeToken,
-  getSkills,
-  getJobs,
-  received,
-} from "~/shared/services/freela.http";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import { received } from "~/shared/services/freela.http";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import { setAbout } from "~/store/ducks/aboutMe/about.actions";
+import Lottie from "lottie-react-native";
+import loadingSpinner from "~/assets/loadingSpinner.json";
+
+import { fetchJobs } from "~/store/ducks/Profession/Job/job.actions";
+import { fetchSkill } from "~/store/ducks/Profession/skills/skills.actions";
 
 const currencyFormatter = (value) => {
   if (!Number(value)) return "";
@@ -36,84 +34,29 @@ const currencyFormatter = (value) => {
 };
 
 class Profession extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      GetSkill: [],
-      GetJobs: [],
-      JobsSelected: [],
-      isFocused: null,
-      spinner: false,
-    };
-    this.props.navigation.addListener("willFocus", () => {
-      this.getProfession();
-    });
-  }
-
-  getProfession = async () => {
-    this.setState({ spinner: true }, async () => {
-      try {
-        const { id } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-        const { minimumValueToWork } = this.props.aboutMe;
-        const {
-          data: {
-            result: { value: GetSkill },
-          },
-        } = await getSkills(id);
-        const { data: GetJobs } = await getJobs(id);
-
-        GetJobs === null && [];
-        GetSkill === null && [];
-
-        const JobsSelected = GetJobs.filter((c) => c.isSelected === true).map(
-          (c) => c.name
-        );
-
-        this.setState({
-          GetSkill,
-          GetJobs,
-          JobsSelected,
-          ValueToWork: minimumValueToWork.toString(),
-        });
-        console.log(GetSkill);
-      } catch (error) {
-        AlertHelper.show("error", "Erro", error);
-      } finally {
-        this.setState({ spinner: false });
-      }
-    });
+  state = {
+    isFocused: null,
+    spinner: false,
   };
 
   componentDidMount() {
-    this.getProfession();
+    const { fetchJobs, fetchSkill, minimumValueToWork } = this.props;
+    fetchJobs();
+    fetchSkill();
+    this.setState({
+      ValueToWork: minimumValueToWork?.toString(),
+    });
   }
-
-  openAddProfession = () => {
-    const { GetJobs, JobsSelected } = this.state;
-    this.props.navigation.navigate("AddProfession", { GetJobs, JobsSelected });
-  };
-
-  openAddAbiliity = () => {
-    const { GetSkill } = this.state;
-    this.props.navigation.navigate("AddSkill", { GetSkill });
-  };
 
   handleInputFocus = () =>
     this.setState({ isFocused: true, isValueWork: false });
 
   handleInputBlur = async () => {
     this.setState({ isFocused: false });
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
     const { ValueToWork } = this.state;
-    const { aboutMe } = this.props;
     const valueReceived = Number(ValueToWork.replace(/[^0-9.-]+/g, ""));
-    const r = {
-      freelaId: token.id,
-      minimumValueToWork: valueReceived,
-    };
-    received(r)
+    received({ minimumValueToWork: valueReceived })
       .then(() => {
-        this.props.setAbout({ ...aboutMe, minimumValueToWork: valueReceived });
         this.setState({ isValueWork: true });
       })
       .catch((error) => {
@@ -121,15 +64,87 @@ class Profession extends Component {
       });
   };
 
+  renderLoading = () => {
+    return (
+      <View style={styles.containerLoading}>
+        <Lottie
+          autoSize
+          style={{
+            height: calcWidth(14),
+            width: calcWidth(14),
+          }}
+          resizeMode="cover"
+          source={loadingSpinner}
+          loop
+          autoPlay
+        />
+      </View>
+    );
+  };
+
+  renderServices = (services) => {
+    return (
+      <View>
+        <View
+          style={{
+            flexWrap: "wrap",
+            flexDirection: "row",
+            width: "100%",
+          }}
+        >
+          {services.map((name, id) => (
+            <View
+              key={id}
+              style={styles.chip}
+              textStyle={{ color: "#FFFFFF", paddingRight: "3%" }}
+            >
+              <Text style={styles.textChip}>{name}</Text>
+            </View>
+          ))}
+        </View>
+
+        {!services?.length && (
+          <Text style={styles.notJobsText}>Não há nenhuma profissão</Text>
+        )}
+      </View>
+    );
+  };
+
+  renderSkills = (skill) => {
+    return (
+      <View>
+        <View
+          style={{
+            flexWrap: "wrap",
+            flexDirection: "row",
+            width: "95%",
+          }}
+        >
+          {skill.map((c, id) => (
+            <View
+              key={id}
+              style={[styles.chip, { backgroundColor: "#46C5F3" }]}
+            >
+              <Text style={[styles.textChip, { color: "#18142F" }]}>{c}</Text>
+            </View>
+          ))}
+        </View>
+        {!skill?.length && (
+          <Text style={styles.notJobsText}>Não há nenhuma habilidade</Text>
+        )}
+      </View>
+    );
+  };
+
   render() {
+    const { ValueToWork, isFocused, spinner, isValueWork } = this.state;
     const {
-      GetSkill,
-      JobsSelected,
-      ValueToWork,
-      isFocused,
-      spinner,
-      isValueWork,
-    } = this.state;
+      services,
+      navigation,
+      skill,
+      loadingServices,
+      loadingSkills,
+    } = this.props;
     return (
       <View style={styles.container}>
         <SpinnerComponent loading={spinner} />
@@ -167,71 +182,30 @@ class Profession extends Component {
             )}
           </View>
           <TouchableOpacity
-            onPress={this.openAddProfession}
+            onPress={() => navigation.navigate("AddProfession")}
             style={styles.containerProfessionAndSkill}
           >
             <View style={{ flexDirection: "row", marginBottom: "2%" }}>
               <Text style={styles.Title}>Profissão</Text>
-              <Text style={styles.jobNumber}>{JobsSelected.length}/3</Text>
+              <Text style={styles.jobNumber}>{services.length}/3</Text>
             </View>
-            {JobsSelected.length ? (
-              <View
-                style={{
-                  flexWrap: "wrap",
-                  flexDirection: "row",
-                  width: "100%",
-                }}
-              >
-                {JobsSelected.map((name, id) => (
-                  <View
-                    key={id}
-                    style={styles.chip}
-                    textStyle={{ color: "#FFFFFF", paddingRight: "3%" }}
-                  >
-                    <Text style={styles.textChip}>{name}</Text>
-                  </View>
-                ))}
-              </View>
-            ) : (
-              <Text style={styles.notJobsText}>Não há nenhuma profissão</Text>
-            )}
+
+            {loadingServices
+              ? this.renderLoading()
+              : this.renderServices(services)}
+
             <View style={styles.btnArrow}>
               <Icon color={"#FFF"} name={"angle-right"} size={dimensions(35)} />
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={this.openAddAbiliity}
+            onPress={() => navigation.navigate("AddSkill")}
             style={styles.containerProfessionAndSkill}
           >
             <Text style={[styles.Title, { paddingBottom: "3%" }]}>
               Habilidades
             </Text>
-            {GetSkill ? (
-              <View
-                style={{
-                  flexWrap: "wrap",
-                  flexDirection: "row",
-                  width: "95%",
-                }}
-              >
-                {GetSkill.map((c, id) => (
-                  <View
-                    key={id}
-                    style={[styles.chip, { backgroundColor: "#46C5F3" }]}
-                    textStyle={{
-                      color: "#18142F",
-                      fontSize: dimensions(14),
-                    }}
-                  >
-                    <Text style={[styles.textChip, { color: "#18142F" }]}>
-                      {c}
-                    </Text>
-                  </View>
-                ))}
-              </View>
-            ) : (
-              <Text style={styles.notJobsText}>Não há nenhuma habilidade</Text>
-            )}
+            {loadingSkills ? this.renderLoading() : this.renderSkills(skill)}
             <View style={styles.btnArrow}>
               <Icon color={"#FFF"} name={"angle-right"} size={dimensions(35)} />
             </View>
@@ -259,6 +233,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#24203B",
     marginLeft: "5%",
     marginTop: "10%",
+    height: calcWidth(40),
     padding: dimensions(15),
     borderBottomLeftRadius: dimensions(15),
     borderTopLeftRadius: dimensions(15),
@@ -271,7 +246,7 @@ const styles = StyleSheet.create({
   },
   textChip: {
     color: "#FFF",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
     padding: dimensions(10),
     paddingTop: dimensions(7),
@@ -286,13 +261,13 @@ const styles = StyleSheet.create({
   jobNumber: {
     color: "rgba(255, 255, 255, 0.7)",
     fontFamily: "HelveticaNowMicro-ExtraLight",
-    fontSize: dimensions(10),
+    fontSize: adjust(8),
     marginTop: "1.5%",
     marginLeft: "2%",
   },
   notJobsText: {
     color: "#FFF",
-    fontSize: dimensions(14),
+    fontSize: adjust(12),
     fontFamily: "HelveticaNowMicro-Regular",
     textAlignVertical: "center",
     padding: "10%",
@@ -308,7 +283,7 @@ const styles = StyleSheet.create({
   },
   Title: {
     color: "#FFF",
-    fontSize: dimensions(14),
+    fontSize: adjust(12),
     fontFamily: "HelveticaNowMicro-Regular",
   },
   inputCurrency: {
@@ -319,20 +294,40 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginTop: "3%",
     height: dimensions(43),
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
     paddingHorizontal: "7%",
+  },
+  containerLoading: {
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "center",
+    height: "80%",
   },
 });
 
 const mapStateToProps = (state) => {
-  const { aboutMe } = state;
+  const { services, loading: loadingServices } = state.jobs;
+  const { skill, loading: loadingSkills } = state.skills;
+  const { about } = state.aboutMe;
   return {
-    aboutMe,
+    minimumValueToWork: about.minimumValueToWork,
+    services: services
+      ?.filter((job) => job.isSelected === true)
+      .map((job) => job.name),
+    skill,
+    loadingServices,
+    loadingSkills,
   };
 };
 
 const mapActionToProps = (dispatch) =>
-  bindActionCreators({ setAbout }, dispatch);
+  bindActionCreators(
+    {
+      fetchJobs,
+      fetchSkill,
+    },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapActionToProps)(Profession);

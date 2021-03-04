@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 import { formValueSelector } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import ImageSelector from "~/shared/components/ImageSelector";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { adjust } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import Analytics from "appcenter-analytics";
 
@@ -25,36 +25,40 @@ class SelectAvatar extends Component {
     selected: false,
     spinner: false
   };
-  onPictureAdd = picture => {
-    this.setState({ spinner: true });
-    const {
-      fullName,
-      nickname,
-      cpf,
-      email,
-      password,
-      confirmPassword
-    } = this.props;
-    const CPF = cpf.replace(/[\(\)\.\s-]+/g, "");
-    const newFreela = {
-      name: fullName,
-      nickname,
-      cpf: CPF,
-      email,
-      password,
-      confirmPassword,
-      avatar: picture.data
-    };
-    create(newFreela)
-      .then(async ({ data }) => {
-        if (data.isSuccess) {
-          await AsyncStorage.setItem("API_TOKEN", data.result.token);
-          this.props.navigation.navigate("UserProfile");
-        } else alert(data.result.errorMessage);
-      })
-      .finally(() => {
-        this.setState({ spinner: false });
-      });
+
+  onPictureAdd = async picture => {
+    const deviceId = await AsyncStorage.getItem("DEVICE_ID");
+    this.setState({ spinner: true }, () => {
+      const {
+        fullName,
+        nickname,
+        cpf,
+        email,
+        password,
+        confirmPassword
+      } = this.props;
+      const CPF = cpf.replace(/[\(\)\.\s-]+/g, ""); 
+      const newFreela = {
+        name: fullName,
+        nickname,
+        cpf: CPF,
+        email,
+        password,
+        confirmPassword,
+        avatar: picture.data,
+        deviceId
+      };
+      create(newFreela)
+        .then(async ({ data }) => {
+          if (data.isSuccess) {
+            await AsyncStorage.setItem("API_TOKEN", data.result.token);
+            this.props.navigation.push("UserProfile");
+          } else alert(data.result.errorMessage);
+        })
+        .finally(() => {
+          this.setState({ spinner: false });
+        });
+    })
   };
 
   handleOnPictureAdd = () => {
@@ -93,7 +97,7 @@ class SelectAvatar extends Component {
                   Analytics.trackEvent("Clique no botão.");
               }}
             >
-              <Text style={{ color: "white", fontSize: dimensions(12) }}>
+              <Text style={{ color: "white", fontSize: adjust(10) }}>
                 Tirar Foto
               </Text>
             </TouchableOpacity>
@@ -132,14 +136,14 @@ const styles = StyleSheet.create({
   },
   titleNickname: {
     color: "#FFF",
-    fontSize: dimensions(40),
+    fontSize: adjust(38),
     fontFamily: "HelveticaNowMicro-Medium",
     left: "7%",
     textAlign: "left",
     top: dimensions(-22)
   },
   textAdd: {
-    fontSize: dimensions(20),
+    fontSize: adjust(18),
     color: "#FFF",
     fontFamily: "HelveticaNowMicro-Regular",
     textAlign: "center"

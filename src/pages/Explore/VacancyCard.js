@@ -8,12 +8,10 @@ import {
   FlatList
 } from "react-native";
 import {} from "react-native-gesture-handler";
-import audienceBand from "~/assets/images/audience-band.png";
 import backWhite from "~/assets/images/black-and-white.png";
 import FastImage from "react-native-fast-image";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { adjust } from "~/assets/Dimensions/index";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Avatar } from "react-native-elements";
 import moment from "moment";
 
 const VancancyCard = ({ onPress, listVacancy }) => {
@@ -35,7 +33,7 @@ const VancancyCard = ({ onPress, listVacancy }) => {
     // console.log(a.diff(b, "hours"));
     return (
       <TouchableOpacity
-        onPress={e => onPress(job)}
+        onPress={() => onPress(job)}
         style={styles.containerCard}
       >
         <View style={{ justifyContent: "center", width: "33%" }}>
@@ -72,7 +70,7 @@ const VancancyCard = ({ onPress, listVacancy }) => {
             />
             <Text style={[styles.name, styles.HelveticaNowDisplayRegular]}>
               Allison Ackerman -{" "}
-              <Text style={{ fontSize: dimensions(10) }}>à 4h atrás</Text>
+              <Text style={{ fontSize: adjust(8) }}>à 4h atrás</Text>
             </Text>
           </View>
           <Text
@@ -92,7 +90,7 @@ const VancancyCard = ({ onPress, listVacancy }) => {
                   style={[
                     styles.textDate,
                     {
-                      fontSize: dimensions(20),
+                      fontSize: adjust(18),
                       marginVertical: "-14%",
                       top: "2.8%"
                     }
@@ -127,10 +125,10 @@ const VancancyCard = ({ onPress, listVacancy }) => {
                     fontFamily: "HelveticaNowDisplay-Regular",
                     width: "70%",
                     color: "#46C5F3",
-                    fontSize: dimensions(20)
+                    fontSize: adjust(18)
                   }}
                 >
-                  <Text style={{ fontSize: dimensions(12) }}> R$</Text>
+                  <Text style={{ fontSize: adjust(10) }}> R$</Text>
                   {amount}
                 </Text>
               </View>
@@ -201,13 +199,13 @@ const styles = StyleSheet.create({
     borderTopRightRadius: dimensions(15)
   },
   name: {
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     color: "#FFF",
     left: "10%"
   },
   nameEvent: {
     color: "#FFF",
-    fontSize: dimensions(24),
+    fontSize: adjust(22),
     width: "85%"
   },
   containerDate: {
@@ -228,7 +226,7 @@ const styles = StyleSheet.create({
   textDate: {
     color: "#18142F",
     fontFamily: "HelveticaNowMicro-Bold",
-    fontSize: dimensions(12)
+    fontSize: adjust(10)
   },
   containerVancancy: {
     flexDirection: "column",
@@ -237,13 +235,13 @@ const styles = StyleSheet.create({
     top: "1%"
   },
   TextVacancy: {
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     color: "#FFF",
     lineHeight: dimensions(18),
     width: "100%"
   },
   textValue: {
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     color: "#FFF",
     textAlignVertical: "bottom",
     top: "-2%"

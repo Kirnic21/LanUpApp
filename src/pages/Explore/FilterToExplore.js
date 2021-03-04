@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, FlatList } from "react-native";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { adjust } from "~/assets/Dimensions/index";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default FilterToExplore = ({
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#FFF",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Bold",
   },
 });

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import ModalComponent from "~/shared/components/ModalComponent";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import InputLabel from "~/shared/components/InputLabel";
 import IconAgencia from "~/assets/images/icon_agencia.png";
 import Lottie from "lottie-react-native";
@@ -51,6 +51,7 @@ const ModalAgency = ({
               ) : (
                 <View style={{ alignItems: "center" }}>
                   <Text
+                  allowFontScaling={false}
                     style={[
                       styles.nameAgency,
                       {
@@ -73,14 +74,15 @@ const ModalAgency = ({
                 source={IconAgencia}
                 style={{ height: calcWidth(16), width: calcWidth(16) }}
               />
-              <View style={{ left: calcWidth(2) }}>
+              <View style={{ left: calcWidth(2) }}  adjustsFontSizeToFit={false}>
                 <Text numberOfLines={1} style={styles.nameAgency}>
                   {item.name}
                 </Text>
                 <Text
+                adjustsFontSizeToFit={false}
                   style={[
                     styles.nameAgency,
-                    { width: "100%", fontSize: dimensions(12) },
+                    { width: "100%", fontSize: adjust(8) },
                   ]}
                 >
                   CNPJ: {item.cnpj}
@@ -110,13 +112,13 @@ const styles = {
   title: {
     color: "#FFFFFF",
     fontFamily: "HelveticaNowMicro-Medium",
-    fontSize: dimensions(24),
+    fontSize: adjust(20),
     marginBottom: calcWidth(2),
   },
   nameAgency: {
     color: "#FFFFFF",
     fontFamily: "HelveticaNowMicro-ExtraLight",
-    fontSize: dimensions(15),
+    fontSize: adjust(13),
     width: "80%",
     textAlign: "center",
   },

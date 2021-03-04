@@ -3,7 +3,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import ToExplore from "~/pages/Explore/ToExplore";
-import { calcWidth } from "~/assets/Dimensions/index";
+import { calcWidth, adjust } from "~/assets/Dimensions/index";
 
 const ToExplorerRoute = createStackNavigator(
   {
@@ -36,7 +36,7 @@ const ToExplorerRoute = createStackNavigator(
       headerTitleStyle: {
         color: "#FFFF",
         fontFamily: "HelveticaNowMicro-Regular",
-        fontSize: calcWidth(5),
+        fontSize: adjust(15),
       },
     },
   }

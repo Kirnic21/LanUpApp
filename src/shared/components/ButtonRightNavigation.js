@@ -1,13 +1,13 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { calcWidth, adjust } from "~/assets/Dimensions/index";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
-const ButtonRightNavigation = ({ onPress }) => {
+const ButtonRightNavigation = ({ onPress, disabled }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.button}>
+    <TouchableOpacity disabled={disabled} onPress={onPress} style={styles.button}>
       <Icon
-        name="content-save"
+        name="save"
         size={calcWidth(8)}
         color="#FFFFFF"
         style={{
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   textButton: {
     color: "#FFF",
     fontFamily: "HelveticaNowMicro-Regular",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
   },
 });
 

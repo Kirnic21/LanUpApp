@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 
 export default RoundButton = ({
   name,
@@ -24,7 +24,7 @@ export default RoundButton = ({
         style={[
           {
             color: "#FFF",
-            fontSize: dimensions(12),
+            fontSize: adjust(10),
             fontFamily: "HelveticaNowMicro-Regular",
           },
           textStyle,

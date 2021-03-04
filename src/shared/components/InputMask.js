@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import TextInputMask from "react-native-text-input-mask";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, {adjust} from "~/assets/Dimensions/index";
 
 export default InputMask = ({
   input: { value, ...input },
@@ -30,7 +30,7 @@ export default InputMask = ({
         <Text
           style={{
             color: "white",
-            fontSize: dimensions(12),
+            fontSize: adjust(10),
             top: "-10%",
             fontFamily: "HelveticaNowMicro-Regular",
           }}
@@ -42,11 +42,11 @@ export default InputMask = ({
         <TextInputMask
           style={[
             {
-              height: dimensions(43),
+              height: 50,
               width: "100%",
               borderRadius: 50,
               color: "#FFF",
-              fontSize: dimensions(12),
+              fontSize: adjust(10),
               fontFamily: "HelveticaNowMicro-Regular",
             },
             style,

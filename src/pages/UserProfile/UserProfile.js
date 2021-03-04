@@ -17,98 +17,80 @@ import {
 } from "react-native";
 import Image from "react-native-fast-image";
 import Icon from "react-native-vector-icons/FontAwesome";
-import {
-  galery,
-  galeries,
-  decodeToken,
-  galleryDelete,
-  getAbout,
-} from "~/shared/services/freela.http";
+import { galery, galeries, galleryDelete } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
 import SignalR from "~/shared/services/signalr";
 import { emergenciesVacancies } from "~/shared/services/events.http";
+import { decodeToken } from "~/shared/services/decode";
 
 class UserProfile extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      selected: false,
-      visible: false,
-      spinner: false,
-      emergencyAvailability: false,
-      data: [
-        {
-          title: "Sobre mim",
-          subtitle: "Sua foto de perfil, apresentação e mais",
-          onPress: () => this.navigateToScreen("AboutMe"),
-        },
-        {
-          title: "Funções que atuo",
-          subtitle: "Área de operação, e habilidades",
-          onPress: () => this.navigateToScreen("Profession"),
-        },
-        {
-          title: "Agências",
-          subtitle: "Entre na equipe de sua agência",
-          onPress: () => this.navigateToScreen("Agency"),
-        },
-        {
-          title: "Fotos dos jobs",
-          subtitle: "Fotos e videos de seu trabalho",
-          onPress: () => this.openMidia(),
-        },
-        // {
-        //   title: "Certificados",
-        //   subtitle: "Fotos comprovando suas habilidades",
-        //   onPress: () => this.navigateToScreen("Certificates"),
-        // },
-        {
-          title: "Disponibilidade",
-          subtitle: "Dias, horários e feriados",
-          onPress: () => this.navigateToScreen("Availability"),
-        },
-        {
-          title: "Jobs realizados",
-          subtitle: "Trabalhos, avaliações e recomendações",
-          onPress: () => this.openModal(),
-        },
-      ],
-    };
-  }
-
-  componentDidMount() {
-    this.setState({ spinner: false }, async () => {
-      const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-
-      getAbout(token.id)
-        .then(({ data }) => this.onGetAboutSuccess(data, token))
-        .catch((error) => console.log(error.response.data))
-        .finally(() => this.setState({ spinner: true }));
-    });
-  }
-  onGetAboutSuccess = (data, token) => {
-    this.props.setAbout(data.result.value);
-    const { image, emergercyAvailabilityEnabled } = data.result.value;
-    const avatar = token ? image : this.Suser.authenticateUser.avatar.url;
-
-    this.setState(
-      { avatar, emergencyAvailability: emergercyAvailabilityEnabled },
-      () => {
-        SignalR.connect().then((conn) => {
-          if (emergercyAvailabilityEnabled) {
-            conn.invoke("AddToGroup");
-            conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy);
-          }
-        });
-      }
-    );
+  state = {
+    selected: false,
+    visible: false,
+    spinner: false,
+    emergencyAvailability: false,
+    data: [
+      {
+        title: "Sobre mim",
+        subtitle: "Sua foto de perfil, apresentação e mais",
+        onPress: () => this.navigateToScreen("AboutMe"),
+      },
+      {
+        title: "Funções que atuo",
+        subtitle: "Área de operação, e habilidades",
+        onPress: () => this.navigateToScreen("Profession"),
+      },
+      {
+        title: "Agências",
+        subtitle: "Entre na equipe de sua agência",
+        onPress: () => this.navigateToScreen("Agency"),
+      },
+      {
+        title: "Fotos dos jobs",
+        subtitle: "Fotos e videos de seu trabalho",
+        onPress: () => this.openMidia(),
+      },
+      {
+        title: "Certificados",
+        subtitle: "Fotos comprovando suas habilidades",
+        onPress: () => this.navigateToScreen("Certificates"),
+      },
+      {
+        title: "Disponibilidade",
+        subtitle: "Dias, horários e feriados",
+        onPress: () => this.navigateToScreen("Availability"),
+      },
+      {
+        title: "Jobs realizados",
+        subtitle: "Trabalhos, avaliações e recomendações",
+        onPress: () => this.openModal(),
+      },
+    ],
   };
 
-  onReceiveVacancy = async (vacancy, x) => {
+  componentDidMount() {
+    const { setAbout } = this.props;
+    setAbout();
+  }
+
+  componentDidUpdate() {
+    this.onGetAboutSuccess();
+  }
+
+  onGetAboutSuccess = () => {
+    const { emergercyAvailabilityEnabled } = this.props.about;
+    SignalR.connect().then((conn) => {
+      if (emergercyAvailabilityEnabled) {
+        conn.invoke("AddToGroup");
+        conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy);
+      }
+    });
+  };
+
+  onReceiveVacancy = async (vacancy) => {
     if (!vacancy.eventId) return;
     try {
       const {
@@ -173,7 +155,7 @@ class UserProfile extends Component {
         }
       }, "");
 
-      galleryDelete(token.id, queryParams).then(({ data }) => {
+      galleryDelete(token.id, queryParams).then(() => {
         this.props.deleteGalleryImage(pictures);
       });
     };
@@ -189,11 +171,15 @@ class UserProfile extends Component {
   };
 
   navigateToScreen = (route) => {
-    return this.props.navigation.navigate(route);
+    this.props.navigation.navigate(route);
   };
 
   render() {
-    const { visible, spinner, data } = this.state;
+    const { visible, data } = this.state;
+    const {
+      about: { image },
+      loading,
+    } = this.props;
     return (
       <View style={styles.Container}>
         <ScrollView>
@@ -204,21 +190,21 @@ class UserProfile extends Component {
                 width={calcWidth(25)}
                 height={calcWidth(25)}
                 autoRun={true}
-                visible={spinner}
+                visible={!loading}
                 colorShimmer={["#ebebeb", "#c9c9c9", "#ebebeb"]}
               >
                 <Image
-                  source={{ uri: this.state.avatar }}
+                  source={{ uri: image }}
                   style={[styles.avatar, { borderColor: "#FFB72B" }]}
                 />
               </ShimmerPlaceHolder>
               <View style={styles.IconContainer}>
-                <Icon name="circle" size={dimensions(24)} color="#86D7CA" />
+                <Icon name="circle" size={adjust(20)} color="#86D7CA" />
               </View>
             </View>
             <TouchableOpacity
-              onPress={() => this.openModal()}
-              style={[{ width: dimensions(250), alignItems: "center" }]}
+              onPress={() => this.navigateToScreen("ViewProfile")}
+              style={[{ alignItems: "center" }]}
             >
               <Text style={[styles.submitText, styles.backColorSteelGray]}>
                 Visualizar o perfil na web
@@ -235,15 +221,11 @@ class UserProfile extends Component {
                   { borderBottomWidth: i === data.length - 1 ? 0 : 2 },
                 ]}
               >
-                <View style={{}}>
+                <View style={{ width: "90%" }}>
                   <Text style={styles.titleContent}>{x.title}</Text>
-                  <Text style={styles.subtitleContent}>{x.subtitle}</Text>
+                  <Text style={[styles.subtitleContent]}>{x.subtitle}</Text>
                 </View>
-                <Icon
-                  color={"#FFF"}
-                  name={"angle-right"}
-                  size={dimensions(30)}
-                />
+                <Icon color={"#FFF"} name={"angle-right"} size={adjust(25)} />
               </TouchableOpacity>
             ))}
           </View>
@@ -297,13 +279,13 @@ const styles = StyleSheet.create({
   },
   titleContent: {
     color: "#FFFFFF",
-    fontSize: dimensions(14),
+    fontSize: adjust(12),
     fontFamily: "HelveticaNowMicro-Regular",
   },
   subtitleContent: {
     fontFamily: "HelveticaNowMicro-Light",
     color: "rgba(255,255,255,0.7)",
-    fontSize: dimensions(11.5),
+    fontSize: adjust(9),
   },
   content: {
     margin: calcWidth(5),
@@ -323,7 +305,7 @@ const styles = StyleSheet.create({
     color: "#46C5F3",
     textAlign: "center",
     borderRadius: 20,
-    fontSize: dimensions(13),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
   },
   avatar: {
@@ -335,8 +317,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
+  const { about, loading } = state.aboutMe;
   return {
     user: state.user,
+    about,
+    loading,
   };
 };
 

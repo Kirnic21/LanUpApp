@@ -4,7 +4,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
-import dimensions from "~/assets/Dimensions";
+import dimensions, { adjust } from "~/assets/Dimensions";
 import Modal from "react-native-modal";
 import { useState } from "react";
 import RoundButton from "~/shared/components/RoundButton";
@@ -41,7 +41,7 @@ const CardDeitailsVacancies = ({
                     style={{
                       width: "100%",
                       color: "#FFF",
-                      fontSize: dimensions(12),
+                      fontSize: adjust(10),
                       fontFamily: "HelveticaNowMicro-Regular",
                     }}
                   >
@@ -64,7 +64,7 @@ const CardDeitailsVacancies = ({
             <Text
               style={{
                 color: "#FFF",
-                fontSize: dimensions(13),
+                fontSize: adjust(11),
                 fontFamily: "HelveticaNowMicro-Regular",
               }}
             >
@@ -132,13 +132,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "HelveticaNowDisplay-Regular",
-    fontSize: dimensions(20),
+    fontSize: adjust(18),
     paddingBottom: "2%",
     color: "#FFFFFf",
   },
   contentText: {
     width: "100%",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
     lineHeight: dimensions(18),
   },

@@ -23,7 +23,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
 
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { adjust } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
 const stylePage = {
@@ -153,7 +153,7 @@ class ChangePassword extends Component {
                         {
                           textAlign: "center",
                           lineHeight: dimensions(35),
-                          fontSize: dimensions(20)
+                          fontSize: adjust(18)
                         }
                       ]}
                     >

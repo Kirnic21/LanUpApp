@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import imgBuilder from "~/assets/images/icon_msg-builder.png";
 import RoundButton from "./RoundButton";
 import ModalComponent from "./ModalComponent";
@@ -15,7 +15,7 @@ export default ModalComingSoon = ({ visible, onClose }) => (
     >
       <View style={styles.container}>
         <View style={styles.containerTitle}>
-          <Text style={styles.textTitle}>Calma ai, amig@!</Text>
+          <Text allowFontScaling={false} style={styles.textTitle}>Calma ai, amig@!</Text>
         </View>
         <View style={{ alignItems: "center" }}>
           <Text style={styles.textSubtitle}>Ainda estamos em progresso!</Text>
@@ -54,12 +54,12 @@ const styles = StyleSheet.create({
   },
   textTitle: {
     color: "#FFF",
-    fontSize: dimensions(30),
+    fontSize: adjust(25),
     fontFamily: "HelveticaNowMicro-Medium"
   },
   textSubtitle: {
     color: "#FFF",
-    fontSize: dimensions(15),
+    fontSize: adjust(12),
     fontFamily: "HelveticaNowMicro-Regular"
   },
   btn: {

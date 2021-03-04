@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import ModalComponent from "../ModalComponent";
 import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
-import dimensions, { calcWidth, calcHeight } from "~/assets/Dimensions";
+import { calcWidth, calcHeight, adjust } from "~/assets/Dimensions";
 import ButtonPulse from "~/shared/components/ButtonPulse";
 import Geolocation from "react-native-geolocation-service";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -24,7 +24,7 @@ const styles = {
   },
   textValue: {
     color: "#46C5F3",
-    fontSize: dimensions(35),
+    fontSize: adjust(30),
     fontFamily: "HelveticaNowDisplay-Bold",
   },
   textAddress: {
@@ -32,13 +32,13 @@ const styles = {
     top: calcWidth(10),
     width: "90%",
     textAlign: "center",
-    fontSize: dimensions(12),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-ExtraLight",
   },
   textDistance: {
     fontFamily: "HelveticaNowMicro-Bold",
     color: "#FFB72B",
-    fontSize: dimensions(20),
+    fontSize: adjust(18),
   },
 };
 
@@ -112,7 +112,7 @@ class VacancyModal extends React.Component {
               styles.fontHelveticaRegular,
               {
                 color: "#FFFFFF",
-                fontSize: dimensions(35),
+                fontSize: adjust(30),
               },
             ]}
           >
@@ -122,7 +122,7 @@ class VacancyModal extends React.Component {
             style={[
               styles.colorFrenchRose,
               styles.fontHelveticaRegular,
-              { fontSize: dimensions(20), top: calcWidth(-3) },
+              { fontSize: adjust(18), top: calcWidth(-3) },
             ]}
           >
             vaga urgente
@@ -159,7 +159,7 @@ class VacancyModal extends React.Component {
             {!spinner && (
               <Text style={styles.textDistance}>
                 {(km / 1000).toFixed(1)}KM
-                <Text style={{ fontSize: dimensions(10) }}>/{time}</Text>
+                <Text style={{ fontSize: adjust(8) }}>/{time}</Text>
               </Text>
             )}
           </View>

@@ -3,16 +3,14 @@ import {
   StyleSheet,
   View,
   Text,
-  TextInput,
   TouchableOpacity
 } from "react-native";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { adjust } from "~/assets/Dimensions/index";
 export default InputDate = ({
   title,
   keyboardType,
   style,
   secureTextEntry,
-  autoFocus,
   numberOfLines,
   multiline,
   onChange,
@@ -23,7 +21,7 @@ export default InputDate = ({
 }) => (
   <TouchableOpacity style={{ width: "100%" }} onPress={onClick}>
     <View>
-      <Text style={{ color: "white", fontSize: dimensions(14), top: "-10%" }}>
+      <Text style={{ color: "white", fontSize: adjust(10), top: "-10%" }}>
         {title}
       </Text>
     </View>

@@ -2,6 +2,7 @@ import * as React from "react";
 import { createStackNavigator } from "react-navigation-stack";
 
 import UserProfile from "~/pages/UserProfile/UserProfile";
+import ViewProfile from "~/pages/UserProfile/ViewProfile";
 import AboutMe from "~/pages/UserProfile/About/AboutMe";
 import Profession from "~/pages/UserProfile/MyJob/Profession";
 import AddProfession from "~/pages/UserProfile/MyJob/AddProfession";
@@ -14,22 +15,11 @@ import Availability from "~/pages/UserProfile/Availability/Availability";
 import AvailabilityDays from "~/pages/UserProfile/Availability/AvailabilityDays";
 import SpecialHours from "~/pages/UserProfile/Availability/SpecialHours";
 
-import { calcWidth } from "~/assets/Dimensions/index";
+import { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 import CertificateModal from "~/pages/UserProfile/Certificate/CertificateModal";
 
-export const CertificateRoute = createStackNavigator(
-  {
-    CertificateModal: {
-      screen: CertificateModal,
-    },
-  },
-  {
-    headerMode: "none",
-    mode: "modal",
-  }
-);
 
 const pageNavigator = createStackNavigator(
   {
@@ -48,6 +38,12 @@ const pageNavigator = createStackNavigator(
         headerTitle: () => null,
         headerTransparent: true,
         headerStyle: { height: calcWidth(20) },
+      }),
+    },
+    ViewProfile: {
+      screen: ViewProfile,
+      navigationOptions: () => ({
+        headerTitle: "Visualizar Perfil",
       }),
     },
     AboutMe: {
@@ -81,7 +77,7 @@ const pageNavigator = createStackNavigator(
       navigationOptions: () => ({ headerTitle: "Certificados" }),
     },
     CertificateModal: {
-      screen: CertificateRoute,
+      screen: CertificateModal,
       navigationOptions: ({ navigation }) => ({
         headerTitle: () => null,
         headerTransparent: true,
@@ -121,7 +117,7 @@ const pageNavigator = createStackNavigator(
       headerTitleStyle: {
         color: "#FFFF",
         fontFamily: "HelveticaNowMicro-Regular",
-        fontSize: calcWidth(5),
+        fontSize: adjust(15),
       },
       headerLeft: () => (
         <ButtonNavigation type="stack" navigation={navigation} />

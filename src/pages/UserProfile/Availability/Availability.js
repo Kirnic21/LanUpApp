@@ -12,14 +12,14 @@ import { connect } from "react-redux";
 
 import Toggle from "~/shared/components/ToggleComponent";
 import Schedules from "./Schedules";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
 import {
   emergencyAvailability,
   getAvailability,
-  decodeToken,
 } from "~/shared/services/freela.http";
+import { decodeToken } from "~/shared/services/decode";
 import { reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -34,6 +34,7 @@ const DisplayDate = ({ date, displayHour, isActive }) => {
         flexDirection: "row",
         alignItems: "center",
         width: "95.5%",
+        top: "-5%",
       }}
     >
       <Text style={[styles.titleStyle, style]}>
@@ -42,7 +43,7 @@ const DisplayDate = ({ date, displayHour, isActive }) => {
       <Text
         style={[
           {
-            fontSize: dimensions(10),
+            fontSize: adjust(8),
             width: "40%",
             left: "12%",
             fontFamily: "HelveticaNowMicro-ExtraLight",
@@ -191,7 +192,10 @@ class Availability extends Component {
               Para vagas urgentes
             </Text>
             <View style={{ flexDirection: "row" }}>
-              <Text style={[styles.titleStyle, { marginRight: "25%" }]}>
+              <Text
+                style={[styles.titleStyle, { marginRight: "25%" }]}
+                allowFontScaling={false}
+              >
                 Estou disponível agora
               </Text>
               <Toggle
@@ -213,8 +217,8 @@ class Availability extends Component {
               this.openAvailabilityDays(day);
             }}
           />
-          <View style={styles.containerSpecialTimes}>
-            <TouchableOpacity onPress={() => this.openSpecialHours()}>
+          <TouchableOpacity onPress={() => this.openSpecialHours()}>
+            <View style={styles.containerSpecialTimes}>
               <View
                 style={{
                   flexDirection: "row",
@@ -239,12 +243,12 @@ class Availability extends Component {
                   displayHour={`${start.substr(0, 5)} até ${end.substr(0, 5)}`}
                 />
               ))}
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
           <Text
             style={{
               fontFamily: "HelveticaNowMicro-ExtraLight",
-              fontSize: dimensions(14),
+              fontSize: adjust(12),
               color: "rgba(255,255,255,0.8)",
               textAlign: "center",
               marginHorizontal: calcWidth(3),
@@ -296,7 +300,7 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     color: "#FFF",
-    fontSize: dimensions(14),
+    fontSize: adjust(12),
     fontFamily: "HelveticaNowMicro-Regular",
   },
 });

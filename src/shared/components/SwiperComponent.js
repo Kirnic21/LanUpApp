@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, ActivityIndicator } from "react-native";
 import Swiper from "react-native-swiper";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import Lottie from "lottie-react-native";
 import loadingSpinner from "~/assets/loadingSpinner.json";
 
@@ -47,7 +47,7 @@ const SwiperComponent = ({ list, loading }) => {
                 style={[
                   styles.title,
                   styles.fontHNM_regular,
-                  { fontSize: dimensions(14) }
+                  { fontSize: adjust(12) }
                 ]}
               >
                 Ganhei este mês
@@ -82,7 +82,7 @@ const styles = {
   },
   title: {
     color: "#fff",
-    fontSize: dimensions(20)
+    fontSize: adjust(18)
   },
   buttonWrapper: {
     top: calcWidth(-2),
@@ -91,7 +91,7 @@ const styles = {
   },
   buttonText: {
     color: "#9b99a5",
-    fontSize: dimensions(35)
+    fontSize: adjust(30)
   }
 };
 

@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { login, resetPassword } from "~/shared/services/auth.http";
-import { decodeToken } from "~/shared/services/freela.http";
+import { decodeToken } from "~/shared/services/decode";
 import ImageBack from "~/assets/images/Grupo_518.png";
 import Logo from "~/assets/images/logoLanUp.png";
 import InputField from "~/shared/components/InputField";
@@ -20,14 +20,13 @@ import FormValidator from "~/shared/services/validator";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Container } from "native-base";
-import dimensions, { calcWidth } from "~/assets/Dimensions/index";
-import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalForgotPassword from "./ModalForgotPassword";
 import ButtonLoading from "~/shared/components/Button";
 
 const formRules = FormValidator.make(
   {
-    email: ("required", "email"),
+    email: "required|email",
     password: "required",
   },
   {
@@ -38,28 +37,23 @@ const formRules = FormValidator.make(
 
 class LoginEmail extends Component {
   _isMounted = false;
-  constructor(props) {
-    super(props);
-    this.state = {
-      icon: "visibility-off",
-      password: true,
-      disabled: true,
-      visible: false,
-      email: "",
-      spinner: false,
-    };
+  state = {
+    icon: "visibility-off",
+    password: true,
+    disabled: true,
+    visible: false,
+    email: "",
+    spinner: false,
+  };
 
-    this.changeIcon = this.changeIcon.bind(this);
-  }
-
-  goToLoginPerfil = (form) => {
+  goToLoginPerfil = async (form) => {
     const { email, password } = form;
-    this.setState({ spinner: true }, async () => {
-      const deviceId = await AsyncStorage.getItem("DEVICE_ID");
+    const deviceId = await AsyncStorage.getItem("DEVICE_ID");
+    this.setState({ spinner: true }, () => {
       login({
         login: email,
         password,
-        deviceId
+        deviceId,
       })
         .then(async ({ data }) => {
           const token = decodeToken(data.result.token);
@@ -84,12 +78,13 @@ class LoginEmail extends Component {
     });
   };
 
-  changeIcon() {
-    this.setState((prevState) => ({
-      icon: prevState.icon === "visibility" ? "visibility-off" : "visibility",
-      password: !prevState.password,
-    }));
-  }
+  changeIcon = () => {
+    const { password, icon } = this.state;
+    this.setState({
+      icon: icon === "visibility" ? "visibility-off" : "visibility",
+      password: !password,
+    });
+  };
 
   resetPassword = () => {
     const { email } = this.state;
@@ -232,7 +227,7 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     color: "#FFF",
-    fontSize: dimensions(15),
+    fontSize: adjust(13),
     textAlign: "center",
     padding: "15%",
   },
@@ -240,7 +235,7 @@ const styles = StyleSheet.create({
     color: "#483D8B",
     textDecorationLine: "underline",
     textAlign: "center",
-    fontSize: dimensions(15),
+    fontSize: adjust(13),
     letterSpacing: 0.5,
   },
   icon: {

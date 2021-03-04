@@ -17,7 +17,7 @@ import iconNextEvent from "~/assets/images/iconNextEvent.png";
 import iconExplore from "~/assets/images/iconExplore.png";
 import iconSchedule from "~/assets/images/iconSchedule.png";
 import { connect } from "react-redux";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { adjust } from "~/assets/Dimensions/index";
 
 class drawerContentComponents extends Component {
   state = { visible: false };
@@ -71,7 +71,7 @@ class drawerContentComponents extends Component {
             <Text
               style={{
                 color: "#fff",
-                fontSize: dimensions(13),
+                fontSize: adjust(11),
                 fontFamily: "HelveticaNowMicro-Regular",
               }}
             >
@@ -159,14 +159,14 @@ const styles = StyleSheet.create({
   nickNameContainer: {
     width: "100%",
     alignItems: "center",
-    marginTop: "-45%",
+    marginTop: "-50%",
   },
   sizeIcons: {
     width: dimensions(55),
     height: dimensions(55),
   },
   screenTextStyle: {
-    fontSize: dimensions(14),
+    fontSize: adjust(12),
     fontFamily: "SegoeUI",
     textAlign: "center",
     color: "#FFF",
@@ -182,7 +182,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { nickName, image } = state.aboutMe;
+  const {
+    about: { nickName, image },
+  } = state.aboutMe;
   return {
     nickName,
     image,

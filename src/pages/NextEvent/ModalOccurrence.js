@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "~/shared/components/ModalComponent";
-import dimensions, { calcHeight, calcWidth } from "~/assets/Dimensions/index";
+import dimensions, { calcHeight, calcWidth, adjust } from "~/assets/Dimensions/index";
 import InputLabel from "~/shared/components/InputLabel";
 import cameraPlus from "~/assets/images/camera-plus.png";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import ImageSelector from "~/shared/components/ImageSelector";
 
 import debounceButton from "~/shared/helpers/debounce";
@@ -109,12 +109,12 @@ const ModalOccurrence = ({
 const styles = StyleSheet.create({
   title: {
     color: "#FFF",
-    fontSize: calcWidth(8),
+    fontSize: adjust(20),
     fontFamily: "HelveticaNowMicro-Medium",
   },
   subTitle: {
     color: "#FFF",
-    fontSize: calcWidth(5.5),
+    fontSize: adjust(15),
     fontFamily: "HelveticaNowMicro-Regular",
   },
   textInput: {
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     paddingRight: calcWidth(21),
     paddingVertical: calcWidth(3),
     maxHeight: calcWidth(40),
-    fontSize: calcWidth(4),
+    fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",
   },
   containerIcon: {

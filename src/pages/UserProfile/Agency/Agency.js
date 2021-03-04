@@ -2,17 +2,14 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import EmptyState from "~/shared/components/emptyState/EmptyState";
 import Emptyimage from "~/assets/images/emptyAgency.png";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import { ScrollView } from "react-native-gesture-handler";
 import ModalAgency from "./ModalAgency";
 import IconAgencia from "~/assets/images/icon_agencia.png";
 import ActionButton from "~/shared/components/ActionButton";
 import { codeAgency } from "~/shared/services/agency.http";
-import {
-  updateAgencies,
-  decodeToken,
-  getAgencies,
-} from "~/shared/services/freela.http";
+import { updateAgencies, getAgencies } from "~/shared/services/freela.http";
+import { decodeToken } from "~/shared/services/decode";
 import AsyncStorage from "@react-native-community/async-storage";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
@@ -161,7 +158,7 @@ const styles = {
   nameAgency: {
     color: "#FFFFFF",
     fontFamily: "HelveticaNowMicro-Regular",
-    fontSize: dimensions(10),
+    fontSize: adjust(8),
     textAlign: "center",
   },
 };

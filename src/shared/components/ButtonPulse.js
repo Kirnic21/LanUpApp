@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import dimensions, { calcWidth } from "~/assets/Dimensions";
 
 import * as Animatable from "react-native-animatable";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import debounceButton from "~/shared/helpers/debounce";
 
 const Button = debounceButton(TouchableOpacity);
@@ -35,8 +35,8 @@ const ButtonPulse = ({
     size: "small",
   };
 
-  const ButtonSize = () => {
-    return {
+  const ButtonSize = () =>
+    ({
       small: {
         height: calcWidth(20),
         width: calcWidth(20),
@@ -50,11 +50,10 @@ const ButtonPulse = ({
         },
         styles.titleNormal,
       ],
-    }[size];
-  };
+    }[size]);
 
-  const circleSize = () => {
-    return {
+  const circleSize = () =>
+    ({
       small: {
         height: calcWidth(22),
         width: calcWidth(22),
@@ -69,8 +68,7 @@ const ButtonPulse = ({
           backgroundColor: color || "#FFF",
         },
       ],
-    }[size];
-  };
+    }[size]);
 
   return (
     <View style={styles.container}>
@@ -81,7 +79,7 @@ const ButtonPulse = ({
           delay={1}
           style={[styles.circle, circleStyle, circleSize()]}
           direction="alternate-reverse"
-        ></Animatable.View>
+        />
       ) : (
         <View
           style={[
@@ -107,6 +105,7 @@ const ButtonPulse = ({
             <></>
           )}
           <Text
+            allowFontScaling={false}
             style={[
               titleStyle,
               styles.fontFamilyHR,
@@ -143,10 +142,10 @@ const styles = StyleSheet.create({
     width: calcWidth(32),
   },
   titleNormal: {
-    fontSize: calcWidth(4.3),
+    fontSize: adjust(12),
   },
   titleSmall: {
-    fontSize: calcWidth(2.6),
+    fontSize: adjust(7),
   },
   fontFamilyHR: {
     fontFamily: "HelveticaNowMicro-Regular",
