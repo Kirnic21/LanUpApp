@@ -23,7 +23,7 @@ const DateComponent = ({ date }) => {
           { textAlign: "center", color: "#18142F" },
         ]}
       >
-        {formatDate("EEE")}
+        {formatDate("EEEEEE")}
         {"\n"}
         <Text allowFontScaling={false} style={styles.f_24}>
           {formatDate("dd")}

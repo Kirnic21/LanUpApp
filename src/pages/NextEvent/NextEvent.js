@@ -33,6 +33,7 @@ import ButtonPulse from '~/shared/components/ButtonPulse';
 import { AlertHelper } from '~/shared/helpers/AlertHelper';
 import ModalDuties from './ModalDuties';
 import ModalComingSoon from '~/shared/components/ModalComingSoon';
+import { differenceInHours, isBefore, parseISO } from 'date-fns'
 
 class NextEvent extends React.Component {
   state = {
@@ -170,32 +171,19 @@ class NextEvent extends React.Component {
       .catch((error) => AlertHelper.show('error', 'Erro', error.response.data.errorMessage));
   };
 
-  formatDate = (date) => new Date(date).toLocaleDateString('pt-BR', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
 
   checkoutHours = () => {
     const { checkout, isCheckin } = this.state;
-    const dateNow = new Date();
-    if (isCheckin === 3) {
-      if (dateNow < new Date(checkout)) {
-        // fez checkin
-        return this.setState({ status: 'occurrence' });
-      }
-      if (dateNow >= new Date(checkout)) {
-        // fazer checkout
-        this.setState({ status: 'checkout', origin: 2, isLate: false });
-      }
-      const checkoutTimeLate = new Date(checkout).setHours(
-        new Date(checkout).getHours() + 1,
-      );
-      if (dateNow >= new Date(checkoutTimeLate)) {
-        // fazer checkout atrasado
-        this.setState({ status: 'checkout', origin: 2, isLate: true });
-      }
+    if(isCheckin === 3) {
+      this.setState({
+        origin: 2,
+        status: isBefore(new Date(), parseISO(checkout)) ? 'occurrence' : 'checkout',
+        isLate: differenceInHours(new Date(), parseISO(checkout))
+      })
     }
   };
+
+
 
   toCheckout = () => {
     const {
