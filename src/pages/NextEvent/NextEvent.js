@@ -67,7 +67,7 @@ class NextEvent extends React.Component {
       });
   }
 
-  getWordays = (value) => {
+  getWordays = async (value) => {
     this.setState({
       eventName: value.eventName,
       job: value.job,
@@ -86,16 +86,16 @@ class NextEvent extends React.Component {
     });
     operationsStatus({ id: value.operationId, freelaId: value.freelaId })
       .then(({ data }) => data)
-      .then(({ result }) => {
+      .then(async ({ result }) => {
         const { value } = result;
         this.setState({ isCheckin: value });
         this.statusOperation(value);
-        this.checkoutHours();
+        await this.checkoutHours();
       })
       .catch((error) =>
         AlertHelper.show("error", "Erro", error.response.data.errorMessage)
       );
-    this.backgroundHours();
+    await this.backgroundHours();
     this.isPaused(value.operationId);
   };
 
@@ -111,6 +111,12 @@ class NextEvent extends React.Component {
           origin: 1,
         });
         break;
+      case 4:
+        this.setState({
+          status: "checkout",
+          origin: 2,
+        });
+        break;
       case 6:
         this.setState({ status: "goToWork" });
         break;
@@ -123,9 +129,12 @@ class NextEvent extends React.Component {
   };
 
   backgroundHours = () => {
-    BackgroundTimer.setInterval(() => {
-      this.checkoutHours();
-    }, 60000);
+    const { status } = this.state;
+    if (status !== "checkout") {
+      BackgroundTimer.setInterval(() => {
+        this.checkoutHours();
+      }, 60000);
+    }
   };
 
   openMaps = async () => {
@@ -176,13 +185,12 @@ class NextEvent extends React.Component {
 
   checkoutHours = () => {
     const { checkout, isCheckin } = this.state;
-    console.warn("chegou");
+    const checkoutParse = parseISO(checkout);
+    const dateStatus = isBefore(new Date(), checkoutParse);
     if (isCheckin === 3) {
       this.setState({
         origin: 2,
-        status: isBefore(new Date(), parseISO(checkout))
-          ? "occurrence"
-          : "checkout",
+        status: dateStatus ? "occurrence" : "checkout",
         isLate: differenceInHours(new Date(), parseISO(checkout)),
       });
     }
@@ -213,6 +221,7 @@ class NextEvent extends React.Component {
                 ? "occurrence"
                 : "checkout",
               origin: 2,
+              isCheckin: 3,
               checked: false,
             })
           : this.toCheckout();
