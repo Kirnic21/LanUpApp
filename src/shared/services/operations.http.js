@@ -16,7 +16,7 @@ const operationsCheckout = (data) =>
   HTTP.post(`${resource}/${data.id}/checkouts`, data);
 
 const operationsStatus = (data) =>
-  HTTP.get(`${resource}/${data.id}/freelas/${data.freelaId}/status`);
+  HTTP.get(`${resource}/${data.id}/freelas/${data.freelaId}/status/${data.isHomeOffice}`);
 
 const startOperation = (id) => HTTP.post(`${resource}/${id}/start`);
 const arrivelOperation = (id) => HTTP.post(`${resource}/${id}/arrival`);

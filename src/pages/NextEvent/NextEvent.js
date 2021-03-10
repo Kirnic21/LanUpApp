@@ -22,6 +22,7 @@ import {
   operationsStatus,
   operationsCheckout,
   startOperation,
+  checkpoints,
 } from "~/shared/services/operations.http";
 import TitleEvent from "./TitleEvent";
 import RoundButton from "~/shared/components/RoundButton";
@@ -34,6 +35,7 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import ModalDuties from "./ModalDuties";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import { differenceInHours, isBefore, parseISO } from "date-fns";
+import Geolocation from "react-native-geolocation-service";
 
 class NextEvent extends React.Component {
   state = {
@@ -82,9 +84,14 @@ class NextEvent extends React.Component {
       responsabilities: value.responsabilities,
       addressId: value.addressId,
       address: value.address,
+      isHomeOffice: value.isHomeOffice,
       date: value.date,
     });
-    operationsStatus({ id: value.operationId, freelaId: value.freelaId })
+    operationsStatus({
+      id: value.operationId,
+      freelaId: value.freelaId,
+      isHomeOffice: value.isHomeOffice,
+    })
       .then(({ data }) => data)
       .then(async ({ result }) => {
         const { value } = result;
@@ -172,10 +179,35 @@ class NextEvent extends React.Component {
     }
   };
 
+  getLocationFreela = () => {
+    const { operationId: id } = this.state;
+    RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
+      interval: 10000,
+      fastInterval: 5000,
+    })
+      .then(() => {
+        Geolocation.getCurrentPosition(
+          ({ coords: { latitude, longitude } }) => {
+            checkpoints({ id, lat: latitude, long: longitude }).catch((error) =>
+              AlertHelper.show("error", "Erro", error.message)
+            );
+          }
+        );
+      })
+      .catch(() => {
+        AlertHelper.show(
+          "error",
+          "Erro",
+          "Ative sua localização para continuar!."
+        );
+      });
+  };
+
   toCheckIn = () => {
     const { operationId: id, vacancyId, job } = this.state;
     operationsCheckins({ id, vacancyId, job })
       .then(({}) => {
+        this.getLocationFreela();
         this.setState({ openModalCheckin: true, origin: 1 });
       })
       .catch((error) =>
@@ -200,8 +232,9 @@ class NextEvent extends React.Component {
     const { operationId: id, vacancyId, hirerId, eventName, job } = this.state;
     this.setState({ openModalCheckin: false }, () => {
       operationsCheckout({ id, vacancyId, job })
-        .then(() => {
-          this.props.navigation.replace("Rating", { hirerId, eventName });
+        .then(async () => {
+          this.getLocationFreela();
+          await this.props.navigation.replace("Rating", { hirerId, eventName });
         })
         .catch((error) =>
           AlertHelper.show("error", "Erro", error.response.data.errorMessage)

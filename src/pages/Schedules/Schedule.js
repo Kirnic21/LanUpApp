@@ -106,7 +106,7 @@ export default class Schedule extends React.Component {
               date={item.jobDate}
               eventCreationDate={item.eventCreationDate}
               content={`${this.formatDate(item.start)}  - ${this.formatDate(item.end)}`}
-              address={item.address}
+              address={item.isHomeOffice ? 'Home Office' : item.address}
               picture={item.image !== null ? item.image.url : null}
               amount={item.amount}
               onPress={() =>

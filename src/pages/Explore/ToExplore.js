@@ -110,7 +110,7 @@ export default class ToExplore extends Component {
                 date={item.jobDate.substr(0, 19)}
                 eventCreationDate={item.eventCreationDate}
                 content={`${item.workShiftQuantity} turnos e ${item.totalVacancy} vagas`}
-                address={item.address}
+                address={item.isHomeOffice ? 'Home Office' : item.address}
                 picture={item.picture !== null ? item.picture.url : null}
                 amount={item.amount}
                 onPress={() =>
