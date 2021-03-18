@@ -84,13 +84,11 @@ class NextEvent extends React.Component {
       responsabilities: value.responsabilities,
       addressId: value.addressId,
       address: value.address,
-      isHomeOffice: value.isHomeOffice,
       date: value.date,
     });
     operationsStatus({
       id: value.operationId,
       freelaId: value.freelaId,
-      isHomeOffice: value.isHomeOffice,
     })
       .then(({ data }) => data)
       .then(async ({ result }) => {
