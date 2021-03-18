@@ -11,10 +11,10 @@ import {
 import MapView from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Geolocation from 'react-native-geolocation-service';
+import Geolocation from "react-native-geolocation-service";
 
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
-import ModalComingSoon from "~/shared/components/ModalComingSoon";
+import AlertModal from "~/shared/components/AlertModal";
 import mapStyles from "~/pages/NextEvent/Geolocation/stylesMaps";
 import RoundButton from "~/shared/components/RoundButton";
 
@@ -62,40 +62,41 @@ class MapsGeolocation extends Component {
   }
 
   async componentDidMount() {
-    this.getCurrentPosition()
-
+    this.getCurrentPosition();
   }
 
   getCurrentPosition = () => {
-    Geolocation.getCurrentPosition(async ({coords:{latitude,longitude}}) => {
-      const {
-        id,
-        address,
-        eventName,
-        addressId,
-      } = this.props.navigation.state.params;
-      try {
+    Geolocation.getCurrentPosition(
+      async ({ coords: { latitude, longitude } }) => {
         const {
-          data: {
-            result: { lat, lng },
-          },
-        } = await location(addressId);
-        this.setState({
-          destination: {
-            latitude: Number(lat),
-            longitude: Number(lng),
-          },
+          id,
           address,
           eventName,
-          id,
-        });
-        await this.watchPosition({latitude,longitude})
-      } catch (error) {
-        console.log(error)
-        AlertHelper.show("error", "Erro", error.message);
+          addressId,
+        } = this.props.navigation.state.params;
+        try {
+          const {
+            data: {
+              result: { lat, lng },
+            },
+          } = await location(addressId);
+          this.setState({
+            destination: {
+              latitude: Number(lat),
+              longitude: Number(lng),
+            },
+            address,
+            eventName,
+            id,
+          });
+          await this.watchPosition({ latitude, longitude });
+        } catch (error) {
+          console.log(error);
+          AlertHelper.show("error", "Erro", error.message);
+        }
       }
-    });
-  }
+    );
+  };
 
   componentWillUnmount() {
     this.subscription.remove();
@@ -182,38 +183,38 @@ class MapsGeolocation extends Component {
           <MapView.Marker coordinate={this.state.destination}>
             <Icon name={"place"} size={calcWidth(14)} color={"#F63535"} />
           </MapView.Marker>
-        
-            <MapViewDirections
-              origin={this.state.coordinates[0]}
-              destination={
-                this.state.coordinates[this.state.coordinates.length - 1]
-              }
-              apikey={env.GOOGLE_MAPS_API_KEY}
-              strokeWidth={3}
-              strokeColor="#F63535"
-              optimizeWaypoints={true}
-              onReady={(result) => {
-                const { distance, duration } = result;
-                this.setState({
-                  distance,
-                  duration,
-                });
 
-                this.arrived(distance);
+          <MapViewDirections
+            origin={this.state.coordinates[0]}
+            destination={
+              this.state.coordinates[this.state.coordinates.length - 1]
+            }
+            apikey={env.GOOGLE_MAPS_API_KEY}
+            strokeWidth={3}
+            strokeColor="#F63535"
+            optimizeWaypoints={true}
+            onReady={(result) => {
+              const { distance, duration } = result;
+              this.setState({
+                distance,
+                duration,
+              });
 
-                this.mapView.fitToCoordinates(result.coordinates, {
-                  edgePadding: {
-                    right: width / dimensions(20),
-                    bottom: height / dimensions(20),
-                    left: width / dimensions(20),
-                    top: height / dimensions(20),
-                  },
-                });
-              }}
-              onError={(errorMessage) => {
-                AlertHelper.show("error", "Erro", errorMessage);
-              }}
-            />
+              this.arrived(distance);
+
+              this.mapView.fitToCoordinates(result.coordinates, {
+                edgePadding: {
+                  right: width / dimensions(20),
+                  bottom: height / dimensions(20),
+                  left: width / dimensions(20),
+                  top: height / dimensions(20),
+                },
+              });
+            }}
+            onError={(errorMessage) => {
+              AlertHelper.show("error", "Erro", errorMessage);
+            }}
+          />
         </MapView>
         <View style={{ flex: 1, justifyContent: "flex-end" }}>
           <View style={styles.container}>
@@ -252,9 +253,14 @@ class MapsGeolocation extends Component {
                     : this.setState({ visible: true })
                 }
               />
-              <ModalComingSoon
+              <AlertModal
                 onClose={() => this.setState({ visible: false })}
                 visible={visible}
+                title="Confirmar chegada !!"
+                subtitle="Deseja pular essa etapa e ir para o check-In ?"
+                iconName="place"
+                colorIcon="#F63535"
+                nameButton="Pular etapa"
               />
             </View>
           </View>
