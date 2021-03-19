@@ -37,6 +37,7 @@ class MapsGeolocation extends Component {
     super(props);
     this.state = {
       visible: false,
+      loading: false,
       status: false,
       coordinates: [],
       distance: 0,
@@ -153,6 +154,19 @@ class MapsGeolocation extends Component {
     return;
   };
 
+  goNextStep = () => {
+    const { id } = this.state;
+    this.setState({ loading: true });
+    arrivelOperation(id)
+      .then(() => {
+        this.props.navigation.replace("NextEvent");
+      })
+      .catch((error) => {
+        AlertHelper.show("error", "Erro", error.message);
+      })
+      .finally(() => this.setState({ loading: false }));
+  };
+
   render() {
     const {
       status,
@@ -161,6 +175,7 @@ class MapsGeolocation extends Component {
       address,
       eventName,
       visible,
+      loading,
     } = this.state;
     return (
       <View style={StyleSheet.absoluteFill}>
@@ -246,7 +261,7 @@ class MapsGeolocation extends Component {
                 textStyle={{ color: "#2B2D5B" }}
                 width={status ? calcWidth(40) : calcWidth(60)}
                 style={{ backgroundColor: "#46C5F3" }}
-                name={status ? "Okay" : "Ver regras e check list"}
+                name={status ? "Okay" : "Pular essa etapa"}
                 onPress={() =>
                   status
                     ? this.props.navigation.replace("NextEvent")
@@ -261,6 +276,8 @@ class MapsGeolocation extends Component {
                 iconName="place"
                 colorIcon="#F63535"
                 nameButton="Pular etapa"
+                onPress={() => this.goNextStep()}
+                loading={loading}
               />
             </View>
           </View>
