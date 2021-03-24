@@ -204,15 +204,17 @@ class NextEvent extends React.Component {
   };
 
   toCheckIn = (value) => {
-    const { operationId: id, vacancyId, job } = this.state;
-    operationsCheckins({ id, vacancyId, job })
+    const [id, qrcodeDate] = value.data.split("|");
+    this.setState({ QRCodeVisible: false });
+    const { vacancyId, job } = this.state;
+    operationsCheckins({ id, vacancyId, job, qrcodeDate })
       .then(({}) => {
         this.getLocationFreela();
         this.setState({ openModalCheckin: true, origin: 1 });
       })
-      .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-      )
+      .catch((error) => {
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+      })
       .finally(() => this.setState({ QRCodeVisible: false }));
   };
 

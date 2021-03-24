@@ -54,8 +54,8 @@ const QRCode = ({ onPress, visible, close }) => {
             <Lottie
               autoSize
               style={{
-                height: calcWidth(90),
-                width: calcWidth(90),
+                height: calcWidth(75),
+                width: calcWidth(75),
               }}
               resizeMode="cover"
               source={loadingSpinner}
