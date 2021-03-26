@@ -102,6 +102,7 @@ class VacanciesDetails extends Component {
           ? `${getDeitails.workshiftsQuantity}turnos`
           : `${formatDate(start)} - ${formatDate(end)}`,
       location: getDeitails.location,
+      isHomeOffice: getDeitails.isHomeOffice,
       jobDate: jobDate || day,
       image: getDeitails.image,
       service,
@@ -293,6 +294,7 @@ class VacanciesDetails extends Component {
       eventName,
       workshiftsQuantity,
       location,
+      isHomeOffice,
       jobDate,
       image,
       service,
@@ -324,9 +326,10 @@ class VacanciesDetails extends Component {
             <CardImageVacancies
               title={`${eventName}`}
               shift={`${workshiftsQuantity}`}
-              location={`${location}`}
+              location={`${location ? location : 'Evento Home office'}`}
               eventDate={jobDate}
               picture={image}
+              isHomeOffice={isHomeOffice}
             />
           </View>
           <View style={{ marginHorizontal: "5%" }}>

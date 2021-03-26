@@ -5,7 +5,7 @@ import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DateComponent from "~/shared/components/DateComponent";
 
-const CardImageVacancies = ({ title, shift, location, eventDate, picture }) => {
+const CardImageVacancies = ({ title, shift, location, eventDate, picture, isHomeOffice }) => {
   return (
     <View>
       {picture !== null && picture !== undefined ? (
@@ -46,7 +46,7 @@ const CardImageVacancies = ({ title, shift, location, eventDate, picture }) => {
             }}
           >
             <Text style={styles.textShift}>{shift}</Text>
-            <Text style={styles.textAdress}>{location}</Text>
+            <Text style={isHomeOffice ?  styles.textHomeOffice : styles.textAdress}>{location}</Text>
           </View>
         </View>
       </View>
@@ -97,7 +97,13 @@ const styles = StyleSheet.create({
     width: "100%",
     fontFamily: "HelveticaNowMicro-ExtraLight",
     fontSize: adjust(10),
-    color: "#FFF"
+    color: "#FFFF",
+  },
+  textHomeOffice: {
+    color: "#46C5F3",
+    width: "100%",
+    fontFamily: "HelveticaNowMicro-ExtraLight",
+    fontSize: adjust(12),
   }
 });
 
