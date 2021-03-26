@@ -36,6 +36,7 @@ import ModalDuties from "./ModalDuties";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import { differenceInHours, isBefore, parseISO } from "date-fns";
 import Geolocation from "react-native-geolocation-service";
+import QRCode from "~/shared/components/QRCodeScanner";
 
 class NextEvent extends React.Component {
   state = {
@@ -44,6 +45,7 @@ class NextEvent extends React.Component {
     openModalPause: false,
     openModalOccurrence: false,
     openModalDuties: false,
+    QRCodeVisible: false,
   };
 
   componentDidMount() {
@@ -201,16 +203,19 @@ class NextEvent extends React.Component {
       });
   };
 
-  toCheckIn = () => {
-    const { operationId: id, vacancyId, job } = this.state;
-    operationsCheckins({ id, vacancyId, job })
+  toCheckIn = (value) => {
+    const [id, qrcodeDate] = value.data.split("|");
+    this.setState({ QRCodeVisible: false });
+    const { vacancyId, job } = this.state;
+    operationsCheckins({ id, vacancyId, job, qrcodeDate })
       .then(({}) => {
         this.getLocationFreela();
         this.setState({ openModalCheckin: true, origin: 1 });
       })
-      .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-      );
+      .catch((error) => {
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+      })
+      .finally(() => this.setState({ QRCodeVisible: false }));
   };
 
   checkoutHours = () => {
@@ -372,7 +377,7 @@ class NextEvent extends React.Component {
           size="normal"
           startAnimations
           color="#46C5F3"
-          onPress={() => this.toCheckIn()}
+          onPress={() => this.setState({ QRCodeVisible: true })}
         />
       ),
       checkout: (
@@ -420,6 +425,7 @@ class NextEvent extends React.Component {
       openModalComingSoon,
       date,
       origin,
+      QRCodeVisible,
     } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ flex: 1 }}>
@@ -576,6 +582,11 @@ class NextEvent extends React.Component {
           <ModalComingSoon
             onClose={() => this.setState({ openModalComingSoon: false })}
             visible={openModalComingSoon}
+          />
+          <QRCode
+            onPress={(value) => this.toCheckIn(value)}
+            visible={QRCodeVisible}
+            close={() => this.setState({ QRCodeVisible: false })}
           />
         </SafeAreaView>
       </ImageBackground>

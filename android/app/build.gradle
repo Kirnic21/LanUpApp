@@ -157,6 +157,7 @@ android {
         versionName "1.4.2"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
         abi {
