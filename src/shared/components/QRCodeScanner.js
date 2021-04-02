@@ -10,7 +10,7 @@ import Lottie from "lottie-react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { RNCamera } from "react-native-camera";
 
-const QRCode = ({ onPress, visible, close }) => {
+const QRCode = ({ onPress, visible, close, title }) => {
   const [flash, setFlash] = useState("flash-off");
 
   return (
@@ -45,7 +45,7 @@ const QRCode = ({ onPress, visible, close }) => {
         bottomContent={
           <View style={styles.bottomContent}>
             <Text style={styles.subtitle}>
-              Para iniciar o checkin, escaneia o QR code.
+              {title}
             </Text>
           </View>
         }

@@ -23,6 +23,7 @@ import {
   operationsCheckout,
   startOperation,
   checkpoints,
+  location,
 } from "~/shared/services/operations.http";
 import TitleEvent from "./TitleEvent";
 import RoundButton from "~/shared/components/RoundButton";
@@ -79,6 +80,8 @@ class NextEvent extends React.Component {
       checkListCheckout: value.checkListCheckout,
       checkListCheckIn: value.checkListCheckIn,
       vacancyId: value.vacancyId,
+      isHomeOffice: value.isHomeOffice,
+      eventId: value.eventId,
       freelaId: value.freelaId,
       checkin: value.checkin,
       checkout: value.checkout,
@@ -91,6 +94,7 @@ class NextEvent extends React.Component {
     operationsStatus({
       id: value.operationId,
       freelaId: value.freelaId,
+      isHomeOffice: value.isHomeOffice,
     })
       .then(({ data }) => data)
       .then(async ({ result }) => {
@@ -108,26 +112,26 @@ class NextEvent extends React.Component {
 
   statusOperation = (value) => {
     switch (value) {
-      case 1:
-        this.setState({ status: "checkin", isCheckin: value });
+      case 3:
+        this.setState({ status: "checkin", isCheckin: value, origin: 1 });
         break;
-      case 2:
+      case 4:
         this.setState({
           status: "checkin",
           openModalCheckin: true,
           origin: 1,
         });
         break;
-      case 4:
+      case 5:
         this.setState({
           status: "checkout",
           origin: 2,
         });
         break;
-      case 6:
+      case 1:
         this.setState({ status: "goToWork" });
         break;
-      case 7:
+      case 2:
         this.openMaps();
         break;
       default:
@@ -152,67 +156,72 @@ class NextEvent extends React.Component {
       address,
       isCheckin,
     } = this.state;
-    try {
-      await RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
-        interval: 10000,
-        fastInterval: 5000,
-      });
+    Geolocation.getCurrentPosition(
+      async ({ coords: { latitude, longitude } }) => {
+        isCheckin === 1 && (await startOperation(id));
 
-      isCheckin === 6 && (await startOperation(id));
+        NativeModules.ForegroundModule.startForegroundService();
 
-      NativeModules.ForegroundModule.startForegroundService();
-
-      this.props.navigation.replace("MapsGeolocation", {
-        id,
-        eventName,
-        addressId,
-        address,
-      });
-    } catch (error) {
-      error.message === "denied"
-        ? AlertHelper.show(
-            "error",
-            "Erro",
-            "Ative sua localização para continuar!."
-          )
-        : AlertHelper.show("error", "Erro", error.message);
-    }
+        this.props.navigation.replace("MapsGeolocation", {
+          id,
+          eventName,
+          addressId,
+          address,
+          latitude,
+          longitude,
+        });
+      },
+      (error) => {
+        error.code === 5
+          ? AlertHelper.show(
+              "error",
+              "Erro",
+              "Ative sua localização para continuar!."
+            )
+          : AlertHelper.show("error", "Erro", error.message);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
   };
 
   getLocationFreela = () => {
-    const { operationId: id } = this.state;
-    RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
-      interval: 10000,
-      fastInterval: 5000,
-    })
-      .then(() => {
-        Geolocation.getCurrentPosition(
-          ({ coords: { latitude, longitude } }) => {
-            checkpoints({ id, lat: latitude, long: longitude }).catch((error) =>
-              AlertHelper.show("error", "Erro", error.message)
-            );
-          }
+    const { origin, operationId: id, job } = this.state;
+    Geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        checkpoints({ id, lat: latitude, long: longitude }).catch((error) =>
+          AlertHelper.show("error", "Erro", error.message)
         );
-      })
-      .catch(() => {
-        AlertHelper.show(
-          "error",
-          "Erro",
-          "Ative sua localização para continuar!."
-        );
-      });
+        location({ id, lat: latitude, long: longitude, origin, job })
+          .then(() => {
+            this.setState({ openModalCheckin: true });
+          })
+          .catch((error) => AlertHelper.show("error", "Erro", error.message));
+      },
+      (error) => {
+        error.code === 5
+          ? AlertHelper.show(
+              "error",
+              "Erro",
+              "Ative sua localização para continuar!."
+            )
+          : AlertHelper.show("error", "Erro", error.message);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
   };
 
   toCheckIn = (value) => {
     const [id, qrcodeDate] = value.data.split("|");
+    console.log(qrcodeDate);
     this.setState({ QRCodeVisible: false });
-    const { vacancyId, job } = this.state;
-    operationsCheckins({ id, vacancyId, job, qrcodeDate })
+    const { vacancyId, job, eventId } = this.state;
+    operationsCheckins({ id, vacancyId, job, qrcodeDate, eventId })
       .then(({}) => {
         this.getLocationFreela();
-        this.setState({ openModalCheckin: true, origin: 1 });
+        this.setState({ origin: 1 });
       })
       .catch((error) => {
+        console.log("eee", error);
         AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       })
       .finally(() => this.setState({ QRCodeVisible: false }));
@@ -222,7 +231,7 @@ class NextEvent extends React.Component {
     const { checkout, isCheckin } = this.state;
     const checkoutParse = parseISO(checkout);
     const dateStatus = isBefore(new Date(), checkoutParse);
-    if (isCheckin === 3) {
+    if (isCheckin === 6) {
       this.setState({
         origin: 2,
         status: dateStatus ? "occurrence" : "checkout",
@@ -231,22 +240,28 @@ class NextEvent extends React.Component {
     }
   };
 
-  toCheckout = () => {
-    const { operationId: id, vacancyId, hirerId, eventName, job } = this.state;
-    this.setState({ openModalCheckin: false }, () => {
-      operationsCheckout({ id, vacancyId, job })
-        .then(async () => {
-          this.getLocationFreela();
-          await this.props.navigation.replace("Rating", { hirerId, eventName });
-        })
-        .catch((error) =>
-          AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-        );
-    });
+  toCheckout = (value) => {
+    const { vacancyId, job, eventId } = this.state;
+    const [id, qrcodeDate] = value.data.split("|");
+    this.setState({ QRCodeVisible: false });
+    operationsCheckout({ id, vacancyId, job, qrcodeDate, eventId })
+      .then(() => {
+        this.getLocationFreela();
+      })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      );
   };
 
   confirmChecklist = () => {
-    const { operationId: id, origin, job, checkout } = this.state;
+    const {
+      operationId: id,
+      origin,
+      job,
+      checkout,
+      hirerId,
+      eventName,
+    } = this.state;
     this.setState({ loading: true });
     operationsChecklists({ id, origin, job })
       .then(() => {
@@ -257,10 +272,10 @@ class NextEvent extends React.Component {
                 ? "occurrence"
                 : "checkout",
               origin: 2,
-              isCheckin: 3,
+              isCheckin: 5,
               checked: false,
             })
-          : this.toCheckout();
+          : this.props.navigation.replace("Rating", { hirerId, eventName });
       })
       .catch((error) =>
         AlertHelper.show("error", "Erro", error.response.data.errorMessage)
@@ -348,7 +363,7 @@ class NextEvent extends React.Component {
   };
 
   buttonsOperations = () => {
-    const { status, pause, isLate } = this.state;
+    const { status, pause, isLate, isHomeOffice, operationId } = this.state;
     return {
       without: (
         <ButtonPulse
@@ -377,7 +392,13 @@ class NextEvent extends React.Component {
           size="normal"
           startAnimations
           color="#46C5F3"
-          onPress={() => this.setState({ QRCodeVisible: true })}
+          onPress={() =>
+            isHomeOffice
+              ? this.toCheckIn({
+                  data: `${operationId}|${new Date().toISOString()}`,
+                })
+              : this.setState({ QRCodeVisible: true })
+          }
         />
       ),
       checkout: (
@@ -387,7 +408,13 @@ class NextEvent extends React.Component {
           size="normal"
           startAnimations={!pause}
           color={isLate ? "#FF0000" : "#865FC0"}
-          onPress={() => this.setState({ openModalCheckin: true })}
+          onPress={() =>
+            isHomeOffice
+              ? this.toCheckout({
+                  data: `${operationId}|${new Date().toISOString()}`,
+                })
+              : this.setState({ QRCodeVisible: true })
+          }
         />
       ),
       occurrence: (
@@ -426,6 +453,8 @@ class NextEvent extends React.Component {
       date,
       origin,
       QRCodeVisible,
+      isHomeOffice,
+      operationId
     } = this.state;
     return (
       <ImageBackground source={ImageBack} style={{ flex: 1 }}>
@@ -480,7 +509,11 @@ class NextEvent extends React.Component {
                         size="small"
                         startAnimations={!pause}
                         onPress={() =>
-                          this.setState({ openModalCheckin: true, origin: 2 })
+                          isHomeOffice
+                            ? this.toCheckout({
+                                data: `${operationId}|${new Date().toISOString()}`,
+                              })
+                            : this.setState({ QRCodeVisible: true })
                         }
                         color="#865FC0"
                       />
@@ -584,9 +617,14 @@ class NextEvent extends React.Component {
             visible={openModalComingSoon}
           />
           <QRCode
-            onPress={(value) => this.toCheckIn(value)}
+            onPress={(value) =>
+              origin === 1 ? this.toCheckIn(value) : this.toCheckout(value)
+            }
             visible={QRCodeVisible}
             close={() => this.setState({ QRCodeVisible: false })}
+            title={`Para iniciar o ${
+              origin === 1 ? "checkin" : "checkout"
+            }, escaneia o QR code.`}
           />
         </SafeAreaView>
       </ImageBackground>

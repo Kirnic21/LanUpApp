@@ -11,7 +11,7 @@ import {
 import MapView from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Geolocation from "react-native-geolocation-service";
+
 
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import AlertModal from "~/shared/components/AlertModal";
@@ -66,37 +66,34 @@ class MapsGeolocation extends Component {
     this.getCurrentPosition();
   }
 
-  getCurrentPosition = () => {
-    Geolocation.getCurrentPosition(
-      async ({ coords: { latitude, longitude } }) => {
-        const {
-          id,
-          address,
-          eventName,
-          addressId,
-        } = this.props.navigation.state.params;
-        try {
-          const {
-            data: {
-              result: { lat, lng },
-            },
-          } = await location(addressId);
-          this.setState({
-            destination: {
-              latitude: Number(lat),
-              longitude: Number(lng),
-            },
-            address,
-            eventName,
-            id,
-          });
-          await this.watchPosition({ latitude, longitude });
-        } catch (error) {
-          console.log(error);
-          AlertHelper.show("error", "Erro", error.message);
-        }
-      }
-    );
+  getCurrentPosition = async () => {
+    const {
+      id,
+      address,
+      eventName,
+      addressId,
+      latitude,
+      longitude
+    } = this.props.navigation.state.params;
+    try {
+      const {
+        data: {
+          result: { lat, lng },
+        },
+      } = await location(addressId);
+      this.setState({
+        destination: {
+          latitude: Number(lat),
+          longitude: Number(lng),
+        },
+        address,
+        eventName,
+        id,
+      });
+      await this.watchPosition({ latitude, longitude });
+    } catch (error) {
+      AlertHelper.show("error", "Erro", error.message);
+    }
   };
 
   componentWillUnmount() {
