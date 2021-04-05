@@ -59,7 +59,7 @@ const getAvailability = (id) => HTTP.get(`freelas/${id}/availabilities`);
 
 const existingCpf = (data) => HTTP.get(`freelas/cpf/${data}/exists`);
 const existingEmail = (data) => HTTP.get(`freelas/email/${data}/exists`);
-const workdays = (data) => HTTP.get(`freelas/workdays/${data.day}`);
+const workdays = () => HTTP.get(`freelas/workdays/`);
 
 const updateAgencies = (data) => HTTP.put(`freelas/${data.id}/agencies`, data);
 const getAgencies = (id) => HTTP.get(`freelas/${id}/agencies`);

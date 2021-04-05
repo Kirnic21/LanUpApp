@@ -1,20 +1,20 @@
 import React from "react";
 import { View, Text, SectionList, StyleSheet } from "react-native";
 import Modal from "~/shared/components/ModalComponent";
-import dimensions, { calcHeight, calcWidth, adjust } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 
 const ModalDuties = ({ visible, onClose, responsabilities }) => {
   const DATA = [
     {
-      data: responsabilities || []
-    }
+      data: responsabilities || [],
+    },
   ];
 
-  renderSeparator = () => (
+  const renderSeparator = () => (
     <View
       style={{
         height: dimensions(3),
-        backgroundColor: "#18142F"
+        backgroundColor: "#18142F",
       }}
     />
   );
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontFamily: "HelveticaNowDisplay-Regular",
     fontSize: adjust(15),
-    margin: calcWidth(1)
+    margin: calcWidth(1),
   },
   list: {
     backgroundColor: "#403A60",
@@ -62,13 +62,13 @@ const styles = StyleSheet.create({
     marginTop: calcWidth(5),
     padding: calcWidth(10),
     borderRadius: calcWidth(5),
-    height: calcWidth(80)
+    height: calcWidth(80),
   },
   containerEmpty: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });
 
 export default ModalDuties;

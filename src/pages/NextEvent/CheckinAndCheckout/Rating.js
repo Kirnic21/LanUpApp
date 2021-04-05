@@ -9,7 +9,6 @@ import ButtonComponent from "~/shared/components/ButtonCompoent";
 import InputField from "~/shared/components/InputField";
 import { ratings } from "~/shared/services/hirer.http";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
-import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 class Rating extends React.Component {
   state = {

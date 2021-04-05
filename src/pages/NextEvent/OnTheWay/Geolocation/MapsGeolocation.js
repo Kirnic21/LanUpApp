@@ -15,7 +15,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import AlertModal from "~/shared/components/AlertModal";
-import mapStyles from "~/pages/NextEvent/Geolocation/stylesMaps";
+import mapStyles from "./stylesMaps";
 import RoundButton from "~/shared/components/RoundButton";
 
 import { AlertHelper } from "~/shared/helpers/AlertHelper";

@@ -5,8 +5,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "stretch"
+    alignItems: "center"
   },
   containerTitle: {
     height: calcHeight(35),
@@ -26,7 +25,8 @@ const styles = StyleSheet.create({
     borderWidth: dimensions(30),
     borderColor: "#373361",
     borderRadius: dimensions(250),
-    justifyContent: "center"
+    justifyContent: "center",
+    top:calcWidth(7)
   },
   textTitle: {
     fontSize: adjust(22),
@@ -66,7 +66,28 @@ const styles = StyleSheet.create({
     borderRadius: calcWidth(10)
   },
   containerBtn: {
-    top: calcWidth(8)
+    top: dimensions(80)
+  },  
+  buttonCenter:{
+    position:'absolute',
+    left:0,
+    right:0,
+    bottom:0,
+    top: calcWidth(63)
+  },
+  buttonLeft:{
+    position:'absolute',
+    left:0,
+    right:calcWidth(55),
+    bottom:0,
+    top: calcWidth(40)
+  },
+  buttonRight:{
+    position:'absolute',
+    right:0,
+    left:calcWidth(55),
+    bottom:0,
+    top: calcWidth(40)
   }
 });
 
