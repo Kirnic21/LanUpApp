@@ -29,7 +29,7 @@ const ModalCheckList = ({
   titleCheck,
 }) => {
   const list = checkList ? checkList.map((c, i) => ({ id: i, title: c })) : [];
-  renderSeparator = () => (
+  const renderSeparator = () => (
     <View
       style={{
         height: dimensions(3),

@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   containerIcon: {
     position: "relative",
     flexDirection: "row",
-    top: calcWidth(-14),
+    top: calcWidth(-13),
     left: calcWidth(60),
   },
   img: {

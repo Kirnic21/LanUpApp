@@ -3,8 +3,8 @@ import { createStackNavigator } from "react-navigation-stack";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import { calcWidth, adjust } from "~/assets/Dimensions/index";
 import NextEvent from "~/pages/NextEvent/NextEvent";
-import MapsGeolocation from "~/pages/NextEvent/Geolocation/MapsGeolocation";
-import Rating from "~/pages/NextEvent/Rating";
+import MapsGeolocation from "~/pages/NextEvent/OnTheWay/Geolocation/MapsGeolocation";
+import Rating from "~/pages/NextEvent/CheckinAndCheckout/Rating";
 
 const NextEventRoute = createStackNavigator(
   {

@@ -11,7 +11,7 @@ const TitleEvent = ({ eventName, job, status, date }) => {
   };
   return (
     <View style={styles.containerTitle}>
-      {status !== "without" ? (
+      {status  ? (
         <View style={{ width: "88%" }}>
           <Text numberOfLines={1} style={styles.textTitle}>
             {eventName || ""}
