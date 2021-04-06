@@ -24,7 +24,7 @@ const Checkin = ({
   checkListCheckIn,
   eventName,
   statusOperation,
-  checkout
+  checkout,
 }) => {
   const [QRCodeVisible, setQRCodeVisible] = useState(false);
   const [openModalCheckin, setOpenModalCheckin] = useState(false);
@@ -37,24 +37,28 @@ const Checkin = ({
     }
   });
 
-  const ToCheckIn = (value) => {
+  const ToCheckIn = async (value) => {
     const [id, qrcodeDate] = value.data.split("|");
     setQRCodeVisible(false);
-    operationsCheckins({ id, vacancyId, job, qrcodeDate, eventId })
-      .then(async ({}) => {
-        getLocationFreela({
+    try {
+      if (statusOperation === 3) {
+        await operationsCheckins({ id, vacancyId, job, qrcodeDate, eventId });
+        await getLocationFreela({
           operationId,
           freelaId,
           isHomeOffice,
           origin: 1,
           job,
         });
-        await setOpenModalCheckin(true);
-      })
-      .catch((error) => {
+      }
+      await setOpenModalCheckin(true);
+    } catch (error) {
+      if (error?.code !== 5) {
         AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-      })
-      .finally(() => setQRCodeVisible(false));
+      }
+    } finally {
+      setQRCodeVisible(false);
+    }
   };
 
   const confirmChecklist = () => {

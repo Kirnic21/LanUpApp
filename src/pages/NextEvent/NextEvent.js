@@ -135,7 +135,7 @@ const NextEvent = (props) => {
                     isLate={isLate}
                   />
                 ) : (
-                  <Checkout {...props} {...workday} {...styles} size="small" />
+                  <Checkout {...props} {...workday} {...styles} size="small" statusOperation={statusOperation}/>
                 )}
               </View>
               <View style={styles.buttonLeft}>

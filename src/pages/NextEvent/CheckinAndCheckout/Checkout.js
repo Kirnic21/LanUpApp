@@ -39,24 +39,28 @@ const Checkout = ({
     }
   });
 
-  const ToCheckOut = (value) => {
+  const ToCheckOut = async (value) => {
     const [id, qrcodeDate] = value.data.split("|");
     setQRCodeVisible(false);
-    operationsCheckout({ id, vacancyId, job, qrcodeDate, eventId })
-      .then(async ({}) => {
-        getLocationFreela({
+    try {
+      if (statusOperation === 5 || statusOperation === 7) {
+        await getLocationFreela({
           operationId,
           freelaId,
           isHomeOffice,
           origin: 2,
           job,
         });
-        await setOpenModalCheckout(true);
-      })
-      .catch((error) => {
+        await operationsCheckout({ id, vacancyId, job, qrcodeDate, eventId });
+      }
+      await setOpenModalCheckout(true);
+    } catch (error) {
+      if (error?.code !== 5) {
         AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-      })
-      .finally(() => setQRCodeVisible(false));
+      }
+    } finally {
+      setQRCodeVisible(false);
+    }
   };
 
   const confirmChecklist = () => {
