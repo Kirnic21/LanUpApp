@@ -25,6 +25,7 @@ import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
 import SignalR from "~/shared/services/signalr";
 import { emergenciesVacancies } from "~/shared/services/events.http";
 import { decodeToken } from "~/shared/services/decode";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 class UserProfile extends Component {
   state = {
@@ -98,12 +99,12 @@ class UserProfile extends Component {
       } = await emergenciesVacancies({
         id: vacancy.eventId,
         service: vacancy.job,
-        day: vacancy.day,
+        day: vacancy.day.split("T")[0],
       });
       this.props.notifyVacancy([result, vacancy]);
       this.props.navigation.navigate("Modal");
-    } catch (error) {
-      console.log(error);
+    } catch ({ response }) {
+      AlertHelper.show("error", "Erro", response.data.errorMessage);
     }
   };
 
@@ -139,8 +140,8 @@ class UserProfile extends Component {
             this.handlePictureUpdate();
           }
         })
-        .catch((error) => {
-          console.log(error.response.data);
+        .catch(({ response }) => {
+          AlertHelper.show("error", "Erro", response.data.errorMessage);
         });
       return;
     };

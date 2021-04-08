@@ -9,6 +9,7 @@ import ButtonPulse from "~/shared/components/ButtonPulse";
 import Geolocation from "react-native-geolocation-service";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
+import { Fragment } from "react";
 
 const styles = {
   container: {
@@ -43,26 +44,25 @@ const styles = {
 };
 
 class VacancyModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      jobDeitails: "",
-      isVisible: true,
-    };
-  }
+  state = {
+    jobDeitails: "",
+    isVisible: true,
+  };
 
   async componentDidMount() {
     const { vacancy } = this.props;
-    Geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        this.getDistance(latitude, longitude, vacancy[0].location);
-      },
-      (error) => {
-        console.log(error.code, error.message);
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    );
+    if (!vacancy[0].isHomeOffice) {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          this.getDistance(latitude, longitude, vacancy[0].location);
+        },
+        (error) => {
+          console.log(error.code, error.message);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      );
+    }
   }
 
   getDistance = async (lat, lng, location) => {
@@ -113,6 +113,7 @@ class VacancyModal extends React.Component {
               {
                 color: "#FFFFFF",
                 fontSize: adjust(30),
+                lineHeight: adjust(50),
               },
             ]}
           >
@@ -122,47 +123,59 @@ class VacancyModal extends React.Component {
             style={[
               styles.colorFrenchRose,
               styles.fontHelveticaRegular,
-              { fontSize: adjust(18), top: calcWidth(-3) },
+              { fontSize: adjust(18), top: calcWidth(-2) },
             ]}
           >
             vaga urgente
           </Text>
           <Text style={styles.textValue}>R${vacancy[0].payment}</Text>
-          <TouchableOpacity
-            onPress={() => {
-              this.setState({ isVisible: false }),
-                this.props.navigation.navigate("VacanciesDetails", {
-                  job: vacancy[1],
-                  getDeitails: vacancy[0],
-                  status: 1,
-                });
-            }}
-            style={{ top: calcWidth(5) }}
-          >
+          <TouchableOpacity></TouchableOpacity>
+          <View style={{ top: calcWidth(5) }}>
             <ButtonPulse
               titleStyle={{ textAlign: "center", lineHeight: calcHeight(3.5) }}
               size="normal"
               title={`Ver${"\n"}detalhes${"\n"} da vaga`}
               color="#EB4886"
               startAnimations
+              onPress={() => {
+                this.setState({ isVisible: false }),
+                  this.props.navigation.navigate("VacanciesDetails", {
+                    job: vacancy[1],
+                    getDeitails: vacancy[0],
+                    status: 1,
+                  });
+              }}
             />
-          </TouchableOpacity>
-          <Text style={styles.textAddress}>{vacancy[0].location}</Text>
-          <View style={{ flexDirection: "row", marginTop: calcWidth(15) }}>
-            <FontAwesome
-              name="location-arrow"
-              size={calcWidth(7)}
-              color="#FFB72B"
-              style={{ left: calcWidth(-1) }}
-            />
-            {spinner && <ActivityIndicator color="#FFB72B" size="large" />}
-            {!spinner && (
-              <Text style={styles.textDistance}>
-                {(km / 1000).toFixed(1)}KM
-                <Text style={{ fontSize: adjust(8) }}>/{time}</Text>
-              </Text>
-            )}
           </View>
+          {!vacancy[0].isHomeOffice ? (
+            <Fragment>
+              <Text style={styles.textAddress}>{vacancy[0].location}</Text>
+              <View style={{ flexDirection: "row", marginTop: calcWidth(15) }}>
+                <FontAwesome
+                  name="location-arrow"
+                  size={calcWidth(7)}
+                  color="#FFB72B"
+                  style={{ left: calcWidth(-1) }}
+                />
+                {spinner && <ActivityIndicator color="#FFB72B" size="large" />}
+                {!spinner && (
+                  <Text style={styles.textDistance}>
+                    {(km / 1000).toFixed(1)}KM
+                    <Text style={{ fontSize: adjust(8) }}>/{time}</Text>
+                  </Text>
+                )}
+              </View>
+            </Fragment>
+          ) : (
+            <Text
+              style={[
+                styles.fontHelveticaRegular,
+                { fontSize: adjust(19), top: calcWidth(15), color: "#46C5F3" },
+              ]}
+            >
+              Vaga home office
+            </Text>
+          )}
         </View>
       </ModalComponent>
     );
