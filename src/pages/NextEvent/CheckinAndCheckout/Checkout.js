@@ -20,7 +20,7 @@ const Checkout = ({
   job,
   eventId,
   vacancyId,
-  checkListCheckOut,
+  checkListCheckout,
   eventName,
   statusOperation,
   size,
@@ -100,7 +100,7 @@ const Checkout = ({
         loading={loading}
         titleCheck="Check-out"
         job={job}
-        checkList={checkListCheckOut}
+        checkList={checkListCheckout}
         pressConfirm={() => confirmChecklist()}
         onPressCheck={() => setChecked(!checked)}
         checked={checked}

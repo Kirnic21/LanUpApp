@@ -79,6 +79,7 @@ const ButtonPulse = ({
           delay={1}
           style={[styles.circle, circleStyle, circleSize()]}
           direction="alternate-reverse"
+          useNativeDriver={false}
         />
       ) : (
         <View

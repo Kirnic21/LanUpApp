@@ -1,48 +1,60 @@
 import React from "react";
-import { View, Text, SectionList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import Modal from "~/shared/components/ModalComponent";
-import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 
 const ModalDuties = ({ visible, onClose, responsabilities }) => {
-  const DATA = [
-    {
-      data: responsabilities || [],
-    },
-  ];
-
   const renderSeparator = () => (
     <View
       style={{
         height: dimensions(3),
+        width: "90%",
         backgroundColor: "#18142F",
+        marginLeft: "5%",
+        marginRight: "10%",
       }}
     />
   );
 
-  function Item({ title }) {
-    return <Text style={styles.title}>{title};</Text>;
+  function Item({ item }) {
+    return (
+      <TouchableWithoutFeedback>
+        <View style={styles.lists}>
+          <Text style={[styles.item, { left: calcWidth(3) }]}>{item}</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    );
   }
+
   return (
-    <Modal visible={visible} onClose={onClose} heightModal={calcWidth(130)}>
-      <View style={{ flex: 1, alignItems: "center" }}>
-        <Text style={[styles.title, { fontSize: adjust(20) }]}>Deveres:</Text>
-        <View>
-          <View style={styles.list}>
-            {responsabilities ? (
-              <SectionList
-                sections={DATA}
-                keyExtractor={(item, index) => item + index}
-                renderItem={({ item }) => <Item title={item} />}
-                ItemSeparatorComponent={renderSeparator}
-              />
-            ) : (
-              <View style={styles.containerEmpty}>
-                <Text style={[styles.title, { fontSize: adjust(10) }]}>
-                  Sem deveres
-                </Text>
-              </View>
-            )}
-          </View>
+    <Modal
+      visible={visible}
+      onClose={onClose}
+      heightModal={calcWidth(120)}
+      swipe={[]}
+    >
+      <View style={{ flex: 1, paddingHorizontal: calcWidth(4) }}>
+        <Text style={styles.title}>Deveres:</Text>
+        <View
+          style={[
+            styles.containerList,
+            { top: calcWidth(4), height: "80%", padding: calcWidth(3) },
+          ]}
+        >
+          <FlatList
+            keyboardShouldPersistTaps="always"
+            data={responsabilities || []}
+            renderItem={({ item }) => <Item item={item} />}
+            keyExtractor={() => Math.random()}
+            ItemSeparatorComponent={renderSeparator}
+            showsVerticalScrollIndicator={false}
+          />
         </View>
       </View>
     </Modal>
@@ -50,24 +62,28 @@ const ModalDuties = ({ visible, onClose, responsabilities }) => {
 };
 
 const styles = StyleSheet.create({
-  title: {
-    color: "#FFF",
+  item: {
     fontFamily: "HelveticaNowDisplay-Regular",
     fontSize: adjust(15),
-    margin: calcWidth(1),
+    color: "#FFF",
+    width: "80%",
+    fontWeight: "normal",
   },
-  list: {
-    backgroundColor: "#403A60",
-    width: calcWidth(80),
-    marginTop: calcWidth(5),
-    padding: calcWidth(10),
-    borderRadius: calcWidth(5),
-    height: calcWidth(80),
+  title: {
+    color: "#FFF",
+    fontSize: adjust(18),
+    textAlign: "center",
+    fontFamily: "HelveticaNowMicro-Medium",
+    marginBottom: adjust(5),
   },
-  containerEmpty: {
-    flex: 1,
+  lists: {
+    flexDirection: "row",
+    padding: calcWidth(3),
     alignItems: "center",
-    justifyContent: "center",
+  },
+  containerList: {
+    backgroundColor: "#403A60",
+    borderRadius: dimensions(12),
   },
 });
 

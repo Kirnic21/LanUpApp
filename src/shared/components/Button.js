@@ -33,11 +33,13 @@ const ButtonLoading = ({
       Animated.timing(backgroundColor, {
         toValue: 1,
         duration: 300,
+        useNativeDriver: false,
       }),
       Animated.timing(animation_login, {
         toValue: calcWidth(5),
         duration: 550,
         delay: 100,
+        useNativeDriver: false,
       }),
     ]).start();
 

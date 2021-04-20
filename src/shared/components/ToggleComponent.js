@@ -34,7 +34,8 @@ export default class Toggle extends React.Component {
         Animated.timing(this.state.animatedValue, {
           toValue: this.state.isOn ? knobOffset : dimensions(6),
           easing: Easing.elastic(0.7),
-          duration: 100
+          duration: 100,
+          useNativeDriver: true
         }).start();
       });
     }

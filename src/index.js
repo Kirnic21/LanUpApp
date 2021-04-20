@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import { StatusBar, PermissionsAndroid, Platform } from "react-native";
+import {
+  StatusBar,
+  PermissionsAndroid,
+  Platform,
+  NativeModules,
+} from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 
 import OneSignal from "react-native-onesignal";
@@ -55,6 +60,8 @@ class App extends Component {
       !state.isConnected &&
         AlertHelper.show("error", "Erro", "Sem conexão com a internet");
     });
+
+    NativeModules.InAppUpdate.checkUpdate();
   }
 
   componentWillUnmount() {
@@ -89,7 +96,7 @@ class App extends Component {
   }
 
   render() {
-    const { userChecked, userLogged,  } = this.state;
+    const { userChecked, userLogged } = this.state;
 
     if (!userChecked) return null;
 

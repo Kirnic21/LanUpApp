@@ -5,7 +5,14 @@ import { calcWidth } from "~/assets/Dimensions/index";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 const ButtonNavigation = (props) => (
-  <View style={[{ margin: calcWidth(4) }, props.style]}>
+  <View
+    style={[
+      {
+        marginLeft: calcWidth(4),
+      },
+      props.style,
+    ]}
+  >
     <TouchableOpacity
       onPress={() => {
         props.type === "drawer"
@@ -18,7 +25,7 @@ const ButtonNavigation = (props) => (
       <Icon
         color={"#FFF"}
         name={props.type === "drawer" ? "short-text" : "chevron-left"}
-        size={calcWidth(8)}
+        size={calcWidth(8.5)}
         style={{
           borderColor: "#FFFFFF",
           borderWidth: 1,
