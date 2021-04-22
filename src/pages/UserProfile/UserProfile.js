@@ -185,7 +185,7 @@ class UserProfile extends Component {
       <View style={styles.Container}>
         <ScrollView>
           <View style={{ alignItems: "center", marginTop: calcWidth(2) }}>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", position:'relative' }}>
               <ShimmerPlaceHolder
                 style={[styles.avatar]}
                 width={calcWidth(25)}
@@ -200,7 +200,7 @@ class UserProfile extends Component {
                 />
               </ShimmerPlaceHolder>
               <View style={styles.IconContainer}>
-                <Icon name="circle" size={adjust(20)} color="#86D7CA" />
+                <Icon name="circle" size={calcWidth(5.5)} color="#86D7CA" />
               </View>
             </View>
             <TouchableOpacity
@@ -275,8 +275,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#24203B",
   },
   IconContainer: {
-    margin: calcWidth(20),
     position: "absolute",
+    right: calcWidth(2),
+    bottom:calcWidth(1)
   },
   titleContent: {
     color: "#FFFFFF",

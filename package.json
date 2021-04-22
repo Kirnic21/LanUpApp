@@ -6,7 +6,7 @@
     "start": "react-native start",
     "ios": "react-native run-ios",
     "bundle:ios": "yarn react-native bundle --platform ios --dev false --entry-file index.js --bundle-output ./ios/main.jsbundle",
-    "android": "react-native run-android --variant=stagingrelease",
+    "android": "react-native run-android",
     "build:dev": "cd android && ./gradlew assembleRelease",
     "build:hmg": "cd android && ./gradlew assembleStagingrelease",
     "build:prod": "cd android && ./gradlew assembleProductionrelease",

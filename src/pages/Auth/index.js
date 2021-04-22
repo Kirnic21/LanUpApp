@@ -142,12 +142,12 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#FFF",
-    fontSize: adjust(18),
+    fontSize: dimensions(19.5),
     fontFamily: "HelveticaNowMicro-Bold",
   },
   subTitle: {
     color: "#FFF",
-    fontSize: adjust(13),
+    fontSize: dimensions(14),
     fontFamily: "HelveticaNowMicro-Bold",
   },
   btnFacebook: {
