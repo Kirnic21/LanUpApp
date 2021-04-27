@@ -143,7 +143,6 @@ class VacanciesDetails extends Component {
           this.props.navigation.navigate("NextEvent");
         })
         .catch((error) => {
-          console.log(error.response.data.errorMessage);
           AlertHelper.show("error", "Erro", error.response.data.errorMessage);
         })
         .finally(() => {
@@ -250,7 +249,7 @@ class VacanciesDetails extends Component {
       ),
       1: (
         <ButtonComponent
-          title="Estou a caminho"
+          title="Aceitar vaga urgente"
           isSelected={true}
           selectedColor="#EB4886"
           onPress={() => this.emergencyVacancyAccepted()}

@@ -138,6 +138,7 @@ class LoginEmail extends Component {
                     style={{
                       alignContent: "stretch",
                       width: "100%",
+                      position: "relative",
                     }}
                   >
                     <Field
@@ -239,8 +240,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   icon: {
-    left: "80%",
-    top: dimensions(27),
+    bottom: '30%',
+    right: '8%',
     position: "absolute",
   },
   inputModal: {

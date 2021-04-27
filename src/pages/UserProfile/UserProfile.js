@@ -23,8 +23,13 @@ import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
 import SignalR from "~/shared/services/signalr";
-import { emergenciesVacancies } from "~/shared/services/events.http";
+import {
+  emergenciesVacancies,
+  getJobMembers,
+  vacancy,
+} from "~/shared/services/events.http";
 import { decodeToken } from "~/shared/services/decode";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 class UserProfile extends Component {
   state = {
@@ -85,9 +90,26 @@ class UserProfile extends Component {
     SignalR.connect().then((conn) => {
       if (emergercyAvailabilityEnabled) {
         conn.invoke("AddToGroup");
-        conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy);
+        conn.on(
+          SignalR.channels.RECEIVE_VACANCY,
+          this.checkIfFreelaIsAlreadyVacancy
+        );
       }
     });
+  };
+
+  checkIfFreelaIsAlreadyVacancy = ({ eventId, job, day }) => {
+    if (!eventId) return;
+    getJobMembers({ eventId, job })
+      .then(({ data }) => data)
+      .then(async ({ result }) => {
+        const { id } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+        const filter = result.some((x) => x.freelaId === id);
+        if (!filter) {
+          this.onReceiveVacancy({ eventId, job, day });
+        }
+      })
+      .catch((error) => AlertHelper.show("error", "Erro", error));
   };
 
   onReceiveVacancy = async (vacancy) => {
@@ -98,12 +120,12 @@ class UserProfile extends Component {
       } = await emergenciesVacancies({
         id: vacancy.eventId,
         service: vacancy.job,
-        day: vacancy.day,
+        day: vacancy.day.split("T")[0],
       });
       this.props.notifyVacancy([result, vacancy]);
       this.props.navigation.navigate("Modal");
-    } catch (error) {
-      console.log(error);
+    } catch ({ response }) {
+      AlertHelper.show("error", "Erro", response.data.errorMessage);
     }
   };
 
@@ -139,8 +161,8 @@ class UserProfile extends Component {
             this.handlePictureUpdate();
           }
         })
-        .catch((error) => {
-          console.log(error.response.data);
+        .catch(({ response }) => {
+          AlertHelper.show("error", "Erro", response.data.errorMessage);
         });
       return;
     };
@@ -184,7 +206,7 @@ class UserProfile extends Component {
       <View style={styles.Container}>
         <ScrollView>
           <View style={{ alignItems: "center", marginTop: calcWidth(2) }}>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", position: "relative" }}>
               <ShimmerPlaceHolder
                 style={[styles.avatar]}
                 width={calcWidth(25)}
@@ -199,7 +221,7 @@ class UserProfile extends Component {
                 />
               </ShimmerPlaceHolder>
               <View style={styles.IconContainer}>
-                <Icon name="circle" size={adjust(20)} color="#86D7CA" />
+                <Icon name="circle" size={calcWidth(5.5)} color="#86D7CA" />
               </View>
             </View>
             <TouchableOpacity
@@ -274,8 +296,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#24203B",
   },
   IconContainer: {
-    margin: calcWidth(20),
     position: "absolute",
+    right: calcWidth(2),
+    bottom: calcWidth(1),
   },
   titleContent: {
     color: "#FFFFFF",
