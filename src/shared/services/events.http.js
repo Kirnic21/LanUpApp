@@ -1,5 +1,4 @@
 import { HTTP } from "./http.base";
-import { decode } from "base-64";
 
 const vacancy = (data) => HTTP.get(`events/jobs?services=${data}`);
 
@@ -13,4 +12,7 @@ const deitailsVacancies = (data) =>
 
 const location = (data) => HTTP.get(`events/location?placeId=${data}`);
 
-export { vacancy, deitailsVacancies, location, emergenciesVacancies };
+const getJobMembers = ({ eventId, job }) =>
+  HTTP.get(`events/${eventId}/vacancies/${job}`);
+
+export { vacancy, deitailsVacancies, location, emergenciesVacancies, getJobMembers };
