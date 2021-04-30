@@ -18,7 +18,6 @@ import AsyncStorage from "@react-native-community/async-storage";
 import ImageSelector from "~/shared/components/ImageSelector";
 import dimensions, { adjust } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
-import Analytics from "appcenter-analytics";
 
 class SelectAvatar extends Component {
   state = {
@@ -81,8 +80,7 @@ class SelectAvatar extends Component {
           <View style={styles.containerImg}>
             <TouchableOpacity
               onPress={() => {
-                this.handleOnPictureAdd(),
-                  Analytics.trackEvent("Clique na imagem.");
+                this.handleOnPictureAdd()
               }}
             >
               <Image
@@ -93,8 +91,7 @@ class SelectAvatar extends Component {
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                this.handleOnPictureAdd(),
-                  Analytics.trackEvent("Clique no botão.");
+                this.handleOnPictureAdd()
               }}
             >
               <Text style={{ color: "white", fontSize: adjust(10) }}>
