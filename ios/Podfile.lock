@@ -40,6 +40,14 @@ PODS:
     - lottie-ios (~> 3.1.8)
     - React
   - OneSignal (2.15.2)
+  - Permission-Camera (3.0.3):
+    - RNPermissions
+  - Permission-LocationAccuracy (3.0.3):
+    - RNPermissions
+  - Permission-LocationAlways (3.0.3):
+    - RNPermissions
+  - Permission-PhotoLibrary (3.0.3):
+    - RNPermissions
   - RCT-Folly (2020.01.13.00):
     - boost-for-react-native
     - DoubleConversion
@@ -402,6 +410,10 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
+  - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
+  - Permission-LocationAccuracy (from `../node_modules/react-native-permissions/ios/LocationAccuracy`)
+  - Permission-LocationAlways (from `../node_modules/react-native-permissions/ios/LocationAlways`)
+  - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -484,6 +496,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/lottie-ios"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
+  Permission-Camera:
+    :path: "../node_modules/react-native-permissions/ios/Camera"
+  Permission-LocationAccuracy:
+    :path: "../node_modules/react-native-permissions/ios/LocationAccuracy"
+  Permission-LocationAlways:
+    :path: "../node_modules/react-native-permissions/ios/LocationAlways"
+  Permission-PhotoLibrary:
+    :path: "../node_modules/react-native-permissions/ios/PhotoLibrary"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -601,6 +621,10 @@ SPEC CHECKSUMS:
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   lottie-react-native: 1fb4ce21d6ad37dab8343eaff8719df76035bd93
   OneSignal: 9531e385388565f4d31797ddadbe0fcc786430ec
+  Permission-Camera: 6abdb054620b2f6b3bf9e0b3842db246424d4d48
+  Permission-LocationAccuracy: 1cc2eebdd2a00bf473dc24fa50a1d3bc2b40e1a1
+  Permission-LocationAlways: c95b61c667ba9cffde2804baf00fe4d8b0e3b10a
+  Permission-PhotoLibrary: 577c8246ca03603c915485b20aad855bd8f05334
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
   RCTTypeSafety: 512728b73549e72ad7330b92f3d42936f2a4de5b
@@ -657,6 +681,6 @@ SPEC CHECKSUMS:
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
 
-PODFILE CHECKSUM: 3625fcf1f654926492abfae6750b5cd4dea5f303
+PODFILE CHECKSUM: 50ddcac2d7ac1eba7ca3afd37a1875814923761c
 
 COCOAPODS: 1.10.1
