@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, StatusBar } from "react-native";
+import { View, Text, Platform, StyleSheet, Dimensions, StatusBar } from "react-native";
 import {
   ScrollView,
   TouchableWithoutFeedback,
@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
     fontSize: adjust(18),
     paddingBottom: "2%",
     color: "#FFFFFf",
+    height: Platform.OS === "ios" ? 30 : 15,
   },
   contentText: {
     width: "100%",

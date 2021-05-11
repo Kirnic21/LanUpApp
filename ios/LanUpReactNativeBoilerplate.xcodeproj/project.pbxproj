@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* LanUpReactNativeBoilerplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* LanUpReactNativeBoilerplateTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		24C881B0401148BB98D965A3 /* HelveticaNowMicro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 773B582894AF40E5B43C57E1 /* HelveticaNowMicro-Medium.ttf */; };
@@ -25,6 +24,8 @@
 		BAF35D7EAEF2461D97BEFE4B /* SegoeUI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 176EE8BB3F5D4E43AFB6DE7C /* SegoeUI.ttf */; };
 		BEF8C145820143D2AE4DD6E5 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C29AAFD29AD4CF1BBFA0338 /* Montserrat-Bold.ttf */; };
 		E42C200FE5E443C8A3D4390E /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56C23F0B7566486B92DA7135 /* Montserrat-Regular.ttf */; };
+		F616FA2D264B03E1004D5697 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F616FA2C264B03E1004D5697 /* LaunchScreen.storyboard */; };
+		F616FA2E264B03E1004D5697 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F616FA2C264B03E1004D5697 /* LaunchScreen.storyboard */; };
 		F65A3824234D35C6009075AC /* HelveticaNowMicro-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F65A3823234D35C6009075AC /* HelveticaNowMicro-Light.ttf */; };
 		F65A3826234D35CB009075AC /* HelveticaNowMicro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F65A3825234D35CB009075AC /* HelveticaNowMicro-Regular.ttf */; };
 		F6E7EA53234D207400C28045 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E7EA52234D207400C28045 /* JavaScriptCore.framework */; };
@@ -59,7 +60,6 @@
 		13B07F961A680F5B00A75B9A /* LanUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LanUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = LanUpReactNativeBoilerplate/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = LanUpReactNativeBoilerplate/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = LanUpReactNativeBoilerplate/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = LanUpReactNativeBoilerplate/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = LanUpReactNativeBoilerplate/main.m; sourceTree = "<group>"; };
@@ -99,6 +99,7 @@
 		EE42CEA583DD463291B42249 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		F07822406C18481581EA5FCA /* HelveticaNowDisplay-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "HelveticaNowDisplay-Regular.ttf"; path = "../src/assets/fonts/HelveticaNowDisplay-Regular.ttf"; sourceTree = "<group>"; };
 		F18B9B1873464921B8271B23 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		F616FA2C264B03E1004D5697 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F65A3823234D35C6009075AC /* HelveticaNowMicro-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "HelveticaNowMicro-Light.ttf"; path = "../src/assets/fonts/HelveticaNowMicro-Light.ttf"; sourceTree = "<group>"; };
 		F65A3825234D35CB009075AC /* HelveticaNowMicro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "HelveticaNowMicro-Regular.ttf"; path = "../src/assets/fonts/HelveticaNowMicro-Regular.ttf"; sourceTree = "<group>"; };
 		F65AF81E23988ADA00758880 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
@@ -175,8 +176,8 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				F616FA2C264B03E1004D5697 /* LaunchScreen.storyboard */,
 			);
 			name = LanUpReactNativeBoilerplate;
 			sourceTree = "<group>";
@@ -429,13 +430,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				F6EFB6DD234CE9D2008099A0 /* Fonts in Resources */,
 				F65A3824234D35C6009075AC /* HelveticaNowMicro-Light.ttf in Resources */,
 				F65A3826234D35CB009075AC /* HelveticaNowMicro-Regular.ttf in Resources */,
 				BEF8C145820143D2AE4DD6E5 /* Montserrat-Bold.ttf in Resources */,
 				E42C200FE5E443C8A3D4390E /* Montserrat-Regular.ttf in Resources */,
 				24C881B0401148BB98D965A3 /* HelveticaNowMicro-Medium.ttf in Resources */,
+				F616FA2D264B03E1004D5697 /* LaunchScreen.storyboard in Resources */,
 				7496A389187546D69506B79B /* HelveticaNowMicro-Bold.ttf in Resources */,
 				7D90DD4DBDDF40E4A29077BC /* SourceSansPro-Regular.ttf in Resources */,
 				4411E3D1820F4EABBBCFDD4F /* HelveticaNowDisplay-Regular.ttf in Resources */,
@@ -449,6 +450,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
+				F616FA2E264B03E1004D5697 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -736,18 +738,6 @@
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = LanUpReactNativeBoilerplate;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {

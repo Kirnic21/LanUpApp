@@ -30,8 +30,6 @@ const ButtonNavigation = (props) => (
         size={calcWidth(8.5)}
         style={{
           borderColor: "#FFFFFF",
-          borderWidth: 1,
-          borderRadius: calcWidth(10),
           padding: calcWidth(0.5),
         }}
       />

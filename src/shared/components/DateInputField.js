@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TouchableOpacity, View, Text } from "react-native";
+import { TouchableOpacity, View, Text, Platform } from "react-native";
 import DatePicker from "react-native-date-picker";
 import moment from "moment";
 import { calcWidth, adjust } from "~/assets/Dimensions/index";
@@ -77,10 +77,17 @@ const styles = {
   input: {
     height: 50,
     width: "100%",
-    borderRadius: 50,
+    borderRadius: Platform.OS === 'ios' ? 25 : 50,
     borderWidth: 2,
     borderColor: "#FFFFFF",
-    textAlignVertical: "center",
+    ...Platform.select({
+      ios:{
+        lineHeight: 45,
+      },
+      android:{
+        textAlignVertical: "center",
+      }
+    }),
     paddingHorizontal: "7%",
     color: "#FFF",
     fontSize: adjust(10),

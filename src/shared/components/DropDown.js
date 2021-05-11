@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   Text,
+  Platform,
   FlatList,
   TouchableOpacity,
 } from "react-native";
@@ -141,10 +142,17 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderRadius: 50,
+    borderRadius: Platform.OS === 'ios' ? 25 : 50,
     borderWidth: 2,
     paddingHorizontal: "7%",
-    textAlignVertical: "center",
+    ...Platform.select({
+      ios:{
+        lineHeight: 45,
+      },
+      android:{
+        textAlignVertical: "center",
+      }
+    }),
     borderColor: "#FFFFFF",
   },
   buttonArrow: {
