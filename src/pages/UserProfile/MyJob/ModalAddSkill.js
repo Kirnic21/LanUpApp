@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import ModalComponent from "~/shared/components/ModalComponent";
-import { calcWidth, adjust } from "~/assets/Dimensions";
+import { calcWidth, calcHeight, adjust } from "~/assets/Dimensions";
 
 const ModalAddSkill = ({
   onClose,
@@ -14,7 +14,7 @@ const ModalAddSkill = ({
     <ModalComponent
       onClose={onClose}
       visible={visible}
-      heightModal={calcWidth(90)}
+      heightModal={calcHeight(75)}
     >
       <Text style={styles.title}>Adicionar</Text>
       <View style={styles.containerModalInput}>

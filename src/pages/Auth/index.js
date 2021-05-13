@@ -84,7 +84,7 @@ class HomePage extends Component {
               <Text style={styles.subTitle}>Cadastre-se com o seu e-mail</Text>
             </View>
           </View>
-          <View style={{ width, height: "45%" }}>
+          <View style={[styles.formContainer, { width, height: "45%" }]}>
             <RoundButton
               width={calcWidth(73)}
               style={[styles.Btn, styles.btnRegister]}
@@ -96,7 +96,6 @@ class HomePage extends Component {
                 color: "#FFF",
                 textAlign: "center",
                 fontSize: adjust(12),
-                marginVertical: "-1%",
                 fontFamily: "HelveticaNowMicro-Medium",
               }}
             >
@@ -139,6 +138,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  formContainer: {
+    flex: 1,
+    alignItems: "center"
   },
   title: {
     color: "#FFF",

@@ -153,14 +153,14 @@ class RegisterStageTwo extends Component {
                 />
               </View>
 
-              <View style={{ width: "100%", marginBottom: "-25%" }}>
+              <>
                 <RoundButton
                   disabled={invalid}
-                  style={[styles.btnRegister, { top: "15%" }]}
+                  style={[styles.btnRegister]}
                   name="Continuar"
                   onPress={handleSubmit(data => this.goLoginPicture(data))}
                 />
-              </View>
+              </>
             </View>
           </Container>
         </KeyboardAwareScrollView>
