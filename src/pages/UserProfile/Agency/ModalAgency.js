@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import ModalComponent from "~/shared/components/ModalComponent";
-import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
+import dimensions, { calcWidth, calcHeight, adjust } from "~/assets/Dimensions";
 import InputLabel from "~/shared/components/InputLabel";
 import IconAgencia from "~/assets/images/icon_agencia.png";
 import Lottie from "lottie-react-native";
@@ -19,7 +19,7 @@ const ModalAgency = ({
     <ModalComponent
       visible={visible}
       onClose={onClose}
-      heightModal={calcWidth(108)}
+      heightModal={calcHeight(75)}
       swipe={[]}
     >
       <View style={{ marginHorizontal: calcWidth(5), height: "90%" }}>

@@ -7,8 +7,7 @@ import bank from "./bank";
 import ModalSearch from "~/shared/components/ModalSearch";
 
 import DropDown from "~/shared/components/DropDown";
-import { adjust, calcWidth } from "~/assets/Dimensions";
-
+import { adjust, calcWidth, calcHeight } from "~/assets/Dimensions";
 import Modal from "~/shared/components/ModalComponent";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "react-native";
@@ -48,7 +47,7 @@ const BankInformation = () => {
           title="Tipo da conta"
           component={DropDown}
           name={"bankAccountType"}
-          heightModal={calcWidth(75)}
+          heightModal={calcHeight(75)}
           items={[
             { label: "Conta Corrente", value: "Conta Corrente" },
             { label: "Conta Poupança", value: "Conta Poupança" },

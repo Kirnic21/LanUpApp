@@ -101,7 +101,7 @@ class VacancyModal extends React.Component {
     const { vacancy } = this.props;
     return (
       <ModalComponent
-        heightModal={calcWidth(135)}
+        heightModal={calcHeight(85)}
         onClose={this.onClose}
         visible={isVisible}
       >

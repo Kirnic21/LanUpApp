@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import { adjust, calcWidth } from "~/assets/Dimensions";
+import { adjust, calcHeight, calcWidth } from "~/assets/Dimensions";
 import InputSearch from "~/shared/components/InputSearch";
 
 import ModalComponent from "./ModalComponent";
@@ -39,7 +39,7 @@ export default ModalSearch = ({
         )}
       </TouchableOpacity>
       <ModalComponent
-        heightModal={calcWidth(120)}
+        heightModal={calcHeight(85)}
         visible={visible}
         onClose={() => setVisible(false)}
       >
