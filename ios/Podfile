@@ -12,7 +12,7 @@ target 'LanUpReactNativeBoilerplate' do
   pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
 
-  pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
+  pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text', :modular_headers => true
 
   use_react_native!(
     :path => config[:reactNativePath],

@@ -24,6 +24,7 @@ import {
   checkpoints,
 } from "~/shared/services/operations.http";
 import env from "react-native-config";
+import BackgroundFetch from "react-native-background-fetch";
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
@@ -59,11 +60,31 @@ class MapsGeolocation extends Component {
         this.watchPosition(e);
       }
     );
+
   }
 
   async componentDidMount() {
     this.getCurrentPosition();
+    this.initBackgroundFetch(); //redundance
   }
+
+  async initBackgroundFetch() {
+    const onEvent = async (taskId) => {
+      console.log('[BackgroundFetch] task: ', taskId);
+      await this.getCurrentPosition();
+      BackgroundFetch.finish(taskId);
+    }
+
+    const onTimeout = async (taskId) => {
+      console.warn('[BackgroundFetch] TIMEOUT task: ', taskId);
+      BackgroundFetch.finish(taskId);
+    }
+
+    const status = await BackgroundFetch.configure({minimumFetchInterval: 1}, onEvent, onTimeout);
+
+    console.log('[BackgroundFetch] configure status: ', status);
+  }
+
 
   getCurrentPosition = async () => {
     const { id, address, eventName, addressId, latitude, longitude } =

@@ -31,7 +31,7 @@ const OnTheWay = ({
       ({ coords: { latitude, longitude } }) => {
         openMaps(latitude, longitude);
       },
-      (error) => {
+      error => {
         error.code === 5
           ? AlertHelper.show(
               "error",
