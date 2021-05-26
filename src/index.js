@@ -39,17 +39,16 @@ class App extends Component {
       userChecked: false,
       userLogged: false,
     };
-    OneSignal.init(ONE_SIGNAL_ID, {
-      kOSSettingsKeyInFocusDisplayOption: 0,
-    }); // set kOSSettingsKeyAutoPrompt to false prompting manually on iOS
-    // OneSignal.setLogLevel(6, 6);
-    OneSignal.inFocusDisplaying(0);
-    OneSignal.addEventListener("received", this.onReceived);
-    OneSignal.addEventListener("opened", this.onOpened);
-    OneSignal.addEventListener("ids", this.onIds);
   }
 
   async componentDidMount() {
+    OneSignal.setAppId(ONE_SIGNAL_ID);
+    OneSignal.setLogLevel(6, 0);
+    OneSignal.promptForPushNotificationsWithUserResponse(response => {
+        console.log("Prompt response:", response);
+        this.onIds(response);
+    });
+
     await this.requestLocationPermision();
     const token = await AsyncStorage.getItem("API_TOKEN");
     const deviceId = await AsyncStorage.getItem("DEVICE_ID");
@@ -67,9 +66,7 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    OneSignal.removeEventListener("received", this.onReceived);
-    OneSignal.removeEventListener("opened", this.onOpened);
-    OneSignal.removeEventListener("ids", this.onIds);
+    OneSignal.clearHandlers();
   }
 
   requestLocationPermision = async () => {
