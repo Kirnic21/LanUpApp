@@ -53,11 +53,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to use your camera</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>A LanUp precisa usar sua localização para uma melhor experiência</string>
+	<string>LanUp solicita acesso para uso da sua localização em tempo real</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>A LanUp precisa usar sua localização para uma melhor experiência</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>A LanUp precisa usar sua localização para uma melhor experiência</string>
+	<string>LanUp solicita acesso para uso da sua localização em tempo real</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to use your microphone (for videos)</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

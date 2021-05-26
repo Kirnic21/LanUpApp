@@ -23,6 +23,8 @@ import { calcWidth } from "./assets/Dimensions";
 import * as Sentry from "@sentry/react-native";
 import env from "react-native-config";
 
+import {request, PERMISSIONS} from 'react-native-permissions';
+
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 initMomentPtBr();
@@ -74,6 +76,10 @@ class App extends Component {
       await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       );
+    } else if (Platform.OS === 'ios') {
+      request(PERMISSIONS.IOS.LOCATION_ALWAYS).then((result) => {
+        console.log(result)
+      });
     }
   };
 
