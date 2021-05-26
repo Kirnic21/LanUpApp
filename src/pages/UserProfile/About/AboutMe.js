@@ -12,7 +12,7 @@ import AdditionalInformation from "./AdditionalInformation";
 import BankInformations from "./BankInformations";
 import {
   validateCPF,
-  validateCNPJ,
+  validateCNPJ
 } from "~/shared/helpers/validate/ValidateCpfCnpj";
 import { reduxForm } from "redux-form";
 import { bindActionCreators } from "redux";
@@ -24,6 +24,8 @@ import FastImage from "react-native-fast-image";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 class AboutMe extends Component {
   state = {
     visible: false,
@@ -31,23 +33,23 @@ class AboutMe extends Component {
     BoxItem: [
       {
         id: 1,
-        icon: ImageSelf,
+        icon: ImageSelf
       },
       {
         id: 2,
-        icon: ImageSelf,
+        icon: ImageSelf
       },
       {
         id: 3,
-        icon: ImageBody,
+        icon: ImageBody
       },
       {
         id: 4,
-        icon: ImageBody,
-      },
+        icon: ImageBody
+      }
     ],
     avatar: null,
-    photos: this.props.data.photos,
+    photos: this.props.data.photos
   };
 
   async componentDidMount() {
@@ -55,25 +57,25 @@ class AboutMe extends Component {
     this.props.initialize(this.props.data);
 
     const getPhoto =
-      photos !== null ? photos.map((item) => ({ uri: item.url })) : [];
+      photos !== null ? photos.map(item => ({ uri: item.url })) : [];
     const photosGet =
       photos !== null
-        ? photos.map((item) => ({ name: item.name, url: item.url }))
+        ? photos.map(item => ({ name: item.name, url: item.url }))
         : [];
     const mergeArr = (arr, inc) =>
       arr.map((item, key) => ({
         ...item,
-        icon: inc[key] || item.icon,
+        icon: inc[key] || item.icon
       }));
     const getPictures = getPhoto.length ? mergeArr(BoxItem, getPhoto) : BoxItem;
 
     this.setState({
       photos: photosGet,
-      BoxItem: getPictures,
+      BoxItem: getPictures
     });
     const { handleSubmit } = this.props;
     await this.props.navigation.setParams({
-      handleSave: handleSubmit((data) => this.UpdateAboutMe(data)),
+      handleSave: handleSubmit(data => this.UpdateAboutMe(data))
     });
   }
 
@@ -82,11 +84,11 @@ class AboutMe extends Component {
     return {
       headerRight: () => (
         <ButtonRightNavigation onPress={() => state.params.handleSave()} />
-      ),
+      )
     };
   };
 
-  saveAboutMe = (request) => {
+  saveAboutMe = request => {
     const { about: value, updateAbout, navigation } = this.props;
     updateAbout({ value, request }).then(() => {
       navigation.push("UserProfile");
@@ -94,7 +96,7 @@ class AboutMe extends Component {
     return;
   };
 
-  UpdateAboutMe = async (form) => {
+  UpdateAboutMe = async form => {
     const {
       fullName,
       nickName,
@@ -153,7 +155,7 @@ class AboutMe extends Component {
       photos,
       phone,
       birthday,
-      gender: gender === null ? 0 : gender,
+      gender: gender === null ? 0 : gender
     };
     const validateCpfCnpj =
       replaceValidate.length > 11
@@ -177,17 +179,17 @@ class AboutMe extends Component {
   handleOnPictureAdd = () => {
     this.ImageSelector.ActionSheet.show();
   };
-  handleOnPictureAddPhotos = (index) => {
+  handleOnPictureAddPhotos = index => {
     this.ImageSelectorPhotos.ActionSheet.show();
     const buttonSelected = index - 1;
     this.setState({ IconId: buttonSelected });
   };
 
-  onPictureAdd = (picture) => {
+  onPictureAdd = picture => {
     this.setState({ avatar: picture.uri, avatarUrl: picture.data });
   };
 
-  onPhotosAdd = (photo) => {
+  onPhotosAdd = photo => {
     const { BoxItem, IconId, photos } = this.state;
 
     if (photos[IconId] !== undefined) {
@@ -196,7 +198,7 @@ class AboutMe extends Component {
     }
     BoxItem[IconId] = {
       id: BoxItem[IconId].id,
-      icon: { uri: photo.uri },
+      icon: { uri: photo.uri }
     };
 
     photos.length > 4
@@ -204,8 +206,8 @@ class AboutMe extends Component {
       : this.setState({
           photos: [
             ...photos,
-            { content: photo.data, create: true, name: photo.name },
-          ],
+            { content: photo.data, create: true, name: photo.name }
+          ]
         });
   };
 
@@ -215,12 +217,11 @@ class AboutMe extends Component {
     const { image } = data;
     return (
       <View style={styles.container}>
-        <SpinnerComponent loading={loading} />
-        <ScrollView
+        <KeyboardAwareScrollView
           style={styles.ScrollView}
           showsVerticalScrollIndicator={false}
-          keyboardDismissMode="on-drag"
         >
+          <SpinnerComponent loading={loading} />
           <View style={styles.containerAvatar}>
             <TouchableOpacity
               style={{ width: dimensions(90) }}
@@ -241,33 +242,33 @@ class AboutMe extends Component {
           <OccupationArea />
           <PresentationPictures
             BoxItem={BoxItem}
-            onPress={(id) => {
+            onPress={id => {
               this.handleOnPictureAddPhotos(id);
             }}
           />
 
           <AdditionalInformation />
           <BankInformations />
-        </ScrollView>
-        <ImageSelector
-          onImageSelected={this.onPictureAdd}
-          cropperCircleOverlay={true}
-          width={1500}
-          height={1500}
-          ref={(o) => (this.ImageSelector = o)}
-        />
-        <ImageSelector
-          onImageSelected={this.onPhotosAdd}
-          width={1500}
-          height={2500}
-          ref={(o) => (this.ImageSelectorPhotos = o)}
-        />
+          <ImageSelector
+            onImageSelected={this.onPictureAdd}
+            cropperCircleOverlay={true}
+            width={1500}
+            height={1500}
+            ref={o => (this.ImageSelector = o)}
+          />
+          <ImageSelector
+            onImageSelected={this.onPhotosAdd}
+            width={1500}
+            height={2500}
+            ref={o => (this.ImageSelectorPhotos = o)}
+          />
+        </KeyboardAwareScrollView>
       </View>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { about, loading } = state.aboutMe;
   return {
     data: {
@@ -286,16 +287,16 @@ const mapStateToProps = (state) => {
       address: {
         name: about.address,
         latitude: about.latitude,
-        longitude: about.longitude,
+        longitude: about.longitude
       },
-      bankCode: { id: about.bankCode },
+      bankCode: { id: about.bankCode }
     },
     loading,
-    about,
+    about
   };
 };
 
-const mapActionToProps = (dispatch) =>
+const mapActionToProps = dispatch =>
   bindActionCreators({ updateAbout }, dispatch);
 
 AboutMe = connect(mapStateToProps, mapActionToProps)(AboutMe);

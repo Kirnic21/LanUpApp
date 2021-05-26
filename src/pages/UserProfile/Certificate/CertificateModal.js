@@ -2,7 +2,6 @@ import React, { useRef, Fragment, useState } from "react";
 import {
   View,
   Text,
-  ScrollView,
   Image,
   TouchableOpacity,
   TouchableHighlight
@@ -30,6 +29,7 @@ import {
 } from "~/shared/services/certificates.http";
 import RoundButton from "~/shared/components/RoundButton";
 import ButtonLoading from "~/shared/components/Button";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const formRules = FormValidator.make(
   {
@@ -149,137 +149,135 @@ const CertificateModal = ({
 
   return (
     <View style={{ flex: 1, backgroundColor: "#23203F" }}>
-      <ScrollView>
-        <View style={styles.buttonClose}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Certificates");
+      <View style={styles.buttonClose}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Certificates");
+          }}
+        >
+          <Icon name="close" size={calcWidth(9)} color={"#FFFFFF"} />
+        </TouchableOpacity>
+      </View>
+
+      {ViewCerticates ? (
+        <>
+          <View
+            style={[styles.containerImage, { marginBottom: calcWidth(10) }]}
+          >
+            <Image
+              source={{ uri: item.certificateImage }}
+              resizeMode="contain"
+              style={{ width: "100%", height: 250, borderRadius: 5 }}
+            />
+          </View>
+          {content.map((x, i) => (
+            <View key={i}>
+              <Text style={styles.title}>{x.title}</Text>
+              <Text style={styles.subTitle}>{x.subTitle}</Text>
+            </View>
+          ))}
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "center"
             }}
           >
-            <Icon name="close" size={calcWidth(9)} color={"#FFFFFF"} />
-          </TouchableOpacity>
-        </View>
-
-        {ViewCerticates ? (
-          <>
-            <View
-              style={[styles.containerImage, { marginBottom: calcWidth(10) }]}
-            >
-              <Image
-                source={{ uri: item.certificateImage }}
-                resizeMode="contain"
-                style={{ width: "100%", height: 250, borderRadius: 5 }}
-              />
-            </View>
-            {content.map((x, i) => (
-              <View key={i}>
-                <Text style={styles.title}>{x.title}</Text>
-                <Text style={styles.subTitle}>{x.subTitle}</Text>
-              </View>
-            ))}
-            <View
-              style={{
-                flexDirection: "row",
-                width: "100%",
-                justifyContent: "center"
+            <RoundButton
+              name="Alterar"
+              width={calcWidth(30)}
+              onPress={() => {
+                setViewCerticates(false);
+                setPicture({ image: item.certificateImage });
+                setIsEditing(true);
               }}
-            >
-              <RoundButton
-                name="Alterar"
-                width={calcWidth(30)}
-                onPress={() => {
-                  setViewCerticates(false);
-                  setPicture({ image: item.certificateImage });
-                  setIsEditing(true);
-                }}
-                style={{ backgroundColor: "#7541BF" }}
-              />
-              <RoundButton
-                name="Deletar"
-                onPress={() => setVisible(true)}
-                width={calcWidth(30)}
-                style={{ borderWidth: 2, borderColor: "#FFFFFF" }}
-              />
-            </View>
-          </>
-        ) : (
+              style={{ backgroundColor: "#7541BF" }}
+            />
+            <RoundButton
+              name="Deletar"
+              onPress={() => setVisible(true)}
+              width={calcWidth(30)}
+              style={{ borderWidth: 2, borderColor: "#FFFFFF" }}
+            />
+          </View>
+        </>
+      ) : (
+        <KeyboardAwareScrollView style={{ flex: 1 }}>
           <>
-            <>
-              {picture.image ? (
-                <TouchableHighlight
-                  onPress={() => handleOnPictureAdd()}
-                  style={styles.containerImage}
-                >
-                  <Image
-                    source={{ uri: picture.image }}
-                    resizeMode="contain"
-                    style={{ width: "100%", height: 250 }}
-                  />
-                </TouchableHighlight>
-              ) : (
-                <TouchableOpacity
-                  style={styles.containerImage}
-                  onPress={() => handleOnPictureAdd()}
-                >
-                  <Icon name="photo-camera" size={50} color="#FFF" />
-                  <Text style={styles.legend}>Adicionar Imagem</Text>
-                </TouchableOpacity>
-              )}
-            </>
-            <View
-              style={{
-                marginHorizontal: calcWidth(10),
-                marginTop: calcWidth(-5)
-              }}
-            >
-              <Field
-                title="Tipo"
-                error={errorType}
-                component={DropDown}
-                name={"type"}
-                items={[
-                  { label: "Curso Técnico", value: 1 },
-                  { label: "Curso Livre", value: 2 },
-                  { label: "Graduação", value: 3 },
-                  { label: "Pós graduação", value: 4 },
-                  { label: "MBA", value: 5 }
-                ]}
-              />
-              <Field
-                title="Nome do curso/treinamento"
-                component={InputField}
-                name={"name"}
-                isfocused={FuchsiaBlueColor}
-              />
-              <Field
-                title="Instituição"
-                component={InputField}
-                name={"issuer"}
-                isfocused={FuchsiaBlueColor}
-              />
-              <Field
-                title="Ano de formação"
-                component={InputField}
-                name={"conclusionYear"}
-                isfocused={FuchsiaBlueColor}
-                maxLength={4}
-                keyboardType="numeric"
-              />
-              <View style={{ alignItems: "center", marginTop: calcWidth(3) }}>
-                <ButtonLoading
-                  disabled={invalid || !picture.image}
-                  loading={!loading}
-                  color={FuchsiaBlueColor}
-                  cliclButtonColor="#EB4886"
-                  name={isEditing ? "Salvar" : "Adicionar"}
-                  size="small"
-                  onPress={handleSubmit(data => validation(data))}
+            {picture.image ? (
+              <TouchableHighlight
+                onPress={() => handleOnPictureAdd()}
+                style={styles.containerImage}
+              >
+                <Image
+                  source={{ uri: picture.image }}
+                  resizeMode="contain"
+                  style={{ width: "100%", height: 250 }}
                 />
-              </View>
-            </View>
+              </TouchableHighlight>
+            ) : (
+              <TouchableOpacity
+                style={styles.containerImage}
+                onPress={() => handleOnPictureAdd()}
+              >
+                <Icon name="photo-camera" size={50} color="#FFF" />
+                <Text style={styles.legend}>Adicionar Imagem</Text>
+              </TouchableOpacity>
+            )}
           </>
-        )}
-      </ScrollView>
+          <View
+            style={{
+              marginHorizontal: calcWidth(10),
+              marginTop: calcWidth(-5)
+            }}
+          >
+            <Field
+              title="Tipo"
+              error={errorType}
+              component={DropDown}
+              name={"type"}
+              items={[
+                { label: "Curso Técnico", value: 1 },
+                { label: "Curso Livre", value: 2 },
+                { label: "Graduação", value: 3 },
+                { label: "Pós graduação", value: 4 },
+                { label: "MBA", value: 5 }
+              ]}
+            />
+            <Field
+              title="Nome do curso/treinamento"
+              component={InputField}
+              name={"name"}
+              isfocused={FuchsiaBlueColor}
+            />
+            <Field
+              title="Instituição"
+              component={InputField}
+              name={"issuer"}
+              isfocused={FuchsiaBlueColor}
+            />
+            <Field
+              title="Ano de formação"
+              component={InputField}
+              name={"conclusionYear"}
+              isfocused={FuchsiaBlueColor}
+              maxLength={4}
+              keyboardType="numeric"
+            />
+            <View style={{ alignItems: "center", marginTop: calcWidth(3) }}>
+              <ButtonLoading
+                disabled={invalid || !picture.image}
+                loading={!loading}
+                color={FuchsiaBlueColor}
+                cliclButtonColor="#EB4886"
+                name={isEditing ? "Salvar" : "Adicionar"}
+                size="small"
+                onPress={handleSubmit(data => validation(data))}
+              />
+            </View>
+          </View>
+        </KeyboardAwareScrollView>
+      )}
       <ExclusionModal
         visible={visible}
         onClose={() => setVisible(false)}
@@ -325,7 +323,7 @@ const styles = {
     marginLeft: calcWidth(11)
   },
   buttonClose: {
-    zIndex: 0,
+    zIndex: 2,
     margin: calcWidth(15),
     marginLeft: calcWidth(3),
     marginBottom: calcWidth(-10),
