@@ -18,6 +18,8 @@ const deitailsVacanciesSchedules = (data) =>
   );
 
 const getSchedules = (data) => HTTP.get(`vacancies?status=${data}`);
+const getInvites = () => HTTP.get(`vacancies/invites`);
+
 
 export {
   acceptInvite,
@@ -26,4 +28,5 @@ export {
   deitailsVacanciesSchedules,
   acceptInvitations,
   vacanciesEmergencyAccept,
+  getInvites
 };
