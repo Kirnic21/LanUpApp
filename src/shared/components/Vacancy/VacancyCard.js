@@ -11,6 +11,7 @@ import DateComponent from "../DateComponent";
 
 const VacancyCard = ({
   title,
+  job,
   date,
   content,
   address,
@@ -54,7 +55,7 @@ const VacancyCard = ({
               allowFontScaling={false}
               style={[styles.f_11, styles.colorWhite, styles.fontHND_regular]}
             >
-              {title} - <Text>{creationDate}</Text>
+              {job} - <Text>{creationDate}</Text>
             </Text>
           </View>
           <Text

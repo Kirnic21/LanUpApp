@@ -119,6 +119,7 @@ export default class Schedule extends React.Component {
           data={this.sortBy(listVacancy)}
           renderItem={({ item }) => (
             <VacancyCard
+              job={item.job}
               title={item.eventName}
               date={item.jobDate}
               eventCreationDate={item.eventCreationDate}
@@ -141,7 +142,7 @@ export default class Schedule extends React.Component {
               }
             />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={() => Math.random().toString()}
         />
       </View>
     );

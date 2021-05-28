@@ -34,11 +34,13 @@ export default class ToExplore extends Component {
           (c) => c.name
         );
         const JobsSelected = name.map((item) => ({ title: item }));
-        if(JobsSelected.length) {
-          this.setState({ JobsSelected });
+        if (JobsSelected.length) {
+          this.setState({
+            JobsSelected: [...JobsSelected, { title: "Todas Vagas" }],
+          });
           this.getVacancy(JobsSelected[0].title);
-        }else {
-          this.props.navigation.push('Profession')
+        } else {
+          this.props.navigation.push("Profession");
         }
       })
       .finally(() => {
@@ -47,7 +49,7 @@ export default class ToExplore extends Component {
   };
 
   getVacancy(e) {
-    vacancy(e)
+    vacancy(e === "Todas Vagas" ? "" : e)
       .then(({ data }) => {
         const vacancies = data.result.filter(
           (c) =>
@@ -106,11 +108,12 @@ export default class ToExplore extends Component {
             data={listVacancy}
             renderItem={({ item, index }) => (
               <VacancyCard
+                job={item.job}
                 title={item.eventName}
                 date={item.jobDate.substr(0, 19)}
                 eventCreationDate={item.eventCreationDate}
                 content={`${item.workShiftQuantity} turnos e ${item.totalVacancy} vagas`}
-                address={item.isHomeOffice ? 'Home Office' : item.address}
+                address={item.isHomeOffice ? "Home Office" : item.address}
                 picture={item.picture !== null ? item.picture.url : null}
                 amount={item.amount}
                 onPress={() =>
@@ -121,7 +124,7 @@ export default class ToExplore extends Component {
                 }
               />
             )}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={() => Math.random().toString()}
           />
         </View>
         <ExclusionModal
