@@ -35,15 +35,22 @@ class VacanciesDetails extends Component {
   state = {
     spinner: false,
     status: this.props.navigation.state.params.status,
+    serviceDetail: [
+      { checkin: new Date().toISOString(), checkout: new Date().toISOString() },
+    ],
   };
 
   componentDidMount() {
     const { status } = this.state;
-    const { job, getDeitails } = this.props.navigation.state.params;
+    const { job, getDeitails, isInvite } = this.props.navigation.state.params;
     status === 1 ? this.setDeitails(getDeitails) : this.getDeitailVacancy(job);
 
     const route =
-      status === 0 ? "ToExplore" : status === 1 ? "UserProfile" : "Schedule";
+      status === 0 && isInvite !== true
+        ? "ToExplore"
+        : status === 1
+        ? "UserProfile"
+        : "Schedule";
     this.props.navigation.setParams({
       route,
     });
@@ -119,11 +126,10 @@ class VacanciesDetails extends Component {
     });
   };
 
-  selectShift = ({ checkin, checkout }) => {
+  selectShift = (x) => {
     this.setState({
-      description: `${formatDate(checkin)} - ${formatDate(checkout)}`,
-      checkin: checkin,
-      checkout: checkout,
+      checkin: x?.checkin,
+      checkout: x?.checkout,
     });
   };
 
@@ -177,7 +183,7 @@ class VacanciesDetails extends Component {
     this.setState({ spinner: true }, () => {
       acceptInvite(request)
         .then(() => {
-          this.props.navigation.navigate("Schedule");
+          this.props.navigation.replace("Schedule");
         })
         .catch((error) => {
           AlertHelper.show("error", "Erro", error.response.data.errorMessage);
@@ -306,7 +312,6 @@ class VacanciesDetails extends Component {
       checkListAtCheckin,
       checkListCheckoutPreview,
       checkListAtCheckout,
-      description,
       eventDescription,
       spinner,
       status,
@@ -325,7 +330,7 @@ class VacanciesDetails extends Component {
             <CardImageVacancies
               title={`${eventName}`}
               shift={`${workshiftsQuantity}`}
-              location={`${location ? location : 'Evento Home office'}`}
+              location={`${location ? location : "Evento Home office"}`}
               eventDate={jobDate}
               picture={image}
               isHomeOffice={isHomeOffice}
@@ -409,11 +414,13 @@ class VacanciesDetails extends Component {
             {status === 0 && (
               <SelectComponent
                 label="Turnos disponíveis"
-                onSelect={(id, value) => {
+                onSelect={(value) => {
                   this.selectShift(value);
                 }}
-                options={serviceDetail}
-                value={description}
+                options={serviceDetail.map((x) => ({
+                  label: `${formatDate(x.checkin)} - ${formatDate(x.checkout)}`,
+                  value: x,
+                }))}
               />
             )}
           </View>

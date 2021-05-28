@@ -1,66 +1,74 @@
-import React from "react";
-import { View, Text, TouchableHighlight, StyleSheet } from "react-native";
-import ModalDropdown from "react-native-modal-dropdown";
-import dimensions, { adjust } from "~/assets/Dimensions";
-import Icon from "react-native-vector-icons/FontAwesome";
-import formatDate from "~/shared/helpers/formatDate";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
+import { adjust } from "~/assets/Dimensions";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
-const SelectComponent = ({ value, options, onSelect, label }) => {
-  const displayRow = data => {
-    return (
-      <TouchableHighlight>
-        <View style={{ padding: "5%" }}>
-          <Text
-            style={[styles.title, { color: "#23203F" }]}
-          >{formatDate(data.checkin)} até {formatDate(data.checkout)}</Text>
-        </View>
-      </TouchableHighlight>
-    );
-  };
+import PropTypes from "prop-types";
+
+const SelectComponent = ({ onSelect, options }) => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
 
   return (
-    <View>
-      <Text style={styles.title}>{label}</Text>
-      <ModalDropdown
-        options={options}
-        onSelect={onSelect}
-        renderRow={row => displayRow(row)}
-        dropdownStyle={{ width: "80%" }}
-        style={styles.modal}
-      >
-        <View style={styles.content}>
-          <Text style={styles.title}>{value ? value : "Selecione..."}</Text>
-          <Icon name={"sort-down"} size={dimensions(15)} color="#FFF" />
-        </View>
-      </ModalDropdown>
+    <View style={styles.container}>
+      <DropDownPicker
+        listMode="SCROLLVIEW"
+        style={styles.container}
+        dropDownContainerStyle={{
+          backgroundColor: "#23203F",
+          borderWidth: 1,
+          borderColor: "#FFFFFF",
+        }}
+        ArrowDownIconComponent={() => {
+          return (
+            <Icon
+              name="keyboard-arrow-down"
+              size={adjust(20)}
+              color="#FFFFFF"
+            />
+          );
+        }}
+        ArrowUpIconComponent={() => {
+          return (
+            <Icon name="keyboard-arrow-up" size={adjust(20)} color="#FFFFFF" />
+          );
+        }}
+        TickIconComponent={() => {
+          return <Icon name="check" size={adjust(20)} color="#FFFFFF" />;
+        }}
+        textStyle={styles.text}
+        open={open}
+        value={value}
+        items={[{ label: "Selecione um Turno", value: null }, ...options]}
+        setValue={(e) => setValue(e)}
+        setOpen={() => setOpen(!open)}
+        placeholder="Selecione um Turno"
+        placeholderStyle={styles.text}
+        onChangeValue={(value) => onSelect(value)}
+      />
     </View>
   );
 };
 
+SelectComponent.prototype = {
+  label: PropTypes.string,
+  options: PropTypes.array,
+  onSelect: PropTypes.func,
+};
+
 const styles = StyleSheet.create({
-  TextInput: {
-    borderWidth: 2,
-    color: "#FFF",
-    paddingHorizontal: "7%"
+  container: {
+    borderRadius: 5,
+    borderColor: "#cad4db",
+    height: 50,
+    backgroundColor: "transparent",
   },
-  title: {
-    color: "#FFF",
-    fontSize: adjust(10),
-    fontFamily: "HelveticaNowMicro-Regular"
+  text: {
+    color: "#FFFFFF",
+    fontSize: adjust(12),
+    fontFamily: "HelveticaNowMicro-Regular",
   },
-  modal: {
-    borderColor: "#FFF",
-    borderWidth: 2,
-    height: dimensions(45),
-    borderRadius: dimensions(50),
-    justifyContent: "center"
-  },
-  content: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: "6%"
-  }
 });
 
 export default SelectComponent;
