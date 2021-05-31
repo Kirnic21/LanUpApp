@@ -29,12 +29,8 @@ const RatingStar = ({ title, rating, selectedStar }) => {
         <StarRating
           disabled={false}
           maxStars={5}
-          emptyStar={"star"}
-          fullStar={"star"}
           emptyStarColor="#C5B9EE"
           fullStarColor="#FFCC00"
-          halfStar={"star-half"}
-          iconSet={"MaterialCommunityIcons"}
           rating={rating}
           starSize={calcWidth(14)}
           selectedStar={selectedStar}

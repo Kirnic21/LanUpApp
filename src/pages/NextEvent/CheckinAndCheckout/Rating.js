@@ -84,10 +84,10 @@ class Rating extends React.Component {
           <View>
             <RatingStar
               rating={managment}
+              title="Gestão*"
               selectedStar={(rating) =>
                 this.selectedStar({ managment: rating })
               }
-              title="Gestão*"
             />
             <RatingStar
               rating={food}

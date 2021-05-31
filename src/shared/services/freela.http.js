@@ -1,7 +1,7 @@
 import { HTTP, HTTPFORM } from "./http.base";
 import { tokenDecode } from "~/shared/services/decode";
 
-const getAbout = () =>
+const getAboutHttp = () =>
   tokenDecode().then(({ id }) =>
     HTTP.get(`freelas/${id}/about`).then(({ data }) => data.result)
   );
@@ -77,7 +77,7 @@ export {
   galleryDelete,
   saveAvailability,
   getAvailability,
-  getAbout,
+  getAboutHttp,
   aboutMe,
   getSkills,
   service,

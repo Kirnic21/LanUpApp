@@ -18,6 +18,7 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import Lottie from "lottie-react-native";
 import loadingSpinner from "~/assets/loadingSpinner.json";
 
+import { getAbout, updateAbout } from "~/store/ducks/aboutMe/about.actions";
 import { fetchJobs } from "~/store/ducks/Profession/Job/job.actions";
 import { fetchSkill } from "~/store/ducks/Profession/skills/skills.actions";
 import { TextInputMask } from "react-native-masked-text";
@@ -38,6 +39,7 @@ class Profession extends Component {
       ValueToWork: minimumValueToWork,
     });
   }
+
 
   handleInputFocus = () =>
     this.setState({ isFocused: true, isValueWork: false });
@@ -312,6 +314,9 @@ const mapStateToProps = (state) => {
 const mapActionToProps = (dispatch) =>
   bindActionCreators(
     {
+      getAbout,
+      updateAbout,
+
       fetchJobs,
       fetchSkill,
       aboutMe: (about) => dispatch({ type: "ABOUT_SUCCESS", about }),

@@ -41,13 +41,15 @@ PODS:
     - lottie-ios (~> 3.1.8)
     - React-Core
   - OneSignal (3.4.3)
-  - Permission-Camera (3.0.3):
+  - Permission-Camera (3.0.4):
     - RNPermissions
-  - Permission-LocationAccuracy (3.0.3):
+  - Permission-LocationAccuracy (3.0.4):
     - RNPermissions
-  - Permission-LocationAlways (3.0.3):
+  - Permission-LocationAlways (3.0.4):
     - RNPermissions
-  - Permission-PhotoLibrary (3.0.3):
+  - Permission-LocationWhenInUse (3.0.4):
+    - RNPermissions
+  - Permission-PhotoLibrary (3.0.4):
     - RNPermissions
   - RCT-Folly (2020.01.13.00):
     - boost-for-react-native
@@ -380,7 +382,7 @@ PODS:
     - React-Core
     - React-RCTImage
     - TOCropViewController
-  - RNPermissions (3.0.3):
+  - RNPermissions (3.0.4):
     - React-Core
   - RNReanimated (1.13.0):
     - React
@@ -414,6 +416,7 @@ DEPENDENCIES:
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
   - Permission-LocationAccuracy (from `../node_modules/react-native-permissions/ios/LocationAccuracy`)
   - Permission-LocationAlways (from `../node_modules/react-native-permissions/ios/LocationAlways`)
+  - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse`)
   - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -503,6 +506,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions/ios/LocationAccuracy"
   Permission-LocationAlways:
     :path: "../node_modules/react-native-permissions/ios/LocationAlways"
+  Permission-LocationWhenInUse:
+    :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse"
   Permission-PhotoLibrary:
     :path: "../node_modules/react-native-permissions/ios/PhotoLibrary"
   RCT-Folly:
@@ -621,10 +626,11 @@ SPEC CHECKSUMS:
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   lottie-react-native: 4dff8fe8d10ddef9e7880e770080f4a56121397e
   OneSignal: e4dfb1912410f302dc9661ce98fc829f6c18ff6a
-  Permission-Camera: 6abdb054620b2f6b3bf9e0b3842db246424d4d48
-  Permission-LocationAccuracy: 1cc2eebdd2a00bf473dc24fa50a1d3bc2b40e1a1
-  Permission-LocationAlways: c95b61c667ba9cffde2804baf00fe4d8b0e3b10a
-  Permission-PhotoLibrary: 577c8246ca03603c915485b20aad855bd8f05334
+  Permission-Camera: 74dc395c37a06ebe915069c5dca954c7a2a5a2e3
+  Permission-LocationAccuracy: ee72e91271cb33794f71aef86a03a3cff5dfd7c0
+  Permission-LocationAlways: d3ac15e4bf8f4f5f4e224b4fea6f84b14fa19132
+  Permission-LocationWhenInUse: ebef6bf8a123d382f25e9990468cfc8a76fbadf5
+  Permission-PhotoLibrary: 440f206f0d36e5951c4c9b28567f60471fdddfb5
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
   RCTTypeSafety: 512728b73549e72ad7330b92f3d42936f2a4de5b
@@ -669,7 +675,7 @@ SPEC CHECKSUMS:
   RNFastImage: e19ba191922e7dab9d932a4d59d62d76660aa222
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNImageCropPicker: 530e8b69d97f80e03bc9f3b2cb64412312824330
-  RNPermissions: 034db8a73d562766f990c89abbdeaa5d6e204c67
+  RNPermissions: c46788f4cd402287425983e04a4c9bb4356036eb
   RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
   RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
   RNSentry: 2d4a0e18c6dfe93b647c360e0d15c9391d24e9d1
@@ -680,6 +686,6 @@ SPEC CHECKSUMS:
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
 
-PODFILE CHECKSUM: 552da98521380fc5e6f1645703a751351090ce59
+PODFILE CHECKSUM: dab3e9e143f91311337efdad8bdc905bbe82bd88
 
 COCOAPODS: 1.10.1

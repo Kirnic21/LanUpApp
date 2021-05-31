@@ -38,14 +38,14 @@ const ModalOccurrence = ({
       visible={visible}
       onClose={onClose}
       loading={loading}
-      heightModal={picture ? dimensions(450) : calcWidth(90)}
+      heightModal={calcHeight(95)}
     >
       <View style={{ marginHorizontal: calcWidth(5) }}>
         <Text style={styles.title}>Ocorrência</Text>
-        <View style={{ marginTop: calcHeight(4) }}>
+        <View style={{ marginTop: calcHeight(2) }}>
           <Text style={styles.subTitle}>O que aconteceu?</Text>
           {picture ? (
-            <View style={{ alignItems: "center", margin: calcWidth(3) }}>
+            <View style={{ alignItems: "center", margin: calcWidth(4) }}>
               <Image source={{ uri: picture }} style={styles.img} />
             </View>
           ) : (
@@ -109,12 +109,12 @@ const ModalOccurrence = ({
 const styles = StyleSheet.create({
   title: {
     color: "#FFF",
-    fontSize: adjust(20),
+    fontSize: adjust(18),
     fontFamily: "HelveticaNowMicro-Medium",
   },
   subTitle: {
     color: "#FFF",
-    fontSize: adjust(15),
+    fontSize: adjust(14),
     fontFamily: "HelveticaNowMicro-Regular",
   },
   textInput: {
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     left: calcWidth(60),
   },
   img: {
-    height: dimensions(150),
+    height: dimensions(140),
     width: calcWidth(75),
     borderRadius: calcWidth(5),
   },
