@@ -31,6 +31,10 @@ import ButtonComponent from "~/shared/components/ButtonCompoent";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import formatDate from "~/shared/helpers/formatDate";
 
+import debounceButton from "~/shared/helpers/debounce";
+
+const Button = debounceButton(ButtonComponent);
+
 class VacanciesDetails extends Component {
   state = {
     spinner: false,
@@ -192,7 +196,6 @@ class VacanciesDetails extends Component {
           this.setState({ spinner: false });
         });
     });
-    return;
   };
 
   acceptVacancyInvite = () => {
@@ -243,7 +246,7 @@ class VacanciesDetails extends Component {
     const { status, checkin } = this.state;
     return {
       0: (
-        <ButtonComponent
+        <Button
           title="Aceitar esta vaga"
           isSelected={!!checkin}
           onPress={() => {
@@ -254,7 +257,7 @@ class VacanciesDetails extends Component {
         />
       ),
       1: (
-        <ButtonComponent
+        <Button
           title="Aceitar vaga urgente"
           isSelected={true}
           selectedColor="#EB4886"
@@ -282,7 +285,7 @@ class VacanciesDetails extends Component {
         />
       ),
       8: (
-        <ButtonComponent
+        <Button
           title="Aceitar esta vaga"
           isSelected={true}
           onPress={() => {

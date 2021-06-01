@@ -41,6 +41,7 @@ const SelectComponent = ({ onSelect, options }) => {
         open={open}
         value={value}
         items={[{ label: "Selecione um Turno", value: null }, ...options]}
+        itemKey={Math.random()}
         setValue={(e) => setValue(e)}
         setOpen={() => setOpen(!open)}
         placeholder="Selecione um Turno"
