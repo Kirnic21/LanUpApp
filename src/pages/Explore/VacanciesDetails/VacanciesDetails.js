@@ -48,7 +48,6 @@ class VacanciesDetails extends Component {
     const { status } = this.state;
     const { job, getDeitails, isInvite } = this.props.navigation.state.params;
     status === 1 ? this.setDeitails(getDeitails) : this.getDeitailVacancy(job);
-
     const route =
       status === 0 && isInvite !== true
         ? "ToExplore"
@@ -171,6 +170,7 @@ class VacanciesDetails extends Component {
         state: {
           params: {
             job: { id: eventId, jobDate: day, job: jobToDo, serviceId },
+            isInvite,
           },
         },
       },
@@ -183,11 +183,14 @@ class VacanciesDetails extends Component {
       checkin,
       jobToDo,
       serviceId,
+      isInvite,
     };
     this.setState({ spinner: true }, () => {
       acceptInvite(request)
         .then(() => {
-          this.props.navigation.push("Schedule");
+          isInvite
+            ? this.props.navigation.replace("Schedule")
+            : this.props.navigation.navigate("Schedule");
         })
         .catch((error) => {
           AlertHelper.show("error", "Erro", error.response.data.errorMessage);

@@ -115,6 +115,7 @@ export default class ToExplore extends Component {
                   this.props.navigation.navigate("VacanciesDetails", {
                     job: item,
                     status: 0,
+                    isInvite: item?.isInvite
                   })
                 }
               />
