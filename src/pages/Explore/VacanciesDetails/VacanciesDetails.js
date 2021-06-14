@@ -187,7 +187,7 @@ class VacanciesDetails extends Component {
     this.setState({ spinner: true }, () => {
       acceptInvite(request)
         .then(() => {
-          this.props.navigation.replace("Schedule");
+          this.props.navigation.push("Schedule");
         })
         .catch((error) => {
           AlertHelper.show("error", "Erro", error.response.data.errorMessage);

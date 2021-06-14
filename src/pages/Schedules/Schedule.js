@@ -17,6 +17,7 @@ export default class Schedule extends React.Component {
     listVacancy: [],
     listFilter: [
       { id: 2, title: "Escalados" },
+      { id: 3, title: "Candidatados" },
       { id: 8, title: "convites" },
       { id: 5, title: "Pagos" },
     ],

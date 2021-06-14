@@ -51,12 +51,7 @@ export default class ToExplore extends Component {
   getVacancy(e) {
     vacancy(e === "Todas Vagas" ? "" : e)
       .then(({ data }) => {
-        const vacancies = data.result.filter(
-          (c) =>
-            new Date(`${c.jobDate.substr(0, 11)}03:00:00.000Z`) >=
-            new Date(new Date().setHours(0, 0, 0, 0))
-        );
-        this.setState({ listVacancy: vacancies });
+        this.setState({ listVacancy: data.result });
       })
       .finally(() => {
         this.setState({ loading: false });
