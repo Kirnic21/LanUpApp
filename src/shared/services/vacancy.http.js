@@ -10,7 +10,7 @@ const acceptInvitations = (vacancyId) =>
   HTTP.put(`vacancies/${vacancyId}/invitations/accept`);
 
 const deleteVacancies = (data) =>
-  HTTP.delete(`vacancies/${data.id}/${data.checkin}/${data.checkout}`);
+  HTTP.delete(`vacancies/${data.id}`);
 
 const deitailsVacanciesSchedules = (data) =>
   HTTP.get(
