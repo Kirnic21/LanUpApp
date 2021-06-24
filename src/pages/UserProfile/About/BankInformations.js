@@ -7,9 +7,15 @@ import bank from "./bank";
 import ModalSearch from "~/shared/components/ModalSearch";
 
 import DropDown from "~/shared/components/DropDown";
-import { calcWidth } from "~/assets/Dimensions";
+import { adjust, calcWidth } from "~/assets/Dimensions";
+
+import Modal from "~/shared/components/ModalComponent";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { TouchableOpacity } from "react-native";
 
 const BankInformation = () => {
+  const [infoModal, setInfoModal] = useState(false);
+
   reduxForm({ form: "BankInformation" });
 
   const [code, setCode] = useState([]);
@@ -31,7 +37,12 @@ const BankInformation = () => {
   return (
     <View>
       <View style={styles.containerInformationBank}>
-        <Text style={styles.TitleInformation}>Informações Bancárias</Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={styles.TitleInformation}>Informações Bancárias</Text>
+          <TouchableOpacity onPress={() => setInfoModal((prev) => !prev)}>
+            <Icon name="help" size={calcWidth(10)} color="#EB4886" />
+          </TouchableOpacity>
+        </View>
         <Field
           style={{ width: "100%" }}
           title="Tipo da conta"
@@ -93,6 +104,29 @@ const BankInformation = () => {
           isfocused={"#A893F2"}
         />
       </View>
+      <Modal
+        visible={infoModal}
+        onClose={() => setInfoModal((prev) => !prev)}
+        heightModal={"auto"}
+      >
+        <View style={{ padding: "5%", alignItems: "center" }}>
+          <Text
+            style={{
+              fontSize: adjust(15),
+              textAlign: "center",
+              color: "#FFFFFF",
+              letterSpacing: 0.5,
+              lineHeight: adjust(17),
+              fontFamily: "HelveticaNowMicro-Regular",
+            }}
+          >
+            Declaro e autorizo que os dados bancários cadastrados são
+            exclusivamente para os recebimentos dos pagamentos de acordo os
+            serviços prestados aos contratantes, conforme às descrições da vaga,
+            carga horária, valores e aceite.
+          </Text>
+        </View>
+      </Modal>
     </View>
   );
 };

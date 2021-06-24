@@ -399,14 +399,14 @@ class VacanciesDetails extends Component {
               ) : (
                 <View>
                   <CardDeitailsVacancies
-                    title="Check In"
+                    title="Entrada"
                     contentTextStyle={styles.colorWhite}
                     isModalOn={true}
                     previewContent={checkListCheckinPreview}
                     content={checkListAtCheckin}
                   />
                   <CardDeitailsVacancies
-                    title="Check Out"
+                    title="Saída"
                     contentTextStyle={styles.colorWhite}
                     isModalOn={true}
                     previewContent={checkListCheckoutPreview}
