@@ -61,7 +61,7 @@ const Details = ({
   const [terms, setTerms] = useState(false);
 
   const url =
-    "https://docs.google.com/document/d/1CfAXLfUVr3ldzppRfNggn1dMFEGIhpH-/edit";
+    "https://drive.google.com/uc?id=1KS3Gha7epmpV0Yc3zLyrctMSgBppiz_f&export=download";
   const localFile = `${RNFS.DocumentDirectoryPath}/Termos de Segurança.docx`;
 
   const parseCheckin = useMemo(() => {
@@ -206,7 +206,7 @@ const Details = ({
               }))}
             />
           )}
-          {hasSecurityProtocol && (
+          {hasSecurityProtocol && [0, 1, 8].includes(status) && (
             <View style={styles.containerCheckbox}>
               <TouchableOpacity onPress={() => setTerms((prev) => !prev)}>
                 <Icon
