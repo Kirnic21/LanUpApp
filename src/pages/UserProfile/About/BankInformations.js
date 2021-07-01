@@ -40,7 +40,7 @@ const BankInformation = () => {
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={styles.TitleInformation}>Informações Bancárias</Text>
           <TouchableOpacity onPress={() => setInfoModal((prev) => !prev)}>
-            <Icon name="help" size={calcWidth(10)} color="#EB4886" />
+            <Icon name="help" size={calcWidth(8.5)} color="#EB4886" />
           </TouchableOpacity>
         </View>
         <Field
