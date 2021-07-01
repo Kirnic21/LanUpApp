@@ -48,6 +48,8 @@
     "react-native-elements": "^2.0.2",
     "react-native-fast-image": "^8.1.5",
     "react-native-fbsdk": "^2.0.0",
+    "react-native-file-viewer": "^2.1.4",
+    "react-native-fs": "^2.18.0",
     "react-native-geolocation-service": "^5.2.0",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-htmlview": "^0.16.0",
