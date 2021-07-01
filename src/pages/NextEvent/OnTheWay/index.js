@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useCallback, useEffect } from "react";
 import { NativeModules } from "react-native";
 
 import ButtonPulse from "~/shared/components/ButtonPulse";
@@ -19,25 +19,14 @@ const OnTheWay = ({
 }) => {
   useEffect(() => {
     if (statusOperation === 2) {
-      openMaps();
+      _getLatitudeAndLongitude();
     }
-  });
+  }, [statusOperation]);
 
-  const openMaps = async () => {
+  const _getLatitudeAndLongitude = useCallback(() => {
     Geolocation.getCurrentPosition(
-      async ({ coords: { latitude, longitude } }) => {
-        statusOperation === 1 && (await startOperation(id));
-
-        NativeModules.ForegroundModule.startForegroundService();
-
-        navigation.replace("MapsGeolocation", {
-          id,
-          eventName,
-          addressId,
-          address,
-          latitude,
-          longitude,
-        });
+      ({ coords: { latitude, longitude } }) => {
+        openMaps(latitude, longitude);
       },
       (error) => {
         error.code === 5
@@ -50,7 +39,29 @@ const OnTheWay = ({
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );
-  };
+  }, []);
+
+  const openMaps = useCallback(
+    (latitude, longitude) => {
+      NativeModules.ForegroundModule.startForegroundService();
+
+      navigation.replace("MapsGeolocation", {
+        id,
+        eventName,
+        addressId,
+        address,
+        latitude,
+        longitude,
+      });
+    },
+    [navigation, id, eventName, address, addressId]
+  );
+
+  const _onTheWay = useCallback(() => {
+    startOperation(id)
+      .then(() => _getLatitudeAndLongitude())
+      .catch((error) => AlertHelper.show("error", "Erro", error));
+  }, [id]);
 
   return (
     <Fragment>
@@ -61,7 +72,7 @@ const OnTheWay = ({
         startAnimations
         color="#03DAC6"
         titleColor="#24203B"
-        onPress={() => openMaps()}
+        onPress={() => _onTheWay()}
       />
     </Fragment>
   );
