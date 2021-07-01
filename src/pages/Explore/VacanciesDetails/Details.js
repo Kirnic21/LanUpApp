@@ -147,7 +147,7 @@ const Details = ({
           </CardDeitailsVacancies>
           <View>
             <CardDeitailsVacancies
-              title="Deveres"
+              title="Jornada"
               contentTextStyle={styles.colorWhite}
               isModalOn={true}
               previewContent={previewResponsabilities}
