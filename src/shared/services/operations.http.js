@@ -16,14 +16,18 @@ const operationsCheckout = (data) =>
   HTTP.post(`${resource}/${data.id}/checkouts`, data);
 
 const operationsStatus = (data) =>
-  HTTP.get(`${resource}/${data.id}/freelas/${data.freelaId}/status/${data.isHomeOffice}`);
+  HTTP.get(
+    `${resource}/${data.id}/freelas/${data.freelaId}/status/${data.isHomeOffice}`
+  );
 
-const startOperation = (id) => HTTP.post(`${resource}/${id}/start`);
-const arrivelOperation = (id) => HTTP.post(`${resource}/${id}/arrival`);
+const startOperation = (data) =>
+  HTTP.post(`${resource}/${data.id}/start`, data);
+const arrivelOperation = (data) =>
+  HTTP.post(`${resource}/${data.id}/arrival`, data);
 const checkpoints = (data) =>
   HTTP.post(`${resource}/${data.id}/checkpoints`, data);
 
-  const location = (data) =>
+const location = (data) =>
   HTTP.post(`${resource}/${data.id}/currentLocation`, data);
 
 export {
@@ -38,5 +42,5 @@ export {
   startOperation,
   arrivelOperation,
   checkpoints,
-  location
+  location,
 };

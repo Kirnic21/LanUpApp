@@ -16,6 +16,9 @@ const OnTheWay = ({
   address,
   statusOperation,
   navigation,
+  eventId,
+  vacancyId,
+  job
 }) => {
   useEffect(() => {
     if (statusOperation === 2) {
@@ -48,6 +51,9 @@ const OnTheWay = ({
       navigation.replace("MapsGeolocation", {
         id,
         eventName,
+        eventId,
+        vacancyId,
+        job,
         addressId,
         address,
         latitude,
@@ -58,10 +64,10 @@ const OnTheWay = ({
   );
 
   const _onTheWay = useCallback(() => {
-    startOperation(id)
+    startOperation({ id, eventId, vacancyId, job })
       .then(() => _getLatitudeAndLongitude())
       .catch((error) => AlertHelper.show("error", "Erro", error));
-  }, [id]);
+  }, [id, eventId, vacancyId, job]);
 
   return (
     <Fragment>
