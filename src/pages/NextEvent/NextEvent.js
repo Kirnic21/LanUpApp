@@ -101,7 +101,7 @@ const NextEvent = (props) => {
       const checkoutParse = parseISO(checkout);
       const dateStatus = isBefore(new Date(), checkoutParse);
       if (statusOperation > 4) {
-        setStatusOperation(dateStatus ? 7 : 5);
+        setStatusOperation(dateStatus ? 7 : statusOperation);
         setIslate(differenceInHours(new Date(), parseISO(checkout)));
       }
     }, 60000);
