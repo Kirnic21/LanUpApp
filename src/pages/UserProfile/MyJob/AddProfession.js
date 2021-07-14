@@ -12,11 +12,18 @@ import {
   updateServices,
 } from "~/store/ducks/Profession/Job/job.actions";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import InputSearch from "~/shared/components/InputSearch";
 class AddProfession extends Component {
+  state = {
+    services: [],
+  };
+
   componentDidMount() {
-    this.props.navigation.setParams({
+    const { navigation, services } = this.props;
+    navigation.setParams({
       SaveJob: () => this.SaveJob(),
     });
+    this.setState({ services });
   }
 
   componentDidUpdate(prevProps) {
@@ -36,21 +43,18 @@ class AddProfession extends Component {
   };
 
   selectJob = (index) => {
-    const { services, jobSuccess } = this.props;
+    const { jobSuccess, services:job } = this.props;
+    const { services } = this.state;
     const buttonSelected = services[index];
     buttonSelected.isSelected = !buttonSelected.isSelected;
 
     this.setState((prev) => ({ ...prev, services }));
-    jobSuccess(services);
+    jobSuccess([...job]);
   };
 
   SaveJob = async () => {
-    const {
-      updateServices,
-      services,
-      servicesSelected,
-      navigation,
-    } = this.props;
+    const { updateServices, services, servicesSelected, navigation } =
+      this.props;
 
     !servicesSelected.length
       ? AlertHelper.show("error", "Erro", "Adicione pelo menos uma profissão!")
@@ -59,8 +63,18 @@ class AddProfession extends Component {
         });
   };
 
+  searchService = (term) => {
+    const { services } = this.props;
+    const _filter = services.filter(function (item) {
+      const _item = item.name ? item.name.toUpperCase() : "".toUpperCase();
+      return _item.indexOf(term.toUpperCase()) > -1;
+    });
+    this.setState({ services: _filter.length ? _filter : services });
+  };
+
   render() {
-    const { services, servicesSelected, loading } = this.props;
+    const { servicesSelected, loading } = this.props;
+    const { services } = this.state;
     return (
       <View style={styles.container}>
         <SpinnerComponent loading={loading} />
@@ -69,7 +83,7 @@ class AddProfession extends Component {
             <Text
               style={{
                 color: "#FFF",
-                paddingBottom: "5%",
+                paddingTop: "5%",
                 fontSize: adjust(20),
                 fontFamily: "HelveticaNowMicro-Regular",
               }}
@@ -80,9 +94,13 @@ class AddProfession extends Component {
             <Text style={styles.numberJobText}>
               {servicesSelected.length}/3
             </Text>
-
+            <InputSearch
+              placeholder="Procura função"
+              inputStyles={{ marginVertical: "5%" }}
+              handleOnSearch={(text) => this.searchService(text)}
+            />
             <View
-              style={{ flexWrap: "wrap", flexDirection: "row", width: "100%" }}
+              style={{ flexWrap: "wrap", flexDirection: "row", width: "100%", }}
             >
               {services.map(({ name, isSelected }, id) => (
                 <View key={id}>
@@ -128,7 +146,7 @@ export const styles = StyleSheet.create({
     width: "100%",
   },
   containerJob: {
-    marginHorizontal: "10%",
+    marginHorizontal: "5%",
   },
   chip: {
     backgroundColor: "#6C757D",
@@ -147,7 +165,7 @@ export const styles = StyleSheet.create({
     fontSize: adjust(14),
     position: "absolute",
     left: "90%",
-    top: dimensions(9),
+    top: dimensions(20),
     fontFamily: "HelveticaNowMicro-ExtraLight",
   },
 });
