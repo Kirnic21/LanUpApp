@@ -204,7 +204,7 @@ class PhotoGallery extends React.Component {
             title={`Não temos nenhuma${"\n"}mídia para mostrar`}
             subtitle={
               <Text>
-                Adicione e compartilhe{"\n"}suas fotos dos Jobs{"\n"}
+                Adicione e compartilhe{"\n"}suas fotos dos trabalhos{"\n"}
                 realizados, aumentando{"\n"}suas chances no{"\n"}processo
                 seletivo!
               </Text>

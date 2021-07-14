@@ -109,7 +109,9 @@ class drawerContentComponents extends Component {
               style={styles.containerIcons}
             >
               <Image source={iconNextEvent} style={styles.sizeIcons} />
-              <Text style={styles.screenTextStyle}>Próximo Job</Text>
+              <Text
+                style={styles.screenTextStyle}
+              >{`Estou${"\n"}a${"\n"}caminho`}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -123,7 +125,7 @@ class drawerContentComponents extends Component {
             <TouchableOpacity onPress={this.navigateToScreen("Schedule")}>
               <Image source={iconSchedule} style={styles.sizeIcons} />
               <Text style={[styles.screenTextStyle, { borderBottomWidth: 0 }]}>
-                Agenda
+                Escalas
               </Text>
             </TouchableOpacity>
           </View>

@@ -87,7 +87,7 @@ const Checkin = ({
   return (
     <Fragment>
       <ButtonPulse
-        title={`Iniciar${"\n"}Job`}
+        title={`Iniciar${"\n"}Trabalho`}
         titleStyle={textBtnPulse}
         size="normal"
         startAnimations
@@ -104,7 +104,7 @@ const Checkin = ({
         onPress={(value) => toCheckIn(value)}
         visible={QRCodeVisible}
         close={() => setQRCodeVisible((prev) => !prev)}
-        title={`Para iniciar o job escaneia o QR code.`}
+        title={`Para iniciar o trabalho escaneia o QR code.`}
       />
       <ModalCheckList
         visible={openModalCheckin}

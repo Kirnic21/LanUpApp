@@ -19,6 +19,8 @@ const ButtonNavigation = (props) => (
           ? props.navigation.dispatch(DrawerActions.openDrawer())
           : props.type === "stack"
           ? props.navigation.goBack()
+          : props.type === 'route'
+          ? props.navigation.push(props.nameRoute)
           : props.onPress();
       }}
     >

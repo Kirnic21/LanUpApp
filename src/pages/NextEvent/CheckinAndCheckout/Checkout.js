@@ -11,6 +11,7 @@ import {
   operationsCheckout,
   operationsChecklists,
 } from "~/shared/services/operations.http";
+import { calcWidth } from '~/assets/Dimensions';
 
 const Checkout = ({
   textBtnPulse,
@@ -63,7 +64,17 @@ const Checkout = ({
         setQRCodeVisible(false);
       }
     },
-    [statusOperation, operationId, freelaId, job, eventId, vacancyId]
+    [
+      statusOperation,
+      operationId,
+      freelaId,
+      job,
+      eventId,
+      vacancyId,
+      setQRCodeVisible,
+      isHomeOffice,
+      setOpenModalCheckout,
+    ]
   );
 
   const confirmChecklist = useCallback(() => {
@@ -74,13 +85,17 @@ const Checkout = ({
         AlertHelper.show("error", "Erro", error.response.data.errorMessage)
       )
       .finally(() => setLoading((prev) => !prev));
-  }, [operationId, job, navigation, hirerId, eventName]);
+  }, [operationId, job, navigation, hirerId, eventName, setLoading]);
 
   return (
     <Fragment>
       <ButtonPulse
-        title={`Finalizar${"\n"}Job`}
-        titleStyle={textBtnPulse}
+        title={`Finalizar${"\n"}Trabalho`}
+        titleStyle={[
+          size === "normal"
+            ? textBtnPulse
+            : { textAlign: "center", lineHeight: calcWidth(5) },
+        ]}
         size={size}
         startAnimations
         color={isLate ? "#FF0000" : "#865FC0"}
@@ -95,8 +110,8 @@ const Checkout = ({
       <QRCode
         onPress={(value) => toCheckOut(value)}
         visible={QRCodeVisible}
-        close={() => setQRCodeVisible(prev => !prev)}
-        title={`Para finalizar o job escaneia o QR code.`}
+        close={() => setQRCodeVisible((prev) => !prev)}
+        title={`Para finalizar o trabalho escaneia o QR code.`}
       />
       <ModalCheckList
         visible={openModalCheckout}
@@ -105,10 +120,10 @@ const Checkout = ({
         job={job}
         checkList={checkListCheckout}
         pressConfirm={() => confirmChecklist()}
-        onPressCheck={() => setChecked(prev => !prev)}
+        onPressCheck={() => setChecked((prev) => !prev)}
         checked={checked}
         eventName={eventName}
-        onClose={() => setOpenModalCheckout(prev => !prev)}
+        onClose={() => setOpenModalCheckout((prev) => !prev)}
       />
     </Fragment>
   );

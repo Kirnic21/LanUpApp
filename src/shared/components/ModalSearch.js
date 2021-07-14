@@ -43,7 +43,9 @@ export default ModalSearch = ({
         visible={visible}
         onClose={() => setVisible(false)}
       >
-        <InputSearch handleOnSearch={handleOnSearch} />
+        <View style={styles.inputContainer}>
+          <InputSearch handleOnSearch={handleOnSearch} />
+        </View>
         <View style={styles.container}>
           <FlatList
             ListEmptyComponent={
@@ -95,6 +97,10 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     height: calcWidth(60),
+  },
+
+  inputContainer:{
+    marginTop:'5%'
   },
 
   inputStyles: {

@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import dimensions, { adjust } from "~/assets/Dimensions/index";
 
 const getDisplayDate = day => {
-  if (!day.available) return "Não aceito job";
+  if (!day.available) return "Não aceito trabalho";
   const start = day.start;
   const end = day.end;
   return `${start.substring(0, 5)} até ${end.substring(0, 5)}`;

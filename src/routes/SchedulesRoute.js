@@ -10,7 +10,7 @@ const SchedulesRoute = createStackNavigator(
     Schedule: {
       screen: Schedule,
       navigationOptions: ({ navigation }) => ({
-        headerTitle: "Agendas",
+        headerTitle: "Escalas",
         headerLeft: () => (
           <ButtonNavigation type="drawer" navigation={navigation} />
         ),

@@ -28,7 +28,7 @@ const noJobToday = () => {
   return (
     <Fragment>
       <ButtonPulse
-        title={`Iniciar${"\n"}Job`}
+        title={`Iniciar${"\n"}Trabalho`}
         titleStyle={styles.textBtnPulse}
         titleColor="#24203B"
         size="normal"

@@ -21,6 +21,7 @@ import DropdownAlert from "react-native-dropdownalert";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { calcWidth } from "./assets/Dimensions";
 import * as Sentry from "@sentry/react-native";
+import env from "react-native-config";
 
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
@@ -60,8 +61,9 @@ class App extends Component {
       !state.isConnected &&
         AlertHelper.show("error", "Erro", "Sem conexão com a internet");
     });
-
-    NativeModules.InAppUpdate.checkUpdate();
+    if (!env.DEBUG && Platform.OS === "android") {
+      NativeModules.InAppUpdate.checkUpdate();
+    }
   }
 
   componentWillUnmount() {

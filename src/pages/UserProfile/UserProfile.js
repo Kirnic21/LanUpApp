@@ -7,7 +7,6 @@ import {
   deleteGalleryImage,
 } from "~/store/ducks/gallery/gallery.actions";
 import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
-import { setAbout } from "~/store/ducks/aboutMe/about.actions";
 import {
   StyleSheet,
   View,
@@ -17,7 +16,12 @@ import {
 } from "react-native";
 import Image from "react-native-fast-image";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { galery, galeries, galleryDelete } from "~/shared/services/freela.http";
+import {
+  galery,
+  galeries,
+  galleryDelete,
+  getAbout,
+} from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalComingSoon from "~/shared/components/ModalComingSoon";
@@ -26,7 +30,6 @@ import SignalR from "~/shared/services/signalr";
 import {
   emergenciesVacancies,
   getJobMembers,
-  vacancy,
 } from "~/shared/services/events.http";
 import { decodeToken } from "~/shared/services/decode";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
@@ -54,7 +57,7 @@ class UserProfile extends Component {
         onPress: () => this.navigateToScreen("Agency"),
       },
       {
-        title: "Fotos dos jobs",
+        title: "Fotos dos trabalhos",
         subtitle: "Fotos e videos de seu trabalho",
         onPress: () => this.openMidia(),
       },
@@ -69,7 +72,7 @@ class UserProfile extends Component {
         onPress: () => this.navigateToScreen("Availability"),
       },
       {
-        title: "Jobs realizados",
+        title: "Trabalhos realizados",
         subtitle: "Trabalhos, avaliações e recomendações",
         onPress: () => this.openModal(),
       },
@@ -77,16 +80,21 @@ class UserProfile extends Component {
   };
 
   componentDidMount() {
-    const { setAbout } = this.props;
-    setAbout();
+    this.getAboutMe();
   }
 
-  componentDidUpdate() {
-    this.onGetAboutSuccess();
-  }
+  getAboutMe = () => {
+    getAbout()
+      .then(({ value }) => {
+        this.onGetAboutSuccess(value.emergercyAvailabilityEnabled);
+        this.props.aboutMe(value);
+      })
+      .catch((error) => {
+        dispatch(aboutError(error.response.data.errorMessage));
+      });
+  };
 
-  onGetAboutSuccess = () => {
-    const { emergercyAvailabilityEnabled } = this.props.about;
+  onGetAboutSuccess = (emergercyAvailabilityEnabled) => {
     SignalR.connect().then((conn) => {
       if (emergercyAvailabilityEnabled) {
         conn.invoke("AddToGroup");
@@ -355,8 +363,9 @@ const mapActionToProps = (dispatch) =>
       uploadGalleryImage,
       deleteGalleryImage,
       notifyVacancy,
-      setAbout,
+      aboutMe: (about) => dispatch({ type: "ABOUT_SUCCESS", about }),
     },
     dispatch
   );
+
 export default connect(mapStateToProps, mapActionToProps)(UserProfile);

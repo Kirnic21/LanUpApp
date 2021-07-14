@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, FlatList, Text } from "react-native";
 
-import AsyncStorage from "@react-native-community/async-storage";
 import Lottie from "lottie-react-native";
 
 import { calcWidth, calcHeight, adjust } from "~/assets/Dimensions";
@@ -12,7 +11,7 @@ import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
 import ExclusionModal from "~/shared/components/ExclusionModal";
 
 import { vacancy } from "~/shared/services/events.http";
-import { decodeToken, getJobs } from "~/shared/services/freela.http";
+import { getJobs } from "~/shared/services/freela.http";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 export default class ToExplore extends Component {
@@ -43,6 +42,9 @@ export default class ToExplore extends Component {
           this.props.navigation.push("Profession");
         }
       })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      )
       .finally(() => {
         this.setState({ loading: false });
       });
@@ -53,6 +55,9 @@ export default class ToExplore extends Component {
       .then(({ data }) => {
         this.setState({ listVacancy: data.result });
       })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      )
       .finally(() => {
         this.setState({ loading: false });
       });
@@ -115,7 +120,7 @@ export default class ToExplore extends Component {
                   this.props.navigation.navigate("VacanciesDetails", {
                     job: item,
                     status: 0,
-                    isInvite: item?.isInvite
+                    isInvite: item?.isInvite,
                   })
                 }
               />
