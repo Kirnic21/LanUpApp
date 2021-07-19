@@ -115,7 +115,7 @@ class AboutMe extends Component {
       owner,
       address,
       bankCode,
-      bankAccountType
+      bankAccountType,
     } = form;
     const h = height === "" ? 0 : Number(height.replace(",", ""));
     const w = weight === "" ? 0 : Number(weight);
@@ -276,9 +276,13 @@ const mapStateToProps = (state) => {
       gender: about.gender === 0 ? null : about.gender,
       cpfCnpj: about.cpf === null ? about.cnpj : about.cpf,
       height:
-        (about.height === 0 && "") ||
-        about.height.toString().replace(/(\d)(?=(\d{2})+(?!\d))/g, "$1,"),
-      weight: (about.weight === 0 && "") || about.weight.toString(),
+        about.height !== 0
+          ? about.height.toString().replace(/(\d)(?=(\d{2})+(?!\d))/g, "$1,")
+          : "",
+      weight:
+        about.weight !== 0
+          ? about.weight.toString().replace(/(\d)(?=(\d{2})+(?!\d))/g, "$1,")
+          : "",
       address: {
         name: about.address,
         latitude: about.latitude,

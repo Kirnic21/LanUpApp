@@ -120,10 +120,10 @@ const BankInformation = () => {
               fontFamily: "HelveticaNowMicro-Regular",
             }}
           >
-            Declaro e autorizo que os dados bancários cadastrados são
-            exclusivamente para os recebimentos dos pagamentos de acordo os
-            serviços prestados aos contratantes, conforme às descrições da vaga,
-            carga horária, valores e aceite.
+            O aceite do termo é para que os dados bancários cadastrados seja
+            exclusivamente para o recebimento dos pagamentos, conforme os
+            serviços contratados, a descrição das vagas, valores, horários, e
+            protocolos de segurança;
           </Text>
         </View>
       </Modal>

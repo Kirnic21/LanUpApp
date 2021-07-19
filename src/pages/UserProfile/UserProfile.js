@@ -106,15 +106,15 @@ class UserProfile extends Component {
     });
   };
 
-  checkIfFreelaIsAlreadyVacancy = ({ eventId, job, day }) => {
-    if (!eventId) return;
-    getJobMembers({ eventId, job })
+  checkIfFreelaIsAlreadyVacancy = (vacancy) => {
+    if (!vacancy.eventId) return;
+    getJobMembers({ eventId:vacancy.eventId, job:vacancy.job })
       .then(({ data }) => data)
       .then(async ({ result }) => {
         const { id } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
         const filter = result.some((x) => x.freelaId === id);
         if (!filter) {
-          this.onReceiveVacancy({ eventId, job, day });
+          this.onReceiveVacancy(vacancy);
         }
       })
       .catch((error) => AlertHelper.show("error", "Erro", error));

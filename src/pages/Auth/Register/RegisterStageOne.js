@@ -159,7 +159,7 @@ class RegisterStageOne extends Component {
                   component={InputMask}
                   keyboardType="numeric"
                   isfocused={"#46C5F3"}
-                  mask={"[000].[000].[000]-[00]"}
+                  mask="cpf"
                 />
               </View>
 
