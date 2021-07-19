@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 
 import getLocationFreela from "./GetLocationFreela";
 import ModalCheckList from "./ModalCheckList";
@@ -11,6 +11,7 @@ import {
   operationsCheckout,
   operationsChecklists,
 } from "~/shared/services/operations.http";
+import { calcWidth } from "~/assets/Dimensions";
 
 const Checkout = ({
   textBtnPulse,
@@ -33,17 +34,12 @@ const Checkout = ({
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
 
-  useEffect(() => {
-    if (statusOperation === 4) {
-      setOpenModalCheckout(true);
-    }
-  });
-
-  const ToCheckOut = async (value) => {
-    const [id, qrcodeDate] = value.data.split("|");
-    setQRCodeVisible(false);
-    try {
-      if (statusOperation === 5 || statusOperation === 7) {
+  const toCheckOut = useCallback(
+    async (value) => {
+      const [id, qrcodeDate] = value.data.split("|");
+      setOpenModalCheckout(false);
+      setQRCodeVisible(false);
+      try {
         await getLocationFreela({
           operationId,
           freelaId,
@@ -52,60 +48,94 @@ const Checkout = ({
           job,
         });
         await operationsCheckout({ id, vacancyId, job, qrcodeDate, eventId });
+        navigation.replace("Rating", { hirerId, eventName });
+      } catch (error) {
+        if (error?.code !== 5) {
+          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+        }
+      } finally {
+        setQRCodeVisible(false);
       }
-      await setOpenModalCheckout(true);
-    } catch (error) {
-      if (error?.code !== 5) {
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-      }
-    } finally {
-      setQRCodeVisible(false);
-    }
-  };
+    },
+    [
+      statusOperation,
+      operationId,
+      freelaId,
+      job,
+      eventId,
+      vacancyId,
+      setQRCodeVisible,
+      isHomeOffice,
+      navigation,
+      setOpenModalCheckout,
+    ]
+  );
 
-  const confirmChecklist = () => {
-    setLoading(true);
-    operationsChecklists({ id: operationId, origin: 2, job })
-      .then(() => navigation.replace("Rating", { hirerId, eventName }))
-      .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-      )
-      .finally(() => setLoading(false));
-  };
+  const confirmChecklist = useCallback(() => {
+    setLoading((prev) => !prev);
+    if (statusOperation === 5) {
+      operationsChecklists({ id: operationId, origin: 2, job })
+        .then(() =>
+          isHomeOffice
+            ? toCheckOut({
+                data: `${operationId}|${new Date().toISOString()}`,
+              })
+            : setQRCodeVisible((prev) => !prev)
+        )
+        .catch((error) =>
+          AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+        )
+        .finally(() => setLoading((prev) => !prev));
+    } else {
+      setLoading((prev) => !prev);
+      isHomeOffice
+        ? toCheckOut({
+            data: `${operationId}|${new Date().toISOString()}`,
+          })
+        : setQRCodeVisible((prev) => !prev);
+    }
+  }, [
+    operationId,
+    job,
+    isHomeOffice,
+    hirerId,
+    eventName,
+    setLoading,
+    statusOperation,
+    setQRCodeVisible,
+  ]);
 
   return (
     <Fragment>
       <ButtonPulse
-        title={`Iniciar${"\n"}Check-out`}
-        titleStyle={textBtnPulse}
+        title={`Finalizar${"\n"}Trabalho`}
+        titleStyle={[
+          size === "normal"
+            ? textBtnPulse
+            : { textAlign: "center", lineHeight: calcWidth(5) },
+        ]}
         size={size}
         startAnimations
         color={isLate ? "#FF0000" : "#865FC0"}
-        onPress={() =>
-          isHomeOffice
-            ? ToCheckOut({
-                data: `${operationId}|${new Date().toISOString()}`,
-              })
-            : setQRCodeVisible(true)
-        }
+        onPress={() => setOpenModalCheckout((prev) => !prev)}
       />
       <QRCode
-        onPress={(value) => ToCheckOut(value)}
+        onPress={(value) => toCheckOut(value)}
         visible={QRCodeVisible}
-        close={() => setQRCodeVisible(false)}
-        title={`Para iniciar o checkout escaneia o QR code.`}
+        close={() => setQRCodeVisible((prev) => !prev)}
+        title={`Para finalizar o trabalho escaneia o QR code.`}
       />
       <ModalCheckList
         visible={openModalCheckout}
         loading={loading}
-        titleCheck="Check-out"
+        titleCheck="Saída"
         job={job}
         checkList={checkListCheckout}
         pressConfirm={() => confirmChecklist()}
-        onPressCheck={() => setChecked(!checked)}
+        onPressCheck={() => setChecked((prev) => !prev)}
         checked={checked}
         eventName={eventName}
-        onClose={() => setOpenModalCheckout(false)}
+        onClose={() => setOpenModalCheckout((prev) => !prev)}
       />
     </Fragment>
   );

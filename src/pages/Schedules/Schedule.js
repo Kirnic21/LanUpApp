@@ -8,7 +8,7 @@ import loadingSpinner from "~/assets/loadingSpinner.json";
 import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
 import FilterToExplore from "../Explore/FilterToExplore";
 
-import { getSchedules } from "~/shared/services/vacancy.http";
+import { getSchedules, getInvites } from "~/shared/services/vacancy.http";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 export default class Schedule extends React.Component {
@@ -16,9 +16,9 @@ export default class Schedule extends React.Component {
     spinner: false,
     listVacancy: [],
     listFilter: [
-      { id: 3, title: "candidatados" },
-      { id: 8, title: "convites" },
       { id: 2, title: "Escalados" },
+      { id: 3, title: "Candidatados" },
+      { id: 8, title: "convites" },
       { id: 5, title: "Pagos" },
     ],
   };
@@ -28,22 +28,38 @@ export default class Schedule extends React.Component {
     this.scheduleList(listFilter[0].id);
   }
 
-  getFilters = async (e) => {
-    try {
-      const {
-        data: {
-          result: { value },
-        },
-      } = await getSchedules(e);
-      const listVacancy = value.sort(({ jobDate: a }, { jobDate: b }) =>
-        a > b ? -1 : a < b ? 1 : 0
-      );
-      this.setState({ listVacancy });
-    } catch (error) {
-      AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-    } finally {
-      this.setState({ loading: false });
+  getFilters = async (status) => {
+    getSchedules(status)
+      .then(({ data }) => data)
+      .then(({ result }) => {
+        this.setState({
+          listVacancy: [...this.state.listVacancy, ...result.value],
+        });
+      })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      )
+      .finally(() => status !== 8 && this.setState({ loading: false }));
+
+    if (status === 8) {
+      getInvites()
+        .then(({ data }) => data)
+        .then(({ result }) => {
+          this.setState({
+            listVacancy: [...this.state.listVacancy, ...result.value],
+          });
+        })
+        .catch((error) =>
+          AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+        )
+        .finally(() => this.setState({ loading: false }));
     }
+  };
+
+  sortBy = (value) => {
+    return value.sort(({ jobDate: a }, { jobDate: b }) =>
+      a > b ? -1 : a < b ? 1 : 0
+    );
   };
 
   scheduleList = (e) => {
@@ -53,9 +69,11 @@ export default class Schedule extends React.Component {
   };
 
   formatDate = (date) => {
-    return new Date(date).toLocaleDateString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-  }
-
+    return new Date(date).toLocaleDateString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
 
   render() {
     const { loading, listVacancy, listFilter } = this.state;
@@ -99,25 +117,33 @@ export default class Schedule extends React.Component {
               )}
             </View>
           }
-          data={listVacancy}
+          data={this.sortBy(listVacancy)}
           renderItem={({ item }) => (
             <VacancyCard
+              job={item.job}
               title={item.eventName}
               date={item.jobDate}
               eventCreationDate={item.eventCreationDate}
-              content={`${this.formatDate(item.start)}  - ${this.formatDate(item.end)}`}
-              address={item.isHomeOffice ? 'Home Office' : item.address}
+              content={
+                item.status !== 0
+                  ? `${this.formatDate(item.start)}  - ${this.formatDate(
+                      item.end
+                    )}`
+                  : `${item.workShiftQuantity} turnos e ${item.totalVacancy} vagas`
+              }
+              address={item.isHomeOffice ? "Home Office" : item.address}
               picture={item.image !== null ? item.image.url : null}
               amount={item.amount}
               onPress={() =>
                 this.props.navigation.navigate("VacanciesDetails", {
                   job: item,
                   status: item.status,
+                  isInvite: item?.isInvite,
                 })
               }
             />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={() => Math.random().toString()}
         />
       </View>
     );

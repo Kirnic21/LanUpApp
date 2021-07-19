@@ -7,9 +7,15 @@ import bank from "./bank";
 import ModalSearch from "~/shared/components/ModalSearch";
 
 import DropDown from "~/shared/components/DropDown";
-import { calcWidth } from "~/assets/Dimensions";
+import { adjust, calcWidth } from "~/assets/Dimensions";
+
+import Modal from "~/shared/components/ModalComponent";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { TouchableOpacity } from "react-native";
 
 const BankInformation = () => {
+  const [infoModal, setInfoModal] = useState(false);
+
   reduxForm({ form: "BankInformation" });
 
   const [code, setCode] = useState([]);
@@ -31,7 +37,12 @@ const BankInformation = () => {
   return (
     <View>
       <View style={styles.containerInformationBank}>
-        <Text style={styles.TitleInformation}>Informações Bancárias</Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={styles.TitleInformation}>Informações Bancárias</Text>
+          <TouchableOpacity onPress={() => setInfoModal((prev) => !prev)}>
+            <Icon name="info" size={calcWidth(8.5)} color="#FFB72B" />
+          </TouchableOpacity>
+        </View>
         <Field
           style={{ width: "100%" }}
           title="Tipo da conta"
@@ -77,12 +88,12 @@ const BankInformation = () => {
           maxLength={20}
         />
         <Field
+          mask={"cpfCnpj"}
           style={{ width: "100%" }}
           title="CPF/CNPJ do Titular:"
           component={InputMask}
           name={"cpfCnpj"}
           keyboardType="numeric"
-          maxLength={14}
           isfocused={"#A893F2"}
         />
         <Field
@@ -93,6 +104,29 @@ const BankInformation = () => {
           isfocused={"#A893F2"}
         />
       </View>
+      <Modal
+        visible={infoModal}
+        onClose={() => setInfoModal((prev) => !prev)}
+        heightModal={"auto"}
+      >
+        <View style={{ padding: "5%", alignItems: "center" }}>
+          <Text
+            style={{
+              fontSize: adjust(15),
+              textAlign: "center",
+              color: "#FFFFFF",
+              letterSpacing: 0.5,
+              lineHeight: adjust(17),
+              fontFamily: "HelveticaNowMicro-Regular",
+            }}
+          >
+            O aceite do termo é para que os dados bancários cadastrados seja
+            exclusivamente para o recebimento dos pagamentos, conforme os
+            serviços contratados, a descrição das vagas, valores, horários, e
+            protocolos de segurança;
+          </Text>
+        </View>
+      </Modal>
     </View>
   );
 };

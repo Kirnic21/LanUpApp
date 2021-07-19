@@ -10,7 +10,7 @@ const SchedulesRoute = createStackNavigator(
     Schedule: {
       screen: Schedule,
       navigationOptions: ({ navigation }) => ({
-        headerTitle: "Agendas",
+        headerTitle: "Escalas",
         headerLeft: () => (
           <ButtonNavigation type="drawer" navigation={navigation} />
         ),
@@ -26,7 +26,7 @@ const SchedulesRoute = createStackNavigator(
     },
   },
   {
-    defaultNavigationOptions: {
+    defaultNavigationOptions: ({ navigation }) => ({
       headerTitleAlign: "center",
       headerTintColor: "#FFFFFF",
       headerStyle: {
@@ -41,7 +41,7 @@ const SchedulesRoute = createStackNavigator(
       headerLeft: () => (
         <ButtonNavigation type="stack" navigation={navigation} />
       ),
-    },
+    }),
   }
 );
 export default SchedulesRoute;

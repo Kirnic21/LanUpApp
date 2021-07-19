@@ -140,7 +140,7 @@ class VacancyModal extends React.Component {
               onPress={() => {
                 this.setState({ isVisible: false }),
                   this.props.navigation.navigate("VacanciesDetails", {
-                    job: vacancy[1],
+                    job: { ...vacancy[1], status: 1 },
                     getDeitails: vacancy[0],
                     status: 1,
                   });

@@ -8,7 +8,7 @@ buildscript {
         maven { url 'https://plugins.gradle.org/m2/' } // Gradle Plugin Portal
     }
     dependencies {
-        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.1, 0.99.99]'
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.6, 0.13.0]'
     }
 }
 
@@ -25,10 +25,12 @@ buildscript {
  *   // the name of the generated asset file containing your JS bundle
  *   bundleAssetName: "index.android.bundle",
  *
- *   // the entry file for bundle generation
+ *   // the entry file for bundle generation. If none specified and
+ *   // "index.android.js" exists, it will be used. Otherwise "index.js" is
+ *   // default. Can be overridden with ENTRY_FILE environment variable.
  *   entryFile: "index.android.js",
  *
- *   // https://facebook.github.io/react-native/docs/performance#enable-the-ram-format
+ *   // https://reactnative.dev/docs/performance#enable-the-ram-format
  *   bundleCommand: "ram-bundle",
  *
  *   // whether to bundle JS and assets in debug mode
@@ -86,7 +88,6 @@ buildscript {
  */
 
 project.ext.react = [
-    entryFile: "index.js",
     enableHermes: false,  // clean and rebuild if changing
 ]
 
@@ -142,6 +143,8 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
+    ndkVersion rootProject.ext.ndkVersion
+
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     compileOptions {
@@ -218,7 +221,7 @@ android {
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
-                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
             }
 
         }
@@ -247,6 +250,20 @@ dependencies {
   implementation 'com.google.android.play:core:1.7.3'
   implementation 'com.google.android.material:material:1.3.0'
   implementation 'com.android.support:multidex:1.0.3'
+  implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+  debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
+    exclude group:'com.facebook.fbjni'
+  }
+
+  debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
+    exclude group:'com.facebook.flipper'
+    exclude group:'com.squareup.okhttp3', module:'okhttp'
+  }
+  debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
+    exclude group:'com.facebook.flipper'
+  }
+
 
   if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";

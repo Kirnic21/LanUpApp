@@ -20,7 +20,6 @@ import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 import CertificateModal from "~/pages/UserProfile/Certificate/CertificateModal";
 
-
 const pageNavigator = createStackNavigator(
   {
     UserProfile: {
@@ -70,7 +69,7 @@ const pageNavigator = createStackNavigator(
     },
     PhotoGallery: {
       screen: PhotoGallery,
-      navigationOptions: () => ({ headerTitle: "Fotos dos Jobs" }),
+      navigationOptions: () => ({ headerTitle: "Fotos dos trabalhos" }),
     },
     Certificates: {
       screen: Certificates,
@@ -86,7 +85,16 @@ const pageNavigator = createStackNavigator(
     },
     Availability: {
       screen: Availability,
-      navigationOptions: () => ({ headerTitle: "Disponibilidade" }),
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: "Disponibilidade",
+        headerLeft: () => (
+          <ButtonNavigation
+            type="route"
+            nameRoute="UserProfile"
+            navigation={navigation}
+          />
+        ),
+      }),
     },
     AvailabilityDays: {
       screen: AvailabilityDays,

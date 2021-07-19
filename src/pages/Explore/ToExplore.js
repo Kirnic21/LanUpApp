@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, FlatList, Text } from "react-native";
 
-import AsyncStorage from "@react-native-community/async-storage";
 import Lottie from "lottie-react-native";
 
 import { calcWidth, calcHeight, adjust } from "~/assets/Dimensions";
@@ -12,7 +11,7 @@ import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
 import ExclusionModal from "~/shared/components/ExclusionModal";
 
 import { vacancy } from "~/shared/services/events.http";
-import { decodeToken, getJobs } from "~/shared/services/freela.http";
+import { getJobs } from "~/shared/services/freela.http";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 export default class ToExplore extends Component {
@@ -34,28 +33,31 @@ export default class ToExplore extends Component {
           (c) => c.name
         );
         const JobsSelected = name.map((item) => ({ title: item }));
-        if(JobsSelected.length) {
-          this.setState({ JobsSelected });
+        if (JobsSelected.length) {
+          this.setState({
+            JobsSelected: [...JobsSelected, { title: "Todas Vagas" }],
+          });
           this.getVacancy(JobsSelected[0].title);
-        }else {
-          this.props.navigation.push('Profession')
+        } else {
+          this.props.navigation.push("Profession");
         }
       })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      )
       .finally(() => {
         this.setState({ loading: false });
       });
   };
 
   getVacancy(e) {
-    vacancy(e)
+    vacancy(e === "Todas Vagas" ? "" : e)
       .then(({ data }) => {
-        const vacancies = data.result.filter(
-          (c) =>
-            new Date(`${c.jobDate.substr(0, 11)}03:00:00.000Z`) >=
-            new Date(new Date().setHours(0, 0, 0, 0))
-        );
-        this.setState({ listVacancy: vacancies });
+        this.setState({ listVacancy: data.result });
       })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      )
       .finally(() => {
         this.setState({ loading: false });
       });
@@ -106,22 +108,24 @@ export default class ToExplore extends Component {
             data={listVacancy}
             renderItem={({ item, index }) => (
               <VacancyCard
+                job={item.job}
                 title={item.eventName}
                 date={item.jobDate.substr(0, 19)}
                 eventCreationDate={item.eventCreationDate}
                 content={`${item.workShiftQuantity} turnos e ${item.totalVacancy} vagas`}
-                address={item.isHomeOffice ? 'Home Office' : item.address}
+                address={item.isHomeOffice ? "Home Office" : item.address}
                 picture={item.picture !== null ? item.picture.url : null}
                 amount={item.amount}
                 onPress={() =>
                   this.props.navigation.navigate("VacanciesDetails", {
                     job: item,
                     status: 0,
+                    isInvite: item?.isInvite,
                   })
                 }
               />
             )}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={() => Math.random().toString()}
           />
         </View>
         <ExclusionModal

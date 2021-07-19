@@ -12,7 +12,6 @@ import MapView from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import AlertModal from "~/shared/components/AlertModal";
 import mapStyles from "./stylesMaps";
@@ -67,14 +66,8 @@ class MapsGeolocation extends Component {
   }
 
   getCurrentPosition = async () => {
-    const {
-      id,
-      address,
-      eventName,
-      addressId,
-      latitude,
-      longitude
-    } = this.props.navigation.state.params;
+    const { id, address, eventName, addressId, latitude, longitude } =
+      this.props.navigation.state.params;
     try {
       const {
         data: {
@@ -137,12 +130,13 @@ class MapsGeolocation extends Component {
 
   arrived = (distance) => {
     const { id, status } = this.state;
+    const { eventId, vacancyId, job } = this.props.navigation.state.params;
     if (distance * 1000 <= 1000 && status === false) {
       this.setState({ status: true }, async () => {
         Vibration.vibrate(1000);
         this.subscription.remove();
         try {
-          await arrivelOperation(id);
+          await arrivelOperation({ id, eventId, vacancyId, job });
         } catch (error) {
           AlertHelper.show("error", "Erro", error.message);
         }
@@ -153,8 +147,9 @@ class MapsGeolocation extends Component {
 
   goNextStep = () => {
     const { id } = this.state;
+    const { eventId, vacancyId, job } = this.props.navigation.state.params;
     this.setState({ loading: true });
-    arrivelOperation(id)
+    arrivelOperation({ id, eventId, vacancyId, job })
       .then(() => {
         this.props.navigation.replace("NextEvent");
       })
@@ -165,15 +160,8 @@ class MapsGeolocation extends Component {
   };
 
   render() {
-    const {
-      status,
-      distance,
-      duration,
-      address,
-      eventName,
-      visible,
-      loading,
-    } = this.state;
+    const { status, distance, duration, address, eventName, visible, loading } =
+      this.state;
     return (
       <View style={StyleSheet.absoluteFill}>
         <MapView

@@ -10,7 +10,7 @@ const acceptInvitations = (vacancyId) =>
   HTTP.put(`vacancies/${vacancyId}/invitations/accept`);
 
 const deleteVacancies = (data) =>
-  HTTP.delete(`vacancies/${data.id}/${data.checkin}/${data.checkout}`);
+  HTTP.delete(`vacancies/${data.id}`);
 
 const deitailsVacanciesSchedules = (data) =>
   HTTP.get(
@@ -18,6 +18,8 @@ const deitailsVacanciesSchedules = (data) =>
   );
 
 const getSchedules = (data) => HTTP.get(`vacancies?status=${data}`);
+const getInvites = () => HTTP.get(`vacancies/invites`);
+
 
 export {
   acceptInvite,
@@ -26,4 +28,5 @@ export {
   deitailsVacanciesSchedules,
   acceptInvitations,
   vacanciesEmergencyAccept,
+  getInvites
 };

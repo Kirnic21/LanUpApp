@@ -15,7 +15,7 @@ const aboutMe = (data) =>
 
 const received = (data) =>
   tokenDecode().then(({ id }) =>
-    HTTP.get(`freelas/${id}/received`, { freelaId: id, ...data }).then(
+    HTTP.put(`freelas/${id}/received`, { freelaId: id, ...data }).then(
       ({ data }) => data.result
     )
   );

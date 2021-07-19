@@ -64,7 +64,7 @@ class LoginEmail extends Component {
             AlertHelper.show(
               "error",
               "Erro",
-              "Somente freelas podem acessar o App."
+              "Apenas freelancer pode acessar o App."
             );
           }
         })

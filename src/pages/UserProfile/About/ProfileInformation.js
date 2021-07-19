@@ -45,7 +45,7 @@ const ProfileInformation = ({}) => {
           component={InputMask}
           name={"height"}
           keyboardType="numeric"
-          mask={"[0],[00]"}
+          mask="tall"
           isfocused={"#A893F2"}
         />
         <Field
@@ -54,8 +54,7 @@ const ProfileInformation = ({}) => {
           component={InputMask}
           name={"weight"}
           keyboardType="numeric"
-          mask={"[000]"}
-          maxLength={3}
+          mask="weight"
           isfocused={"#A893F2"}
         />
         <Field

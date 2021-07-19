@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   FlatList
 } from "react-native";
-import {} from "react-native-gesture-handler";
 import backWhite from "~/assets/images/black-and-white.png";
 import FastImage from "react-native-fast-image";
 import dimensions, { adjust } from "~/assets/Dimensions/index";
@@ -28,9 +27,7 @@ const VancancyCard = ({ onPress, listVacancy }) => {
     formatDate = (date, form) => {
       return moment(date.substr(0, 10)).format(form);
     };
-    // const a = moment(new Date());
-    // const b = moment(eventCreationDate);
-    // console.log(a.diff(b, "hours"));
+   
     return (
       <TouchableOpacity
         onPress={() => onPress(job)}

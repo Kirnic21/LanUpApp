@@ -1,31 +1,32 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet, Text } from "react-native";
 import { calcWidth, adjust } from "~/assets/Dimensions/index";
-import Icon from "react-native-vector-icons/MaterialIcons";
 
 const ButtonRightNavigation = ({ onPress, disabled }) => {
   return (
-    <TouchableOpacity disabled={disabled} onPress={onPress} style={styles.button}>
-      <Icon
-        name="save"
-        size={calcWidth(8)}
-        color="#FFFFFF"
-        style={{
-          backgroundColor: "#483D8B",
-          borderRadius: calcWidth(10),
-          padding: calcWidth(1),
-        }}
-      />
+    <TouchableOpacity
+      disabled={disabled}
+      onPress={onPress}
+      style={styles.button}
+    >
+      <Text
+        style={styles.textButton}
+      >
+        Salvar
+      </Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    paddingHorizontal: calcWidth(5),
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor:"#483D8B",
+    marginRight: calcWidth(2),
+    padding: calcWidth(2),
+    borderRadius:calcWidth(2)
   },
   textButton: {
     color: "#FFF",
