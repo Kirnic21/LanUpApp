@@ -28,8 +28,8 @@ const AdditionalInformation = ({}) => {
         placeholderTextColor="rgba(255,255,255,0.5)"
         component={InputMask}
         name={"phone"}
-        mask={"([00]) [00000]-[0000]"}
         isfocused={"#A893F2"}
+        mask="phone"
       />
       <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
         <Field

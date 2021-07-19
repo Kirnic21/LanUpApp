@@ -27,7 +27,6 @@ export default class DateInputField extends Component {
   render() {
     const { date } = this.state;
     const { style, mode, input, meta, ...inputProps } = this.props;
-    debugger;
     return (
       <TouchableOpacity onPress={() => this.setState({ visible: true })}>
         <Text

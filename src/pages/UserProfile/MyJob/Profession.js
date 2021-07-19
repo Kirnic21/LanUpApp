@@ -5,11 +5,9 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
-  TextInput,
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
-import NumberFormat from "react-number-format";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -22,16 +20,7 @@ import loadingSpinner from "~/assets/loadingSpinner.json";
 
 import { fetchJobs } from "~/store/ducks/Profession/Job/job.actions";
 import { fetchSkill } from "~/store/ducks/Profession/skills/skills.actions";
-
-const currencyFormatter = (value) => {
-  if (!Number(value)) return "";
-
-  const amount = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(value / 100);
-  return `${amount}`;
-};
+import { TextInputMask } from "react-native-masked-text";
 
 class Profession extends Component {
   state = {
@@ -39,12 +28,14 @@ class Profession extends Component {
     spinner: false,
   };
 
+  currency = null;
+
   componentDidMount() {
     const { fetchJobs, fetchSkill, minimumValueToWork } = this.props;
     fetchJobs();
     fetchSkill();
     this.setState({
-      ValueToWork: minimumValueToWork?.toString(),
+      ValueToWork: minimumValueToWork,
     });
   }
 
@@ -53,11 +44,12 @@ class Profession extends Component {
 
   handleInputBlur = async () => {
     this.setState({ isFocused: false });
-    const { ValueToWork } = this.state;
-    const valueReceived = Number(ValueToWork.replace(/[^0-9.-]+/g, ""));
+    const { about, aboutMe } = this.props;
+    const valueReceived = this.currency.getRawValue();
     received({ minimumValueToWork: valueReceived })
       .then(() => {
         this.setState({ isValueWork: true });
+        aboutMe({ ...about, minimumValueToWork: valueReceived });
       })
       .catch((error) => {
         AlertHelper.show("error", "Erro", error.response.data.errorMessage);
@@ -138,39 +130,34 @@ class Profession extends Component {
 
   render() {
     const { ValueToWork, isFocused, spinner, isValueWork } = this.state;
-    const {
-      services,
-      navigation,
-      skill,
-      loadingServices,
-      loadingSkills,
-    } = this.props;
+    const { services, navigation, skill, loadingServices, loadingSkills } =
+      this.props;
     return (
       <View style={styles.container}>
         <SpinnerComponent loading={spinner} />
         <ScrollView>
           <View style={styles.containerReceive}>
             <Text style={styles.Title}>Recebo por dia no mínimo:</Text>
-            <NumberFormat
+            <TextInputMask
+              style={[
+                { borderColor: isFocused === true ? "#46C5F3" : "#FFF" },
+                styles.inputCurrency,
+              ]}
+              keyboardType="numeric"
+              placeholderTextColor="#46C5F3"
+              onFocus={this.handleInputFocus}
+              onBlur={this.handleInputBlur}
+              type={"money"}
+              options={{
+                precision: 2,
+                separator: ",",
+                delimiter: ".",
+                unit: "R$",
+                suffixUnit: "",
+              }}
               value={ValueToWork}
-              displayType={"text"}
-              format={currencyFormatter}
-              decimalScale={2}
-              thousandSeparator={true}
-              renderText={(value) => (
-                <TextInput
-                  onChangeText={(ValueToWork) => this.setState({ ValueToWork })}
-                  onFocus={this.handleInputFocus}
-                  onBlur={this.handleInputBlur}
-                  style={[
-                    { borderColor: isFocused === true ? "#46C5F3" : "#FFF" },
-                    styles.inputCurrency,
-                  ]}
-                  value={value}
-                  keyboardType="numeric"
-                  placeholderTextColor="#46C5F3"
-                />
-              )}
+              onChangeText={(ValueToWork) => this.setState({ ValueToWork })}
+              ref={(ref) => (this.currency = ref)}
             />
             {isValueWork && (
               <View style={styles.TextSaveValue}>
@@ -311,6 +298,7 @@ const mapStateToProps = (state) => {
   const { skill, loading: loadingSkills } = state.skills;
   const { about } = state.aboutMe;
   return {
+    about,
     minimumValueToWork: about.minimumValueToWork,
     services: services
       ?.filter((job) => job.isSelected === true)
@@ -326,6 +314,7 @@ const mapActionToProps = (dispatch) =>
     {
       fetchJobs,
       fetchSkill,
+      aboutMe: (about) => dispatch({ type: "ABOUT_SUCCESS", about }),
     },
     dispatch
   );

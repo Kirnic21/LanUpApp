@@ -1,45 +1,24 @@
 import React, { useState } from "react";
+import { TextInput } from "react-native";
 import { StyleSheet, View, Text } from "react-native";
-import TextInputMask from "react-native-text-input-mask";
-import dimensions, {adjust} from "~/assets/Dimensions/index";
+import { adjust } from "~/assets/Dimensions/index";
+import Mask from "~/shared/helpers/Masks";
 
-export default InputMask = ({
-  input: { value, ...input },
-  title,
-  keyboardType,
-  style,
-  secureTextEntry,
-  autoFocus,
-  numberOfLines,
-  multiline,
-  autoCompleteType,
-  placeholder,
-  placeholderTextColor,
-  mask,
-  onChange,
-  maxLength,
-  isfocused,
-  meta: { touched, error },
-}) => {
+export default InputMask = (props) => {
   const [isInputFocused, setInputFocused] = useState({
     input1: false,
   });
+
   return (
     <View>
       <View>
-        <Text
-          style={{
-            color: "white",
-            fontSize: adjust(10),
-            top: "-10%",
-            fontFamily: "HelveticaNowMicro-Regular",
-          }}
-        >
-          {title}
-        </Text>
+        <Text style={styles.title}>{props.title}</Text>
       </View>
       <View style={{ marginBottom: "5%", width: "100%" }}>
-        <TextInputMask
+        <TextInput
+          {...props}
+          onChangeText={(text) => props.input.onBlur(text)}
+          value={Mask(props.mask, props.input.value)}
           style={[
             {
               height: 50,
@@ -49,33 +28,23 @@ export default InputMask = ({
               fontSize: adjust(10),
               fontFamily: "HelveticaNowMicro-Regular",
             },
-            style,
+            props.style,
             isInputFocused.input1
-              ? { borderColor: isfocused }
+              ? { borderColor: props.isfocused }
               : { borderColor: "#FFF" },
             styles.TextInput,
-            touched && error && { borderColor: "#F13567" },
+            props.meta.touched &&
+              props.meta.error && { borderColor: "#F13567" },
           ]}
-          keyboardType={keyboardType}
-          secureTextEntry={secureTextEntry}
-          autoFocus={autoFocus}
-          numberOfLines={numberOfLines}
-          multiline={multiline}
           enablesReturnKeyAutomatically={true}
-          onChangeText={input.onBlur}
-          {...input}
-          defaultValue={value}
           autoCapitalize="none"
           onFocus={() => setInputFocused((prev) => ({ ...prev, input1: true }))}
           onBlur={() => setInputFocused((prev) => ({ ...prev, input1: false }))}
-          onChange={onChange}
-          autoCompleteType={autoCompleteType}
-          placeholder={placeholder}
-          placeholderTextColor={placeholderTextColor}
-          mask={mask}
-          maxLength={maxLength}
         />
-        {touched && error && <Text style={{ color: "#F13567" }}>{error}</Text>}
+
+        {props.meta.touched && props.meta.error && (
+          <Text style={{ color: "#F13567" }}>{props.meta.error}</Text>
+        )}
       </View>
     </View>
   );
@@ -85,5 +54,11 @@ const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
     paddingHorizontal: "7%",
+  },
+  title: {
+    color: "white",
+    fontSize: adjust(10),
+    top: "-10%",
+    fontFamily: "HelveticaNowMicro-Regular",
   },
 });

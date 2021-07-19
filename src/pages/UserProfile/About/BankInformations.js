@@ -88,12 +88,12 @@ const BankInformation = () => {
           maxLength={20}
         />
         <Field
+          mask={"cpfCnpj"}
           style={{ width: "100%" }}
           title="CPF/CNPJ do Titular:"
           component={InputMask}
           name={"cpfCnpj"}
           keyboardType="numeric"
-          maxLength={14}
           isfocused={"#A893F2"}
         />
         <Field
