@@ -14,7 +14,7 @@ const ModalAddSkill = ({
     <ModalComponent
       onClose={onClose}
       visible={visible}
-      heightModal={calcHeight(75)}
+      // heightModal={calcHeight(75)}
     >
       <Text style={styles.title}>Adicionar</Text>
       <View style={styles.containerModalInput}>
@@ -24,7 +24,7 @@ const ModalAddSkill = ({
           title="Habilidade"
         />
       </View>
-      <View style={{ alignItems: "center", top: calcWidth(5) }}>
+      <View style={{ alignItems: "center", marginVertical:'5%' }}>
         <RoundButton
           disabled={disabled}
           style={[{ backgroundColor: "#46C5F3" }]}
@@ -45,8 +45,9 @@ const styles = {
   },
   containerModalInput: {
     justifyContent: "center",
-    marginHorizontal: calcWidth(4),
-    top: calcWidth(8)
+    marginHorizontal: '5%',
+    marginTop:'5%'
+    // top: calcWidth(8)
   }
 };
 

@@ -62,10 +62,10 @@ const ModalCheckList = ({
     <Modal
       visible={visible}
       onClose={onClose}
-      heightModal={calcWidth(160)}
+      // heightModal={calcWidth(160)}
       swipe={[]}
     >
-      <View style={{ flex: 1 }}>
+      <View style={{ }}>
         <Text style={styles.header}>CheckList</Text>
         <View
           style={{

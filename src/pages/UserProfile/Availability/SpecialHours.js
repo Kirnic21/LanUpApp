@@ -6,7 +6,7 @@ import {
   ScrollView,
   LayoutAnimation,
   Platform,
-  UIManager
+  UIManager,
 } from "react-native";
 import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -41,7 +41,7 @@ class SpecialHours extends Component {
       isValid: false,
       activeButton: false,
       bottomModalAndTitle: true,
-      SpecialDays: this.props.navigation.state.params.SpecialDays
+      SpecialDays: this.props.navigation.state.params.SpecialDays,
     };
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -54,12 +54,12 @@ class SpecialHours extends Component {
     const { SpecialDays } = this.state;
     const isActive = SpecialDays.length ? true : false;
     this.props.navigation.setParams({
-      isDate: isActive
+      isDate: isActive,
     });
     this.initializeInput();
     const { handleSubmit } = this.props;
     this.props.navigation.setParams({
-      handleSaveHour: handleSubmit(data => this.justSave(data))
+      handleSaveHour: handleSubmit((data) => this.justSave(data)),
     });
   }
   initializeInput = () => {
@@ -85,7 +85,7 @@ class SpecialHours extends Component {
             onPress={() => state.params.handleSaveHour()}
           />
         </View>
-      )
+      ),
     };
   };
 
@@ -94,7 +94,7 @@ class SpecialHours extends Component {
     const timeEnd = end !== undefined ? end.slice(0, 5) : "00:00";
     return {
       [`start${index}`]: timeStart,
-      [`end${index}`]: timeEnd
+      [`end${index}`]: timeEnd,
     };
   }
 
@@ -120,7 +120,7 @@ class SpecialHours extends Component {
       date,
       showModal: true,
       dateInput,
-      activeButton: true
+      activeButton: true,
     });
   };
 
@@ -134,13 +134,13 @@ class SpecialHours extends Component {
     const datesToSave = [...SpecialDays, { date }];
     const isActive = datesToSave.length ? true : false;
     this.props.navigation.setParams({
-      isDate: isActive
+      isDate: isActive,
     });
     setTimeout(async () => {
       this.setState({
         SpecialDays: datesToSave,
         visible: false,
-        dateInput: ""
+        dateInput: "",
       });
       await this.saveDates(datesToSave);
       this.initializeInput();
@@ -148,7 +148,7 @@ class SpecialHours extends Component {
     }, 500);
   };
 
-  isTimeValid = time => {
+  isTimeValid = (time) => {
     const timeReg = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
     const timeReg1 = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
     return time.match(timeReg) || time.match(timeReg1);
@@ -156,8 +156,8 @@ class SpecialHours extends Component {
 
   justSave = async () => {
     const { SpecialDays } = this.state;
-    const times = SpecialDays.map(x => x.start).concat(
-      SpecialDays.map(x => x.end)
+    const times = SpecialDays.map((x) => x.start).concat(
+      SpecialDays.map((x) => x.end)
     );
     if (times.every(this.isTimeValid)) {
       this.saveDates(SpecialDays);
@@ -174,10 +174,10 @@ class SpecialHours extends Component {
 
     saveSpecialDay({
       freelaId: token.id,
-      specialDayAvailabilities: [...datesToSave]
+      specialDayAvailabilities: [...datesToSave],
     })
       .then(() => {})
-      .catch(error => {
+      .catch((error) => {
         AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       });
   }
@@ -189,7 +189,7 @@ class SpecialHours extends Component {
     this.setState({ SpecialDays: datesToSave });
     const isActive = datesToSave.length ? true : false;
     this.props.navigation.setParams({
-      isDate: isActive
+      isDate: isActive,
     });
     this.saveDates(datesToSave);
     AlertHelper.show("success", "Sucesso", "Horário removido com sucesso.");
@@ -211,7 +211,7 @@ class SpecialHours extends Component {
             style={{
               flex: 1,
               flexDirection: "column",
-              justifyContent: "space-between"
+              justifyContent: "space-between",
             }}
           >
             <KeyboardAwareScrollView style={{ flex: 1 }}>
@@ -223,13 +223,13 @@ class SpecialHours extends Component {
                         color: "#FFF",
                         fontSize: adjust(18),
                         fontFamily: "HelveticaNowMicro-Regular",
-                        width: "90%"
+                        width: "90%",
                       }}
                     >
                       {moment(date).format("DD [de] MMM, YYYY")}
                     </Text>
                     <ProfileHeaderMenu
-                      ref={comp => {
+                      ref={(comp) => {
                         this._menu = comp;
                       }}
                     >
@@ -249,7 +249,7 @@ class SpecialHours extends Component {
                         color: "#FFF",
                         fontSize: adjust(12),
                         fontFamily: "HelveticaNowMicro-Regular",
-                        width: "85%"
+                        width: "85%",
                       }}
                     >
                       Estou disponível
@@ -259,7 +259,7 @@ class SpecialHours extends Component {
                       onColor="#483D8B"
                       offColor="#18142F"
                       isOn={available}
-                      onToggle={available => this.onToggle(available, id)}
+                      onToggle={(available) => this.onToggle(available, id)}
                       component={Toggle}
                       name={`toggle${id}`}
                     />
@@ -271,60 +271,60 @@ class SpecialHours extends Component {
                           color: "#FFF",
                           fontSize: adjust(12),
                           fontFamily: "HelveticaNowMicro-Regular",
-                          paddingBottom: "4%"
+                          paddingBottom: "4%",
                         }}
                       >
                         Horas
                       </Text>
-                        <View style={{ alignContent: "stretch" }}>
+                      <View style={{ alignContent: "stretch" }}>
+                        <Field
+                          style={styles.inputDate}
+                          title="Das"
+                          keyboardType="numeric"
+                          mask={"[00]:[00]"}
+                          isfocused="#46C5F3"
+                          placeholder="00:00"
+                          placeholderTextColor="#808080"
+                          component={InputMask}
+                          onBlur={(data) =>
+                            this.onFieldChange("start", data, id)
+                          }
+                          name={`start${id}`}
+                        />
+                        <View
+                          style={{
+                            position: "absolute",
+                            width: "100%",
+                            left: "52%",
+                          }}
+                        >
                           <Field
                             style={styles.inputDate}
-                            title="Das"
+                            title="Até"
                             keyboardType="numeric"
                             mask={"[00]:[00]"}
                             isfocused="#46C5F3"
                             placeholder="00:00"
                             placeholderTextColor="#808080"
                             component={InputMask}
-                            onBlur={data =>
-                              this.onFieldChange("start", data, id)
+                            onBlur={(data) =>
+                              this.onFieldChange("end", data, id)
                             }
-                            name={`start${id}`}
+                            name={`end${id}`}
                           />
-                          <View
+                        </View>
+                        {!isDate && (
+                          <Text
                             style={{
-                              position: "absolute",
-                              width: "100%",
-                              left: "52%"
+                              color: "#f11111",
+                              fontSize: adjust(12),
+                              textAlign: "center",
                             }}
                           >
-                            <Field
-                              style={styles.inputDate}
-                              title="Até"
-                              keyboardType="numeric"
-                              mask={"[00]:[00]"}
-                              isfocused="#46C5F3"
-                              placeholder="00:00"
-                              placeholderTextColor="#808080"
-                              component={InputMask}
-                              onBlur={data =>
-                                this.onFieldChange("end", data, id)
-                              }
-                              name={`end${id}`}
-                            />
-                          </View>
-                          {!isDate && (
-                            <Text
-                              style={{
-                                color: "#f11111",
-                                fontSize: adjust(12),
-                                textAlign: "center"
-                              }}
-                            >
-                              Horário inválido
-                            </Text>
-                          )}
-                        </View>
+                            Horário inválido
+                          </Text>
+                        )}
+                      </View>
                     </>
                   )}
                 </View>
@@ -350,7 +350,7 @@ class SpecialHours extends Component {
           onClose={() => {
             this.setState({ visible: false, dateInput: "" });
           }}
-          heightModal={calcHeight(80)}
+          // heightModal={calcHeight(80)}
           visible={this.state.visible}
         >
           <Text style={styles.titleModal}>Adicione uma data</Text>
@@ -370,7 +370,7 @@ class SpecialHours extends Component {
                     width: "100%",
                     flex: 1,
                     display: "flex",
-                    minWidth: 50
+                    minWidth: 50,
                   }}
                 >
                   <DateTimePicker
@@ -384,7 +384,7 @@ class SpecialHours extends Component {
                 </View>
               ))}
           </View>
-          <View style={{ alignItems: "center", top: calcHeight(5) }}>
+          <View style={{ alignItems: "center" }}>
             <RoundButton
               disabled={!dateInput}
               style={[{ backgroundColor: "#865FC0" }]}
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
   Container: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#18142F"
+    backgroundColor: "#18142F",
   },
   containerSpecialHours: {
     backgroundColor: "#24203B",
@@ -409,44 +409,44 @@ const styles = StyleSheet.create({
     padding: "5%",
     borderRadius: 15,
     marginBottom: "3%",
-    marginTop: calcWidth(3)
+    marginTop: calcWidth(3),
   },
   containerAction: {
     marginHorizontal: "5%",
     alignItems: "flex-end",
-    top: "-2%"
+    top: "-2%",
   },
   containerModalInput: {
     justifyContent: "center",
     alignItems: "center",
     top: calcWidth(-4),
-    left: "5%"
+    left: "5%",
   },
   inputDate: {
     width: "48%",
     color: "#46C5F3",
     fontSize: adjust(10),
-    fontFamily: "HelveticaNowMicro-Regular"
+    fontFamily: "HelveticaNowMicro-Regular",
   },
   title: {
     color: "#FFF",
     fontSize: adjust(20),
-    textAlign: "center"
+    textAlign: "center",
   },
   subtitle: {
     color: "#FFF",
     fontSize: adjust(11.5),
-    marginTop: "5%"
+    marginTop: "5%",
   },
   titleModal: {
     color: "#FFF",
     padding: "5%",
     fontSize: adjust(20),
-    fontFamily: "HelveticaNowMicro-Medium"
-  }
+    fontFamily: "HelveticaNowMicro-Medium",
+  },
 });
 
 export default SpecialHours = reduxForm({
   form: "SpecialHours",
-  enableReinitialize: true
+  enableReinitialize: true,
 })(SpecialHours);

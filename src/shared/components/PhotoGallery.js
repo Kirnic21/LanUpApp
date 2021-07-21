@@ -243,14 +243,14 @@ const styles = StyleSheet.create({
   thumbContainer: {},
   picture: {
     marginVertical: 5,
-    width: 117,
-    height: 81,
+    width: calcWidth(30),
+    height: calcWidth(25),
     marginLeft: 9,
     borderRadius: 4,
   },
   addPictureContainer: {
-    width: 117,
-    height: 81,
+    width: calcWidth(30),
+    height: calcWidth(25),
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#7541BF",

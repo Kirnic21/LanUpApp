@@ -154,7 +154,7 @@ class RegisterStageOne extends Component {
                 />
                 <Field
                   name="cpf"
-                  style={styles.TextInput}
+                  // style={styles.TextInput}
                   title="CPF"
                   component={InputMask}
                   keyboardType="numeric"

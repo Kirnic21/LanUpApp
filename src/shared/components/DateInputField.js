@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { TouchableOpacity, View, Text, Platform } from "react-native";
 import DatePicker from "react-native-date-picker";
 import moment from "moment";
-import { calcWidth, adjust } from "~/assets/Dimensions/index";
+import { adjust } from "~/assets/Dimensions/index";
 import ModalComponent from "./ModalComponent";
 import ButtonComponent from "./ButtonCompoent";
 
@@ -28,7 +28,10 @@ export default class DateInputField extends Component {
     const { date } = this.state;
     const { style, mode, input, meta, ...inputProps } = this.props;
     return (
-      <TouchableOpacity onPress={() => this.setState({ visible: true })}>
+      <TouchableOpacity
+        style={style}
+        onPress={() => this.setState({ visible: true })}
+      >
         <Text
           style={{
             color: "white",
@@ -43,17 +46,19 @@ export default class DateInputField extends Component {
           visible={this.state.visible}
           onClose={() => this.setState({ visible: false })}
         >
-          <View style={{ top: calcWidth(10), alignItems: "center" }}>
-            <DatePicker
-              mode={mode}
-              locale="pt"
-              style={{}}
-              fadeToColor="#23203F"
-              textColor="#FFFFFF"
-              date={!!input.value ? new Date(input.value) : date}
-              onDateChange={(date) => this.handleChange(date)}
-            />
-            <View style={{ top: calcWidth(10) }}>
+          <View style={{ alignItems: "center" }}>
+            <View style={{ marginVertical: "10%" }}>
+              <DatePicker
+                mode={mode}
+                locale="pt"
+                style={{}}
+                fadeToColor="#23203F"
+                textColor="#FFFFFF"
+                date={!!input.value ? new Date(input.value) : date}
+                onDateChange={(date) => this.handleChange(date)}
+              />
+            </View>
+            <View style={{ marginVertical: "5%" }}>
               <ButtonComponent
                 onPress={() => this.setState({ visible: false })}
                 title="Okay"
@@ -63,7 +68,7 @@ export default class DateInputField extends Component {
             </View>
           </View>
         </ModalComponent>
-        <Text style={[styles.input, style]}>
+        <Text style={[styles.input]}>
           {input.value !== ""
             ? this.getFormatByMode(input.value, inputProps.mode)
             : ""}
@@ -77,18 +82,18 @@ const styles = {
   input: {
     height: 50,
     width: "100%",
-    borderRadius: Platform.OS === 'ios' ? 25 : 50,
+    borderRadius: Platform.OS === "ios" ? 25 : 50,
     borderWidth: 2,
     borderColor: "#FFFFFF",
     ...Platform.select({
-      ios:{
+      ios: {
         lineHeight: 45,
       },
-      android:{
+      android: {
         textAlignVertical: "center",
-      }
+      },
     }),
-    paddingHorizontal: "7%",
+    paddingHorizontal: "15%",
     color: "#FFF",
     fontSize: adjust(10),
     fontFamily: "HelveticaNowMicro-Regular",

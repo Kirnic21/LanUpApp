@@ -10,7 +10,7 @@ export default InputMask = (props) => {
   });
 
   return (
-    <View>
+    <View style={[props.style]}>
       <View>
         <Text style={styles.title}>{props.title}</Text>
       </View>
@@ -27,6 +27,7 @@ export default InputMask = (props) => {
               color: "#FFF",
               fontSize: adjust(10),
               fontFamily: "HelveticaNowMicro-Regular",
+              paddingHorizontal: "7%",
             },
             props.style,
             isInputFocused.input1
@@ -53,7 +54,12 @@ export default InputMask = (props) => {
 const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
-    paddingHorizontal: "7%",
+  },
+  title: {
+    color: "white",
+    fontSize: adjust(10),
+    top: "-10%",
+    fontFamily: "HelveticaNowMicro-Regular",
   },
   title: {
     color: "white",

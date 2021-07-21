@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import ModalComponent from "~/shared/components/ModalComponent";
-import dimensions, { calcWidth, calcHeight, adjust } from "~/assets/Dimensions";
+import { calcWidth, adjust } from "~/assets/Dimensions";
 import InputLabel from "~/shared/components/InputLabel";
 import IconAgencia from "~/assets/images/icon_agencia.png";
 import Lottie from "lottie-react-native";
@@ -16,13 +16,8 @@ const ModalAgency = ({
   loading,
 }) => {
   return (
-    <ModalComponent
-      visible={visible}
-      onClose={onClose}
-      heightModal={calcHeight(75)}
-      swipe={[]}
-    >
-      <View style={{ marginHorizontal: calcWidth(5), height: "90%" }}>
+    <ModalComponent visible={visible} onClose={onClose} swipe={[]}>
+      <View style={{ marginHorizontal: calcWidth(5) }}>
         <Text style={styles.title}>Insira seu código{"\n"}da agência</Text>
         <InputLabel
           isfocused="#46C5F3"
@@ -31,7 +26,7 @@ const ModalAgency = ({
           placeholderTextColor={"#bab9c1"}
         />
         <FlatList
-          data={code || []}
+          data={code?.slice(0, 3) || []}
           ListEmptyComponent={
             <View style={{ mariginTop: calcWidth(5) }}>
               {loading ? (
@@ -51,7 +46,7 @@ const ModalAgency = ({
               ) : (
                 <View style={{ alignItems: "center" }}>
                   <Text
-                  allowFontScaling={false}
+                    allowFontScaling={false}
                     style={[
                       styles.nameAgency,
                       {
@@ -74,12 +69,12 @@ const ModalAgency = ({
                 source={IconAgencia}
                 style={{ height: calcWidth(16), width: calcWidth(16) }}
               />
-              <View style={{ left: calcWidth(2) }}  adjustsFontSizeToFit={false}>
+              <View style={{ left: calcWidth(2) }} adjustsFontSizeToFit={false}>
                 <Text numberOfLines={1} style={styles.nameAgency}>
                   {item.name}
                 </Text>
                 <Text
-                adjustsFontSizeToFit={false}
+                  adjustsFontSizeToFit={false}
                   style={[
                     styles.nameAgency,
                     { width: "100%", fontSize: adjust(8) },

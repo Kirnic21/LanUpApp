@@ -1,10 +1,17 @@
 import React from "react";
-import { View, Text, Platform, StyleSheet, Dimensions, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  Platform,
+  StyleSheet,
+  Dimensions,
+  StatusBar,
+} from "react-native";
 import {
   ScrollView,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
-import dimensions, { adjust } from "~/assets/Dimensions";
+import dimensions, { adjust, calcHeight } from "~/assets/Dimensions";
 import Modal from "react-native-modal";
 import { useState } from "react";
 import RoundButton from "~/shared/components/RoundButton";
@@ -88,7 +95,7 @@ const CardDeitailsVacancies = ({
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
-                style={[styles.title, TitleStyle]}
+                style={[styles.title, TitleStyle, { height: calcHeight(5)}]}
               >
                 {title}
               </Text>
@@ -135,7 +142,7 @@ const styles = StyleSheet.create({
     fontSize: adjust(18),
     paddingBottom: "2%",
     color: "#FFFFFf",
-    height: Platform.OS === "ios" ? 30 : 15,
+    height: Platform.OS === "ios" ? 30 : "auto",
   },
   contentText: {
     width: "100%",

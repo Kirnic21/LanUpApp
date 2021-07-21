@@ -23,7 +23,7 @@ import { calcWidth } from "./assets/Dimensions";
 import * as Sentry from "@sentry/react-native";
 import env from "react-native-config";
 
-import {request, PERMISSIONS} from 'react-native-permissions';
+import { request, PERMISSIONS } from "react-native-permissions";
 
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
@@ -46,14 +46,18 @@ class App extends Component {
   async componentDidMount() {
     OneSignal.setAppId(ONE_SIGNAL_ID);
     OneSignal.setLogLevel(6, 0);
-    OneSignal.promptForPushNotificationsWithUserResponse(response => {
+    if (Platform.OS !== "android") {
+      OneSignal.promptForPushNotificationsWithUserResponse((response) => {
         console.log("Prompt response:", response);
         this.onIds(response);
-    });
+      });
+    }
 
     await this.requestLocationPermision();
     const token = await AsyncStorage.getItem("API_TOKEN");
-    const deviceId = await AsyncStorage.getItem("DEVICE_ID");
+
+    const { userId: deviceId } = await OneSignal.getDeviceState();
+
     this.setState({
       userChecked: true,
       userLogged: !!token && !!deviceId,
@@ -76,9 +80,9 @@ class App extends Component {
       await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       );
-    } else if (Platform.OS === 'ios') {
+    } else if (Platform.OS === "ios") {
       request(PERMISSIONS.IOS.LOCATION_ALWAYS).then((result) => {
-        console.log(result)
+        console.log(result);
       });
     }
   };
@@ -104,7 +108,6 @@ class App extends Component {
     const { userChecked, userLogged } = this.state;
 
     if (!userChecked) return null;
-
     const Routes = createNavigator(userLogged);
 
     return (

@@ -38,7 +38,7 @@ const ModalForgotPassword = ({
           style={styles.inputModal}
         />
       </View>
-      <View style={{ alignItems: "center" }}>
+      <View style={{ alignItems: "center", marginVertical: "5%" }}>
         <RoundButton
           disabled={disabledButton}
           style={[styles.buttonModal]}

@@ -38,10 +38,16 @@ const ProfileInformation = ({}) => {
         numberOfLines={10}
         isfocused={"#A893F2"}
       />
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
         <Field
-          style={{ width: 100 }}
+          style={{ width: "30%" }}
           title="Altura"
+          styleInput={{ paddingHorizontal: 15 }}
           component={InputMask}
           name={"height"}
           keyboardType="numeric"
@@ -49,7 +55,8 @@ const ProfileInformation = ({}) => {
           isfocused={"#A893F2"}
         />
         <Field
-          style={{ width: 100 }}
+          style={{ width: "30%" }}
+          styleInput={{ paddingHorizontal: 15 }}
           title="Peso"
           component={InputMask}
           name={"weight"}
@@ -60,9 +67,9 @@ const ProfileInformation = ({}) => {
         <Field
           title="Manequim"
           component={DropDown}
-          style={{ width: 100 }}
+          containerStyle={{ width: "30%" }}
           name={"clothingsSizes"}
-          heightModal={calcWidth(95)}
+          // heightModal={calcWidth(90)}
           items={[
             { label: "P", value: "P" },
             { label: "M", value: "M" },

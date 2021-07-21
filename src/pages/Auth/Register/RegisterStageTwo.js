@@ -25,7 +25,7 @@ const stylePage = {
   ...styles,
   icon: {
     left: "82%",
-    top: dimensions(28),
+    top: '35%',
     position: "absolute"
   }
 };

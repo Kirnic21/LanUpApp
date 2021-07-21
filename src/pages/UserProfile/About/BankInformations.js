@@ -47,7 +47,7 @@ const BankInformation = () => {
           title="Tipo da conta"
           component={DropDown}
           name={"bankAccountType"}
-          heightModal={calcHeight(75)}
+          // heightModal={Platform.OS === 'ios' ? calcHeight(75) : calcWidth(80)}
           items={[
             { label: "Conta Corrente", value: "Conta Corrente" },
             { label: "Conta Poupança", value: "Conta Poupança" },

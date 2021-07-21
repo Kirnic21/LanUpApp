@@ -4,10 +4,11 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  TouchableHighlight
+  TouchableHighlight,
+  ScrollView,
 } from "react-native";
 
-import { calcWidth, adjust } from "~/assets/Dimensions";
+import { calcWidth, adjust, calcHeight } from "~/assets/Dimensions";
 import DropDown from "~/shared/components/DropDown";
 import ImageSelector from "~/shared/components/ImageSelector";
 import InputField from "~/shared/components/InputField";
@@ -25,7 +26,7 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import {
   addCertificate,
   updateCertificate,
-  deleteCertificate
+  deleteCertificate,
 } from "~/shared/services/certificates.http";
 import RoundButton from "~/shared/components/RoundButton";
 import ButtonLoading from "~/shared/components/Button";
@@ -35,12 +36,12 @@ const formRules = FormValidator.make(
   {
     name: "required",
     issuer: "required",
-    conclusionYear: "number|min:4"
+    conclusionYear: "number|min:4",
   },
   {
     name: "Nome do curso é obrigatório",
     issuer: "Nome da Instituição é obrigatório",
-    conclusionYear: "Ano de conclusão inválido"
+    conclusionYear: "Ano de conclusão inválido",
   }
 );
 
@@ -48,7 +49,7 @@ const CertificateModal = ({
   navigation,
   handleSubmit,
   invalid,
-  setCertificate
+  setCertificate,
 }) => {
   const { viewCerticates, item } = navigation.state.params;
   const [ViewCerticates, setViewCerticates] = useState(viewCerticates);
@@ -65,17 +66,17 @@ const CertificateModal = ({
     2: "Curso Livre",
     3: "Graduação",
     4: "Pós graduação",
-    5: "MBA"
+    5: "MBA",
   };
 
   const content = [
     {
       title: "Tipo",
-      subTitle: Type[item?.type]
+      subTitle: Type[item?.type],
     },
     { title: "Nome do curso/treinamento", subTitle: item?.name },
     { title: "Instituição", subTitle: item?.issuer },
-    { title: "Ano de Formação", subTitle: item?.conclusionYear }
+    { title: "Ano de Formação", subTitle: item?.conclusionYear },
   ];
 
   const handleOnPictureAdd = () => {
@@ -83,11 +84,11 @@ const CertificateModal = ({
     ActionSheet.show();
   };
 
-  const onImageSelected = picture => {
+  const onImageSelected = (picture) => {
     setPicture({ image: picture.uri, data: picture.data });
   };
 
-  const AddCertificates = async form => {
+  const AddCertificates = async (form) => {
     const { type, name, issuer, conclusionYear } = form;
     const year = Number(conclusionYear);
     try {
@@ -96,7 +97,7 @@ const CertificateModal = ({
         type,
         name,
         issuer,
-        conclusionYear: year
+        conclusionYear: year,
       });
       await setCertificate();
       await navigation.navigate("Certificates");
@@ -106,7 +107,7 @@ const CertificateModal = ({
     }
   };
 
-  const UpdateCertificates = async form => {
+  const UpdateCertificates = async (form) => {
     const { type, name, issuer, conclusionYear } = form;
     const year = Number(conclusionYear);
     try {
@@ -116,7 +117,7 @@ const CertificateModal = ({
         type,
         name,
         issuer,
-        conclusionYear: year
+        conclusionYear: year,
       });
       await setCertificate();
       await navigation.navigate("Certificates");
@@ -126,7 +127,7 @@ const CertificateModal = ({
     }
   };
 
-  const validation = form => {
+  const validation = (form) => {
     setLoading(true);
     form.type !== undefined && form.type !== null
       ? isEditing
@@ -148,7 +149,7 @@ const CertificateModal = ({
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#23203F" }}>
+    <View style={{ flex: 1, backgroundColor: "#23203F", position: "relative" }}>
       <View style={styles.buttonClose}>
         <TouchableOpacity
           onPress={() => {
@@ -160,7 +161,7 @@ const CertificateModal = ({
       </View>
 
       {ViewCerticates ? (
-        <>
+        <ScrollView>
           <View
             style={[styles.containerImage, { marginBottom: calcWidth(10) }]}
           >
@@ -180,7 +181,8 @@ const CertificateModal = ({
             style={{
               flexDirection: "row",
               width: "100%",
-              justifyContent: "center"
+              justifyContent: "center",
+              marginBottom: "5%",
             }}
           >
             <RoundButton
@@ -191,7 +193,7 @@ const CertificateModal = ({
                 setPicture({ image: item.certificateImage });
                 setIsEditing(true);
               }}
-              style={{ backgroundColor: "#7541BF" }}
+              style={{ backgroundColor: "#7541BF", marginRight: "10%" }}
             />
             <RoundButton
               name="Deletar"
@@ -200,7 +202,7 @@ const CertificateModal = ({
               style={{ borderWidth: 2, borderColor: "#FFFFFF" }}
             />
           </View>
-        </>
+        </ScrollView>
       ) : (
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <>
@@ -228,7 +230,7 @@ const CertificateModal = ({
           <View
             style={{
               marginHorizontal: calcWidth(10),
-              marginTop: calcWidth(-5)
+              marginTop: calcWidth(-5),
             }}
           >
             <Field
@@ -241,7 +243,7 @@ const CertificateModal = ({
                 { label: "Curso Livre", value: 2 },
                 { label: "Graduação", value: 3 },
                 { label: "Pós graduação", value: 4 },
-                { label: "MBA", value: 5 }
+                { label: "MBA", value: 5 },
               ]}
             />
             <Field
@@ -264,7 +266,13 @@ const CertificateModal = ({
               maxLength={4}
               keyboardType="numeric"
             />
-            <View style={{ alignItems: "center", marginTop: calcWidth(3) }}>
+            <View
+              style={{
+                alignItems: "center",
+                marginTop: calcWidth(3),
+                marginBottom: "5%",
+              }}
+            >
               <ButtonLoading
                 disabled={invalid || !picture.image}
                 loading={!loading}
@@ -272,7 +280,7 @@ const CertificateModal = ({
                 cliclButtonColor="#EB4886"
                 name={isEditing ? "Salvar" : "Adicionar"}
                 size="small"
-                onPress={handleSubmit(data => validation(data))}
+                onPress={handleSubmit((data) => validation(data))}
               />
             </View>
           </View>
@@ -299,37 +307,37 @@ const styles = {
     backgroundColor: "#18142f",
     height: calcWidth(60),
     margin: calcWidth(10),
-    marginTop: calcWidth(15),
+    marginTop: calcWidth(20),
     borderRadius: 10,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   legend: {
     color: "#7541bf",
-    fontSize: adjust(14)
+    fontSize: adjust(14),
   },
   title: {
     color: "#865FC0",
     fontFamily: "HelveticaNowMicro-Regular",
     fontSize: adjust(13),
     marginBottom: calcWidth(5),
-    marginLeft: calcWidth(11)
+    marginLeft: calcWidth(11),
   },
   subTitle: {
     color: "#FFFFFF",
     fontFamily: "HelveticaNowMicro-Regular",
     fontSize: adjust(11),
     marginBottom: calcWidth(5),
-    marginLeft: calcWidth(11)
+    marginLeft: calcWidth(11),
   },
   buttonClose: {
     zIndex: 2,
-    margin: calcWidth(15),
-    marginLeft: calcWidth(3),
-    marginBottom: calcWidth(-10),
-    flexDirection: "row",
-    justifyContent: "space-between"
-  }
+    position: "absolute",
+    justifyContent: "center",
+    paddingHorizontal: calcWidth(7),
+    height: calcHeight(10),
+    width: "100%",
+  },
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -340,16 +348,16 @@ const mapStateToProps = (state, ownProps) => {
         type: item?.type,
         name: item?.name,
         issuer: item?.issuer,
-        conclusionYear: item?.conclusionYear.toString()
+        conclusionYear: item?.conclusionYear.toString(),
       }
     : {};
 
   return {
-    initialValues
+    initialValues,
   };
 };
 
-const mapActionToProps = dispatch =>
+const mapActionToProps = (dispatch) =>
   bindActionCreators({ setCertificate }, dispatch);
 
 export default connect(
@@ -361,6 +369,6 @@ export default connect(
     validate: formRules,
     enableReinitialize: true,
     destroyOnUnmount: false,
-    forceUnregisterOnUnmount: true
+    forceUnregisterOnUnmount: true,
   })(CertificateModal)
 );

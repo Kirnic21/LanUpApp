@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import { adjust, calcHeight, calcWidth } from "~/assets/Dimensions";
+import { adjust } from "~/assets/Dimensions";
 import InputSearch from "~/shared/components/InputSearch";
 
 import ModalComponent from "./ModalComponent";
@@ -88,7 +88,7 @@ const styles = {
   container: {
     backgroundColor: "#18142F",
     padding: "5%",
-    height: calcWidth(70),
+    maxHeight: "60%",
     borderRadius: 15,
     marginTop: "5%",
   },
@@ -96,7 +96,11 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: calcWidth(60),
+    paddingVertical: "10%",
+  },
+
+  inputContainer: {
+    marginTop: "5%",
   },
 
   inputContainer:{

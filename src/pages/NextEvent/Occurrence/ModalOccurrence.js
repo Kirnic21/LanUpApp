@@ -38,7 +38,7 @@ const ModalOccurrence = ({
       visible={visible}
       onClose={onClose}
       loading={loading}
-      heightModal={calcHeight(95)}
+      // heightModal={calcHeight(95)}
     >
       <View style={{ marginHorizontal: calcWidth(5) }}>
         <Text style={styles.title}>Ocorrência</Text>

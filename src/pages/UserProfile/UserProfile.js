@@ -49,10 +49,7 @@ class UserProfile extends Component {
       {
         title: "Funções que atuo",
         subtitle: "Área de operação, e habilidades",
-        onPress: () => {
-          getAbout();
-          this.navigateToScreen("Profession")
-        }
+        onPress: () => this.navigateToScreen("Profession"),
       },
       {
         title: "Agências",
