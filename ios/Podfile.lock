@@ -11,22 +11,21 @@ PODS:
     - React-Core (= 0.64.0)
     - React-jsi (= 0.64.0)
     - ReactCommon/turbomodule/core (= 0.64.0)
-  - FBSDKCoreKit (8.2.0):
-    - FBSDKCoreKit/Basics (= 8.2.0)
-    - FBSDKCoreKit/Core (= 8.2.0)
-  - FBSDKCoreKit/Basics (8.2.0)
-  - FBSDKCoreKit/Core (8.2.0):
+  - FBSDKCoreKit (7.1.1):
+    - FBSDKCoreKit/Basics (= 7.1.1)
+    - FBSDKCoreKit/Core (= 7.1.1)
+  - FBSDKCoreKit/Basics (7.1.1)
+  - FBSDKCoreKit/Core (7.1.1):
     - FBSDKCoreKit/Basics
-  - FBSDKLoginKit (8.2.0):
-    - FBSDKLoginKit/Login (= 8.2.0)
-  - FBSDKLoginKit/Login (8.2.0):
-    - FBSDKCoreKit (~> 8.2.0)
-  - FBSDKShareKit (8.2.0):
-    - FBSDKShareKit/Share (= 8.2.0)
-  - FBSDKShareKit/Share (8.2.0):
-    - FBSDKCoreKit (~> 8.2.0)
+  - FBSDKLoginKit (7.1.1):
+    - FBSDKLoginKit/Login (= 7.1.1)
+  - FBSDKLoginKit/Login (7.1.1):
+    - FBSDKCoreKit (~> 7.1.1)
+  - FBSDKShareKit (7.1.1):
+    - FBSDKShareKit/Share (= 7.1.1)
+  - FBSDKShareKit/Share (7.1.1):
+    - FBSDKCoreKit (~> 7.1.1)
   - glog (0.3.5)
-  - InputMask (6.1.0)
   - libwebp (1.2.0):
     - libwebp/demux (= 1.2.0)
     - libwebp/mux (= 1.2.0)
@@ -258,19 +257,19 @@ PODS:
     - React-Core
   - react-native-date-picker (3.2.2):
     - React
-  - react-native-fbsdk (3.0.0):
+  - react-native-fbsdk (2.0.0):
     - React
-    - react-native-fbsdk/Core (= 3.0.0)
-    - react-native-fbsdk/Login (= 3.0.0)
-    - react-native-fbsdk/Share (= 3.0.0)
-  - react-native-fbsdk/Core (3.0.0):
-    - FBSDKCoreKit (~> 8.1)
+    - react-native-fbsdk/Core (= 2.0.0)
+    - react-native-fbsdk/Login (= 2.0.0)
+    - react-native-fbsdk/Share (= 2.0.0)
+  - react-native-fbsdk/Core (2.0.0):
+    - FBSDKCoreKit (~> 7.0)
     - React
-  - react-native-fbsdk/Login (3.0.0):
-    - FBSDKLoginKit (~> 8.1)
+  - react-native-fbsdk/Login (2.0.0):
+    - FBSDKLoginKit (~> 7.0)
     - React
-  - react-native-fbsdk/Share (3.0.0):
-    - FBSDKShareKit (~> 8.1)
+  - react-native-fbsdk/Share (2.0.0):
+    - FBSDKShareKit (~> 7.0)
     - React
   - react-native-geolocation-service (5.2.0):
     - React
@@ -287,10 +286,6 @@ PODS:
     - React (< 1.0.0, >= 0.13.0)
   - react-native-safe-area-context (3.1.7):
     - React
-  - react-native-text-input-mask (3.1.4):
-    - InputMask (~> 6.1.0)
-    - React-Core
-    - React-RCTText
   - react-native-webview (10.8.3):
     - React
   - React-perflogger (0.64.0)
@@ -371,6 +366,10 @@ PODS:
     - React
     - SDWebImage (~> 5.8)
     - SDWebImageWebPCoder (~> 0.6.1)
+  - RNFileViewer (2.1.4):
+    - React-Core
+  - RNFS (2.18.0):
+    - React
   - RNGestureHandler (1.8.0):
     - React
   - RNImageCropPicker (0.33.4):
@@ -442,7 +441,6 @@ DEPENDENCIES:
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-onesignal (from `../node_modules/react-native-onesignal`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
-  - react-native-text-input-mask (from `../node_modules/react-native-text-input-mask`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -462,6 +460,8 @@ DEPENDENCIES:
   - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
+  - RNFileViewer (from `../node_modules/react-native-file-viewer`)
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -477,7 +477,6 @@ SPEC REPOS:
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
-    - InputMask
     - libwebp
     - OneSignal
     - SDWebImage
@@ -554,8 +553,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-onesignal"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
-  react-native-text-input-mask:
-    :path: "../node_modules/react-native-text-input-mask"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-perflogger:
@@ -594,6 +591,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
+  RNFileViewer:
+    :path: "../node_modules/react-native-file-viewer"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
@@ -617,11 +618,10 @@ SPEC CHECKSUMS:
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
   FBReactNativeSpec: fce2f98de36b09b860c89a1ef4a47575f378f3fb
-  FBSDKCoreKit: 4afd6ff53d8133a433dbcda44451c9498f8c6ce4
-  FBSDKLoginKit: 7181765f2524d7ebf82d9629066c8e6caafc99d0
-  FBSDKShareKit: 0c0d51b3af47075a85ed9bea0e28b2fc70e3594b
+  FBSDKCoreKit: b46507dc8b8cefed31d644e74d7cc30e2a715ef8
+  FBSDKLoginKit: 1a61d79e2b25e2fc0d03dccab1e34b38bbdf2546
+  FBSDKShareKit: 00a055c1999b099596e00212dd1c0600c6697019
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
-  InputMask: 71d291dc54d2deaeac6512afb6ec2304228c0bb7
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   lottie-react-native: 4dff8fe8d10ddef9e7880e770080f4a56121397e
@@ -645,7 +645,7 @@ SPEC CHECKSUMS:
   react-native-camera: 9e55a09596b8c4e41eb7d4cce7c39826990c3cac
   react-native-config: c98128a72bc2c3a1ca72caec0b021f0fa944aa29
   react-native-date-picker: b4ff1079d651501e091aa9951270707273dd412a
-  react-native-fbsdk: 8e92c7a334fd8d9c2b5d8b8fcd7ae2c314161099
+  react-native-fbsdk: 00c15d138bba6d4efa628670886fc58cec858c19
   react-native-geolocation-service: 7c9436da6dfdecd9526c62eac62ea2bc3f0cc8ea
   react-native-image-picker: 3d3f85baabca60a00b75fb8facc1376db7bbdafa
   react-native-image-resizer: cbfc171bad1c33a5b146281873f9e88c54439d79
@@ -653,7 +653,6 @@ SPEC CHECKSUMS:
   react-native-netinfo: 38a1e0b3e89b48e4b5833ed475d8df5f049f6f90
   react-native-onesignal: 6d3d3ac10192c5694049ce8c1ba481e5392c1a73
   react-native-safe-area-context: 955ecfce672683b495d9294d2f154a9ad1d9796b
-  react-native-text-input-mask: 36a546b378fadd2efe1b7484a859d34bc2c80395
   react-native-webview: 598605cd213f5096e695f5b33fbee210a47e60ab
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
   React-RCTActionSheet: 3080b6e12e0e1a5b313c8c0050699b5c794a1b11
@@ -673,6 +672,8 @@ SPEC CHECKSUMS:
   RNCPicker: a2bf7bad059f23de52add203c3c5a3bc5b5239d8
   RNDateTimePicker: d4f276aabaf26386bb4dca86e8c92087e7151ba0
   RNFastImage: e19ba191922e7dab9d932a4d59d62d76660aa222
+  RNFileViewer: 83cc066ad795b1f986791d03b56fe0ee14b6a69f
+  RNFS: 3ab21fa6c56d65566d1fb26c2228e2b6132e5e32
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNImageCropPicker: 530e8b69d97f80e03bc9f3b2cb64412312824330
   RNPermissions: c46788f4cd402287425983e04a4c9bb4356036eb

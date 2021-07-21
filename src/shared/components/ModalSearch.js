@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import { adjust } from "~/assets/Dimensions";
+import { adjust, calcHeight } from "~/assets/Dimensions";
 import InputSearch from "~/shared/components/InputSearch";
 
 import ModalComponent from "./ModalComponent";
