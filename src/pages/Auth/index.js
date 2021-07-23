@@ -91,7 +91,7 @@ class HomePage extends Component {
               name="Cadastrar"
               onPress={this.goRegister}
             />
-            <Text
+            {/* <Text
               style={{
                 color: "#FFF",
                 textAlign: "center",
@@ -106,7 +106,7 @@ class HomePage extends Component {
               style={[styles.Btn, styles.btnFacebook]}
               name="Entrar com Facebook"
               onPress={this.goToLoginFacebook}
-            />
+            /> */}
           </View>
           <View style={{ width, height: "10%" }}>
             <Text
@@ -120,7 +120,7 @@ class HomePage extends Component {
               Já tem uma conta?{" "}
               <Text
                 onPress={this.goToLoginEmail}
-                style={{ color: "#483D8B", textDecorationLine: "underline" }}
+                style={{ color: "#FFF", textDecorationLine: "underline" }}
               >
                 Entrar
               </Text>
@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#141364",
   },
   btnRegister: {
+    marginTop: 25,
     backgroundColor: "#06a2cd",
   },
   Btn: {

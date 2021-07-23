@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     padding: "15%",
   },
   textForgot: {
-    color: "#483D8B",
+    color: "#FFF",
     textDecorationLine: "underline",
     textAlign: "center",
     fontSize: adjust(13),
