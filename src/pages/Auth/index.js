@@ -88,7 +88,7 @@ class HomePage extends Component {
             <RoundButton
               width={calcWidth(73)}
               style={[styles.Btn, styles.btnRegister]}
-              name="Cadastrar"
+              name="Cadastrar com email"
               onPress={this.goRegister}
             />
             {/* <Text
