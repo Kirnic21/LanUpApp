@@ -73,9 +73,9 @@ class HomePage extends Component {
 
             <View
               style={{
-                alignItems: "flex-start",
-                top: "-7%",
-                marginLeft: "4%",
+                alignItems: "center",
+                top: "-10%",
+                // marginLeft: "4%",
               }}
             >
               <Text allowFontScaling={false} style={styles.title}>
@@ -84,11 +84,11 @@ class HomePage extends Component {
               <Text style={styles.subTitle}>Cadastre-se com o seu e-mail</Text>
             </View>
           </View>
-          <View style={{ width, height: "45%" }}>
+          <View style={{ width, height: "50%" }}>
             <RoundButton
               width={calcWidth(73)}
               style={[styles.Btn, styles.btnRegister]}
-              name="Cadastrar"
+              name="Criar conta"
               onPress={this.goRegister}
             />
             <Text
@@ -96,20 +96,20 @@ class HomePage extends Component {
                 color: "#FFF",
                 textAlign: "center",
                 fontSize: adjust(12),
-                marginVertical: "-1%",
+                marginBottom: "-3%",
                 fontFamily: "HelveticaNowMicro-Medium",
               }}
             >
-              ou
+             Já tem uma conta?
             </Text>
             <RoundButton
               width={calcWidth(73)}
               style={[styles.Btn, styles.btnFacebook]}
-              name="Entrar com Facebook"
-              onPress={this.goToLoginFacebook}
+              name="Entrar"
+              onPress={this.goToLoginEmail}
             />
           </View>
-          <View style={{ width, height: "10%" }}>
+          {/* <View style={{ width, height: "10%" }}>
             <Text
               style={{
                 color: "#FFF",
@@ -126,7 +126,7 @@ class HomePage extends Component {
                 Entrar
               </Text>
             </Text>
-          </View>
+          </View> */}
         </View>
       </ImageBackground>
     );
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     fontFamily: "HelveticaNowMicro-Bold",
   },
   btnFacebook: {
-    backgroundColor: "#141364",
+    backgroundColor: "#7541bf",
   },
   btnRegister: {
     backgroundColor: "#06a2cd",
