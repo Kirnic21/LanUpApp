@@ -233,10 +233,10 @@ const styles = StyleSheet.create({
     padding: "15%",
   },
   textForgot: {
-    color: "#483D8B",
+    color: "#06a2cd",
     textDecorationLine: "underline",
     textAlign: "center",
-    fontSize: adjust(13),
+    fontSize: adjust(14),
     letterSpacing: 0.5,
   },
   icon: {

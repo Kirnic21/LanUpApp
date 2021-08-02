@@ -130,7 +130,7 @@ const Details = ({
             }
             value={`${payment}`}
             content={status === 0 || status === 8 ? serviceDetail : null}
-            status={status === 5}
+            status={status}
           />
           <CardDeitailsVacancies
             title="Briefing"

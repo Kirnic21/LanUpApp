@@ -37,7 +37,6 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 class UserProfile extends Component {
   state = {
     selected: false,
-    visible: false,
     spinner: false,
     emergencyAvailability: false,
     data: [
@@ -74,7 +73,7 @@ class UserProfile extends Component {
       {
         title: "Trabalhos realizados",
         subtitle: "Trabalhos, avaliações e recomendações",
-        onPress: () => this.openModal(),
+        onPress: () => this.navigateToScreen("WorkDone"),
       },
     ],
   };
@@ -108,7 +107,7 @@ class UserProfile extends Component {
 
   checkIfFreelaIsAlreadyVacancy = (vacancy) => {
     if (!vacancy.eventId) return;
-    getJobMembers({ eventId:vacancy.eventId, job:vacancy.job })
+    getJobMembers({ eventId: vacancy.eventId, job: vacancy.job })
       .then(({ data }) => data)
       .then(async ({ result }) => {
         const { id } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
@@ -196,16 +195,12 @@ class UserProfile extends Component {
     });
   };
 
-  openModal = () => {
-    this.setState({ visible: true });
-  };
-
   navigateToScreen = (route) => {
     this.props.navigation.navigate(route);
   };
 
   render() {
-    const { visible, data } = this.state;
+    const { data } = this.state;
     const {
       about: { image },
       loading,
@@ -285,10 +280,6 @@ class UserProfile extends Component {
           >
             <Text style={styles.titleContent}>Terminar sessão</Text>
           </TouchableOpacity>
-          <ModalComingSoon
-            onClose={() => this.setState({ visible: false })}
-            visible={visible}
-          />
         </ScrollView>
       </View>
     );
