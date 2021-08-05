@@ -60,9 +60,8 @@ const Details = ({
   const [selectedShift, setSelectedShift] = useState(false);
   const [terms, setTerms] = useState(false);
 
-  const url =
-    "https://drive.google.com/uc?id=1KS3Gha7epmpV0Yc3zLyrctMSgBppiz_f&export=download";
-  const localFile = `${RNFS.DocumentDirectoryPath}/Termos de Segurança.docx`;
+  const file = "terms/termo-de-compromisso.docx";
+  const dest = `${RNFS.DocumentDirectoryPath}/termo-de-compromisso.docx`;
 
   const parseCheckin = useMemo(() => {
     return formatDate(start);
@@ -77,15 +76,11 @@ const Details = ({
       : `${parseCheckin} - ${parseCheckout}`;
 
   const openTerms = () => {
-    const options = {
-      fromUrl: url,
-      toFile: localFile,
-    };
-    RNFS.downloadFile(options)
-      .promise.then(() => FileViewer.open(localFile))
-      .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-      );
+    RNFS.copyFileAssets(file, dest)
+      .then(() => FileViewer.open(dest))
+      .catch((error) => {
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+      });
   };
 
   const validationButton = useCallback(() => {
@@ -215,7 +210,10 @@ const Details = ({
                   color="#46C5F3"
                 />
               </TouchableOpacity>
-              <Text style={styles.titleCheckbox}>
+              <Text
+                onPress={() => setTerms((prev) => !prev)}
+                style={styles.titleCheckbox}
+              >
                 Declaro que li e concordo com os termos de segurança.{" "}
                 <Text
                   dataDetectorType="link"
