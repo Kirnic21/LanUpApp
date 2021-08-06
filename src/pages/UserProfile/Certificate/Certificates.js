@@ -104,8 +104,8 @@ const Certificates = ({ navigation, setCertificate, list, spinner }) => {
           }}
           image={CertificateImg}
           imageStyle={{ width: calcWidth(50) }}
-          title={`Não temos nenhum${"\n"}certificado para mostrar`}
-          subtitle={`Adicione as seus certificados${"\n"}e mostre suas competências`}
+          title={`Adicione os seus certificados ${"\n"} para ajudar o contratante ${"\n"} a escolher seu perfil.`}
+          subtitle={`Os certificados confirmam suas habilidades${"\n"}comprovadas para receber mais vagas.`}
         />
       )}
     </View>

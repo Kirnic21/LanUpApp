@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     color: "#FFF",
-    fontSize: adjust(20),
+    fontSize: adjust(18),
     fontFamily: "HelveticaNowDisplay-Regular",
     textAlign: "center",
     lineHeight: calcWidth(11),

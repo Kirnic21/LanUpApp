@@ -54,7 +54,7 @@ const pageNavigator = createStackNavigator(
     },
     Agency: {
       screen: Agency,
-      navigationOptions: () => ({ headerTitle: "Agências" }),
+      navigationOptions: () => ({ headerTitle: "Empresas" }),
     },
     Profession: {
       screen: Profession,

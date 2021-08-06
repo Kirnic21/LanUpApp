@@ -172,7 +172,7 @@ const HomePage = ({ navigation }) => {
           </View>
           <Image
             source={imgTerms}
-            style={{ width: calcWidth(20), height: calcHeight(10) }}
+            style={{ width: '30%', height: '20%' }}
           />
           <View style={{ alignItems: "center", marginTop: "10%" }}>
             <Text style={styles.title}>Termos e Condições</Text>
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 5,
     borderColor: "rgba(0, 0, 0, 0.1)",
-    flex: 0.6,
+    // flex: 0.6,
     backgroundColor: "#23203F",
     position: "relative",
   },

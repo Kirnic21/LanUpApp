@@ -23,7 +23,15 @@ const ModalAgency = ({
       swipe={[]}
     >
       <View style={{ marginHorizontal: calcWidth(5), height: "90%" }}>
-        <Text style={styles.title}>Insira seu código{"\n"}da agência</Text>
+        <Text style={styles.title}>Código da empresa</Text>
+        <Text
+          style={[
+            styles.title,
+            { fontSize: adjust(13), fontFamily: "HelveticaNowMicro-Regular" },
+          ]}
+        >
+          Digite o código da empresa para candidatar às vagas!
+        </Text>
         <InputLabel
           isfocused="#46C5F3"
           onChangeText={onChangeText}
@@ -51,7 +59,7 @@ const ModalAgency = ({
               ) : (
                 <View style={{ alignItems: "center" }}>
                   <Text
-                  allowFontScaling={false}
+                    allowFontScaling={false}
                     style={[
                       styles.nameAgency,
                       {
@@ -59,7 +67,8 @@ const ModalAgency = ({
                       },
                     ]}
                   >
-                    Caso não tenha o código,{"\n"} solicite para sua Agência.
+                    Caso não tenha recebido o código para candidatar-se às
+                    vagas, verifique seu e-mail ou WhatsApp!
                   </Text>
                 </View>
               )}
@@ -74,12 +83,12 @@ const ModalAgency = ({
                 source={IconAgencia}
                 style={{ height: calcWidth(16), width: calcWidth(16) }}
               />
-              <View style={{ left: calcWidth(2) }}  adjustsFontSizeToFit={false}>
+              <View style={{ left: calcWidth(2) }} adjustsFontSizeToFit={false}>
                 <Text numberOfLines={1} style={styles.nameAgency}>
                   {item.name}
                 </Text>
                 <Text
-                adjustsFontSizeToFit={false}
+                  adjustsFontSizeToFit={false}
                   style={[
                     styles.nameAgency,
                     { width: "100%", fontSize: adjust(8) },
@@ -114,11 +123,12 @@ const styles = {
     fontFamily: "HelveticaNowMicro-Medium",
     fontSize: adjust(20),
     marginBottom: calcWidth(2),
+    textAlign: "center",
   },
   nameAgency: {
     color: "#FFFFFF",
     fontFamily: "HelveticaNowMicro-ExtraLight",
-    fontSize: adjust(13),
+    fontSize: adjust(12),
     width: "80%",
     textAlign: "center",
   },
