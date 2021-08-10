@@ -42,7 +42,7 @@ class UserProfile extends Component {
     data: [
       {
         title: "Sobre mim",
-        subtitle: "Adicione a foto de perfil e, suas informações pessoais.",
+        subtitle: "Adicione a foto de perfil e suas informações pessoais.",
         onPress: () => this.navigateToScreen("AboutMe"),
       },
       {
@@ -67,7 +67,7 @@ class UserProfile extends Component {
       },
       {
         title: "Disponibilidade",
-        subtitle: " Horários disponíveis para trabalhar.",
+        subtitle: "Horários disponíveis para trabalhar.",
         onPress: () => this.navigateToScreen("Availability"),
       },
       {
