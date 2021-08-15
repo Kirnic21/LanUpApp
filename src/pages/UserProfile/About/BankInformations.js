@@ -122,7 +122,7 @@ const BankInformation = () => {
             O aceite do termo é para que os dados bancários cadastrados seja
             exclusivamente para o recebimento dos pagamentos, conforme os
             serviços contratados, a descrição das vagas, valores, horários, e
-            protocolos de segurança;
+            protocolos de segurança.
           </Text>
         </View>
       </Modal>

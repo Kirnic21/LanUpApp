@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
     textDecorationLine: "underline",
     textAlign: "center",
-    fontSize: adjust(13),
+    fontSize: adjust(14),
     letterSpacing: 0.5,
   },
   icon: {

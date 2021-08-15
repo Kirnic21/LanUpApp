@@ -20,6 +20,7 @@ import { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 import CertificateModal from "~/pages/UserProfile/Certificate/CertificateModal";
+import WorkDone from '~/pages/UserProfile/WorkDone';
 
 const pageNavigator = createStackNavigator(
   {
@@ -54,7 +55,7 @@ const pageNavigator = createStackNavigator(
     },
     Agency: {
       screen: Agency,
-      navigationOptions: () => ({ headerTitle: "Agências" })
+      navigationOptions: () => ({ headerTitle: "Empresas" }),
     },
     Profession: {
       screen: Profession,
@@ -104,6 +105,11 @@ const pageNavigator = createStackNavigator(
     SpecialHours: {
       screen: SpecialHours,
       navigationOptions: () => ({ headerTitle: "Horários Especiais" })
+    },
+
+    WorkDone: {
+      screen: WorkDone,
+      navigationOptions: () => ({ headerTitle: "Trabalhos Realizados" }),
     },
 
     ChangePassword: {

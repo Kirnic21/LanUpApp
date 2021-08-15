@@ -16,9 +16,22 @@ const ModalAgency = ({
   loading,
 }) => {
   return (
-    <ModalComponent visible={visible} onClose={onClose} swipe={[]}>
-      <View style={{ marginHorizontal: calcWidth(5) }}>
-        <Text style={styles.title}>Insira seu código{"\n"}da agência</Text>
+    <ModalComponent
+      visible={visible}
+      onClose={onClose}
+      heightModal={calcWidth(108)}
+      swipe={[]}
+    >
+      <View style={{ marginHorizontal: calcWidth(5), height: "90%" }}>
+        <Text style={styles.title}>Código da empresa</Text>
+        <Text
+          style={[
+            styles.title,
+            { fontSize: adjust(13), fontFamily: "HelveticaNowMicro-Regular" },
+          ]}
+        >
+          Digite o código da empresa para candidatar às vagas!
+        </Text>
         <InputLabel
           isfocused="#46C5F3"
           onChangeText={onChangeText}
@@ -54,7 +67,8 @@ const ModalAgency = ({
                       },
                     ]}
                   >
-                    Caso não tenha o código,{"\n"} solicite para sua Agência.
+                    Caso não tenha recebido o código para candidatar-se às
+                    vagas, verifique seu e-mail ou WhatsApp!
                   </Text>
                 </View>
               )}
@@ -109,11 +123,12 @@ const styles = {
     fontFamily: "HelveticaNowMicro-Medium",
     fontSize: adjust(20),
     marginBottom: calcWidth(2),
+    textAlign: "center",
   },
   nameAgency: {
     color: "#FFFFFF",
     fontFamily: "HelveticaNowMicro-ExtraLight",
-    fontSize: adjust(13),
+    fontSize: adjust(12),
     width: "80%",
     textAlign: "center",
   },

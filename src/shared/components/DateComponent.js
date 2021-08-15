@@ -41,6 +41,7 @@ const styles = {
     paddingVertical: calcWidth(1.5),
     backgroundColor: "#FFFFFF85",
     borderRadius: calcWidth(2),
+    justifyContent: "center",
   },
   textDate: {
     color: "#18142F",

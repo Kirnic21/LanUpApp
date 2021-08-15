@@ -18,7 +18,7 @@ export default class Schedule extends React.Component {
     listFilter: [
       { id: 2, title: "Escalados" },
       { id: 3, title: "Candidatados" },
-      { id: 8, title: "convites" },
+      { id: 8, title: "Convites" },
       { id: 5, title: "Pagos" },
     ],
   };

@@ -37,44 +37,43 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 class UserProfile extends Component {
   state = {
     selected: false,
-    visible: false,
     spinner: false,
     emergencyAvailability: false,
     data: [
       {
         title: "Sobre mim",
-        subtitle: "Sua foto de perfil, apresentação e mais",
+        subtitle: "Adicione a foto de perfil e suas informações pessoais.",
         onPress: () => this.navigateToScreen("AboutMe"),
       },
       {
         title: "Funções que atuo",
-        subtitle: "Área de operação, e habilidades",
+        subtitle: "Suas funções, habilidades e valores.",
         onPress: () => this.navigateToScreen("Profession"),
       },
       {
-        title: "Agências",
-        subtitle: "Entre na equipe de sua agência",
+        title: "Empresas",
+        subtitle: "Cadastre o código da empresa e receba vagas.",
         onPress: () => this.navigateToScreen("Agency"),
       },
       {
         title: "Fotos dos trabalhos",
-        subtitle: "Fotos e videos de seu trabalho",
+        subtitle: "Adicionar fotos de trabalhos realizados.",
         onPress: () => this.openMidia(),
       },
       {
         title: "Certificados",
-        subtitle: "Fotos comprovando suas habilidades",
+        subtitle: "Adicionar certificados das suas habilidades.",
         onPress: () => this.navigateToScreen("Certificates"),
       },
       {
         title: "Disponibilidade",
-        subtitle: "Dias, horários e feriados",
+        subtitle: "Horários disponíveis para trabalhar.",
         onPress: () => this.navigateToScreen("Availability"),
       },
       {
         title: "Trabalhos realizados",
-        subtitle: "Trabalhos, avaliações e recomendações",
-        onPress: () => this.openModal(),
+        subtitle: "Lista com os trabalhos concluídos.",
+        onPress: () => this.navigateToScreen("WorkDone"),
       },
     ],
   };
@@ -108,7 +107,7 @@ class UserProfile extends Component {
 
   checkIfFreelaIsAlreadyVacancy = (vacancy) => {
     if (!vacancy.eventId) return;
-    getJobMembers({ eventId:vacancy.eventId, job:vacancy.job })
+    getJobMembers({ eventId: vacancy.eventId, job: vacancy.job })
       .then(({ data }) => data)
       .then(async ({ result }) => {
         const { id } = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
@@ -196,16 +195,12 @@ class UserProfile extends Component {
     });
   };
 
-  openModal = () => {
-    this.setState({ visible: true });
-  };
-
   navigateToScreen = (route) => {
     this.props.navigation.navigate(route);
   };
 
   render() {
-    const { visible, data } = this.state;
+    const { data } = this.state;
     const {
       about: { image },
       loading,
@@ -283,12 +278,8 @@ class UserProfile extends Component {
               },
             ]}
           >
-            <Text style={styles.titleContent}>Terminar sessão</Text>
+            <Text style={styles.titleContent}>Sair do aplicativo</Text>
           </TouchableOpacity>
-          <ModalComingSoon
-            onClose={() => this.setState({ visible: false })}
-            visible={visible}
-          />
         </ScrollView>
       </View>
     );
