@@ -281,7 +281,7 @@ class SpecialHours extends Component {
                           style={styles.inputDate}
                           title="Das"
                           keyboardType="numeric"
-                          mask={"[00]:[00]"}
+                          mask="time"
                           isfocused="#46C5F3"
                           placeholder="00:00"
                           placeholderTextColor="#808080"
@@ -302,7 +302,7 @@ class SpecialHours extends Component {
                             style={styles.inputDate}
                             title="Até"
                             keyboardType="numeric"
-                            mask={"[00]:[00]"}
+                            mask="time"
                             isfocused="#46C5F3"
                             placeholder="00:00"
                             placeholderTextColor="#808080"

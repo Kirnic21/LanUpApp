@@ -145,7 +145,7 @@ class AvailabilityDays extends React.Component {
                   style={styles.inputDate}
                   title="Das"
                   component={InputMask}
-                  mask={"[00]:[00]"}
+                  mask="time"
                   name={`start`}
                   isfocused="#46C5F3"
                   keyboardType="numeric"
@@ -160,7 +160,7 @@ class AvailabilityDays extends React.Component {
                     title="Até"
                     placeholder="00:00"
                     component={InputMask}
-                    mask={"[00]:[00]"}
+                    mask="time"
                     name={`end`}
                     isfocused="#46C5F3"
                     keyboardType="numeric"
