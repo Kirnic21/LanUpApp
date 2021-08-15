@@ -1,11 +1,12 @@
 import React from "react";
 import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import ModalComponent from "~/shared/components/ModalComponent";
-import { calcWidth, adjust } from "~/assets/Dimensions";
+import { calcWidth, adjust, calcHeight } from "~/assets/Dimensions";
 import InputLabel from "~/shared/components/InputLabel";
 import IconAgencia from "~/assets/images/icon_agencia.png";
 import Lottie from "lottie-react-native";
 import loadingSpinner from "~/assets/loadingSpinner.json";
+import { Platform } from 'react-native'
 
 const ModalAgency = ({
   visible,
@@ -19,7 +20,7 @@ const ModalAgency = ({
     <ModalComponent
       visible={visible}
       onClose={onClose}
-      heightModal={calcWidth(108)}
+      heightModal={Platform.OS === 'ios' ? calcHeight(88) : calcWidth(108)}
       swipe={[]}
     >
       <View style={{ marginHorizontal: calcWidth(5), height: "90%" }}>

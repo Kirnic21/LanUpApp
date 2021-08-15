@@ -6,6 +6,7 @@ import Toggle from "~/shared/components/SwitchComponent";
 
 import DropDown from "~/shared/components/DropDown";
 import { adjust, calcWidth } from "~/assets/Dimensions/index";
+import { Platform } from 'react-native'
 
 const ProfileInformation = ({}) => {
   reduxForm({ form: "ProfileInformation" });
@@ -45,7 +46,7 @@ const ProfileInformation = ({}) => {
         }}
       >
         <Field
-          style={{ width: "30%" }}
+          style={{ width: Platform.OS === 'ios' ? calcWidth(30) : "30%" }}
           title="Altura"
           styleInput={{ paddingHorizontal: 15 }}
           component={InputMask}
@@ -55,7 +56,7 @@ const ProfileInformation = ({}) => {
           isfocused={"#A893F2"}
         />
         <Field
-          style={{ width: "30%" }}
+          style={{ width: Platform.OS === 'ios' ? calcWidth(30) : "30%" }}
           styleInput={{ paddingHorizontal: 15 }}
           title="Peso"
           component={InputMask}

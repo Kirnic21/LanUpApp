@@ -51,7 +51,7 @@ const Checkout = ({
         navigation.replace("Rating", { hirerId, eventName });
       } catch (error) {
         if (error?.code !== 5) {
-          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+          AlertHelper.show("error", "Erro ao fazer checkout", error.response.data.errorMessage);
         }
       } finally {
         setQRCodeVisible(false);

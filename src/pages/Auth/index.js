@@ -126,7 +126,7 @@ const HomePage = ({ navigation }) => {
               fontFamily: "HelveticaNowMicro-Medium",
             }}
           >
-            Já tem uma conta?
+            {/* Já tem uma conta? */}
           </Text>
           <RoundButton
             width={calcWidth(73)}

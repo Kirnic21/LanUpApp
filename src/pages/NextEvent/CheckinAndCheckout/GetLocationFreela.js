@@ -12,14 +12,14 @@ const getLocationFreela = ({ origin, operationId: id, job }) =>
           id,
           lat: latitude,
           long: longitude,
-        }).catch((error) => AlertHelper.show("error", "Erro", error.message));
+        }).catch((error) => AlertHelper.show("error", "Erro ao atualizar localização", error.message));
         await location({
           id,
           lat: latitude,
           long: longitude,
           origin,
           job,
-        }).catch((error) => AlertHelper.show("error", "Erro", error.message));
+        }).catch((error) => AlertHelper.show("error", "Erro ao informar localização atual", error.message));
         resolve(true);
       },
       (error) => {

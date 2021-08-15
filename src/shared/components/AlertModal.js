@@ -5,6 +5,7 @@ import dimensions, { calcWidth, adjust, calcHeight } from "~/assets/Dimensions/i
 import Icons from "react-native-vector-icons/MaterialIcons";
 import ButtonLoading from "~/shared/components/Button";
 import ModalComponent from "./ModalComponent";
+import { Platform } from 'react-native'
 
 export default AlertModal = ({
   visible,
@@ -22,6 +23,8 @@ export default AlertModal = ({
     <ModalComponent
       visible={visible}
       onClose={onClose}
+
+      heightModal={Platform.OS === 'ios' ? calcHeight(88) : calcWidth(108)}
       // heightModal={calcHeight(65)}
     >
       <View style={styles.container}>

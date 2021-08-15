@@ -8,6 +8,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import ImageSelector from "~/shared/components/ImageSelector";
 
 import debounceButton from "~/shared/helpers/debounce";
+import { Platform } from 'react-native'
 
 const Button = debounceButton(TouchableOpacity);
 
@@ -38,7 +39,7 @@ const ModalOccurrence = ({
       visible={visible}
       onClose={onClose}
       loading={loading}
-      // heightModal={calcHeight(95)}
+      heightModal={Platform.OS === 'ios' ? calcHeight(95) : calcWidth(108)}
     >
       <View style={{ marginHorizontal: calcWidth(5) }}>
         <Text style={styles.title}>Ocorrência</Text>
@@ -56,10 +57,10 @@ const ModalOccurrence = ({
             onChangeText={onChangeText}
             style={[
               styles.textInput,
-              { height: Math.max(35, height > 125 ? 125 : height) },
+              { height: Math.max(45, height > 125 ? 125 : height) },
             ]}
             value={valueInput}
-            multiline={true}
+            multiline={false}
             editable={loading ? false : true}
             onContentSizeChange={(e) => {
               updateSize(e.nativeEvent.contentSize.height);
