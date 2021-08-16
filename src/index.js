@@ -46,17 +46,12 @@ class App extends Component {
   async componentDidMount() {
     OneSignal.setAppId(ONE_SIGNAL_ID);
     OneSignal.setLogLevel(6, 0);
-    if (Platform.OS !== "android") {
-      OneSignal.promptForPushNotificationsWithUserResponse((response) => {
-        console.log("Prompt response:", response);
-        this.onIds(response);
-      });
-    }
 
     await this.requestLocationPermision();
     const token = await AsyncStorage.getItem("API_TOKEN");
 
     const { userId: deviceId } = await OneSignal.getDeviceState();
+    if (deviceId) this.storeDeviceId(deviceId);
 
     this.setState({
       userChecked: true,
@@ -100,8 +95,8 @@ class App extends Component {
     console.log("openResult: ", openResult);
   }
 
-  async onIds(device) {
-    await AsyncStorage.setItem("DEVICE_ID", device.userId);
+  async storeDeviceId(deviceId) {
+    await AsyncStorage.setItem("DEVICE_ID", deviceId);
   }
 
   render() {
