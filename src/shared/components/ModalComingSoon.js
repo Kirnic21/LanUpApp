@@ -12,7 +12,7 @@ export default ModalComingSoon = ({ visible, onClose }) => (
     <ModalComponent
       visible={visible}
       onClose={onClose}
-      heightModal={Platform.OS === 'ios' ? calcHeight(88) : calcWidth(108)}
+      heightModal={Platform.OS === 'ios' ? calcHeight(88) : calcWidth(140)}
     >
       <View style={styles.container}>
         <View style={styles.containerTitle}>
@@ -35,7 +35,7 @@ export default ModalComingSoon = ({ visible, onClose }) => (
           <Text style={styles.textSubtitle}>funcionalidade para você!</Text>
         </View>
       </View>
-      <View style={{}}>
+      <View style={{paddingVertical:'5%'}}>
         <RoundButton name="Entendi" style={styles.btn} onPress={onClose} />
       </View>
     </ModalComponent>

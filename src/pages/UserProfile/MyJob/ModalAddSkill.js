@@ -14,7 +14,7 @@ const ModalAddSkill = ({
     <ModalComponent
       onClose={onClose}
       visible={visible}
-      heightModal={Platform.OS === 'ios' ? calcHeight(88) : calcWidth(108)}
+      heightModal={Platform.OS === 'ios' ? calcHeight(88) : 'auto'}
     >
       <Text style={styles.title}>Adicionar</Text>
       <View style={styles.containerModalInput}>

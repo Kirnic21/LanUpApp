@@ -8,6 +8,7 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import RoundButton from "~/shared/components/RoundButton";
 import ImageBack from "../../assets/images/Grupo_518.png";
@@ -113,7 +114,7 @@ const HomePage = ({ navigation }) => {
         <View style={{ width, height: "50%" }}>
           <RoundButton
             width={calcWidth(73)}
-            style={[styles.Btn, styles.btnRegister]}
+            style={[styles.Btn, styles.btnRegister, { marginTop: 25 }]}
             name="Criar conta"
             onPress={() => setVisibleModal(true)}
           />
@@ -122,7 +123,7 @@ const HomePage = ({ navigation }) => {
               color: "#FFF",
               textAlign: "center",
               fontSize: adjust(12),
-              marginBottom: "-3%",
+              // marginBottom: "-3%",
               fontFamily: "HelveticaNowMicro-Medium",
             }}
           >
@@ -172,7 +173,11 @@ const HomePage = ({ navigation }) => {
           </View>
           <Image
             source={imgTerms}
-            style={{ width: '30%', height: '20%' }}
+            style={
+              Platform.OS === "ios"
+                ? { width: "30%", height: "20%" }
+                : { width: calcWidth(20), height: calcWidth(20) }
+            }
           />
           <View style={{ alignItems: "center", marginTop: "10%" }}>
             <Text style={styles.title}>Termos e Condições</Text>
@@ -229,7 +234,7 @@ const HomePage = ({ navigation }) => {
 const styles = StyleSheet.create({
   content: {
     paddingHorizontal: "10%",
-    paddingTop: "25%",
+    paddingVertical: "20%",
     alignItems: "center",
     borderRadius: 5,
     borderColor: "rgba(0, 0, 0, 0.1)",
@@ -273,7 +278,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#7541bf",
   },
   btnRegister: {
-    marginTop: 25,
     backgroundColor: "#06a2cd",
   },
   Btn: {
@@ -281,6 +285,7 @@ const styles = StyleSheet.create({
     borderColor: "#FFFFFF",
     borderWidth: 1.5,
     borderRadius: 50,
+    marginHorizontal: "5%",
   },
 });
 

@@ -1,12 +1,11 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
 import Toggle from "~/shared/components/SwitchComponent";
 
 import DropDown from "~/shared/components/DropDown";
 import { adjust, calcWidth } from "~/assets/Dimensions/index";
-import { Platform } from 'react-native'
 
 const ProfileInformation = ({}) => {
   reduxForm({ form: "ProfileInformation" });
@@ -43,12 +42,14 @@ const ProfileInformation = ({}) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
+          alignItems: 'stretch',
+          // flexWrap: "wrap",
+          width:'100%'
         }}
       >
         <Field
           style={{ width: Platform.OS === 'ios' ? calcWidth(30) : "30%" }}
           title="Altura"
-          styleInput={{ paddingHorizontal: 15 }}
           component={InputMask}
           name={"height"}
           keyboardType="numeric"
@@ -57,7 +58,6 @@ const ProfileInformation = ({}) => {
         />
         <Field
           style={{ width: Platform.OS === 'ios' ? calcWidth(30) : "30%" }}
-          styleInput={{ paddingHorizontal: 15 }}
           title="Peso"
           component={InputMask}
           name={"weight"}
@@ -68,9 +68,9 @@ const ProfileInformation = ({}) => {
         <Field
           title="Manequim"
           component={DropDown}
-          containerStyle={{ width: "30%" }}
+          containerStyle={{ width: Platform.OS === 'ios' ? calcWidth(30) : "30%" }}
           name={"clothingsSizes"}
-          // heightModal={calcWidth(90)}
+          heightModal={calcWidth(95)}
           items={[
             { label: "P", value: "P" },
             { label: "M", value: "M" },
