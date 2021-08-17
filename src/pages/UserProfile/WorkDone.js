@@ -11,6 +11,8 @@ import Lottie from "lottie-react-native";
 import { getSchedules } from "~/shared/services/vacancy.http";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
+import { format } from 'date-fns'
+
 const WorkDone = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
@@ -20,12 +22,9 @@ const WorkDone = ({ navigation }) => {
     getWorkDone();
   }, []);
 
-  const formatDate = useCallback((date) => {
-    return new Date(date).toLocaleDateString("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  }, []);
+  const formatDate = (date) => {
+    return format(new Date(date), 'dd/MM/yy') 
+  };
 
   const sortBy = useCallback((value) => {
     return value.sort(({ jobDate: a }, { jobDate: b }) =>
@@ -83,7 +82,7 @@ const WorkDone = ({ navigation }) => {
             title={item.eventName}
             date={item.jobDate}
             eventCreationDate={item.eventCreationDate}
-            content={`${formatDate(item.start)}  - ${formatDate(item.end)}`}
+            content={`${formatDate(item.start)} - ${formatDate(item.end)}`}
             address={item.isHomeOffice ? "Home Office" : item.address}
             picture={item.image !== null ? item.image.url : null}
             amount={item.amount}
