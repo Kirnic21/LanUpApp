@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   Text,
+  Platform,
   FlatList,
   TouchableOpacity,
 } from "react-native";
@@ -14,6 +15,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 const DropDown = ({
   style,
   title,
+  containerStyle,
   heightModal,
   items = [],
   input: { value, onChange },
@@ -34,7 +36,7 @@ const DropDown = ({
     return label;
   };
   return (
-    <View style={{ marginBottom: "5%" }}>
+    <View style={[containerStyle, { marginBottom: "5%" }]}>
       <Text style={[styles.textInput, { bottom: "1%" }]}>{title}</Text>
 
       <TouchableOpacity
@@ -68,7 +70,7 @@ const DropDown = ({
         onClose={() => setVisible(false)}
         heightModal={heightModal}
       >
-        <View style={{ marginTop: "3%", height: calcWidth(80) }}>
+        <View style={{ marginVertical: "5%" }}>
           <TouchableOpacity
             onPress={() => {
               onChange(null);
@@ -141,10 +143,17 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderRadius: 50,
+    borderRadius: Platform.OS === "ios" ? 25 : 50,
     borderWidth: 2,
     paddingHorizontal: "7%",
-    textAlignVertical: "center",
+    ...Platform.select({
+      ios: {
+        lineHeight: 45,
+      },
+      android: {
+        textAlignVertical: "center",
+      },
+    }),
     borderColor: "#FFFFFF",
   },
   buttonArrow: {

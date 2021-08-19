@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useEffect } from "react";
-import { NativeModules } from "react-native";
+import { NativeModules, Platform } from "react-native";
 
 import ButtonPulse from "~/shared/components/ButtonPulse";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
@@ -31,7 +31,7 @@ const OnTheWay = ({
       ({ coords: { latitude, longitude } }) => {
         openMaps(latitude, longitude);
       },
-      (error) => {
+      error => {
         error.code === 5
           ? AlertHelper.show(
               "error",
@@ -46,7 +46,8 @@ const OnTheWay = ({
 
   const openMaps = useCallback(
     (latitude, longitude) => {
-      NativeModules.ForegroundModule.startForegroundService();
+      if (Platform.OS === "android")
+        NativeModules.ForegroundModule.startForegroundService();
 
       navigation.replace("MapsGeolocation", {
         id,

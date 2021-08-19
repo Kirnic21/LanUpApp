@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     color: "#FFF",
-    fontSize: adjust(20),
+    fontSize: adjust(18),
     fontFamily: "HelveticaNowDisplay-Regular",
     textAlign: "center",
     lineHeight: calcWidth(11),
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   emptySubtitle: {
     color: "#ffffffad",
     fontFamily: "HelveticaNowMicro-ExtraLight",
-    lineHeight: calcWidth(8),
+    lineHeight: adjust(19),
     fontSize: adjust(12),
     textAlign: "center",
   },

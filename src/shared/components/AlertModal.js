@@ -1,10 +1,11 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust, calcHeight } from "~/assets/Dimensions/index";
 import Icons from "react-native-vector-icons/MaterialIcons";
 import ButtonLoading from "~/shared/components/Button";
 import ModalComponent from "./ModalComponent";
+import { Platform } from 'react-native'
 
 export default AlertModal = ({
   visible,
@@ -22,7 +23,9 @@ export default AlertModal = ({
     <ModalComponent
       visible={visible}
       onClose={onClose}
-      heightModal={heightModal}
+
+      heightModal={Platform.OS === 'ios' ? calcHeight(88) : calcWidth(108)}
+      // heightModal={calcHeight(65)}
     >
       <View style={styles.container}>
         <Text style={styles.title}>{title}</Text>
@@ -43,7 +46,6 @@ export default AlertModal = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: "column",
     alignItems: "center",
     paddingTop: adjust(10),

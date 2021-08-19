@@ -24,6 +24,8 @@ import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalForgotPassword from "./ModalForgotPassword";
 import ButtonLoading from "~/shared/components/Button";
 
+import OneSignal from "react-native-onesignal";
+
 const formRules = FormValidator.make(
   {
     email: "required|email",
@@ -48,7 +50,8 @@ class LoginEmail extends Component {
 
   goToLoginPerfil = async (form) => {
     const { email, password } = form;
-    const deviceId = await AsyncStorage.getItem("DEVICE_ID");
+    const { userId: deviceId } = await OneSignal.getDeviceState();
+
     this.setState({ spinner: true }, () => {
       login({
         login: email,
@@ -233,15 +236,15 @@ const styles = StyleSheet.create({
     padding: "15%",
   },
   textForgot: {
-    color: "#483D8B",
+    color: "#46C5F3",
     textDecorationLine: "underline",
     textAlign: "center",
-    fontSize: adjust(13),
+    fontSize: adjust(14),
     letterSpacing: 0.5,
   },
   icon: {
-    bottom: '30%',
-    right: '8%',
+    bottom: "30%",
+    right: "8%",
     position: "absolute",
   },
   inputModal: {

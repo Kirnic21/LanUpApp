@@ -33,7 +33,7 @@ const AdditionalInformation = ({}) => {
       />
       <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
         <Field
-          style={{ width: 150 }}
+          style={{ width: "45%" }}
           mode="date"
           name={"birthday"}
           title="Nascimento"
@@ -43,9 +43,9 @@ const AdditionalInformation = ({}) => {
         <Field
           title="Gênero"
           component={DropDown}
-          style={{ width: 150 }}
+          containerStyle={{ width: "45%" }}
           name={"gender"}
-          heightModal={calcWidth(110)}
+          // heightModal={calcWidth(100)}
           items={[
             { label: "Masculino", value: 1 },
             { label: "Feminino", value: 2 },

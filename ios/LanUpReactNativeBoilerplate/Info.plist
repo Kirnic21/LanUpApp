@@ -17,11 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -31,6 +29,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>855414154854078</string>
 	<key>FacebookDisplayName</key>
@@ -51,19 +51,19 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to use your camera</string>
+	<string>$(PRODUCT_NAME) precisa utilizar sua camera para atualizar fotos da sua jornada</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>A LanUp precisa usar sua localização para uma melhor experiência</string>
+	<string>A LanUp precisa usar sua localização para oferecer oportunidades baseado na sua localização</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>A LanUp precisa usar sua localização para uma melhor experiência</string>
+	<string>A LanUp precisa usar sua localização para oferecer oportunidades baseado na sua localização</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>A LanUp precisa usar sua localização para uma melhor experiência</string>
+	<string>A LanUp precisa usar sua localização para oferecer oportunidades baseado na sua localização</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to use your microphone (for videos)</string>
+	<string>$(PRODUCT_NAME) precisa utilizar seu microfone para atualizar áudios da sua jornada</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery</string>
+	<string>$(PRODUCT_NAME) precisa utilizar sua galeria para atualizar fotos da sua jornada</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
+	<string>$(PRODUCT_NAME) precisa utilizar sua galeria para atualizar fotos da sua jornada</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -98,8 +98,7 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>fetch</string>
-		<string>location</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

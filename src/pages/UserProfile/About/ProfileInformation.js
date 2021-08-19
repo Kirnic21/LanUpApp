@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import styles from "./styles";
 import Toggle from "~/shared/components/SwitchComponent";
@@ -38,9 +38,17 @@ const ProfileInformation = ({}) => {
         numberOfLines={10}
         isfocused={"#A893F2"}
       />
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: 'stretch',
+          // flexWrap: "wrap",
+          width:'100%'
+        }}
+      >
         <Field
-          style={{ width: 100 }}
+          style={{ width: Platform.OS === 'ios' ? calcWidth(30) : "30%" }}
           title="Altura"
           component={InputMask}
           name={"height"}
@@ -49,7 +57,7 @@ const ProfileInformation = ({}) => {
           isfocused={"#A893F2"}
         />
         <Field
-          style={{ width: 100 }}
+          style={{ width: Platform.OS === 'ios' ? calcWidth(30) : "30%" }}
           title="Peso"
           component={InputMask}
           name={"weight"}
@@ -60,7 +68,7 @@ const ProfileInformation = ({}) => {
         <Field
           title="Manequim"
           component={DropDown}
-          style={{ width: 100 }}
+          containerStyle={{ width: Platform.OS === 'ios' ? calcWidth(30) : "30%" }}
           name={"clothingsSizes"}
           heightModal={calcWidth(95)}
           items={[

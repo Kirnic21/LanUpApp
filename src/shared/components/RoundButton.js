@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   buttonContent: {
     flexDirection: "row",
     justifyContent: "center",
-    margin: 20,
+    // margin: 20,
   },
   roundButton: {
     height: calcWidth(13),

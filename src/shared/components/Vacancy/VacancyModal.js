@@ -10,6 +10,7 @@ import Geolocation from "react-native-geolocation-service";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
 import { Fragment } from "react";
+import { Platform } from 'react-native'
 
 const styles = {
   container: {
@@ -101,7 +102,7 @@ class VacancyModal extends React.Component {
     const { vacancy } = this.props;
     return (
       <ModalComponent
-        heightModal={calcWidth(135)}
+        heightModal={Platform.OS === 'ios' ? calcHeight(88) : calcWidth(108)}
         onClose={this.onClose}
         visible={isVisible}
       >

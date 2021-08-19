@@ -1,16 +1,16 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Platform } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import dimensions, { adjust } from "~/assets/Dimensions/index";
 
-const getDisplayDate = day => {
+const getDisplayDate = (day) => {
   if (!day.available) return "Não aceito trabalho";
   const start = day.start;
   const end = day.end;
   return `${start.substring(0, 5)} até ${end.substring(0, 5)}`;
 };
 
-const sortByDaysOfWeek = arr =>
+const sortByDaysOfWeek = (arr) =>
   arr.sort(({ dayOfWeek: a }, { dayOfWeek: b }) =>
     a > b ? 1 : a < b ? -1 : 0
   );
@@ -19,7 +19,7 @@ const Schedules = ({ onPress, schedules, daysOfWeek }) => {
   return (
     <View style={styles.containerSchedules}>
       <Text style={[styles.textStyle, { paddingBottom: "2%" }]}>Horários</Text>
-      {sortByDaysOfWeek(schedules).map(day => {
+      {sortByDaysOfWeek(schedules).map((day) => {
         return (
           <TouchableOpacity key={day.dayOfWeek} onPress={() => onPress(day)}>
             <View
@@ -27,20 +27,30 @@ const Schedules = ({ onPress, schedules, daysOfWeek }) => {
                 flexDirection: "row",
                 paddingBottom: "10%",
                 borderBottomColor: "#18142F",
-                borderBottomWidth: day.dayOfWeek === 6 ? 0 : 2
+                borderBottomWidth: day.dayOfWeek === 6 ? 0 : 2,
               }}
             >
-              <View style={{ width: "55%", justifyContent: "center" }}>
+              <View
+                style={{
+                  width: Platform.OS === "ios" ? "55%" : "50%",
+                  justifyContent: "center",
+                }}
+              >
                 <Text style={styles.textStyle}>
                   {daysOfWeek[day.dayOfWeek]}
                 </Text>
               </View>
-              <View style={{ width: "30%", justifyContent: "center" }}>
+              <View
+                style={{
+                  width: Platform.OS === "ios" ? "30%" : "35%",
+                  justifyContent: "center",
+                }}
+              >
                 <Text
                   style={{
                     fontSize: adjust(8),
                     fontFamily: "HelveticaNowMicro-ExtraLight",
-                    color: !day.available ? "#EB4886" : "#46C5F3"
+                    color: !day.available ? "#EB4886" : "#46C5F3",
                   }}
                 >
                   {getDisplayDate(day)}
@@ -50,7 +60,7 @@ const Schedules = ({ onPress, schedules, daysOfWeek }) => {
                 style={{
                   justifyContent: "center",
                   width: "10%",
-                  alignItems: "flex-end"
+                  alignItems: "flex-end",
                 }}
               >
                 <Icon
@@ -73,13 +83,13 @@ const styles = StyleSheet.create({
     marginHorizontal: "5%",
     padding: "5%",
     borderRadius: 15,
-    marginTop: "3%"
+    marginTop: "3%",
   },
   textStyle: {
     color: "#FFF",
     fontSize: adjust(12),
-    fontFamily: "HelveticaNowMicro-Regular"
-  }
+    fontFamily: "HelveticaNowMicro-Regular",
+  },
 });
 
 export default Schedules;

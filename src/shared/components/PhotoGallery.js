@@ -178,7 +178,11 @@ class PhotoGallery extends React.Component {
                 onPress={this.handleOnPictureAdd}
                 style={styles.addPictureContainer}
               >
-                <MaterialCommunityIcons name="photo-camera" size={38} color="#FFF" />
+                <MaterialCommunityIcons
+                  name="photo-camera"
+                  size={38}
+                  color="#FFF"
+                />
               </TouchableOpacity>
               {pictures.map((picture, index) => (
                 <View key={index}>
@@ -201,12 +205,16 @@ class PhotoGallery extends React.Component {
           </ScrollView>
         ) : (
           <PhotoGalleryEmptyState
-            title={`Não temos nenhuma${"\n"}mídia para mostrar`}
+            title={
+              <Text>
+                Adicione as fotos dos trabalhos{"\n"} realizados para facilitar
+                que {"\n"}o contratante escolha seu perfil.
+              </Text>
+            }
             subtitle={
               <Text>
-                Adicione e compartilhe{"\n"}suas fotos dos trabalhos{"\n"}
-                realizados, aumentando{"\n"}suas chances no{"\n"}processo
-                seletivo!
+                As fotos dos trabalhos realizados{"\n"} que comprovam suas
+                experiências {"\n"}para receber mais vagas.
               </Text>
             }
             image={ImageOutline}
@@ -243,14 +251,14 @@ const styles = StyleSheet.create({
   thumbContainer: {},
   picture: {
     marginVertical: 5,
-    width: 117,
-    height: 81,
+    width: calcWidth(30),
+    height: calcWidth(25),
     marginLeft: 9,
     borderRadius: 4,
   },
   addPictureContainer: {
-    width: 117,
-    height: 81,
+    width: calcWidth(30),
+    height: calcWidth(25),
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#7541BF",

@@ -100,7 +100,7 @@ export default class ToExplore extends Component {
                   />
                 ) : (
                   <Text style={[styles.textEmpty]}>
-                    Nenhuma vaga disponivel
+                    Clique nas funções e veja se tem vagas disponíveis!
                   </Text>
                 )}
               </View>
@@ -156,5 +156,6 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: adjust(18),
     fontFamily: "HelveticaNowDisplay-Regular",
+    textAlign: 'center'
   },
 });

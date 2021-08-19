@@ -23,6 +23,8 @@ import { calcWidth } from "./assets/Dimensions";
 import * as Sentry from "@sentry/react-native";
 import env from "react-native-config";
 
+import { request, PERMISSIONS } from "react-native-permissions";
+
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 initMomentPtBr();
@@ -39,20 +41,18 @@ class App extends Component {
       userChecked: false,
       userLogged: false,
     };
-    OneSignal.init(ONE_SIGNAL_ID, {
-      kOSSettingsKeyInFocusDisplayOption: 0,
-    }); // set kOSSettingsKeyAutoPrompt to false prompting manually on iOS
-    // OneSignal.setLogLevel(6, 6);
-    OneSignal.inFocusDisplaying(0);
-    OneSignal.addEventListener("received", this.onReceived);
-    OneSignal.addEventListener("opened", this.onOpened);
-    OneSignal.addEventListener("ids", this.onIds);
   }
 
   async componentDidMount() {
+    OneSignal.setAppId(ONE_SIGNAL_ID);
+    OneSignal.setLogLevel(6, 0);
+
     await this.requestLocationPermision();
     const token = await AsyncStorage.getItem("API_TOKEN");
-    const deviceId = await AsyncStorage.getItem("DEVICE_ID");
+
+    const { userId: deviceId } = await OneSignal.getDeviceState();
+    if (deviceId) this.storeDeviceId(deviceId);
+
     this.setState({
       userChecked: true,
       userLogged: !!token && !!deviceId,
@@ -67,9 +67,7 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    OneSignal.removeEventListener("received", this.onReceived);
-    OneSignal.removeEventListener("opened", this.onOpened);
-    OneSignal.removeEventListener("ids", this.onIds);
+    OneSignal.clearHandlers();
   }
 
   requestLocationPermision = async () => {
@@ -77,6 +75,10 @@ class App extends Component {
       await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       );
+    } else if (Platform.OS === "ios") {
+      request(PERMISSIONS.IOS.LOCATION_ALWAYS).then((result) => {
+        console.log(result);
+      });
     }
   };
 
@@ -93,15 +95,14 @@ class App extends Component {
     console.log("openResult: ", openResult);
   }
 
-  async onIds(device) {
-    await AsyncStorage.setItem("DEVICE_ID", device.userId);
+  async storeDeviceId(deviceId) {
+    await AsyncStorage.setItem("DEVICE_ID", deviceId);
   }
 
   render() {
     const { userChecked, userLogged } = this.state;
 
     if (!userChecked) return null;
-
     const Routes = createNavigator(userLogged);
 
     return (

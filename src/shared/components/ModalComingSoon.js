@@ -1,17 +1,18 @@
 import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 
-import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust, calcHeight } from "~/assets/Dimensions/index";
 import imgBuilder from "~/assets/images/icon_msg-builder.png";
 import RoundButton from "./RoundButton";
 import ModalComponent from "./ModalComponent";
+import { Platform } from 'react-native'
 
 export default ModalComingSoon = ({ visible, onClose }) => (
   <View>
     <ModalComponent
       visible={visible}
       onClose={onClose}
-      heightModal={calcWidth(140)}
+      heightModal={Platform.OS === 'ios' ? calcHeight(88) : calcWidth(140)}
     >
       <View style={styles.container}>
         <View style={styles.containerTitle}>
@@ -34,7 +35,7 @@ export default ModalComingSoon = ({ visible, onClose }) => (
           <Text style={styles.textSubtitle}>funcionalidade para você!</Text>
         </View>
       </View>
-      <View style={{}}>
+      <View style={{paddingVertical:'5%'}}>
         <RoundButton name="Entendi" style={styles.btn} onPress={onClose} />
       </View>
     </ModalComponent>

@@ -51,7 +51,11 @@ const Checkout = ({
         navigation.replace("Rating", { hirerId, eventName });
       } catch (error) {
         if (error?.code !== 5) {
-          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+          AlertHelper.show(
+            "error",
+            "Erro ao fazer checkout",
+            error.response.data.errorMessage
+          );
         }
       } finally {
         setQRCodeVisible(false);
@@ -72,28 +76,25 @@ const Checkout = ({
   );
 
   const confirmChecklist = useCallback(() => {
+    const proceedCheckout = () => {
+      if (isHomeOffice)
+        toCheckOut({ data: `${operationId}|${new Date().toISOString()}` });
+      else {
+        setOpenModalCheckout(false);
+        setTimeout(() => setQRCodeVisible((prev) => !prev), 1000);
+      }
+    };
+
     setLoading((prev) => !prev);
     if (statusOperation === 5) {
       operationsChecklists({ id: operationId, origin: 2, job })
-        .then(() =>
-          isHomeOffice
-            ? toCheckOut({
-                data: `${operationId}|${new Date().toISOString()}`,
-              })
-            : setQRCodeVisible((prev) => !prev)
-        )
+        .then(() => proceedCheckout())
         .catch((error) =>
           AlertHelper.show("error", "Erro", error.response.data.errorMessage)
         )
         .finally(() => setLoading((prev) => !prev));
-    } else {
-      setLoading((prev) => !prev);
-      isHomeOffice
-        ? toCheckOut({
-            data: `${operationId}|${new Date().toISOString()}`,
-          })
-        : setQRCodeVisible((prev) => !prev);
-    }
+    } else proceedCheckout();
+    setLoading((prev) => !prev);
   }, [
     operationId,
     job,

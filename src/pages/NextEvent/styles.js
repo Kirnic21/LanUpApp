@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     borderColor: "#373361",
     borderRadius: dimensions(250),
     justifyContent: "center",
-    top:calcWidth(7)
+    top:calcHeight(1)
   },
   textTitle: {
     fontSize: adjust(22),
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     borderRadius: calcWidth(10)
   },
   containerBtn: {
-    top: dimensions(80)
+    top: '10%'
   },  
   buttonCenter:{
     position:'absolute',

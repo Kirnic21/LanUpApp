@@ -7,8 +7,7 @@ import bank from "./bank";
 import ModalSearch from "~/shared/components/ModalSearch";
 
 import DropDown from "~/shared/components/DropDown";
-import { adjust, calcWidth } from "~/assets/Dimensions";
-
+import { adjust, calcWidth, calcHeight } from "~/assets/Dimensions";
 import Modal from "~/shared/components/ModalComponent";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "react-native";
@@ -48,7 +47,7 @@ const BankInformation = () => {
           title="Tipo da conta"
           component={DropDown}
           name={"bankAccountType"}
-          heightModal={calcWidth(75)}
+          // heightModal={Platform.OS === 'ios' ? calcHeight(75) : calcWidth(80)}
           items={[
             { label: "Conta Corrente", value: "Conta Corrente" },
             { label: "Conta Poupança", value: "Conta Poupança" },
@@ -123,7 +122,7 @@ const BankInformation = () => {
             O aceite do termo é para que os dados bancários cadastrados seja
             exclusivamente para o recebimento dos pagamentos, conforme os
             serviços contratados, a descrição das vagas, valores, horários, e
-            protocolos de segurança;
+            protocolos de segurança.
           </Text>
         </View>
       </Modal>

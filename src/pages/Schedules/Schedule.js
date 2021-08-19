@@ -10,6 +10,7 @@ import FilterToExplore from "../Explore/FilterToExplore";
 
 import { getSchedules, getInvites } from "~/shared/services/vacancy.http";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
+import { format } from "date-fns";
 
 export default class Schedule extends React.Component {
   state = {
@@ -18,7 +19,7 @@ export default class Schedule extends React.Component {
     listFilter: [
       { id: 2, title: "Escalados" },
       { id: 3, title: "Candidatados" },
-      { id: 8, title: "convites" },
+      { id: 8, title: "Convites" },
       { id: 5, title: "Pagos" },
     ],
   };
@@ -69,10 +70,7 @@ export default class Schedule extends React.Component {
   };
 
   formatDate = (date) => {
-    return new Date(date).toLocaleDateString("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    return format(new Date(date), "dd/MM/yy");
   };
 
   render() {

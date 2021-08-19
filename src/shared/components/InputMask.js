@@ -10,7 +10,7 @@ export default InputMask = (props) => {
   });
 
   return (
-    <View>
+    <View style={props.style}>
       <View>
         <Text style={styles.title}>{props.title}</Text>
       </View>
@@ -28,7 +28,7 @@ export default InputMask = (props) => {
               fontSize: adjust(10),
               fontFamily: "HelveticaNowMicro-Regular",
             },
-            props.style,
+            
             isInputFocused.input1
               ? { borderColor: props.isfocused }
               : { borderColor: "#FFF" },

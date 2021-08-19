@@ -5,6 +5,7 @@ import {
   FlatList,
   StyleSheet,
   TouchableWithoutFeedback,
+  Platform,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
@@ -62,7 +63,7 @@ const ModalCheckList = ({
     <Modal
       visible={visible}
       onClose={onClose}
-      heightModal={calcWidth(160)}
+      heightModal={Platform.OS === "ios" ? "auto" : calcWidth(160)}
       swipe={[]}
     >
       <View style={{ flex: 1 }}>

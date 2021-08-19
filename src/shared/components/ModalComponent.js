@@ -14,7 +14,7 @@ export default ModalComponent = ({
   heightModal,
   width,
   loading,
-  swipe
+  swipe,
 }) => (
   <Modal
     isVisible={visible}
@@ -28,10 +28,7 @@ export default ModalComponent = ({
     animationIn="slideInUp"
   >
     <View
-      style={[
-        styles.content,
-        { height: heightModal || calcWidth(112), width: width }
-      ]}
+      style={[styles.content, { height: heightModal || "auto", width: width }]}
     >
       <View style={{ alignItems: "flex-end", padding: calcWidth(2) }}>
         <MaterialCommunityIcons
@@ -48,7 +45,7 @@ export default ModalComponent = ({
             autoSize
             style={{
               height: calcWidth(14),
-              width: calcWidth(14)
+              width: calcWidth(14),
             }}
             resizeMode="cover"
             source={loadingSpinner}
@@ -66,12 +63,13 @@ export default ModalComponent = ({
 const styles = StyleSheet.create({
   view: {
     justifyContent: "flex-end",
-    margin: 0
+    margin: 0,
   },
   content: {
     backgroundColor: "#23203F",
     borderTopLeftRadius: calcWidth(13),
     borderTopRightRadius: calcWidth(13),
-    padding: calcWidth(5)
-  }
+    padding: calcWidth(5),
+    paddingBottom: calcWidth(5),
+  },
 });

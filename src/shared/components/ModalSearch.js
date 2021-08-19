@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import { adjust, calcWidth } from "~/assets/Dimensions";
+import { adjust, calcHeight } from "~/assets/Dimensions";
 import InputSearch from "~/shared/components/InputSearch";
 
 import ModalComponent from "./ModalComponent";
@@ -39,7 +39,7 @@ export default ModalSearch = ({
         )}
       </TouchableOpacity>
       <ModalComponent
-        heightModal={calcWidth(120)}
+        heightModal={calcHeight(85)}
         visible={visible}
         onClose={() => setVisible(false)}
       >
@@ -88,7 +88,7 @@ const styles = {
   container: {
     backgroundColor: "#18142F",
     padding: "5%",
-    height: calcWidth(70),
+    maxHeight: "60%",
     borderRadius: 15,
     marginTop: "5%",
   },
@@ -96,7 +96,11 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: calcWidth(60),
+    paddingVertical: "10%",
+  },
+
+  inputContainer: {
+    marginTop: "5%",
   },
 
   inputContainer:{

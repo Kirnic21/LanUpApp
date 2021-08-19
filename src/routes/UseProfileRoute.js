@@ -1,5 +1,6 @@
 import * as React from "react";
 import { createStackNavigator } from "react-navigation-stack";
+import { Platform } from "react-native";
 
 import UserProfile from "~/pages/UserProfile/UserProfile";
 import ViewProfile from "~/pages/UserProfile/ViewProfile";
@@ -19,6 +20,7 @@ import { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 import CertificateModal from "~/pages/UserProfile/Certificate/CertificateModal";
+import WorkDone from '~/pages/UserProfile/WorkDone';
 
 const pageNavigator = createStackNavigator(
   {
@@ -28,44 +30,44 @@ const pageNavigator = createStackNavigator(
         headerTitle: "Perfil",
         headerLeft: () => (
           <ButtonNavigation type="drawer" navigation={navigation} />
-        ),
-      }),
+        )
+      })
     },
     VacanciesDetails: {
       screen: VacanciesDetails,
       navigationOptions: () => ({
         headerTitle: () => null,
         headerTransparent: true,
-        headerStyle: { height: calcWidth(20) },
-      }),
+        headerStyle: { height: calcWidth(20) }
+      })
     },
     ViewProfile: {
       screen: ViewProfile,
       navigationOptions: () => ({
-        headerTitle: "Visualizar Perfil",
-      }),
+        headerTitle: "Visualizar Perfil"
+      })
     },
     AboutMe: {
       screen: AboutMe,
       navigationOptions: () => ({
-        headerTitle: "Sobre mim",
-      }),
+        headerTitle: "Sobre mim"
+      })
     },
     Agency: {
       screen: Agency,
-      navigationOptions: () => ({ headerTitle: "Agências" }),
+      navigationOptions: () => ({ headerTitle: "Empresas" }),
     },
     Profession: {
       screen: Profession,
-      navigationOptions: () => ({ headerTitle: "Funções que atuo" }),
+      navigationOptions: () => ({ headerTitle: "Funções que atuo" })
     },
     AddProfession: {
       screen: AddProfession,
-      navigationOptions: () => ({ headerTitle: "Funções que atuo" }),
+      navigationOptions: () => ({ headerTitle: "Funções que atuo" })
     },
     AddSkill: {
       screen: AddSkill,
-      navigationOptions: () => ({ headerTitle: "Funções que atuo" }),
+      navigationOptions: () => ({ headerTitle: "Funções que atuo" })
     },
     PhotoGallery: {
       screen: PhotoGallery,
@@ -73,15 +75,15 @@ const pageNavigator = createStackNavigator(
     },
     Certificates: {
       screen: Certificates,
-      navigationOptions: () => ({ headerTitle: "Certificados" }),
+      navigationOptions: () => ({ headerTitle: "Certificados" })
     },
     CertificateModal: {
       screen: CertificateModal,
       navigationOptions: ({ navigation }) => ({
         headerTitle: () => null,
         headerTransparent: true,
-        headerLeft: () => null,
-      }),
+        headerLeft: () => null
+      })
     },
     Availability: {
       screen: Availability,
@@ -98,11 +100,16 @@ const pageNavigator = createStackNavigator(
     },
     AvailabilityDays: {
       screen: AvailabilityDays,
-      navigationOptions: () => ({ headerTitle: "Disponibilidade" }),
+      navigationOptions: () => ({ headerTitle: "Disponibilidade" })
     },
     SpecialHours: {
       screen: SpecialHours,
-      navigationOptions: () => ({ headerTitle: "Horários Especiais" }),
+      navigationOptions: () => ({ headerTitle: "Horários Especiais" })
+    },
+
+    WorkDone: {
+      screen: WorkDone,
+      navigationOptions: () => ({ headerTitle: "Trabalhos Realizados" }),
     },
 
     ChangePassword: {
@@ -110,9 +117,9 @@ const pageNavigator = createStackNavigator(
       navigationOptions: () => ({
         headerTitle: null,
         headerTransparent: true,
-        headerStyle: { height: calcWidth(20) },
-      }),
-    },
+        headerStyle: { height: calcWidth(20) }
+      })
+    }
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -120,21 +127,21 @@ const pageNavigator = createStackNavigator(
       headerTintColor: "#FFFFFF",
       headerStyle: {
         backgroundColor: "#18142F",
-        height: calcWidth(15),
+        height: Platform.OS === "ios" ? calcWidth(25) : calcWidth(15),
       },
       headerTitleStyle: {
         color: "#FFFF",
         fontFamily: "HelveticaNowMicro-Regular",
-        fontSize: adjust(15),
+        fontSize: adjust(15)
       },
       headerLeft: () => (
         <ButtonNavigation type="stack" navigation={navigation} />
-      ),
-    }),
+      )
+    })
   },
   {
     mode: "modal",
-    headerMode: "none",
+    headerMode: "none"
   }
 );
 export default pageNavigator;

@@ -74,7 +74,7 @@ class Agency extends React.Component {
         AlertHelper.show(
           "success",
           "Sucesso",
-          `Agora você faz parte da agência: "${name}"`
+          `Agora você faz parte da empresa: "${name}"`
         );
       })
       .catch((error) => {
@@ -107,8 +107,8 @@ class Agency extends React.Component {
           </View>
         ) : (
           <EmptyState
-            title={`Não temos nenhuma${"\n"}agência para mostrar`}
-            subtitle={`Adicione o código da sua agência${"\n"} e faça parte da equipe dela!`}
+            title={`Não temos nenhuma${"\n"}empresa para mostrar`}
+            subtitle={`Adicione o código da sua empresa${"\n"} e faça parte da equipe dela!`}
             image={Emptyimage}
             imageStyle={{ width: dimensions(120), height: dimensions(120) }}
             onPress={() => this.setState({ visible: true })}

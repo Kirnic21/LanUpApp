@@ -58,7 +58,7 @@ const ShiftCard = ({
             R$
             <Text style={[valueStyle, { fontSize: adjust(20) }]}>{value}</Text>
           </Text>
-          {status && (
+          {(status === 4 || status === 5) && (
             <View style={styles.containerPaid}>
               <Text
                 style={[
@@ -66,7 +66,7 @@ const ShiftCard = ({
                   { fontFamily: "HelveticaNowDisplay-Medium" },
                 ]}
               >
-                Evento Pago
+                {status === 4 ? "Evento Realizado" : "Evento Pago"}
               </Text>
             </View>
           )}
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#4F4D65",
     height: calcWidth(7),
     borderRadius: calcWidth(2),
-    width: calcWidth(25),
+    width: calcWidth(26),
     justifyContent: "center",
     alignItems: "center",
   },

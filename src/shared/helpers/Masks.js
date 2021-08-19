@@ -60,6 +60,12 @@ const maskTall = (value) => {
   return value;
 };
 
+const maskTime = (value) => {
+  if (value.length > 5) return value.substring(0, 5)
+  if (value.length === 3 && value.indexOf(':') === -1) value = `${value[0]}${value[1]}:${value[2]}`
+  return value;
+}
+
 const selectMask = (mask, value) => {
   return {
     cpf: maskCpf(value),
@@ -68,6 +74,7 @@ const selectMask = (mask, value) => {
     phone: maskPhone(value),
     weight: maskWeight(value),
     tall: maskTall(value),
+    time: maskTime(value)
   }[mask];
 };
 

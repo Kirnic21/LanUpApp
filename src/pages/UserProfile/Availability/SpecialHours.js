@@ -22,11 +22,13 @@ import { Field, reduxForm } from "redux-form";
 import AsyncStorage from "@react-native-community/async-storage";
 import { saveSpecialDay } from "~/shared/services/freela.http";
 import { decodeToken } from "~/shared/services/decode";
-import  { calcWidth, adjust } from "~/assets/Dimensions/index";
+import { calcHeight, calcWidth, adjust } from "~/assets/Dimensions/index";
 import SpecialHoursEmpty from "~/shared/components/emptyState/SpecialHoursEmpty";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 import InputMask from "~/shared/components/InputMask";
 import InputDate from "~/shared/components/InputDate";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 class SpecialHours extends Component {
   constructor(props) {
     super(props);
@@ -115,7 +117,6 @@ class SpecialHours extends Component {
     date = date || this.state.date;
     const dateInput = moment(date).format("LL");
     this.setState({
-      show: Platform.OS === "ios" ? true : false,
       date,
       showModal: true,
       dateInput,
@@ -123,12 +124,8 @@ class SpecialHours extends Component {
     });
   };
 
-  show = (mode) => {
-    this.setState({ show: true, mode });
-  };
-
-  datepicker = () => {
-    this.show("date");
+  showDatepicker = () => {
+    this.setState({ show: true, mode: "date" });
   };
 
   newDate = async () => {
@@ -217,7 +214,7 @@ class SpecialHours extends Component {
               justifyContent: "space-between",
             }}
           >
-            <ScrollView>
+            <KeyboardAwareScrollView style={{ flex: 1 }}>
               {SpecialDays.map(({ date, start, available }, id) => (
                 <View key={id} style={styles.containerSpecialHours}>
                   <View style={{ flexDirection: "row", paddingBottom: "5%" }}>
@@ -284,7 +281,7 @@ class SpecialHours extends Component {
                           style={styles.inputDate}
                           title="Das"
                           keyboardType="numeric"
-                          mask={"[00]:[00]"}
+                          mask="time"
                           isfocused="#46C5F3"
                           placeholder="00:00"
                           placeholderTextColor="#808080"
@@ -305,7 +302,7 @@ class SpecialHours extends Component {
                             style={styles.inputDate}
                             title="Até"
                             keyboardType="numeric"
-                            mask={"[00]:[00]"}
+                            mask="time"
                             isfocused="#46C5F3"
                             placeholder="00:00"
                             placeholderTextColor="#808080"
@@ -332,7 +329,7 @@ class SpecialHours extends Component {
                   )}
                 </View>
               ))}
-            </ScrollView>
+            </KeyboardAwareScrollView>
             <View style={styles.containerAction}>
               <ActionButton
                 onPress={() => {
@@ -353,30 +350,41 @@ class SpecialHours extends Component {
           onClose={() => {
             this.setState({ visible: false, dateInput: "" });
           }}
-          heightModal={calcWidth(90)}
+          // heightModal={calcHeight(80)}
           visible={this.state.visible}
         >
-          <Text style={styles.titleModal}>Adicione um horário</Text>
+          <Text style={styles.titleModal}>Adicione uma data</Text>
           <View style={styles.containerModalInput}>
-            <InputDate
-              onClick={this.datepicker}
-              editable={false}
-              value={dateInput}
-              style={{ width: "90%", borderColor: "#fff" }}
-            />
-
-            <View>
-              {show && (
-                <DateTimePicker
-                  value={date}
-                  mode={mode}
-                  display="spinner"
-                  onChange={this.setDate}
-                />
-              )}
-            </View>
+            {Platform.OS !== "ios" && (
+              <InputDate
+                onClick={this.showDatepicker}
+                editable={false}
+                value={dateInput}
+                style={{ width: "90%", borderColor: "#fff" }}
+              />
+            )}
+            {show ||
+              (Platform.OS === "ios" && (
+                <View
+                  style={{
+                    width: "100%",
+                    flex: 1,
+                    display: "flex",
+                    minWidth: 50,
+                  }}
+                >
+                  <DateTimePicker
+                    style={{ width: "100%", alignSelf: "center" }}
+                    value={date}
+                    mode={mode}
+                    is24Hour={true}
+                    display="compact"
+                    onChange={this.setDate}
+                  />
+                </View>
+              ))}
           </View>
-          <View style={{ alignItems: "center", top: calcWidth(-5) }}>
+          <View style={{ alignItems: "center" }}>
             <RoundButton
               disabled={!dateInput}
               style={[{ backgroundColor: "#865FC0" }]}

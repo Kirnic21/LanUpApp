@@ -1,5 +1,5 @@
 import { ABOUT_FETCHING, ABOUT_SUCCESS, ABOUT_ERROR } from "../action.types";
-import { getAbout, aboutMe } from "~/shared/services/freela.http";
+import { getAboutHttp, aboutMe } from "~/shared/services/freela.http";
 
 const aboutFetching = () => ({ type: ABOUT_FETCHING });
 const aboutSuccess = (about) => ({
@@ -13,10 +13,10 @@ const aboutError = (error) => ({
   },
 });
 
-export const setAbout = () => {
+export const getAbout = () => {
   return (dispatch) => {
     dispatch(aboutFetching());
-    getAbout()
+    getAboutHttp()
       .then(({ value }) => {
         dispatch(aboutSuccess(value));
       })

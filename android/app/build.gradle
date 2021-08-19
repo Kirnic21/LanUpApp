@@ -88,7 +88,7 @@ buildscript {
  */
 
 project.ext.react = [
-    enableHermes: false,  // clean and rebuild if changing
+    enableHermes: true,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -156,8 +156,8 @@ android {
         applicationId "br.com.lanup.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 15
-        versionName "2.0.1"
+        versionCode 16
+        versionName "2.1.0"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         missingDimensionStrategy 'react-native-camera', 'general'
@@ -221,7 +221,7 @@ android {
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
-                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
+                        defaultConfig.versionCode * 1048576 + versionCodes.get(abi)
             }
 
         }
@@ -251,6 +251,7 @@ dependencies {
   implementation 'com.google.android.material:material:1.3.0'
   implementation 'com.android.support:multidex:1.0.3'
   implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+  implementation'com.facebook.soloader:soloader:0.9.0+'
 
   debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
     exclude group:'com.facebook.fbjni'
@@ -266,9 +267,11 @@ dependencies {
 
 
   if (enableHermes) {
-      def hermesPath = "../../node_modules/hermesvm/android/";
+      def hermesPath = "../../node_modules/hermes-engine/android/";
       debugImplementation files(hermesPath + "hermes-debug.aar")
       releaseImplementation files(hermesPath + "hermes-release.aar")
+      stagingreleaseImplementation files(hermesPath + "hermes-release.aar")
+      productionreleaseImplementation files(hermesPath + "hermes-release.aar")
     } else {
       implementation jscFlavor
     }
