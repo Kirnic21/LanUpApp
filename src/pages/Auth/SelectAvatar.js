@@ -7,7 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import ImageBack from "../../assets/images/Grupo_518.png";
 import ImageProfile from "../../assets/images/icon_profile.png";
@@ -18,25 +18,21 @@ import AsyncStorage from "@react-native-community/async-storage";
 import ImageSelector from "~/shared/components/ImageSelector";
 import dimensions, { adjust } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import OneSignal from "react-native-onesignal";
 
 class SelectAvatar extends Component {
   state = {
     selected: false,
-    spinner: false
+    spinner: false,
   };
 
-  onPictureAdd = async picture => {
-    const deviceId = await AsyncStorage.getItem("DEVICE_ID");
+  onPictureAdd = async (picture) => {
+    const { userId: deviceId } = await OneSignal.getDeviceState();
+
     this.setState({ spinner: true }, () => {
-      const {
-        fullName,
-        nickname,
-        cpf,
-        email,
-        password,
-        confirmPassword
-      } = this.props;
-      const CPF = cpf.replace(/[\(\)\.\s-]+/g, ""); 
+      const { fullName, nickname, cpf, email, password, confirmPassword } =
+        this.props;
+      const CPF = cpf.replace(/[\(\)\.\s-]+/g, "");
       const newFreela = {
         name: fullName,
         nickname,
@@ -45,7 +41,7 @@ class SelectAvatar extends Component {
         password,
         confirmPassword,
         avatar: picture.data,
-        deviceId
+        deviceId,
       };
       create(newFreela)
         .then(async ({ data }) => {
@@ -57,7 +53,7 @@ class SelectAvatar extends Component {
         .finally(() => {
           this.setState({ spinner: false });
         });
-    })
+    });
   };
 
   handleOnPictureAdd = () => {
@@ -80,7 +76,7 @@ class SelectAvatar extends Component {
           <View style={styles.containerImg}>
             <TouchableOpacity
               onPress={() => {
-                this.handleOnPictureAdd()
+                this.handleOnPictureAdd();
               }}
             >
               <Image
@@ -91,7 +87,7 @@ class SelectAvatar extends Component {
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                this.handleOnPictureAdd()
+                this.handleOnPictureAdd();
               }}
             >
               <Text style={{ color: "white", fontSize: adjust(10) }}>
@@ -106,7 +102,7 @@ class SelectAvatar extends Component {
           cropperCircleOverlay={true}
           width={1500}
           height={1500}
-          ref={o => (this.ImageSelector = o)}
+          ref={(o) => (this.ImageSelector = o)}
         />
       </ImageBackground>
     );
@@ -118,18 +114,18 @@ const { width, height } = Dimensions.get("screen");
 const styles = StyleSheet.create({
   ImageBack: {
     width,
-    height
+    height,
   },
   container: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   containerText: {
     flex: 0.7,
     width: "80%",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   titleNickname: {
     color: "#FFF",
@@ -137,13 +133,13 @@ const styles = StyleSheet.create({
     fontFamily: "HelveticaNowMicro-Medium",
     left: "7%",
     textAlign: "left",
-    top: dimensions(-22)
+    top: dimensions(-22),
   },
   textAdd: {
     fontSize: adjust(18),
     color: "#FFF",
     fontFamily: "HelveticaNowMicro-Regular",
-    textAlign: "center"
+    textAlign: "center",
   },
   border: {
     width: "13%",
@@ -153,7 +149,7 @@ const styles = StyleSheet.create({
     left: "-27%",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   button: {
     width: "35%",
@@ -162,7 +158,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     top: "8%",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   containerImg: {
     flex: 1,
@@ -170,14 +166,14 @@ const styles = StyleSheet.create({
     height,
     width: "100%",
     alignItems: "center",
-    top: "5%"
-  }
+    top: "5%",
+  },
 });
 
 const selectorStapOne = formValueSelector("RegisterStageOne");
 const selectorStapTwo = formValueSelector("RegisterStageTwo");
 
-export default SelectAvatar = connect(state => {
+export default SelectAvatar = connect((state) => {
   const { fullName, nickname, cpf } = selectorStapOne(
     state,
     "fullName",
@@ -198,6 +194,6 @@ export default SelectAvatar = connect(state => {
     cpf,
     email,
     password,
-    confirmPassword
+    confirmPassword,
   };
 })(SelectAvatar);
