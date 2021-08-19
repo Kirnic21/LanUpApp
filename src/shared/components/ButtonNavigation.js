@@ -3,6 +3,7 @@ import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { DrawerActions } from "react-navigation-drawer";
 import { calcWidth } from "~/assets/Dimensions/index";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import Circle from "react-native-vector-icons/FontAwesome";
 
 const ButtonNavigation = (props) => (
   <View
@@ -25,6 +26,18 @@ const ButtonNavigation = (props) => (
           : props.onPress();
       }}
     >
+      {props.type === "drawer" && (
+        <View
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            left: "85%",
+            bottom: "75%",
+          }}
+        >
+          <Circle name="circle" size={calcWidth(4.5)} color="#ec0043" />
+        </View>
+      )}
       <Icon
         color={"#FFF"}
         name={props.type === "drawer" ? "menu" : "chevron-left"}
@@ -40,11 +53,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: calcWidth(10),
     padding: calcWidth(0.5),
+    position: "relative",
   },
 });
 
 const drawer = StyleSheet.compose(styles.button, {
-  backgroundColor: "#483D8B",
   padding: calcWidth(1),
 });
 
