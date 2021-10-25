@@ -52,7 +52,7 @@ class MapsGeolocation extends Component {
       },
     };
     this.mapView = null;
-    this.lastTimeout = setTimeout;
+    this.interval = setInterval;
 
     this.subscription = DeviceEventEmitter.addListener(
       "location_received",
@@ -60,7 +60,6 @@ class MapsGeolocation extends Component {
         this.watchPosition(e);
       }
     );
-
   }
 
   async componentDidMount() {
@@ -70,21 +69,24 @@ class MapsGeolocation extends Component {
 
   async initBackgroundFetch() {
     const onEvent = async (taskId) => {
-      console.log('[BackgroundFetch] task: ', taskId);
+      console.log("[BackgroundFetch] task: ", taskId);
       await this.getCurrentPosition();
       BackgroundFetch.finish(taskId);
-    }
+    };
 
     const onTimeout = async (taskId) => {
-      console.warn('[BackgroundFetch] TIMEOUT task: ', taskId);
+      console.warn("[BackgroundFetch] TIMEOUT task: ", taskId);
       BackgroundFetch.finish(taskId);
-    }
+    };
 
-    const status = await BackgroundFetch.configure({minimumFetchInterval: 1}, onEvent, onTimeout);
+    const status = await BackgroundFetch.configure(
+      { minimumFetchInterval: 1 },
+      onEvent,
+      onTimeout
+    );
 
-    console.log('[BackgroundFetch] configure status: ', status);
+    console.log("[BackgroundFetch] configure status: ", status);
   }
-
 
   getCurrentPosition = async () => {
     const { id, address, eventName, addressId, latitude, longitude } =
@@ -104,7 +106,8 @@ class MapsGeolocation extends Component {
         eventName,
         id,
       });
-      await this.watchPosition({ latitude, longitude });
+      this.watchPosition({ latitude, longitude });
+      this.sendLocationApi();
     } catch (error) {
       AlertHelper.show("error", "Erro", error.message);
     }
@@ -112,15 +115,11 @@ class MapsGeolocation extends Component {
 
   componentWillUnmount() {
     this.subscription.remove();
+    clearInterval(this.interval);
   }
 
   watchPosition = ({ latitude, longitude }) => {
     const { destination } = this.state;
-    clearTimeout(this.lastTimeout);
-    this.lastTimeout = setTimeout(() => {
-      this.sendLocationApi({ latitude, longitude });
-    }, 60000);
-
     this.setState({
       coordinates: [
         {
@@ -136,17 +135,22 @@ class MapsGeolocation extends Component {
     });
   };
 
-  sendLocationApi = async ({ latitude, longitude }) => {
-    const { id } = this.state;
-    try {
-      await checkpoints({
+  sendLocationApi = async () => {
+    this.interval = setInterval(async () => {
+      const {
         id,
-        lat: latitude.toString(),
-        long: longitude.toString(),
-      });
-    } catch (error) {
-      AlertHelper.show("error", "Erro", error.message);
-    }
+        position: { latitude, longitude },
+      } = this.state;
+      try {
+        await checkpoints({
+          id,
+          lat: latitude.toString(),
+          long: longitude.toString(),
+        });
+      } catch (error) {
+        AlertHelper.show("error", "Erro", error.message);
+      }
+    }, 60000);
   };
 
   arrived = (distance) => {

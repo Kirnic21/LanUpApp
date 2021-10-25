@@ -8,7 +8,6 @@ export default InputMask = (props) => {
   const [isInputFocused, setInputFocused] = useState({
     input1: false,
   });
-
   return (
     <View style={props.style}>
       <View>
@@ -17,7 +16,7 @@ export default InputMask = (props) => {
       <View style={{ marginBottom: "5%", width: "100%" }}>
         <TextInput
           {...props}
-          onChangeText={(text) => props.input.onBlur(text)}
+          onChangeText={(text) => props.input.onBlur(Mask(props.mask, text))}
           value={Mask(props.mask, props.input.value)}
           style={[
             {
@@ -28,7 +27,7 @@ export default InputMask = (props) => {
               fontSize: adjust(10),
               fontFamily: "HelveticaNowMicro-Regular",
             },
-            
+            props.styleInput,
             isInputFocused.input1
               ? { borderColor: props.isfocused }
               : { borderColor: "#FFF" },
