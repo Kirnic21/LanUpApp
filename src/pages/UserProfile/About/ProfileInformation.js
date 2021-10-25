@@ -42,13 +42,14 @@ const ProfileInformation = ({}) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          alignItems: 'stretch',
+          alignItems: "stretch",
           // flexWrap: "wrap",
-          width:'100%'
+          width: "100%",
         }}
       >
         <Field
-          style={{ width: Platform.OS === 'ios' ? calcWidth(30) : "30%" }}
+          style={{ width: Platform.OS === "ios" ? calcWidth(30) : "30%" }}
+          styleInput={{ paddingLeft: calcWidth(5) }}
           title="Altura"
           component={InputMask}
           name={"height"}
@@ -57,18 +58,22 @@ const ProfileInformation = ({}) => {
           isfocused={"#A893F2"}
         />
         <Field
-          style={{ width: Platform.OS === 'ios' ? calcWidth(30) : "30%" }}
+          style={{ width: Platform.OS === "ios" ? calcWidth(30) : "30%" }}
+          styleInput={{ paddingLeft: calcWidth(5) }}
           title="Peso"
           component={InputMask}
           name={"weight"}
+          maxLength={3}
           keyboardType="numeric"
-          mask="weight"
+          mask="withoutMask"
           isfocused={"#A893F2"}
         />
         <Field
           title="Manequim"
           component={DropDown}
-          containerStyle={{ width: Platform.OS === 'ios' ? calcWidth(30) : "30%" }}
+          containerStyle={{
+            width: Platform.OS === "ios" ? calcWidth(30) : "30%",
+          }}
           name={"clothingsSizes"}
           heightModal={calcWidth(95)}
           items={[

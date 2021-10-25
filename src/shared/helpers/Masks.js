@@ -61,20 +61,26 @@ const maskTall = (value) => {
 };
 
 const maskTime = (value) => {
-  if (value.length > 5) return value.substring(0, 5)
-  if (value.length === 3 && value.indexOf(':') === -1) value = `${value[0]}${value[1]}:${value[2]}`
+  if (value.length > 5) return value.substring(0, 5);
+  if (value.length === 3 && value.indexOf(":") === -1)
+    value = `${value[0]}${value[1]}:${value[2]}`;
   return value;
-}
+};
+
+const withoutMask = (value) => {
+  return value;
+};
 
 const selectMask = (mask, value) => {
   return {
+    withoutMask: withoutMask(value),
     cpf: maskCpf(value),
     cnpj: maskCnpj(value),
     cpfCnpj: maskCpfCnpj(value),
     phone: maskPhone(value),
     weight: maskWeight(value),
     tall: maskTall(value),
-    time: maskTime(value)
+    time: maskTime(value),
   }[mask];
 };
 
