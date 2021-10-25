@@ -67,7 +67,7 @@ const CertificateModal = ({
     3: "Graduação",
     4: "Pós graduação",
     5: "MBA",
-    6: "Protocolo",
+    6: "Vacinação(Covid-19)",
   };
 
   const content = [
@@ -75,9 +75,9 @@ const CertificateModal = ({
       title: "Tipo",
       subTitle: Type[item?.type],
     },
-    { title: "Nome do curso/treinamento", subTitle: item?.name },
-    { title: "Instituição", subTitle: item?.issuer },
-    { title: "Ano de Formação", subTitle: item?.conclusionYear },
+    { title: "Nome do curso/Treinamento/Vacina", subTitle: item?.name },
+    { title: "Instituição/Local", subTitle: item?.issuer },
+    { title: "Ano de Formação/Vacinação", subTitle: item?.conclusionYear },
   ];
 
   const handleOnPictureAdd = () => {
@@ -245,23 +245,23 @@ const CertificateModal = ({
                 { label: "Graduação", value: 3 },
                 { label: "Pós graduação", value: 4 },
                 { label: "MBA", value: 5 },
-                { label: "Protocolo", value: 6 },
+                { label: "Vacinação(Covid-19)", value: 6 },
               ]}
             />
             <Field
-              title="Nome do curso/treinamento"
+              title="Nome do curso/Treinamento/Vacina"
               component={InputField}
               name={"name"}
               isfocused={FuchsiaBlueColor}
             />
             <Field
-              title="Instituição"
+              title="Instituição/Local"
               component={InputField}
               name={"issuer"}
               isfocused={FuchsiaBlueColor}
             />
             <Field
-              title="Ano de formação"
+              title="Ano de formação/Vacinação"
               component={InputField}
               name={"conclusionYear"}
               isfocused={FuchsiaBlueColor}

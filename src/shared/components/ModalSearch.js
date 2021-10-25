@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Platform } from "react-native";
 import { adjust, calcHeight } from "~/assets/Dimensions";
 import InputSearch from "~/shared/components/InputSearch";
 
@@ -39,7 +39,7 @@ export default ModalSearch = ({
         )}
       </TouchableOpacity>
       <ModalComponent
-        heightModal={calcHeight(85)}
+        heightModal={Platform.OS === "ios" ? calcHeight(85) : "auto"}
         visible={visible}
         onClose={() => setVisible(false)}
       >
@@ -103,8 +103,8 @@ const styles = {
     marginTop: "5%",
   },
 
-  inputContainer:{
-    marginTop:'5%'
+  inputContainer: {
+    marginTop: "5%",
   },
 
   inputStyles: {
