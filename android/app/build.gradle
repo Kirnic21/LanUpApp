@@ -156,8 +156,8 @@ android {
         applicationId "br.com.lanup.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 16
-        versionName "2.1.0"
+        versionCode 20
+        versionName "2.1.2"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         missingDimensionStrategy 'react-native-camera', 'general'
@@ -200,7 +200,8 @@ android {
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             // signingConfig signingConfigs.debug
             signingConfig signingConfigs.release
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
         stagingrelease {
@@ -242,16 +243,16 @@ dependencies {
   implementation project(':react-native-webview')
   // implementation project(':@sentry_react-native')
   implementation project(':react-native-onesignal')
-  implementation "com.google.code.gson:gson:2.8.5"
+  implementation 'com.google.code.gson:gson:2.8.8'
   implementation fileTree(dir: "libs", include: ["*.jar"])
   implementation "com.facebook.react:react-native:+"
-  implementation 'org.jetbrains:annotations:15.0'
-  implementation 'org.jetbrains:annotations:15.0'// From node_modules
-  implementation 'com.google.android.play:core:1.7.3'
-  implementation 'com.google.android.material:material:1.3.0'
+  implementation 'org.jetbrains:annotations:22.0.0'
+  implementation 'org.jetbrains:annotations:22.0.0'// From node_modules
+  implementation 'com.google.android.play:core:1.10.2'
+  implementation 'com.google.android.material:material:1.4.0'
   implementation 'com.android.support:multidex:1.0.3'
-  implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-  implementation'com.facebook.soloader:soloader:0.9.0+'
+  implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+  implementation 'com.facebook.soloader:soloader:0.10.1'
 
   debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
     exclude group:'com.facebook.fbjni'

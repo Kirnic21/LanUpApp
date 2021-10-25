@@ -33,8 +33,6 @@ node_modules/react-native/flow/
 [options]
 emoji=true
 
-esproposal.optional_chaining=enable
-esproposal.nullish_coalescing=enable
 
 exact_by_default=true
 
@@ -92,4 +90,4 @@ untyped-import
 untyped-type-import
 
 [version]
-^0.137.0
+^0.149.0
