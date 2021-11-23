@@ -11,7 +11,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
+//#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @implementation AppDelegate
 
@@ -22,8 +22,8 @@
                                           moduleName:@"lanup"
                                           initialProperties:nil];
 
-  [[FBSDKApplicationDelegate sharedInstance] application:application
-                       didFinishLaunchingWithOptions:launchOptions];
+//  [[FBSDKApplicationDelegate sharedInstance] application:application
+//                       didFinishLaunchingWithOptions:launchOptions];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
@@ -45,7 +45,7 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-  [FBSDKAppEvents activateApp];
+//  [FBSDKAppEvents activateApp];
 }
 
 // - (BOOL)application:(UIApplication *)application
