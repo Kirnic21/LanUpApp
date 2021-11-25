@@ -31,7 +31,7 @@ const SchedulesRoute = createStackNavigator(
       headerTintColor: "#FFFFFF",
       headerStyle: {
         backgroundColor: "#18142F",
-        height: calcWidth(12),
+        height: Platform.OS === "ios" ? calcWidth(25) : calcWidth(15),
       },
       headerTitleStyle: {
         color: "#FFFF",

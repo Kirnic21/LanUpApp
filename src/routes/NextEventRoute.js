@@ -12,7 +12,7 @@ const NextEventRoute = createStackNavigator(
       screen: NextEvent,
       navigationOptions: ({ navigation }) => ({
         headerTransparent: true,
-        headerStyle: { height: calcWidth(20) },
+        headerStyle: { height: Platform.OS === "ios" ? calcWidth(25) : calcWidth(20) },
         headerTitle: "Operação",
         headerLeft: () => (
           <ButtonNavigation type="drawer" navigation={navigation} />

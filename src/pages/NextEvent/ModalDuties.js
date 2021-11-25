@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
-import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
+import dimensions, { calcWidth, calcHeight, adjust } from "~/assets/Dimensions";
 import Modal from "~/shared/components/ModalComponent";
 
 const ModalDuties = ({ visible, onClose, responsabilities }) => {
@@ -36,7 +36,7 @@ const ModalDuties = ({ visible, onClose, responsabilities }) => {
     <Modal
       visible={visible}
       onClose={onClose}
-      heightModal={calcWidth(120)}
+      heightModal={Platform.OS === "ios" ? calcHeight(95) : calcWidth(160)}
       swipe={[]}
     >
       <View style={{ flex: 1, paddingHorizontal: calcWidth(4) }}>

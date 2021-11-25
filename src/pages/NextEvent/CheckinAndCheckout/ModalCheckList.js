@@ -8,7 +8,7 @@ import {
   Platform,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
-import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
+import dimensions, { calcWidth, calcHeight, adjust } from "~/assets/Dimensions";
 import Modal from "~/shared/components/ModalComponent";
 import ButtonLoading from "~/shared/components/Button";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -63,7 +63,7 @@ const ModalCheckList = ({
     <Modal
       visible={visible}
       onClose={onClose}
-      heightModal={Platform.OS === "ios" ? "auto" : calcWidth(160)}
+      heightModal={Platform.OS === "ios" ? calcHeight(95) : calcWidth(160)}
       swipe={[]}
     >
       <View style={{ flex: 1 }}>
