@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "~/shared/components/ModalComponent";
-import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, calcHeight, adjust } from "~/assets/Dimensions/index";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import debounceButton from "~/shared/helpers/debounce";
 
@@ -35,7 +35,7 @@ const ModalPause = ({ visible, onClose, onPress, loading }) => {
       visible={visible}
       loading={loading}
       onClose={onClose}
-      heightModal={dimensions(490)}
+      heightModal={Platform.OS === 'ios' ? calcHeight(95) : 'auto'}
     >
       <View style={{ flex: 1, alignItems: "center" }}>
         <Text style={styles.title}>Pausa para:</Text>

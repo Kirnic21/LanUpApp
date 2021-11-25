@@ -152,6 +152,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: calcHeight(65),
   },
+  containerMargin: {
+    height: calcHeight(35),
+    alignItems: "center",
+    justifyContent: "center",
+    top: calcHeight(5.5),
+    marginHorizontal: calcWidth(10)
+  },
   textEmpty: {
     color: "#FFF",
     fontSize: adjust(18),
