@@ -117,6 +117,7 @@ const NextEvent = (props) => {
         <View style={styles.borderCircle}>
           <Buttons
             size="normal"
+            load={(value) => setSpinner(value)}
             action={getStatusOperation}
             {...props}
             {...workday}

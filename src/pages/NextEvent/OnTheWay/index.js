@@ -18,7 +18,8 @@ const OnTheWay = ({
   navigation,
   eventId,
   vacancyId,
-  job
+  job,
+  load
 }) => {
   useEffect(() => {
     if (statusOperation === 2) {
@@ -65,9 +66,11 @@ const OnTheWay = ({
   );
 
   const _onTheWay = useCallback(() => {
+    load(true)
     startOperation({ id, eventId, vacancyId, job })
       .then(() => _getLatitudeAndLongitude())
-      .catch((error) => AlertHelper.show("error", "Erro", error));
+      .catch((error) => AlertHelper.show("error", "Erro", error))
+      .finally(() => load(false))
   }, [id, eventId, vacancyId, job]);
 
   return (
