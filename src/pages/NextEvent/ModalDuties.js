@@ -36,7 +36,7 @@ const ModalDuties = ({ visible, onClose, responsabilities }) => {
     <Modal
       visible={visible}
       onClose={onClose}
-      heightModal={Platform.OS === "ios" ? calcHeight(95) : calcWidth(160)}
+      heightModal={Platform.OS === "ios" ? calcHeight(95) : calcWidth(120)}
       swipe={[]}
     >
       <View style={{ flex: 1, paddingHorizontal: calcWidth(4) }}>
