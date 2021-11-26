@@ -50,6 +50,7 @@ const NextEventRoute = createStackNavigator(
         <ButtonNavigation type="stack" navigation={navigation} />
       ),
     }),
+    headerMode:'float'
   }
 );
 export default NextEventRoute;
