@@ -15,6 +15,7 @@ import {
 const Checkin = ({
   textBtnPulse,
   action,
+  load,
   operationId,
   freelaId,
   isHomeOffice,
@@ -40,6 +41,7 @@ const Checkin = ({
   const toCheckIn = useCallback(
     async (value) => {
       const [id, qrcodeDate] = value.data.split("|");
+      load(true)
       setQRCodeVisible(false);
       try {
         if (statusOperation === 3) {
@@ -59,6 +61,7 @@ const Checkin = ({
         }
       } finally {
         setQRCodeVisible(false);
+        load(false)
       }
     },
     [
