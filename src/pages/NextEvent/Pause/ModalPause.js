@@ -35,7 +35,7 @@ const ModalPause = ({ visible, onClose, onPress, loading }) => {
       visible={visible}
       loading={loading}
       onClose={onClose}
-      heightModal={Platform.OS === 'ios' ? calcHeight(95) : 'auto'}
+      heightModal={Platform.OS === 'ios' ? calcHeight(95) : dimensions(490)}
     >
       <View style={{ flex: 1, alignItems: "center" }}>
         <Text style={styles.title}>Pausa para:</Text>
