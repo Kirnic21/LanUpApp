@@ -20,7 +20,7 @@ import { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 import CertificateModal from "~/pages/UserProfile/Certificate/CertificateModal";
-import WorkDone from '~/pages/UserProfile/WorkDone';
+import WorkDone from "~/pages/UserProfile/WorkDone";
 
 const pageNavigator = createStackNavigator(
   {
@@ -30,28 +30,28 @@ const pageNavigator = createStackNavigator(
         headerTitle: "Perfil",
         headerLeft: () => (
           <ButtonNavigation type="drawer" navigation={navigation} />
-        )
-      })
+        ),
+      }),
     },
     VacanciesDetails: {
       screen: VacanciesDetails,
       navigationOptions: () => ({
         headerTitle: () => null,
         headerTransparent: true,
-        headerStyle: { height: calcWidth(20) }
-      })
+        headerStyle: { height: calcWidth(20) },
+      }),
     },
     ViewProfile: {
       screen: ViewProfile,
       navigationOptions: () => ({
-        headerTitle: "Visualizar Perfil"
-      })
+        headerTitle: "Visualizar Perfil",
+      }),
     },
     AboutMe: {
       screen: AboutMe,
       navigationOptions: () => ({
-        headerTitle: "Sobre mim"
-      })
+        headerTitle: "Sobre mim",
+      }),
     },
     Agency: {
       screen: Agency,
@@ -59,15 +59,15 @@ const pageNavigator = createStackNavigator(
     },
     Profession: {
       screen: Profession,
-      navigationOptions: () => ({ headerTitle: "Funções que atuo" })
+      navigationOptions: () => ({ headerTitle: "Funções que atuo" }),
     },
     AddProfession: {
       screen: AddProfession,
-      navigationOptions: () => ({ headerTitle: "Funções que atuo" })
+      navigationOptions: () => ({ headerTitle: "Funções que atuo" }),
     },
     AddSkill: {
       screen: AddSkill,
-      navigationOptions: () => ({ headerTitle: "Funções que atuo" })
+      navigationOptions: () => ({ headerTitle: "Funções que atuo" }),
     },
     PhotoGallery: {
       screen: PhotoGallery,
@@ -75,15 +75,15 @@ const pageNavigator = createStackNavigator(
     },
     Certificates: {
       screen: Certificates,
-      navigationOptions: () => ({ headerTitle: "Certificados" })
+      navigationOptions: () => ({ headerTitle: "Certificados" }),
     },
     CertificateModal: {
       screen: CertificateModal,
       navigationOptions: ({ navigation }) => ({
         headerTitle: () => null,
         headerTransparent: true,
-        headerLeft: () => null
-      })
+        headerLeft: () => null,
+      }),
     },
     Availability: {
       screen: Availability,
@@ -100,11 +100,11 @@ const pageNavigator = createStackNavigator(
     },
     AvailabilityDays: {
       screen: AvailabilityDays,
-      navigationOptions: () => ({ headerTitle: "Disponibilidade" })
+      navigationOptions: () => ({ headerTitle: "Disponibilidade" }),
     },
     SpecialHours: {
       screen: SpecialHours,
-      navigationOptions: () => ({ headerTitle: "Horários Especiais" })
+      navigationOptions: () => ({ headerTitle: "Horários Especiais" }),
     },
 
     WorkDone: {
@@ -117,9 +117,9 @@ const pageNavigator = createStackNavigator(
       navigationOptions: () => ({
         headerTitle: null,
         headerTransparent: true,
-        headerStyle: { height: calcWidth(20) }
-      })
-    }
+        headerStyle: { height: calcWidth(20) },
+      }),
+    },
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -132,16 +132,13 @@ const pageNavigator = createStackNavigator(
       headerTitleStyle: {
         color: "#FFFF",
         fontFamily: "HelveticaNowMicro-Regular",
-        fontSize: adjust(15)
+        fontSize: adjust(15),
       },
       headerLeft: () => (
         <ButtonNavigation type="stack" navigation={navigation} />
-      )
-    })
-  },
-  {
-    mode: "modal",
-    headerMode: "none"
+      ),
+    }),
+    headerMode: "float",
   }
 );
 export default pageNavigator;
