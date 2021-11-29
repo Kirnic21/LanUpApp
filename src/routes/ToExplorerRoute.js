@@ -39,6 +39,7 @@ const ToExplorerRoute = createStackNavigator(
         fontSize: adjust(15),
       },
     },
+    headerMode: "float",
   }
 );
 export default ToExplorerRoute;

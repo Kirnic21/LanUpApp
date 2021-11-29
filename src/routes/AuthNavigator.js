@@ -32,6 +32,7 @@ const AuthNavigator = createStackNavigator(
       ),
     }),
     mode: "card",
+    headerMode:'float'
   }
 );
 

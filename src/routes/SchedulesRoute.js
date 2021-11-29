@@ -42,6 +42,7 @@ const SchedulesRoute = createStackNavigator(
         <ButtonNavigation type="stack" navigation={navigation} />
       ),
     }),
+    headerMode: "float",
   }
 );
 export default SchedulesRoute;
