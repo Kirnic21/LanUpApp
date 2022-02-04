@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import {
-  StatusBar,
-  PermissionsAndroid,
-  Platform,
-  NativeModules,
-} from "react-native";
+import { StatusBar, Platform, NativeModules } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 
 import OneSignal from "react-native-onesignal";
@@ -22,8 +17,6 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { calcWidth } from "./assets/Dimensions";
 import * as Sentry from "@sentry/react-native";
 import env from "react-native-config";
-
-import { request, PERMISSIONS } from "react-native-permissions";
 
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
@@ -47,7 +40,6 @@ class App extends Component {
     OneSignal.setAppId(ONE_SIGNAL_ID);
     OneSignal.setLogLevel(6, 0);
 
-    await this.requestLocationPermision();
     const token = await AsyncStorage.getItem("API_TOKEN");
 
     const { userId: deviceId } = await OneSignal.getDeviceState();
@@ -69,18 +61,6 @@ class App extends Component {
   componentWillUnmount() {
     OneSignal.clearHandlers();
   }
-
-  requestLocationPermision = async () => {
-    if (Platform.OS === "android") {
-      await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-      );
-    } else if (Platform.OS === "ios") {
-      request(PERMISSIONS.IOS.LOCATION_ALWAYS).then((result) => {
-        console.log(result);
-      });
-    }
-  };
 
   onReceived(notification) {
     console.log("Notification received: ", notification);

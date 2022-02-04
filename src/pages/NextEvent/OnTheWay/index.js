@@ -3,6 +3,7 @@ import { NativeModules, Platform } from "react-native";
 
 import ButtonPulse from "~/shared/components/ButtonPulse";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
+import RequestPermission from "~/shared/helpers/PermissionGeolocation";
 
 import { startOperation } from "~/shared/services/operations.http";
 
@@ -19,8 +20,22 @@ const OnTheWay = ({
   eventId,
   vacancyId,
   job,
-  load
+  load,
 }) => {
+  const _errorMessage = (error) => {
+    const message = {
+      1: RequestPermission,
+      5: AlertHelper.show,
+      default: AlertHelper.show,
+    };
+
+    return (
+      message[error.code](
+        ("error", "Erro", "Ative sua localização para prosseguir!")
+      ) || message.default("error", "Erro", error.message)
+    );
+  };
+
   useEffect(() => {
     if (statusOperation === 2) {
       _getLatitudeAndLongitude();
@@ -30,16 +45,10 @@ const OnTheWay = ({
   const _getLatitudeAndLongitude = useCallback(() => {
     Geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
-        openMaps(latitude, longitude);
+        _onTheWay(latitude, longitude);
       },
-      error => {
-        error.code === 5
-          ? AlertHelper.show(
-              "error",
-              "Erro",
-              "Ative sua localização para continuar!."
-            )
-          : AlertHelper.show("error", "Erro", error.message);
+      (error) => {
+        _errorMessage(error);
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );
@@ -65,13 +74,19 @@ const OnTheWay = ({
     [navigation, id, eventName, address, addressId]
   );
 
-  const _onTheWay = useCallback(() => {
-    load(true)
-    startOperation({ id, eventId, vacancyId, job })
-      .then(() => _getLatitudeAndLongitude())
-      .catch((error) => AlertHelper.show("error", "Erro", error))
-      .finally(() => load(false))
-  }, [id, eventId, vacancyId, job]);
+  const _onTheWay = useCallback(
+    (latitude, longitude) => {
+      if (statusOperation === 2) {
+        return openMaps(latitude, longitude);
+      }
+      load(true);
+      startOperation({ id, eventId, vacancyId, job })
+        .then(() => openMaps(latitude, longitude))
+        .catch((error) => AlertHelper.show("error", "Erro", error))
+        .finally(() => load(false));
+    },
+    [id, eventId, vacancyId, job, statusOperation]
+  );
 
   return (
     <Fragment>
@@ -82,7 +97,7 @@ const OnTheWay = ({
         startAnimations
         color="#03DAC6"
         titleColor="#24203B"
-        onPress={() => _onTheWay()}
+        onPress={() => _getLatitudeAndLongitude()}
       />
     </Fragment>
   );
