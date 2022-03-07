@@ -22,20 +22,6 @@ const OnTheWay = ({
   job,
   load,
 }) => {
-  const _errorMessage = (error) => {
-    const message = {
-      1: RequestPermission,
-      5: AlertHelper.show,
-      default: AlertHelper.show,
-    };
-
-    return (
-      message[error.code](
-        ("error", "Erro", "Ative sua localização para prosseguir!")
-      ) || message.default("error", "Erro", error.message)
-    );
-  };
-
   useEffect(() => {
     if (statusOperation === 2) {
       _getLatitudeAndLongitude();
@@ -48,7 +34,7 @@ const OnTheWay = ({
         _onTheWay(latitude, longitude);
       },
       (error) => {
-        _errorMessage(error);
+        RequestPermission(error);
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );

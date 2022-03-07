@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useState } from "react";
 
 import getLocationFreela from "./GetLocationFreela";
 import ModalCheckList from "./ModalCheckList";
@@ -34,31 +34,29 @@ const Checkout = ({
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
 
+  const _getLocationFreela = (value) => {
+    getLocationFreela({
+      operationId,
+      freelaId,
+      isHomeOffice,
+      origin: 2,
+      job,
+    }).then(() => toCheckOut(value).finally(() => setOpenModalCheckout(false)));
+  };
+
   const toCheckOut = useCallback(
     async (value) => {
       const [id, qrcodeDate] = value.data.split("|");
       setOpenModalCheckout(false);
       setQRCodeVisible(false);
       try {
-        await getLocationFreela({
-          operationId,
-          freelaId,
-          isHomeOffice,
-          origin: 2,
-          job,
-        });
         await operationsCheckout({ id, vacancyId, job, qrcodeDate, eventId });
         navigation.replace("Rating", { hirerId, eventName });
       } catch (error) {
-        if (error?.code !== 5) {
-          AlertHelper.show(
-            "error",
-            "Erro ao fazer checkout",
-            error.response.data.errorMessage
-          );
-        }
+        AlertHelper.show("error", error.response.data.errorMessage);
       } finally {
         setQRCodeVisible(false);
+        setLoading(false);
       }
     },
     [
@@ -78,7 +76,9 @@ const Checkout = ({
   const confirmChecklist = useCallback(() => {
     const proceedCheckout = () => {
       if (isHomeOffice)
-        toCheckOut({ data: `${operationId}|${new Date().toISOString()}` });
+        _getLocationFreela({
+          data: `${operationId}|${new Date().toISOString()}`,
+        });
       else {
         setOpenModalCheckout(false);
         setTimeout(() => setQRCodeVisible((prev) => !prev), 1000);
@@ -121,7 +121,7 @@ const Checkout = ({
         onPress={() => setOpenModalCheckout((prev) => !prev)}
       />
       <QRCode
-        onPress={(value) => toCheckOut(value)}
+        onPress={(value) => _getLocationFreela(value)}
         visible={QRCodeVisible}
         close={() => setQRCodeVisible((prev) => !prev)}
         title={`Para finalizar o trabalho escaneia o QR code.`}

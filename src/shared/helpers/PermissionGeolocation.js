@@ -4,7 +4,7 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 import { request, PERMISSIONS } from "react-native-permissions";
 
-const RequestPermission = async () => {
+const permission = async () => {
   try {
     if (Platform.OS === "android") {
       const granted = await PermissionsAndroid.request(
@@ -23,6 +23,19 @@ const RequestPermission = async () => {
   } catch (err) {
     AlertHelper.show("error", "Erro", err);
   }
+};
+
+const RequestPermission = (error) => {
+  const alert = (value) => {
+    return AlertHelper.show("error", "Erro", value);
+  };
+
+  const message = {
+    1: permission,
+    5: alert,
+  };
+
+  return message[error.code]("Ative sua localização para prosseguir!");
 };
 
 export default RequestPermission;
