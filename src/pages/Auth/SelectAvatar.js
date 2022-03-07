@@ -19,6 +19,7 @@ import ImageSelector from "~/shared/components/ImageSelector";
 import dimensions, { adjust } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import OneSignal from "react-native-onesignal";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 class SelectAvatar extends Component {
   state = {
@@ -50,6 +51,9 @@ class SelectAvatar extends Component {
             this.props.navigation.push("UserProfile");
           } else alert(data.result.errorMessage);
         })
+        .catch((error) =>
+          AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+        )
         .finally(() => {
           this.setState({ spinner: false });
         });

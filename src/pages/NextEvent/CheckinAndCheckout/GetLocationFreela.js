@@ -3,37 +3,39 @@ import Geolocation from "react-native-geolocation-service";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 import { checkpoints, location } from "~/shared/services/operations.http";
+import RequestPermission from "~/shared/helpers/PermissionGeolocation";
 
-const getLocationFreela = ({ origin, operationId: id, job }) =>
-  new Promise((resolve, reject) => {
+const getLatLong = ({ origin, operationId: id, job }) =>
+  new Promise((resolve) => {
     Geolocation.getCurrentPosition(
-      async ({ coords: { latitude, longitude } }) => {
-        await checkpoints({
-          id,
-          lat: latitude,
-          long: longitude,
-        }).catch((error) => AlertHelper.show("error", "Erro ao atualizar localização", error.message));
-        await location({
-          id,
-          lat: latitude,
-          long: longitude,
-          origin,
-          job,
-        }).catch((error) => AlertHelper.show("error", "Erro ao informar localização atual", error.message));
+      ({ coords: { latitude, longitude } }) => {
+        getLocationFreela(origin, id, job, latitude, longitude);
         resolve(true);
       },
       (error) => {
-        error.code === 5
-          ? AlertHelper.show(
-              "error",
-              "Erro",
-              "Ative sua localização para continuar!."
-            )
-          : AlertHelper.show("error", "Erro", error.message);
-        reject(error);
+        RequestPermission(error);
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );
   });
 
-export default getLocationFreela;
+const getLocationFreela = async (origin, id, job, latitude, longitude) => {
+  try {
+    await checkpoints({
+      id,
+      lat: latitude,
+      long: longitude,
+    });
+    await location({
+      id,
+      lat: latitude,
+      long: longitude,
+      origin,
+      job,
+    });
+  } catch (error) {
+    AlertHelper.show("error", "Erro", error.message);
+  }
+};
+
+export default getLatLong;
