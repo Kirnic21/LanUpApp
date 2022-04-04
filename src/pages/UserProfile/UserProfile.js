@@ -33,6 +33,7 @@ import {
 } from "~/shared/services/events.http";
 import { decodeToken } from "~/shared/services/decode";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
+import OneSignal from "react-native-onesignal";
 
 class UserProfile extends Component {
   state = {
@@ -79,8 +80,19 @@ class UserProfile extends Component {
   };
 
   componentDidMount() {
+    this.notificationOpenedHandler();
     this.getAboutMe();
   }
+
+  notificationOpenedHandler = () => {
+    OneSignal.setNotificationOpenedHandler(
+      ({ notification: { additionalData } }) => {
+        if (additionalData?.routeName) {
+          this.props.navigation.navigate(additionalData.routeName);
+        }
+      }
+    );
+  };
 
   getAboutMe = () => {
     getAbout()

@@ -53,26 +53,13 @@ class App extends Component {
       !state.isConnected &&
         AlertHelper.show("error", "Erro", "Sem conexão com a internet");
     });
-    if (!env.DEBUG && Platform.OS === "android") {
+    if (env.IS_PRODUCTION && Platform.OS === "android") {
       NativeModules.InAppUpdate.checkUpdate();
     }
   }
 
   componentWillUnmount() {
     OneSignal.clearHandlers();
-  }
-
-  onReceived(notification) {
-    console.log("Notification received: ", notification);
-  }
-
-  onOpened(openResult) {
-    // TODO: lógica de validação de tipo de push enviado
-    // this.props.navigation.navigate("NextEvent");
-    console.log("Message: ", openResult.notification.payload.body);
-    console.log("Data: ", openResult.notification.payload.additionalData);
-    console.log("isActive: ", openResult.notification.isAppInFocus);
-    console.log("openResult: ", openResult);
   }
 
   async storeDeviceId(deviceId) {
