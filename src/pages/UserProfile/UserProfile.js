@@ -24,7 +24,6 @@ import {
 } from "~/shared/services/freela.http";
 import AsyncStorage from "@react-native-community/async-storage";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
-import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
 import SignalR from "~/shared/services/signalr";
 import {

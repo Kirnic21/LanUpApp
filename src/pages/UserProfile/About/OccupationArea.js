@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
-import axios from "axios";
-import styles from "./styles";
-import { Field, reduxForm } from "redux-form";
 
+import styles from "./styles";
 import ModalSearch from "~/shared/components/ModalSearch";
+
+import { getAddress } from "~/shared/services/events.http";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
+
+import { Field, reduxForm } from "redux-form";
 
 const OccupationArea = ({}) => {
   const [places, setPlaces] = useState([]);
@@ -13,14 +16,11 @@ const OccupationArea = ({}) => {
     form: "OccupationArea",
   });
   const onSearch = (value) => {
-    axios
-      .get(
-        `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${value}&key=AIzaSyB1QnZpLJnE-j8mL3f5uHDlCmV7jH_GRp0`
-      )
-      .then((response) =>
-        setPlaces(mapCandidatesToPlaces(response.data.results))
-      )
-      .catch((message) => console.log(message));
+    getAddress(value)
+      .then((response) => {
+        setPlaces(mapCandidatesToPlaces(response.data.results));
+      })
+      .catch((message) => AlertHelper.show("error", "Erro", message));
   };
 
   const mapCandidatesToPlaces = (candidates) =>
