@@ -31,6 +31,7 @@ import RNFS from "react-native-fs";
 import FileViewer from "react-native-file-viewer";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
+
 const Details = ({
   details: {
     workshiftsQuantity,
@@ -60,8 +61,9 @@ const Details = ({
   const [selectedShift, setSelectedShift] = useState(false);
   const [terms, setTerms] = useState(false);
 
-  const file = "terms/termo-de-compromisso.docx";
-  const dest = `${RNFS.DocumentDirectoryPath}/termo-de-compromisso.docx`;
+  const url =
+    "https://drive.google.com/uc?id=1K8IqzR9qmh862DOfswUlkfnpjP9eXm3c&export=download";
+  const dest = `${RNFS.DocumentDirectoryPath}/termo-de-compromisso.pdf`;
 
   const parseCheckin = useMemo(() => {
     return formatDate(start);
@@ -76,11 +78,15 @@ const Details = ({
       : `${parseCheckin} - ${parseCheckout}`;
 
   const openTerms = () => {
-    RNFS.copyFileAssets(file, dest)
-      .then(() => FileViewer.open(dest))
-      .catch((error) => {
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-      });
+    const options = {
+      fromUrl: url,
+      toFile: dest,
+    };
+    RNFS.downloadFile(options)
+      .promise.then(() => FileViewer.open(dest))
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error)
+      );
   };
 
   const validationButton = useCallback(() => {
