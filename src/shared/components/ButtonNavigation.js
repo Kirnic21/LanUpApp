@@ -41,7 +41,7 @@ const ButtonNavigation = (props) => (
       <Icon
         color={"#FFF"}
         name={props.type === "drawer" ? "menu" : "chevron-left"}
-        size={calcWidth(8.5)}
+        size={calcWidth(8)}
       />
     </TouchableOpacity>
   </View>
