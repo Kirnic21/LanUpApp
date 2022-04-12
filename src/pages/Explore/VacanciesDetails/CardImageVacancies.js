@@ -5,9 +5,18 @@ import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DateComponent from "~/shared/components/DateComponent";
 
-const CardImageVacancies = ({ title, shift, location, eventDate, picture, isHomeOffice }) => {
+const CardImageVacancies = ({
+  title,
+  shift,
+  location,
+  eventDate,
+  picture,
+  isHomeOffice,
+  agencyName,
+  hirerName,
+}) => {
   return (
-    <View>
+    <View style={{ marginBottom: calcWidth(5) }}>
       {picture !== null && picture !== undefined ? (
         <Image source={{ uri: picture }} style={{ height: dimensions(250) }} />
       ) : (
@@ -15,7 +24,7 @@ const CardImageVacancies = ({ title, shift, location, eventDate, picture, isHome
           style={{
             height: dimensions(250),
             backgroundColor: "#FFFFFF85",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Icon
@@ -31,10 +40,16 @@ const CardImageVacancies = ({ title, shift, location, eventDate, picture, isHome
         style={styles.linearImg}
       />
       <View style={styles.container}>
-        <View style={{ width: "100%", height: dimensions(50), top: "2%" }}>
-          <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
+        <View style={{ width: "100%", marginBottom: calcWidth(5), top: "2%" }}>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={[styles.colorPeriwinkle, styles.title]}
+          >
             {title}
           </Text>
+          <Text style={styles.textAgencyName}>{agencyName || "---"}</Text>
+          <Text style={styles.textAgencyName}>{hirerName || "---"}</Text>
         </View>
         <View style={{ flexDirection: "row" }}>
           <DateComponent date={eventDate} />
@@ -42,11 +57,15 @@ const CardImageVacancies = ({ title, shift, location, eventDate, picture, isHome
             style={{
               flexDirection: "column",
               width: "80%",
-              left: calcWidth(2)
+              left: calcWidth(2),
             }}
           >
             <Text style={styles.textShift}>{shift}</Text>
-            <Text style={isHomeOffice ?  styles.textHomeOffice : styles.textAdress}>{location}</Text>
+            <Text
+              style={isHomeOffice ? styles.textHomeOffice : styles.textAdress}
+            >
+              {location}
+            </Text>
           </View>
         </View>
       </View>
@@ -60,38 +79,43 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     width: "90%",
     position: "absolute",
-    top: "50%"
+    top: "50%",
   },
   linearImg: {
     position: "absolute",
     left: 0,
     right: 0,
     bottom: -0,
-    height: dimensions(130)
+    height: dimensions(130),
   },
   title: {
-    color: "#fff",
-    fontFamily: "HelveticaNowDisplay-Regular",
-    fontSize: adjust(25),
-    minHeight: dimensions(40)
+    fontFamily: "HelveticaNowMicro-Regular",
+    fontSize: adjust(20),
+    lineHeight: calcWidth(10),
   },
   containerDate: {
     width: calcWidth(15),
     paddingVertical: calcWidth(1.5),
     backgroundColor: "#FFFFFF85",
-    borderRadius: calcWidth(2)
+    borderRadius: calcWidth(2),
   },
+  colorPeriwinkle: { color: "#d2d0ff" },
   textDate: {
     color: "#18142F",
     fontFamily: "HelveticaNowMicro-Bold",
     textAlign: "center",
-    fontSize: adjust(10)
+    fontSize: adjust(10),
   },
   textShift: {
     fontFamily: "HelveticaNowMicro-Regular",
     color: "#FFF",
     fontSize: adjust(10),
-    paddingBottom: "1%"
+    paddingBottom: "1%",
+  },
+  textAgencyName: {
+    fontFamily: "HelveticaNowMicro-Regular",
+    color: "#FFFFFF",
+    fontSize: adjust(10),
   },
   textAdress: {
     width: "100%",
@@ -104,7 +128,7 @@ const styles = StyleSheet.create({
     width: "100%",
     fontFamily: "HelveticaNowMicro-ExtraLight",
     fontSize: adjust(12),
-  }
+  },
 });
 
 export default CardImageVacancies;

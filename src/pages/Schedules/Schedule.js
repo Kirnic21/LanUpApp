@@ -70,7 +70,7 @@ export default class Schedule extends React.Component {
   };
 
   formatDate = (date) => {
-    return format(new Date(date), "dd/MM/yy");
+    return format(new Date(date), "HH:mm");
   };
 
   render() {
@@ -118,13 +118,14 @@ export default class Schedule extends React.Component {
           data={this.sortBy(listVacancy)}
           renderItem={({ item }) => (
             <VacancyCard
+              {...item}
               job={item.job}
               title={item.eventName}
               date={item.jobDate}
               eventCreationDate={item.eventCreationDate}
               content={
                 item.status !== 0
-                  ? `${this.formatDate(item.start)}  - ${this.formatDate(
+                  ? `${this.formatDate(item.start)} - ${this.formatDate(
                       item.end
                     )}`
                   : `${item.workShiftQuantity} turnos e ${item.totalVacancy} vagas`

@@ -19,6 +19,8 @@ const VacancyCard = ({
   onPress,
   eventCreationDate,
   picture,
+  agencyName,
+  hirerName,
 }) => {
   const creationDate = formatDistanceStrict(
     new Date(eventCreationDate || new Date()),
@@ -40,35 +42,39 @@ const VacancyCard = ({
         )}
       </View>
       <View style={styles.containerContent}>
-        <View style={{ height: "48%" }}>
-          <View style={{ flexDirection: "row" }}>
-            <FastImage
-              source={backWhite}
-              style={{
-                width: calcWidth(5),
-                height: calcWidth(5),
-                marginRight: calcWidth(1),
-              }}
-            />
-            <Text
-              numberOfLines={1}
-              allowFontScaling={false}
-              style={[styles.f_11, styles.colorWhite, styles.fontHND_regular]}
-            >
-              {job} - <Text>{creationDate}</Text>
-            </Text>
-          </View>
+        <View style={{ height: "56%" }}>
+          <Text
+            numberOfLines={1}
+            allowFontScaling={false}
+            style={[styles.f_10, styles.colorWhite, styles.fontHND_regular]}
+          >
+            {job} - <Text>{creationDate}</Text>
+          </Text>
           <Text
             numberOfLines={1}
             allowFontScaling={false}
             style={[
-              styles.colorWhite,
+              styles.colorPeriwinkle,
               styles.fontHND_regular,
-              styles.f_24,
-              { height: calcWidth(10) },
+              styles.f_17,
+              { lineHeight: calcWidth(7) },
             ]}
           >
             {title || "Titulo"}
+          </Text>
+          <Text
+            numberOfLines={1}
+            allowFontScaling={false}
+            style={[styles.colorWhite, styles.fontHNM_regular, styles.f_10]}
+          >
+            {agencyName || "--"}
+          </Text>
+          <Text
+            numberOfLines={1}
+            allowFontScaling={false}
+            style={[styles.colorWhite, styles.fontHNM_regular, styles.f_10]}
+          >
+            {hirerName || "--"}
           </Text>
         </View>
         <View style={{ flexDirection: "row" }}>
@@ -76,7 +82,7 @@ const VacancyCard = ({
           <View style={{ marginLeft: calcWidth(3) }}>
             <Text
               allowFontScaling={false}
-              style={[styles.fontHNM_regular, styles.f_11, styles.colorWhite]}
+              style={[styles.fontHNM_regular, styles.f_10, styles.colorWhite]}
             >
               {content || "conteúdo"}
             </Text>
@@ -85,9 +91,9 @@ const VacancyCard = ({
               numberOfLines={1}
               style={[
                 styles.fontHNM_regular,
-                styles.f_11,
+                styles.f_10,
                 styles.colorWhite,
-                { width: calcWidth(32) },
+                { width: calcWidth(45) },
               ]}
             >
               {address || "endereços"}
@@ -96,25 +102,29 @@ const VacancyCard = ({
               allowFontScaling={false}
               numberOfLines={1}
               style={[
-                styles.f_11,
+                styles.f_10,
                 styles.fontHND_regular,
                 styles.colorWhite,
-                { width: calcWidth(40), height: calcWidth(8) },
+                {
+                  width: calcWidth(40),
+                  height: calcWidth(8),
+                  marginTop: calcWidth(1),
+                },
               ]}
             >
               Valor total:{"       "}
               <Text
-                style={[{ color: "#46C5F3" }, styles.f_12]}
+                style={[styles.colorPeriwinkle, styles.f_10]}
                 allowFontScaling={false}
               >
-                R$<Text style={styles.f_24}>{amount || "0"}</Text>
+                R$<Text style={styles.f_17}>{amount || "0"}</Text>
               </Text>
             </Text>
           </View>
         </View>
       </View>
       <View style={styles.containerArrow}>
-        <Icon color={"#FFF"} name={"angle-right"} size={calcWidth(13)} />
+        <Icon color={"#FFF"} name={"angle-right"} size={calcWidth(10)} />
       </View>
     </TouchableOpacity>
   );
@@ -126,18 +136,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#23203F",
     justifyContent: "space-between",
     marginLeft: calcWidth(5),
-    height: calcWidth(48),
+    height: calcWidth(52),
     borderBottomLeftRadius: calcWidth(3),
     borderTopLeftRadius: calcWidth(3),
     paddingVertical: calcWidth(5),
     marginBottom: calcWidth(5),
+    position: "relative",
   },
   containerImg: {
     marginLeft: calcWidth(-5),
   },
   img: {
-    height: calcWidth(38),
-    width: calcWidth(35),
+    height: calcWidth(42),
+    width: calcWidth(30),
     borderBottomRightRadius: calcWidth(4),
     borderTopRightRadius: calcWidth(4),
   },
@@ -147,16 +158,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   containerContent: {
-    width: calcWidth(52),
+    width: calcWidth(67),
     flexDirection: "column",
   },
   containerArrow: {
-    width: calcWidth(7),
+    right: 15,
+    top: "50%",
     justifyContent: "center",
+    position: "absolute",
   },
   colorWhite: {
     color: "#FFFFFF",
   },
+  colorPeriwinkle: { color: "#d2d0ff" },
   fontHNM_bold: {
     fontFamily: "HelveticaNowMicro-Bold",
   },
@@ -166,14 +180,14 @@ const styles = StyleSheet.create({
   fontHNM_regular: {
     fontFamily: "HelveticaNowMicro-Regular",
   },
-  f_24: {
-    fontSize: adjust(22),
+  f_17: {
+    fontSize: adjust(17),
   },
   f_12: {
     fontSize: adjust(10),
   },
-  f_11: {
-    fontSize: adjust(9),
+  f_10: {
+    fontSize: adjust(10),
   },
   date: {
     width: calcWidth(15),

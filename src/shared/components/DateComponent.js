@@ -19,13 +19,13 @@ const DateComponent = ({ date }) => {
         allowFontScaling={false}
         style={[
           styles.fontHNM_bold,
-          styles.f_12,
+          styles.f_9,
           { textAlign: "center", color: "#18142F" },
         ]}
       >
         {formatDate("EEEEEE")}
         {"\n"}
-        <Text allowFontScaling={false} style={styles.f_24}>
+        <Text allowFontScaling={false} style={styles.f_20}>
           {formatDate("dd")}
         </Text>
         {"\n"}
@@ -37,8 +37,8 @@ const DateComponent = ({ date }) => {
 
 const styles = {
   containerDate: {
-    width: calcWidth(15),
-    paddingVertical: calcWidth(1.5),
+    width: calcWidth(14),
+    paddingVertical: calcWidth(1),
     backgroundColor: "#FFFFFF85",
     borderRadius: calcWidth(2),
     justifyContent: "center",
@@ -52,10 +52,10 @@ const styles = {
   fontHNM_bold: {
     fontFamily: "HelveticaNowMicro-Bold",
   },
-  f_24: {
-    fontSize: adjust(22),
+  f_20: {
+    fontSize: adjust(20),
   },
-  f_12: {
+  f_9: {
     fontSize: adjust(9),
   },
 };

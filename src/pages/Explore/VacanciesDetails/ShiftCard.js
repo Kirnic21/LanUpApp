@@ -107,14 +107,15 @@ const styles = StyleSheet.create({
   },
   containerPaid: {
     backgroundColor: "#4F4D65",
-    height: calcWidth(7),
+    height: calcWidth(10),
     borderRadius: calcWidth(2),
     width: calcWidth(26),
     justifyContent: "center",
     alignItems: "center",
   },
   title: {
-    fontSize: adjust(25),
+    fontSize: adjust(18),
+    lineHeight: calcWidth(10),
     width: "100%",
   },
   subTitle: {

@@ -49,6 +49,8 @@ const Details = ({
     checkListCheckoutPreview,
     checkListAtCheckin,
     checkListAtCheckout,
+    agencyName,
+    hirerName,
   },
   selectShift = () => ({}),
   onPressAccept = () => ({}),
@@ -111,6 +113,8 @@ const Details = ({
       <ScrollView style={{ flex: 1 }}>
         <View>
           <CardImageVacancies
+            agencyName={agencyName}
+            hirerName={hirerName}
             title={`${eventName}`}
             shift={`${_workshiftsQuantity}`}
             location={`${location ? location : "Evento Home office"}`}
