@@ -17,24 +17,24 @@ import imgTerms from "../../assets/images/terms-and-conditions.png";
 // import FBSDK from "react-native-fbsdk";
 // import AsyncStorage from "@react-native-community/async-storage";
 // import { loginWithFacebook } from "~/shared/services/auth.http";
-import dimensions, {
-  calcWidth,
-  adjust,
-  calcHeight,
-} from "~/assets/Dimensions/index";
+import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import RNFS from "react-native-fs";
 import FileViewer from "react-native-file-viewer";
+import Lottie from "lottie-react-native";
+import loadingSpinner from "~/assets/loadingSpinner.json";
 
 // const { LoginManager, AccessToken } = FBSDK;
 
-const file = "terms/termos-e-condicoes.pdf";
+const url =
+  "https://drive.google.com/uc?id=1o4FbNOzQo9ZEDUKyhSG7u9iyf3NlRAou&export=download";
 const dest = `${RNFS.DocumentDirectoryPath}/termos-e-condições-lanup.pdf`;
 
 const HomePage = ({ navigation }) => {
   const [terms, setTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
   const { width, height } = Dimensions.get("screen");
 
@@ -44,11 +44,15 @@ const HomePage = ({ navigation }) => {
   }, [setVisibleModal, navigation]);
 
   openTerms = () => {
-    RNFS.copyFileAssets(file, dest)
-      .then(() => FileViewer.open(dest))
-      .catch((error) => {
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-      });
+    setLoading(true);
+    const options = {
+      fromUrl: url,
+      toFile: dest,
+    };
+    RNFS.downloadFile(options)
+      .promise.then(() => FileViewer.open(dest))
+      .catch((error) => AlertHelper.show("error", "Erro", error))
+      .finally(() => setLoading(false));
   };
 
   // goToLoginFacebook = () => {
@@ -209,7 +213,7 @@ const HomePage = ({ navigation }) => {
                 Declaro que li e concordo com os termos.
               </Text>
             </View>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", marginBottom: calcWidth(10) }}>
               <RoundButton
                 width={calcWidth(35)}
                 style={[styles.Btn, styles.btnRegister]}
@@ -223,6 +227,21 @@ const HomePage = ({ navigation }) => {
                 disabled={!terms}
                 onPress={() => goRegister()}
               />
+            </View>
+            <View style={{ alignItems: "center" }}>
+              {loading && (
+                <Lottie
+                  autoSize
+                  style={{
+                    height: calcWidth(12),
+                    width: calcWidth(12),
+                  }}
+                  resizeMode="cover"
+                  source={loadingSpinner}
+                  loop
+                  autoPlay
+                />
+              )}
             </View>
           </View>
         </View>
