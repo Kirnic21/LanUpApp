@@ -108,6 +108,7 @@ export default class ToExplore extends Component {
             data={listVacancy}
             renderItem={({ item, index }) => (
               <VacancyCard
+                {...item}
                 job={item.job}
                 title={item.eventName}
                 date={item.jobDate.substr(0, 19)}
@@ -157,12 +158,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     top: calcHeight(5.5),
-    marginHorizontal: calcWidth(10)
+    marginHorizontal: calcWidth(10),
   },
   textEmpty: {
     color: "#FFF",
     fontSize: adjust(18),
     fontFamily: "HelveticaNowDisplay-Regular",
-    textAlign: 'center'
+    textAlign: "center",
   },
 });

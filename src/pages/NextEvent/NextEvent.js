@@ -114,45 +114,53 @@ const NextEvent = (props) => {
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="transparent" translucent />
         <TitleEvent {...workday} status={statusOperation} />
-        <View style={styles.borderCircle}>
-          <Buttons
-            size="normal"
-            load={(value) => setSpinner(value)}
-            action={getStatusOperation}
-            {...props}
-            {...workday}
-            {...styles}
-            statusOperation={statusOperation}
-          />
-          {statusOperation > 4 && (
-            <Fragment>
-              <View style={styles.buttonCenter}>
-                {statusOperation !== 7 ? (
-                  <Occurrence
-                    {...props}
-                    {...workday}
-                    {...styles}
+        <View style={{alignItems:"center"}}>
+          <View style={styles.borderCircle}>
+            <Buttons
+              size="normal"
+              load={(value) => setSpinner(value)}
+              action={getStatusOperation}
+              {...props}
+              {...workday}
+              {...styles}
+              statusOperation={statusOperation}
+            />
+            {statusOperation > 4 && (
+              <Fragment>
+                <View style={styles.buttonCenter}>
+                  {statusOperation !== 7 ? (
+                    <Occurrence
+                      {...props}
+                      {...workday}
+                      {...styles}
+                      size="small"
+                      isLate={isLate}
+                    />
+                  ) : (
+                    <Checkout
+                      {...props}
+                      {...workday}
+                      {...styles}
+                      size="small"
+                      statusOperation={statusOperation}
+                    />
+                  )}
+                </View>
+                <View style={styles.buttonLeft}>
+                  <ButtonPulse
+                    icon="assistant"
+                    title="Deveres"
                     size="small"
-                    isLate={isLate}
+                    color="#46C5F3"
+                    onPress={() => setOpenModalDuties(true)}
                   />
-                ) : (
-                  <Checkout {...props} {...workday} {...styles} size="small" statusOperation={statusOperation}/>
-                )}
-              </View>
-              <View style={styles.buttonLeft}>
-                <ButtonPulse
-                  icon="assistant"
-                  title="Deveres"
-                  size="small"
-                  color="#46C5F3"
-                  onPress={() => setOpenModalDuties(true)}
-                />
-              </View>
-              <View style={styles.buttonRight}>
-                <Pause {...props} {...workday} />
-              </View>
-            </Fragment>
-          )}
+                </View>
+                <View style={styles.buttonRight}>
+                  <Pause {...props} {...workday} />
+                </View>
+              </Fragment>
+            )}
+          </View>
         </View>
         <View style={styles.containerBtn}>
           {statusOperation === 0 ? (
