@@ -11,7 +11,7 @@ import Lottie from "lottie-react-native";
 import { getSchedules } from "~/shared/services/vacancy.http";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
-import { format } from 'date-fns'
+import { format } from "date-fns";
 
 const WorkDone = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ const WorkDone = ({ navigation }) => {
   }, []);
 
   const formatDate = (date) => {
-    return format(new Date(date), 'dd/MM/yy') 
+    return format(new Date(date), "dd/MM/yy");
   };
 
   const sortBy = useCallback((value) => {
@@ -78,6 +78,7 @@ const WorkDone = ({ navigation }) => {
         data={sortBy(vacancies)}
         renderItem={({ item }) => (
           <VacancyCard
+            {...item}
             job={item.job}
             title={item.eventName}
             date={item.jobDate}

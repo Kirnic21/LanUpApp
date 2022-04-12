@@ -1,23 +1,27 @@
-import dimensions, { calcHeight, calcWidth, adjust } from "~/assets/Dimensions/index";
+import dimensions, {
+  calcHeight,
+  calcWidth,
+  adjust,
+} from "~/assets/Dimensions/index";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    alignItems: "center"
+    // alignItems: "center"
   },
   containerTitle: {
     height: calcHeight(35),
     alignItems: "center",
     justifyContent: "center",
-    top: calcHeight(5.5),
-    marginHorizontal: calcWidth(10)
+    top: calcHeight(7),
+    marginHorizontal: calcWidth(10),
   },
   containerCircle: {
     justifyContent: "center",
     alignItems: "center",
-    height: calcHeight(30)
+    height: calcHeight(30),
   },
   borderCircle: {
     width: calcWidth(75),
@@ -26,19 +30,27 @@ const styles = StyleSheet.create({
     borderColor: "#373361",
     borderRadius: dimensions(250),
     justifyContent: "center",
-    top:calcHeight(1)
+    top: calcHeight(6),
   },
   textTitle: {
-    fontSize: adjust(22),
+    fontSize: adjust(21),
     fontFamily: "HelveticaNowMicro-Medium",
     top: "12%",
-    left: "-0.3%",
-    color: "#FFF"
+    paddingBottom: "7%",
+    // paddingTop: "5%",
+    // left: "-0.3%",
+    color: "#d2d0ff",
   },
   TextsubTitle: {
     fontFamily: "HelveticaNowMicro-Regular",
     fontSize: adjust(15),
-    color: "#FFB72B"
+    color: "#FFB72B",
+  },
+
+  TextHirer: {
+    fontFamily: "HelveticaNowMicro-Regular",
+    fontSize: adjust(10),
+    color: "#FFFFFF",
   },
 
   containerButtonPulse: {
@@ -47,48 +59,48 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     height: "35%",
     position: "absolute",
-    top: "85%"
+    top: "85%",
   },
   containerGroupButton: {
     flexDirection: "row",
     width: calcWidth(78),
     justifyContent: "space-between",
-    position: "absolute"
+    position: "absolute",
   },
   textBtnPulse: {
     textAlign: "center",
-    lineHeight: calcWidth(7)
+    lineHeight: calcWidth(7),
   },
   btn: {
     borderColor: "#FFFFFF",
     borderWidth: 2,
     alignItems: "center",
-    borderRadius: calcWidth(10)
+    borderRadius: calcWidth(10),
   },
   containerBtn: {
-    top: '10%'
-  },  
-  buttonCenter:{
-    position:'absolute',
-    left:0,
-    right:0,
-    bottom:0,
-    top: calcWidth(63)
+    top: "12%",
   },
-  buttonLeft:{
-    position:'absolute',
-    left:0,
-    right:calcWidth(55),
-    bottom:0,
-    top: calcWidth(40)
+  buttonCenter: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: calcWidth(63),
   },
-  buttonRight:{
-    position:'absolute',
-    right:0,
-    left:calcWidth(55),
-    bottom:0,
-    top: calcWidth(40)
-  }
+  buttonLeft: {
+    position: "absolute",
+    left: 0,
+    right: calcWidth(55),
+    bottom: 0,
+    top: calcWidth(40),
+  },
+  buttonRight: {
+    position: "absolute",
+    right: 0,
+    left: calcWidth(55),
+    bottom: 0,
+    top: calcWidth(40),
+  },
 });
 
 export default styles;

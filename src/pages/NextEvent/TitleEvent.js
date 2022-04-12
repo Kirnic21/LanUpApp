@@ -3,23 +3,48 @@ import { View, Text } from "react-native";
 import styles from "./styles";
 import { calcHeight, adjust } from "~/assets/Dimensions";
 
-const TitleEvent = ({ eventName, job, status, date }) => {
+const TitleEvent = ({
+  eventName,
+  job,
+  status,
+  date,
+  agencyName,
+  hirerName,
+}) => {
   const convertDate = (date) => {
-    const data = date || '0000-00-00'
+    const data = date || "0000-00-00";
     var arrDate = data?.split("-");
     return `${arrDate[2]}/${arrDate[1]}/${arrDate[0]}`;
   };
   return (
     <View style={styles.containerTitle}>
-      {status  ? (
+      {status ? (
         <View style={{ width: "88%" }}>
+          <Text
+            style={[
+              styles.textTitle,
+              { fontSize: adjust(10), textAlign: "center", color: "#FFFFFF" },
+            ]}
+          >
+            Data da operação: {convertDate(date?.split("T")[0])}
+          </Text>
           <Text numberOfLines={1} style={styles.textTitle}>
             {eventName || ""}
           </Text>
+          {agencyName && (
+            <Text numberOfLines={1} style={styles.TextHirer}>
+              {agencyName}
+            </Text>
+          )}
+          {hirerName && (
+            <Text
+              numberOfLines={1}
+              style={[styles.TextHirer, { paddingBottom: "5%" }]}
+            >
+              {hirerName}
+            </Text>
+          )}
           <Text style={styles.TextsubTitle}>{job}</Text>
-          <Text style={[styles.textTitle, { fontSize:adjust(11) }]}>
-            Data da operação: {convertDate(date?.split("T")[0])}
-          </Text>
         </View>
       ) : (
         <View style={{}}>
