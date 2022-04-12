@@ -8,6 +8,7 @@ import RegisterStageTwo from "~/pages/Auth/Register/RegisterStageTwo";
 import SelectAvatar from "~/pages/Auth/SelectAvatar";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import { calcWidth } from "~/assets/Dimensions";
+import { Platform } from "react-native";
 
 const AuthNavigator = createStackNavigator(
   {
@@ -26,13 +27,15 @@ const AuthNavigator = createStackNavigator(
       headerTintColor: "#FFFFFF",
       headerTitle: () => null,
       headerTransparent: true,
-      headerStyle: { height: calcWidth(20) },
+      headerStyle: {
+        height: Platform.OS === "ios" ? calcWidth(25) : calcWidth(20),
+      },
       headerLeft: () => (
         <ButtonNavigation type="stack" navigation={navigation} />
       ),
     }),
     mode: "card",
-    headerMode:'float'
+    headerMode: "float",
   }
 );
 
