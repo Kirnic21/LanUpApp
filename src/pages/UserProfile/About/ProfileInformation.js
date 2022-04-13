@@ -48,7 +48,7 @@ const ProfileInformation = ({}) => {
         }}
       >
         <Field
-          style={{ width: Platform.OS === "ios" ? calcWidth(30) : "30%" }}
+          style={{ width: Platform.OS === "ios" ? calcWidth(25) : "30%" }}
           styleInput={{ paddingLeft: calcWidth(5) }}
           title="Altura"
           component={InputMask}
@@ -58,7 +58,7 @@ const ProfileInformation = ({}) => {
           isfocused={"#A893F2"}
         />
         <Field
-          style={{ width: Platform.OS === "ios" ? calcWidth(30) : "30%" }}
+          style={{ width: Platform.OS === "ios" ? calcWidth(25) : "30%" }}
           styleInput={{ paddingLeft: calcWidth(5) }}
           title="Peso"
           component={InputMask}
@@ -72,7 +72,7 @@ const ProfileInformation = ({}) => {
           title="Manequim"
           component={DropDown}
           containerStyle={{
-            width: Platform.OS === "ios" ? calcWidth(30) : "30%",
+            width: Platform.OS === "ios" ? calcWidth(25) : "30%",
           }}
           name={"clothingsSizes"}
           heightModal={calcWidth(95)}

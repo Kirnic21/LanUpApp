@@ -117,7 +117,7 @@ const pageNavigator = createStackNavigator(
       navigationOptions: () => ({
         headerTitle: null,
         headerTransparent: true,
-        headerStyle: { height: calcWidth(20) },
+        headerStyle: { height: Platform.OS === "ios" ? calcWidth(25) : calcWidth(20)},
       }),
     },
   },

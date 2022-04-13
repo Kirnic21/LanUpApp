@@ -1,6 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Animated, Easing, TouchableOpacity } from "react-native";
+import {
+  Animated,
+  Easing,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+} from "react-native";
 import dimensions from "~/assets/Dimensions/index";
 
 const knobOffset = dimensions(22);
@@ -10,13 +16,13 @@ export default class Toggle extends React.Component {
     isOn: PropTypes.bool,
     onToggle: PropTypes.func.isRequired,
     onColor: PropTypes.string,
-    offColor: PropTypes.string
+    offColor: PropTypes.string,
   };
 
   static defaultProps = {
     isOn: false,
     onColor: "limegreen",
-    offColor: "gray"
+    offColor: "gray",
   };
 
   state = {
@@ -25,7 +31,7 @@ export default class Toggle extends React.Component {
     offColor: this.props.offColor,
     animatedValue: new Animated.Value(
       this.props.isOn ? knobOffset : dimensions(6)
-    )
+    ),
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -35,7 +41,7 @@ export default class Toggle extends React.Component {
           toValue: this.state.isOn ? knobOffset : dimensions(6),
           easing: Easing.elastic(0.7),
           duration: 100,
-          useNativeDriver: true
+          useNativeDriver: true,
         }).start();
       });
     }
@@ -52,13 +58,12 @@ export default class Toggle extends React.Component {
     return (
       <TouchableOpacity
         activeOpacity={0.6}
-        style={{
-          backgroundColor: isOn ? onColor : offColor,
-          width: dimensions(40),
-          height: dimensions(20),
-          borderRadius: dimensions(32),
-          paddingVertical: dimensions(3.5)
-        }}
+        style={[
+          styles.container,
+          {
+            backgroundColor: isOn ? onColor : offColor,
+          },
+        ]}
         onPress={() => this.handlePress()}
       >
         <Animated.View
@@ -70,12 +75,28 @@ export default class Toggle extends React.Component {
 
             transform: [
               {
-                translateX: this.state.animatedValue
-              }
-            ]
+                translateX: this.state.animatedValue,
+              },
+            ],
           }}
         />
       </TouchableOpacity>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: dimensions(40),
+    height: dimensions(20),
+    borderRadius: dimensions(32),
+    ...Platform.select({
+      android: {
+        paddingVertical: dimensions(3.5),
+      },
+      ios: {
+        paddingVertical: dimensions(2),
+      },
+    }),
+  },
+});

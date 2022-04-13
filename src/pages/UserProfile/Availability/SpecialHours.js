@@ -350,7 +350,7 @@ class SpecialHours extends Component {
           onClose={() => {
             this.setState({ visible: false, dateInput: "" });
           }}
-          // heightModal={calcHeight(80)}
+          heightModal={Platform.OS === "ios" ? calcHeight(40) : "auto"}
           visible={this.state.visible}
         >
           <Text style={styles.titleModal}>Adicione uma data</Text>
@@ -384,7 +384,7 @@ class SpecialHours extends Component {
                 </View>
               ))}
           </View>
-          <View style={{ alignItems: "center" }}>
+          <View style={[styles.button, { alignItems: "center" }]}>
             <RoundButton
               disabled={!dateInput}
               style={[{ backgroundColor: "#865FC0" }]}
@@ -443,6 +443,13 @@ const styles = StyleSheet.create({
     padding: "5%",
     fontSize: adjust(20),
     fontFamily: "HelveticaNowMicro-Medium",
+  },
+  button: {
+    ...Platform.select({
+      ios: {
+        marginTop: calcWidth(15),
+      },
+    }),
   },
 });
 
