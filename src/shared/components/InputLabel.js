@@ -4,7 +4,7 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import dimensions, { adjust } from "~/assets/Dimensions/index";
 
@@ -25,10 +25,11 @@ export default InputLabel = ({
   placeholder,
   placeholderTextColor,
   isfocused,
-  onContentSizeChange
+  onContentSizeChange,
+  inputFocused = () => {},
 }) => {
   const [isInputFocused, setInputFocused] = useState({
-    input1: false
+    input1: false,
   });
   return (
     <View style={{ width: "100%" }}>
@@ -40,21 +41,22 @@ export default InputLabel = ({
       <View
         style={{
           marginBottom: "5%",
-          width: "100%"
+          width: "100%",
         }}
       >
         <TextInput
+          {...isInputFocused}
           style={[
             {
               height: dimensions(45),
               borderRadius: dimensions(23),
-              color: "white"
+              color: "white",
             },
             style,
             isInputFocused.input1
               ? { borderColor: isfocused }
               : { borderColor: "#FFF" },
-            styles.TextInput
+            styles.TextInput,
           ]}
           onPress={onClick}
           keyboardType={keyboardType}
@@ -67,8 +69,14 @@ export default InputLabel = ({
           value={value}
           editable={editable}
           onChangeText={onChangeText}
-          onFocus={() => setInputFocused(prev => ({ ...prev, input1: true }))}
-          onBlur={() => setInputFocused(prev => ({ ...prev, input1: false }))}
+          onFocus={() => {
+            setInputFocused((prev) => ({ ...prev, input1: true }))
+            inputFocused(true)
+          }}
+          onBlur={() => {
+            setInputFocused((prev) => ({ ...prev, input1: false }))
+            inputFocused(false)
+          }}
           onSubmitEditing={onSubmitEditing}
           placeholder={placeholder}
           placeholderTextColor={placeholderTextColor}
@@ -82,6 +90,6 @@ const styles = StyleSheet.create({
   TextInput: {
     borderWidth: 2,
     paddingLeft: "7%",
-    paddingTop: "4%"
-  }
+    paddingTop: "4%",
+  },
 });

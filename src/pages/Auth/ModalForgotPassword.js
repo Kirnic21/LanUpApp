@@ -1,9 +1,9 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import InputLabel from "~/shared/components/InputLabel";
 import RoundButton from "~/shared/components/RoundButton";
 import ModalComponent from "~/shared/components/ModalComponent";
-import { calcWidth, adjust } from "~/assets/Dimensions";
+import { calcWidth, adjust, calcHeight } from "~/assets/Dimensions";
 
 const ModalForgotPassword = ({
   onClose,
@@ -14,8 +14,16 @@ const ModalForgotPassword = ({
   disabledButton,
   titleError,
 }) => {
+  const [focused, setFocused] = useState(false);
   return (
-    <ModalComponent onClose={onClose} visible={visible} loading={loading}>
+    <ModalComponent
+      heightModal={
+        Platform.OS === "ios" ? calcHeight(focused ? 85 : 50) : "auto"
+      }
+      onClose={onClose}
+      visible={visible}
+      loading={loading}
+    >
       <Text
         style={[styles.colorWhite, styles.titleModal, styles.fontHMicroMeudim]}
       >
@@ -32,6 +40,7 @@ const ModalForgotPassword = ({
       </Text>
       <View style={styles.containerInputLabel}>
         <InputLabel
+          inputFocused={(value) => setFocused(value)}
           isfocused={"#865FC0"}
           onChangeText={onChangeText}
           title="E-mail"
