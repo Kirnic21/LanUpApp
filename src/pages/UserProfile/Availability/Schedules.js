@@ -25,14 +25,14 @@ const Schedules = ({ onPress, schedules, daysOfWeek }) => {
             <View
               style={{
                 flexDirection: "row",
-                paddingBottom: "10%",
+                paddingVertical: "5%",
                 borderBottomColor: "#18142F",
                 borderBottomWidth: day.dayOfWeek === 6 ? 0 : 2,
               }}
             >
               <View
                 style={{
-                  width: Platform.OS === "ios" ? "55%" : "50%",
+                  width: "50%",
                   justifyContent: "center",
                 }}
               >
@@ -42,7 +42,7 @@ const Schedules = ({ onPress, schedules, daysOfWeek }) => {
               </View>
               <View
                 style={{
-                  width: Platform.OS === "ios" ? "30%" : "35%",
+                  width: Platform.OS === "ios" ? "40%" : "35%",
                   justifyContent: "center",
                 }}
               >

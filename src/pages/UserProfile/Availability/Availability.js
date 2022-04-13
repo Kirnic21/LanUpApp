@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  Platform,
 } from "react-native";
 import moment from "moment";
 import { bindActionCreators } from "redux";
@@ -193,7 +194,7 @@ class Availability extends Component {
             </Text>
             <View style={{ flexDirection: "row" }}>
               <Text
-                style={[styles.titleStyle, { marginRight: "25%" }]}
+                style={[styles.titleStyle, { marginRight:  Platform.OS === "ios" ?"20%" : "25%"}]}
                 allowFontScaling={false}
               >
                 Estou disponível agora
