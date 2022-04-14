@@ -196,7 +196,7 @@ const HomePage = ({ navigation }) => {
                 },
               ]}
             >
-              Por favor, leia e aceite os Termos e Condições para continua.
+              Por favor, leia e aceite os Termos e Condições para continuar.
             </Text>
             <View style={styles.containerCheckbox}>
               <TouchableOpacity onPress={() => setTerms((prev) => !prev)}>
