@@ -3,7 +3,7 @@ import dimensions, {
   calcWidth,
   adjust,
 } from "~/assets/Dimensions/index";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -15,8 +15,15 @@ const styles = StyleSheet.create({
     height: calcHeight(35),
     alignItems: "center",
     justifyContent: "center",
-    top: calcHeight(7),
     marginHorizontal: calcWidth(10),
+    ...Platform.select({
+      ios: {
+        top: calcHeight(3),
+      },
+      android: {
+        top: calcHeight(7),
+      },
+    }),
   },
   containerCircle: {
     justifyContent: "center",
@@ -30,7 +37,15 @@ const styles = StyleSheet.create({
     borderColor: "#373361",
     borderRadius: dimensions(250),
     justifyContent: "center",
-    top: calcHeight(6),
+    
+    ...Platform.select({
+      ios:{
+        top: calcHeight(2),
+      },
+      android:{
+        top: calcHeight(6),
+      }
+    })
   },
   textTitle: {
     fontSize: adjust(21),

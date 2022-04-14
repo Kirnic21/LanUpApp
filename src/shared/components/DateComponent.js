@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import { format, parseISO } from "date-fns";
 import eoLocale from "date-fns/locale/pt-BR";
 import { calcWidth, adjust } from "~/assets/Dimensions";
@@ -53,7 +53,15 @@ const styles = {
     fontFamily: "HelveticaNowMicro-Bold",
   },
   f_20: {
-    fontSize: adjust(20),
+    ...Platform.select({
+      ios:{
+        fontSize: adjust(17),
+      },
+      android:{
+        fontSize: adjust(20),
+      }
+    })
+    
   },
   f_9: {
     fontSize: adjust(9),

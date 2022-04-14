@@ -107,7 +107,7 @@ const VacancyCard = ({
                 styles.colorWhite,
                 {
                   width: calcWidth(40),
-                  height: calcWidth(8),
+                  height: calcWidth(7),
                   marginTop: calcWidth(1),
                 },
               ]}
