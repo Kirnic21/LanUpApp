@@ -57,7 +57,7 @@ const Details = ({
   onPressLeave = () => ({}),
   loading,
   params: {
-    job: { status, start, end, eventName, job: service, jobDate, day },
+    job: { status, start, end, eventName, job: service, jobDate, day, isInvite },
   },
 }) => {
   const [selectedShift, setSelectedShift] = useState(false);
@@ -249,7 +249,7 @@ const Details = ({
           {[0, 1, 8].includes(status) && (
             <Button
               title={
-                status === 1 ? "Aceitar vaga urgente" : "Aceitar esta vaga"
+                status === 1 ? "Aceitar vaga urgente" : (status !== 8 && isInvite === false) ? "Concorrer à Vaga" :  "Aceitar esta vaga"
               }
               isSelected={validationButton()}
               unSelectedColor="#A893F229"
