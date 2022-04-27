@@ -67,6 +67,10 @@ const getAgencies = (id) => HTTP.get(`freelas/${id}/agencies`);
 const galleryDelete = (id, queryParams) =>
   HTTP.delete(`freelas/${id}/galery?${queryParams}`);
 
+const getBank = (term) => HTTP.get('banks', {
+  params:{term}
+})
+
 export {
   create,
   updateSkills,
@@ -90,4 +94,5 @@ export {
   workdays,
   updateAgencies,
   getAgencies,
+  getBank
 };

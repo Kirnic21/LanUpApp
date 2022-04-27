@@ -43,7 +43,6 @@ const InputSearch = ({
     <View style={[styles.inputSearchContainer, inputStyles]}>
       <TextInput
         onChangeText={(text) => onSearch(text, handleOnSearch, debounceTime)}
-        placeholderTextColor="#23203F"
         placeholder={placeholder}
         placeholderTextColor="rgba(255,255,255,0.6)"
         style={styles.inputSearch}
