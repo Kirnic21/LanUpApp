@@ -9,7 +9,7 @@
     "android": "react-native run-android",
     "build:dev": "cd android && ./gradlew assembleRelease",
     "build:hmg": "cd android && ./gradlew assembleStagingrelease",
-    "build:prod": "cd android && ./gradlew assembleProductionrelease",
+    "build:prod": "cd android && ./gradlew bundleProductionrelease",
     "android:staging": "cd android && ./gradlew assembleRelease --console plain && cd ..",
     "android:clean": "cd android && ./gradlew clean && cd ..",
     "test": "jest",

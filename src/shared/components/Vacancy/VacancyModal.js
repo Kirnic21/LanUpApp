@@ -1,5 +1,11 @@
-import React from "react";
-import { Text, View, TouchableOpacity, ActivityIndicator } from "react-native";
+import React, { Fragment } from "react";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+  Platform,
+} from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import ModalComponent from "../ModalComponent";
@@ -9,8 +15,12 @@ import ButtonPulse from "~/shared/components/ButtonPulse";
 import Geolocation from "react-native-geolocation-service";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
-import { Fragment } from "react";
-import { Platform } from 'react-native'
+import env from "react-native-config";
+
+const apikey =
+  Platform.OS === "ios"
+    ? env.GOOGLE_IOS_MAPS_API_KEY
+    : env.GOOGLE_ANDROID_MAPS_API_KEY;
 
 const styles = {
   container: {
@@ -72,7 +82,7 @@ class VacancyModal extends React.Component {
     const destination = location;
 
     const ApiURL = "https://maps.googleapis.com/maps/api/distancematrix/json?";
-    const params = `origins=${origin}&destinations=${destination}&language=PT&key=AIzaSyBVsSKFLigzkkpRc1L-GTKCN2N0qQHWYOc`; // you need to get a key
+    const params = `origins=${origin}&destinations=${destination}&language=PT&key=${apikey}`; // you need to get a key
     const finalApiURL = `${ApiURL}${encodeURI(params)}`;
     axios
       .get(finalApiURL)
@@ -102,7 +112,7 @@ class VacancyModal extends React.Component {
     const { vacancy } = this.props;
     return (
       <ModalComponent
-        heightModal={Platform.OS === 'ios' ? calcHeight(88) : calcWidth(108)}
+        heightModal={Platform.OS === "ios" ? calcHeight(88) : calcWidth(108)}
         onClose={this.onClose}
         visible={isVisible}
       >
