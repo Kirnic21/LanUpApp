@@ -12,10 +12,10 @@ const styles = StyleSheet.create({
     // alignItems: "center"
   },
   containerTitle: {
-    height: calcHeight(35),
+    height: calcHeight(32),
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: calcWidth(10),
+    marginHorizontal: calcWidth(8),
     ...Platform.select({
       ios: {
         top: calcHeight(3),
