@@ -19,7 +19,7 @@ const TitleEvent = ({
   return (
     <View style={styles.containerTitle}>
       {status ? (
-        <View style={{ width: "88%" }}>
+        <View style={{ width: "100%" }}>
           <Text
             style={[
               styles.textTitle,

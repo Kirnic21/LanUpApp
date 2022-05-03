@@ -16,6 +16,7 @@ import styles from "./styles";
 import TitleEvent from "./TitleEvent";
 import OnTheWay from "./OnTheWay/index";
 import Checkin from "./CheckinAndCheckout/Checkin";
+import CheckinQrCode from "./CheckinAndCheckout/CheckinQrCode";
 import Checkout from "./CheckinAndCheckout/Checkout";
 import Occurrence from "./Occurrence/index";
 import ModalDuties from "./ModalDuties";
@@ -88,12 +89,23 @@ const NextEvent = (props) => {
       .then(async ({ result: { value } }) => {
         const checkoutParse = parseISO(checkout);
         const dateStatus = isBefore(new Date(), checkoutParse);
-        await setStatusOperation(value > 4 && dateStatus ? 7 : value);
+        setStatusOperation(value > 4 && dateStatus ? 7 : value);
       })
       .catch((error) =>
         AlertHelper.show("error", "Erro", error.response.data.errorMessage)
       );
   };
+
+  useEffect(() => {
+    const SECOND = 20;
+    const MILLISECOND = SECOND * 1000;
+    const interval = setInterval(() => {
+      if (statusOperation === 3 || statusOperation === 4) {
+        getStatusOperation(workday);
+      }
+    }, MILLISECOND);
+    return () => clearInterval(interval);
+  }, [statusOperation, workday]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -108,96 +120,109 @@ const NextEvent = (props) => {
     return () => clearInterval(interval);
   }, [statusOperation, workday]);
 
-  return (
-    <ImageBackground source={ImgBackground} style={{ flex: 1 }}>
-      <SpinnerComponent loading={spinner} />
-      <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="transparent" translucent />
-        <TitleEvent {...workday} status={statusOperation} />
-        <View style={{alignItems:"center"}}>
-          <View style={styles.borderCircle}>
-            <Buttons
-              size="normal"
-              load={(value) => setSpinner(value)}
-              action={getStatusOperation}
-              {...props}
-              {...workday}
-              {...styles}
-              statusOperation={statusOperation}
-            />
-            {statusOperation > 4 && (
-              <Fragment>
-                <View style={styles.buttonCenter}>
-                  {statusOperation !== 7 ? (
-                    <Occurrence
-                      {...props}
-                      {...workday}
-                      {...styles}
+  const Operations = () => {
+    return (
+      <ImageBackground source={ImgBackground} style={{ flex: 1 }}>
+        <SpinnerComponent loading={spinner} />
+        <SafeAreaView style={styles.container}>
+          <StatusBar backgroundColor="transparent" translucent />
+          <TitleEvent {...workday} status={statusOperation} />
+          <View style={{ alignItems: "center" }}>
+            <View style={styles.borderCircle}>
+              <Buttons
+                size="normal"
+                load={(value) => setSpinner(value)}
+                action={getStatusOperation}
+                {...props}
+                {...workday}
+                {...styles}
+                statusOperation={statusOperation}
+              />
+              {statusOperation > 4 && (
+                <Fragment>
+                  <View style={styles.buttonCenter}>
+                    {statusOperation !== 7 ? (
+                      <Occurrence
+                        {...props}
+                        {...workday}
+                        {...styles}
+                        size="small"
+                        isLate={isLate}
+                      />
+                    ) : (
+                      <Checkout
+                        {...props}
+                        {...workday}
+                        {...styles}
+                        load={(value) => setSpinner(value)}
+                        size="small"
+                        statusOperation={statusOperation}
+                      />
+                    )}
+                  </View>
+                  <View style={styles.buttonLeft}>
+                    <ButtonPulse
+                      icon="assistant"
+                      title="Deveres"
                       size="small"
-                      isLate={isLate}
+                      color="#46C5F3"
+                      onPress={() => setOpenModalDuties(true)}
                     />
-                  ) : (
-                    <Checkout
-                      {...props}
-                      {...workday}
-                      {...styles}
-                      load={(value) => setSpinner(value)}
-                      size="small"
-                      statusOperation={statusOperation}
-                    />
-                  )}
-                </View>
-                <View style={styles.buttonLeft}>
-                  <ButtonPulse
-                    icon="assistant"
-                    title="Deveres"
-                    size="small"
-                    color="#46C5F3"
-                    onPress={() => setOpenModalDuties(true)}
-                  />
-                </View>
-                <View style={styles.buttonRight}>
-                  <Pause {...props} {...workday} />
-                </View>
-              </Fragment>
+                  </View>
+                  <View style={styles.buttonRight}>
+                    <Pause {...props} {...workday} />
+                  </View>
+                </Fragment>
+              )}
+            </View>
+          </View>
+          <View style={styles.containerBtn}>
+            {statusOperation === 0 ? (
+              <RoundButton
+                width={calcWidth(55)}
+                name="Encontrar mais vagas"
+                style={styles.btn}
+                onPress={() => props.navigation.navigate("ToExplore")}
+              />
+            ) : statusOperation === 1 || statusOperation === 2 ? (
+              <RoundButton
+                width={calcWidth(55)}
+                name="Ver regras e check list"
+                style={styles.btn}
+                onPress={() => setOpenModalComingSoon(true)}
+              />
+            ) : (
+              <RoundButton
+                width={calcWidth(55)}
+                name="Minhas Atividades"
+                style={styles.btn}
+                onPress={() => setOpenModalComingSoon(true)}
+              />
             )}
           </View>
-        </View>
-        <View style={styles.containerBtn}>
-          {statusOperation === 0 ? (
-            <RoundButton
-              width={calcWidth(55)}
-              name="Encontrar mais vagas"
-              style={styles.btn}
-              onPress={() => props.navigation.navigate("ToExplore")}
-            />
-          ) : statusOperation === 1 || statusOperation === 2 ? (
-            <RoundButton
-              width={calcWidth(55)}
-              name="Ver regras e check list"
-              style={styles.btn}
-              onPress={() => setOpenModalComingSoon(true)}
-            />
-          ) : (
-            <RoundButton
-              width={calcWidth(55)}
-              name="Minhas Atividades"
-              style={styles.btn}
-              onPress={() => setOpenModalComingSoon(true)}
-            />
-          )}
-        </View>
-        <ModalDuties
-          visible={openModalDuties}
-          responsabilities={workday.responsabilities}
-          onClose={() => setOpenModalDuties(false)}
-        />
-        <ModalComingSoon
-          onClose={() => setOpenModalComingSoon(false)}
-          visible={openModalComingSoon}
-        />
-      </SafeAreaView>
-    </ImageBackground>
+          <ModalDuties
+            visible={openModalDuties}
+            responsabilities={workday.responsabilities}
+            onClose={() => setOpenModalDuties(false)}
+          />
+          <ModalComingSoon
+            onClose={() => setOpenModalComingSoon(false)}
+            visible={openModalComingSoon}
+          />
+        </SafeAreaView>
+      </ImageBackground>
+    );
+  };
+
+  return (statusOperation === 3 || statusOperation === 4) && !workday.isHomeOffice ? (
+    <CheckinQrCode
+      {...props}
+      {...workday}
+      statusOperation={statusOperation}
+      action={getStatusOperation}
+    />
+  ) : (
+    <Operations />
   );
 };
 
