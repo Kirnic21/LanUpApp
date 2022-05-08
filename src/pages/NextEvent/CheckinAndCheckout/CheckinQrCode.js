@@ -25,6 +25,7 @@ const CheckinQrCode = ({
   hirerName,
   checkListCheckIn,
   vacancyId,
+  vacancyCode
 }) => {
   const [openModalCheckin, setOpenModalCheckin] = useState(false);
   const [openModalNews, setOpenModalNews] = useState(false);
@@ -44,7 +45,7 @@ const CheckinQrCode = ({
 
   const showModalNews = async () => {
     const getNewCheckin = await AsyncStorage.getItem("NEW_CHECKIN");
-    const new_checkin = JSON?.parse(getNewCheckin)
+    const new_checkin = JSON?.parse(getNewCheckin);
     setOpenModalNews(!new_checkin);
   };
 
@@ -65,6 +66,8 @@ const CheckinQrCode = ({
       .finally(() => setLoading(false));
   }, [loading, freelaId, isHomeOffice, checkout, job, action]);
 
+  const qrcodeValue = JSON.stringify({ vacancyId, freelaId, job });
+
   return (
     <View style={styles.container}>
       <TitleEvent
@@ -80,10 +83,7 @@ const CheckinQrCode = ({
           Para iniciar o trabalho, o gestor precisa fazer a leitura do seu
           QRCODE
         </Text>
-        <Ticket
-          value={`{"vacancyId":${vacancyId}, "job":${job}}`}
-          codeQrCode={''}
-        />
+        <Ticket value={qrcodeValue} codeQrCode={vacancyCode} />
       </View>
 
       <ModalCheckList
