@@ -53,7 +53,7 @@ const Checkin = ({
   const toCheckIn = useCallback(async () => {
     load(true);
     try {
-      await operationsCheckins({ id: operationId, vacancyId, job, eventId });
+      await operationsCheckins({ id: operationId, vacancyId, job, eventId, freelaId });
       setOpenModalCheckin((prev) => !prev);
     } catch (error) {
       AlertHelper.show("error", "Erro", error.response.data.errorMessage);

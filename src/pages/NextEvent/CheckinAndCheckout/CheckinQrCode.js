@@ -25,7 +25,8 @@ const CheckinQrCode = ({
   hirerName,
   checkListCheckIn,
   vacancyId,
-  vacancyCode
+  vacancyCode,
+  eventId
 }) => {
   const [openModalCheckin, setOpenModalCheckin] = useState(false);
   const [openModalNews, setOpenModalNews] = useState(false);
@@ -66,7 +67,7 @@ const CheckinQrCode = ({
       .finally(() => setLoading(false));
   }, [loading, freelaId, isHomeOffice, checkout, job, action]);
 
-  const qrcodeValue = JSON.stringify({ vacancyId, freelaId, job });
+  const qrcodeValue = JSON.stringify({ vacancyId, freelaId, job, eventId });
 
   return (
     <View style={styles.container}>
