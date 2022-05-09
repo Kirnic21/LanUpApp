@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 
-import backWhite from "~/assets/images/black-and-white.png";
 import FastImage from "react-native-fast-image";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { formatDistanceStrict } from "date-fns";

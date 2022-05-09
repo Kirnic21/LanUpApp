@@ -9,18 +9,28 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 import { Field, reduxForm } from "redux-form";
 
+import { debounce } from "lodash";
+
+import { getAddress } from "~/shared/services/events.http";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
+
+import { Field, reduxForm } from "redux-form";
+
 const OccupationArea = ({}) => {
   const [places, setPlaces] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   reduxForm({
     form: "OccupationArea",
   });
   const onSearch = (value) => {
+    setLoading(true);
     getAddress(value)
       .then((response) => {
         setPlaces(mapCandidatesToPlaces(response.data.results));
       })
-      .catch((message) => AlertHelper.show("error", "Erro", message));
+      .catch((message) => AlertHelper.show("error", "Erro", message))
+      .finally(() => setLoading(false));
   };
 
   const mapCandidatesToPlaces = (candidates) =>
@@ -37,7 +47,8 @@ const OccupationArea = ({}) => {
       </Text>
       <Field
         component={ModalSearch}
-        handleOnSearch={onSearch}
+        load={loading}
+        handleOnSearch={debounce(onSearch, 1500)}
         item="address"
         data={places}
         name={"address"}

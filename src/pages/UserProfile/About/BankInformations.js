@@ -1,36 +1,42 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
-import InputField from "~/shared/components/InputField";
-import { Field, reduxForm } from "redux-form";
-import styles from "./styles";
-import bank from "./bank";
-import ModalSearch from "~/shared/components/ModalSearch";
+import { View, Text, TouchableOpacity } from "react-native";
 
+import styles from "./styles";
+
+import InputField from "~/shared/components/InputField";
+import ModalSearch from "~/shared/components/ModalSearch";
 import DropDown from "~/shared/components/DropDown";
-import { adjust, calcWidth, calcHeight } from "~/assets/Dimensions";
+import { adjust, calcWidth } from "~/assets/Dimensions";
 import Modal from "~/shared/components/ModalComponent";
+
+import { Field, reduxForm } from "redux-form";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { TouchableOpacity } from "react-native";
+
+import { getBank } from "~/shared/services/freela.http";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
+
+import { debounce } from "lodash";
 
 const BankInformation = () => {
   const [infoModal, setInfoModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   reduxForm({ form: "BankInformation" });
 
   const [code, setCode] = useState([]);
   const SearchFilterFunction = (text) => {
-    const newData = bank.filter(function (item) {
-      const itemData = item.description
-        ? item.description.toUpperCase()
-        : "".toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    });
-    const code = newData.map((x) => ({
-      name: x.description,
-      id: x.id,
-    }));
-    setCode(code);
+    setLoading(true);
+    getBank(text)
+      .then(({ data }) => data)
+      .then(({ result }) => {
+        const code = result.map(({ name, code: id }) => ({
+          name,
+          id,
+        }));
+        setCode(code);
+      })
+      .catch((error) => AlertHelper.show("error", "Erro", error))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -57,10 +63,11 @@ const BankInformation = () => {
           <Field
             component={ModalSearch}
             label="Banco:"
-            handleOnSearch={SearchFilterFunction}
+            handleOnSearch={debounce(SearchFilterFunction, 1000)}
             data={code}
             name={"bankCode"}
             onlyId={true}
+            load={loading}
             style={{ width: "47%" }}
             EmptyText="Nenhum banco encontrado"
           />

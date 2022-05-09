@@ -141,6 +141,7 @@ const NextEvent = (props) => {
                       {...props}
                       {...workday}
                       {...styles}
+                      load={(value) => setSpinner(value)}
                       size="small"
                       statusOperation={statusOperation}
                     />

@@ -904,7 +904,7 @@
 					/usr/lib/swift,
 					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 				);
-				MARKETING_VERSION = 2.3;
+				MARKETING_VERSION = 2.7;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -999,7 +999,7 @@
 					/usr/lib/swift,
 					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 				);
-				MARKETING_VERSION = 2.3;
+				MARKETING_VERSION = 2.7;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",

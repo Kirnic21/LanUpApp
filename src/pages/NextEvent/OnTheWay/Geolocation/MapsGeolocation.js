@@ -6,6 +6,7 @@ import {
   Text,
   DeviceEventEmitter,
   Vibration,
+  Platform,
 } from "react-native";
 
 import MapView from "react-native-maps";
@@ -32,6 +33,11 @@ const LATITUDE = 0;
 const LONGITUDE = 0;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+const apikey =
+  Platform.OS === "ios"
+    ? env.GOOGLE_IOS_MAPS_API_KEY
+    : env.GOOGLE_ANDROID_MAPS_API_KEY;
 class MapsGeolocation extends Component {
   constructor(props) {
     super(props);
@@ -214,7 +220,7 @@ class MapsGeolocation extends Component {
             destination={
               this.state.coordinates[this.state.coordinates.length - 1]
             }
-            apikey={env.GOOGLE_MAPS_API_KEY}
+            apikey={apikey}
             strokeWidth={3}
             strokeColor="#F63535"
             optimizeWaypoints={true}

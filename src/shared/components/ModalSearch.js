@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { View, Text, FlatList, TouchableOpacity, Platform } from "react-native";
-import { adjust, calcHeight } from "~/assets/Dimensions";
+import { adjust, calcHeight, calcWidth } from "~/assets/Dimensions";
 import InputSearch from "~/shared/components/InputSearch";
+
+import Lottie from "lottie-react-native";
+import loadingSpinner from "~/assets/loadingSpinner.json";
 
 import ModalComponent from "./ModalComponent";
 
 export default ModalSearch = ({
   handleOnSearch,
+  debounceTime,
+  load,
   data,
   EmptyText,
   placeHolder,
@@ -44,15 +49,32 @@ export default ModalSearch = ({
         onClose={() => setVisible(false)}
       >
         <View style={styles.inputContainer}>
-          <InputSearch handleOnSearch={handleOnSearch} />
+          <InputSearch
+            handleOnSearch={handleOnSearch}
+            debounceTime={debounceTime}
+          />
         </View>
         <View style={styles.container}>
           <FlatList
             ListEmptyComponent={
               <View style={styles.containerEmpty}>
-                <Text style={[styles.text, { borderBottomWidth: 0 }]}>
-                  {EmptyText}
-                </Text>
+                {load ? (
+                  <Lottie
+                    autoSize
+                    style={{
+                      height: calcWidth(14),
+                      width: calcWidth(14),
+                    }}
+                    resizeMode="cover"
+                    source={loadingSpinner}
+                    loop
+                    autoPlay
+                  />
+                ) : (
+                  <Text style={[styles.text, { borderBottomWidth: 0 }]}>
+                    {EmptyText}
+                  </Text>
+                )}
               </View>
             }
             data={data || []}

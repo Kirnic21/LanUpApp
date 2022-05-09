@@ -1,6 +1,12 @@
 import { HTTP } from "./http.base";
 import axios from "axios";
 import env from "react-native-config";
+import { Platform } from 'react-native';
+
+const apikey =
+  Platform.OS === "ios"
+    ? env.GOOGLE_IOS_MAPS_API_KEY
+    : env.GOOGLE_ANDROID_MAPS_API_KEY;
 
 const url_place = "https://maps.googleapis.com/maps/api/place/textsearch/json";
 
@@ -21,7 +27,7 @@ const getJobMembers = ({ eventId, job }) =>
 
 const getAddress = (place) =>
   axios.get(url_place, {
-    params: { query: place, key: env.GOOGLE_MAPS_API_KEY },
+    params: { query: place, key: apikey },
   });
 
 export {
