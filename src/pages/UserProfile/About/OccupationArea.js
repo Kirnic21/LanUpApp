@@ -11,10 +11,7 @@ import { Field, reduxForm } from "redux-form";
 
 import { debounce } from "lodash";
 
-import { getAddress } from "~/shared/services/events.http";
-import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
-import { Field, reduxForm } from "redux-form";
 
 const OccupationArea = ({}) => {
   const [places, setPlaces] = useState([]);
