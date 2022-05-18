@@ -32,7 +32,7 @@ const Checkin = ({
 
   useEffect(() => {
     if (statusOperation === 4) {
-      setOpenModalCheckin((prev) => !prev);
+      setOpenModalCheckin(true);
     }
   }, [statusOperation]);
 
@@ -50,26 +50,23 @@ const Checkin = ({
     }
   };
 
-  const toCheckIn = useCallback(async () => {
-    load(true);
-    try {
-      await operationsCheckins({ id: operationId, vacancyId, job, eventId, freelaId });
-      setOpenModalCheckin((prev) => !prev);
-    } catch (error) {
-      AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-    } finally {
-      load(false);
-    }
-  }, [
-    statusOperation,
-    vacancyId,
-    job,
-    eventId,
-    freelaId,
-    operationId,
-    isHomeOffice,
-    openModalCheckin,
-  ]);
+  const toCheckIn = () => {
+    load(false);
+    operationsCheckins({
+      id: operationId,
+      vacancyId,
+      job,
+      eventId,
+      freelaId,
+    })
+      .then(() => {
+        setOpenModalCheckin(true);
+      })
+      .catch((error) => {
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+      })
+      .finally(() => load(false));
+  };
 
   const confirmChecklist = useCallback(() => {
     setLoading((prev) => !prev);
@@ -101,7 +98,7 @@ const Checkin = ({
         onPressCheck={() => setChecked((prev) => !prev)}
         checked={checked}
         eventName={eventName}
-        onClose={() => setOpenModalCheckin((prev) => !prev)}
+        onClose={() => setOpenModalCheckin(false)}
       />
     </Fragment>
   );

@@ -16,7 +16,7 @@ import styles from "./styles";
 import TitleEvent from "./TitleEvent";
 import OnTheWay from "./OnTheWay/index";
 import Checkin from "./CheckinAndCheckout/Checkin";
-import CheckinQrCode from "./CheckinAndCheckout/CheckinQrCode";
+import CheckinCheckoutQrCode from "./CheckinAndCheckout/CheckinCheckoutQrCode";
 import Checkout from "./CheckinAndCheckout/Checkout";
 import Occurrence from "./Occurrence/index";
 import ModalDuties from "./ModalDuties";
@@ -57,6 +57,7 @@ const NextEvent = (props) => {
   const [openModalDuties, setOpenModalDuties] = useState(false);
   const [isLate, setIslate] = useState(false);
   const [openModalComingSoon, setOpenModalComingSoon] = useState(false);
+  const [openQrCheckout, setOpenQrCheckout] = useState(false);
 
   const Buttons = components[statusOperation];
 
@@ -99,12 +100,14 @@ const NextEvent = (props) => {
   useEffect(() => {
     const SECOND = 20;
     const MILLISECOND = SECOND * 1000;
-    const interval = setInterval(() => {
-      if (statusOperation === 3 || statusOperation === 4) {
-        getStatusOperation(workday);
-      }
-    }, MILLISECOND);
-    return () => clearInterval(interval);
+    if (workday.hasCheckinQrCode || workday.hasCheckoutQrCode) {
+      const interval = setInterval(() => {
+        if ([3, 4, 6, 7].includes(statusOperation)) {
+          getStatusOperation(workday);
+        }
+      }, MILLISECOND);
+      return () => clearInterval(interval);
+    }
   }, [statusOperation, workday]);
 
   useEffect(() => {
@@ -132,6 +135,7 @@ const NextEvent = (props) => {
               <Buttons
                 size="normal"
                 load={(value) => setSpinner(value)}
+                openQrCheckout={(value) => setOpenQrCheckout(value)}
                 action={getStatusOperation}
                 {...props}
                 {...workday}
@@ -155,6 +159,7 @@ const NextEvent = (props) => {
                         {...workday}
                         {...styles}
                         load={(value) => setSpinner(value)}
+                        openQrCheckout={(value) => setOpenQrCheckout(value)}
                         size="small"
                         statusOperation={statusOperation}
                       />
@@ -214,16 +219,39 @@ const NextEvent = (props) => {
     );
   };
 
-  return (statusOperation === 3 || statusOperation === 4) && !workday.isHomeOffice ? (
-    <CheckinQrCode
-      {...props}
-      {...workday}
-      statusOperation={statusOperation}
-      action={getStatusOperation}
-    />
-  ) : (
-    <Operations />
-  );
+  const _renderComponent = () => {
+    const { isHomeOffice, hasCheckinQrCode } = workday;
+    if (
+      (statusOperation === 3 || statusOperation === 4) &&
+      !isHomeOffice &&
+      hasCheckinQrCode
+    ) {
+      return (
+        <CheckinCheckoutQrCode
+          {...props}
+          {...workday}
+          statusOperation={statusOperation}
+          action={getStatusOperation}
+        />
+      );
+    }
+
+    if (openQrCheckout) {
+      return (
+        <CheckinCheckoutQrCode
+          {...props}
+          {...workday}
+          statusOperation={statusOperation}
+          action={getStatusOperation}
+          openQrCheckout={(value) => setOpenQrCheckout(value)}
+        />
+      );
+    }
+
+    return <Operations />;
+  };
+
+  return <Fragment>{_renderComponent()}</Fragment>;
 };
 
 export default NextEvent;

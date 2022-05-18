@@ -27,7 +27,9 @@ const Checkout = ({
   isLate,
   hirerId,
   navigation,
-  load
+  load,
+  hasCheckoutQrCode,
+  openQrCheckout,
 }) => {
   const [openModalCheckout, setOpenModalCheckout] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -40,19 +42,24 @@ const Checkout = ({
       isHomeOffice,
       origin: 2,
       job,
-    }).then(() => toCheckOut().finally(() => setOpenModalCheckout(false)));
+    })
+      .then(() => (hasCheckoutQrCode ? openQrCheckout(true) : toCheckOut()))
+      .finally(() => {
+        setOpenModalCheckout(false);
+        setLoading(false);
+      });
   };
 
   const toCheckOut = useCallback(async () => {
     setOpenModalCheckout(false);
-    load(true)
+    load(true);
     try {
       await operationsCheckout({ id: operationId, vacancyId, job, eventId });
       navigation.replace("Rating", { hirerId, eventName });
     } catch (error) {
       AlertHelper.show("error", error.response.data.errorMessage);
     } finally {
-      load(false)
+      load(false);
       setLoading(false);
     }
   }, [
@@ -105,7 +112,11 @@ const Checkout = ({
         size={size}
         startAnimations
         color={isLate ? "#FF0000" : "#865FC0"}
-        onPress={() => setOpenModalCheckout((prev) => !prev)}
+        onPress={() =>
+          statusOperation === 6
+            ? _getLocationFreela()
+            : setOpenModalCheckout(true)
+        }
       />
       <ModalCheckList
         visible={openModalCheckout}
@@ -117,7 +128,7 @@ const Checkout = ({
         onPressCheck={() => setChecked((prev) => !prev)}
         checked={checked}
         eventName={eventName}
-        onClose={() => setOpenModalCheckout((prev) => !prev)}
+        onClose={() => setOpenModalCheckout(false)}
       />
     </Fragment>
   );
