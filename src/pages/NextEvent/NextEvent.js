@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { SafeAreaView, ImageBackground, StatusBar, View } from "react-native";
 
-import { differenceInHours, isBefore, parseISO } from "date-fns";
+import { differenceInHours, isBefore, parseISO, isPast } from "date-fns";
 
 import ImgBackground from "~/assets/images/Grupo_518.png";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
@@ -47,7 +47,7 @@ const components = {
   4: Checkin,
   5: Checkout,
   6: Checkout,
-  7: Occurrence,
+  8: Occurrence,
 };
 
 const NextEvent = (props) => {
@@ -90,7 +90,9 @@ const NextEvent = (props) => {
       .then(async ({ result: { value } }) => {
         const checkoutParse = parseISO(checkout);
         const dateStatus = isBefore(new Date(), checkoutParse);
-        setStatusOperation(value > 4 && dateStatus ? 7 : value);
+        setStatusOperation(
+          value > 4 && value < 7 && dateStatus ? 8 : value
+        );
       })
       .catch((error) =>
         AlertHelper.show("error", "Erro", error.response.data.errorMessage)
@@ -102,7 +104,7 @@ const NextEvent = (props) => {
     const MILLISECOND = SECOND * 1000;
     if (workday.hasCheckinQrCode || workday.hasCheckoutQrCode) {
       const interval = setInterval(() => {
-        if ([3, 4, 6, 7].includes(statusOperation)) {
+        if ([3, 4, 6, 7,8].includes(statusOperation)) {
           getStatusOperation(workday);
         }
       }, MILLISECOND);
@@ -114,14 +116,16 @@ const NextEvent = (props) => {
     const interval = setInterval(() => {
       const { checkout } = workday;
       const checkoutParse = parseISO(checkout);
-      const dateStatus = isBefore(new Date(), checkoutParse);
+      const dateStatus = isPast(checkoutParse);
       if (statusOperation > 4) {
-        setStatusOperation(dateStatus ? 7 : statusOperation);
+        setStatusOperation(
+          !dateStatus && openQrCheckout === false ? 8 : statusOperation
+        );
         setIslate(differenceInHours(new Date(), parseISO(checkout)));
       }
     }, 60000);
     return () => clearInterval(interval);
-  }, [statusOperation, workday]);
+  }, [statusOperation, workday, openQrCheckout]);
 
   const Operations = () => {
     return (
@@ -145,7 +149,7 @@ const NextEvent = (props) => {
               {statusOperation > 4 && (
                 <Fragment>
                   <View style={styles.buttonCenter}>
-                    {statusOperation !== 7 ? (
+                    {statusOperation !== 8 ? (
                       <Occurrence
                         {...props}
                         {...workday}

@@ -2,7 +2,6 @@ import { HTTP } from "./http.base";
 import axios from "axios";
 import env from "react-native-config";
 import { Platform } from 'react-native';
-console.log(Platform.OS)
 
 const apikey =
   Platform.OS === "ios"

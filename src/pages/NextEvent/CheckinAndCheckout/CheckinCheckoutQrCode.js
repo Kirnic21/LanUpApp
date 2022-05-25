@@ -96,7 +96,7 @@ const CheckinCheckoutQrCode = ({
       />
       <View style={styles.content}>
         <Text style={styles.subTitle}>
-          Para {statusOperation === 6 ? "finalizar" : "iniciar"} o trabalho, o
+          Para {type === "checkout" ? "finalizar" : "iniciar"} o trabalho, o
           gestor precisa fazer a leitura do seu QRCODE
         </Text>
         <Ticket value={qrcodeValue} codeQrCode={vacancyCode} />
@@ -105,7 +105,9 @@ const CheckinCheckoutQrCode = ({
             width={calcWidth(55)}
             name="Voltar para operação"
             style={styles.btn}
-            onPress={() => openQrCheckout(false)}
+            onPress={() => {
+              openQrCheckout(false);
+            }}
           />
         )}
       </View>

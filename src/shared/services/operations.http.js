@@ -30,6 +30,9 @@ const checkpoints = (data) =>
 const location = (data) =>
   HTTP.post(`${resource}/${data.id}/currentLocation`, data);
 
+const checkListStatus = ({ id, origin, freelaId }) =>
+  HTTP.get(`${resource}/${id}/checklists/${origin}/freelas/${freelaId}`);
+
 export {
   operationsCheckins,
   operationsChecklists,
@@ -43,4 +46,5 @@ export {
   arrivelOperation,
   checkpoints,
   location,
+  checkListStatus
 };
