@@ -100,16 +100,6 @@ const CheckinCheckoutQrCode = ({
           gestor precisa fazer a leitura do seu QRCODE
         </Text>
         <Ticket value={qrcodeValue} codeQrCode={vacancyCode} />
-        {statusOperation > 4 && (
-          <RoundButton
-            width={calcWidth(55)}
-            name="Voltar para operação"
-            style={styles.btn}
-            onPress={() => {
-              openQrCheckout(false);
-            }}
-          />
-        )}
       </View>
 
       <ModalCheckList

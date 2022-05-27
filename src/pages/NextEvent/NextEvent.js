@@ -90,9 +90,10 @@ const NextEvent = (props) => {
       .then(async ({ result: { value } }) => {
         const checkoutParse = parseISO(checkout);
         const dateStatus = isBefore(new Date(), checkoutParse);
-        setStatusOperation(
-          value > 4 && value < 7 && dateStatus ? 8 : value
-        );
+        setStatusOperation(value > 4 && value < 7 && dateStatus ? 8 : value);
+        if(value === 6) {
+          setOpenQrCheckout(true)
+        }
       })
       .catch((error) =>
         AlertHelper.show("error", "Erro", error.response.data.errorMessage)
@@ -100,11 +101,11 @@ const NextEvent = (props) => {
   };
 
   useEffect(() => {
-    const SECOND = 20;
+    const SECOND = 15;
     const MILLISECOND = SECOND * 1000;
     if (workday.hasCheckinQrCode || workday.hasCheckoutQrCode) {
       const interval = setInterval(() => {
-        if ([3, 4, 6, 7,8].includes(statusOperation)) {
+        if ([3, 4, 6, 7, 8].includes(statusOperation)) {
           getStatusOperation(workday);
         }
       }, MILLISECOND);
