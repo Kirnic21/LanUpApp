@@ -135,6 +135,7 @@ class LoginEmail extends Component {
                     name={"email"}
                     isfocused={"#A893F2"}
                     autoCapitalize="none"
+                    testID="br.com.lanup.app:id/input-email"
                   />
 
                   <View
@@ -152,6 +153,7 @@ class LoginEmail extends Component {
                       name={"password"}
                       isfocused={"#A893F2"}
                       autoCapitalize="none"
+                      testID="br.com.lanup.app:id/input-password"
                     />
                     <Icon
                       style={styles.icon}
@@ -159,6 +161,7 @@ class LoginEmail extends Component {
                       size={dimensions(24)}
                       color="#fff"
                       onPress={() => this.changeIcon()}
+                      testID="br.com.lanup.app:id/input-password-eye-icon"
                     />
                   </View>
                 </View>
@@ -199,7 +202,12 @@ class LoginEmail extends Component {
                 this.setState({ visible: true });
               }}
             >
-              <Text style={styles.textForgot}>Esqueci minha senha</Text>
+              <Text
+                style={styles.textForgot}
+                testID="br.com.lanup.app:id/input-forgot-password"
+              >
+                Esqueci minha senha
+              </Text>
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
