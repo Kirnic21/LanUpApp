@@ -4,7 +4,7 @@ import {
   Text,
   ImageBackground,
   Dimensions,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import RoundButton from "~/shared/components/RoundButton";
@@ -25,21 +25,21 @@ const stylePage = {
   ...styles,
   icon: {
     left: "82%",
-    top: '35%',
-    position: "absolute"
-  }
+    top: "35%",
+    position: "absolute",
+  },
 };
 
 const formRules = FormValidator.make(
   {
     email: "required|email",
     password: "required|min:6",
-    confirmPassword: "required|min:6"
+    confirmPassword: "required|min:6",
   },
   {
     email: "Digite um email válido.",
     password: "A senha deve conter no mínimo 6 caracteres",
-    confirmPassword: "Confirmação da Senha é obrigatória"
+    confirmPassword: "Confirmação da Senha é obrigatória",
   }
 );
 
@@ -49,13 +49,13 @@ class RegisterStageTwo extends Component {
     this.state = {
       icon: "visibility-off",
       password: true,
-      spinner: false
+      spinner: false,
     };
 
     this.changeIcon = this.changeIcon.bind(this);
   }
 
-  goLoginPicture = form => {
+  goLoginPicture = (form) => {
     const { email, password, confirmPassword } = form;
     this.setState({ spinner: true });
     existingEmail(email)
@@ -77,9 +77,9 @@ class RegisterStageTwo extends Component {
   };
 
   changeIcon() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       icon: prevState.icon === "visibility" ? "visibility-off" : "visibility",
-      password: !prevState.password
+      password: !prevState.password,
     }));
   }
 
@@ -94,7 +94,7 @@ class RegisterStageTwo extends Component {
           <Container
             style={{
               backgroundColor: "transparent",
-              height: Dimensions.get("window").height - dimensions(30)
+              height: Dimensions.get("window").height - dimensions(30),
             }}
           >
             <View style={styles.registerContainer}>
@@ -118,11 +118,12 @@ class RegisterStageTwo extends Component {
                   component={InputField}
                   autoCapitalize="none"
                   isfocused={"#46C5F3"}
+                  testID="br.com.lanup.app:id/input-email"
                 />
                 <View
                   style={{
                     alignContent: "stretch",
-                    width: "100%"
+                    width: "100%",
                   }}
                 >
                   <Field
@@ -133,6 +134,7 @@ class RegisterStageTwo extends Component {
                     component={InputField}
                     autoCapitalize="none"
                     isfocused={"#46C5F3"}
+                    testID="br.com.lanup.app:id/input-password"
                   />
                   <Icon
                     style={stylePage.icon}
@@ -140,6 +142,7 @@ class RegisterStageTwo extends Component {
                     size={dimensions(22)}
                     color="#fff"
                     onPress={() => this.changeIcon()}
+                    testID="br.com.lanup.app:id/eye-icon"
                   />
                 </View>
                 <Field
@@ -150,6 +153,7 @@ class RegisterStageTwo extends Component {
                   autoCapitalize="none"
                   isfocused={"#46C5F3"}
                   style={[{ width: "100%", paddingLeft: "10%" }]}
+                  testID="br.com.lanup.app:id/input-confirm-password"
                 />
               </View>
 
@@ -158,7 +162,8 @@ class RegisterStageTwo extends Component {
                   disabled={invalid}
                   style={[styles.btnRegister]}
                   name="Continuar"
-                  onPress={handleSubmit(data => this.goLoginPicture(data))}
+                  onPress={handleSubmit((data) => this.goLoginPicture(data))}
+                  testID="br.com.lanup.app:id/submit-btn"
                 />
               </>
             </View>
@@ -178,5 +183,5 @@ class RegisterStageTwo extends Component {
 export default RegisterStageTwo = reduxForm({
   form: "RegisterStageTwo",
   validate: formRules,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(RegisterStageTwo);

@@ -144,6 +144,7 @@ class RegisterStageOne extends Component {
                   title="Nome Completo"
                   component={InputField}
                   isfocused={"#46C5F3"}
+                  testID="br.com.lanup.app:id/input-fullName"
                 />
                 <Field
                   name="nickname"
@@ -151,6 +152,7 @@ class RegisterStageOne extends Component {
                   title="Apelido"
                   component={InputField}
                   isfocused={"#46C5F3"}
+                  testID="br.com.lanup.app:id/input-nickname"
                 />
                 <Field
                   name="cpf"
@@ -160,6 +162,7 @@ class RegisterStageOne extends Component {
                   keyboardType="numeric"
                   isfocused={"#46C5F3"}
                   mask="cpf"
+                  testID="br.com.lanup.app:id/input-cpf"
                 />
               </View>
 
@@ -169,6 +172,7 @@ class RegisterStageOne extends Component {
                   style={[styles.btnRegister]}
                   name="Continuar"
                   onPress={handleSubmit(data => this.goRegister(data))}
+                  testID="br.com.lanup.app:id/btn-submit"
                 />
               </>
             </View>
