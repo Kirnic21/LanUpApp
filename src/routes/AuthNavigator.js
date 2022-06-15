@@ -1,14 +1,17 @@
 import * as React from "react";
 import { createStackNavigator } from "react-navigation-stack";
+import { Platform } from "react-native";
 
 import HomePage from "~/pages/Auth/index";
 import LoginEmail from "~/pages/Auth/LoginEmail";
 import RegisterStageOne from "~/pages/Auth/Register/RegisterStageOne";
 import RegisterStageTwo from "~/pages/Auth/Register/RegisterStageTwo";
 import SelectAvatar from "~/pages/Auth/SelectAvatar";
+import Terms from "~/pages/Auth/terms";
+
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
+
 import { calcWidth } from "~/assets/Dimensions";
-import { Platform } from "react-native";
 
 const AuthNavigator = createStackNavigator(
   {
@@ -20,6 +23,7 @@ const AuthNavigator = createStackNavigator(
     RegisterStageOne,
     RegisterStageTwo,
     SelectAvatar,
+    Terms,
   },
   {
     initialRouteName: "HomePage",

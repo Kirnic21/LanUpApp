@@ -11,10 +11,11 @@ import {
   operationsChecklists,
 } from "~/shared/services/operations.http";
 
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
+
 const Checkin = ({
   textBtnPulse,
   action,
-  load,
   operationId,
   freelaId,
   isHomeOffice,
@@ -28,6 +29,7 @@ const Checkin = ({
 }) => {
   const [openModalCheckin, setOpenModalCheckin] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [spinner, setSpinner] = useState(false);
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
@@ -51,7 +53,7 @@ const Checkin = ({
   };
 
   const toCheckIn = () => {
-    load(false);
+    setSpinner(true);
     operationsCheckins({
       id: operationId,
       vacancyId,
@@ -65,7 +67,7 @@ const Checkin = ({
       .catch((error) => {
         AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       })
-      .finally(() => load(false));
+      .finally(() => setSpinner(false));
   };
 
   const confirmChecklist = useCallback(() => {
@@ -80,6 +82,7 @@ const Checkin = ({
 
   return (
     <Fragment>
+      <SpinnerComponent loading={spinner} />
       <ButtonPulse
         title={`Iniciar${"\n"}Trabalho`}
         titleStyle={textBtnPulse}
