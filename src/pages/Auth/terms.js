@@ -22,11 +22,7 @@ const Terms = ({ navigation }) => {
       <Text style={[styles.title, styles.font]}>Termos de Serviços</Text>
       <Image
         source={imgTerms}
-        style={
-          Platform.OS === "ios"
-            ? { width: "30%", height: "20%" }
-            : { width: calcWidth(25), height: calcWidth(25) }
-        }
+        style={{ width: calcWidth(25), height: calcWidth(25) }}
       />
       <Text style={[styles.font, styles.subTitle]}>
         Ao se registrar, você conﬁrma que leu, compreendeu e aceita os termos de
@@ -45,7 +41,9 @@ const Terms = ({ navigation }) => {
         <TouchableOpacity
           style={styles.btnCard}
           onPress={() =>
-            Linking.openURL(`${env.REACT_LANUP_URL}termos/politicas-de-privacidade`)
+            Linking.openURL(
+              `${env.REACT_LANUP_URL}termos/politicas-de-privacidade`
+            )
           }
         >
           <Text style={[styles.textCard, styles.font]}>
