@@ -5,10 +5,12 @@ import ModalCheckList from "./ModalCheckList";
 
 import ButtonPulse from "~/shared/components/ButtonPulse";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
 import {
   operationsCheckout,
   operationsChecklists,
+  checkListStatus,
 } from "~/shared/services/operations.http";
 import { calcWidth } from "~/assets/Dimensions";
 
@@ -27,10 +29,13 @@ const Checkout = ({
   isLate,
   hirerId,
   navigation,
-  load
+  load,
+  hasCheckoutQrCode,
+  openQrCheckout,
 }) => {
   const [openModalCheckout, setOpenModalCheckout] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingButton, setButtonLoading] = useState(false);
   const [checked, setChecked] = useState(false);
 
   const _getLocationFreela = () => {
@@ -40,61 +45,66 @@ const Checkout = ({
       isHomeOffice,
       origin: 2,
       job,
-    }).then(() => toCheckOut().finally(() => setOpenModalCheckout(false)));
+    })
+      .then(() => (hasCheckoutQrCode ? openQrCheckout(true) : toCheckOut()))
+      .finally(() => {
+        setOpenModalCheckout(false);
+        setButtonLoading(false);
+      });
   };
 
-  const toCheckOut = useCallback(async () => {
+  const toCheckOut = async () => {
     setOpenModalCheckout(false);
-    load(true)
+    load(true);
     try {
-      await operationsCheckout({ id: operationId, vacancyId, job, eventId });
+      await operationsCheckout({
+        id: operationId,
+        vacancyId,
+        job,
+        eventId,
+        freelaId,
+      });
       navigation.replace("Rating", { hirerId, eventName });
     } catch (error) {
       AlertHelper.show("error", error.response.data.errorMessage);
     } finally {
-      load(false)
-      setLoading(false);
+      load(false);
+      setButtonLoading(false);
     }
-  }, [
-    statusOperation,
-    operationId,
-    freelaId,
-    job,
-    eventId,
-    vacancyId,
-    isHomeOffice,
-    navigation,
-    setOpenModalCheckout,
-  ]);
+  };
 
-  const confirmChecklist = useCallback(() => {
+  const confirmedChecklist = useCallback(() => {
+    setLoading(true);
+    checkListStatus({ id: operationId, origin: 2, freelaId })
+      .then(({ data }) => data)
+      .then(({ result }) => {
+        if (result.value) return _getLocationFreela();
+        if (!result.value) return setOpenModalCheckout(true);
+      })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      )
+      .finally(() => setLoading(false));
+  }, [operationId, freelaId, load]);
+
+  const confirmChecklist = () => {
     const proceedCheckout = () => {
       _getLocationFreela();
       setOpenModalCheckout(false);
     };
 
-    setLoading((prev) => !prev);
-    if (statusOperation === 5) {
-      operationsChecklists({ id: operationId, origin: 2, job })
-        .then(() => proceedCheckout())
-        .catch((error) =>
-          AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-        )
-        .finally(() => setLoading((prev) => !prev));
-    } else proceedCheckout();
-    setLoading((prev) => !prev);
-  }, [
-    operationId,
-    job,
-    isHomeOffice,
-    hirerId,
-    eventName,
-    setLoading,
-    statusOperation,
-  ]);
+    setButtonLoading(true);
+    operationsChecklists({ id: operationId, origin: 2, job })
+      .then(() => proceedCheckout())
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      )
+      .finally(() => setButtonLoading(false));
+  };
 
   return (
     <Fragment>
+      <SpinnerComponent loading={loading} />
       <ButtonPulse
         title={`Finalizar${"\n"}Trabalho`}
         titleStyle={[
@@ -105,11 +115,16 @@ const Checkout = ({
         size={size}
         startAnimations
         color={isLate ? "#FF0000" : "#865FC0"}
-        onPress={() => setOpenModalCheckout((prev) => !prev)}
+        onPress={
+          () => confirmedChecklist()
+          // statusOperation === 6
+          //   ? _getLocationFreela()
+          //   : setOpenModalCheckout(true)
+        }
       />
       <ModalCheckList
         visible={openModalCheckout}
-        loading={loading}
+        loading={loadingButton}
         titleCheck="Saída"
         job={job}
         checkList={checkListCheckout}
@@ -117,7 +132,7 @@ const Checkout = ({
         onPressCheck={() => setChecked((prev) => !prev)}
         checked={checked}
         eventName={eventName}
-        onClose={() => setOpenModalCheckout((prev) => !prev)}
+        onClose={() => setOpenModalCheckout(false)}
       />
     </Fragment>
   );

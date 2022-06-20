@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { SafeAreaView, ImageBackground, StatusBar, View } from "react-native";
 
-import { differenceInHours, isBefore, parseISO } from "date-fns";
+import { differenceInHours, isBefore, parseISO, isPast } from "date-fns";
 
 import ImgBackground from "~/assets/images/Grupo_518.png";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
@@ -16,7 +16,7 @@ import styles from "./styles";
 import TitleEvent from "./TitleEvent";
 import OnTheWay from "./OnTheWay/index";
 import Checkin from "./CheckinAndCheckout/Checkin";
-import CheckinQrCode from "./CheckinAndCheckout/CheckinQrCode";
+import CheckinCheckoutQrCode from "./CheckinAndCheckout/CheckinCheckoutQrCode";
 import Checkout from "./CheckinAndCheckout/Checkout";
 import Occurrence from "./Occurrence/index";
 import ModalDuties from "./ModalDuties";
@@ -47,7 +47,7 @@ const components = {
   4: Checkin,
   5: Checkout,
   6: Checkout,
-  7: Occurrence,
+  8: Occurrence,
 };
 
 const NextEvent = (props) => {
@@ -57,6 +57,7 @@ const NextEvent = (props) => {
   const [openModalDuties, setOpenModalDuties] = useState(false);
   const [isLate, setIslate] = useState(false);
   const [openModalComingSoon, setOpenModalComingSoon] = useState(false);
+  const [openQrCheckout, setOpenQrCheckout] = useState(false);
 
   const Buttons = components[statusOperation];
 
@@ -89,7 +90,10 @@ const NextEvent = (props) => {
       .then(async ({ result: { value } }) => {
         const checkoutParse = parseISO(checkout);
         const dateStatus = isBefore(new Date(), checkoutParse);
-        setStatusOperation(value > 4 && dateStatus ? 7 : value);
+        setStatusOperation(value > 4 && value < 7 && dateStatus ? 8 : value);
+        if(value === 6) {
+          setOpenQrCheckout(true)
+        }
       })
       .catch((error) =>
         AlertHelper.show("error", "Erro", error.response.data.errorMessage)
@@ -97,28 +101,32 @@ const NextEvent = (props) => {
   };
 
   useEffect(() => {
-    const SECOND = 20;
+    const SECOND = 15;
     const MILLISECOND = SECOND * 1000;
-    const interval = setInterval(() => {
-      if (statusOperation === 3 || statusOperation === 4) {
-        getStatusOperation(workday);
-      }
-    }, MILLISECOND);
-    return () => clearInterval(interval);
+    if (workday.hasCheckinQrCode || workday.hasCheckoutQrCode) {
+      const interval = setInterval(() => {
+        if ([3, 4, 6, 7, 8].includes(statusOperation)) {
+          getStatusOperation(workday);
+        }
+      }, MILLISECOND);
+      return () => clearInterval(interval);
+    }
   }, [statusOperation, workday]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       const { checkout } = workday;
       const checkoutParse = parseISO(checkout);
-      const dateStatus = isBefore(new Date(), checkoutParse);
+      const dateStatus = isPast(checkoutParse);
       if (statusOperation > 4) {
-        setStatusOperation(dateStatus ? 7 : statusOperation);
+        setStatusOperation(
+          !dateStatus && openQrCheckout === false ? 8 : statusOperation
+        );
         setIslate(differenceInHours(new Date(), parseISO(checkout)));
       }
     }, 60000);
     return () => clearInterval(interval);
-  }, [statusOperation, workday]);
+  }, [statusOperation, workday, openQrCheckout]);
 
   const Operations = () => {
     return (
@@ -132,6 +140,7 @@ const NextEvent = (props) => {
               <Buttons
                 size="normal"
                 load={(value) => setSpinner(value)}
+                openQrCheckout={(value) => setOpenQrCheckout(value)}
                 action={getStatusOperation}
                 {...props}
                 {...workday}
@@ -141,7 +150,7 @@ const NextEvent = (props) => {
               {statusOperation > 4 && (
                 <Fragment>
                   <View style={styles.buttonCenter}>
-                    {statusOperation !== 7 ? (
+                    {statusOperation !== 8 ? (
                       <Occurrence
                         {...props}
                         {...workday}
@@ -155,6 +164,7 @@ const NextEvent = (props) => {
                         {...workday}
                         {...styles}
                         load={(value) => setSpinner(value)}
+                        openQrCheckout={(value) => setOpenQrCheckout(value)}
                         size="small"
                         statusOperation={statusOperation}
                       />
@@ -214,16 +224,39 @@ const NextEvent = (props) => {
     );
   };
 
-  return (statusOperation === 3 || statusOperation === 4) && !workday.isHomeOffice ? (
-    <CheckinQrCode
-      {...props}
-      {...workday}
-      statusOperation={statusOperation}
-      action={getStatusOperation}
-    />
-  ) : (
-    <Operations />
-  );
+  const _renderComponent = () => {
+    const { isHomeOffice, hasCheckinQrCode } = workday;
+    if (
+      (statusOperation === 3 || statusOperation === 4) &&
+      !isHomeOffice &&
+      hasCheckinQrCode
+    ) {
+      return (
+        <CheckinCheckoutQrCode
+          {...props}
+          {...workday}
+          statusOperation={statusOperation}
+          action={getStatusOperation}
+        />
+      );
+    }
+
+    if (openQrCheckout) {
+      return (
+        <CheckinCheckoutQrCode
+          {...props}
+          {...workday}
+          statusOperation={statusOperation}
+          action={getStatusOperation}
+          openQrCheckout={(value) => setOpenQrCheckout(value)}
+        />
+      );
+    }
+
+    return <Operations />;
+  };
+
+  return <Fragment>{_renderComponent()}</Fragment>;
 };
 
 export default NextEvent;

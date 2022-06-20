@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import {
   StyleSheet,
   View,
@@ -7,53 +7,19 @@ import {
   Dimensions,
   Image,
   StatusBar,
-  TouchableOpacity,
-  Platform,
 } from "react-native";
 import RoundButton from "~/shared/components/RoundButton";
 import ImageBack from "../../assets/images/Grupo_518.png";
 import Logo from "../../assets/images/logoLanUp.png";
-import imgTerms from "../../assets/images/terms-and-conditions.png";
 // import FBSDK from "react-native-fbsdk";
 // import AsyncStorage from "@react-native-community/async-storage";
 // import { loginWithFacebook } from "~/shared/services/auth.http";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 
-import Modal from "react-native-modal";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import RNFS from "react-native-fs";
-import FileViewer from "react-native-file-viewer";
-import Lottie from "lottie-react-native";
-import loadingSpinner from "~/assets/loadingSpinner.json";
-
 // const { LoginManager, AccessToken } = FBSDK;
 
-const url =
-  "https://drive.google.com/uc?id=1o4FbNOzQo9ZEDUKyhSG7u9iyf3NlRAou&export=download";
-const dest = `${RNFS.DocumentDirectoryPath}/termos-e-condições-lanup.pdf`;
-
 const HomePage = ({ navigation }) => {
-  const [terms, setTerms] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [visibleModal, setVisibleModal] = useState(false);
   const { width, height } = Dimensions.get("screen");
-
-  const goRegister = useCallback(() => {
-    setVisibleModal(false);
-    navigation.navigate("RegisterStageOne");
-  }, [setVisibleModal, navigation]);
-
-  openTerms = () => {
-    setLoading(true);
-    const options = {
-      fromUrl: url,
-      toFile: dest,
-    };
-    RNFS.downloadFile(options)
-      .promise.then(() => FileViewer.open(dest))
-      .catch((error) => AlertHelper.show("error", "Erro", error))
-      .finally(() => setLoading(false));
-  };
 
   // goToLoginFacebook = () => {
   //   LoginManager.logOut();
@@ -120,7 +86,7 @@ const HomePage = ({ navigation }) => {
             width={calcWidth(73)}
             style={[styles.Btn, styles.btnRegister, { marginTop: 25 }]}
             name="Criar conta"
-            onPress={() => setVisibleModal(true)}
+            onPress={() => navigation.navigate("Terms")}
           />
           <Text
             style={{
@@ -159,93 +125,6 @@ const HomePage = ({ navigation }) => {
             </Text>
           </View> */}
       </View>
-
-      <Modal
-        animationIn="zoomIn"
-        animationOut="zoomOut"
-        animationInTiming={500}
-        animationOutTiming={500}
-        backdropOpacity={0.6}
-        deviceHeight={Dimensions.get("screen").height}
-        isVisible={visibleModal}
-      >
-        <View style={styles.content}>
-          <View style={{ position: "absolute", right: "6%", top: "5%" }}>
-            <TouchableOpacity onPress={() => setVisibleModal(false)}>
-              <Icon name={"close"} size={calcWidth(12)} color="#FFFFFF" />
-            </TouchableOpacity>
-          </View>
-          <Image
-            source={imgTerms}
-            style={
-              Platform.OS === "ios"
-                ? { width: "30%", height: "20%" }
-                : { width: calcWidth(20), height: calcWidth(20) }
-            }
-          />
-          <View style={{ alignItems: "center", marginTop: "10%" }}>
-            <Text style={styles.title}>Termos e Condições</Text>
-            <Text
-              style={[
-                styles.subTitle,
-                {
-                  fontFamily: "HelveticaNowMicro-Regular",
-                  textAlign: "center",
-                  marginTop: "5%",
-                  lineHeight: calcWidth(5),
-                },
-              ]}
-            >
-              Por favor, leia e aceite os Termos e Condições para continuar.
-            </Text>
-            <View style={styles.containerCheckbox}>
-              <TouchableOpacity onPress={() => setTerms((prev) => !prev)}>
-                <Icon
-                  name={terms ? "check-box" : "check-box-outline-blank"}
-                  size={calcWidth(8)}
-                  color="#46C5F3"
-                />
-              </TouchableOpacity>
-              <Text
-                onPress={() => setTerms((prev) => !prev)}
-                style={styles.titleCheckbox}
-              >
-                Declaro que li e concordo com os termos.
-              </Text>
-            </View>
-            <View style={{ flexDirection: "row", marginBottom: calcWidth(10) }}>
-              <RoundButton
-                width={calcWidth(35)}
-                style={[styles.Btn, styles.btnRegister]}
-                name="Ver Termos"
-                onPress={() => openTerms()}
-              />
-              <RoundButton
-                width={calcWidth(35)}
-                style={[styles.Btn, styles.btnFacebook]}
-                name="Continuar"
-                disabled={!terms}
-                onPress={() => goRegister()}
-              />
-            </View>
-            <View style={{ alignItems: "center" }}>
-              {loading && (
-                <Lottie
-                  autoSize
-                  style={{
-                    height: calcWidth(12),
-                    width: calcWidth(12),
-                  }}
-                  resizeMode="cover"
-                  source={loadingSpinner}
-                  loop
-                  autoPlay
-                />
-              )}
-            </View>
-          </View>
-        </View>
-      </Modal>
     </ImageBackground>
   );
 };

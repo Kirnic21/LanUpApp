@@ -9,10 +9,12 @@ export default RoundButton = ({
   onPress,
   width,
   textStyle,
+  testID,
 }) => (
   <View style={styles.buttonContent}>
     <TouchableOpacity
       disabled={disabled}
+      testID={testID}
       style={[
         disabled ? [...style, styles.disabled] : style,
         styles.roundButton,

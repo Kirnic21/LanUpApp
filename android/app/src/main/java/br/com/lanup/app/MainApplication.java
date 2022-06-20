@@ -17,6 +17,8 @@ import android.location.Location;
 import br.com.lanup.app.backgroundservice.ForegroundPackage;
 import br.com.lanup.app.service.LocationService;
 
+import br.com.lanup.app.InAppUpdatePackage;
+
 import android.os.Bundle;
 import android.content.Intent;
 import com.facebook.react.HeadlessJsTaskService;

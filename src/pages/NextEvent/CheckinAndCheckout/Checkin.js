@@ -11,10 +11,11 @@ import {
   operationsChecklists,
 } from "~/shared/services/operations.http";
 
+import SpinnerComponent from "~/shared/components/SpinnerComponent";
+
 const Checkin = ({
   textBtnPulse,
   action,
-  load,
   operationId,
   freelaId,
   isHomeOffice,
@@ -28,11 +29,12 @@ const Checkin = ({
 }) => {
   const [openModalCheckin, setOpenModalCheckin] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [spinner, setSpinner] = useState(false);
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     if (statusOperation === 4) {
-      setOpenModalCheckin((prev) => !prev);
+      setOpenModalCheckin(true);
     }
   }, [statusOperation]);
 
@@ -50,26 +52,23 @@ const Checkin = ({
     }
   };
 
-  const toCheckIn = useCallback(async () => {
-    load(true);
-    try {
-      await operationsCheckins({ id: operationId, vacancyId, job, eventId, freelaId });
-      setOpenModalCheckin((prev) => !prev);
-    } catch (error) {
-      AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-    } finally {
-      load(false);
-    }
-  }, [
-    statusOperation,
-    vacancyId,
-    job,
-    eventId,
-    freelaId,
-    operationId,
-    isHomeOffice,
-    openModalCheckin,
-  ]);
+  const toCheckIn = () => {
+    setSpinner(true);
+    operationsCheckins({
+      id: operationId,
+      vacancyId,
+      job,
+      eventId,
+      freelaId,
+    })
+      .then(() => {
+        setOpenModalCheckin(true);
+      })
+      .catch((error) => {
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+      })
+      .finally(() => setSpinner(false));
+  };
 
   const confirmChecklist = useCallback(() => {
     setLoading((prev) => !prev);
@@ -83,6 +82,7 @@ const Checkin = ({
 
   return (
     <Fragment>
+      <SpinnerComponent loading={spinner} />
       <ButtonPulse
         title={`Iniciar${"\n"}Trabalho`}
         titleStyle={textBtnPulse}
@@ -101,7 +101,7 @@ const Checkin = ({
         onPressCheck={() => setChecked((prev) => !prev)}
         checked={checked}
         eventName={eventName}
-        onClose={() => setOpenModalCheckin((prev) => !prev)}
+        onClose={() => setOpenModalCheckin(false)}
       />
     </Fragment>
   );
