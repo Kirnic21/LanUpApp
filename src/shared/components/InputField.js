@@ -19,6 +19,7 @@ export default InputField = ({
   maxLength,
   isfocused,
   meta: { touched, error },
+  testID,
 }) => {
   const [isInputFocused, setInputFocused] = useState({
     input1: false,
@@ -50,7 +51,7 @@ export default InputField = ({
             {
               width: "100%",
               borderRadius: 50,
-              height:50,
+              height: 50,
               fontSize: adjust(10),
               color: editableColor,
               fontFamily: "HelveticaNowMicro-Regular",
@@ -62,6 +63,7 @@ export default InputField = ({
               : { borderColor: editableColor },
             touched && error && { borderColor: "#F13567" },
           ]}
+          testID={testID}
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           autoFocus={autoFocus}
@@ -80,7 +82,11 @@ export default InputField = ({
           onBlur={() => setInputFocused((prev) => ({ ...prev, input1: false }))}
           maxLength={maxLength}
         />
-        {touched && error && <Text style={{ color: "#F13567", fontSize: adjust(10) }}>{error}</Text>}
+        {touched && error && (
+          <Text style={{ color: "#F13567", fontSize: adjust(10) }}>
+            {error}
+          </Text>
+        )}
       </View>
     </View>
   );
