@@ -91,7 +91,7 @@ const NextEvent = (props) => {
         const checkoutParse = parseISO(checkout);
         const dateStatus = isBefore(new Date(), checkoutParse);
         setStatusOperation(value > 4 && value < 7 && dateStatus ? 8 : value);
-        if(value === 6) {
+        if(value === 6 && !isHomeOffice) {
           setOpenQrCheckout(true)
         }
       })
