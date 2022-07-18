@@ -1,42 +1,45 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
+import { calcWidth, adjust } from "~/assets/Dimensions/index";
 
 export default RoundButton = ({
   name,
   style,
   disabled,
   onPress,
-  width,
+  width = calcWidth(40),
   textStyle,
   testID,
-}) => (
-  <View style={styles.buttonContent}>
-    <TouchableOpacity
-      disabled={disabled}
-      testID={testID}
-      style={[
-        disabled ? [...style, styles.disabled] : style,
-        styles.roundButton,
-        { width: width || calcWidth(40) },
-      ]}
-      onPress={onPress}
-    >
-      <Text
-        style={[
-          {
-            color: "#FFF",
-            fontSize: adjust(10),
-            fontFamily: "HelveticaNowMicro-Regular",
-          },
-          textStyle,
-        ]}
+}) => {
+  return (
+    <View style={styles.buttonContent}>
+      <TouchableOpacity
+        disabled={disabled}
+        testID={testID}
+        style={StyleSheet.flatten([
+          styles.roundButton,
+          style && style,
+          disabled && styles.disabled,
+          { width: width },
+        ])}
+        onPress={onPress}
       >
-        {name}
-      </Text>
-    </TouchableOpacity>
-  </View>
-);
+        <Text
+          style={[
+            {
+              color: "#FFF",
+              fontSize: adjust(11),
+              fontFamily: "HelveticaNowMicro-Medium",
+            },
+            textStyle,
+          ]}
+        >
+          {name}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   buttonContent: {
@@ -52,5 +55,6 @@ const styles = StyleSheet.create({
   },
   disabled: {
     backgroundColor: "#6C757D",
+    borderWidth: 0,
   },
 });

@@ -67,9 +67,15 @@ const getAgencies = (id) => HTTP.get(`freelas/${id}/agencies`);
 const galleryDelete = (id, queryParams) =>
   HTTP.delete(`freelas/${id}/galery?${queryParams}`);
 
-const getBank = (term) => HTTP.get('banks', {
-  params:{term}
-})
+const getBank = (term) =>
+  HTTP.get("banks", {
+    params: { term },
+  });
+
+const checkPendingPayment = () =>
+  tokenDecode().then(({ id }) =>
+    HTTP.get(`freelas/${id}/pending/payment`).then(({ data }) => data.result)
+  );
 
 export {
   create,
@@ -94,5 +100,6 @@ export {
   workdays,
   updateAgencies,
   getAgencies,
-  getBank
+  getBank,
+  checkPendingPayment,
 };

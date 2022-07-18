@@ -33,6 +33,7 @@ import {
 import { decodeToken } from "~/shared/services/decode";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import OneSignal from "react-native-onesignal";
+import Menu from "~/shared/components/Menu";
 
 class UserProfile extends Component {
   state = {
@@ -42,7 +43,7 @@ class UserProfile extends Component {
     data: [
       {
         title: "Sobre mim",
-        subtitle: "Adicione a foto de perfil e suas informações pessoais.",
+        subtitle: "Foto de perfil e informações pessoais.",
         onPress: () => this.navigateToScreen("AboutMe"),
       },
       {
@@ -74,6 +75,11 @@ class UserProfile extends Component {
         title: "Trabalhos realizados",
         subtitle: "Lista com os trabalhos concluídos.",
         onPress: () => this.navigateToScreen("WorkDone"),
+      },
+      {
+        title: "Configurações da conta",
+        subtitle: "Alterar senha, deletar minha conta",
+        onPress: () => this.navigateToScreen("AccountSettings"),
       },
     ],
   };
@@ -247,34 +253,7 @@ class UserProfile extends Component {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={[styles.backColorSteelGray, styles.content]}>
-            {data.map((x, i) => (
-              <TouchableOpacity
-                onPress={x.onPress}
-                key={i}
-                style={[
-                  styles.buttonItens,
-                  { borderBottomWidth: i === data.length - 1 ? 0 : 2 },
-                ]}
-              >
-                <View style={{ width: "90%" }}>
-                  <Text style={styles.titleContent}>{x.title}</Text>
-                  <Text style={[styles.subtitleContent]}>{x.subtitle}</Text>
-                </View>
-                <Icon color={"#FFF"} name={"angle-right"} size={adjust(25)} />
-              </TouchableOpacity>
-            ))}
-          </View>
-          <TouchableOpacity
-            onPress={() => this.navigateToScreen("ChangePassword")}
-            style={[
-              styles.content,
-              styles.backColorSteelGray,
-              { marginTop: calcWidth(0) },
-            ]}
-          >
-            <Text style={styles.titleContent}>Alterar Senha</Text>
-          </TouchableOpacity>
+          <Menu data={data} />
           <TouchableOpacity
             onPress={() => this.PageLogin()}
             style={[
@@ -324,12 +303,6 @@ const styles = StyleSheet.create({
     margin: calcWidth(5),
     padding: calcWidth(6),
     borderRadius: calcWidth(4),
-  },
-  buttonItens: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderColor: "#18142F",
-    paddingVertical: calcWidth(3.5),
   },
   submitText: {
     marginTop: calcWidth(5),

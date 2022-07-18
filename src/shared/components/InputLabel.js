@@ -26,6 +26,7 @@ export default InputLabel = ({
   placeholderTextColor,
   isfocused,
   onContentSizeChange,
+  textStyle,
   inputFocused = () => {},
 }) => {
   const [isInputFocused, setInputFocused] = useState({
@@ -34,7 +35,9 @@ export default InputLabel = ({
   return (
     <View style={{ width: "100%" }}>
       <View>
-        <Text style={{ color: "white", fontSize: adjust(10), top: "-10%" }}>
+        <Text
+          style={StyleSheet.flatten([styles.title, textStyle && textStyle])}
+        >
           {title}
         </Text>
       </View>
@@ -70,12 +73,12 @@ export default InputLabel = ({
           editable={editable}
           onChangeText={onChangeText}
           onFocus={() => {
-            setInputFocused((prev) => ({ ...prev, input1: true }))
-            inputFocused(true)
+            setInputFocused((prev) => ({ ...prev, input1: true }));
+            inputFocused(true);
           }}
           onBlur={() => {
-            setInputFocused((prev) => ({ ...prev, input1: false }))
-            inputFocused(false)
+            setInputFocused((prev) => ({ ...prev, input1: false }));
+            inputFocused(false);
           }}
           onSubmitEditing={onSubmitEditing}
           placeholder={placeholder}
@@ -91,5 +94,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     paddingLeft: "7%",
     paddingTop: "4%",
+  },
+  title: {
+    fontSize: adjust(10),
+    color: "white",
+    top: "-10%",
+    fontFamily: "HelveticaNowMicro-Regular",
   },
 });

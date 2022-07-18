@@ -8,6 +8,8 @@ import RegisterStageOne from "~/pages/Auth/Register/RegisterStageOne";
 import RegisterStageTwo from "~/pages/Auth/Register/RegisterStageTwo";
 import SelectAvatar from "~/pages/Auth/SelectAvatar";
 import Terms from "~/pages/Auth/terms";
+import FeedBackExclusion from "~/pages/UserProfile/AccountSettings/DeleteAccount/feedBackExclusion";
+
 
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
 
@@ -24,6 +26,15 @@ const AuthNavigator = createStackNavigator(
     RegisterStageTwo,
     SelectAvatar,
     Terms,
+    FeedBackExclusion: {
+      screen: FeedBackExclusion,
+      navigationOptions: () => ({
+        headerTitle: () => null,
+        headerTransparent: true,
+        headerLeft: () => null,
+        gestureEnabled: false,
+      }),
+    },
   },
   {
     initialRouteName: "HomePage",

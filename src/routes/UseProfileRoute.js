@@ -15,12 +15,16 @@ import ChangePassword from "~/pages/UserProfile/ChangePassword";
 import Availability from "~/pages/UserProfile/Availability/Availability";
 import AvailabilityDays from "~/pages/UserProfile/Availability/AvailabilityDays";
 import SpecialHours from "~/pages/UserProfile/Availability/SpecialHours";
+import WorkDone from "~/pages/UserProfile/WorkDone";
+
+import AccountSettings from "~/pages/UserProfile/AccountSettings";
+import DeleteAccount from "~/pages/UserProfile/AccountSettings/DeleteAccount";
+import ReasonExclusion from "~/pages/UserProfile/AccountSettings/DeleteAccount/reasonExclusion";
 
 import { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 import CertificateModal from "~/pages/UserProfile/Certificate/CertificateModal";
-import WorkDone from "~/pages/UserProfile/WorkDone";
 
 const pageNavigator = createStackNavigator(
   {
@@ -112,12 +116,37 @@ const pageNavigator = createStackNavigator(
       navigationOptions: () => ({ headerTitle: "Trabalhos Realizados" }),
     },
 
+    AccountSettings: {
+      screen: AccountSettings,
+      navigationOptions: () => ({
+        headerTitle: "Configurações da conta",
+        gestureEnabled: true,
+      }),
+    },
+
+    DeleteAccountStep1: {
+      screen: DeleteAccount,
+      navigationOptions: () => ({ headerTitle: "Excluir Conta" }),
+    },
+
+    DeleteAccountStep2: {
+      screen: DeleteAccount,
+      navigationOptions: () => ({ headerTitle: "Excluir Conta" }),
+    },
+
+    ReasonExclusion: {
+      screen: ReasonExclusion,
+      navigationOptions: () => ({ headerTitle: "Motivo da exclusão" }),
+    },
+
     ChangePassword: {
       screen: ChangePassword,
       navigationOptions: () => ({
-        headerTitle: null,
+        headerTitle: () => null,
         headerTransparent: true,
-        headerStyle: { height: Platform.OS === "ios" ? calcWidth(25) : calcWidth(20)},
+        headerStyle: {
+          height: Platform.OS === "ios" ? calcWidth(25) : calcWidth(20),
+        },
       }),
     },
   },
@@ -132,7 +161,7 @@ const pageNavigator = createStackNavigator(
       headerTitleStyle: {
         color: "#FFFF",
         fontFamily: "HelveticaNowMicro-Regular",
-        fontSize: adjust(15),
+        fontSize: adjust(14),
       },
       headerLeft: () => (
         <ButtonNavigation type="stack" navigation={navigation} />
