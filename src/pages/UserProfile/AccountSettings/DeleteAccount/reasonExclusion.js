@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View } from "react-native";
 import { styles } from "./styles";
 import { CheckBox } from "react-native-elements";
 import Card from "~/shared/components/Card";
@@ -8,18 +8,20 @@ import InputLabel from "~/shared/components/InputLabel";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const ReasonExclusion = ({ navigation }) => {
+  const [reason, setReasons] = useState(null);
+  const [otherReasons, setOtherReasons] = useState("");
+
   const reasons = [
-    { title: "Não encontrei vagas para minha região" },
-    { title: "O app não funciona direito" },
-    { title: "Problemas com minha conta" },
-    { title: "Não estou satisfeito com a minha experiência no app" },
-    { title: "Outros motivos" },
+    { title: "Não encontrei vagas para minha região", value: 0 },
+    { title: "O app não funciona direito", value: 1 },
+    { title: "Problemas com minha conta", value: 2 },
+    { title: "Não estou satisfeito com a minha experiência no app", value: 3 },
+    { title: "Outros motivos", value: 4 },
   ];
+
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView
-        showsVerticalScrollIndicator={false}
-      >
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <Card title="A LanUp se preocupa em tornar a nossa plataforma cada dia melhor. Conta para gente o motivo da sua exclusão.">
           <View>
             {reasons.map((x, i) => (
@@ -37,17 +39,15 @@ const ReasonExclusion = ({ navigation }) => {
                 checkedColor="#46C5F3"
                 uncheckedColor="#FFFFFF"
                 size={calcWidth(8)}
-                checked={false}
+                checked={reason === x.value}
                 containerStyle={{
                   backgroundColor: "transparent",
                   borderWidth: 0,
                   marginVertical: calcWidth(5),
                   marginLeft: 0,
                   padding: 0,
-
-                  // width: "95%",
                 }}
-                // onPress={onPressCheck}
+                onPress={() => setReasons(x.value)}
               />
             ))}
           </View>
@@ -56,14 +56,14 @@ const ReasonExclusion = ({ navigation }) => {
               textStyle={styles.title}
               title={"Se quiser, nos conte o que aconteceu"}
               isfocused="#46C5F3"
-              // onChangeText={onChangeText}
+              onChangeText={(value) => setOtherReasons(value)}
               style={{
                 height: calcWidth(25),
                 textAlignVertical: "top",
                 paddingVertical: calcWidth(5),
                 borderRadius: 10,
               }}
-              // value={valueInput}
+              value={otherReasons}
               multiline={true}
             />
           </View>
@@ -76,8 +76,13 @@ const ReasonExclusion = ({ navigation }) => {
             name="Cancelar"
           />
           <RoundButton
+            disabled={reason === null}
             onPress={() =>
-              navigation.navigate("DeleteAccountStep2", { step: 2 })
+              navigation.navigate("DeleteAccountStep2", {
+                step: 2,
+                reason,
+                otherReasons,
+              })
             }
             width="100%"
             style={styles.buttonNext}

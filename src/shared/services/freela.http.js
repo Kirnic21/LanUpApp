@@ -77,6 +77,13 @@ const checkPendingPayment = () =>
     HTTP.get(`freelas/${id}/pending/payment`).then(({ data }) => data.result)
   );
 
+const deleteAccount = (data) =>
+  tokenDecode().then(({ id }) =>
+    HTTP.put(`freelas/${id}/anonymizeAccount`, data).then(
+      ({ data }) => data.result
+    )
+  );
+
 export {
   create,
   updateSkills,
@@ -102,4 +109,5 @@ export {
   getAgencies,
   getBank,
   checkPendingPayment,
+  deleteAccount,
 };

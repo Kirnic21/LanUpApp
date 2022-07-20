@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import SadFace from "~/assets/images/sad_face.png";
 import Logo from "~/assets/images/logoLanUp.png";
 import { adjust, calcWidth } from "~/assets/Dimensions";
 
-const FeedBackExclusion = () => {
+const FeedBackExclusion = ({ navigation }) => {
+  useEffect(() => {
+    const SECOND = 5;
+    const MILLISECOND = SECOND * 1000;
+
+    const timeout = setTimeout(() => {
+      navigation.navigate("HomePage");
+    }, MILLISECOND);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <View style={styles.container}>
       <View
@@ -59,7 +70,7 @@ const styles = StyleSheet.create({
     fontSize: adjust(13),
     textAlign: "center",
     fontFamily: "HelveticaNowMicro-Regular",
-    lineHeight: calcWidth(6)
+    lineHeight: calcWidth(6),
   },
 });
 
