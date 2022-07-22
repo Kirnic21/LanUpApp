@@ -60,6 +60,7 @@ class drawerContentComponents extends Component {
               onPress={() => {
                 this.props.navigation.dispatch(DrawerActions.closeDrawer());
               }}
+              testID="br.com.lanup.app:id/menu-icon"
             >
               <Image
                 style={{ height: dimensions(30), width: dimensions(35) }}
@@ -89,6 +90,7 @@ class drawerContentComponents extends Component {
                 borderBottomWidth: 2,
                 marginBottom: "18%",
               }}
+              testID="br.com.lanup.app:id/perfil"
             >
               <Image
                 source={{ uri: image }}
@@ -107,6 +109,7 @@ class drawerContentComponents extends Component {
             <TouchableOpacity
               onPress={this.navigateToScreen("NextEvent")}
               style={styles.containerIcons}
+              testID="br.com.lanup.app:id/estou-a-caminho"
             >
               <Image source={iconNextEvent} style={styles.sizeIcons} />
               <Text
@@ -117,12 +120,16 @@ class drawerContentComponents extends Component {
             <TouchableOpacity
               onPress={this.navigateToScreen("ToExplore")}
               style={[styles.containerIcons, { height: "22%" }]}
+              testID="br.com.lanup.app:id/vagas"
             >
               <Image source={iconExplore} style={styles.sizeIcons} />
               <Text style={styles.screenTextStyle}>Vagas</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={this.navigateToScreen("Schedule")}>
+            <TouchableOpacity
+              onPress={this.navigateToScreen("Schedule")}
+              testID="br.com.lanup.app:id/escalas"
+            >
               <Image source={iconSchedule} style={styles.sizeIcons} />
               <Text style={[styles.screenTextStyle, { borderBottomWidth: 0 }]}>
                 Escalas
