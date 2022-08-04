@@ -156,8 +156,8 @@ android {
         applicationId "br.com.lanup.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 35
-        versionName "2.3.0"
+        versionCode 36
+        versionName "2.4.0"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         missingDimensionStrategy 'react-native-camera', 'general'

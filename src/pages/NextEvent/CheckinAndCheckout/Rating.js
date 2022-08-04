@@ -9,6 +9,7 @@ import ButtonComponent from "~/shared/components/ButtonCompoent";
 import InputField from "~/shared/components/InputField";
 import { ratings } from "~/shared/services/hirer.http";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
+import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 class Rating extends React.Component {
   state = {
@@ -44,7 +45,7 @@ class Rating extends React.Component {
         this.props.navigation.navigate("UserProfile");
       })
       .catch((error) => {
-        this.props.navigation.navigate("UserProfile");
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       })
       .finally(() => {
         this.setState({ spinner: false });
@@ -53,13 +54,8 @@ class Rating extends React.Component {
   };
 
   render() {
-    const {
-      food,
-      managment,
-      structure,
-      hasRecommendation,
-      spinner,
-    } = this.state;
+    const { food, managment, structure, hasRecommendation, spinner } =
+      this.state;
     const { handleSubmit } = this.props;
     const { eventName } = this.props.navigation.state.params;
     return (
