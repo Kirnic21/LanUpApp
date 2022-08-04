@@ -19,6 +19,7 @@ export default ModalSearch = ({
   label,
   style,
   input: { value, onChange, ...input },
+  meta: { touched, error },
 }) => {
   const [visible, setVisible] = useState(false);
   return (
@@ -35,14 +36,43 @@ export default ModalSearch = ({
       </Text>
       <TouchableOpacity
         onPress={() => setVisible(true)}
-        style={[styles.inputStyles, style]}
+        style={[
+          styles.inputStyles,
+          style,
+          touched && error && { borderColor: "#F13567" },
+        ]}
       >
         {onlyId ? (
-          <Text style={styles.textInput}>{value?.id || placeHolder}</Text>
+          <Text
+            style={[
+              styles.textInput,
+              !value?.id && { color: "rgba(255, 255, 255, 0.6)" },
+            ]}
+          >
+            {value?.id || placeHolder}
+          </Text>
         ) : (
-          <Text style={styles.textInput}>{value?.name || placeHolder}</Text>
+          <Text
+            style={[
+              styles.textInput,
+              !value?.name && { color: "rgba(255, 255, 255, 0.6)" },
+            ]}
+          >
+            {value?.name || placeHolder}
+          </Text>
         )}
       </TouchableOpacity>
+      {touched && error && (
+        <Text
+          style={{
+            color: "#F13567",
+            fontSize: adjust(9),
+            fontFamily: "HelveticaNowMicro-Regular",
+          }}
+        >
+          {error}
+        </Text>
+      )}
       <ModalComponent
         heightModal={Platform.OS === "ios" ? calcHeight(85) : "auto"}
         visible={visible}

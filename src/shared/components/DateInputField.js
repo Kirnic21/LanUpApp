@@ -26,7 +26,7 @@ export default class DateInputField extends Component {
   };
   render() {
     const { date } = this.state;
-    const { style, mode, input, meta, ...inputProps } = this.props;
+    const { placeholder, style, mode, input, meta, ...inputProps } = this.props;
     return (
       <TouchableOpacity
         style={style}
@@ -68,11 +68,28 @@ export default class DateInputField extends Component {
             </View>
           </View>
         </ModalComponent>
-        <Text style={[styles.input]}>
+        <Text
+          style={[
+            styles.input,
+            !input.value && { color: "rgba(255, 255, 255, 0.6)" },
+            meta.touched && meta.error && { borderColor: "#F13567" },
+          ]}
+        >
           {input.value !== ""
             ? this.getFormatByMode(input.value, inputProps.mode)
-            : ""}
+            : placeholder}
         </Text>
+        {meta.touched && meta.error && (
+          <Text
+            style={{
+              color: "#F13567",
+              fontSize: adjust(9),
+              fontFamily: "HelveticaNowMicro-Regular",
+            }}
+          >
+            {meta.error}
+          </Text>
+        )}
       </TouchableOpacity>
     );
   }

@@ -17,9 +17,18 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
 import { debounce } from "lodash";
 
+const _pixType = {
+  CPF: { label: "CPF", mask: "cpf" },
+  CNPJ: { label: "CNPJ", mask: "cnpj" },
+  TELEFONE: { label: "Telefone", mask: "phone" },
+  EMAIL: { label: "Email", mask: "withoutMask" },
+  CHAVE_ALEATORIA: { label: "Chave aleatória", mask: "withoutMask" },
+};
+
 const BankInformation = () => {
   const [infoModal, setInfoModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pixType, setPixType] = useState(null);
 
   reduxForm({ form: "BankInformation" });
 
@@ -70,6 +79,7 @@ const BankInformation = () => {
             load={loading}
             style={{ width: "47%" }}
             EmptyText="Nenhum banco encontrado"
+            placeHolder="000"
           />
 
           <View style={{ position: "absolute", width: "100%", left: "53%" }}>
@@ -78,8 +88,9 @@ const BankInformation = () => {
               title="Agência:"
               component={InputField}
               name={"bankBranch"}
+              placeholder="0000"
               keyboardType="numeric"
-              maxLength={4}
+              maxLength={5}
               isfocused={"#A893F2"}
             />
           </View>
@@ -92,6 +103,7 @@ const BankInformation = () => {
           isfocused={"#A893F2"}
           keyboardType="numeric"
           maxLength={20}
+          placeholder="000000"
         />
         <Field
           mask={"cpfCnpj"}
@@ -108,7 +120,42 @@ const BankInformation = () => {
           component={InputField}
           name={"owner"}
           isfocused={"#A893F2"}
+          placeholder="Nome do titular"
         />
+      </View>
+      <View style={[styles.containerInformationBank, { marginBottom: "10%" }]}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={styles.TitleInformation}>Chave pix</Text>
+        </View>
+        <Field
+          style={{ width: "100%" }}
+          title="Tipo de chave"
+          component={DropDown}
+          getValue={(value) => setPixType(value)}
+          name={"pixType"}
+          items={[
+            { label: "CPF", value: "CPF" },
+            { label: "CNPJ", value: "CNPJ" },
+            { label: "Telefone", value: "TELEFONE" },
+            { label: "Email", value: "EMAIL" },
+            { label: "Chave aleatória", value: "CHAVE_ALEATORIA" },
+          ]}
+        />
+        {!!pixType && (
+          <Field
+            style={{ width: "100%" }}
+            title={`${_pixType[pixType]?.label}`}
+            component={InputMask}
+            name={"pixKey"}
+            isfocused={"#A893F2"}
+            keyboardType={
+              pixType === "EMAIL" || pixType === "CHAVE_ALEATORIA"
+                ? "default"
+                : "numeric"
+            }
+            mask={`${_pixType[pixType || "withoutMask"]?.mask}`}
+          />
+        )}
       </View>
       <Modal
         visible={infoModal}

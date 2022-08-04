@@ -76,14 +76,22 @@ export default InputField = ({
           autoCapitalize={autoCapitalize}
           autoCompleteType={autoCompleteType}
           placeholder={placeholder}
-          placeholderTextColor={placeholderTextColor}
+          placeholderTextColor={
+            placeholderTextColor || "rgba(255, 255, 255, 0.6)"
+          }
           editable={editable}
           onFocus={() => setInputFocused((prev) => ({ ...prev, input1: true }))}
           onBlur={() => setInputFocused((prev) => ({ ...prev, input1: false }))}
           maxLength={maxLength}
         />
         {touched && error && (
-          <Text style={{ color: "#F13567", fontSize: adjust(10) }}>
+          <Text
+            style={{
+              color: "#F13567",
+              fontSize: adjust(9),
+              fontFamily: "HelveticaNowMicro-Regular",
+            }}
+          >
             {error}
           </Text>
         )}

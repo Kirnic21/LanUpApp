@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, ScrollView, Text } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 
 import ImageBody from "~/assets/images/icon_addbody.png";
 import ImageSelf from "~/assets/images/icon_addselfie.png";
 import AddIcon from "~/assets/images/icon_add.png";
 import ImageSelector from "~/shared/components/ImageSelector";
-import dimensions from "~/assets/Dimensions/index";
+import dimensions, { adjust } from "~/assets/Dimensions/index";
 import styles from "./styles";
 import ProfileInformation from "./ProfileInformation";
 import AdditionalInformation from "./AdditionalInformation";
@@ -25,6 +25,8 @@ import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { convertInputToNumber, nullToNumber, removeMask } from "./utils";
+import { validatePixKey } from "~/shared/helpers/validate/validate";
 
 class AboutMe extends Component {
   state = {
@@ -75,7 +77,11 @@ class AboutMe extends Component {
     });
     const { handleSubmit } = this.props;
     await this.props.navigation.setParams({
-      handleSave: handleSubmit((data) => this.UpdateAboutMe(data)),
+      handleSave: handleSubmit((data) =>
+        this.UpdateAboutMe(data).catch(() =>
+          AlertHelper.show("error", "Erro", "Erro ao atualizar os dados.")
+        )
+      ),
     });
   }
 
@@ -97,83 +103,30 @@ class AboutMe extends Component {
   };
 
   UpdateAboutMe = async (form) => {
-    const {
-      fullName,
-      nickName,
-      description,
-      height,
-      weight,
-      clothingsSizes,
-      professionalClothing,
-      ownTransport,
-      healthProblem,
-      smoke,
-      phone,
-      birthday,
-      gender,
-      bankBranch,
-      bankAccount,
-      cpfCnpj,
-      owner,
-      address,
-      bankCode,
-      bankAccountType,
-    } = form;
-    const h = height === "" ? 0 : Number(height.replace(",", ""));
-    const w = weight === "" ? 0 : Number(weight);
-    const { avatarUrl, photos } = this.state;
-    const replaceValidate =
-      cpfCnpj !== null ? cpfCnpj.replace(/[\(\)\.\s-]+/g, "") : "";
-    const request = {
-      avatar: avatarUrl,
-      fullName,
-      nickName,
-      description,
-      height: h,
-      weight: w,
-      clothingsSizes,
-      professionalClothing,
-      ownTransport,
-      healthProblem,
-      smoke,
-      bankCode: bankCode.id,
-      bankBranch,
-      bankAccount,
-      bankAccountType,
-      cnpj:
-        replaceValidate !== null && replaceValidate.length === 14
-          ? replaceValidate
-          : null,
-      cpf:
-        replaceValidate !== null && replaceValidate.length === 11
-          ? replaceValidate
-          : null,
-      owner,
-      address: address.name,
-      lat: address.latitude,
-      long: address.longitude,
+    const { avatarUrl: avatar, photos } = this.state;
+    const { name: address, latitude, longitude } = form.address;
+    const pixKey = form.pixType ? form.pixKey : null;
+
+    const { image, availability, ...request } = {
+      ...form,
+      avatar,
       photos,
-      phone,
-      birthday,
-      gender: gender === null ? 0 : gender,
+      height: convertInputToNumber(form.height),
+      weight: convertInputToNumber(form.weight),
+      cpf: removeMask(form.cpfCnpj).length === 11 ? form.cpfCnpj : null,
+      cnpj: removeMask(form.cpfCnpj).length === 14 ? form.cpfCnpj : null,
+      bankCode: form.bankCode.id,
+      address,
+      lat: nullToNumber(latitude),
+      long: nullToNumber(longitude),
+      gender: nullToNumber(form.gender),
+      pixKey:
+        form.pixType === "CHAVE_ALEATORIA" || form.pixType === "EMAIl"
+          ? pixKey
+          : removeMask(pixKey),
     };
-    const validateCpfCnpj =
-      replaceValidate.length > 11
-        ? validateCNPJ(replaceValidate)
-        : validateCPF(replaceValidate);
 
-    const validate =
-      replaceValidate !== null && replaceValidate !== ""
-        ? validateCpfCnpj
-        : null;
-
-    validate === false && validate !== null
-      ? AlertHelper.show("error", "Erro", "Cpf/Cnpj inválido.")
-      : address.latitude === null
-      ? AlertHelper.show("error", "Erro", "Informe a região de atuação.")
-      : birthday === null
-      ? AlertHelper.show("error", "Erro", "Informe sua data de nascimento.")
-      : this.saveAboutMe(request);
+    this.saveAboutMe(request);
   };
 
   handleOnPictureAdd = () => {
@@ -238,6 +191,14 @@ class AboutMe extends Component {
               Coloque a foto que te representa{"\n"} como profissional
             </Text>
           </View>
+          <Text
+            style={[
+              styles.TitleInformation,
+              { fontSize: adjust(10), paddingBottom: "1%" },
+            ]}
+          >
+            (*) Campos obrigatórios
+          </Text>
           <ProfileInformation />
           <OccupationArea />
           <PresentationPictures
@@ -297,6 +258,61 @@ const mapActionToProps = (dispatch) =>
   bindActionCreators({ updateAbout }, dispatch);
 
 AboutMe = connect(mapStateToProps, mapActionToProps)(AboutMe);
-AboutMe = reduxForm({ form: "AboutMe" })(AboutMe);
+AboutMe = reduxForm({
+  form: "AboutMe",
+  onSubmitFail: (v) => {
+    AlertHelper.show("error", "Erro", "Campos inválidos ou não preenchidos.");
+  },
+
+  validate: (values) => {
+    const bankNumberIsValid = (bankNumber) => {
+      return /^([0-9A-Za-x]{3,5})$/.test(bankNumber);
+    };
+
+    const agencyNumberIsValid = (agencyNumber) => {
+      return /^[0-9]{1,5}$/.test(agencyNumber) && parseInt(agencyNumber) > 0;
+    };
+
+    const accountNumberIsValid = (accountNumber) => {
+      return /^[0-9]{1,12}$/.test(accountNumber) && parseInt(accountNumber) > 0;
+    };
+
+    const errors = {};
+    values = values;
+
+    !values?.address?.latitude && (errors.address = "Enderenço é obrigatório.");
+    !values?.fullName && (errors.fullName = "Nome é obrigatório.");
+    !values?.birthday &&
+      (errors.birthday = "Data de nascimento é obrigatório.");
+
+    if (
+      values.bankAccountType ||
+      values.bankCode?.id ||
+      values.bankBranch ||
+      values.bankAccount ||
+      values.cpfCnpj ||
+      values.owner
+    ) {
+      !values.owner && (errors.owner = "Nome do titular é obrigatório.");
+      !values.bankAccountType &&
+        (errors.bankAccountType = "tipo da conta é obrigatório.");
+      !bankNumberIsValid(values.bankCode) &&
+        (errors.bankCode = "Número do banco incorreto.");
+      !agencyNumberIsValid(values.bankBranch) &&
+        (errors.bankBranch = "Número da agência incorreto.");
+      !accountNumberIsValid(values.bankAccount) &&
+        (errors.bankAccount = "Número da conta incorreto.");
+      !(validateCPF(values.cpfCnpj) || validateCNPJ(values.cpfCnpj)) &&
+        (errors.cpfCnpj = "CPF ou CNPJ inválido");
+    }
+
+    if (values.pixType) {
+      !validatePixKey(values.pixKey, (type = values.pixType || "default")) &&
+        (errors.pixKey = "Chave inválida");
+    }
+
+    return errors;
+  },
+})(AboutMe);
 
 export default AboutMe;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -17,6 +17,7 @@ const DropDown = ({
   title,
   containerStyle,
   heightModal,
+  getValue = () => {},
   items = [],
   input: { value, onChange },
 }) => {
@@ -30,6 +31,10 @@ const DropDown = ({
       }}
     />
   );
+
+  useEffect(() => {
+    getValue(value);
+  }, [value]);
 
   const getLabel = () => {
     const { label } = items.filter((x) => x.value === value)[0];

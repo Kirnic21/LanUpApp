@@ -1,4 +1,8 @@
-const validateCPF = strCPF => {
+const validateCPF = (strCPF) => {
+  if (strCPF === null) return false;
+  strCPF = strCPF.replace(/\D/g, "");
+
+  if (strCPF.length > 11) return false;
   let sum;
   let rest;
   sum = 0;
@@ -34,7 +38,8 @@ const validateCPF = strCPF => {
   return true;
 };
 
-const validateCNPJ = cnpj => {
+const validateCNPJ = (cnpj) => {
+  if (cnpj === null) return false;
   cnpj = cnpj.replace(/[^\d]+/g, "");
 
   if (cnpj == "") return false;

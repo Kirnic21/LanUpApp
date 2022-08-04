@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
     marginTop: "3%",
     padding: "5%",
     borderRadius: 15,
-    marginBottom: "10%",
   },
   containerBtn: {
     width: "100%",
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
   TitleInformation: {
     color: "#FFFFFF",
     fontSize: adjust(12),
-    paddingBottom: "7%",
+    paddingBottom: "9%",
     fontFamily: "HelveticaNowMicro-Regular",
   },
   btn: {

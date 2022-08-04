@@ -45,6 +45,7 @@ const OccupationArea = ({}) => {
       <Field
         component={ModalSearch}
         load={loading}
+        label="Endereço*"
         handleOnSearch={debounce(onSearch, 1500)}
         item="address"
         data={places}

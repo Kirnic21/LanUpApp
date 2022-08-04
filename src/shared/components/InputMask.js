@@ -16,6 +16,7 @@ export default InputMask = (props) => {
       <View style={{ marginBottom: "5%", width: "100%" }}>
         <TextInput
           {...props}
+          placeholderTextColor={"rgba(255, 255, 255, 0.6)"}
           onChangeText={(text) => props.input.onBlur(Mask(props.mask, text))}
           value={Mask(props.mask, props.input.value)}
           style={[
@@ -42,7 +43,15 @@ export default InputMask = (props) => {
         />
 
         {props.meta.touched && props.meta.error && (
-          <Text style={{ color: "#F13567" }}>{props.meta.error}</Text>
+          <Text
+            style={{
+              color: "#F13567",
+              fontSize: adjust(9),
+              fontFamily: "HelveticaNowMicro-Regular",
+            }}
+          >
+            {props.meta.error}
+          </Text>
         )}
       </View>
     </View>
