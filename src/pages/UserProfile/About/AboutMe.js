@@ -296,7 +296,7 @@ AboutMe = reduxForm({
       !values.owner && (errors.owner = "Nome do titular é obrigatório.");
       !values.bankAccountType &&
         (errors.bankAccountType = "tipo da conta é obrigatório.");
-      !bankNumberIsValid(values.bankCode) &&
+      !bankNumberIsValid(values.bankCode?.id) &&
         (errors.bankCode = "Número do banco incorreto.");
       !agencyNumberIsValid(values.bankBranch) &&
         (errors.bankBranch = "Número da agência incorreto.");
