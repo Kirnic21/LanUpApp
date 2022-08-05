@@ -59,6 +59,23 @@ const BankInformation = () => {
         </View>
         <Field
           style={{ width: "100%" }}
+          title="Nome do Titular:"
+          component={InputField}
+          name={"owner"}
+          isfocused={"#A893F2"}
+          placeholder="Nome do titular"
+        />
+        <Field
+          mask={"cpfCnpj"}
+          style={{ width: "100%" }}
+          title="CPF/CNPJ do Titular:"
+          component={InputMask}
+          name={"cpfCnpj"}
+          keyboardType="numeric"
+          isfocused={"#A893F2"}
+        />
+        <Field
+          style={{ width: "100%" }}
           title="Tipo da conta"
           component={DropDown}
           name={"bankAccountType"}
@@ -105,31 +122,14 @@ const BankInformation = () => {
           maxLength={20}
           placeholder="000000"
         />
-        <Field
-          mask={"cpfCnpj"}
-          style={{ width: "100%" }}
-          title="CPF/CNPJ do Titular:"
-          component={InputMask}
-          name={"cpfCnpj"}
-          keyboardType="numeric"
-          isfocused={"#A893F2"}
-        />
-        <Field
-          style={{ width: "100%" }}
-          title="Nome do Titular:"
-          component={InputField}
-          name={"owner"}
-          isfocused={"#A893F2"}
-          placeholder="Nome do titular"
-        />
       </View>
       <View style={[styles.containerInformationBank, { marginBottom: "10%" }]}>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text style={styles.TitleInformation}>Chave pix</Text>
+          <Text style={styles.TitleInformation}>Informações PIX</Text>
         </View>
         <Field
           style={{ width: "100%" }}
-          title="Tipo de chave"
+          title="Tipo de chave PIX"
           component={DropDown}
           getValue={(value) => setPixType(value)}
           name={"pixType"}
@@ -144,7 +144,7 @@ const BankInformation = () => {
         {!!pixType && (
           <Field
             style={{ width: "100%" }}
-            title={`${_pixType[pixType]?.label}`}
+            title="Chave PIX"
             component={InputMask}
             name={"pixKey"}
             isfocused={"#A893F2"}
