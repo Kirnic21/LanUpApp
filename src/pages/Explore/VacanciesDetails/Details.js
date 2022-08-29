@@ -30,7 +30,7 @@ import HTML from "react-native-render-html";
 import RNFS from "react-native-fs";
 import FileViewer from "react-native-file-viewer";
 import Icon from "react-native-vector-icons/MaterialIcons";
-
+import WarningModal from "./WarningModal";
 
 const Details = ({
   details: {
@@ -52,12 +52,24 @@ const Details = ({
     agencyName,
     hirerName,
   },
+  openWarningModal,
   selectShift = () => ({}),
   onPressAccept = () => ({}),
   onPressLeave = () => ({}),
+  onPressWarningModal = () => ({}),
+  onPressCloseWarningModal = () => ({}),
   loading,
   params: {
-    job: { status, start, end, eventName, job: service, jobDate, day, isInvite },
+    job: {
+      status,
+      start,
+      end,
+      eventName,
+      job: service,
+      jobDate,
+      day,
+      isInvite,
+    },
   },
 }) => {
   const [selectedShift, setSelectedShift] = useState(false);
@@ -86,9 +98,7 @@ const Details = ({
     };
     RNFS.downloadFile(options)
       .promise.then(() => FileViewer.open(dest))
-      .catch((error) =>
-        AlertHelper.show("error", "Erro", error)
-      );
+      .catch((error) => AlertHelper.show("error", "Erro", error));
   };
 
   const validationButton = useCallback(() => {
@@ -249,7 +259,11 @@ const Details = ({
           {[0, 1, 8].includes(status) && (
             <Button
               title={
-                status === 1 ? "Aceitar vaga urgente" : (status !== 8 && isInvite === false) ? "Concorrer à Vaga" :  "Aceitar esta vaga"
+                status === 1
+                  ? "Aceitar vaga urgente"
+                  : status !== 8 && isInvite === false
+                  ? "Concorrer à Vaga"
+                  : "Aceitar esta vaga"
               }
               isSelected={validationButton()}
               unSelectedColor="#A893F229"
@@ -267,6 +281,11 @@ const Details = ({
           )}
         </View>
       </ScrollView>
+      <WarningModal
+        visible={openWarningModal}
+        onPress={onPressWarningModal}
+        onClose={onPressCloseWarningModal}
+      />
     </SafeAreaView>
   );
 };

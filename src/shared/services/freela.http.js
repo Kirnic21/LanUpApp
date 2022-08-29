@@ -84,6 +84,13 @@ const deleteAccount = (data) =>
     )
   );
 
+const validateBankInformation = (data) =>
+  tokenDecode().then(({ id }) =>
+    HTTP.get(`freelas/${id}/validateBankInformation`).then(
+      ({ data }) => data.result
+    )
+  );
+
 export {
   create,
   updateSkills,
@@ -110,4 +117,5 @@ export {
   getBank,
   checkPendingPayment,
   deleteAccount,
+  validateBankInformation,
 };

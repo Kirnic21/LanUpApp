@@ -25,6 +25,8 @@ import { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails";
 import CertificateModal from "~/pages/UserProfile/Certificate/CertificateModal";
+import Schedule from "~/pages/Schedules/Schedule";
+import ToExplore from '~/pages/Explore/ToExplore';
 
 const pageNavigator = createStackNavigator(
   {
@@ -43,6 +45,24 @@ const pageNavigator = createStackNavigator(
         headerTitle: () => null,
         headerTransparent: true,
         headerStyle: { height: calcWidth(20) },
+      }),
+    },
+    Schedule: {
+      screen: Schedule,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: "Escalas",
+        headerLeft: () => (
+          <ButtonNavigation type="drawer" navigation={navigation} />
+        ),
+      }),
+    },
+    ToExplore: {
+      screen: ToExplore,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: "Vagas",
+        headerLeft: () => (
+          <ButtonNavigation type="drawer" navigation={navigation} />
+        ),
       }),
     },
     ViewProfile: {

@@ -4,6 +4,7 @@ import VacanciesDetails from "~/pages/Explore/VacanciesDetails/VacanciesDetails"
 import ButtonNavigation from "~/shared/components/ButtonNavigation";
 import ToExplore from "~/pages/Explore/ToExplore";
 import { calcWidth, adjust } from "~/assets/Dimensions/index";
+import AboutMe from '~/pages/UserProfile/About/AboutMe';
 
 const ToExplorerRoute = createStackNavigator(
   {
@@ -14,6 +15,12 @@ const ToExplorerRoute = createStackNavigator(
         headerLeft: () => (
           <ButtonNavigation type="drawer" navigation={navigation} />
         ),
+      }),
+    },
+    AboutMe: {
+      screen: AboutMe,
+      navigationOptions: () => ({
+        headerTitle: "Sobre mim",
       }),
     },
     VacanciesDetails: {

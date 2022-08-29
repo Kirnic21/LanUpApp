@@ -10,10 +10,7 @@ import styles from "./styles";
 import ProfileInformation from "./ProfileInformation";
 import AdditionalInformation from "./AdditionalInformation";
 import BankInformations from "./BankInformations";
-import {
-  validateCPF,
-  validateCNPJ,
-} from "~/shared/helpers/validate/ValidateCpfCnpj";
+
 import { reduxForm } from "redux-form";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -26,7 +23,7 @@ import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { convertInputToNumber, nullToNumber, removeMask } from "./utils";
-import { validatePixKey } from "~/shared/helpers/validate/validate";
+import { validate } from "./FieldValidator";
 
 class AboutMe extends Component {
   state = {
@@ -96,6 +93,12 @@ class AboutMe extends Component {
 
   saveAboutMe = (request) => {
     const { about: value, updateAbout, navigation } = this.props;
+    const { goBackVacancyDetails } = navigation.state.params;
+    if (goBackVacancyDetails) {
+      return navigation.replace("VacanciesDetails", {
+        ...goBackVacancyDetails,
+      });
+    }
     updateAbout({ value, request }).then(() => {
       navigation.push("UserProfile");
     });
@@ -197,7 +200,11 @@ class AboutMe extends Component {
               { fontSize: adjust(10), paddingBottom: "1%" },
             ]}
           >
-            (*) Campos obrigatórios
+            (
+            <Text style={[styles.FieldRequired, { fontSize: adjust(12) }]}>
+              *
+            </Text>
+            ) Campos obrigatórios
           </Text>
           <ProfileInformation />
           <OccupationArea />
@@ -264,55 +271,7 @@ AboutMe = reduxForm({
     AlertHelper.show("error", "Erro", "Campos inválidos ou não preenchidos.");
   },
 
-  validate: (values) => {
-    const bankNumberIsValid = (bankNumber) => {
-      return /^([0-9A-Za-x]{3,5})$/.test(bankNumber);
-    };
-
-    const agencyNumberIsValid = (agencyNumber) => {
-      return /^[0-9]{1,5}$/.test(agencyNumber) && parseInt(agencyNumber) > 0;
-    };
-
-    const accountNumberIsValid = (accountNumber) => {
-      return /^[0-9]{1,12}$/.test(accountNumber) && parseInt(accountNumber) > 0;
-    };
-
-    const errors = {};
-    values = values;
-
-    !values?.address?.latitude && (errors.address = "Enderenço é obrigatório.");
-    !values?.fullName && (errors.fullName = "Nome é obrigatório.");
-    !values?.birthday &&
-      (errors.birthday = "Data de nascimento é obrigatório.");
-
-    if (
-      values.bankAccountType ||
-      values.bankCode?.id ||
-      values.bankBranch ||
-      values.bankAccount ||
-      values.cpfCnpj ||
-      values.owner
-    ) {
-      !values.owner && (errors.owner = "Nome do titular é obrigatório.");
-      !values.bankAccountType &&
-        (errors.bankAccountType = "tipo da conta é obrigatório.");
-      !bankNumberIsValid(values.bankCode?.id) &&
-        (errors.bankCode = "Número do banco incorreto.");
-      !agencyNumberIsValid(values.bankBranch) &&
-        (errors.bankBranch = "Número da agência incorreto.");
-      !accountNumberIsValid(values.bankAccount) &&
-        (errors.bankAccount = "Número da conta incorreto.");
-      !(validateCPF(values.cpfCnpj) || validateCNPJ(values.cpfCnpj)) &&
-        (errors.cpfCnpj = "CPF ou CNPJ inválido");
-    }
-
-    if (values.pixType) {
-      !validatePixKey(values.pixKey, (type = values.pixType || "default")) &&
-        (errors.pixKey = "Chave inválida");
-    }
-
-    return errors;
-  },
+  validate: (values) => validate(values),
 })(AboutMe);
 
 export default AboutMe;

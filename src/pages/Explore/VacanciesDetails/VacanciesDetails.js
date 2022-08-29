@@ -15,17 +15,20 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 
 import Details from "./Details";
+import { validateBankInformation } from "~/shared/services/freela.http";
 
 const VacanciesDeitails = ({
   navigation: {
     state: { params },
     replace,
     navigate,
+    push,
   },
 }) => {
   const [details, setDetails] = useState({});
   const [shift, setShift] = useState({});
   const [loading, setLoading] = useState(false);
+  const [showWarningModal, setShowWarningModal] = useState(false);
 
   useEffect(() => {
     const { status, job, getDeitails } = params;
@@ -158,26 +161,42 @@ const VacanciesDeitails = ({
     1: () => acceptEmergencyVacancy(),
   };
 
-  const _renderComponent = useCallback(() => {
+  const hasBankDetails = () => {
+    setLoading((prevState) => !prevState);
+    validateBankInformation()
+      .then((data) => data)
+      .then((res) => {
+        if (!res.value) {
+          return setShowWarningModal(true);
+        }
+        _handleClick[params.status]();
+      })
+      .catch((error) =>
+        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+      )
+      .finally(() => setLoading((prevState) => !prevState));
+  };
+
+  const goAboutMe = () => {
+    setShowWarningModal(false)
+    replace("AboutMe", { goBackVacancyDetails: params }, "Schedule");
+  };
+
+  const _renderComponent = () => {
     return (
       <Details
+        openWarningModal={showWarningModal}
         params={params}
         details={details}
         loading={loading}
-        onPressAccept={() => _handleClick[params.status]()}
+        onPressAccept={() => hasBankDetails()}
         onPressLeave={() => leaveVacancy()}
         selectShift={(value) => setShift(value)}
+        onPressCloseWarningModal={() => setShowWarningModal(false)}
+        onPressWarningModal={() => goAboutMe()}
       />
     );
-  }, [
-    details,
-    loading,
-    params,
-    acceptPublicVacancyOrInvitation,
-    acceptInvitationVacancy,
-    leaveVacancy,
-    _handleClick,
-  ]);
+  };
 
   return <Fragment>{_renderComponent()}</Fragment>;
 };
