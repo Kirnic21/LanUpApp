@@ -36,7 +36,11 @@ const AdditionalInformation = ({}) => {
           style={{ width: "45%" }}
           mode="date"
           name={"birthday"}
-          title="Nascimento*"
+          title={
+            <Text>
+              Nascimento<Text style={styles.FieldRequired}>*</Text>
+            </Text>
+          }
           component={DateInputField}
           placeholder="00/00/0000"
         />

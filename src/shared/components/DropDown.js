@@ -20,6 +20,7 @@ const DropDown = ({
   getValue = () => {},
   items = [],
   input: { value, onChange },
+  meta: { touched, error },
 }) => {
   const [visible, setVisible] = useState(false);
   const renderSeparator = () => (
@@ -58,6 +59,7 @@ const DropDown = ({
               width: "100%",
               paddingRight: "10%",
             },
+            touched && error && { borderColor: "#F13567" },
             style,
           ]}
         >
@@ -70,6 +72,17 @@ const DropDown = ({
           color="#FFFFFF"
         />
       </TouchableOpacity>
+      {touched && error && (
+        <Text
+          style={{
+            color: "#F13567",
+            fontSize: adjust(9),
+            fontFamily: "HelveticaNowMicro-Regular",
+          }}
+        >
+          {error}
+        </Text>
+      )}
       <ModalComponent
         visible={visible}
         onClose={() => setVisible(false)}

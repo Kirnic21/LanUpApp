@@ -59,7 +59,11 @@ const BankInformation = () => {
         </View>
         <Field
           style={{ width: "100%" }}
-          title="Nome do Titular:"
+          title={
+            <Text>
+              Nome do Titular<Text style={styles.FieldRequired}>*</Text>
+            </Text>
+          }
           component={InputField}
           name={"owner"}
           isfocused={"#A893F2"}
@@ -68,7 +72,11 @@ const BankInformation = () => {
         <Field
           mask={"cpfCnpj"}
           style={{ width: "100%" }}
-          title="CPF/CNPJ do Titular:"
+          title={
+            <Text>
+              CPF/CNPJ do Titular<Text style={styles.FieldRequired}>*</Text>
+            </Text>
+          }
           component={InputMask}
           name={"cpfCnpj"}
           keyboardType="numeric"
@@ -76,7 +84,11 @@ const BankInformation = () => {
         />
         <Field
           style={{ width: "100%" }}
-          title="Tipo da conta"
+          title={
+            <Text>
+              Tipo da conta<Text style={styles.FieldRequired}>*</Text>
+            </Text>
+          }
           component={DropDown}
           name={"bankAccountType"}
           // heightModal={Platform.OS === 'ios' ? calcHeight(75) : calcWidth(80)}
@@ -88,7 +100,11 @@ const BankInformation = () => {
         <View style={{ alignContent: "stretch", paddingBottom: "2.5%" }}>
           <Field
             component={ModalSearch}
-            label="Banco:"
+            label={
+              <Text>
+                Banco<Text style={styles.FieldRequired}>*</Text>
+              </Text>
+            }
             handleOnSearch={debounce(SearchFilterFunction, 1000)}
             data={code}
             name={"bankCode"}
@@ -102,7 +118,11 @@ const BankInformation = () => {
           <View style={{ position: "absolute", width: "100%", left: "53%" }}>
             <Field
               style={{ width: "47%" }}
-              title="Agência:"
+              title={
+                <Text>
+                  Agência<Text style={styles.FieldRequired}>*</Text>
+                </Text>
+              }
               component={InputField}
               name={"bankBranch"}
               placeholder="0000"
@@ -114,7 +134,11 @@ const BankInformation = () => {
         </View>
         <Field
           style={{ width: "100%" }}
-          title="Número da Conta:"
+          title={
+            <Text>
+              Número da Conta<Text style={styles.FieldRequired}>*</Text>
+            </Text>
+          }
           component={InputField}
           name={"bankAccount"}
           isfocused={"#A893F2"}
@@ -129,7 +153,11 @@ const BankInformation = () => {
         </View>
         <Field
           style={{ width: "100%" }}
-          title="Tipo de chave PIX"
+          title={
+            <Text>
+              Tipo de chave PIX<Text style={styles.FieldRequired}>*</Text>
+            </Text>
+          }
           component={DropDown}
           getValue={(value) => setPixType(value)}
           name={"pixType"}
@@ -141,21 +169,23 @@ const BankInformation = () => {
             { label: "Chave aleatória", value: "CHAVE_ALEATORIA" },
           ]}
         />
-        {!!pixType && (
-          <Field
-            style={{ width: "100%" }}
-            title="Chave PIX"
-            component={InputMask}
-            name={"pixKey"}
-            isfocused={"#A893F2"}
-            keyboardType={
-              pixType === "EMAIL" || pixType === "CHAVE_ALEATORIA"
-                ? "default"
-                : "numeric"
-            }
-            mask={`${_pixType[pixType || "withoutMask"]?.mask}`}
-          />
-        )}
+        <Field
+          style={{ width: "100%" }}
+          title={
+            <Text>
+              Chave PIX<Text style={styles.FieldRequired}>*</Text>
+            </Text>
+          }
+          component={InputMask}
+          name={"pixKey"}
+          isfocused={"#A893F2"}
+          keyboardType={
+            pixType === "EMAIL" || pixType === "CHAVE_ALEATORIA"
+              ? "default"
+              : "numeric"
+          }
+          mask={`${_pixType[pixType || "withoutMask"]?.mask}`}
+        />
       </View>
       <Modal
         visible={infoModal}

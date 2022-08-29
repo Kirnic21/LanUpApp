@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     padding: "5%",
   },
   containerManequim: {
-    width: '32%',
+    width: "32%",
     borderRadius: 25,
     position: "absolute",
     left: "68%",
@@ -139,6 +139,9 @@ const styles = StyleSheet.create({
     width: "45%",
     justifyContent: "center",
     marginBottom: "2%",
+  },
+  FieldRequired: {
+    color: "#F13567",
   },
 });
 

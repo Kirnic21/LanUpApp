@@ -14,7 +14,11 @@ const ProfileInformation = ({}) => {
       <Text style={styles.TitleInformation}>Informações do Profissional</Text>
       <Field
         style={{ width: "100%" }}
-        title="Nome Completo*"
+        title={
+          <Text>
+            Nome Completo<Text style={styles.FieldRequired}>*</Text>
+          </Text>
+        }
         component={InputField}
         name={"fullName"}
         isfocused={"#A893F2"}
