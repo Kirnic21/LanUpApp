@@ -94,12 +94,12 @@ class AboutMe extends Component {
   saveAboutMe = (request) => {
     const { about: value, updateAbout, navigation } = this.props;
     const { goBackVacancyDetails } = navigation.state.params;
-    if (goBackVacancyDetails) {
-      return navigation.replace("VacanciesDetails", {
-        ...goBackVacancyDetails,
-      });
-    }
     updateAbout({ value, request }).then(() => {
+      if (goBackVacancyDetails) {
+        return navigation.replace("VacanciesDetails", {
+          ...goBackVacancyDetails,
+        });
+      }
       navigation.push("UserProfile");
     });
     return;
