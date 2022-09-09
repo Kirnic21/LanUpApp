@@ -48,8 +48,10 @@ const CardImageVacancies = ({
           >
             {title}
           </Text>
-          <Text style={styles.textAgencyName}>{agencyName || "---"}</Text>
-          <Text style={styles.textAgencyName}>{hirerName || "---"}</Text>
+          <Text style={styles.textAgencyName}>Empresa: {agencyName || "---"}</Text>
+          {!agencyName && hirerName && (
+            <Text style={styles.textAgencyName}>Contratante: {hirerName}</Text>
+          )}
         </View>
         <View style={{ flexDirection: "row" }}>
           <DateComponent date={eventDate} />

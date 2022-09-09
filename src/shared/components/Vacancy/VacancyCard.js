@@ -41,7 +41,7 @@ const VacancyCard = ({
         )}
       </View>
       <View style={styles.containerContent}>
-        <View style={{ height: "56%" }}>
+        <View style={{ height: "57%" }}>
           <Text
             numberOfLines={1}
             allowFontScaling={false}
@@ -62,19 +62,32 @@ const VacancyCard = ({
             {title || "Titulo"}
           </Text>
           <Text
-            numberOfLines={1}
+            numberOfLines={2}
             allowFontScaling={false}
-            style={[styles.colorWhite, styles.fontHNM_regular, styles.f_10]}
+            style={[
+              styles.colorWhite,
+              styles.fontHNM_regular,
+              styles.f_10,
+              { marginTop: 5 },
+            ]}
           >
-            {agencyName || "--"}
+            Empresa: {agencyName || "--"}
           </Text>
-          <Text
-            numberOfLines={1}
-            allowFontScaling={false}
-            style={[styles.colorWhite, styles.fontHNM_regular, styles.f_10]}
-          >
-            {hirerName || "--"}
-          </Text>
+
+          {!agencyName && hirerName && (
+            <Text
+              numberOfLines={1}
+              allowFontScaling={false}
+              style={[
+                styles.colorWhite,
+                styles.fontHNM_regular,
+                styles.f_10,
+                { marginTop: 5 },
+              ]}
+            >
+              Contratante: {hirerName}
+            </Text>
+          )}
         </View>
         <View style={{ flexDirection: "row" }}>
           <DateComponent date={date} />

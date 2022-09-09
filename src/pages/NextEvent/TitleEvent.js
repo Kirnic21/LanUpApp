@@ -33,15 +33,15 @@ const TitleEvent = ({
           </Text>
           {agencyName && (
             <Text numberOfLines={1} style={styles.TextHirer}>
-              {agencyName}
+              Empresa: {agencyName}
             </Text>
           )}
-          {hirerName && (
+          {!agencyName && hirerName && (
             <Text
               numberOfLines={1}
               style={[styles.TextHirer, { paddingBottom: "5%" }]}
             >
-              {hirerName}
+              Contratante: {hirerName}
             </Text>
           )}
           <Text style={styles.TextsubTitle}>{job}</Text>
