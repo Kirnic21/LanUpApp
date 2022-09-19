@@ -124,7 +124,7 @@ class AboutMe extends Component {
       long: nullToNumber(longitude),
       gender: nullToNumber(form.gender),
       pixKey:
-        form.pixType === "CHAVE_ALEATORIA" || form.pixType === "EMAIl"
+        form.pixType === "CHAVE_ALEATORIA" || form.pixType === "EMAIL"
           ? pixKey
           : removeMask(pixKey),
     };
