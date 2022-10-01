@@ -4,28 +4,48 @@ import {
   StyleSheet,
   View,
   Text,
-  DeviceEventEmitter,
   Vibration,
   Platform,
 } from "react-native";
-
+import BackgroundFetch from "react-native-background-fetch";
+import env from "react-native-config";
+import Geolocation, { clearWatch } from "react-native-geolocation-service";
 import MapView from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import AlertModal from "~/shared/components/AlertModal";
-import mapStyles from "./stylesMaps";
 import RoundButton from "~/shared/components/RoundButton";
-
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
+import { hasLocationPermission } from "~/shared/helpers/PermissionGeolocation";
 import { location } from "~/shared/services/events.http";
 import {
   arrivelOperation,
   checkpoints,
 } from "~/shared/services/operations.http";
-import env from "react-native-config";
-import BackgroundFetch from "react-native-background-fetch";
+
+import mapStyles from "./stylesMaps";
+
+const errors = {
+  1: "A permissão de localização não foi concedida",
+  2: "O provedor de localização não está disponível",
+  3: "A solicitação de localização expirou",
+  4: "O serviço Google Play não está instalado ou tem uma versão mais antiga",
+  5: "O serviço de localização não está ativado ou o modo de localização não é apropriado para a solicitação atual",
+};
+
+const options = {
+  accuracy: {
+    android: "high",
+    ios: "best",
+  },
+  enableHighAccuracy: true,
+  timeout: 15000,
+  forceRequestLocation: true,
+  forceLocationManager: false,
+  showLocationDialog: true,
+};
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
@@ -58,25 +78,19 @@ class MapsGeolocation extends Component {
       },
     };
     this.mapView = null;
+    this.watchId = null;
     this.interval = setInterval;
-
-    this.subscription = DeviceEventEmitter.addListener(
-      "location_received",
-      (e) => {
-        this.watchPosition(e);
-      }
-    );
   }
 
   async componentDidMount() {
-    this.getCurrentPosition();
+    this.initialPosition();
     this.initBackgroundFetch(); //redundance
   }
 
   async initBackgroundFetch() {
     const onEvent = async (taskId) => {
       console.log("[BackgroundFetch] task: ", taskId);
-      await this.getCurrentPosition();
+      await this.addEvent(taskId);
       BackgroundFetch.finish(taskId);
     };
 
@@ -85,7 +99,7 @@ class MapsGeolocation extends Component {
       BackgroundFetch.finish(taskId);
     };
 
-    const status = await BackgroundFetch.configure(
+    let status = await BackgroundFetch.configure(
       { minimumFetchInterval: 1 },
       onEvent,
       onTimeout
@@ -94,7 +108,72 @@ class MapsGeolocation extends Component {
     console.log("[BackgroundFetch] configure status: ", status);
   }
 
-  getCurrentPosition = async () => {
+  _getCurrentPosition = async () => {
+    const hasPermission = await hasLocationPermission();
+
+    if (!hasPermission) {
+      stopBackground.stop();
+      return;
+    }
+
+    Geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        this.updatePosition({ latitude, longitude });
+      },
+      (error) => {
+        AlertHelper.show(
+          "error",
+          "Erro",
+          `${
+            errors[error?.code] || "Ocorreu um erro, por favor tente mais tarde"
+          }`
+        );
+      },
+      {
+        ...options,
+        maximumAge: 10000,
+      }
+    );
+  };
+
+  addEvent(taskId) {
+    return new Promise((resolve, reject) => {
+      this._getCurrentPosition();
+      resolve();
+    });
+  }
+
+  watchPosition = async () => {
+    const hasPermission = await hasLocationPermission();
+
+    if (!hasPermission) {
+      return;
+    }
+
+    this.watchId = Geolocation.watchPosition(
+      ({ coords: { latitude, longitude } }) => {
+        this.updatePosition({ latitude, longitude });
+      },
+      (error) => {
+        AlertHelper.show(
+          "error",
+          "Erro",
+          `${
+            errors[error?.code] || "Ocorreu um erro, por favor tente mais tarde"
+          }`
+        );
+      },
+      {
+        ...options,
+        distanceFilter: 100,
+        interval: 10000,
+        fastestInterval: 2000,
+        useSignificantChanges: false,
+      }
+    );
+  };
+
+  initialPosition = async () => {
     const { id, address, eventName, addressId, latitude, longitude } =
       this.props.navigation.state.params;
     try {
@@ -112,19 +191,20 @@ class MapsGeolocation extends Component {
         eventName,
         id,
       });
-      this.watchPosition({ latitude, longitude });
+      this.updatePosition({ latitude, longitude });
       this.sendLocationApi();
+      this.watchPosition();
     } catch (error) {
       AlertHelper.show("error", "Erro", error.message);
     }
   };
 
   componentWillUnmount() {
-    this.subscription.remove();
     clearInterval(this.interval);
+    clearWatch(this.watchId);
   }
 
-  watchPosition = ({ latitude, longitude }) => {
+  updatePosition = ({ latitude, longitude }) => {
     const { destination } = this.state;
     this.setState({
       coordinates: [
@@ -165,7 +245,6 @@ class MapsGeolocation extends Component {
     if (distance * 1000 <= 1000 && status === false) {
       this.setState({ status: true }, async () => {
         Vibration.vibrate(1000);
-        this.subscription.remove();
         try {
           await arrivelOperation({ id, eventId, vacancyId, job });
         } catch (error) {
