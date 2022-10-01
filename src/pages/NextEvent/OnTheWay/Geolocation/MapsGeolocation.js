@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import BackgroundFetch from "react-native-background-fetch";
 import env from "react-native-config";
-import Geolocation, { clearWatch } from "react-native-geolocation-service";
+import Geolocation from "react-native-geolocation-service";
 import MapView from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -201,7 +201,7 @@ class MapsGeolocation extends Component {
 
   componentWillUnmount() {
     clearInterval(this.interval);
-    clearWatch(this.watchId);
+    Geolocation.clearWatch(this.watchId);
   }
 
   updatePosition = ({ latitude, longitude }) => {
