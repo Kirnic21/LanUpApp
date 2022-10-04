@@ -1,15 +1,17 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
-import { Field, reduxForm } from "redux-form";
-import logoRating from "~/assets/images/logo-rating.png";
-import { calcWidth, adjust } from "~/assets/Dimensions";
-import RatingStar from "~/shared/components/RatingStar";
 import { CheckBox } from "react-native-elements";
+import { Field, reduxForm } from "redux-form";
+
+import { calcWidth, adjust } from "~/assets/Dimensions";
+import logoRating from "~/assets/images/logo-rating.png";
 import ButtonComponent from "~/shared/components/ButtonCompoent";
 import InputField from "~/shared/components/InputField";
-import { ratings } from "~/shared/services/hirer.http";
+import RatingStar from "~/shared/components/RatingStar";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
+import { ratingHirer } from "~/shared/services/hirer.http";
+import { ratingAgency } from "~/shared/services/agency.http";
 
 class Rating extends React.Component {
   state = {
@@ -26,13 +28,14 @@ class Rating extends React.Component {
     return;
   };
 
-  sendRatings = (form) => {
+  sendRatings = async (form) => {
     const { title, description } = form;
     const { food, managment, structure, hasRecommendation } = this.state;
-    const { hirerId: id } = this.props.navigation.state.params;
+    const { hirerId, agencyId } = this.props.navigation.state.params;
+
     this.setState({ spinner: true });
+
     const request = {
-      id,
       food,
       managment,
       structure,
@@ -40,24 +43,28 @@ class Rating extends React.Component {
       title,
       hasRecommendation,
     };
-    ratings(request)
-      .then(() => {
-        this.props.navigation.navigate("UserProfile");
-      })
-      .catch((error) => {
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-      })
-      .finally(() => {
-        this.setState({ spinner: false });
-      });
-    return;
+
+    try {
+      if (agencyId) {
+        await ratingAgency({ ...request, id: agencyId });
+      }
+      if (!agencyId) {
+        await ratingHirer({ ...request, id: hirerId });
+      }
+      AlertHelper.show("success", "Sucesso", "Sua avaliação foi enviada");
+      this.props.navigation.navigate("UserProfile");
+    } catch (error) {
+      AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+    } finally {
+      this.setState({ spinner: false });
+    }
   };
 
   render() {
     const { food, managment, structure, hasRecommendation, spinner } =
       this.state;
     const { handleSubmit } = this.props;
-    const { eventName } = this.props.navigation.state.params;
+    const { agencyName, hirerName } = this.props.navigation.state.params;
     return (
       <View style={styles.container}>
         <SpinnerComponent loading={spinner} />
@@ -71,7 +78,8 @@ class Rating extends React.Component {
               style={{ height: calcWidth(20), width: calcWidth(20) }}
             />
             <Text style={[styles.fontHelveticaRegular, styles.titleName]}>
-              {eventName}
+              {agencyName && agencyName}
+              {!agencyName && hirerName}
             </Text>
             <Text style={[styles.fontHelveticaRegular, styles.subtitle]}>
               Avalie sua experiência

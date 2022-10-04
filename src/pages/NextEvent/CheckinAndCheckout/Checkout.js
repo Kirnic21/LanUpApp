@@ -24,7 +24,9 @@ const Checkout = ({
   vacancyId,
   checkListCheckout,
   eventName,
-  statusOperation,
+  agencyName,
+  hirerName,
+  agencyId,
   size,
   isLate,
   hirerId,
@@ -64,7 +66,13 @@ const Checkout = ({
         eventId,
         freelaId,
       });
-      navigation.replace("Rating", { hirerId, eventName });
+      navigation.replace("Rating", {
+        hirerId,
+        eventName,
+        agencyName,
+        hirerName,
+        agencyId,
+      });
     } catch (error) {
       AlertHelper.show("error", error.response.data.errorMessage);
     } finally {
