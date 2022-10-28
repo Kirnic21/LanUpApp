@@ -4,6 +4,7 @@ import dimensions, { calcWidth, adjust } from "~/assets/Dimensions";
 import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DateComponent from "~/shared/components/DateComponent";
+import ButtonSelect from "../ButtonSelect";
 
 const CardImageVacancies = ({
   title,
@@ -14,15 +15,26 @@ const CardImageVacancies = ({
   isHomeOffice,
   agencyName,
   hirerName,
+  showButton,
+  buttonSelect,
+  hasCheckoutQrCode,
+  hasCheckinQrCode,
 }) => {
   return (
-    <View style={{ marginBottom: calcWidth(5) }}>
+    <View
+      style={{
+        marginBottom:
+          showButton && (hasCheckoutQrCode || hasCheckinQrCode)
+            ? calcWidth(14)
+            : calcWidth(5),
+      }}
+    >
       {picture !== null && picture !== undefined ? (
         <Image source={{ uri: picture }} style={{ height: dimensions(250) }} />
       ) : (
         <View
           style={{
-            height: dimensions(250),
+            height: dimensions(260),
             backgroundColor: "#FFFFFF85",
             alignItems: "center",
           }}
@@ -48,7 +60,9 @@ const CardImageVacancies = ({
           >
             {title}
           </Text>
-          <Text style={styles.textAgencyName}>Empresa: {agencyName || "---"}</Text>
+          <Text style={styles.textAgencyName}>
+            Empresa: {agencyName || "---"}
+          </Text>
           {!agencyName && hirerName && (
             <Text style={styles.textAgencyName}>Contratante: {hirerName}</Text>
           )}
@@ -70,6 +84,20 @@ const CardImageVacancies = ({
             </Text>
           </View>
         </View>
+        {showButton && (hasCheckoutQrCode || hasCheckinQrCode) && (
+          <View style={{ paddingVertical: "5%" }}>
+            <ButtonSelect
+              onSelectedColor="#865FC0"
+              onTextSelectedColor="#FFFFFF"
+              offTextSelectedColor="#d2d0ff"
+              data={[
+                { title: "QR Code", index: 1 },
+                { title: "Detalhes da vaga", index: 2 },
+              ]}
+              onPress={buttonSelect}
+            />
+          </View>
+        )}
       </View>
     </View>
   );

@@ -6,7 +6,7 @@ import Lottie from "lottie-react-native";
 import { calcWidth, calcHeight, adjust } from "~/assets/Dimensions";
 import loadingSpinner from "~/assets/loadingSpinner.json";
 
-import FilterToExplore from "~/pages/Explore/FilterToExplore";
+import ButtonSelect from "~/pages/Explore/ButtonSelect";
 import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
 import ExclusionModal from "~/shared/components/ExclusionModal";
 
@@ -76,10 +76,10 @@ export default class ToExplore extends Component {
           <FlatList
             ListHeaderComponent={
               <View style={{ padding: calcWidth(3) }}>
-                <FilterToExplore
+                <ButtonSelect
                   onSelectedColor="#FFB72B"
                   onTextSelectedColor="#18142F"
-                  filterJob={JobsSelected}
+                  data={JobsSelected}
                   onPress={(item) => this.filterVacancy(item.title)}
                 />
               </View>

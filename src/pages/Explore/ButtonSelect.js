@@ -3,13 +3,13 @@ import { StyleSheet, Text, FlatList } from "react-native";
 import dimensions, { adjust } from "~/assets/Dimensions/index";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default FilterToExplore = ({
+export default ButtonSelect = ({
   onSelectedColor,
   offSelectedColor,
   onTextSelectedColor,
   offTextSelectedColor,
   onPress,
-  filterJob,
+  data,
 }) => {
   const DATA = [{ title: "----" }];
 
@@ -52,7 +52,7 @@ export default FilterToExplore = ({
     <FlatList
       horizontal
       showsHorizontalScrollIndicator={false}
-      data={filterJob || DATA}
+      data={data || DATA}
       renderItem={({ item, index }) => (
         <Item
           index={index}

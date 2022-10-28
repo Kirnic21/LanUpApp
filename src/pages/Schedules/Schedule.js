@@ -6,7 +6,7 @@ import { calcWidth, calcHeight, adjust } from "~/assets/Dimensions/index";
 import loadingSpinner from "~/assets/loadingSpinner.json";
 
 import VacancyCard from "~/shared/components/Vacancy/VacancyCard";
-import FilterToExplore from "../Explore/FilterToExplore";
+import ButtonSelect from "../Explore/ButtonSelect";
 
 import { getSchedules, getInvites } from "~/shared/services/vacancy.http";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
@@ -87,8 +87,8 @@ export default class Schedule extends React.Component {
           >
             Próximos Eventos:
           </Text>
-          <FilterToExplore
-            filterJob={listFilter}
+          <ButtonSelect
+            data={listFilter}
             onSelectedColor="#FFB72B"
             onTextSelectedColor="#18142F"
             onPress={(e) => this.scheduleList(e.id)}
@@ -138,6 +138,7 @@ export default class Schedule extends React.Component {
                   job: item,
                   status: item.status,
                   isInvite: item?.isInvite,
+                  vacancyCode: item?.vacancyCode
                 })
               }
             />
