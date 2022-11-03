@@ -182,7 +182,9 @@ const Details = ({
         {status === 2 &&
           buttonSelect === 1 &&
           (hasCheckinQrCode || hasCheckoutQrCode) && <RenderQrCode />}
-        {(buttonSelect === 2 || !(hasCheckinQrCode || hasCheckoutQrCode)) && (
+        {(status !== 2 ||
+          buttonSelect === 2 ||
+          !(hasCheckinQrCode || hasCheckoutQrCode)) && (
           <View>
             <View style={{ marginHorizontal: "5%" }}>
               <ShiftCard
