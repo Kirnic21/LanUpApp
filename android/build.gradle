@@ -8,6 +8,7 @@ buildscript {
         targetSdkVersion = 31
         ndkVersion = "20.1.5948944"
         excludeAppGlideModule = true
+        kotlinVersion = "1.6.21"
 
     }
     repositories {
