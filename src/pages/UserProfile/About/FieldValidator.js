@@ -31,7 +31,11 @@ export const validate = (values) => {
   !values.cpfCnpj && (errors.cpfCnpj = "Campo obrigatório.");
   !values.pixType && (errors.pixType = "Campo obrigatório.");
   !values.pixKey && (errors.pixKey = "Campo obrigatório.");
+  !values.rgNumber && (errors.rgNumber = "Campo obrigatório.");
 
+  values.rgNumber &&
+    values.rgNumber?.length < 7 &&
+    (errors.rgNumber = "Campo inválido.");
   values.pixKey &&
     !validatePixKey(values.pixKey, (type = values.pixType || "default")) &&
     (errors.pixKey = "Chave inválida");

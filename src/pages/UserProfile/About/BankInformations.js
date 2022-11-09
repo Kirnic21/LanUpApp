@@ -86,6 +86,18 @@ const BankInformation = () => {
           style={{ width: "100%" }}
           title={
             <Text>
+              Número do RG<Text style={styles.FieldRequired}>*</Text>
+            </Text>
+          }
+          component={InputField}
+          name={"rgNumber"}
+          keyboardType="numeric"
+          isfocused={"#A893F2"}
+        />
+        <Field
+          style={{ width: "100%" }}
+          title={
+            <Text>
               Tipo da conta<Text style={styles.FieldRequired}>*</Text>
             </Text>
           }
