@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialIcons";
 import { calcWidth } from "~/assets/Dimensions/index";
 import Modal from "react-native-modal";
@@ -18,7 +18,7 @@ export default ModalComponent = ({
 }) => (
   <Modal
     isVisible={visible}
-    backdropOpacity={0.5}
+    backdropOpacity={0.8}
     onBackButtonPress={onClose}
     onBackdropPress={onClose}
     onSwipeComplete={onClose}
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
   },
   content: {
     backgroundColor: "#23203F",
-    borderTopLeftRadius: calcWidth(13),
-    borderTopRightRadius: calcWidth(13),
+    borderTopLeftRadius: calcWidth(10),
+    borderTopRightRadius: calcWidth(10),
     padding: calcWidth(5),
     paddingBottom: calcWidth(5),
   },

@@ -41,10 +41,9 @@ const noJobToday = () => {
 
 const components = {
   0: () => noJobToday(),
-  1: OnTheWay,
-  2: OnTheWay,
+  1: () => noJobToday(),
+  2: Checkin,
   3: Checkin,
-  4: Checkin,
   5: Checkout,
   6: Checkout,
   8: Occurrence,
@@ -91,9 +90,9 @@ const NextEvent = (props) => {
         const checkoutParse = parseISO(checkout);
         const dateStatus = isBefore(new Date(), checkoutParse);
         setStatusOperation(value > 4 && value < 7 && dateStatus ? 8 : value);
-        if(value === 6 && !isHomeOffice) {
-          setOpenQrCheckout(true)
-        }
+        // if (value === 6 && !isHomeOffice) {
+        //   setOpenQrCheckout(true);
+        // }
       })
       .catch((error) =>
         AlertHelper.show("error", "Erro", error.response.data.errorMessage)
@@ -105,7 +104,7 @@ const NextEvent = (props) => {
     const MILLISECOND = SECOND * 1000;
     if (workday.hasCheckinQrCode || workday.hasCheckoutQrCode) {
       const interval = setInterval(() => {
-        if ([3, 4, 6, 7, 8].includes(statusOperation)) {
+        if ([2, 3, 4, 6, 7, 8].includes(statusOperation)) {
           getStatusOperation(workday);
         }
       }, MILLISECOND);
@@ -194,7 +193,7 @@ const NextEvent = (props) => {
                 style={styles.btn}
                 onPress={() => props.navigation.navigate("ToExplore")}
               />
-            ) : statusOperation === 1 || statusOperation === 2 ? (
+            ) : statusOperation === 1 ? (
               <RoundButton
                 width={calcWidth(55)}
                 name="Ver regras e check list"
@@ -219,6 +218,13 @@ const NextEvent = (props) => {
             onClose={() => setOpenModalComingSoon(false)}
             visible={openModalComingSoon}
           />
+          <OnTheWay
+            action={getStatusOperation}
+            {...props}
+            {...workday}
+            {...styles}
+            statusOperation={statusOperation}
+          />
         </SafeAreaView>
       </ImageBackground>
     );
@@ -227,7 +233,7 @@ const NextEvent = (props) => {
   const _renderComponent = () => {
     const { isHomeOffice, hasCheckinQrCode } = workday;
     if (
-      (statusOperation === 3 || statusOperation === 4) &&
+      (statusOperation === 2 || statusOperation === 3) &&
       !isHomeOffice &&
       hasCheckinQrCode
     ) {

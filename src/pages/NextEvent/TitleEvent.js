@@ -18,7 +18,7 @@ const TitleEvent = ({
   };
   return (
     <View style={styles.containerTitle}>
-      {status ? (
+      {status && status !== 1 ? (
         <View style={{ width: "100%" }}>
           <Text
             style={[

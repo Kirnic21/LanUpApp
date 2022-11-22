@@ -1,15 +1,11 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 
 import getLocationFreela from "./GetLocationFreela";
-import ModalCheckList from "./ModalCheckList";
 
 import ButtonPulse from "~/shared/components/ButtonPulse";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 
-import {
-  operationsCheckins,
-  operationsChecklists,
-} from "~/shared/services/operations.http";
+import { operationsCheckins } from "~/shared/services/operations.http";
 
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 
@@ -22,21 +18,10 @@ const Checkin = ({
   job,
   eventId,
   vacancyId,
-  checkListCheckIn,
-  eventName,
   statusOperation,
   checkout,
 }) => {
-  const [openModalCheckin, setOpenModalCheckin] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [spinner, setSpinner] = useState(false);
-  const [checked, setChecked] = useState(false);
-
-  useEffect(() => {
-    if (statusOperation === 4) {
-      setOpenModalCheckin(true);
-    }
-  }, [statusOperation]);
 
   const _getLocationFreela = () => {
     if (statusOperation === 3) {
@@ -62,23 +47,13 @@ const Checkin = ({
       freelaId,
     })
       .then(() => {
-        setOpenModalCheckin(true);
+        action({ operationId, freelaId, isHomeOffice, checkout });
       })
       .catch((error) => {
         AlertHelper.show("error", "Erro", error.response.data.errorMessage);
       })
       .finally(() => setSpinner(false));
   };
-
-  const confirmChecklist = useCallback(() => {
-    setLoading((prev) => !prev);
-    operationsChecklists({ id: operationId, origin: 1, job })
-      .then(() => action({ operationId, freelaId, isHomeOffice, checkout }))
-      .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-      )
-      .finally(() => setLoading((prev) => !prev));
-  }, [loading, freelaId, isHomeOffice, checkout, job, action]);
 
   return (
     <Fragment>
@@ -90,18 +65,6 @@ const Checkin = ({
         startAnimations
         color="#46C5F3"
         onPress={() => _getLocationFreela()}
-      />
-      <ModalCheckList
-        visible={openModalCheckin}
-        loading={loading}
-        titleCheck="Entrada"
-        job={job}
-        checkList={checkListCheckIn}
-        pressConfirm={() => confirmChecklist()}
-        onPressCheck={() => setChecked((prev) => !prev)}
-        checked={checked}
-        eventName={eventName}
-        onClose={() => setOpenModalCheckin(false)}
       />
     </Fragment>
   );

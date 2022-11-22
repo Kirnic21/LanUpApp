@@ -1,42 +1,25 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
 
-import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import { operationsChecklists } from "~/shared/services/operations.http";
 import { adjust, calcWidth } from "~/assets/Dimensions";
 
 import TitleEvent from "../TitleEvent";
-import ModalCheckList from "./ModalCheckList";
 import Ticket from "~/shared/components/Ticket";
-import ModalNews from "./ModalNews";
-import RoundButton from "~/shared/components/RoundButton";
 
 const CheckinCheckoutQrCode = ({
   statusOperation,
-  operationId,
   freelaId,
-  isHomeOffice,
-  checkout,
   job,
-  action,
   eventName,
   date,
   agencyName,
   hirerName,
-  checkListCheckIn,
   vacancyId,
   vacancyCode,
   eventId,
-  openQrCheckout,
   navigation,
   hirerId,
 }) => {
-  const [openModalCheckin, setOpenModalCheckin] = useState(false);
-  const [openModalNews, setOpenModalNews] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [checked, setChecked] = useState(false);
-
   const type = statusOperation > 4 ? "checkout" : "checkin";
 
   const qrcodeValue = JSON.stringify({
@@ -48,41 +31,11 @@ const CheckinCheckoutQrCode = ({
   });
 
   useEffect(() => {
-    showModalNews();
-  }, []);
-
-  useEffect(() => {
-    if (statusOperation === 4) {
-      setOpenModalCheckin(true);
-    }
-
+    console.log(statusOperation)
     if (statusOperation === 7) {
       navigation.replace("Rating", { hirerId, eventName });
     }
   }, [statusOperation]);
-
-  const showModalNews = async () => {
-    const getNewCheckin = await AsyncStorage.getItem("NEW_CHECKIN");
-    const new_checkin = JSON?.parse(getNewCheckin);
-    setOpenModalNews(!new_checkin);
-  };
-
-  const confirmChecklist = useCallback(() => {
-    setLoading(true);
-    operationsChecklists({ id: operationId, origin: 1, job })
-      .then(() => {
-        AlertHelper.show(
-          "success",
-          "Sucesso",
-          "Tudo certo ao iniciar o trabalho. Boa sorte!"
-        );
-        action({ operationId, freelaId, isHomeOffice, checkout });
-      })
-      .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-      )
-      .finally(() => setLoading(false));
-  }, [loading, freelaId, isHomeOffice, checkout, job, action]);
 
   return (
     <View style={styles.container}>
@@ -101,24 +54,6 @@ const CheckinCheckoutQrCode = ({
         </Text>
         <Ticket value={qrcodeValue} codeQrCode={vacancyCode} />
       </View>
-
-      <ModalCheckList
-        visible={openModalCheckin}
-        loading={loading}
-        titleCheck="Entrada"
-        job={job}
-        checkList={checkListCheckIn}
-        pressConfirm={() => confirmChecklist()}
-        onPressCheck={() => setChecked((prev) => !prev)}
-        checked={checked}
-        eventName={eventName}
-        onClose={() => setOpenModalCheckin(false)}
-      />
-      <ModalNews
-        visible={openModalNews}
-        onPress={() => setOpenModalNews(false)}
-        onClose={() => setOpenModalNews(false)}
-      />
     </View>
   );
 };

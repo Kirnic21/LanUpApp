@@ -18,6 +18,7 @@ const ButtonComponent = ({
       <TouchableOpacity
         onPress={onPress}
         style={[
+          { width: calcWidth(50) },
           buttonStyle,
           styles.Btn,
           isSelected
@@ -41,7 +42,6 @@ const ButtonComponent = ({
 
 const styles = StyleSheet.create({
   Btn: {
-    width: calcWidth(50),
     padding: calcWidth(3.5),
     borderRadius: calcWidth(30),
     alignItems: "center",

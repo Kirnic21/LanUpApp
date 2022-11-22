@@ -30,7 +30,7 @@ import HTML from "react-native-render-html";
 import RNFS from "react-native-fs";
 import FileViewer from "react-native-file-viewer";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import WarningModal from "./WarningModal";
+import WarningModal from "~/shared/components/WarningModal";
 import Ticket from "~/shared/components/Ticket";
 
 const Details = ({
@@ -339,6 +339,9 @@ const Details = ({
         )}
       </ScrollView>
       <WarningModal
+        title="Complete seu perfil"
+        subtitle="Para se candidatar a vagas, complete seu perfil."
+        titleButton="Completar perfil"
         visible={openWarningModal}
         onPress={onPressWarningModal}
         onClose={onPressCloseWarningModal}

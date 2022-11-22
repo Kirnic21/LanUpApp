@@ -4,17 +4,21 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import dimensions, { adjust } from "~/assets/Dimensions/index";
 import ModalComponent from "~/shared/components/ModalComponent";
 
-export default WarningModal = ({ visible, onClose, subtitle, onPress }) => (
+export default WarningModal = ({
+  visible,
+  onClose,
+  subtitle,
+  title,
+  titleButton,
+  onPress,
+}) => (
   <View>
     <ModalComponent visible={visible} onClose={onClose}>
       <View style={styles.container}>
-        <Text style={styles.title}>Complete seus dados bancários</Text>
-        <Text style={styles.subtitle}>
-          {subtitle}Para se candidatar a vagas, preencha seus dados bancários
-          com sua conta corrente ou poupança e uma chave PIX
-        </Text>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.subtitle}>{subtitle}</Text>
         <TouchableOpacity onPress={onPress} style={styles.btn}>
-          <Text style={styles.textButton}>Completar dados bancários</Text>
+          <Text style={styles.textButton}>{titleButton}</Text>
         </TouchableOpacity>
       </View>
     </ModalComponent>

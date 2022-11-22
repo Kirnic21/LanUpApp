@@ -14,7 +14,6 @@ import { connect } from "react-redux";
 import Toggle from "~/shared/components/ToggleComponent";
 import Schedules from "./Schedules";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
-import ModalComingSoon from "~/shared/components/ModalComingSoon";
 import { notifyVacancy } from "~/store/ducks/vacancies/vacancies.actions";
 import {
   emergencyAvailability,
@@ -94,13 +93,6 @@ class Availability extends Component {
   componentDidMount() {
     this.GetDataAvailability();
   }
-
-  openModal = () => {
-    this.setState({ visible: true });
-  };
-  closeModal = () => {
-    this.setState({ visible: false });
-  };
 
   onToggle = async (isOn) => {
     try {
@@ -194,7 +186,10 @@ class Availability extends Component {
             </Text>
             <View style={{ flexDirection: "row" }}>
               <Text
-                style={[styles.titleStyle, { marginRight:  Platform.OS === "ios" ?"20%" : "25%"}]}
+                style={[
+                  styles.titleStyle,
+                  { marginRight: Platform.OS === "ios" ? "20%" : "25%" },
+                ]}
                 allowFontScaling={false}
               >
                 Estou disponível agora
@@ -260,12 +255,6 @@ class Availability extends Component {
             de{"\n"}receber vagas
           </Text>
         </ScrollView>
-        <ModalComingSoon
-          onTouchOutside={() => this.closeModal()}
-          onClose={() => this.closeModal()}
-          visible={visible}
-          onSwipeOut={() => this.setState({ bottomModalAndTitle: false })}
-        />
       </View>
     );
   }
