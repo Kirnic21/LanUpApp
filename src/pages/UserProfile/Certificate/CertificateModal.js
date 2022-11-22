@@ -68,6 +68,7 @@ const CertificateModal = ({
     4: "Pós graduação",
     5: "MBA",
     6: "Vacinação(Covid-19)",
+    7: "ASO"
   };
 
   const content = [
@@ -246,6 +247,7 @@ const CertificateModal = ({
                 { label: "Pós graduação", value: 4 },
                 { label: "MBA", value: 5 },
                 { label: "Vacinação(Covid-19)", value: 6 },
+                { label: "ASO", value: 7 },
               ]}
             />
             <Field
