@@ -40,7 +40,6 @@ class Profession extends Component {
     });
   }
 
-
   handleInputFocus = () =>
     this.setState({ isFocused: true, isValueWork: false });
 
@@ -219,11 +218,13 @@ const styles = StyleSheet.create({
     marginTop: calcWidth(3),
   },
   containerProfessionAndSkill: {
+    position: "relative",
     backgroundColor: "#24203B",
     marginLeft: "5%",
     marginTop: "10%",
-    height: calcWidth(40),
+    minHeight: calcWidth(40),
     padding: dimensions(15),
+    paddingRight: dimensions(18),
     borderBottomLeftRadius: dimensions(15),
     borderTopLeftRadius: dimensions(15),
   },
@@ -264,11 +265,9 @@ const styles = StyleSheet.create({
     top: "-3%",
   },
   btnArrow: {
-    width: "50%",
-    height: "100%",
     position: "absolute",
-    left: "100%",
-    top: "60%",
+    right: 15,
+    top: "50%",
   },
   Title: {
     color: "#FFF",
