@@ -37,8 +37,8 @@ const VacanciesDeitails = ({
       status === 0
         ? getPublicVacancyDetails(job)
         : status === 1
-        ? setDetails(getDeitails)
-        : getInvitationVacancyDetails(job);
+          ? setDetails(getDeitails)
+          : getInvitationVacancyDetails(job);
     })();
   }, []);
 
@@ -162,6 +162,11 @@ const VacanciesDeitails = ({
   };
 
   const hasBankDetails = () => {
+
+    if (!details?.requiresFullProfile) {
+      return _handleClick[params.status]();
+    }
+
     setLoading((prevState) => !prevState);
     validateBankInformation()
       .then((data) => data)

@@ -23,6 +23,7 @@ export const validate = (values) => {
   !values?.address?.latitude && (errors.address = "Campo obrigatório.");
   !values?.fullName && (errors.fullName = "Campo obrigatório.");
   !values?.birthday && (errors.birthday = "Campo obrigatório.");
+  !values?.phone && (errors.phone = "Campo obrigatório.");
   !values.owner && (errors.owner = "Campo obrigatório.");
   !values.bankAccountType && (errors.bankAccountType = "Campo obrigatório.");
   !values.bankCode?.id && (errors.bankCode = "Campo obrigatório.");

@@ -22,7 +22,11 @@ const AdditionalInformation = ({}) => {
       />
       <Field
         style={{ width: "100%" }}
-        title="Telefone"
+        title={
+          <Text>
+            Celular<Text style={styles.FieldRequired}>*</Text>
+          </Text>
+        }
         keyboardType="numeric"
         placeholder="(99) 99999-9999"
         placeholderTextColor="rgba(255,255,255,0.5)"
