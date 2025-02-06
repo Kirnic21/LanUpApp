@@ -16,7 +16,7 @@ import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Container } from "native-base";
+import { Container } from "@gluestack-ui/themed-native-base";
 import { existingEmail } from "~/shared/services/freela.http";
 import dimensions from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";

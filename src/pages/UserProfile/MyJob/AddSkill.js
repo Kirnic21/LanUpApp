@@ -29,31 +29,38 @@ class AddSkill extends Component {
     const { skill, navigation } = this.props;
     const active = !!skill.length;
     navigation.setParams({
-      handleSave: () => this.SaveSkill(),
-      editingSave: () => this.editing(),
+      handleSave: this.SaveSkill,
+      editingSave: this.editing,
       active,
+      isEditing:false
     });
+    this.updateHeader();
   }
 
-  static navigationOptions = ({ navigation }) => {
-    const { state } = navigation;
-    const isEditing = navigation.getParam("isEditing");
-    const active = navigation.getParam("active");
-    return {
-      headerRight: () =>
-        isEditing ? (
-          <View>
-            <ButtonRightNavigation
-              title="Salvar"
-              onPress={() => state.params.handleSave()}
-            />
-          </View>
+  componentDidUpdate(prevProps) {
+    const { route } = this.props;
+    // Check if params have changed (specifically, if isEditing has changed)
+    if (prevProps.route?.params?.isEditing !== route?.params?.isEditing) {
+      this.updateHeader();
+    }
+  }
+
+  updateHeader() {
+    const { isEditing, active } = this.props.route?.params || {};
+    console.log(isEditing)
+    this.props.navigation.setOptions({
+      headerRight: () => {
+
+        return isEditing ? (
+          <ButtonRightNavigation
+            title="Salvar"
+            onPress={this.SaveSkill}
+          />
         ) : (
           <View pointerEvents={active ? "auto" : "none"}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this.editing}>
               <MaterialCommunityIcons
-                onPress={() => state.params.editingSave()}
-                name={"pencil"}
+                name="pencil"
                 size={dimensions(22)}
                 style={{
                   paddingHorizontal: dimensions(23),
@@ -63,32 +70,27 @@ class AddSkill extends Component {
               />
             </TouchableOpacity>
           </View>
-        ),
-    };
-  };
+        );
+      },
+    });
+  }
 
   editing = () => {
     this.props.navigation.setParams({
-      isEditing: true,
+      isEditing: true, // Change isEditing state
     });
   };
+AddSkills = async (textSkill) => {
 
-  Skills = (txt) => {
-    const text = txt.trim();
-    this.setState({ text });
-  };
-
-  AddSkills = async (textSkill) => {
     const { updateSkill, skill, navigation } = this.props;
     this.setState({ visible: false, text: "" });
     updateSkill({ skills: [...skill, textSkill] });
     navigation.setParams({ active: true });
   };
-
-  handleDelete = (delSkill) => {
-    const { skillsSuccess, skill } = this.props;
-    skillsSuccess(skill.filter((item) => ![delSkill].includes(item)));
-  };
+  Skills = (txt) => {
+        const text = txt.trim();
+        this.setState({ text });
+      };
 
   SaveSkill = () => {
     const { skill: skills, updateSkill, navigation } = this.props;
@@ -100,11 +102,14 @@ class AddSkill extends Component {
       this.setState({ text: "" });
     });
   };
-
+handleDelete = (delSkill) => {
+    const { skillsSuccess, skill } = this.props;
+    skillsSuccess(skill.filter((item) => ![delSkill].includes(item)));
+  };
   render() {
     const { visible, text } = this.state;
     const { skill } = this.props;
-    const isEditing = this.props.navigation.getParam("isEditing");
+    const isEditing = this.props.route?.params?.isEditing;
     return (
       <View style={styles.container}>
         {skill.length ? (
@@ -177,6 +182,7 @@ class AddSkill extends Component {
     );
   }
 }
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,

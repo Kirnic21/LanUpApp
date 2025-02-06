@@ -1,0 +1,303 @@
+# ninja log v5
+3	35	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+9837	16124	7586832810464302	rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/States.cpp.o	7db5f9f1987fa949
+45810	47895	7586833125057403	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libreact_codegen_rnpicker.so	57c31e2f7fc4826f
+46	10121	7599595416905838	CMakeFiles/appmodules.dir/OnLoad.cpp.o	60a8006602b010bf
+51249	57508	7586833224638467	RNDatePickerSpecs_autolinked_build/CMakeFiles/react_codegen_RNDatePickerSpecs.dir/react/renderer/components/RNDatePickerSpecs/EventEmitters.cpp.o	8f23617f7fa37ac
+7042	13144	7586832781384297	rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/EventEmitters.cpp.o	1261281572ef671c
+87	1967	7599604474732622	build.ninja	8adfcf794da86be8
+53082	58428	7586833234811413	RNImagePickerSpec_autolinked_build/CMakeFiles/react_codegen_RNImagePickerSpec.dir/react/renderer/components/RNImagePickerSpec/States.cpp.o	9dfa720fca1bcd96
+87500	95228	7586833601964614	rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/eaac04b361746a94c1c186eea2157dfc/source/codegen/jni/react/renderer/components/rnsvg/ShadowNodes.cpp.o	e0216c4cec473921
+7654	13871	7586832790474278	rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/ShadowNodes.cpp.o	1b83a6649ea89ed3
+84167	90236	7586833551980217	rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/eaac04b361746a94c1c186eea2157dfc/source/codegen/jni/react/renderer/components/rnsvg/EventEmitters.cpp.o	f1df0fe10913cab5
+43700	51248	7586833162815154	RNDatePickerSpecs_autolinked_build/CMakeFiles/react_codegen_RNDatePickerSpecs.dir/react/renderer/components/RNDatePickerSpecs/Props.cpp.o	81c3015d87cbb6e6
+12437	20323	7586832852978271	rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/rnasyncstorageJSI-generated.cpp.o	33b795eda1165b1f
+57243	66195	7579721173407951	rnpermissions_autolinked_build/CMakeFiles/react_codegen_rnpermissions.dir/react/renderer/components/rnpermissions/ShadowNodes.cpp.o	67de28127c1658d8
+8545	15440	7586832804794301	rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/rnasyncstorage-generated.cpp.o	4ff58e4548dbaf0d
+7110	16417	7586832814078285	rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/Props.cpp.o	f08c0a1bd8af690c
+6972	15646	7586832805224345	rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/ComponentDescriptors.cpp.o	4d3380f5b96d41f4
+47896	54178	7586833190785320	lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/react/renderer/components/lottiereactnative/lottiereactnativeJSI-generated.cpp.o	4034e72645520217
+22058	34575	7586832996531168	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/RNCAndroidDialogPickerMeasurementsManager.cpp.o	3ffeec63b40dae58
+47947	59018	7579721100592781	rnpermissions_autolinked_build/CMakeFiles/react_codegen_rnpermissions.dir/react/renderer/components/rnpermissions/Props.cpp.o	18b8b70c549f540b
+24014	31345	7586832965010930	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/RNCAndroidDialogPickerState.cpp.o	13d10b47ef4b9262
+34576	42781	7586833078387409	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/RNCAndroidDropdownPickerState.cpp.o	491aa0d4f6d7575f
+24573	34672	7586832997091167	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/RNCAndroidDropdownPickerShadowNode.cpp.o	2142d532a26bf0a3
+21567	33042	7586832980641162	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/RNCAndroidDialogPickerShadowNode.cpp.o	fcfaaf57bc622109
+39823	46050	7586833112267405	lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/react/renderer/components/lottiereactnative/EventEmitters.cpp.o	d4cc8f778a2b56bd
+22607	33566	7586832986501186	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/RNCAndroidDropdownPickerMeasurementsManager.cpp.o	86fbd9d55c8db25c
+59	8544	7586832734028323	RNImageResizerSpec_autolinked_build/CMakeFiles/react_codegen_RNImageResizerSpec.dir/react/renderer/components/RNImageResizerSpec/Props.cpp.o	5f14a975506f4fb0
+31346	39917	7586833049927402	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/44cbbdd9195859712c1b60b789e1e121/codegen/jni/react/renderer/components/rnpicker/EventEmitters.cpp.o	7f9502b9c11c369d
+34672	39822	7586833049077404	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/39c92d5d7a9aef6c6b8096d15b264aeb/source/codegen/jni/react/renderer/components/rnpicker/States.cpp.o	7940797277fe2f2
+84854	93836	7586833590084617	rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/6da90638b4e8588816c79fb0d8314b97/codegen/jni/react/renderer/components/rnsvg/ComponentDescriptors.cpp.o	fa24bf3dd890020d
+37775	43699	7586833088337386	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/9bbbfc5aacc6ee23e712b73cf0a34c70/jni/react/renderer/components/rnpicker/rnpickerJSI-generated.cpp.o	d36a9e8e0931de7c
+50063	59791	7586833248611385	lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/react/renderer/components/lottiereactnative/Props.cpp.o	d3639a3e232cd4aa
+38344	45837	7586833108147437	lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/lottiereactnative-generated.cpp.o	a3bd456997e565fe
+26862	37774	7586833029527416	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/44cbbdd9195859712c1b60b789e1e121/codegen/jni/react/renderer/components/rnpicker/ShadowNodes.cpp.o	b67cab8806e28da8
+115408	121933	7586833869602343	RNCWebViewSpec_autolinked_build/CMakeFiles/react_codegen_RNCWebViewSpec.dir/RNCWebViewSpec-generated.cpp.o	3ae4772cdf965a3a
+33567	45810	7586833108687411	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/rnpicker.cpp.o	2445c331eefad8bf
+25608	37331	7586833024287398	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/9bbbfc5aacc6ee23e712b73cf0a34c70/jni/react/renderer/components/rnpicker/ComponentDescriptors.cpp.o	b10fd6eaf446c58e
+60035	66805	7586833319533872	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/ShadowNodes.cpp.o	7bbce36fa8be26f
+116384	122339	7586833872042348	RNCWebViewSpec_autolinked_build/CMakeFiles/react_codegen_RNCWebViewSpec.dir/react/renderer/components/RNCWebViewSpec/States.cpp.o	5e4de1e242602b46
+33042	43796	7586833087207386	rnpicker_autolinked_build/CMakeFiles/react_codegen_rnpicker.dir/39c92d5d7a9aef6c6b8096d15b264aeb/source/codegen/jni/react/renderer/components/rnpicker/Props.cpp.o	30356b541886e4c8
+37331	48388	7586833134547329	lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/react/renderer/components/lottiereactnative/ComponentDescriptors.cpp.o	5e8de8b96f9aceca
+42782	51938	7586833171045320	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/bac033cd950586cef66695376748dd33/ComponentDescriptors.cpp.o	c526bfb1c4df2c27
+118734	127466	7586833926599101	RNCWebViewSpec_autolinked_build/CMakeFiles/react_codegen_RNCWebViewSpec.dir/react/renderer/components/RNCWebViewSpec/ComponentDescriptors.cpp.o	9e82bed4c96d9889
+51	31469	7599595628943230	CMakeFiles/appmodules.dir/C_/Users/User/Desktop/trabalho/LanUpApp_-_Copia/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o	2591ddc27a29776f
+58168	65704	7586833308142411	RNImagePickerSpec_autolinked_build/CMakeFiles/react_codegen_RNImagePickerSpec.dir/react/renderer/components/RNImagePickerSpec/ComponentDescriptors.cpp.o	191c81dba421a676
+45837	50063	7586833152360284	lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/react/renderer/components/lottiereactnative/States.cpp.o	f25d397202abee6c
+61186	65936	7586833311072433	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/States.cpp.o	b4e09ce4cbbf6e7f
+42454	53565	7579721045049348	rnpermissions_autolinked_build/CMakeFiles/react_codegen_rnpermissions.dir/react/renderer/components/rnpermissions/ComponentDescriptors.cpp.o	ca9ad16f12ed617b
+45045	53804	7579721049161125	rnpermissions_autolinked_build/CMakeFiles/react_codegen_rnpermissions.dir/react/renderer/components/rnpermissions/EventEmitters.cpp.o	5ca6baaba110b1d
+46051	55032	7586833201705324	lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/react/renderer/components/lottiereactnative/ShadowNodes.cpp.o	ab5531c53b3497b2
+50209	59620	7579721107442788	rnpermissions_autolinked_build/CMakeFiles/react_codegen_rnpermissions.dir/rnpermissions-generated.cpp.o	35ecb637b0900daf
+58429	66314	7586833312672438	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/rngesturehandler_codegen-generated.cpp.o	b9a41687b183bed5
+91163	100621	7586833657292714	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/cc7a9f4605916f1c461956b11d3ad8da/renderer/components/rnscreens/RNSModalScreenShadowNode.cpp.o	cbf89c40014617fa
+53615	60143	7579721112682800	rnpermissions_autolinked_build/CMakeFiles/react_codegen_rnpermissions.dir/react/renderer/components/rnpermissions/States.cpp.o	70f483b5215152a8
+53805	63185	7579721142847948	rnpermissions_autolinked_build/CMakeFiles/react_codegen_rnpermissions.dir/react/renderer/components/rnpermissions/rnpermissionsJSI-generated.cpp.o	7324131d3cb05255
+100621	111356	7586833765092052	rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/d8c6a94eff496848743845c9d2a229d8/common/cpp/react/renderer/components/rnsvg/RNSVGImageShadowNode.cpp.o	86598f1d42b5b496
+77923	87499	7586833524984792	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/22dd6b02d245b2f1731078f0b062a3a1/safeareacontext/RNCSafeAreaViewShadowNode.cpp.o	6af6bb22e8efb362
+108015	113097	7586833782008120	rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/d8c6a94eff496848743845c9d2a229d8/common/cpp/react/renderer/components/rnsvg/RNSVGImageState.cpp.o	8ebdc2d1746d9484
+85532	91162	7586833563300251	rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/8a3bada64045882822b08e26daf9fda2/generated/source/codegen/jni/react/renderer/components/rnsvg/States.cpp.o	6dfb91fe360237ae
+87003	97096	7586833621750512	rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/rnsvg.cpp.o	640962ffc6492df2
+110740	118081	7586833830884101	rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/6da90638b4e8588816c79fb0d8314b97/codegen/jni/react/renderer/components/rnsvg/rnsvgJSI-generated.cpp.o	fdafc7b3ece598ec
+72027	78788	7586833436044164	rnreanimated_autolinked_build/CMakeFiles/react_codegen_rnreanimated.dir/react/renderer/components/rnreanimated/ShadowNodes.cpp.o	90b9155bfc0d0c7a
+87202	97839	7586833627550492	rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/8a3bada64045882822b08e26daf9fda2/generated/source/codegen/jni/react/renderer/components/rnsvg/Props.cpp.o	c2afe574edc04ed6
+120114	126750	7586833919149075	RNCWebViewSpec_autolinked_build/CMakeFiles/react_codegen_RNCWebViewSpec.dir/react/renderer/components/RNCWebViewSpec/EventEmitters.cpp.o	d11ed5d31b5d7349
+121146	128165	7586833933559095	RNCWebViewSpec_autolinked_build/CMakeFiles/react_codegen_RNCWebViewSpec.dir/react/renderer/components/RNCWebViewSpec/Props.cpp.o	5e3333d74af69b3f
+120339	125700	7586833909086497	RNCWebViewSpec_autolinked_build/CMakeFiles/react_codegen_RNCWebViewSpec.dir/react/renderer/components/RNCWebViewSpec/RNCWebViewSpecJSI-generated.cpp.o	3a1358d6bd2c745d
+121079	127520	7586833927459084	RNCWebViewSpec_autolinked_build/CMakeFiles/react_codegen_RNCWebViewSpec.dir/react/renderer/components/RNCWebViewSpec/ShadowNodes.cpp.o	a74078661d2a547b
+118081	120339	7586833848917295	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libreact_codegen_rnsvg.so	9064299408c77b6
+31470	34436	7599595659201731	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+55	8669	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+59792	66467	7586833314883857	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/bac033cd950586cef66695376748dd33/EventEmitters.cpp.o	d04c8bbe892137a0
+62607	73444	7586833385343565	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/Props.cpp.o	20be8ea6cbea6966
+45176	53081	7586833181425312	RNDatePickerSpecs_autolinked_build/CMakeFiles/react_codegen_RNDatePickerSpecs.dir/react/renderer/components/RNDatePickerSpecs/RNDatePickerSpecsJSI-generated.cpp.o	7cc9c58f82c55d83
+43797	50940	7586833161065123	RNDatePickerSpecs_autolinked_build/CMakeFiles/react_codegen_RNDatePickerSpecs.dir/react/renderer/components/RNDatePickerSpecs/ShadowNodes.cpp.o	f49e19ba3d8734c7
+96498	105233	7586833703483286	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/3b1d4e76313e9976f5d0390624ac561f/codegen/jni/react/renderer/components/rnscreens/Props.cpp.o	645efb603adb377e
+48389	55279	7586833204355327	RNDatePickerSpecs_autolinked_build/CMakeFiles/react_codegen_RNDatePickerSpecs.dir/RNDatePickerSpecs-generated.cpp.o	3e97b53a8a0eb692
+50940	59623	7586833247461388	RNDatePickerSpecs_autolinked_build/CMakeFiles/react_codegen_RNDatePickerSpecs.dir/react/renderer/components/RNDatePickerSpecs/ComponentDescriptors.cpp.o	1148432d6b0cb572
+39918	45176	7586833102817388	RNDatePickerSpecs_autolinked_build/CMakeFiles/react_codegen_RNDatePickerSpecs.dir/react/renderer/components/RNDatePickerSpecs/States.cpp.o	4600d977ca432912
+73073	77923	7586833431084180	rnreanimated_autolinked_build/CMakeFiles/react_codegen_rnreanimated.dir/react/renderer/components/rnreanimated/States.cpp.o	b4fac8d2b79d6ed4
+109824	116383	7586833814764120	RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/EventEmitters.cpp.o	623eadb14bb29301
+71711	78736	7586833437494177	rnreanimated_autolinked_build/CMakeFiles/react_codegen_rnreanimated.dir/react/renderer/components/rnreanimated/ComponentDescriptors.cpp.o	171c9eb6adf5a67d
+70985	77401	7586833424652987	rnreanimated_autolinked_build/CMakeFiles/react_codegen_rnreanimated.dir/react/renderer/components/rnreanimated/Props.cpp.o	554dcded20035e2d
+71422	77798	7586833428804260	rnreanimated_autolinked_build/CMakeFiles/react_codegen_rnreanimated.dir/react/renderer/components/rnreanimated/EventEmitters.cpp.o	18759fe26fb3aa3
+78789	87002	7586833520984796	rnreanimated_autolinked_build/CMakeFiles/react_codegen_rnreanimated.dir/rnreanimated-generated.cpp.o	b9d3d82daa3b4877
+78737	84166	7586833493054803	rnreanimated_autolinked_build/CMakeFiles/react_codegen_rnreanimated.dir/react/renderer/components/rnreanimated/rnreanimatedJSI-generated.cpp.o	77f107c2950ef786
+50	5505	7586832705254298	RNImageResizerSpec_autolinked_build/CMakeFiles/react_codegen_RNImageResizerSpec.dir/react/renderer/components/RNImageResizerSpec/EventEmitters.cpp.o	d77fe8b2980309ee
+5506	12437	7586832776094291	RNImageResizerSpec_autolinked_build/CMakeFiles/react_codegen_RNImageResizerSpec.dir/react/renderer/components/RNImageResizerSpec/States.cpp.o	829d04a33153cff2
+56	7110	7586832722217820	RNImageResizerSpec_autolinked_build/CMakeFiles/react_codegen_RNImageResizerSpec.dir/react/renderer/components/RNImageResizerSpec/ComponentDescriptors.cpp.o	2b249ebf9f4a4695
+62	6971	7586832720897811	RNImageResizerSpec_autolinked_build/CMakeFiles/react_codegen_RNImageResizerSpec.dir/c8741023e8a0fc2afc06d2082a47dbae/RNImageResizerSpecJSI-generated.cpp.o	69a41b6fff7ae4dc
+98954	107507	7586833723672194	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/b2807b50c0dacb693f5962e2193d1e82/components/rnscreens/RNSScreenStackHeaderSubviewState.cpp.o	9d5bad808562f781
+53	7654	7586832727428331	RNImageResizerSpec_autolinked_build/CMakeFiles/react_codegen_RNImageResizerSpec.dir/RNImageResizerSpec-generated.cpp.o	2106b7196ad47d3d
+65	7041	7586832721027828	RNImageResizerSpec_autolinked_build/CMakeFiles/react_codegen_RNImageResizerSpec.dir/react/renderer/components/RNImageResizerSpec/ShadowNodes.cpp.o	8e1eda4030a28c50
+16418	22607	7586832877431314	RNDateTimePickerCGen_autolinked_build/CMakeFiles/react_codegen_RNDateTimePickerCGen.dir/react/renderer/components/RNDateTimePickerCGen/EventEmitters.cpp.o	9d74f69d9a821166
+13872	22057	7586832870701338	RNDateTimePickerCGen_autolinked_build/CMakeFiles/react_codegen_RNDateTimePickerCGen.dir/react/renderer/components/RNDateTimePickerCGen/ComponentDescriptors.cpp.o	ed67caa342635981
+13145	21566	7586832866235919	RNDateTimePickerCGen_autolinked_build/CMakeFiles/react_codegen_RNDateTimePickerCGen.dir/13e5db451150cc1628879224ca4ec527/RNDateTimePickerCGenJSI-generated.cpp.o	4398c1be846026cf
+16124	24013	7586832888953733	RNDateTimePickerCGen_autolinked_build/CMakeFiles/react_codegen_RNDateTimePickerCGen.dir/RNDateTimePickerCGen-generated.cpp.o	1f0f70c8142524b3
+15626	26543	7586832914129283	RNDateTimePickerCGen_autolinked_build/CMakeFiles/react_codegen_RNDateTimePickerCGen.dir/react/renderer/components/RNDateTimePickerCGen/Props.cpp.o	5935ddc6c81f125d
+20324	25608	7586832907789287	RNDateTimePickerCGen_autolinked_build/CMakeFiles/react_codegen_RNDateTimePickerCGen.dir/react/renderer/components/RNDateTimePickerCGen/States.cpp.o	5b6e2351d929df2c
+16019	24573	7586832897492457	RNDateTimePickerCGen_autolinked_build/CMakeFiles/react_codegen_RNDateTimePickerCGen.dir/react/renderer/components/RNDateTimePickerCGen/ShadowNodes.cpp.o	5cdf6e4bb7b5d779
+67092	73668	7586833387323570	RNPermissionsSpec_autolinked_build/CMakeFiles/react_codegen_RNPermissionsSpec.dir/react/renderer/components/RNPermissionsSpec/ShadowNodes.cpp.o	ff504d183dd8b1f4
+57596	64810	7586833299003485	RNImagePickerSpec_autolinked_build/CMakeFiles/react_codegen_RNImagePickerSpec.dir/RNImagePickerSpec-generated.cpp.o	182f01796f44fd19
+111356	118676	7586833836822392	RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/ComponentDescriptors.cpp.o	2e54eba9828a6965
+55033	61186	7586833260546793	RNImagePickerSpec_autolinked_build/CMakeFiles/react_codegen_RNImagePickerSpec.dir/react/renderer/components/RNImagePickerSpec/EventEmitters.cpp.o	fb20e27615b91433
+54178	60035	7586833251341414	RNImagePickerSpec_autolinked_build/CMakeFiles/react_codegen_RNImagePickerSpec.dir/react/renderer/components/RNImagePickerSpec/RNImagePickerSpecJSI-generated.cpp.o	42acf9ab284ec14
+55280	62606	7586833277726789	RNImagePickerSpec_autolinked_build/CMakeFiles/react_codegen_RNImagePickerSpec.dir/react/renderer/components/RNImagePickerSpec/Props.cpp.o	8d209016d32335d7
+51939	58168	7586833233201405	RNImagePickerSpec_autolinked_build/CMakeFiles/react_codegen_RNImagePickerSpec.dir/react/renderer/components/RNImagePickerSpec/ShadowNodes.cpp.o	e2de65d51ce45a23
+64811	70985	7586833361147556	RNPermissionsSpec_autolinked_build/CMakeFiles/react_codegen_RNPermissionsSpec.dir/react/renderer/components/RNPermissionsSpec/ComponentDescriptors.cpp.o	319ba17c0777321e
+65704	73072	7586833381077554	RNPermissionsSpec_autolinked_build/CMakeFiles/react_codegen_RNPermissionsSpec.dir/RNPermissionsSpec-generated.cpp.o	6996bd69ba0c583c
+66315	71711	7586833367807550	RNPermissionsSpec_autolinked_build/CMakeFiles/react_codegen_RNPermissionsSpec.dir/react/renderer/components/RNPermissionsSpec/EventEmitters.cpp.o	7c6ac89548fa9de5
+66743	71421	7586833365817553	RNPermissionsSpec_autolinked_build/CMakeFiles/react_codegen_RNPermissionsSpec.dir/react/renderer/components/RNPermissionsSpec/States.cpp.o	f3f99255f2a1180d
+105234	112736	7586833777687381	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/3b1d4e76313e9976f5d0390624ac561f/codegen/jni/react/renderer/components/rnscreens/ShadowNodes.cpp.o	d65c7b1c640d57fa
+66097	72027	7586833370577557	RNPermissionsSpec_autolinked_build/CMakeFiles/react_codegen_RNPermissionsSpec.dir/react/renderer/components/RNPermissionsSpec/RNPermissionsSpecJSI-generated.cpp.o	426045162cd52d1f
+65937	73246	7586833380337566	RNPermissionsSpec_autolinked_build/CMakeFiles/react_codegen_RNPermissionsSpec.dir/react/renderer/components/RNPermissionsSpec/Props.cpp.o	a35ea829a4cac786
+77402	84853	7586833499714783	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/dcad50369dfb4512b05653ff78a1d5dc/safeareacontext/safeareacontextJSI-generated.cpp.o	8e1fad90e581f35
+107862	115408	7586833805474123	rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/d8c6a94eff496848743845c9d2a229d8/common/cpp/react/renderer/components/rnsvg/RNSVGShadowNodes.cpp.o	2c9c721148c60366
+82976	89932	7586833548960246	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/ff9d522ab3446d2b6976da0474a9d3b3/components/safeareacontext/EventEmitters.cpp.o	cb7ea57d8f6f368f
+73445	82975	7586833480043922	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/2d87a62dd0260965c9f3ad8c92451f4d/renderer/components/safeareacontext/ShadowNodes.cpp.o	f99d54a024a5136e
+73246	77989	7586833430694181	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/2d87a62dd0260965c9f3ad8c92451f4d/renderer/components/safeareacontext/States.cpp.o	14d8c07849439ba5
+77990	85531	7586833505504811	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/2ca1c5c5ffc1bc59a372d3a938ecbe0b/components/safeareacontext/RNCSafeAreaViewState.cpp.o	693b873379ce0f3d
+80338	89160	7586833541394814	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/9316a0f70d93bb15513765b9c29144d8/react/renderer/components/safeareacontext/Props.cpp.o	96a95093cab1fa60
+77798	87202	7586833521694792	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/ff9d522ab3446d2b6976da0474a9d3b3/components/safeareacontext/ComponentDescriptors.cpp.o	a80cd433bb98a19f
+73683	80337	7586833454674161	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/03a69ea751f996480a5af2e39e202096/source/codegen/jni/safeareacontext-generated.cpp.o	6f6d655e7d7c90e5
+90152	91525	7586833563130230	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libreact_codegen_safeareacontext.so	811213bb43df26b6
+89161	96497	7586833616520517	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/b2807b50c0dacb693f5962e2193d1e82/components/rnscreens/RNSScreenStackHeaderConfigState.cpp.o	e8cbd667a8ffa7ba
+91526	100044	7586833652010507	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/411b1b23ea9e3d9ab1c73ccad45fe898/cpp/react/renderer/components/rnscreens/RNSScreenShadowNode.cpp.o	b2e0bf7e599dd5d4
+100045	108966	7586833740602206	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/411b1b23ea9e3d9ab1c73ccad45fe898/cpp/react/renderer/components/rnscreens/RNSScreenState.cpp.o	1d75b2dbde2a0ce
+93837	102431	7586833672152721	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/b2807b50c0dacb693f5962e2193d1e82/components/rnscreens/RNSScreenStackHeaderConfigShadowNode.cpp.o	3a03d60fe200083f
+90272	98954	7586833639620506	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/b2807b50c0dacb693f5962e2193d1e82/components/rnscreens/RNSScreenStackHeaderSubviewShadowNode.cpp.o	fede1d6875c2eec5
+95229	104308	7586833694534491	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/rnscreens.cpp.o	fcef7d5e9fe67b0d
+102432	108014	7586833731962186	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/3b1d4e76313e9976f5d0390624ac561f/codegen/jni/react/renderer/components/rnscreens/States.cpp.o	89bbfd54cb2d4edc
+104308	110739	7586833758492024	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/4e6386d29fb9cf95ff2ec01ae93b10a8/react/renderer/components/rnscreens/rnscreensJSI-generated.cpp.o	bc54427f857c30e
+98061	107204	7586833723152185	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/38dfa55cbc6157f04a7a52379fdfec01/jni/react/renderer/components/rnscreens/EventEmitters.cpp.o	7e787c36743c322e
+108967	115355	7586833803714116	RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/RNVectorIconsSpec-generated.cpp.o	3d9ee13829c45985
+114461	121078	7586833861972349	RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/States.cpp.o	b0a4bb050a021c39
+97096	109823	7586833747582033	rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir/4e6386d29fb9cf95ff2ec01ae93b10a8/react/renderer/components/rnscreens/ComponentDescriptors.cpp.o	ed0028e5fa099638
+112918	114461	7586833792738123	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libreact_codegen_rnscreens.so	665bf36581ce0111
+115356	123041	7586833881512343	RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/RNVectorIconsSpecJSI-generated.cpp.o	320a7d8316d7d06e
+114239	121145	7586833862442376	RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/Props.cpp.o	65621620c5f7af
+113097	120114	7586833851867279	RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/ShadowNodes.cpp.o	6530a478c5e3c162
+107215	114238	7586833793918124	rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/babda9e101fb798be565a0d94668c0fb/cpp/react/renderer/components/rnsvg/RNSVGLayoutableShadowNode.cpp.o	4e4780c04fba3c63
+2	35	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+35	3156	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3156	4910	7599604528261396	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+26	186	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+92	12801	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+12802	16368	7599617234471494	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+47	125	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+225	8929	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+8930	26638	7599622846087682	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	1099	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+1311	19967	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+19968	29864	7599623730687365	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+8	170	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+4	90	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+11	93	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+283	10182	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+38	7377	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+43	7273	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+7377	11669	7599626163575231	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+10182	16124	7599626163575231	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+7274	11370	7599626163575231	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+3	175	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+176	8843	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+8843	32800	7599627478890080	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+6	129	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+97	4143	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+4143	7106	7599853579179424	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+5	47	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+38	3600	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3600	5102	7599871929191703	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+5	49	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+32	3057	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3058	4781	7600269787540899	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+5	36	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+31	2948	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+2949	4058	7600271852474329	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	623	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+134	3069	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3070	4357	7600274137545210	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+8	48	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+31	3214	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3215	5557	7600282147381364	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+5	46	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+31	2950	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+2951	5379	7600288290517342	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+8	46	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+37	3014	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3014	5120	7600294869008257	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	47	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+41	3639	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3639	4875	7600326549862548	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+5	64	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+33	3817	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3817	5132	7600407508708078	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+7	40	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+32	3109	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3110	4987	7600410100424560	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	38	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+34	3737	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3738	4970	7600412725159272	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+12	84	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+132	7524	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+7524	10277	7600415380898766	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	40	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+31	3143	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3143	4715	7600464237151293	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+10	64	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+110	4092	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+4092	8391	7602850522743185	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+18	55	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+35	3219	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3219	4398	7602857438952202	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	39	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+32	2999	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3000	4095	7602878852732528	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	37	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+31	4294	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+4295	6509	7602885571076112	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+51	90	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+33	3370	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3371	5148	7602897280286531	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+11	51	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+37	3261	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3262	9025	7602906130800883	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+5	43	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+34	3298	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3299	4937	7602910790942141	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+7	41	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+32	3220	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3220	4515	7602914499992852	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+8	42	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+33	3195	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3196	4469	7603055398361276	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+5	48	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+33	3470	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3470	5487	7603704883613077	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+5	39	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+60	3297	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3297	4554	7603713206734549	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+5	38	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+32	3418	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3418	6826	7603719281208951	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+8	50	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+35	3840	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3841	5840	7603731585540222	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+9	50	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+30	3505	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3505	5771	7603773335343164	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+23	117	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+111	10466	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+10466	13448	7603778385548042	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+6	59	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+33	3168	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3169	5135	7603922503546576	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+13	66	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+36	3766	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3766	6132	7604569560720943	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+6	273	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+37	4121	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+4121	5644	7604586240066319	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	40	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+33	3112	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3112	4331	7604607684106679	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+5	40	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+32	3065	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3066	4177	7604647353122086	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+8	52	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+33	3561	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3561	5572	7604770979736334	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	45	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+35	3147	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3147	5150	7605430909736742	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+5	41	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+33	3359	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3360	4649	7605441826091864	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+7	58	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+36	5748	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+5749	11215	7605564836777812	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	38	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+31	3096	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3097	4219	7605590543064928	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	46	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+36	3228	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3229	4403	7605601490346187	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	42	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+34	3611	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3611	5054	7605615184290404	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+6	51	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+40	5975	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+5976	8073	7605625934291186	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+10	54	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+32	3144	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3144	4334	7605629465644618	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+7	61	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+33	3406	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3407	4684	7605639251839764	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+5	87	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+47	3349	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3350	4574	7605644784196215	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39
+4	43	0	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/.cxx/Debug/1o43j02p/x86/CMakeFiles/cmake.verify_globs	1fedda4b7a7b78f2
+34	3498	0	rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp.o	18d6786d6d2dfac3
+3498	4589	7605668327465300	C:/Users/User/Desktop/trabalho/LanUpApp - Copia/android/app/build/intermediates/cxx/Debug/1o43j02p/obj/x86/libappmodules.so	bbea174f2b1cee39

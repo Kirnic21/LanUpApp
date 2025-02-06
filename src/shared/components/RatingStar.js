@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import StarRating from "react-native-star-rating";
+import StarRating from "react-native-star-rating-widget";
 import { calcWidth } from "~/assets/Dimensions";
 
 const RatingStar = ({ title, rating, selectedStar }) => {

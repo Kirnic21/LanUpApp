@@ -1,7 +1,7 @@
 import React from "react";
-import ActionSheet from "react-native-actionsheet";
+import ActionSheet from "@alessiocancian/react-native-actionsheet";
 import ImagePicker from "react-native-image-crop-picker";
-import ImageResizer from "react-native-image-resizer";
+import ImageResizer from "@bam.tech/react-native-image-resizer";
 
 class ImageSelector extends React.Component {
   onActionSheetPress = (index) => {

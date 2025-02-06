@@ -3,7 +3,7 @@ import dimensions, { adjust } from "~/assets/Dimensions/index";
 
 const styles = StyleSheet.create({
   btnRegister: {
-    top: '15%',
+    top: '45%',
     backgroundColor: "#46C5F3"
   },
   registerContainer: {

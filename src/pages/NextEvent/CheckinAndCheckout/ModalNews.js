@@ -1,7 +1,6 @@
 import React from "react";
 import { Image, Platform, StyleSheet, View, Text } from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Modal from "~/shared/components/ModalComponent";
 import ButtonComponent from "~/shared/components/ButtonCompoent";
 import debounceButton from "~/shared/helpers/debounce";

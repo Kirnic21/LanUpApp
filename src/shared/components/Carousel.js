@@ -8,70 +8,79 @@ import {
   View,
   Text
 } from "react-native";
-import Gallery from "react-native-image-gallery";
+import GallerySwiper from "react-native-gallery-swiper";
 
 const Carousel = ({ isOpen, handleOpen, pictures, caption, indexGallery }) => {
+  const { width } = Dimensions.get("screen");
+
+  const images = pictures.map((picture) => ({
+    source: { uri: picture.url },
+
+    dimensions: { width: 1000, height: 1000 },
+  }));
+
+  const handleClose = () => {
+    handleOpen(false); // Close the modal when the close button is pressed
+  };
+
+  const getItemLayout = (data, index) => {
+
+    const itemLength = width; // Screen width
+    const offset = itemLength * index;
+    return { length: itemLength, offset, index };
+  };
+
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={isOpen}
-      onRequestClose={() => {}}
+      onRequestClose={handleClose}
     >
-      <View style={styles.closeContainer}>
-        <TouchableOpacity
-          onPress={() => handleOpen(!isOpen)}
-          style={styles.closeButtonContainer}
-        >
+      <View style={[styles.container, { width }]}>
+        <TouchableOpacity onPress={handleClose} style={styles.closeButtonContainer}>
           <MaterialCommunityIcons name="close" size={38} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.caption}>{caption}</Text>
       </View>
-      <Gallery
+
+      <GallerySwiper
         initialPage={indexGallery}
         style={styles.gallery}
-        images={pictures.map(picture => ({
-          source: { uri: picture.url },
-          dimensions: { width: 1000, height: 1000 }
-        }))}
+        images={images}
         flatListProps={{
           initialScrollIndex: indexGallery,
-          getItemLayout: (data, index) => ({
-            length: Dimensions.get("screen").width,
-            offset: Dimensions.get("screen").width * index,
-            index
-          })
+          getItemLayout,
         }}
       />
     </Modal>
   );
 };
 
-const { width } = Dimensions.get("screen");
-
 const styles = StyleSheet.create({
-  closeContainer: {
-    width,
+  container: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    padding: "5%",
   },
   closeButtonContainer: {
     justifyContent: "center",
     alignItems: "center",
-    padding: "5%"
+    padding: 10,
   },
   caption: {
     color: "#F7F7F7",
     fontSize: 18,
     fontFamily: "Montserrat-Medium",
-    flex: 1
+    flex: 1,
+    textAlign: "center",
   },
   gallery: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.8)",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });
 
 export default Carousel;

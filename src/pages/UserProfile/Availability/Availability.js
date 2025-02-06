@@ -21,7 +21,7 @@ import {
 } from "~/shared/services/freela.http";
 import { decodeToken } from "~/shared/services/decode";
 import { reduxForm } from "redux-form";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from "react-native-vector-icons/FontAwesome";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import SignalR from "~/shared/services/signalr";
@@ -103,6 +103,7 @@ class Availability extends Component {
       });
 
       SignalR.connect().then((conn) => {
+
         if (isOn) {
           conn.invoke("AddToGroup");
           conn.on(SignalR.channels.RECEIVE_VACANCY, this.onReceiveVacancy);

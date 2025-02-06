@@ -25,8 +25,8 @@ import ShiftCard from "./ShiftCard";
 import CardDeitailsVacancies from "./CardDeitailsVacancies";
 
 const Button = debounceButton(ButtonComponent);
-
-import HTML from "react-native-render-html";
+import { useWindowDimensions } from 'react-native';
+import RenderHtml from 'react-native-render-html';
 import RNFS from "react-native-fs";
 import FileViewer from "react-native-file-viewer";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -79,6 +79,7 @@ const Details = ({
     },
   },
 }) => {
+const { width } = useWindowDimensions();
   const [selectedShift, setSelectedShift] = useState(false);
   const [terms, setTerms] = useState(false);
   const [buttonSelect, setButtonSelect] = useState(1);
@@ -125,7 +126,9 @@ const Details = ({
       return status === 0 ? selectedShift : true;
     }
   }, [hasSecurityProtocol, status, terms, selectedShift]);
-
+ const handleLinkPress = (event, href) => {
+    Linking.openURL(href);
+  };
   const RenderQrCode = () => {
     return (
       <View style={styles.qrCode}>
@@ -205,13 +208,16 @@ const Details = ({
                 contentTextStyle={styles.colorWhite}
                 isModalOn={false}
               >
-                <HTML
-                  baseFontStyle={styles.colorWhite}
-                  html={`<Div>${eventDescription}</Div>`}
-                  onLinkPress={(event, href) => {
-                    Linking.openURL(href);
-                  }}
-                />
+                 <RenderHtml
+
+                      source={{ html: `<div>${eventDescription}</div>` }} // Correct the HTML format
+                      contentWidth={width} // Use screen width for content scaling
+                      renderersProps={{
+                        a: {
+                          onPress: handleLinkPress, // Updated onPress for links
+                        },
+                      }}
+                    />
               </CardDeitailsVacancies>
               <View>
                 <CardDeitailsVacancies

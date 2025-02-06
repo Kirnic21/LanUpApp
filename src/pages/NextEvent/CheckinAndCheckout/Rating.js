@@ -5,7 +5,8 @@ import { Field, reduxForm } from "redux-form";
 
 import { calcWidth, adjust } from "~/assets/Dimensions";
 import logoRating from "~/assets/images/logo-rating.png";
-import ButtonComponent from "~/shared/components/ButtonCompoent";
+import
+ButtonComponent from "~/shared/components/ButtonCompoent";
 import InputField from "~/shared/components/InputField";
 import RatingStar from "~/shared/components/RatingStar";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";

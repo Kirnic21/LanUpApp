@@ -16,8 +16,8 @@ import {
 } from "~/shared/services/freela.http";
 import { styles } from "./styles";
 import WarningModal from "./warningModal";
-
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRoute } from '@react-navigation/native';
 
 const DeleteAccount = ({ navigation }) => {
   const [step, setStep] = useState(1);
@@ -27,14 +27,16 @@ const DeleteAccount = ({ navigation }) => {
   const [list, setList] = useState([]);
   const [reasons, setReasons] = useState({});
 
+  const route = useRoute(); // Get route parameters
+
   useEffect(() => {
-    setStep(navigation.state.params?.step);
+
+    setStep(route.params?.step);
     setReasons({
-      deleteReason: navigation.state.params?.reason,
-      otherReasons: navigation.state.params?.otherReasons,
+      deleteReason: route.params?.reason,
+      otherReasons: route.params?.otherReasons,
     });
-    return () => navigation.state.params;
-  }, []);
+  }, [route.params]); // Re-run when route params change
 
   const checkPendencies = () => {
     const promise1 = checkPendingPayment();
@@ -156,7 +158,7 @@ const DeleteAccount = ({ navigation }) => {
             </Checkbox>
           </View>
           <RoundButton
-            onPress={() => navigation.navigate("AccountSettings")}
+            onPress={() => navigation.popTo("UserProfile")}
             width="100%"
             style={styles.buttonCancel}
             name="Cancelar"
@@ -205,7 +207,7 @@ const DeleteAccount = ({ navigation }) => {
         </Card>
         <View style={styles.wrapper}>
           <RoundButton
-            onPress={() => navigation.navigate("AccountSettings")}
+            onPress={() => navigation.popTo("UserProfile")}
             width="100%"
             style={styles.buttonCancel}
             name="Cancelar"
@@ -229,7 +231,7 @@ const DeleteAccount = ({ navigation }) => {
       {step === 1 && <_RenderComponentStepOne />}
       {step === 2 && <_RenderComponentStepTwo />}
       <WarningModal
-        cancel={() => navigation.navigate("AccountSettings")}
+        cancel={() => navigation.popTo("AccountSettings")}
         next={() => goReasonExclusion()}
         visible={showModal}
         list={list}
@@ -240,3 +242,4 @@ const DeleteAccount = ({ navigation }) => {
 };
 
 export default DeleteAccount;
+

@@ -52,6 +52,7 @@ class AboutMe extends Component {
   };
 
   async componentDidMount() {
+
     const { BoxItem, photos } = this.state;
     this.props.initialize(this.props.data);
 
@@ -73,6 +74,7 @@ class AboutMe extends Component {
       BoxItem: getPictures,
     });
     const { handleSubmit } = this.props;
+
     await this.props.navigation.setParams({
       handleSave: handleSubmit((data) =>
         this.UpdateAboutMe(data).catch(() =>
@@ -80,32 +82,39 @@ class AboutMe extends Component {
         )
       ),
     });
+     this.props.navigation.setOptions({
+          headerRight: () => (
+            <ButtonRightNavigation
+              title="Salvar"
+              onPress={() => this.props.route.params?.handleSave?.()}
+            />
+          ),
+        });
+
   }
 
-  static navigationOptions = ({ navigation }) => {
-    const { state } = navigation;
-    return {
-      headerRight: () => (
-        <ButtonRightNavigation onPress={() => state.params.handleSave()} />
-      ),
-    };
-  };
+ saveAboutMe = (request) => {
 
-  saveAboutMe = (request) => {
-    const { about: value, updateAbout, navigation } = this.props;
-    const { goBackVacancyDetails } = navigation.state.params;
-    updateAbout({ value, request }).then(() => {
-      if (goBackVacancyDetails) {
-        return navigation.replace("VacanciesDetails", {
-          ...goBackVacancyDetails,
-        });
-      }
-      navigation.push("UserProfile");
-    });
-    return;
-  };
+              const { about: value, updateAbout, navigation } = this.props;
+
+
+           const { goBackVacancyDetails } = this.props.route.params;
+
+            updateAbout({ value, request }).then(() => {
+
+              if (goBackVacancyDetails) {
+                return navigation.replace("VacanciesDetails", {
+                  ...goBackVacancyDetails,
+                });
+              }
+              navigation.push("UserProfile");
+            });
+            return;
+          };
+
 
   UpdateAboutMe = async (form) => {
+
     const { avatarUrl: avatar, photos } = this.state;
     const { name: address, latitude, longitude } = form.address;
     const pixKey = form.pixType ? form.pixKey : null;

@@ -46,12 +46,14 @@ const formRules = FormValidator.make(
 );
 
 const CertificateModal = ({
+  route, // 🚀 Pegamos os parâmetros corretamente
   navigation,
   handleSubmit,
   invalid,
-  setCertificate,
+  setCertificate
 }) => {
-  const { viewCerticates, item } = navigation.state.params;
+  const { viewCerticates, item } = route.params; // 🚀 Agora acessamos route.params corretamente
+
   const [ViewCerticates, setViewCerticates] = useState(viewCerticates);
   const [isEditing, setIsEditing] = useState(false);
   const FuchsiaBlueColor = "#7541BF";
@@ -101,8 +103,9 @@ const CertificateModal = ({
         issuer,
         conclusionYear: year,
       });
+
       await setCertificate();
-      await navigation.navigate("Certificates");
+      await navigation.popTo("Certificates");
     } catch (error) {
       setLoading(false);
       AlertHelper.show("error", "Erro", error.response.data.errorMessage);
@@ -122,7 +125,7 @@ const CertificateModal = ({
         conclusionYear: year,
       });
       await setCertificate();
-      await navigation.navigate("Certificates");
+      await navigation.popTo("Certificates");
     } catch (error) {
       setLoading(false);
       AlertHelper.show("error", "Erro", error.response.data.errorMessage);
@@ -142,7 +145,7 @@ const CertificateModal = ({
     try {
       await deleteCertificate(item.id);
       await setCertificate();
-      navigation.navigate("Certificates");
+      navigation.popTo("Certificates");
     } catch (error) {
       AlertHelper.show("error", "Erro", error.response.data.errorMessage);
     } finally {
@@ -344,15 +347,15 @@ const styles = {
   },
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const { item, viewCerticates } = ownProps.navigation.state.params;
+const mapStateToProps = (state, { route }) => {
+  const { item, viewCerticates } = route?.params || {};
 
   const initialValues = viewCerticates
     ? {
         type: item?.type,
         name: item?.name,
         issuer: item?.issuer,
-        conclusionYear: item?.conclusionYear.toString(),
+        conclusionYear: item?.conclusionYear?.toString(),
       }
     : {};
 
@@ -360,6 +363,7 @@ const mapStateToProps = (state, ownProps) => {
     initialValues,
   };
 };
+
 
 const mapActionToProps = (dispatch) =>
   bindActionCreators({ setCertificate }, dispatch);

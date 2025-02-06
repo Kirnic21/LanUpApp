@@ -58,6 +58,7 @@ const apikey =
   Platform.OS === "ios"
     ? env.GOOGLE_IOS_MAPS_API_KEY
     : env.GOOGLE_ANDROID_MAPS_API_KEY;
+
 class MapsGeolocation extends Component {
   constructor(props) {
     super(props);
@@ -83,8 +84,9 @@ class MapsGeolocation extends Component {
   }
 
   async componentDidMount() {
-    this.initialPosition();
-    this.initBackgroundFetch(); //redundance
+    const { addressId, address, eventName, id } = this.props.route.params;
+    this.initialPosition(addressId, address, eventName, id);
+    this.initBackgroundFetch();
   }
 
   async initBackgroundFetch() {
@@ -173,9 +175,7 @@ class MapsGeolocation extends Component {
     );
   };
 
-  initialPosition = async () => {
-    const { id, address, eventName, addressId, latitude, longitude } =
-      this.props.navigation.state.params;
+  initialPosition = async (addressId, address, eventName, id) => {
     try {
       const {
         data: {
@@ -191,7 +191,7 @@ class MapsGeolocation extends Component {
         eventName,
         id,
       });
-      this.updatePosition({ latitude, longitude });
+      this.updatePosition({ latitude: lat, longitude: lng });
       this.sendLocationApi();
       this.watchPosition();
     } catch (error) {
@@ -241,7 +241,7 @@ class MapsGeolocation extends Component {
 
   arrived = (distance) => {
     const { id, status } = this.state;
-    const { eventId, vacancyId, job } = this.props.navigation.state.params;
+    const { eventId, vacancyId, job } = this.props.route.params;
     if (distance * 1000 <= 1000 && status === false) {
       this.setState({ status: true }, async () => {
         Vibration.vibrate(1000);
@@ -257,7 +257,7 @@ class MapsGeolocation extends Component {
 
   goNextStep = () => {
     const { id } = this.state;
-    const { eventId, vacancyId, job } = this.props.navigation.state.params;
+    const { eventId, vacancyId, job } = this.props.route.params;
     this.setState({ loading: true });
     arrivelOperation({ id, eventId, vacancyId, job })
       .then(() => {
@@ -296,9 +296,7 @@ class MapsGeolocation extends Component {
 
           <MapViewDirections
             origin={this.state.coordinates[0]}
-            destination={
-              this.state.coordinates[this.state.coordinates.length - 1]
-            }
+            destination={this.state.coordinates[this.state.coordinates.length - 1]}
             apikey={apikey}
             strokeWidth={3}
             strokeColor="#F63535"
@@ -364,15 +362,13 @@ class MapsGeolocation extends Component {
                 }
               />
               <AlertModal
-                onClose={() => this.setState({ visible: false })}
                 visible={visible}
-                title="Confirmar chegada !!"
-                subtitle="Deseja pular essa etapa e ir para o check-In ?"
-                iconName="place"
-                colorIcon="#F63535"
-                nameButton="Pular etapa"
-                onPress={() => this.goNextStep()}
-                loading={loading}
+                title="Tem certeza que deseja pular?"
+                text="Ao pular você não vai conseguir voltar para esta etapa"
+                cancelText="Cancelar"
+                confirmText="Pular"
+                onCancel={() => this.setState({ visible: false })}
+                onConfirm={this.goNextStep}
               />
             </View>
           </View>
@@ -382,40 +378,33 @@ class MapsGeolocation extends Component {
   }
 }
 
-const styles = {
-  container: {
-    backgroundColor: "#24203B",
-    minHeight: calcWidth(70),
-    alignItems: "center",
-  },
+const styles = StyleSheet.create({
   iconStyle: {
-    borderRadius: calcWidth(10),
-    backgroundColor: "#EFBC2C48",
-    borderColor: "#FFB72B",
-    borderWidth: 2,
+    borderRadius: calcWidth(50),
+    backgroundColor: "white",
     padding: calcWidth(3),
-    alignItems: "center",
-    justifyContent: "center",
   },
   eventName: {
-    color: "#FFFFFF",
-    fontFamily: "HelveticaNowMicro-Bold",
-    margin: calcWidth(3),
+    color: "#2B2D5B",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   address: {
-    color: "#FFFFFF",
-    fontFamily: "HelveticaNowMicro-Regular",
-    marginHorizontal: calcWidth(5),
+    color: "#7D8B98",
     textAlign: "center",
-    fontSize: adjust(13),
-    minHeight: calcWidth(10),
+    fontSize: adjust(12),
+    marginTop: calcWidth(1),
   },
   distance: {
-    color: "#FFB72B",
-    fontFamily: "HelveticaNowMicro-Bold",
-    fontSize: adjust(18),
-    top: calcWidth(4),
+    color: "#7D8B98",
+    fontSize: adjust(13),
+    marginTop: calcWidth(4),
+    textAlign: "center",
   },
-};
+  container: {
+    paddingHorizontal: calcWidth(8),
+    paddingBottom: calcWidth(8),
+  },
+});
 
 export default MapsGeolocation;

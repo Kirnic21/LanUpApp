@@ -27,15 +27,18 @@ export const getAbout = () => {
 };
 
 export const updateAbout = ({ request, value }) => {
+
   return (dispatch) =>
     new Promise((resolve, reject) => {
       dispatch(aboutFetching());
       aboutMe(request)
         .then(() => {
+
           dispatch(aboutSuccess(value));
           resolve();
         })
         .catch((error) => {
+        console.log("API Error:", error);
           dispatch(aboutError(error.response.data.errorMessage));
           reject();
         });

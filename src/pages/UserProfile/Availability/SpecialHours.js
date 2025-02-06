@@ -19,7 +19,7 @@ import ActionButton from "~/shared/components/ActionButton";
 import Modal from "~/shared/components/ModalComponent";
 
 import { Field, reduxForm } from "redux-form";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { saveSpecialDay } from "~/shared/services/freela.http";
 import { decodeToken } from "~/shared/services/decode";
 import { calcHeight, calcWidth, adjust } from "~/assets/Dimensions/index";
@@ -41,7 +41,7 @@ class SpecialHours extends Component {
       isValid: false,
       activeButton: false,
       bottomModalAndTitle: true,
-      SpecialDays: this.props.navigation.state.params.SpecialDays,
+      SpecialDays: this.props.route.params.SpecialDays,
     };
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -61,6 +61,14 @@ class SpecialHours extends Component {
     this.props.navigation.setParams({
       handleSaveHour: handleSubmit((data) => this.justSave(data)),
     });
+
+        this.props.navigation.setOptions({
+          headerRight: () => (
+            <View pointerEvents={isActive ? "auto" : "none"} style={{ opacity: isActive ? 1 : 0 }}>
+              <ButtonRightNavigation onPress={() => this.justSave()} />
+            </View>
+          ),
+        });
   }
   initializeInput = () => {
     const { SpecialDays } = this.state;
@@ -72,22 +80,7 @@ class SpecialHours extends Component {
     this.props.initialize(objdimensions);
   };
 
-  static navigationOptions = ({ navigation }) => {
-    const { state } = navigation;
-    const isDate = navigation.getParam("isDate");
-    return {
-      headerRight: () => (
-        <View
-          pointerEvents={isDate ? "auto" : "none"}
-          style={{ opacity: isDate ? 1 : 0 }}
-        >
-          <ButtonRightNavigation
-            onPress={() => state.params.handleSaveHour()}
-          />
-        </View>
-      ),
-    };
-  };
+
 
   getStartEndDate(date, { start, end }, index) {
     const timeStart = start !== undefined ? start.slice(0, 5) : "00:00";
@@ -133,7 +126,7 @@ class SpecialHours extends Component {
     this.setState({ activeButton: false });
     const datesToSave = [...SpecialDays, { date }];
     const isActive = datesToSave.length ? true : false;
-    this.props.navigation.setParams({
+    this.props.route.params({
       isDate: isActive,
     });
     setTimeout(async () => {
@@ -203,7 +196,7 @@ class SpecialHours extends Component {
 
   render() {
     const { show, date, mode, SpecialDays, dateInput } = this.state;
-    const isDate = this.props.navigation.getParam("isDate");
+    const isDate = this.props.route.params?.isDate;
     return (
       <View style={styles.Container}>
         {SpecialDays.length ? (

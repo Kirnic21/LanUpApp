@@ -41,22 +41,15 @@ class PhotoGallery extends React.Component {
     isGalleryOpen: false,
     indexGallery: null,
   };
+componentDidUpdate(prevProps) {
+  if (prevProps.route.params?.isEditing !== this.props.route.params?.isEditing) {
+    // Handle the change here, for example, update the header
+    this.props.navigation.setOptions({
+      headerLeft: () => {
+        const isEditing = this.props.route.params?.isEditing;
+        const cancelEditing = this.props.route.params?.cancelEditing;
 
-  componentDidMount() {
-    setInterval(() => {
-      this.hideLoader();
-    }, 4500);
-  }
-
-  static navigationOptions = ({ navigation }) => {
-    const isEditing = navigation.getParam("isEditing");
-    const cancelEditing = navigation.getParam("cancelEditing");
-    const finishDelete = navigation.getParam("finishDelete");
-    const images = navigation.getParam("images", []);
-
-    return {
-      headerLeft: () =>
-        isEditing ? (
+        return isEditing ? (
           <TouchableOpacity
             onPress={() => cancelEditing()}
             style={{ paddingHorizontal: calcWidth(5) }}
@@ -68,10 +61,15 @@ class PhotoGallery extends React.Component {
             />
           </TouchableOpacity>
         ) : (
-          <ButtonNavigation type="stack" navigation={navigation} />
-        ),
-      headerRight: () =>
-        isEditing && (
+          <ButtonNavigation type="stack" navigation={this.props.navigation} />
+        );
+      },
+      headerRight: () => {
+        const isEditing = this.props.route.params?.isEditing;
+        const finishDelete = this.props.route.params?.finishDelete;
+        const images = this.props.route.params?.images || [];
+
+        return isEditing ? (
           <TouchableOpacity
             onPress={finishDelete}
             style={{
@@ -88,9 +86,40 @@ class PhotoGallery extends React.Component {
               color="#707070"
             />
           </TouchableOpacity>
-        ),
-    };
-  };
+        ) : null;
+      },
+    });
+  }
+}
+  componentDidMount() {
+    setInterval(() => {
+      this.hideLoader();
+    }, 4500);
+     this.props.navigation.setOptions({
+        headerLeft: () => {
+          const isEditing = this.props.route.params?.isEditing;
+          const cancelEditing = this.props.route.params?.cancelEditing;
+
+          return isEditing ? (
+            <TouchableOpacity
+              onPress={() => cancelEditing()}
+              style={{ paddingHorizontal: calcWidth(5) }}
+            >
+              <MaterialCommunityIcons
+                name={"close"}
+                size={calcWidth(8)}
+                color="#FFFFFF"
+              />
+            </TouchableOpacity>
+          ) : (
+            <ButtonNavigation type="stack" navigation={this.props.navigation} />
+          );
+        },
+
+      });
+  }
+
+
 
   showLoader = () => {
     this.setState({ spinner: true });
@@ -107,13 +136,19 @@ class PhotoGallery extends React.Component {
     this.ImageSelector.ActionSheet.show();
   };
 
-  onPictureAdd = async (picture) => {
-    await this.props.navigation.getParam("handlePictureAdd")(picture);
-    this.showLoader();
-  };
+onPictureAdd = async (picture) => {
+
+  if (this.props.route.params?.handlePictureAdd) {
+    await this.props.route.params.handlePictureAdd(picture);
+  }
+
+  this.showLoader();
+};
+
 
   handleImageLongPress = (picture) => {
-    const images = this.props.navigation.getParam("images", []);
+   const images = this.props.route.params.images || [];
+
     this.props.navigation.setParams({
       isEditing: true,
       finishDelete: this.finishDelete,
@@ -123,11 +158,16 @@ class PhotoGallery extends React.Component {
   };
 
   finishDelete = async () => {
-    const { navigation } = this.props;
-    const imagesToRemove = navigation.getParam("images", []);
-    await navigation.getParam("handlePictureRemove")(imagesToRemove);
+    const { route, navigation } = this.props;
+    const imagesToRemove = route.params?.images || [];
+
+    if (route.params?.handlePictureRemove) {
+      await route.params.handlePictureRemove(imagesToRemove);
+    }
+
     this.cancelEditing();
   };
+
 
   cancelEditing = () => {
     this.props.navigation.setParams({
@@ -137,14 +177,15 @@ class PhotoGallery extends React.Component {
   };
 
   isSelectedToDelete = (picture) => {
-    const images = this.props.navigation.getParam("images", []);
+    const images = this.props.route.params.images || [];
+
     return images.some((x) => x === picture.name);
   };
 
   addImageToDelete = (picture) => {
-    let images = this.props.navigation.getParam("images", []);
+    let images = this.props.route.params?.images || [];
 
-    if (images.some((x) => x === picture.name)) {
+    if (images.includes(picture.name)) {
       images = images.filter((x) => x !== picture.name);
       this.props.navigation.setParams({
         images: images,
@@ -165,8 +206,10 @@ class PhotoGallery extends React.Component {
   render() {
     const { isGalleryOpen, indexGallery } = this.state;
     const { pictures } = this.props;
-    const isEditing = this.props.navigation.getParam("isEditing");
-    const caption = this.props.navigation.getParam("caption", "");
+
+   const isEditing = this.props.route.params.isEditing;
+   const caption = this.props.route.params.caption || "";
+
     const { spinner } = this.state;
     return (
       <View style={styles.container}>
@@ -232,7 +275,7 @@ class PhotoGallery extends React.Component {
           onImageSelected={this.onPictureAdd}
           width={1500}
           height={2000}
-          ref={(o) => (this.ImageSelector = o)}
+        ref={(o) => (this.ImageSelector = o)}
         />
       </View>
     );

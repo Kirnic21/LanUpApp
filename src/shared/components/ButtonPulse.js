@@ -16,7 +16,7 @@ const ButtonPulse = ({
   startAnimations,
   iconColor,
   onPress,
-  size,
+  size="small",
   color,
   icon,
   titleColor,
@@ -31,9 +31,6 @@ const ButtonPulse = ({
     },
   };
 
-  ButtonPulse.defaultProps = {
-    size: "small",
-  };
 
   const ButtonSize = () =>
     ({

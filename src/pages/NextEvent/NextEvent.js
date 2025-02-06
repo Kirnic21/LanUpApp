@@ -50,6 +50,7 @@ const components = {
 };
 
 const NextEvent = (props) => {
+
   const [spinner, setSpinner] = useState(false);
   const [workday, setWorkday] = useState({});
   const [statusOperation, setStatusOperation] = useState(0);
@@ -115,15 +116,23 @@ const NextEvent = (props) => {
   useEffect(() => {
     const interval = setInterval(() => {
       const { checkout } = workday;
-      const checkoutParse = parseISO(checkout);
-      const dateStatus = isPast(checkoutParse);
-      if (statusOperation > 4) {
-        setStatusOperation(
-          !dateStatus && openQrCheckout === false ? 8 : statusOperation
-        );
-        setIslate(differenceInHours(new Date(), parseISO(checkout)));
+
+      // Check if checkout is a valid string before parsing
+      if (checkout) {
+        const checkoutParse = parseISO(checkout);
+        const dateStatus = isPast(checkoutParse);
+
+        if (statusOperation > 4) {
+          setStatusOperation(
+            !dateStatus && openQrCheckout === false ? 8 : statusOperation
+          );
+          setIslate(differenceInHours(new Date(), checkoutParse));
+        }
+      } else {
+        console.warn('Checkout is undefined or invalid:', checkout);
       }
     }, 60000);
+
     return () => clearInterval(interval);
   }, [statusOperation, workday, openQrCheckout]);
 

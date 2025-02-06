@@ -11,9 +11,10 @@ const getDisplayDate = (day) => {
 };
 
 const sortByDaysOfWeek = (arr) =>
-  arr.sort(({ dayOfWeek: a }, { dayOfWeek: b }) =>
+  [...arr].sort(({ dayOfWeek: a }, { dayOfWeek: b }) =>
     a > b ? 1 : a < b ? -1 : 0
   );
+
 
 const Schedules = ({ onPress, schedules, daysOfWeek }) => {
   return (

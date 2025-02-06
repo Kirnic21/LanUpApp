@@ -22,7 +22,7 @@ import {
   galleryDelete,
   getAbout,
 } from "~/shared/services/freela.http";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';;
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
 import SignalR from "~/shared/services/signalr";
@@ -32,9 +32,9 @@ import {
 } from "~/shared/services/events.http";
 import { decodeToken } from "~/shared/services/decode";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-import OneSignal from "react-native-onesignal";
+import { LogLevel, OneSignal } from 'react-native-onesignal';
 import Menu from "~/shared/components/Menu";
-
+import RNRestart from 'react-native-restart';
 class UserProfile extends Component {
   state = {
     selected: false,
@@ -89,15 +89,16 @@ class UserProfile extends Component {
     this.getAboutMe();
   }
 
-  notificationOpenedHandler = () => {
-    OneSignal.setNotificationOpenedHandler(
-      ({ notification: { additionalData } }) => {
-        if (additionalData?.routeName) {
-          this.props.navigation.navigate(additionalData.routeName);
-        }
+  notificationOpenedHandler = async () => {
+
+    await OneSignal.getNotifications().addClickListener(({ notification }) => {
+      const { additionalData } = notification;
+      if (additionalData?.routeName) {
+        this.props.navigation.navigate(additionalData.routeName);
       }
-    );
+    });
   };
+
 
   getAboutMe = () => {
     getAbout()
@@ -136,26 +137,33 @@ class UserProfile extends Component {
       .catch((error) => AlertHelper.show("error", "Erro", error));
   };
 
-  onReceiveVacancy = async (vacancy) => {
-    if (!vacancy.eventId) return;
-    try {
-      const {
-        data: { result },
-      } = await emergenciesVacancies({
-        id: vacancy.eventId,
-        service: vacancy.job,
-        day: vacancy.day.split("T")[0],
-      });
-      this.props.notifyVacancy([result, vacancy]);
-      this.props.navigation.navigate("Modal");
-    } catch ({ response }) {
-      AlertHelper.show("error", "Erro", response.data.errorMessage);
-    }
-  };
+onReceiveVacancy = async (vacancy) => {
+  if (!vacancy.eventId) return;
+
+  try {
+    const { day } = vacancy;
+    const dayFormatted = day ? day.split("T")[0] : ""; // Check if day exists and format it
+
+    const {
+      data: { result },
+    } = await emergenciesVacancies({
+      id: vacancy.eventId,
+      service: vacancy.job,
+      day: dayFormatted,
+    });
+
+    this.props.notifyVacancy([result, vacancy]);
+    this.props.navigation.navigate("Modal");
+  } catch (error) {
+    const errorMessage = error.response?.data?.errorMessage || "Unknown error occurred";
+    AlertHelper.show("error", "Erro", errorMessage);
+  }
+};
+
 
   PageLogin = async () => {
     await AsyncStorage.clear();
-    this.props.navigation.navigate("HomePage");
+    RNRestart.restart();
     return;
   };
 

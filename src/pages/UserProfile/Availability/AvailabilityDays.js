@@ -1,10 +1,11 @@
+
 import React from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { Field, reduxForm } from "redux-form";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import { saveAvailability } from "~/shared/services/freela.http";
 import { decodeToken } from "~/shared/services/decode";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import Toggle from "~/shared/components/ToggleComponent";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
@@ -13,16 +14,21 @@ import InputMask from "~/shared/components/InputMask";
 class AvailabilityDays extends React.Component {
   constructor(props) {
     super(props);
+    const { day, daysOfWeek, schedules } = props.route.params;
+
     this.state = {
-      day: props.navigation.state.params.day,
-      daysOfWeek: props.navigation.state.params.daysOfWeek,
-      schedules: props.navigation.state.params.schedules,
+      day,
+      daysOfWeek,
+      schedules,
       now: false,
       timeSave: false,
     };
   }
 
   componentDidMount() {
+const { navigation, route } = this.props;
+const isEditing = route.params?.isEditing ?? false;
+
     const { day } = this.state;
     this.setState({ now: day.available });
     this.props.navigation.setParams({
@@ -37,41 +43,62 @@ class AvailabilityDays extends React.Component {
     this.props.navigation.setParams({
       handleSave: handleSubmit((data) => this.saveDate(data)),
     });
-  }
+    this.props.navigation.setOptions({
+          headerRight: () => (
+            <View style={{ opacity: isEditing ? 1 : 0 }}>
+              <ButtonRightNavigation
+                onPress={() => route.params?.handleSave?.()}
+                title="Salvar"
+              />
+            </View>
+          ),
+        });
+      };
 
-  static navigationOptions = ({ navigation }) => {
-    const { state } = navigation;
-    const isEditing = navigation.getParam("isEditing");
-    return {
+
+componentDidUpdate(prevProps, prevState) {
+  const { navigation, route } = this.props;
+
+  if (prevState.now !== this.state.now) {
+    navigation.setParams({ isEditing: this.state.now });
+
+    navigation.setOptions({
       headerRight: () => (
-        <View style={{ opacity: isEditing ? 1 : 0 }}>
+        <View style={{ opacity: this.state.now ? 1 : 0 }}>
           <ButtonRightNavigation
-            onPress={() => state.params.handleSave()}
+            onPress={() => route.params?.handleSave?.()}
             title="Salvar"
           />
         </View>
       ),
-    };
-  };
-
-  saveToggle = async (now) => {
-    const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
-    const { schedules, day, timeSave } = this.state;
-    const { dayOfWeek } = day;
-    this.props.navigation.setParams({
-      isEditing: now,
     });
-    const days = schedules.filter((c) => c.available === true);
-    const request = {
-      freelaId: token.id,
-      dayAvailabilities: [...days, { dayOfWeek, available: now }],
-    };
-    if (timeSave || now === false) {
-      saveAvailability(request).catch((error) => {
-        console.log(error.response.data);
-      });
-    }
-  };
+  }
+}
+
+
+ saveToggle = async (now) => {
+   const token = decodeToken(await AsyncStorage.getItem("API_TOKEN"));
+   const { schedules, day, timeSave } = this.state;
+   const { dayOfWeek } = day;
+
+
+   this.setState({ now }, () => {
+     this.props.navigation.setParams({ isEditing: now });
+   });
+
+   const days = schedules.filter((c) => c.available === true);
+   const request = {
+     freelaId: token.id,
+     dayAvailabilities: [...days, { dayOfWeek, available: now }],
+   };
+
+   if (timeSave || now === false) {
+     saveAvailability(request).catch((error) => {
+       console.log(error.response.data);
+     });
+   }
+ };
+
 
   isTimeValid = (time) => {
     const timeReg = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
@@ -96,11 +123,12 @@ class AvailabilityDays extends React.Component {
         },
       ],
     };
+
     this.isTimeValid(start) && this.isTimeValid(end)
       ? saveAvailability(request)
           .then(() => {
             this.setState({ timeSave: true });
-            this.props.navigation.goBack();
+            this.props.navigation.navigate("Availability");
           })
           .catch((error) => {
             AlertHelper.show("error", "Erro", "Horário inválido");

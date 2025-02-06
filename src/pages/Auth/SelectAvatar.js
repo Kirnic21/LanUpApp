@@ -14,7 +14,7 @@ import ImageProfile from "../../assets/images/icon_profile.png";
 import { create } from "../../shared/services/freela.http";
 import { connect } from "react-redux";
 import { formValueSelector } from "redux-form";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ImageSelector from "~/shared/components/ImageSelector";
 import dimensions, { adjust } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
@@ -28,7 +28,7 @@ class SelectAvatar extends Component {
   };
 
   onPictureAdd = async (picture) => {
-    const { userId: deviceId } = await OneSignal.getDeviceState();
+    const deviceId  = await AsyncStorage.getItem("DEVICE_ID")
 
     this.setState({ spinner: true }, () => {
       const { fullName, nickname, cpf, email, password, confirmPassword } =

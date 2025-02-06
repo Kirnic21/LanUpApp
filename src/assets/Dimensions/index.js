@@ -5,7 +5,7 @@ const { width: deviceWidth, height: deviceHeight } = Dimensions.get("window");
 const pixelRatio = PixelRatio.get();
 
 // based on iphone 5s's scale
-const scale = deviceWidth / 320;
+const scale = Math.round(deviceWidth / 320);
 
 export default function dimensions(size) {
   const newSize = size * scale;
@@ -37,7 +37,8 @@ export const calcWidth = x =>
             return size * 1.15;
         }
         // older phablets
-        return size * 1.25;
+        //Use o Math.Round, pois da um erro de Precision Error Float
+        return Math.round(size * 1.27);
     } if (pixelRatio >= 3 && pixelRatio < 3.5) {
         // catch Android font scaling on small machines
         // where pixel ratio / font scale ratio => 3:3
@@ -75,3 +76,5 @@ export const calcWidth = x =>
         return size * 1.4;
     } return size;
 };
+
+

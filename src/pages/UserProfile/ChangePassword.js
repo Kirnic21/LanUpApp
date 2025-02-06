@@ -16,12 +16,12 @@ import { changePassword } from "~/shared/services/auth.http";
 
 import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Container } from "native-base";
+import { Container } from "@gluestack-ui/themed-native-base";
 
 import dimensions, { adjust } from "~/assets/Dimensions/index";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";

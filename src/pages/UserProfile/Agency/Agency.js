@@ -10,7 +10,7 @@ import ActionButton from "~/shared/components/ActionButton";
 import { codeAgency } from "~/shared/services/agency.http";
 import { updateAgencies, getAgencies } from "~/shared/services/freela.http";
 import { decodeToken } from "~/shared/services/decode";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';;
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { debounce } from "lodash";

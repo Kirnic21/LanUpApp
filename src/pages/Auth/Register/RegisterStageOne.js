@@ -11,9 +11,9 @@ import InputField from "~/shared/components/InputField";
 
 import styles from "./register.style";
 import FormValidator from "~/shared/services/validator";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Container } from "native-base";
+import { Container } from "@gluestack-ui/themed-native-base";
 import {
   create,
   existingCpf,
@@ -58,6 +58,9 @@ class RegisterStageOne extends Component {
   goRegister = async form => {
     const { user } = this.state;
     const { nickname, cpf, fullName } = form;
+
+   AlertHelper.show("error", "Erro", "teste")
+
     const CPF = cpf.replace(/[\(\)\.\s-]+/g, "");
     this.setState({ spinner: true });
     if (user.isFacebook) {
@@ -74,9 +77,11 @@ class RegisterStageOne extends Component {
         avatar: avatar.url,
         facebookToken: user.facebookToken
       };
+
       existingEmail(email)
         .then(({ data }) => {
           const emailExisting = data.result.value;
+
           emailExisting === true
             ? AlertHelper.show("error", "Erro", "Este email já existe.")
             : existingCpf(CPF).then(({ data }) => {
@@ -85,7 +90,9 @@ class RegisterStageOne extends Component {
                   ? AlertHelper.show("error", "Erro", "Este cpf já existe.")
                   : create(request)
                       .then(async ({ data }) => {
+                       AlertHelper.show("error", "Erro","teste")
                         if (data.isSuccess) {
+
                           await AsyncStorage.setItem(
                             "API_TOKEN",
                             data.result.token
@@ -127,7 +134,7 @@ class RegisterStageOne extends Component {
           <Container style={{ backgroundColor: "transparent" }}>
             <View style={styles.registerContainer}>
               <Text
-                style={[styles.textTitle, { marginTop: "-23%", top: "1%" }]}
+                style={[styles.textTitle, { marginTop: "23%", top: "1%" }]}
               >
                 Bem-vindo!{"\n"}
                 Insira seus dados

@@ -1,18 +1,16 @@
+
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-
 import dimensions, { adjust } from "~/assets/Dimensions/index";
 import ButtonRightNavigation from "~/shared/components/ButtonRightNavigation";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  jobSuccess,
-  updateServices,
-} from "~/store/ducks/Profession/Job/job.actions";
+import { jobSuccess, updateServices } from "~/store/ducks/Profession/Job/job.actions";
 import SpinnerComponent from "~/shared/components/SpinnerComponent";
 import InputSearch from "~/shared/components/InputSearch";
+
 class AddProfession extends Component {
   state = {
     services: [],
@@ -20,9 +18,17 @@ class AddProfession extends Component {
 
   componentDidMount() {
     const { navigation, services } = this.props;
-    navigation.setParams({
-      SaveJob: () => this.SaveJob(),
+
+    // Set the header options dynamically after component mounts
+    navigation.setOptions({
+      headerRight: () => (
+        <ButtonRightNavigation
+          title="Salvar"
+          onPress={this.SaveJob}
+        />
+      ),
     });
+
     this.setState({ services });
   }
 
@@ -30,20 +36,8 @@ class AddProfession extends Component {
     prevProps.errorUpdate !== this.props.errorUpdate && this.props.goBack();
   }
 
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
-    return {
-      headerRight: () => (
-        <ButtonRightNavigation
-          title="Salvar"
-          onPress={() => params.SaveJob()}
-        />
-      ),
-    };
-  };
-
   selectJob = (index) => {
-    const { jobSuccess, services:job } = this.props;
+    const { jobSuccess, services: job } = this.props;
     const { services } = this.state;
     const buttonSelected = services[index];
     buttonSelected.isSelected = !buttonSelected.isSelected;
@@ -53,14 +47,15 @@ class AddProfession extends Component {
   };
 
   SaveJob = async () => {
-    const { updateServices, services, servicesSelected, navigation } =
-      this.props;
+    const { updateServices, services, servicesSelected, navigation } = this.props;
 
-    !servicesSelected.length
-      ? AlertHelper.show("error", "Erro", "Adicione pelo menos uma profissão!")
-      : await updateServices({ services, jobs: servicesSelected }).then(() => {
-          navigation.goBack();
-        });
+    if (!servicesSelected.length) {
+      AlertHelper.show("error", "Erro", "Adicione pelo menos uma profissão!");
+    } else {
+      await updateServices({ services, jobs: servicesSelected }).then(() => {
+        navigation.goBack();
+      });
+    }
   };
 
   searchService = (term) => {
@@ -100,19 +95,19 @@ class AddProfession extends Component {
               handleOnSearch={(text) => this.searchService(text)}
             />
             <View
-              style={{ flexWrap: "wrap", flexDirection: "row", width: "100%", }}
+              style={{
+                flexWrap: "wrap",
+                flexDirection: "row",
+                width: "100%",
+              }}
             >
               {services.map(({ name, isSelected }, id) => (
                 <View key={id}>
                   <TouchableOpacity
-                    disabled={
-                      isSelected === false && servicesSelected.length === 3
-                    }
+                    disabled={isSelected === false && servicesSelected.length === 3}
                     style={[
                       styles.chip,
-                      isSelected == true
-                        ? styles.chipActive
-                        : styles.chipDisabled,
+                      isSelected === true ? styles.chipActive : styles.chipDisabled,
                     ]}
                     onPress={() => this.selectJob(id)}
                   >
@@ -139,7 +134,7 @@ class AddProfession extends Component {
   }
 }
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#18142F",

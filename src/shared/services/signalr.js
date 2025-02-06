@@ -1,5 +1,5 @@
 import env from "react-native-config";
-import { HttpTransportType, HubConnectionBuilder, LogLevel } from '@aspnet/signalr'
+import { HttpTransportType, HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 
 const logLevel = !env.IS_PRODUCTION
     ? LogLevel.Debug

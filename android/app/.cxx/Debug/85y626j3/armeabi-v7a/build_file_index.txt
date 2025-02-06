@@ -1,0 +1,7 @@
+C:\Users\User\Desktop\trabalho\LanUpApp\node_modules\@react-native-async-storage\async-storage\android\build\generated\source\codegen\jni\CMakeLists.txt
+C:\Users\User\Desktop\trabalho\LanUpApp\node_modules\@react-native-picker\picker\android\src\main\jni\CMakeLists.txt
+C:\Users\User\Desktop\trabalho\LanUpApp\node_modules\lottie-react-native\android\build\generated\source\codegen\jni\CMakeLists.txt
+C:\Users\User\Desktop\trabalho\LanUpApp\node_modules\react-native-permissions\android\build\generated\source\codegen\jni\CMakeLists.txt
+C:\Users\User\Desktop\trabalho\LanUpApp\node_modules\react-native-svg\android\src\main\jni\CMakeLists.txt
+C:\Users\User\Desktop\trabalho\LanUpApp\node_modules\react-native-webview\android\build\generated\source\codegen\jni\CMakeLists.txt
+C:\Users\User\Desktop\trabalho\LanUpApp\node_modules\react-native\ReactAndroid\cmake-utils\default-app-setup\CMakeLists.txt

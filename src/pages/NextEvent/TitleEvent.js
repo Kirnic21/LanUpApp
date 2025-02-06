@@ -12,10 +12,12 @@ const TitleEvent = ({
   hirerName,
 }) => {
   const convertDate = (date) => {
-    const data = date || "0000-00-00";
-    var arrDate = data?.split("-");
-    return `${arrDate[2]}/${arrDate[1]}/${arrDate[0]}`;
+    if (!date) return "00/00/0000"; // Default value when date is undefined or null
+
+    const arrDate = date.split("T")[0]?.split("-");
+    return arrDate ? `${arrDate[2]}/${arrDate[1]}/${arrDate[0]}` : "00/00/0000";
   };
+
   return (
     <View style={styles.containerTitle}>
       {status && status !== 1 ? (
@@ -26,7 +28,7 @@ const TitleEvent = ({
               { fontSize: adjust(10), textAlign: "center", color: "#FFFFFF" },
             ]}
           >
-            Data da operação: {convertDate(date?.split("T")[0])}
+            Data da operação: {convertDate(date ? date.split("T")[0] : "")}
           </Text>
           <Text numberOfLines={1} style={styles.textTitle}>
             {eventName || ""}

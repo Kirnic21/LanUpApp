@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -6,9 +6,9 @@ import {
   ImageBackground,
   Dimensions,
   Image,
+  TouchableOpacity,
 } from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { login, resetPassword } from "~/shared/services/auth.http";
 import { decodeToken } from "~/shared/services/decode";
@@ -19,13 +19,12 @@ import { Field, reduxForm } from "redux-form";
 import FormValidator from "~/shared/services/validator";
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Container } from "native-base";
+import { Container } from "@gluestack-ui/themed-native-base";
 import dimensions, { calcWidth, adjust } from "~/assets/Dimensions/index";
 import ModalForgotPassword from "./ModalForgotPassword";
 import ButtonLoading from "~/shared/components/Button";
-
-import OneSignal from "react-native-onesignal";
-
+import { useContext } from "react";
+import {AuthContext} from "../../index"
 const formRules = FormValidator.make(
   {
     email: "required|email",
@@ -37,184 +36,178 @@ const formRules = FormValidator.make(
   }
 );
 
-class LoginEmail extends Component {
-  _isMounted = false;
-  state = {
-    icon: "visibility-off",
-    password: true,
-    disabled: true,
-    visible: false,
-    email: "",
-    spinner: false,
-  };
+const LoginEmail = ({ handleSubmit, invalid }) => {
+  const [icon, setIcon] = useState("visibility-off");
+  const [password, setPassword] = useState(true);
+  const [disabled, setDisabled] = useState(true);
+  const [visible, setVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [spinner, setSpinner] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [titleError, setTitleError] = useState("");
+const { signIn } = useContext(AuthContext);
+  const goToLoginPerfil = async (form) => {
 
-  goToLoginPerfil = async (form) => {
     const { email, password } = form;
-    const { userId: deviceId } = await OneSignal.getDeviceState();
+    const deviceId = await AsyncStorage.getItem("DEVICE_ID");
 
-    this.setState({ spinner: true }, () => {
-      login({
+
+    setSpinner(true);
+    try {
+      const response = await login({
         login: email,
         password,
         deviceId,
-      })
-        .then(async ({ data }) => {
-          const token = decodeToken(data.result.token);
-          if (token.userType === "1") {
-            await AsyncStorage.setItem("API_TOKEN", data.result.token);
-            this.props.navigation.navigate("UserProfile");
-          } else {
-            AlertHelper.show(
-              "error",
-              "Erro",
-              "Apenas freelancer pode acessar o App."
-            );
-          }
-        })
-        .catch((error) => {
-          error.response.data.errorMessage;
-          AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-        })
-        .finally(() => {
-          this.setState({ spinner: false });
-        });
-    });
+      });
+
+      const { data } = response;
+      const token = decodeToken(data.result.token);
+
+      if (token.userType === "1") {
+await AsyncStorage.setItem("API_TOKEN", data.result.token);
+        signIn(data.result.token);
+      } else {
+        AlertHelper.show(
+          "error",
+          "Erro",
+          "Apenas freelancer pode acessar o App."
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      AlertHelper.show("error", "Erro", error.response.data.errorMessage);
+    } finally {
+      setSpinner(false);
+    }
   };
 
-  changeIcon = () => {
-    const { password, icon } = this.state;
-    this.setState({
-      icon: icon === "visibility" ? "visibility-off" : "visibility",
-      password: !password,
-    });
+  const changeIcon = () => {
+    setIcon(icon === "visibility" ? "visibility-off" : "visibility");
+    setPassword(!password);
   };
 
-  resetPassword = () => {
-    const { email } = this.state;
-    this.setState({ loading: true });
+  const resetPassword = () => {
+    setLoading(true);
     resetPassword(email)
       .then(() => {
-        this.setState({ visible: false });
+        setVisible(false);
         AlertHelper.show("success", "Sucesso", "Email enviado com sucesso!");
       })
       .catch(() => {
-        this.setState({ titleError: "Este e-mail não está cadastrado." });
+        setTitleError("Este e-mail não está cadastrado.");
       })
       .finally(() => {
-        this.setState({ loading: false });
+        setLoading(false);
       });
   };
 
-  render() {
-    const { width, height } = Dimensions.get("screen");
-    const { handleSubmit, invalid } = this.props;
-    const { spinner, visible, loading, disabled, titleError } = this.state;
-    return (
-      <ImageBackground source={ImageBack} style={{ width, height, flex: 1 }}>
-        <KeyboardAwareScrollView style={{ flex: 1 }}>
-          <Container
-            style={{
-              backgroundColor: "transparent",
-              height: height - dimensions(90),
-            }}
-          >
-            <View style={styles.container}>
-              <View style={styles.logoContainer}>
-                <Image
-                  source={Logo}
-                  style={{ width: dimensions(220), height: dimensions(65) }}
+  const { width, height } = Dimensions.get("screen");
+
+  return (
+    <ImageBackground source={ImageBack} style={{ width, height, flex: 1 }}>
+      <KeyboardAwareScrollView style={{ flex: 1 }}>
+        <Container
+          style={{
+            backgroundColor: "transparent",
+            height: height - dimensions(90),
+          }}
+        >
+          <View style={styles.container}>
+            <View style={styles.logoContainer}>
+              <Image
+                source={Logo}
+                style={{ width: dimensions(220), height: dimensions(65) }}
+              />
+            </View>
+            <View style={styles.containerForm}>
+              <View style={{ alignContent: "stretch", width: "90%" }}>
+                <Field
+                  style={{ width: "100%" }}
+                  title="E-mail"
+                  keyboardType="email-address"
+                  component={InputField}
+                  name={"email"}
+                  isfocused={"#A893F2"}
+                  autoCapitalize="none"
+                  testID="br.com.lanup.app:id/input-email"
                 />
-              </View>
-              <View style={styles.containerForm}>
-                <View style={{ alignContent: "stretch", width: "90%" }}>
+
+                <View
+                  style={{
+                    alignContent: "stretch",
+                    width: "100%",
+                    position: "relative",
+                  }}
+                >
                   <Field
-                    style={{ width: "100%" }}
-                    title="E-mail"
-                    keyboardType="email-address"
+                    style={[{ width: "100%" }]}
+                    title="Senha"
+                    secureTextEntry={password}
                     component={InputField}
-                    name={"email"}
+                    name={"password"}
                     isfocused={"#A893F2"}
                     autoCapitalize="none"
-                    testID="br.com.lanup.app:id/input-email"
+                    testID="br.com.lanup.app:id/input-password"
                   />
-
-                  <View
-                    style={{
-                      alignContent: "stretch",
-                      width: "100%",
-                      position: "relative",
-                    }}
-                  >
-                    <Field
-                      style={[{ width: "100%" }]}
-                      title="Senha"
-                      secureTextEntry={this.state.password}
-                      component={InputField}
-                      name={"password"}
-                      isfocused={"#A893F2"}
-                      autoCapitalize="none"
-                      testID="br.com.lanup.app:id/input-password"
-                    />
-                    <Icon
-                      style={styles.icon}
-                      name={this.state.icon}
-                      size={dimensions(24)}
-                      color="#fff"
-                      onPress={() => this.changeIcon()}
-                      testID="br.com.lanup.app:id/input-password-eye-icon"
-                    />
-                  </View>
-                </View>
-                <View style={{ width: "60%", marginTop: calcWidth(5) }}>
-                  <ButtonLoading
-                    disabled={invalid}
-                    loading={!spinner}
-                    color="#7541bf"
-                    cliclButtonColor="#EB4886"
-                    name="Entrar"
-                    size="small"
-                    onPress={handleSubmit((data) => this.goToLoginPerfil(data))}
+                  <Icon
+                    style={styles.icon}
+                    name={icon}
+                    size={dimensions(24)}
+                    color="#fff"
+                    onPress={changeIcon}
+                    testID="br.com.lanup.app:id/input-password-eye-icon"
                   />
                 </View>
               </View>
+              <View style={{ width: "60%", marginTop: calcWidth(5) }}>
+                <ButtonLoading
+                  disabled={invalid}
+                  loading={!spinner}
+                  color="#7541bf"
+                  cliclButtonColor="#EB4886"
+                  name="Entrar"
+                  size="small"
+                  onPress={handleSubmit(goToLoginPerfil)}
+                />
+              </View>
             </View>
-            <ModalForgotPassword
-              visible={visible}
-              loading={loading}
-              disabledButton={disabled}
-              titleError={titleError}
-              onPress={() => this.resetPassword()}
-              onChangeText={(email) =>
-                this.setState({ email, disabled: !email, titleError: "" })
-              }
-              onClose={() =>
-                this.setState({
-                  visible: false,
-                  titleError: "",
-                  disabled: true,
-                })
-              }
-            />
-          </Container>
-          <View style={{ width: "100%" }}>
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({ visible: true });
-              }}
-            >
-              <Text
-                style={styles.textForgot}
-                testID="br.com.lanup.app:id/input-forgot-password"
-              >
-                Esqueci minha senha
-              </Text>
-            </TouchableOpacity>
           </View>
-        </KeyboardAwareScrollView>
-      </ImageBackground>
-    );
-  }
-}
+          <ModalForgotPassword
+            visible={visible}
+            loading={loading}
+            disabledButton={disabled}
+            titleError={titleError}
+            onPress={resetPassword}
+            onChangeText={(email) => {
+              setEmail(email);
+              setDisabled(!email);
+              setTitleError("");
+            }}
+            onClose={() => {
+              setVisible(false);
+              setTitleError("");
+              setDisabled(true);
+            }}
+          />
+        </Container>
+        <View style={{ width: "100%" }}>
+          <TouchableOpacity
+            onPress={() => {
+              setVisible(true);
+            }}
+          >
+            <Text
+              style={styles.textForgot}
+              testID="br.com.lanup.app:id/input-forgot-password"
+            >
+              Esqueci minha senha
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAwareScrollView>
+    </ImageBackground>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -261,7 +254,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginEmail = reduxForm({
+export default reduxForm({
   form: "LoginEmail",
   validate: formRules,
   enableReinitialize: true,

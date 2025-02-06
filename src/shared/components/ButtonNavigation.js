@@ -1,51 +1,62 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { DrawerActions } from "react-navigation-drawer";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { calcWidth } from "~/assets/Dimensions/index";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Circle from "react-native-vector-icons/FontAwesome";
 
-const ButtonNavigation = (props) => (
-  <View
-    style={[
-      {
-        marginLeft: calcWidth(4),
-      },
-      props.style,
-    ]}
-  >
-    <TouchableOpacity
-      style={props.type === "drawer" ? drawer : styles.button}
-      onPress={() => {
-        props.type === "drawer"
-          ? props.navigation.dispatch(DrawerActions.openDrawer())
-          : props.type === "stack"
-          ? props.navigation.goBack()
-          : props.type === "route"
-          ? props.navigation.push(props.nameRoute)
-          : props.onPress();
-      }}
+
+const ButtonNavigation = (props) => {
+  const navigation = useNavigation();
+
+  return (
+    <View
+      style={[
+        {
+          marginLeft: calcWidth(4),
+        },
+        props.style,
+      ]}
     >
-      {props.type === "drawer" && (
-        <View
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            left: "85%",
-            bottom: "75%",
-          }}
-        >
-          <Circle name="circle" size={calcWidth(4.5)} color="#ec0043" />
-        </View>
-      )}
-      <Icon
-        color={"#FFF"}
-        name={props.type === "drawer" ? "menu" : "chevron-left"}
-        size={calcWidth(8)}
-      />
-    </TouchableOpacity>
-  </View>
-);
+      <TouchableOpacity
+        style={props.type === "drawer" ? drawer : styles.button}
+
+        onPress={() => {
+
+          if (props.type === "drawer") {
+            props.navigation.dispatch(DrawerActions.openDrawer());
+          } else if (props.type === "stack") {
+            props.navigation.goBack();
+          } else if (props.type === "route") {
+            props.navigation.push(props.nameRoute);
+          } else if (props.onPress) {
+            props.onPress();
+          } else {
+            console.error("Unhandled button type or missing handler.");
+          }
+        }}
+      >
+        {props.type === "drawer" && (
+          <View
+            style={{
+              position: "absolute",
+              zIndex: 1,
+              left: "85%",
+              bottom: "75%",
+            }}
+          >
+            <Circle name="circle" size={calcWidth(4.5)} color="#ec0043" />
+          </View>
+        )}
+        <Icon
+          color="#FFF"
+          name={props.type === "drawer" ? "menu" : "chevron-left"}
+          size={calcWidth(8)}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   button: {

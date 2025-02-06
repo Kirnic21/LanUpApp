@@ -30,6 +30,7 @@ export default class Schedule extends React.Component {
   }
 
   getFilters = async (status) => {
+
     getSchedules(status)
       .then(({ data }) => data)
       .then(({ result }) => {
@@ -38,7 +39,7 @@ export default class Schedule extends React.Component {
         });
       })
       .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
+        console.error(error)
       )
       .finally(() => status !== 8 && this.setState({ loading: false }));
 

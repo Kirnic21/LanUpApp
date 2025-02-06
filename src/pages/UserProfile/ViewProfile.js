@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { WebView } from "react-native-webview";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import env from "react-native-config";
 
 import { View } from "react-native";

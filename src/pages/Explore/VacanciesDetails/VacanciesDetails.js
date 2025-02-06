@@ -1,30 +1,24 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AlertHelper } from "~/shared/helpers/AlertHelper";
-
 import { decodeToken } from "~/shared/services/decode";
-import { deitailsVacancies } from "~/shared/services/events.http";
 import {
-  acceptInvite,
-  deleteVacancies,
+  deitailsVacancies,
   deitailsVacanciesSchedules,
+  acceptInvite,
   acceptInvitations,
   vacanciesEmergencyAccept,
+  deleteVacancies,
 } from "~/shared/services/vacancy.http";
-
-import AsyncStorage from "@react-native-community/async-storage";
-
-import Details from "./Details";
 import { validateBankInformation } from "~/shared/services/freela.http";
 
-const VacanciesDeitails = ({
-  navigation: {
-    state: { params },
-    replace,
-    navigate,
-    push,
-  },
-}) => {
+import Details from "./Details";
+
+const VacanciesDetails = ({ route, navigation }) => {
+  const { params } = route;
+  const { replace, navigate } = navigation;
+
   const [details, setDetails] = useState({});
   const [shift, setShift] = useState({});
   const [loading, setLoading] = useState(false);
@@ -33,177 +27,119 @@ const VacanciesDeitails = ({
   useEffect(() => {
     const { status, job, getDeitails } = params;
 
-    (async () => {
-      status === 0
-        ? getPublicVacancyDetails(job)
-        : status === 1
-          ? setDetails(getDeitails)
-          : getInvitationVacancyDetails(job);
-    })();
+    if (status === 0) getPublicVacancyDetails(job);
+    else if (status === 1) setDetails(getDeitails);
+    else getInvitationVacancyDetails(job);
+  }, [params]);
+
+  const toggleLoading = () => setLoading((prev) => !prev);
+
+  const fetchDetails = async (fetchFunction, args) => {
+    toggleLoading();
+    try {
+      const { data } = await fetchFunction(args);
+      setDetails(data.result);
+    } catch (error) {
+      AlertHelper.show("error", "Erro", error.response?.data?.errorMessage || "Erro desconhecido");
+    } finally {
+      toggleLoading();
+    }
+  };
+
+  const getPublicVacancyDetails = useCallback((job) => {
+    fetchDetails(deitailsVacancies, { id: job.id, service: job.job, day: job.jobDate.substr(0, 10) });
   }, []);
 
-  const getPublicVacancyDetails = useCallback(
-    ({ id, job: service, jobDate }) => {
-      setLoading((prevState) => !prevState);
-
-      deitailsVacancies({ id, service, day: jobDate.substr(0, 10) })
-        .then(({ data }) => data)
-        .then(({ result }) => setDetails(result))
-        .catch((error) =>
-          AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-        )
-        .finally(() => setLoading((prevState) => !prevState));
-    },
-    []
-  );
-
-  const getInvitationVacancyDetails = useCallback(
-    ({ id, serviceId, jobDate }) => {
-      setLoading((prevState) => !prevState);
-      deitailsVacanciesSchedules({ id, serviceId, day: jobDate.substr(0, 10) })
-        .then(({ data }) => data)
-        .then(({ result }) => setDetails(result))
-        .catch((error) =>
-          AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-        )
-        .finally(() => setLoading((prevState) => !prevState));
-    },
-    []
-  );
+  const getInvitationVacancyDetails = useCallback((job) => {
+    fetchDetails(deitailsVacanciesSchedules, { id: job.id, serviceId: job.serviceId, day: job.jobDate.substr(0, 10) });
+  }, []);
 
   const acceptPublicVacancyOrInvitation = useCallback(async () => {
-    const { checkin, checkout } = shift;
-
-    const {
-      job: { id: eventId, jobDate: day, job: jobToDo, serviceId },
-      isInvite,
-    } = params;
-
-    const { id: freelaId } = decodeToken(
-      await AsyncStorage.getItem("API_TOKEN")
-    );
-
-    setLoading((prevState) => !prevState);
-
-    acceptInvite({
-      freelaId,
-      eventId,
-      day,
-      checkout,
-      checkin,
-      jobToDo,
-      serviceId,
-      isInvite,
-    })
-      .then(() => {
-        isInvite ? replace("Schedule") : navigate("Schedule");
-      })
-      .catch((error) => {
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage);
-      })
-      .finally(() => setLoading((prevState) => !prevState));
-  }, [shift, params, loading]);
-
-  const acceptInvitationVacancy = useCallback(() => {
-    const {
-      job: { id: vacancyId },
-    } = params;
-
-    setLoading((prevState) => !prevState);
-
-    acceptInvitations(vacancyId)
-      .then(() => replace("Schedule"))
-      .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-      )
-      .finally(() => setLoading((prevState) => !prevState));
-  }, [params, loading]);
-
-  const acceptEmergencyVacancy = useCallback(() => {
-    const {
-      job: { eventId, job: jobToDo, start: checkin, end: checkout, day },
-    } = params;
-
-    setLoading((prevState) => !prevState);
-
-    vacanciesEmergencyAccept({
-      eventId,
-      jobToDo,
-      checkout,
-      checkin,
-      day,
-    })
-      .then(() => navigate("NextEvent"))
-      .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-      )
-      .finally(() => setLoading((prevState) => !prevState));
-  }, [params, loading]);
-
-  const leaveVacancy = useCallback(() => {
-    const {
-      job: { id },
-    } = params;
-
-    setLoading((prevState) => !prevState);
-
-    deleteVacancies({ id })
-      .then(() => replace("Schedule"))
-      .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-      )
-      .finally(() => setLoading((prevState) => !prevState));
-  }, [params, loading]);
-
-  const _handleClick = {
-    8: () => acceptInvitationVacancy(),
-    0: () => acceptPublicVacancyOrInvitation(),
-    1: () => acceptEmergencyVacancy(),
-  };
-
-  const hasBankDetails = () => {
-
-    if (!details?.requiresFullProfile) {
-      return _handleClick[params.status]();
+    try {
+      toggleLoading();
+      const freelaId = decodeToken(await AsyncStorage.getItem("API_TOKEN")).id;
+      await acceptInvite({ ...params.job, ...shift, freelaId, isInvite: params.isInvite });
+      params.isInvite ? replace("Schedule") : navigate("Schedule");
+    } catch (error) {
+      AlertHelper.show("error", "Erro", error.response?.data?.errorMessage || "Erro desconhecido");
+    } finally {
+      toggleLoading();
     }
+  }, [shift, params]);
 
-    setLoading((prevState) => !prevState);
-    validateBankInformation()
-      .then((data) => data)
-      .then((res) => {
-        if (!res.value) {
-          return setShowWarningModal(true);
-        }
-        _handleClick[params.status]();
-      })
-      .catch((error) =>
-        AlertHelper.show("error", "Erro", error.response.data.errorMessage)
-      )
-      .finally(() => setLoading((prevState) => !prevState));
+  const acceptInvitationVacancy = useCallback(async () => {
+    try {
+      toggleLoading();
+      await acceptInvitations(params.job.id);
+      replace("Schedule");
+    } catch (error) {
+      AlertHelper.show("error", "Erro", error.response?.data?.errorMessage || "Erro desconhecido");
+    } finally {
+      toggleLoading();
+    }
+  }, [params]);
+
+  const acceptEmergencyVacancy = useCallback(async () => {
+    try {
+      toggleLoading();
+      await vacanciesEmergencyAccept(params.job);
+      navigate("NextEvent");
+    } catch (error) {
+      AlertHelper.show("error", "Erro", error.response?.data?.errorMessage || "Erro desconhecido");
+    } finally {
+      toggleLoading();
+    }
+  }, [params]);
+
+  const leaveVacancy = useCallback(async () => {
+    try {
+      toggleLoading();
+      await deleteVacancies({ id: params.job.id });
+      replace("Schedule");
+    } catch (error) {
+      AlertHelper.show("error", "Erro", error.response?.data?.errorMessage || "Erro desconhecido");
+    } finally {
+      toggleLoading();
+    }
+  }, [params]);
+
+  const actionHandlers = {
+    8: acceptInvitationVacancy,
+    0: acceptPublicVacancyOrInvitation,
+    1: acceptEmergencyVacancy,
   };
 
-  const goAboutMe = () => {
-    setShowWarningModal(false)
-    replace("AboutMe", { goBackVacancyDetails: params }, "Schedule");
+  const handleAcceptance = async () => {
+    if (!details?.requiresFullProfile) return actionHandlers[params.status]?.();
+
+    toggleLoading();
+    try {
+      const res = await validateBankInformation();
+      if (!res.value) return setShowWarningModal(true);
+      actionHandlers[params.status]?.();
+    } catch (error) {
+      AlertHelper.show("error", "Erro", error.response?.data?.errorMessage || "Erro desconhecido");
+    } finally {
+      toggleLoading();
+    }
   };
 
-  const _renderComponent = () => {
-    return (
-      <Details
-        openWarningModal={showWarningModal}
-        params={params}
-        details={details}
-        loading={loading}
-        onPressAccept={() => hasBankDetails()}
-        onPressLeave={() => leaveVacancy()}
-        selectShift={(value) => setShift(value)}
-        onPressCloseWarningModal={() => setShowWarningModal(false)}
-        onPressWarningModal={() => goAboutMe()}
-      />
-    );
-  };
-
-  return <Fragment>{_renderComponent()}</Fragment>;
+  return (
+    <Details
+      openWarningModal={showWarningModal}
+      params={params}
+      details={details}
+      loading={loading}
+      onPressAccept={handleAcceptance}
+      onPressLeave={leaveVacancy}
+      selectShift={setShift}
+      onPressCloseWarningModal={() => setShowWarningModal(false)}
+      onPressWarningModal={() => {
+        setShowWarningModal(false);
+        replace("AboutMe", { goBackVacancyDetails: params }, "Schedule");
+      }}
+    />
+  );
 };
 
-export default VacanciesDeitails;
+export default VacanciesDetails;
